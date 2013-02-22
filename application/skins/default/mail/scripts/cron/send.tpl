@@ -1,1 +1,0 @@
-{if $result['success'] + $result['error'] > 0 || $cleared}SENT: {$result['success']}, ERRORS: {$result['error']}{if $cleared}, CLEARED: {$cleared}{/if}{/if}
