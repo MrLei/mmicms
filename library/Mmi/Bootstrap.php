@@ -156,6 +156,12 @@ class Mmi_Bootstrap {
 			if (!is_writable(TMP_PATH . '/compile')) {
 				mkdir(TMP_PATH . '/compile', 0777, true);
 			}
+			if (!is_writable(TMP_PATH . '/cache')) {
+				mkdir(TMP_PATH . '/cache', 0777, true);
+			}
+			if (!is_writable(TMP_PATH . '/session')) {
+				mkdir(TMP_PATH . '/session', 0777, true);
+			}
 			if (!is_writable(TMP_PATH . '/log')) {
 				mkdir(TMP_PATH . '/log', 0777, true);
 			}
