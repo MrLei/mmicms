@@ -2229,6 +2229,11 @@ WITH (
 ALTER TABLE cms_tag
   OWNER TO mmi;
 
+CREATE INDEX cms_tag_tag_idx
+  ON cms_tag
+  USING btree
+  ("tag");
+
 
 CREATE TABLE cms_tag_link
 (
