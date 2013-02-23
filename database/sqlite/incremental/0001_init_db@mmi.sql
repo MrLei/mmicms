@@ -218,6 +218,26 @@ CREATE TABLE cms_route
 CREATE INDEX cms_route_active_idx ON cms_route (active);
 CREATE INDEX cms_route_order_idx ON cms_route ("order");
 
+CREATE TABLE cms_tag
+(
+  id INTEGER PRIMARY KEY,
+  tag character varying(64) NOT NULL
+);
+
+CREATE INDEX cms_tag_tag_idx ON cms_tag ("tag");
+
+CREATE TABLE cms_tag_link
+(
+  id INTEGER PRIMARY KEY,
+  cms_tag_id integer NOT NULL,
+  "object" character varying(32) NOT NULL,
+  "objectId" integer NOT NULL,
+  FOREIGN KEY (cms_tag_id) REFERENCES cms_tag(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE INDEX fki_cms_tag_link_cms_tag_id_fkey ON cms_tag_link (cms_tag_id);
+CREATE INDEX cms_tag_link_object_objectId_idx ON cms_tag_link ("object", "objectId");
+
 CREATE TABLE cms_text
 (
   id INTEGER PRIMARY KEY,

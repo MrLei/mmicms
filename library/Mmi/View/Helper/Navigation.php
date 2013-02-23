@@ -215,6 +215,14 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 		$this->_title = $title;
 		return $this;
 	}
+	
+	/**
+	 * Pobiera tytuł
+	 * @return string
+	 */
+	public function getTitle() {
+		return $this->_title;
+	}
 
 	/**
 	 * Ustawia opis
@@ -225,6 +233,14 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 		$this->_description = $description;
 		return $this;
 	}
+	
+	/**
+	 * Pobiera opis
+	 * @return string
+	 */
+	public function getDescription() {
+		return $this->_description;
+	}
 
 	/**
 	 * Ustawia słowa kluczowe
@@ -234,6 +250,14 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	public function setKeywords($keywords) {
 		$this->_keywords = $keywords;
 		return $this;
+	}
+
+	/**
+	 * Zwraca słowa kluczowe
+	 * @return string
+	 */
+	public function getKeywords() {
+		return $this->_keywords;
 	}
 
 	/**
