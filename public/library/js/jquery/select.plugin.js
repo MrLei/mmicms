@@ -40,7 +40,6 @@
 			$.data(element, PLUGIN_NAME, instance);
 			
 			$("html").live('mousedown', function(e) {
-//				e.stopPropagation();         
 				$('select').ecsSelect('close');
 			});
 			
