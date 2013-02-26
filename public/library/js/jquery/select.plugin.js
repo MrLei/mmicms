@@ -39,14 +39,17 @@
 			
 			$.data(element, PLUGIN_NAME, instance);
 			
-			$("html").on('mousedown', function(e) {
-				e.stopPropagation();         
+			$("html").live('mousedown', function(e) {
+//				e.stopPropagation();         
 				$('select').ecsSelect('close');
 			});
 			
-			$(".toggle-container, .text-element").mousedown(function(e) {    
-				e.stopPropagation();
+			$(".toggle-container, .text-element").live('mousedown', function(e) {    
+                if (self._state[instance.uid]) {
+                    e.stopPropagation();
+                }
 			});
+            
 		},
 		_getInstance: function(target) {
 			try {
@@ -143,7 +146,6 @@
 				left:  left + "px",
 				top:  top + "px"
 			});
-            
 			instance.isOpen = true;
 			this._state[instance.uid] = true;
 			if (onOpen) {
@@ -307,7 +309,7 @@
 			if (instance.settings.width) {
 				mainContainer.css({
 					width: instance.settings.width + 'px'
-				})
+				});
 			}
           
 			textElement = $("<span/>", {
@@ -315,7 +317,7 @@
 				'id': 'text-element_' + instance.uid,
 				'text': instance.settings.emptyText,
 				'click': function(e) {
-					e.preventDefault();
+                    e.stopImmediatePropagation();
 					closeOthers.apply($(this), []);
 					var id = $(this).attr("id").split("_")[1];
 					if (self._state[id] == true) {
@@ -330,7 +332,7 @@
 				'class': 'toggle-element',
 				'id': 'toggle-element_' + instance.uid,
 				'click': function(e) {
-					e.preventDefault();
+					e.stopImmediatePropagation();
 					closeOthers.apply($(this), []);
 					var id = $(this).attr("id").split("_")[1];
 					if (self._state[id] == true) {
@@ -361,7 +363,7 @@
                     labelLength = text.length;
                 }
                 if ($(option).is(":selected")) {
-					checked = true
+					checked = true;
 					selectedTxt.push(text);
 				}
 				
@@ -435,7 +437,7 @@
 			
             optionsContainer.css({
                 width: (labelLength*8*numberColumns+instance.optionsUlWidth) + 'px'
-            })
+            });
             optionsContainer.appendTo(mainContainer);
             instance.toggleContainer = mainContainer;
 			return mainContainer;
@@ -471,7 +473,7 @@
 			if (instance.settings.width) {
 				mainContainer.css({
 					width: instance.settings.width + 'px'
-				})
+				});
 			}
 			
 			optionsContainer = $('<div />', {
@@ -577,7 +579,7 @@
 			
 			optionsContainer.css({
                 width: (liLength*7*1+20) + 'px'
-            })
+            });
 			wrapper.appendTo(optionsContainer);
 			textElement.appendTo(mainContainer);
 			
@@ -591,7 +593,6 @@
 			if (inst) {
 				onChange = this._get(inst, 'onChange');
 				$("#text-element_" + inst.uid).text(text);
-				
 			}
 			value = value.replace(/\'/g, "\\'");
 			(value != '') ? $("#text-element_" + inst.uid).removeClass('default-grey') : $("#text-element_" + inst.uid).addClass('default-grey');
