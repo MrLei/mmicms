@@ -435,7 +435,7 @@
 			
             optionsContainer.css({
                 width: (labelLength*8*numberColumns+instance.optionsUlWidth) + 'px'
-            })
+            });
             optionsContainer.appendTo(mainContainer);
             instance.toggleContainer = mainContainer;
 			return mainContainer;
@@ -471,7 +471,7 @@
 			if (instance.settings.width) {
 				mainContainer.css({
 					width: instance.settings.width + 'px'
-				})
+				});
 			}
 			
 			optionsContainer = $('<div />', {
@@ -577,7 +577,7 @@
 			
 			optionsContainer.css({
                 width: (liLength*7*1+20) + 'px'
-            })
+            });
 			wrapper.appendTo(optionsContainer);
 			textElement.appendTo(mainContainer);
 			
