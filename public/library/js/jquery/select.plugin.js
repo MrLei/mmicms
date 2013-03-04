@@ -182,10 +182,10 @@
 				self = this;
 			
 			
-			if (optionsLength > 13) {
-				numberColumns = (optionsLength%13 == 0) ? (optionsLength/13) : (Math.ceil(optionsLength/13));
+			if (optionsLength > 14) {
+				numberColumns = (optionsLength%14 == 0) ? (optionsLength/14) : (Math.ceil(optionsLength/14));
 			} 
-			elementsInColumn = (optionsLength >= 52) ? Math.ceil(optionsLength/4) : 13;
+			elementsInColumn = (optionsLength >= 56) ? Math.ceil(optionsLength/4) : 14;
 			numberColumns = (numberColumns < 4) ? numberColumns : 4;
 			instance.optionsUlWidth = parseInt(100/numberColumns);
 			
@@ -354,9 +354,10 @@
 			});
             var labelLength = 0, selectedTxt = [];
 			$(instance.element).children().each(function(i, option){
-				var value, li, label, text = '', input, checked = false;
+				var value, li, label, text = '', input, disabled, checked = false;
 				
 				value = $(option).attr('value');
+				disabled = $(option).attr('disabled');
 				text = $(option).text();
 				if (text.length > labelLength) {
                     labelLength = text.length;
@@ -366,40 +367,49 @@
 					selectedTxt.push(text);
 				}
 				
-				input = $("<input />", {
-					'type': 'checkbox',
-					'id': instance.uid + '-item-' + i,
-					'name': '',
-					'value': value,
-					'checked': checked,
-					'click': function(e) {
-						e.stopImmediatePropagation();
-						self._synchornizeSelect($(this), instance);
-						self._fillTextContainer($(this), instance);
-						self._checkSelectAllCheckbox($(this), instance);
-					}
-				});
-				
-				label = $('<label>', {
-					'for': instance.uid + '-item-' + i,
-					'text': text,
-					'click': function(e) {
-						e.stopImmediatePropagation();
-					}
-				});
-				
-				li = $('<li>', {
-					'mouseover': function(e){
-						var $this = $(this);
-							$this.siblings().removeClass('focus');
-							$this.addClass("focus");
-					},
-					'mouseout': function(e){
-						$(this).removeClass("focus");
-					}
-				});
-				input.appendTo(li);
-				label.appendTo(li);
+				if (disabled == 'disabled') {
+					li = $('<li>', {
+						'class': 'dividingLine'
+					});
+					$(optionsUl).find('li').each(function (j, liElem) {
+						$(liElem).addClass('beforeLine');
+					});
+				} else {
+					input = $("<input />", {
+						'type': 'checkbox',
+						'id': instance.uid + '-item-' + i,
+						'name': '',
+						'value': value,
+						'checked': checked,
+						'click': function(e) {
+							e.stopImmediatePropagation();
+							self._synchornizeSelect($(this), instance);
+							self._fillTextContainer($(this), instance);
+							self._checkSelectAllCheckbox($(this), instance);
+						}
+					});
+
+					label = $('<label>', {
+						'for': instance.uid + '-item-' + i,
+						'text': text,
+						'click': function(e) {
+							e.stopImmediatePropagation();
+						}
+					});
+
+					li = $('<li>', {
+						'mouseover': function(e){
+							var $this = $(this);
+								$this.siblings().removeClass('focus');
+								$this.addClass("focus");
+						},
+						'mouseout': function(e){
+							$(this).removeClass("focus");
+						}
+					});
+					input.appendTo(li);
+					label.appendTo(li);
+				}
 				
 				if (i%elementsInColumn == 0 && i > 0) {
 					li.appendTo(optionsUl);
