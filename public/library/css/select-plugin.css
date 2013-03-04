@@ -71,6 +71,14 @@ div.toggle-container div.ul-container ul.select-values li {
 	clear: both;
     line-height: 20px;
 }
+div.toggle-container div.ul-container ul.select-values li.dividingLine {
+	margin: 9px 0 11px 0;
+	display: block;
+	clear: both;
+	height: 1px;
+    line-height: 1px;
+	border-bottom: solid 1px #C3C3C3;
+}
 div.toggle-container .text-element {
    width: 100%;
    height: 100%;
@@ -123,6 +131,8 @@ div.toggle-container div.ul-container .top-level  ul.select-values  li  label {
 	color: #000;
 	float: left;
     padding: 0;
+}
+div.toggle-container div.ul-container .top-level  ul.select-values  li.beforeLine  label {
 }
 div.toggle-container div.ul-container .top-level ul.select-values li input {
 	float: left;
