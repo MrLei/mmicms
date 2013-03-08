@@ -411,6 +411,7 @@
 		unset($options['required']);
 		unset($options['translatorDisabled']);
 		unset($options['validators']);
+		unset($options['classDisabled']);
 		$html = '';
 		foreach ($options as $key => $value) {
 			$html .= $key . '="' . str_replace('"', '&quot;', $value) . '" ';

@@ -46,10 +46,17 @@ class Mmi_Form_Element_MultiCheckbox extends Mmi_Form_Element_Abstract {
 			$f = new Mmi_Filter_Url();
 			$this->_options['id'] = $baseId . '_' . $f->filter($key);
 			$this->_options['value'] = $key;
-			$html .= '<li id="' . $this->_options['id'] . '_item' . '">
-				<input type="checkbox" ' . $this->_getHtmlOptions() . '/>
-				<label for="' . $this->_options['id'] . '">' . $caption . '</label>
-			</li>';
+			
+			if (strpos($key, ':disabled') !== false) {
+				if (isset($this->_options['classDisabled'])) {
+					$html .= '<li class="' . $this->_options['classDisabled'] . '"></li>';
+				}
+			} else {
+				$html .= '<li id="' . $this->_options['id'] . '_item' . '">
+					<input type="checkbox" ' . $this->_getHtmlOptions() . '/>
+					<label for="' . $this->_options['id'] . '">' . $caption . '</label>
+				</li>';
+			}
 		}
 		$html .= '</ul>';
 		$this->_options['id'] = $baseId;
