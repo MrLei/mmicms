@@ -44,7 +44,7 @@ class Cms_Form_Admin_Container extends Mmi_Form {
 			'label' => 'Prawa kolumna'
 		));
 
-		for ($i = 1 ; $i < 4 ; $i++) {
+		for ($i = 1 ; $i < 5 ; $i++) {
 			$this->addElement('select', 'right-box-' . $i, array(
 				'multiOptions' => $boxes,
 				'value' => isset($rightBoxes[$i]) ? $rightBoxes[$i]['box'] : null,
