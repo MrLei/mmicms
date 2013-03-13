@@ -58,6 +58,11 @@ class Cms_Model_Container_Record extends Mmi_Dao_Record {
 			if ($parseParams) {
 				parse_str(isset($box['params']) ? $box['params'] : '', $params);
 				$params['type'] = isset($params['type']) ? $params['type'] : 'slide';
+
+				$params['module'] = isset($params['module']) ? $params['module'] : 'box';
+				$params['controller'] = isset($params['controller']) ? $params['controller'] : 'index';
+				$params['action'] = isset($params['action']) ? $params['action'] : $params['type'];
+
 				$params['width'] = isset($params['width']) ? $params['width'] : '240';
 				$params['height'] = isset($params['height']) ? $params['height'] : '100';
 				$params['imageWidth'] = isset($params['imageWidth']) ? $params['imageWidth'] : $params['width'];
