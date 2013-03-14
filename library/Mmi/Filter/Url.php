@@ -27,10 +27,7 @@ class Mmi_Filter_Url extends Mmi_Filter_Abstract {
 
 	public function filter($value) {
 		$ascii = new Mmi_Filter_Ascii();
-		$value = $ascii->filter($value);
-		$value = strtolower(trim($value, '-'));
-		$value = preg_replace("/[\/_|+ -]+/", '-', $value);
-		return $value;
+		return preg_replace('/[^\p{L}\p{N}]/u', '-', strtolower(trim($ascii->filter($value), '-')));
 	}
 
 }
