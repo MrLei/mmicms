@@ -107,7 +107,7 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 * @param array $files tabela plików
 	 * @return Cms_Model_File_Dao
 	 */
-	public static function appendFiles($object, $id, array $files = array()) {
+	public static function appendFiles($object, $id = null, array $files = array()) {
 		foreach ($files as $file) {
 			$record = new Cms_Model_File_Record();
 			$name = md5(microtime(true) . $file['tmp_name']) . substr($file['name'], strrpos($file['name'], '.'));
@@ -134,6 +134,40 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 			$record->size = $file['size'];
 			$record->dateAdd = date('Y-m-d');
 			$record->dateModify = date('Y-m-d');
+			$record->object = $object;
+			$record->objectId = $id;
+			$record->cms_auth_id = Mmi_Auth::getInstance()->getId();
+			$record->active = 1;
+			$record->save();
+		}
+		return true;
+	}
+	
+	/**
+	 * Dołącza pliki dla danego object i id bezpośrednio z serwera
+	 * @param string $object obiekt
+	 * @param int $id id obiektu
+	 * @param array $files tabela nazw plików na serwerze
+	 * @return Cms_Model_File_Dao
+	 */
+	public static function appendFilesDirect($object, $id = null, array $files = array()) {
+		foreach ($files as $file) {
+			$record = new Cms_Model_File_Record();
+			$name = md5(microtime(true) . $file) . substr($file, strrpos($file, '.'));
+			$dir = DATA_PATH . '/' . $name[0] . $name[1] . $name[2];
+			if (!file_exists($dir)) {
+				mkdir($dir, 0777, true);
+			}
+			$mimeType = Mmi_Lib::mimeType($file);
+			$class = explode('/', $mimeType);
+			copy($file, $dir . '/' . $name);
+			$record->class = $class[0];
+			$record->mimeType = $mimeType;
+			$record->name = $name;
+			$record->original = substr($file, strrpos($file, '/') + 1);
+			$record->size = filesize($file);
+			$record->dateAdd = date('Y-m-d H:i:s');
+			$record->dateModify = date('Y-m-d H:i:s');
 			$record->object = $object;
 			$record->objectId = $id;
 			$record->cms_auth_id = Mmi_Auth::getInstance()->getId();
