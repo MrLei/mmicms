@@ -15,7 +15,7 @@ class Stat_Model_Dao extends Mmi_Dao {
 	public static function agregate() {
 		$start = microtime(true);
 		$processed = 0;
-		foreach (self::find() as $item) {
+		foreach (self::find(array(), array(), 10000) as $item) {
 			$processed++;
 			$dateTime = explode(' ', $item->dateTime);
 			$date = explode('-', $dateTime[0]);
