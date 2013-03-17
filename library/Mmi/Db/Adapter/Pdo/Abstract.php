@@ -357,7 +357,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	public function select($table, array $whereBind = array(), array $orderBind = array(), $limit = null, $offset = null, array $fields = array('*'), array $joinSchema = array()) {
 		$selectFields = '';
 		foreach ($fields as $field) {
-			if ($field == '*' || $field == 'COUNT(*)') {
+			if ($field == '*' || (strpos($field, '(') !== false && strpos($field, ')'))) {
 				$selectFields = $field;
 				break;
 			}
