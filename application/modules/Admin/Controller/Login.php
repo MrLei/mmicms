@@ -3,9 +3,6 @@
 class Admin_Controller_Login extends Mmi_Controller_Action {
 
 	public function indexAction() {
-		if (Mmi_Auth::getInstance()->hasIdentity()) {
-			$this->_helper->redirector('index', 'index', 'default', array(), true);
-		}
 		$form = new Admin_Form_Login();
 		if (!$form->isMine()) {
 			return;
@@ -16,7 +13,9 @@ class Admin_Controller_Login extends Mmi_Controller_Action {
 		} else {
 			$this->_helper->messenger('Logowanie niepoprawne', false);
 		}
-		$this->_helper->redirector('index', 'index', 'admin', array(), true);
+		$baseUri = $this->view->url(array('module' => 'admin', 'controller' => 'login', 'action' => 'index'));
+		$uri = (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] != $baseUri) ? $_SERVER['REQUEST_URI'] : $this->view->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'index'));
+		$this->_helper->redirector()->gotoUrl($uri);
 	}
 	
 	public function logoutAction() {

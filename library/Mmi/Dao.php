@@ -146,6 +146,18 @@ class Mmi_Dao {
 	}
 	
 	/**
+	 * Pobiera wartość maksymalną ze zbioru rekordów
+	 * @param string $keyName nazwa klucza
+	 * @param array $bind tabela w postaci: @see Mmi_Db_Adapter_Pdo_Abstract::_parseWhereBind()
+	 * @param array $joinSchema schemat połączeń
+	 * @return array mixed wartość maksymalna
+	 */
+	public static final function findMax($keyName, array $bind = array(), array $joinSchema = array()) {
+		$result = self::getAdapter()->select(static::$_tableName, $bind, array(), 1, 0, array('MAX(' . self::getAdapter()->prepareField($keyName) . ')'), $joinSchema);
+		return isset($result[0]) ? current($result[0]) : 0;
+	}
+	
+	/**
 	 * Pobiera adapter bazodanowy
 	 * @return Mmi_Db_Adapter_Pdo_Abstract
 	 */
