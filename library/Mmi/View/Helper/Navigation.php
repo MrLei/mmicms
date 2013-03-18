@@ -221,7 +221,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	 * @return string
 	 */
 	public function getTitle() {
-		return $this->_title;
+		return $this->title();
 	}
 
 	/**
@@ -239,7 +239,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	 * @return string
 	 */
 	public function getDescription() {
-		return $this->_description;
+		return $this->description();
 	}
 
 	/**
@@ -434,7 +434,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	 * @return string
 	 */
 	public function description() {
-		return trim(str_replace(array('&amp;nbsp;', '&amp;oacute;', '-  -'), array(' ', 'ó', '-'), $this->_description), ' -');
+		return trim(str_replace(array('&amp;nbsp;', '&amp;oacute;', '-  -'), array(' ', 'ó', '-'), strip_tags($this->_description)), ' -');
 	}
 
 	/**

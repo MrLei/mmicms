@@ -5,7 +5,7 @@ class Cms_Model_Article_Record extends Mmi_Dao_Record {
 	public function save() {
 		$this->dateModify = date('Y-m-d H:i:s');
 		$filter = new Mmi_Filter_Url();
-		$this->uri = $filter->filter($this->title);
+		$this->uri = $filter->filter(strip_tags($this->title));
 		$this->lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
 		$result = parent::save();
 		Mmi_Cache::getInstance()->remove('Cms_Article_' . $this->uri);
