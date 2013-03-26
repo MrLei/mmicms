@@ -29,7 +29,7 @@
 class Mmi_Form_Element_Select extends Mmi_Form_Element_Abstract {
 
 	public function fetchField() {
-		$multiOptions = isset($this->_options['multiOptions']) ? $this->_options['multiOptions'] : array();
+		$multiOptions = (isset($this->_options['multiOptions']) && is_array($this->_options['multiOptions'])) ? $this->_options['multiOptions'] : array();
 		$value = isset($this->_options['value']) ? $this->_options['value'] : null;
 		if (isset($this->_options['multiple'])) {
 			$this->_options['name'] = $this->_options['name'] . '[]';
