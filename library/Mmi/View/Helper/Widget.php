@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -41,16 +42,22 @@ class Mmi_View_Helper_Widget extends Mmi_View_Helper_Abstract {
 		if (!$this->_checkAcl($module, $controller, $action)) {
 			return;
 		}
-		$lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
-		$key = 'Widget_' . $lang . '_' . $module . '_' . $controller . '_' . $action . '_' . implode('-', $params);
-		if (Mmi_Auth::getInstance()->hasIdentity()) {
-			$key .= implode('-', Mmi_Auth::getInstance()->getRoles());
-		}
 		$params['_widget'] = true;
-		if ($life == 0 || !Mmi_Config::$data['cache']['active'] || null === ($data = Mmi_Cache::getInstance()->load($key))) {
+		$data = null;
+		//Jeśli ma cache'ować i jest włączone cache'owane
+		$isCached = $life > 0 && Mmi_Config::$data['cache']['active'];
+		if ($isCached) {
+			$lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
+			$key = 'Widget_' . $lang . '_' . $module . '_' . $controller . '_' . $action . '_' . md5(print_r($params, true));
+			if (Mmi_Auth::getInstance()->hasIdentity()) {
+				$key .= implode('-', Mmi_Auth::getInstance()->getRoles());
+			}
+			$data = Mmi_Cache::getInstance()->load($key);
+		}
+		if (null === $data) {
 			$actionHelper = new Mmi_Controller_Action_Helper_Action();
 			$data = $actionHelper->action($module, $controller, $action, $params, true);
-			if ($life > 0 && Mmi_Config::$data['cache']['active']) {
+			if ($isCached) {
 				Mmi_Cache::getInstance()->save($data, $key, $life);
 			}
 		}
@@ -72,7 +79,7 @@ class Mmi_View_Helper_Widget extends Mmi_View_Helper_Abstract {
 			return true;
 		}
 		$this->_role = $roles;
-		return $acl->isAllowed($roles, $module . ':' . $controller . ':' .$action);
+		return $acl->isAllowed($roles, $module . ':' . $controller . ':' . $action);
 	}
 
 }
