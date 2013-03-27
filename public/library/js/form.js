@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
 	$('.validate').blur(function () {
 		var param = '';
 		if (typeof(id) != 'undefined') {
@@ -24,7 +25,9 @@ $(document).ready(function () {
 				$('#' + errorsId).html(result);
 			});
 	});
-	
+
+	$('div.antirobot > input').val('js-' + $('div.antirobot > input').val() + '-js');
+
 	function urlencode(str) {
 		str = str.replace(',', '%2C');
 		str = str.replace(' ', '+');
@@ -37,4 +40,5 @@ $(document).ready(function () {
 		str = str.replace('"', '%22');
 		return str;
 	}
+
 });
