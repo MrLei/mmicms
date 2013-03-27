@@ -1,0 +1,109 @@
+<?php
+
+class Cms_Model_Navigation_Dao extends Mmi_Dao {
+
+	protected static $_tableName = 'cms_navigation';
+
+	/**
+	 * Obiekt struktury zagnieżdżonej
+	 * @var Mmi_Nested
+	 */
+	protected static $_nested;
+
+	public static function seek($id) {
+		self::_initNested();
+		return self::$_nested->seek($id);
+	}
+	
+	public static function getMultiOptions() {
+		self::_initNested();
+		$multiOptions = array();
+		foreach (self::$_nested->flat(self::$_nested->getStructure()) as $leaf) {
+			if ($leaf['label'] == '')
+				$leaf['label'] = '---';
+			$space = '';
+			for ($i = 0; $i < $leaf['level']; $i++) {
+				$space .= '&nbsp;&nbsp;';
+			}
+			$space .= '| ';
+			$multiOptions[$leaf['id']] = $space . $leaf['label'];
+		}
+		return $multiOptions;
+	}
+
+	public static function getNested() {
+		self::_initNested();
+		return self::$_nested;
+	}
+
+	protected static function _initNested() {
+		if (!(self::$_nested instanceof Mmi_Nested)) {
+			self::$_nested = new Mmi_Nested(self::_getNestedData());
+		}
+	}
+
+	protected static function _getNestedData() {
+		$lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
+		$data = self::find(array('lang', $lang), array(array('parent_id'), array('order')))->toArray();
+		$view = Mmi_View::getInstance();
+		foreach ($data as $key => $item) {
+			$data[$key]['active'] = 0;
+			if (!$item['uri']) {
+				$params = array();
+				parse_str($item['params'], $params);
+				$params['lang'] = $item['lang'];
+				if ($item['module'] != '') {
+					$data[$key]['type'] = 'cms';
+				} else {
+					$data[$key]['type'] = 'folder';
+				}
+				$params['module'] = $item['module'];
+				$params['controller'] = $item['controller'] ? $item['controller'] : 'index';
+				$params['action'] = $item['action'] ? $item['action'] : 'index';
+				$https = (isset($item['https']) && $item['https']) ? true : null;
+				$absolute = (isset($item['absolute']) && $item['absolute']) ? true : false;
+				if ($item['module'] != '') {
+					$data[$key]['uri'] = $view->url($params, true, $absolute, $https);
+				} else {
+					$data[$key]['uri'] = '#';
+				}
+				$data[$key]['request'] = $params;
+			} else {
+				if (strpos($data[$key]['uri'], '://') === false && strpos($data[$key]['uri'], '#') !== 0 && strpos($data[$key]['uri'], '/') !== 0) {
+					$data[$key]['uri'] = 'http://' . $data[$key]['uri'];
+				}
+				$data[$key]['type'] = 'link';
+			}
+
+			if ($item['uri'] == null && $item['module'] == null && $item['controller'] == null && $item['action'] == null) {
+				$data[$key]['type'] = 'folder';
+			} elseif ($item['uri'] != null) {
+				$data[$key]['type'] = 'link';
+			} elseif ($item['module'] == 'cms' && $item['controller'] == 'article' && $item['action'] == 'index') {
+				$data[$key]['type'] = 'static';
+			} elseif ($item['module'] == 'cms' && $item['controller'] == 'container' && $item['action'] == 'index') {
+				$data[$key]['type'] = 'container';
+			} else {
+				$data[$key]['type'] = 'cms';
+			}
+		}
+		return $data;
+	}
+	
+	/**
+	 * Sortuje po zserializowanej tabeli identyfikatorów
+	 * @param array $serial tabela identyfikatorów
+	 * @return bool
+	 */
+	public static function sortBySerial(array $serial = array()) {
+		foreach ($serial as $order => $id) {
+			$record = new Cms_Model_Navigation_Record();
+			$record->setNew(false);
+			$record->id = $id;
+			$record->order = $order;
+			$record->save();
+		}
+		return true;
+	}
+
+}

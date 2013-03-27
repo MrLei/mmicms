@@ -1,0 +1,62 @@
+.jcarousel-container {
+}
+
+.jcarousel-direction-rtl {
+	direction: rtl;
+}
+
+.jcarousel-container-horizontal {
+	padding: 0 30px;
+}
+
+.jcarousel-clip-horizontal {
+	padding-left: 20px;
+	overflow: hidden;
+    height: 151px;
+}
+
+.jcarousel-item {
+    width: 151px;
+    height: 151px;
+}
+
+.jcarousel-item-placeholder {
+    background: #fff;
+    color: #000;
+}
+
+.jcarousel-next-horizontal:after {
+	content: '\203a';
+	line-height: 135px;
+	padding-left: 7px;
+	font-size: 48px;
+}
+
+.jcarousel-next-horizontal {
+    position: absolute;
+    top: 0;
+    right: 0;
+	background: #ddd;
+	border-radius: 0 5px 5px 0;
+    width: 30px;
+    height: 151px;
+    cursor: pointer;
+}
+
+.jcarousel-prev-horizontal {
+	position: absolute;
+    top: 0;
+    left: 0;
+	background: #ddd;
+	border-radius: 5px 0 0 5px;
+    width: 30px;
+    height: 151px;
+    cursor: pointer;
+}
+
+.jcarousel-prev-horizontal:before {
+	content: '\2039';
+	line-height: 135px;
+	padding-left: 7px;
+	font-size: 48px;
+}
