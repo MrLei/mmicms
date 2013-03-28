@@ -1,0 +1,1 @@
+{if $result[0] > 0}PROCESSED: {$result[0]}, TIME: {$result[1]}s{/if}
