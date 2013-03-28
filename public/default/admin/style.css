@@ -605,6 +605,10 @@ form div.errors {
 	text-align: left;
 }
 
+form div.tinymce div.errors {
+	margin-top: -12px;
+}
+
 form div.errors ul {
 	z-index: 101;
 	margin: 0;
