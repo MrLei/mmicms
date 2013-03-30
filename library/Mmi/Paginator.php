@@ -197,7 +197,7 @@ class Mmi_Paginator {
 			return '';
 		}
 		$view = Mmi_View::getInstance();
-		$showPages = (($this->_options['showPages'] - 2) > 2) ? ($this->_options['showPages'] - 2) : 2;
+		$showPages = (($this->_options['showPages'] > 2) ? $this->_options['showPages'] : 2) - 2;
 		$halfPages = floor($showPages / 2);
 		if (!isset($this->_options['page'])) {
 			$this->getOffset();
