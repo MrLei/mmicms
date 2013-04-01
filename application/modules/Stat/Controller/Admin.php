@@ -35,15 +35,17 @@ class Stat_Controller_Admin extends MmiCms_Controller_Admin {
 
 		$prevMonth = ($month - 1) > 0 ? $month - 1 : 12;
 		$prevYear = ($prevMonth == 12) ? $year - 1 : $year;
+		$day = (ltrim(date('m'), '0') == $month) ? date('d') : date('t', strtotime($year . '-' . $month));
 
+		//staty dzienne
 		$this->view->dailyChart = Stat_Model_Date_Dao::flotCode('dailyChart', array(
 			array('object' => $label->object,
 				'label' => $label->label . ': ' . $this->view->_('dni'),
-				'data' => Stat_Model_Date_Dao::toDate($object, null, $year, $month, date('d'))
+				'data' => Stat_Model_Date_Dao::toDate($object, null, $year, $month, $day)
 			),
 			array('object' => $label->object,
 				'label' => $this->view->_('Poprzedni miesiąc: dni'),
-				'data' => Stat_Model_Date_Dao::toDate($object, null, $prevYear, $prevMonth, date('d'))
+				'data' => Stat_Model_Date_Dao::toDate($object, null, $prevYear, $prevMonth, $day)
 			)
 		), 'lines', true);
 		//staty miesięczne
