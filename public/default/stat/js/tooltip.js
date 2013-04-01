@@ -13,7 +13,6 @@ function showTooltip(x, y, contents) {
 var handleTooltip = function handleTooltip(event, pos, item, ticks, index) {
 	$("#x").text(pos.x.toFixed(2));
 	$("#y").text(pos.y.toFixed(2));
-
 	if (item) {
 		$("#tooltip").remove();
 		var x = item.datapoint[0].toFixed(2), y = item.datapoint[1].toFixed(2);
@@ -21,8 +20,7 @@ var handleTooltip = function handleTooltip(event, pos, item, ticks, index) {
 			y = Math.round(y);
 		}
 		x = Math.round(x);
-		showTooltip(item.pageX, item.pageY,
-		ticks[x-1] + ' (<strong>' + y +'</strong>)');
+		showTooltip(item.pageX, item.pageY, ticks[x-1] + ' (<strong>' + y +'</strong>)');
 	}
 }
 
