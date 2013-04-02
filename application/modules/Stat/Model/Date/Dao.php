@@ -54,7 +54,7 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 		return $stats;
 	}
 
-	public static function daily($object, $objectId, $year, $month, $prev = true) {
+	public static function daily($object, $objectId, $year, $month) {
 		$stats = self::getRows($object, $objectId, $year, $month, true, null);
 		$time = strtotime($year . '-' . $month . '01 00:00:00');
 		$days = date('t', $time);
@@ -84,12 +84,12 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 		return $stats;
 	}
 
-	public static function toDate($object, $objectId, $year, $month, $day, $joinPrev = true) {
+	public static function toDate($object, $objectId, $year, $month, $day) {
 		$now = strtotime($year . '-' . $month . '-' . $day);
 		$prev = strtotime('-1 month', $now);
 
 		$statsPrev = self::getRows($object, $objectId, date('Y', $prev), date('m', $prev), true, null);
-		$stats = self::getRows($object, $objectId, $year, $month, true, null);
+		$stats = self::getRows($object, $objectId, date('Y', $now), date('m', $now), true, null);
 
 		$raw = array();
 		foreach ($statsPrev as $stat) {
@@ -175,16 +175,15 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 			$first = false;
 			$j++;
 		}
-		$i = 0;
 		foreach ($tickSeries as $key => $ticks) {
-			$html .= $chartName . '_ticks_' . $i . ' = [';
+			$html .= $chartName . '_ticks_' . $key . ' = [';
 			foreach ($ticks as $tick) {
 				$html .= '\'' . $tick . '\',';
 			}
 			$html = trim($html, ',') . '];';
-			$html .= '$(\'#' . $chartName . '\').bind(\'plothover\', function (event, pos, item) {handleTooltip(event, pos, item, ' . $chartName . '_ticks_' . $i . ', ' . $i . ');});';
-			$i++;
+			$html .= '$(\'#' . $chartName . '\').bind(\'plothover\', function (event, pos, item) {handleTooltip(event, pos, item, ' . $chartName . '_ticks_' . $key . ', ' . $key . ');});';
 		}
+
 		$max = $max + 15 / 100 * $max;
 		if ($min > 0) {
 			$min = $min - 70 / 100 * $min;

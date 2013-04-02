@@ -197,7 +197,7 @@ class Mmi_Paginator {
 			return '';
 		}
 		$view = Mmi_View::getInstance();
-		$showPages = (($this->_options['showPages'] - 2) > 2) ? ($this->_options['showPages'] - 2) : 2;
+		$showPages = (($this->_options['showPages'] > 2) ? $this->_options['showPages'] : 2) - 2;
 		$halfPages = floor($showPages / 2);
 		if (!isset($this->_options['page'])) {
 			$this->getOffset();
@@ -210,7 +210,9 @@ class Mmi_Paginator {
 		$html = '<div class="paginator">';
 		if ($page > 1) {
 			$firstPage = (($page - 1) > 1) ? ($page - 1) : null;
-			$html .= '<span class="previous"><a href="' . $view->url(array($pageVariable => $firstPage)) . $this->_options['hashHref'] . ' ">' . $previousLabel . '</a></span>';
+			$previousUrl = $view->url(array($pageVariable => $firstPage)) . $this->_options['hashHref'];
+			$view->headLink(array('rel' => 'prev', 'href' => $previousUrl));
+			$html .= '<span class="previous"><a href="' . $previousUrl . ' ">' . $previousLabel . '</a></span>';
 		} else {
 			$html .= '<span class="previous">' . $previousLabel . '</span>';
 		}
@@ -255,7 +257,9 @@ class Mmi_Paginator {
 		}
 
 		if ($page < $pagesCount) {
-			$html .= '<span class="next"><a href="' . $view->url(array($pageVariable => $page + 1)) . $this->_options['hashHref'] . '">' . $nextLabel . '</a></span>';
+			$nextUrl = $view->url(array($pageVariable => $page + 1)) . $this->_options['hashHref'];
+			$view->headLink(array('rel' => 'next', 'href' => $nextUrl));
+			$html .= '<span class="next"><a href="' . $nextUrl . '">' . $nextLabel . '</a></span>';
 		} else {
 			$html .= '<span class="next">' . $nextLabel . '</span>';
 		}
