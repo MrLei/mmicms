@@ -346,7 +346,7 @@ class Mmi_Controller_Router {
 			);
 		}
 		foreach ($replace as $key => $value) {
-			if (is_array($value) && $value == $params[$key]) {
+			if (is_array($value) && isset($params[$key]) && $value == $params[$key]) {
 				$matched[$key] = true;
 				continue;
 			} elseif (is_array($value)) {
