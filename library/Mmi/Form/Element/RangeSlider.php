@@ -48,9 +48,15 @@ class Mmi_Form_Element_RangeSlider extends Mmi_Form_Element_Abstract {
 		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/ui.js');
 		$view->headScript()->appendScript('
 			$(document).ready(function() {
+				$(\'#' . $this->id . '_label span.min\').text(\''.$value[0].'\');
+				$(\'#' . $this->id . '_label span.max\').text(\''.$value[1].'\');
 				$(\'#' . $this->id . 'Slider\').slider({range: true, \'values\': ' . json_encode($value) . ', \'min\': ' . $min . ',\'max\': ' . $max . ', '.(($step)? '\'step\' : '.$step.' ,' : '').'
-					slide: function(event, ui) { $(\'#' . $this->id . '_min\').val(ui.values[0]); $(\'#' . $this->id . '_min\').trigger(\'change\');
-						$(\'#' . $this->id . '_max\').val(ui.values[1]); $(\'#' . $this->id . '_max\').trigger(\'change\'); }
+					slide: function(event, ui) { 
+						$(\'#' . $this->id . '_min\').val(ui.values[0]); $(\'#' . $this->id . '_min\').trigger(\'change\');
+						$(\'#' . $this->id . '_max\').val(ui.values[1]); $(\'#' . $this->id . '_max\').trigger(\'change\'); 
+						$(\'#' . $this->id . '_label span.min\').text(ui.values[0]);
+						$(\'#' . $this->id . '_label span.max\').text(ui.values[1]);
+					}
 				});
 				$(\'#' . $this->id . 'Slider > a:first\').addClass(\'ui-slider-handle-min\');
 				$(\'#' . $this->id . 'Slider > a:last\').mousedown(function () {
@@ -63,6 +69,7 @@ class Mmi_Form_Element_RangeSlider extends Mmi_Form_Element_Abstract {
 				});
 			});
 		');
+		
 		$html = '<input class="sliderField" type="hidden" id="'.$this->id.'_min" name="'.$this->getName().'[]" value="'.$value[0].'" />';
 		$html .= '<input class="sliderField" type="hidden" id="'.$this->id.'_max" name="'.$this->getName().'[]" value="'.$value[1].'" />';
 		$html .= '<p class="slider range-slider"><span class="slider" id="' . $this->id . 'Slider"></span><span class="sliderFrom">' . number_format($min, 0, ',', ' ') . '</span><span class="sliderTo">' . number_format($max, 0, ',', ' ') . '</span></p>';
