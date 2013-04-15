@@ -370,6 +370,9 @@ class Mmi_Controller_Router {
 		if ($applied) {
 			$pattern = str_replace(array('\\', '?'), '', trim($pattern, '/^$'));
 			foreach ($matches as $match) {
+				if (is_array($match)) {
+					$match = trim(implode(';', $match), ';');
+				}
 				$pattern = substr($pattern, 0, strpos($pattern, '(')) . $match . substr($pattern, strpos($pattern, ')') + 1);
 			}
 			$url = $pattern;
