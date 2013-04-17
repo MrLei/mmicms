@@ -30,10 +30,11 @@ class Mmi_Form_Element_Autocomplete extends Mmi_Form_Element_Text {
 	public function fetchField() {
 		$view = Mmi_View::getInstance();
 		$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
-		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/bigframe.js');
-		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/ajaxQueue.js');
+		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/ui.js');
+		//$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/bigframe.js');
+		//$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/ajaxQueue.js');
 		//$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/thickbox.js');
-		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/autocomplete.js');
+		//$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/autocomplete.js');
 
 		$match = 'mustMatch: false';
 		if (isset($this->_options['mustMatch']) && $this->_options['mustMatch']) {
@@ -58,9 +59,33 @@ class Mmi_Form_Element_Autocomplete extends Mmi_Form_Element_Text {
 		} elseif (isset($this->_options['backend'])) {
 			$view->headScript()->appendScript('
 				$(document).ready(function() {
-					$(\'#' . $this->id . '\').autocomplete("' . $this->_options['backend'] . '/", {
-					' . $match . '
-					});
+var availableTags = [
+      "ActionScript",
+      "AppleScript",
+      "Asp",
+      "BASIC",
+      "C",
+      "C++",
+      "Clojure",
+      "COBOL",
+      "ColdFusion",
+      "Erlang",
+      "Fortran",
+      "Groovy",
+      "Haskell",
+      "Java",
+      "JavaScript",
+      "Lisp",
+      "Perl",
+      "PHP",
+      "Python",
+      "Ruby",
+      "Scala",
+      "Scheme"
+    ];				
+
+
+					$(\'#' . $this->id . '\').autocomplete({source: availableTags});
 				});
 			');
 		}
