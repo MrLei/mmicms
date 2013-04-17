@@ -10,45 +10,45 @@
 			selectAllLabel: 'Wszystkie',
 			width: false,
 			withToggle: false,
-			onChange: null, 
-			onOpen: null, 
+			onChange: null,
+			onOpen: null,
 			onClose: null,
             onComplete: null
 		};
 	}
-	
+
 	$.extend(Plugin.prototype, {
 		init: function (element, options) {
 			if (this._getInstance(element)) {
 				return false;
 			}
-			
-			var self = this, mainContainer, 
+
+			var self = this, mainContainer,
 			instance = self._newInstance(element);
-			
+
 			self._state[instance.uid] = false;
-			
+
 			$.extend(instance.settings, self.defaults, options);
-			
+
 			instance.multiselect = $(instance.element).attr('multiple') != undefined ? true : false;
-			
+
 			mainContainer = (instance.multiselect === true) ? self._multiSelect(instance) : self._select(instance);
-			
+
 			$(instance.element).after(mainContainer);
 			$(instance.element).hide();
-			
+
 			$.data(element, PLUGIN_NAME, instance);
-			
+
 			$("html").live('mousedown', function(e) {
 				$('select').ecsSelect('close');
 			});
-			
-			$(".toggle-container, .text-element").live('mousedown', function(e) {    
+
+			$(".toggle-container, .text-element").live('mousedown', function(e) {
                 if (self._state[instance.uid]) {
                     e.stopPropagation();
                 }
 			});
-            
+
 		},
 		_getInstance: function(target) {
 			try {
@@ -69,10 +69,10 @@
 			return {
 				id: id,
 				uid: $.now(),
-				element: element, 
+				element: element,
 				isOpen: false,
 				settings: {}
-			}; 
+			};
 		},
 		_synchornizeSelect: function(clickedElement, instance) {
 			//wszystkie elementy
@@ -84,7 +84,7 @@
             if (clickedElement.attr('id') == 'clear') {
                 $(instance.element).find('option').attr("selected", false);
             }
-            
+
 			//zaznaczanie pojedynczego elementu
 			var checkboxValue = clickedElement.val();
 			$(instance.element).find('option[value="' + checkboxValue + '"]').attr("selected", clickedElement.is(":checked"));
@@ -94,12 +94,12 @@
 			var currentTxt = $(instance.textElement).text(), current = '';
 			if (currentTxt != instance.settings.emptyText) {
 				current = currentTxt.split(",");
-			} 
-                
+			}
+
 			if(current != ''){
 				tab = tab.concat(current);
 			}
-            
+
 			if (element.is(":checked") === true) {
 				tab.push(element.next().text());
 			} else {
@@ -128,7 +128,7 @@
 			if ($(instance.checkboxSelectAll).is(":checked")) {
 				$(instance.checkboxSelectAll).prop("checked", false);
 			}
-            
+
 			if (!$(parentUl).find('input[type=checkbox]:not(:checked)').length){
 				$(instance.checkboxSelectAll).prop('checked', true);
 			}
@@ -140,7 +140,7 @@
                 top = $(instance.toggleContainer).outerHeight() - 1;
             if (!instance || instance.isOpen || instance.isDisabled) {
 				return;
-			}    
+			}
 			instance.optionsContainer.css({
 				left:  left + "px",
 				top:  top + "px"
@@ -164,7 +164,7 @@
 			});
 			instance.isOpen = false;
 			this._state[instance.uid] = false;
-			
+
 			if (onClose) {
 				onClose.apply((instance.element ? instance.elemen[0] : null), [instance]);
 			}
@@ -175,26 +175,26 @@
 			return inst.settings[name] !== undefined ? inst.settings[name] : this.defaults[name];
 		},
 		_multiSelect: function(instance) {
-			var optionsContainer, closeButton, ul, topLi, label, checkbox, 
+			var optionsContainer, closeButton, ul, topLi, label, checkbox,
 				buttonsDiv, closeTrigger, clearButton, chooseButton, mainContainer,
 				textElement, toggleElement, wrapper, elementsInColumn, optionsUl,
 				optionsLength = $(instance.element).find("option").length, numberColumns = 1,
 				self = this;
-			
-			
+
+
 			if (optionsLength > 14) {
 				numberColumns = (optionsLength%14 == 0) ? (optionsLength/14) : (Math.ceil(optionsLength/14));
-			} 
+			}
 			elementsInColumn = (optionsLength >= 56) ? Math.ceil(optionsLength/4) : 14;
 			numberColumns = (numberColumns < 4) ? numberColumns : 4;
 			instance.optionsUlWidth = parseInt(100/numberColumns);
-			
+
 			$(instance.element).attr('sel', instance.uid);
-			
+
 			function closeOthers() {
 				var key, select,
 				uid = this.attr("id").split("_")[1];
-				
+
 				for (key in self._state) {
 					if (key !== uid) {
 						if (self._state.hasOwnProperty(key)) {
@@ -206,9 +206,9 @@
 					}
 				}
 			}
-			
+
 			optionsContainer = $('<div />', {
-				'id': "ul-container-" + instance.uid, 
+				'id': "ul-container-" + instance.uid,
 				'class': 'ul-container',
 				'css': {
 					'left': '-33000px',
@@ -220,13 +220,13 @@
 				'mousedown': function(e){
 					e.stopPropagation();
 				}
-				
+
 			});
-			
+
 			closeButton = $('<div>', {
 				'class': 'close-button'
 			});
-            
+
 			closeTrigger = $("<div>", {
 				'class': 'close',
 				'text': '',
@@ -236,14 +236,14 @@
 			});
 			closeTrigger.appendTo(closeButton);
 			closeButton.appendTo(optionsContainer);
-			
+
 			ul = $('<ul/>', {
 				'class': 'top-level',
 				'id': 'top-level-' + instance.uid
 			});
-			
+
 			instance.topLevelUl = ul;
-            
+
 			topLi = $('<li></li>', {
 				'class': 'top-level-li'
 			});
@@ -259,24 +259,24 @@
 					self._getAll(all, instance);
 				}
 			});
-			
+
 			instance.checkboxSelectAll = checkbox;
-			
+
 			label = $("<label />", {
 				'for': 'select-all_' + instance.uid,
 				'text': instance.settings.selectAllLabel
 			});
-			
-			
+
+
 			checkbox.appendTo(topLi);
 			label.appendTo(topLi);
 			topLi.appendTo(ul);
 			ul.appendTo(optionsContainer);
-			
+
 			buttonsDiv = $('<div/>', {
 				'class': 'buttons'
 			});
-			
+
 			clearButton = $('<a>', {
 				'class': 'clear-button',
 				'text': 'wyczyść zaznaczenia',
@@ -288,7 +288,7 @@
 					instance.textElement.addClass('default-grey');
 				}
 			});
-			
+
 			chooseButton = $('<a>', {
 				'id': 'choose',
 				'class': 'choose',
@@ -296,21 +296,21 @@
 					self._closeSelectbox(instance.element);
 				}
 			});
-            
+
             var img = $("<span>");
 			img.appendTo(chooseButton);
-            
+
 			mainContainer = $("<div>", {
 				'class': 'toggle-container',
                 'id': 'toggle-container_' + instance.uid
 			});
-			
+
 			if (instance.settings.width) {
 				mainContainer.css({
 					width: instance.settings.width + 'px'
 				});
 			}
-          
+
 			textElement = $("<span/>", {
 				'class': 'text-element default-grey',
 				'id': 'text-element_' + instance.uid,
@@ -326,7 +326,7 @@
 					}
 				}
 			});
-          
+
 			toggleElement = $("<span/>", {
 				'class': 'toggle-element',
 				'id': 'toggle-element_' + instance.uid,
@@ -341,7 +341,7 @@
 					}
 				}
 			});
-			
+
 			wrapper = $('<div>', {
 				'class': 'list-wrapper'
 			});
@@ -355,7 +355,7 @@
             var labelLength = 0, selectedTxt = [];
 			$(instance.element).children().each(function(i, option){
 				var value, li, label, text = '', input, disabled, checked = false;
-				
+
 				value = $(option).attr('value');
 				disabled = $(option).attr('disabled');
 				text = $(option).text();
@@ -366,7 +366,7 @@
 					checked = true;
 					selectedTxt.push(text);
 				}
-				
+
 				if (disabled == 'disabled') {
 					li = $('<li>', {
 						'class': 'dividingLine'
@@ -410,7 +410,7 @@
 					input.appendTo(li);
 					label.appendTo(li);
 				}
-				
+
 				if (i%elementsInColumn == 0 && i > 0) {
 					li.appendTo(optionsUl);
 					optionsUl.appendTo(wrapper);
@@ -422,7 +422,7 @@
                            'width': instance.optionsUlWidth + '%'
                         }
 					});
-				} 
+				}
 				li.appendTo(optionsUl);
 			});
 			if (selectedTxt.length > 0) {
@@ -431,19 +431,19 @@
 			}
 			optionsUl.appendTo(wrapper);
 			wrapper.append($('<div class="clear" />'));
-			
+
 			wrapper.appendTo(topLi);
-			
+
 			textElement.appendTo(mainContainer);
 			toggleElement.appendTo(mainContainer);
 			clearButton.appendTo(buttonsDiv);
 			chooseButton.appendTo(buttonsDiv);
-			
+
 			buttonsDiv.appendTo(optionsContainer);
-            
+
 			instance.textElement = textElement;
 			instance.optionsContainer = optionsContainer;
-			
+
             optionsContainer.css({
                 width: (labelLength*8*numberColumns+instance.optionsUlWidth) + 'px'
             });
@@ -454,14 +454,14 @@
 		_select: function(instance) {
 			var mainContainer,textElement,toggleElement,wrapper,optionsUl,optionsContainer,
 				self = this;
-			
-			
+
+
 			$(instance.element).attr('sel', instance.uid);
-			
+
 			function closeOthers() {
 				var key, select,
 				uid = this.attr("id").split("_")[1];
-				
+
 				for (key in self._state) {
 					if (key !== uid) {
 						if (self._state.hasOwnProperty(key)) {
@@ -473,20 +473,20 @@
 					}
 				}
 			}
-			
+
 			mainContainer = $("<div>", {
 				'class': 'toggle-container single-select',
                 'id': 'toggle-container_' + instance.uid
 			});
-			
+
 			if (instance.settings.width) {
 				mainContainer.css({
 					width: instance.settings.width + 'px'
 				});
 			}
-			
+
 			optionsContainer = $('<div />', {
-				'id': "ul-container-" + instance.uid, 
+				'id': "ul-container-" + instance.uid,
 				'class': 'ul-container select-element',
 				'css': {
 					'left': '-33000px',
@@ -498,7 +498,7 @@
 				'mousedown': function(e){
 					e.stopPropagation();
 				}
-				
+
 			});
 			textElement = $("<span/>", {
 				'class': 'text-element default-grey',
@@ -532,8 +532,8 @@
 			});
 			toggleElement.appendTo(mainContainer);
 		  }
-			
-			
+
+
 			wrapper = $('<div>', {
 				'class': 'list-wrapper'
 			});
@@ -543,11 +543,11 @@
 					width: '100%'
 				}
 			});
-			
+
 			var liLength = 0;
 			$(instance.element).children().each(function(i, option){
 				var value, li, a, text = '';
-				
+
 				value = $(option).attr('value');
 				text = $(option).text();
                 if ($(option).is(":selected")) {
@@ -577,7 +577,7 @@
 					}
 				});
 				li = $('<li />');
-				
+
 				a.appendTo(li);
 				if (text.length > liLength) {
                     liLength = text.length;
@@ -585,13 +585,13 @@
 				li.appendTo(optionsUl);
 			});
 			optionsUl.appendTo(wrapper);
-			
+
 			optionsContainer.css({
                 width: (liLength*7*1+20) + 'px'
             });
 			wrapper.appendTo(optionsContainer);
 			textElement.appendTo(mainContainer);
-			
+
 			optionsContainer.appendTo(mainContainer);
 			instance.toggleContainer = mainContainer;
 			instance.optionsContainer = optionsContainer;
@@ -606,7 +606,7 @@
 			value = value.replace(/\'/g, "\\'");
 			(value != '') ? $("#text-element_" + inst.uid).removeClass('default-grey') : $("#text-element_" + inst.uid).addClass('default-grey');
 			$(target).find("option[value='" + value + "']").attr("selected", true);
-            
+
 			if (inst && onChange) {
 				onChange.apply((inst.element ? inst.element[0] : null), [value, inst]);
 			} else if (inst && inst.element) {
@@ -621,16 +621,16 @@
 			} else if (instance && instance.element && selected.length > 0) {
                 $(instance.element).trigger('onComplete');
             }
-           
+
         },
 		_detachSelectbox: function (target) {
 			var inst = this._getInstance(target);
 			if (!inst) {
-				return FALSE;
+				return false;
 			}
 			$("#toggle-container_" + inst.uid).remove();
 			$.data(target, PLUGIN_NAME, null);
-			$(target).show();			
+			$(target).show();
 		},
 		_enableSelectbox: function (target) {
 			var inst = this._getInstance(target);
@@ -651,7 +651,7 @@
 			$.data(target, PLUGIN_NAME, inst);
 		}
 	});
-	
+
 	$.fn.ecsSelect = function(options) {
 //        console.log(options);
 		var otherArgs = Array.prototype.slice.call(arguments, 1);
@@ -665,6 +665,6 @@
 			$.ecsSelect.init(this, options);
 		});
 	};
-	
+
 	$.ecsSelect = new Plugin();
 })(jQuery, window, document);
