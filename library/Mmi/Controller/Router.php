@@ -346,7 +346,7 @@ class Mmi_Controller_Router {
 			);
 		}
 		foreach ($replace as $key => $value) {
-			if (is_array($value) && $value == $params[$key]) {
+			if (is_array($value) && isset($params[$key]) && $value == $params[$key]) {
 				$matched[$key] = true;
 				continue;
 			} elseif (is_array($value)) {
@@ -370,6 +370,9 @@ class Mmi_Controller_Router {
 		if ($applied) {
 			$pattern = str_replace(array('\\', '?'), '', trim($pattern, '/^$'));
 			foreach ($matches as $match) {
+				if (is_array($match)) {
+					$match = trim(implode(';', $match), ';');
+				}
 				$pattern = substr($pattern, 0, strpos($pattern, '(')) . $match . substr($pattern, strpos($pattern, ')') + 1);
 			}
 			$url = $pattern;
