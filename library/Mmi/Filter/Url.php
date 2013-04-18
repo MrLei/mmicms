@@ -26,8 +26,14 @@
 class Mmi_Filter_Url extends Mmi_Filter_Abstract {
 
 	public function filter($value) {
-		$ascii = new Mmi_Filter_Ascii();
-		return preg_replace('/[^\p{L}\p{N}]/u', '-', strtolower(trim($ascii->filter($value), '-')));
+		if (!is_array($value)) {
+			$ascii = new Mmi_Filter_Ascii();
+			return preg_replace('/[^\p{L}\p{N}]/u', '-', strtolower(trim($ascii->filter($value), '-')));
+		}
+		foreach ($value as $key => $val) {
+			$value[$key] = $this->filter($val);
+		}
+		return $value;
 	}
 
 }

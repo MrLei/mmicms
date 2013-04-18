@@ -43,7 +43,11 @@ class Mmi_Form_Element_Slider extends Mmi_Form_Element_Text {
 		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/ui.js');
 		$view->headScript()->appendScript('
 			$(document).ready(function() {
-				$(\'#' . $this->id . 'Slider\').slider({\'value\': ' . $this->value . ', \'min\': ' . $min . ',\'max\': ' . $max . ', '.(($step)? '\'step\' : '.$step.' ,' : '').' slide: function(event, ui) { $(\'#' . $this->id . '\').val(ui.value); $(\'#' . $this->id . '\').trigger(\'change\'); }
+				$(\'#' . $this->id . '_label span.max\').text(\''.$this->value.'\');
+				$(\'#' . $this->id . 'Slider\').slider({\'value\': ' . $this->value . ', \'min\': ' . $min . ',\'max\': ' . $max . ', '.(($step)? '\'step\' : '.$step.' ,' : '').' slide: function(event, ui) {
+						$(\'#' . $this->id . '\').val(ui.value); $(\'#' . $this->id . '\').trigger(\'change\'); 
+						$(\'#' . $this->id . '_label span.max\').text(ui.value);
+					}
 				});
 			});
 		');
