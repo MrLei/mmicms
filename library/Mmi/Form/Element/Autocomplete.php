@@ -30,9 +30,6 @@ class Mmi_Form_Element_Autocomplete extends Mmi_Form_Element_Text {
 	public function fetchField() {
 		$view = Mmi_View::getInstance();
 		$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
-		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/bigframe.js');
-		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/ajaxQueue.js');
-		//$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/thickbox.js');
 		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/autocomplete.js');
 
 		$match = 'mustMatch: false';
@@ -64,7 +61,6 @@ class Mmi_Form_Element_Autocomplete extends Mmi_Form_Element_Text {
 				});
 			');
 		}
-		//$view->headLink()->appendStylesheet($view->baseUrl . '/library/css/thickbox.css');
 		$view->headLink()->appendStylesheet($view->baseUrl . '/library/css/autocomplete.css');
 		return parent::fetchField();
 	}

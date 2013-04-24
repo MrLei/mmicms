@@ -20,7 +20,6 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		require LIB_PATH . '/Mmi/Db/Adapter/Pdo/Abstract.php';
 		require LIB_PATH . '/Mmi/Db/Adapter/Pdo/Pgsql.php';
 		require LIB_PATH . '/Mmi/Http/Cookie.php';
-		require LIB_PATH . '/Mmi/Session/Namespace.php';
 		require LIB_PATH . '/Mmi/View/Helper/Abstract.php';
 		require LIB_PATH . '/Mmi/View/Helper/HeadLink.php';
 		require LIB_PATH . '/Mmi/View/Helper/HeadScript.php';
@@ -32,7 +31,6 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		require LIB_PATH . '/Mmi/Navigation.php';
 		require LIB_PATH . '/Mmi/Nested.php';
 		require LIB_PATH . '/Mmi/Registry.php';
-		require LIB_PATH . '/Mmi/Session.php';
 		require LIB_PATH . '/Mmi/Translate.php';
 
 		$cacheActive = Mmi_Config::$data['cache']['active'];
@@ -81,10 +79,14 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 			$request->__set('action', 'index');
 		}
 
-		if (isset($_REQUEST['_sessionId']) && $_REQUEST['_sessionId']) {
-			Mmi_Session::setId($_REQUEST['_sessionId']);
+		if (isset(Mmi_Config::$data['session'])) {
+			require LIB_PATH . '/Mmi/Session.php';
+			require LIB_PATH . '/Mmi/Session/Namespace.php';
+			if (isset($_REQUEST['_sessionId']) && $_REQUEST['_sessionId']) {
+				Mmi_Session::setId($_REQUEST['_sessionId']);
+			}
+			Mmi_Session::start(Mmi_Config::$data['session']);
 		}
-		Mmi_Session::start(Mmi_Config::$data['session']);
 
 		$lang = $request->getParam('lang');
 		$module = $request->getModuleName();
