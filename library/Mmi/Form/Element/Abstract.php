@@ -56,13 +56,13 @@
 	 * @var string
 	 */
 	protected $_labelPostfix = ':';
-	
+
 	/**
 	 * Formularz macierzysty
 	 * @var Mmi_Form
 	 */
 	protected $_form = null;
-	
+
 	/**
 	 * Kolejność renderowania pola
 	 * @var array
@@ -113,15 +113,15 @@
 		$this->_options['name'] = $name;
 		$this->init();
 	}
-	
+
 	/**
 	 * Ustawia form macierzysty
-	 * @param Mmi_Form $form 
+	 * @param Mmi_Form $form
 	 */
 	public function setForm(Mmi_Form $form) {
 		$this->_form = $form;
 	}
-	
+
 	/**
 	 * Pobranie formularza macierzystego
 	 * @return Mmi_Form
@@ -129,9 +129,9 @@
 	public function getForm() {
 		return $this->_form;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param array $renderingOrder
 	 */
 	public function setRenderingOrder(array $renderingOrder = array()) {
@@ -141,6 +141,17 @@
 			}
 		}
 		$this->_renderingOrder = $renderingOrder;
+	}
+
+	/**
+	 * Ustawia postfix labela
+	 * @param string $labelPostfix
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public function setLabelPostfix($labelPostfix) {
+		$this->_labelPostfix = $labelPostfix;
+		$this->__set('labelPostfix', $labelPostfix);
+		return $this;
 	}
 
 	/**
@@ -271,7 +282,7 @@
 					$validator = $validator['validator'];
 				}
 				$validator = $this->_getValidator($validator);
-				
+
 				$validator->setOptions($options);
 				if (!$validator->isValid($this->value)) {
 					$result = false;
@@ -307,10 +318,10 @@
 		$this->_errors[] = $error;
 		return $this;
 	}
-	
+
 	/**
 	 * Dodaje klasę do elementu
-	 * @param type $error 
+	 * @param type $error
 	 */
 	public final function addClass($className) {
 		$this->_options['class'] = trim($this->_options['class'] .= ' ' . $className);
@@ -370,7 +381,7 @@
 		}
 		return new $className();
 	}
-	
+
 	/**
 	 * Pobiera nazwę walidatora
 	 * @param string $name nazwa walidatora
@@ -389,7 +400,7 @@
 		}
 		return new $className();
 	}
-	
+
 	/**
 	 * Buduje opcje HTML
 	 * @return string
