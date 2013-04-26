@@ -151,6 +151,7 @@
 				onOpen.apply((instance.element ? instance.element[0] : null), [instance]);
 			}
 			$.data(target, PLUGIN_NAME, instance);
+			$(instance.toggleContainer).addClass("opened");
 		},
 		_closeSelectbox: function (target) {
 			var instance = this._getInstance(target);
@@ -170,6 +171,7 @@
 			}
             this._complete(target, instance);
 			$.data(target, PLUGIN_NAME, instance);
+			$(instance.toggleContainer).removeClass("opened");
 		},
 		_get: function(inst, name) {
 			return inst.settings[name] !== undefined ? inst.settings[name] : this.defaults[name];
