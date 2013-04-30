@@ -191,8 +191,16 @@ abstract class Mmi_Form {
 				if ($element->getType() == 'Mmi_Form_Element_Checkbox' && !isset($this->_values[$element->name]) && $this->isMine()) {
 					$this->_values[$element->name] = 0;
 				}
-				if ($element->getType() == 'Mmi_Form_Element_Select' && isset($this->_values[$element->name])) {
-					$this->_values[$element->name] = ($this->_values[$element->name] === '') ? null : $this->_values[$element->name];
+				if ($element->getType() == 'Mmi_Form_Element_Select' && $this->isMine()) {
+					if (isset($this->_values[$element->name])) {
+						$this->_values[$element->name] = ($this->_values[$element->name] === '') ? null : $this->_values[$element->name];
+					} else {
+						if ($element->multiple == 'multiple') {
+							$this->_values[$element->name] = array();
+						} else {
+							$this->_values[$element->name] = null;
+						}
+					}
 				}
 			}
 		}
