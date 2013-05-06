@@ -415,6 +415,7 @@
 
 				if (i%elementsInColumn == 0 && i > 0) {
 					li.appendTo(optionsUl);
+					optionsUl.find("li:last").addClass("last");
 					optionsUl.appendTo(wrapper);
 					optionsUl = '';
 					optionsUl = $('<ul />', {
@@ -431,6 +432,7 @@
 				textElement.text(selectedTxt.join(","));
 				textElement.removeClass('default-grey');
 			}
+			optionsUl.find("li:last").addClass("last");
 			optionsUl.appendTo(wrapper);
 			wrapper.append($('<div class="clear" />'));
 
@@ -586,6 +588,7 @@
                 }
 				li.appendTo(optionsUl);
 			});
+			optionsUl.find("li:last").addClass("last");
 			optionsUl.appendTo(wrapper);
 
 			optionsContainer.css({
