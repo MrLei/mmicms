@@ -43,7 +43,7 @@ class Mmi_Bootstrap {
 		define('PUBLIC_PATH', BASE_PATH . '/public');
 		define('DATA_PATH', BASE_PATH . '/data');
 		define('HOST', isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null);
-		
+
 		//ustawianie PHP
 		set_include_path(LIB_PATH);
 
@@ -79,7 +79,7 @@ class Mmi_Bootstrap {
 				ini_set($key, $value);
 			}
 		}
-		
+
 		//obsługa włączonych magic quotes
 		if (ini_get('magic_quotes_gpc')) {
 			function stripslashes_gpc(&$value) {
@@ -96,7 +96,7 @@ class Mmi_Bootstrap {
 
 		//rejestrowanie autoloadera
 		spl_autoload_register(array($this, 'loader'));
-		
+
 		//obsługa wyjątków i błędów
 		set_exception_handler(array($this, 'exceptionHandler'));
 		set_error_handler(array($this, 'errorHandler'));

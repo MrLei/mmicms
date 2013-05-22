@@ -55,12 +55,12 @@ class Mmi_View {
 	 * @var array
 	 */
 	private $_filters = array();
-	
+
 	/**
-	 * Przechowuje content 
+	 * Przechowuje content
 	 */
 	private $_content;
-	
+
 	/**
 	 * Wyłączony
 	 * @var boolean
@@ -72,7 +72,7 @@ class Mmi_View {
 	 * @var array
 	 */
 	private $_structure = array();
-	
+
 	/**
 	 * Obiekt requestu
 	 * @var Mmi_Controller_Request
@@ -143,10 +143,10 @@ class Mmi_View {
 	public function __unset($key) {
 		unset($this->_data[$key]);
 	}
-	
+
 	/**
 	 * Ustawia obiekt request
-	 * @param Mmi_Controller_Request $request 
+	 * @param Mmi_Controller_Request $request
 	 */
 	public function setRequest(Mmi_Controller_Request $request) {
 		$this->request = $request;
@@ -219,7 +219,7 @@ class Mmi_View {
 	 * @param bool $fetch przekaż wynik wywołania w zmiennej
 	 */
 	public function renderTemplate($skin, $module, $controller, $action, $fetch = false) {
-		return $this->_render($this->_getTemplate($skin, $module, $controller, $action), $fetch);
+		return $this->render($this->_getTemplate($skin, $module, $controller, $action), $fetch);
 	}
 
 	/**
@@ -247,9 +247,9 @@ class Mmi_View {
 	public function setLayoutDisabled($disabled = true) {
 		$this->_layoutDisabled = $disabled;
 	}
-	
+
 	/**
-	 * Ustawia zawartość w layoucie 
+	 * Ustawia zawartość w layoucie
 	 */
 	public function setContent($content) {
 		$this->_content = $content;
@@ -264,7 +264,7 @@ class Mmi_View {
 	}
 
 	/**
-	 * Wyświetla stronę 
+	 * Wyświetla stronę
 	 */
 	public function displayLayout($skin, $module, $controller) {
 		//wyłączony layout zwraca tylko content
@@ -274,17 +274,17 @@ class Mmi_View {
 		}
 		//layouty kontrolerów admina zachowują się jak moduł admin
 		$module = (substr($controller, 0, 5) == 'admin') ? 'admin' : $module;
-		
+
 		//renderowanie layoutu
-		$this->_render($this->_getLayout($skin, $module, $controller), false);
-		
+		$this->render($this->_getLayout($skin, $module, $controller), false);
+
 		//opcjonalne uruchomienie panelu deweloperskiego
 		if (Mmi_Config::$data['global']['debug']) {
 			Mmi_Profiler::event('Debugger started');
 			new Mmi_View_Helper_Panel();
 		}
 	}
-	
+
 	/**
 	 * Nakładka na translator
 	 * @return string
@@ -293,14 +293,14 @@ class Mmi_View {
 		$translator = Mmi_Registry::get('Mmi_Translate');
 		return call_user_func_array(array($translator, '_'), func_get_args());
 	}
-	
+
 	/**
 	 * Renderuje szablon z pliku
 	 * @param string $fileName nazwa pliku szablonu
 	 * @param boolean $fetch nie renderuj tylko zwróć dane
 	 * @return string|null zwraca efekt renderowania lub brak przy renderowaniu bezpośrednim
 	 */
-	private function _render($fileName, $fetch = false) {
+	public function render($fileName, $fetch = false) {
 		//przechwycenie obecnego stanu bufora
 		if ($fetch) {
 			$prev = ob_get_contents();
@@ -335,7 +335,7 @@ class Mmi_View {
 			Mmi_Profiler::event('Render: ' . $fileName);
 		}
 	}
-	
+
 	/**
 	 * Pobiera dostępny layout
 	 * @param string $skin skóra
@@ -364,14 +364,14 @@ class Mmi_View {
 		//skóra / default
 		if (isset($this->_structure['skin'][$skin]['default']['layout'])) {
 			return APPLICATION_PATH . '/skins/' . $skin . '/default/scripts/layout.tpl';
-		} 
+		}
 		//default / default
 		if (isset($this->_structure['skin']['default']['default']['layout'])) {
 			return APPLICATION_PATH . '/skins/default/default/scripts/layout.tpl';
 		}
 		throw new Exception('Layout not found.');
 	}
-	
+
 	/**
 	 * Pobiera dostępny template
 	 * @param string $skin skóra
@@ -390,5 +390,5 @@ class Mmi_View {
 		}
 		throw new Exception('Template not found.');
 	}
-	
+
 }
