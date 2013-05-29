@@ -349,6 +349,17 @@ class Tutorial_Controller_Index extends Mmi_Controller_Action {
 		<p>z następującą treścią:
 		<pre>&#60;h1>Dziękujemy za dokonanie wpisu&#60;/h1>&#60;br>
 &#60;a href="{@module=tutorial@}"><< Wróć&#60;/a></pre>
+		<p>Teraz musimy dodać obsługę formularza w akcji:
+		<pre>...
+	public function simpleFormAction() {
+		$form = new Tutorial_Form_Test();
+		if ($form->isSaved()) {
+			return $this->_helper->redirector('thankYou', 
+				'index', 'tutorial', array(), true);
+		}
+	}
+...</pre>
+		<p>Najlepszym sposobe na sprawdzenie czy formularz został wykonany jest sprawdzenie to metodą isMine() lub isSaved() w zależności czy dodaliśmy obsługę zapisu w naszym formularzu.
 		<h3 id="przyklad">Przykładowy formularz:</h3>
 		{$transferForm}
 	</div>
