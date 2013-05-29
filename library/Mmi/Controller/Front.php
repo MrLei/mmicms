@@ -54,7 +54,7 @@ class Mmi_Controller_Front {
 	 * @var array
 	 */
 	private $_plugins = array();
-	
+
 	/**
 	 * Struktura aplikacji
 	 * @var array
@@ -139,7 +139,7 @@ class Mmi_Controller_Front {
 	public function getBootstrap() {
 		return $this->_bootstrap;
 	}
-	
+
 	/**
 	 * Pobiera strukturę aplikacji
 	 * @param string $part opcjonalnie można pobrać jedynie 'module', lub 'skin'
@@ -150,14 +150,14 @@ class Mmi_Controller_Front {
 	}
 
 	/**
-	 * Uruchamianie metody routeStartup na zarejestrowanych pluginach 
+	 * Uruchamianie metody routeStartup na zarejestrowanych pluginach
 	 */
 	public function routeStartup() {
 		foreach ($this->_plugins AS $plugin) {
 			$plugin->routeStartup($this->_request);
 		}
 	}
-	
+
 	/**
 	 * Uruchamianie metody preDispatch na zarejestrowanych pluginach
 	 */
@@ -184,10 +184,10 @@ class Mmi_Controller_Front {
 		$this->setRequest(new Mmi_Controller_Request());
 		//ustawianie pustej odpowiedzi
 		$this->setResponse(new Mmi_Controller_Response());
-		
+
 		//wpięcie dla pluginów przed routingiem
 		$this->routeStartup();
-		
+
 		//stosowanie routingu
 		Mmi_Controller_Router::getInstance()->processRequest($this->getRequest());
 
@@ -196,16 +196,16 @@ class Mmi_Controller_Front {
 
 		//wybór i uruchomienie kontrolera akcji (dispatch)
 		$actionHelper = new Mmi_Controller_Action_Helper_Action();
-		$rendered = $actionHelper->action($this->_request->__get('module'), 
-			$this->_request->__get('controller'), 
-			$this->_request->__get('action'), 
+		$content = $actionHelper->action($this->_request->__get('module'),
+			$this->_request->__get('controller'),
+			$this->_request->__get('action'),
 			$this->_request->getUserParams(), true);
-		
+
 		//wpięcie dla pluginów po dispatchu
 		$this->postDispatch();
-		
+
 		//wyświetlenie layoutu
-		Mmi_View::getInstance()->setContent($rendered);
+		Mmi_View::getInstance()->setPlaceholder('content', $content);
 		Mmi_View::getInstance()->displayLayout($this->_request->__get('skin'), $this->_request->__get('module'), $this->_request->__get('controller'));
 	}
 
