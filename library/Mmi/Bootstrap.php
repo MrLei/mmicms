@@ -187,7 +187,7 @@ class Mmi_Bootstrap {
 			'info' => $position['info']
 		);
 		$actionHelper = new Mmi_Controller_Action_Helper_Action();
-		$view->setContent($actionHelper->action('default', 'error', 'index', array(), true));
+		$view->setPlaceholder('content', $actionHelper->action('default', 'error', 'index', array(), true));
 		$view->displayLayout($view->skin, 'default', 'error');
 		return true;
 	}

@@ -8,7 +8,7 @@
  * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
  * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
  *
- * Mmi/View/Helper/Translate.php
+ * MmiCns/View/Helper/Translate.php
  * @category   Mmi
  * @package    Mmi_View
  * @subpackage Helper
@@ -22,8 +22,8 @@
  * Helper translatora, używa zmiennej 'Mmi_Translate' z rejestru
  * @see Mmi_Translate
  * @see Mmi_Registry
- * @category   Mmi
- * @package    Mmi_View
+ * @category   MmiCms
+ * @package    MmiCms_View
  * @subpackage Helper
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
