@@ -26,33 +26,12 @@
  * @subpackage Helper
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
-class Mmi_View_Helper_AbstractHead {
-
-	/**
-	 * Referencja do widoku
-	 * @var Mmi_View
-	 */
-	protected $_view;
-
-	/**
-	 * Metoda programisty końcowego, wykonuje się na końcu konstruktora
-	 */
-	public function init() {
-		
-	}
-
-	/**
-	 * Konstruktor, ustawia widok
-	 */
-	public function __construct() {
-		$this->view = Mmi_View::getInstance();
-		$this->init();
-	}
+class Mmi_View_Helper_AbstractHead extends Mmi_View_Helper_Abstract {
 
 	/**
 	 * Pobiera CRC dla danego zasobu (lokalnego lub zdalnego)
 	 * @param string $href adres zasobu
-	 * @return string 
+	 * @return string
 	 */
 	protected function _getCrc($location) {
 		$cacheKey = 'Head_Crc' . str_replace(array('/', '.'), '_', $location);
