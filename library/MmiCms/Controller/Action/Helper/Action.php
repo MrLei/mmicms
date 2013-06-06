@@ -8,7 +8,7 @@
  * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
  * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
  *
- * Mmi/Controller/Action/Helper/Action.php
+ * MmiCms/Controller/Action/Helper/Action.php
  * @category   Mmi
  * @package    Mmi_Controller
  * @subpackage Helper
@@ -19,13 +19,13 @@
  */
 
 /**
- * Helper akcji, wykonuje akcję z kontrolera akcji i zwraca bądź renderuje wynik
+ * Helper akcji, sprawdza uprawnienia w ACL, wykonuje akcję z kontrolera akcji i zwraca bądź renderuje wynik
  * @category   Mmi
  * @package    Mmi_Controller
  * @subpackage Helper
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
-class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_Abstract {
+class MmiCms_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_Action {
 
 	/**
 	 * Metoda główna
@@ -37,21 +37,26 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 	 * @return mixed
 	 */
 	public function action($moduleName = 'default', $controllerName = 'index', $actionName = 'index', array $params = array(), $fetch = false) {
-		$front = Mmi_Controller_Front::getInstance();
-		$params = array_merge($front->getRequest()->toArray(), $params);
-		$params['module'] = $moduleName;
-		$params['controller'] = $controllerName;
-		$params['action'] = $actionName;
-		$controllerClassName = ucfirst($params['module']) . '_Controller_' . ucfirst($params['controller']);
-		$controller = new $controllerClassName(new Mmi_Controller_Request($params));
-		$actionMethodName = $params['action'] . 'Action';
-		$controller->$actionMethodName();
-		Mmi_Profiler::event('Run: ' . $controllerClassName . '::' . $actionMethodName);
-		$skin = isset($params['skin']) ? $params['skin'] : 'default';
-		$content = Mmi_View::getInstance()->renderTemplate($skin, $moduleName, $controllerName, $actionName, $fetch);
-		//przywrócenie do widoku request'a z front controllera
-		Mmi_View::getInstance()->setRequest($front->getRequest());
-		return $content;
+		if (!$this->_checkAcl($moduleName, $controllerName, $actionName)) {
+			return;
+		}
+		return parent::action($moduleName, $controllerName, $actionName, $params, $fetch);
+	}
+
+	/**
+	 * Sprawdza uprawnienie do widgetu
+	 * @param string $module moduł
+	 * @param string $controller kontroler
+	 * @param string $action akcja
+	 * @return boolean
+	 */
+	protected function _checkAcl($module, $controller, $action) {
+		$roles = Mmi_Auth::getInstance()->getRoles();
+		$acl = Mmi_Registry::get('Mmi_Acl');
+		if (null === $acl) {
+			return true;
+		}
+		return $acl->isAllowed($roles, $module . ':' . $controller . ':' . $action);
 	}
 
 }

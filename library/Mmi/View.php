@@ -57,9 +57,10 @@ class Mmi_View {
 	private $_filters = array();
 
 	/**
-	 * Przechowuje content
+	 * Przechowuje dane placeholderów
+	 * @var array
 	 */
-	private $_content;
+	private $_placeholders = array();
 
 	/**
 	 * Wyłączony
@@ -106,7 +107,11 @@ class Mmi_View {
 	 */
 	public function __call($name, array $params = array()) {
 		$helper = $this->getHelper($name);
-		return call_user_func_array(array($helper, $name), $params);
+		//poprawny helper
+		if ($helper instanceof Mmi_View_Helper_Abstract) {
+			return call_user_func_array(array($helper, $name), $params);
+		}
+		return $this->getPlaceholder($name);
 	}
 
 	/**
@@ -168,7 +173,7 @@ class Mmi_View {
 			$className = ucfirst($this->request->module) . '_View_Helper_' . $name;
 		}
 		if (!isset($className)) {
-			throw new Exception('Helper not found: ' . $name);
+			return false;
 		}
 		if (isset($this->_helpers[$className])) {
 			return $this->_helpers[$className];
@@ -200,6 +205,24 @@ class Mmi_View {
 		}
 		$this->_filters[$className] = new $className();
 		return $this->_filters[$className];
+	}
+
+	/**
+	 * Ustawia placeholder
+	 * @param string $name nazwa
+	 * @param string $content zawartość
+	 */
+	public function setPlaceholder($name, $content) {
+		$this->_placeholders[$name] = $content;
+	}
+
+	/**
+	 * Pobiera placeholder
+	 * @param string $name nazwa
+	 * @return string
+	 */
+	public function getPlaceholder($name) {
+		return isset($this->_placeholders[$name]) ? $this->_placeholders[$name] : null;
 	}
 
 	/**
@@ -249,27 +272,12 @@ class Mmi_View {
 	}
 
 	/**
-	 * Ustawia zawartość w layoucie
-	 */
-	public function setContent($content) {
-		$this->_content = $content;
-	}
-
-	/**
-	 * Zwraca "content" osadzony w layoucie
-	 * @return string
-	 */
-	public function content() {
-		return $this->_content;
-	}
-
-	/**
 	 * Wyświetla stronę
 	 */
 	public function displayLayout($skin, $module, $controller) {
 		//wyłączony layout zwraca tylko content
 		if ($this->_layoutDisabled) {
-			echo $this->_content;
+			echo $this->getPlaceholder('content');
 			return;
 		}
 		//layouty kontrolerów admina zachowują się jak moduł admin
