@@ -84,14 +84,17 @@ class Mmi_Controller_Router {
 	 */
 	public function decodeUrl($url, $setBaseUrl = false) {
 		$url = urldecode($url);
-		
+
 		if (!(false === strpos($url, '?'))) {
 			$url = substr($url, 0, strpos($url, '?'));
 		}
-		$position = strpos($url, '/public');
+		$position = strpos($url, '/public/');
+		if ($position === false && substr($url, -7) == '/public') {
+			$position = strpos($url, '/public');
+		}
 		if ($position !== false) {
-			$baseUrl = substr($url, 0, $position + 7);
-			$url = substr($url, $position + 8);
+			$baseUrl = substr($url, 0, $position + 8);
+			$url = substr($url, $position + 9);
 		}
 		$baseUrl = isset($baseUrl) ? '/' . trim($baseUrl, '/') . '/' : '/';
 		if ($setBaseUrl) {
