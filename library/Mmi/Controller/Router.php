@@ -43,7 +43,7 @@ class Mmi_Controller_Router {
 	 * @var string
 	 */
 	private $_baseUrl;
-	
+
 	/**
 	 * Pobiera instancję
 	 * @return Mmi_Controller_Router
@@ -59,7 +59,7 @@ class Mmi_Controller_Router {
 	 * Konstruktor, wczytuje trasy z konfiguracji
 	 */
 	protected function __construct() {
-		
+
 	}
 
 	public function setRoutes(array $routes = array()) {
@@ -91,6 +91,8 @@ class Mmi_Controller_Router {
 		$position = strpos($url, '/public/');
 		if ($position === false && substr($url, -7) == '/public') {
 			$position = strpos($url, '/public');
+		} else {
+			$position -= 1;
 		}
 		if ($position !== false) {
 			$baseUrl = substr($url, 0, $position + 8);
@@ -395,7 +397,7 @@ class Mmi_Controller_Router {
 	private function _isPatternRegular($pattern) {
 		return substr($pattern, 0, 1) == '/' && (substr($pattern, -1) == '/' || substr($pattern, -2) == '/i');
 	}
-	
+
 	/**
 	 * Callback dla zmieniania rout
 	 * @param array $matches dopasowania
