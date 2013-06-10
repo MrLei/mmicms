@@ -88,15 +88,10 @@ class Mmi_Controller_Router {
 		if (!(false === strpos($url, '?'))) {
 			$url = substr($url, 0, strpos($url, '?'));
 		}
-		$position = strpos($url, '/public/');
-		if ($position === false && substr($url, -7) == '/public') {
-			$position = strpos($url, '/public');
-		} else {
-			$position -= 1;
-		}
-		if ($position !== false) {
-			$baseUrl = substr($url, 0, $position + 8);
-			$url = substr($url, $position + 9);
+		$position = strpos($url, '/public');
+		if ($position !== false && (substr($url, -7) == '/public' || substr($url, $position, 8) == '/public/')) {
+			$baseUrl = substr($url, 0, $position + 7);
+			$url = substr($url, $position + 8);
 		}
 		$baseUrl = isset($baseUrl) ? '/' . trim($baseUrl, '/') . '/' : '/';
 		if ($setBaseUrl) {
