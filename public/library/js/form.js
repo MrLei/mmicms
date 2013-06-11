@@ -3,6 +3,7 @@
 
 function urlencode(str) {
 	"use strict";
+	str = str + '';
 	str = str.replace(',', '%2C');
 	str = str.replace(' ', '+');
 	str = str.replace('&', '%26');

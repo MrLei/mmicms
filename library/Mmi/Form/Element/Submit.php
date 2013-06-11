@@ -27,11 +27,11 @@
  */
 class Mmi_Form_Element_Submit extends Mmi_Form_Element_Abstract {
 
-	/**
-	 * Ignorowanie tego pola
-	 */
-	public function init() {
-		$this->_options['ignore'] = true;
+	public function __construct($name, array $options = array()) {
+		if (!isset($options['ignore'])) {
+			$options['ignore'] = true;
+		}
+		parent::__construct($name, $options);
 	}
 
 	public function __toString() {
