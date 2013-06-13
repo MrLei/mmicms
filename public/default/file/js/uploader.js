@@ -1,16 +1,11 @@
 $(document).ready(function () {
-	
+
 	function bindSortable() {
-		
-		$('html').disableSelection();
-		$('body').disableSelection();
-		$('#manageImage').disableSelection();
-		$('#manageOther').disableSelection();
-		
+
 		$('#manageImage > li > img').mousedown(function(event) {
 			event.preventDefault();
 		});
-		
+
 		$("#manageImage").sortable({
 			axis: 'x',
 			update: function(event, ui) {
@@ -36,7 +31,7 @@ $(document).ready(function () {
 					});
 			}
 		});
-	
+
 	}
 
 	$('a.edit-file').live('click', function () {
@@ -77,15 +72,15 @@ $(document).ready(function () {
 			});
 		return false;
 	});
-	
+
 	$('input#editReset').live('click', function () {
 		$('li').removeClass('editActive');
 		$('#uploaderEdit').hide();
 		$('#fileUpload').show();
 		$('#uploaderEditForm').attr('action', '');
-		return true;		
+		return true;
 	});
-	
+
 	$('input#editSubmit').live('click', function () {
 		$.post(
 			$('#uploaderEditForm').attr('action'),
@@ -113,7 +108,7 @@ $(document).ready(function () {
 				}
 			});
 	});
-	
+
 	function fileUpload() {
 		form = document.getElementById('uploader');
 		// Create the iframe...
@@ -167,12 +162,12 @@ $(document).ready(function () {
 		document.forms[0].submit();
 		document.getElementById('manageOther').innerHTML = '<li class="item">Upload...</li>';
 	}
-	
+
 	$('input#file').live('change', function () {
 		fileUpload();
 		$('input#file').val('');
 	});
-	
+
 	bindSortable();
 
 });

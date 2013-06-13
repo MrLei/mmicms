@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$('#navigation-list').disableSelection().sortable({
+	$('#navigation-list').sortable({
 		update: function(event, ui) {
 			$.get(request.baseUrl + "/cms/adminNavigation/sort/order/" + $(this).sortable('serialize'),
 				function(result) {
