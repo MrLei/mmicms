@@ -51,18 +51,6 @@ abstract class Mmi_Form {
 	protected $_fileObjectName;
 
 	/**
-	 * Identyfikator obiektu w modelu
-	 * @var mixed
-	 */
-	protected $_modelId;
-
-	/**
-	 * Nazwa metody zapisu w modelu
-	 * @var string
-	 */
-	protected $_modelSaveMethod = 'save';
-
-	/**
 	 * Nazwa rekordu
 	 * @var string 
 	 */
@@ -85,6 +73,12 @@ abstract class Mmi_Form {
 	 * @var string
 	 */
 	protected $_recordSaveMethod = 'save';
+	
+	/**
+	 * Automatyczne wywołanie save w konstruktorze.
+	 * @var bool
+	 */
+	protected $_autoSave = true;
 
 	/**
 	 * Czy zapisany
@@ -121,12 +115,47 @@ abstract class Mmi_Form {
 	 * @var array
 	 */
 	protected $_values = array();
+	
+	/** 
+	 * Dane do ustawienia w zapisywanym rekordzie.
+	 * Array, którego kluczmi powinny być nazwy pól rekordu (kolumn w bazie).
+	 * Tutaj np. przekazujemy wartości dla kolumn, które są kluczami obcymi.
+	 * @var array
+	 */
+	protected $_recordValues = array();
 
 	/**
 	 * Podformularze
 	 * @var array
 	 */
 	protected $_subForms = array();
+	
+	/**
+	 * Czy udało się zapisać podformularze
+	 * @var bool
+	 */
+	protected $_subFormsSaved = false;
+	
+	/**
+	 * Czy jestem podformularzem
+	 * @var bool
+	 */
+	protected $_isSubForm = false;
+	
+	/**
+	 * Prefiks dla nazw pól formularza.
+	 * Używany dla podformularzy.
+	 * @var string
+	 */
+	protected $_subFormPrefix = '';
+	
+	/**
+	 * Nazwa kolumny do zapisu powiązania z formularzem rodzicem.
+	 * Jeśli podana, zapis podformularza ustawi wartość dla tej kolumny
+	 * na id głównego formularza.
+	 * @var null|string
+	 */
+	protected $_parentFormColumnName;
 
 	/**
 	 * Rezultat walidacji
@@ -147,7 +176,6 @@ abstract class Mmi_Form {
 	 */
 	public function __construct($id = null, array $options = array(), $className = null) {
 		$this->_options = $options;
-		$this->_modelId = $id;
 		$this->_recordId = $id;
 		$className = isset($className) ? $className : get_class($this);
 
@@ -163,6 +191,20 @@ abstract class Mmi_Form {
 		} else {
 			$this->_formBaseName = $this->getAttrib('name');
 		}
+		
+		//nadpisana obsługa autoSave
+		if ($this->getOption('autoSave') !== null) {
+			$this->_autoSave = (bool) $this->getOption('autoSave');
+		}
+		//czy jest to subform
+		if ($this->getOption('subForm') !== null) {
+			$this->_isSubForm = (bool) $this->getOption('subForm');
+		}
+		//prefiks dla pól formularza, jeśli to podformularz
+		if ($this->_isSubForm && empty($this->_subFormPrefix)) {
+			$this->_subFormPrefix = $this->_formBaseName . '_';
+		}
+		
 		$view = Mmi_View::getInstance();
 		$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
 		$view->headScript()->appendFile($view->baseUrl . '/library/js/form.js');
@@ -173,14 +215,14 @@ abstract class Mmi_Form {
 		$this->setAttrib('method', 'post');
 		$this->setAttrib('enctype', 'multipart/form-data');
 		$this->_saved = false;
-		$this->_savedId = null;
+		
 		//dane z post
 		if ($this->isMine()) {
 			$data = $this->_request->getPost();
 		}
 		if ($this->hasRecord() && $id !== null && !isset($data)) {
 			$data = $this->_record->toArray();
-			$this->_values = $this->prepareLoadData($data);
+			$this->_values = $this->_mapLoadData($this->prepareLoadData($data));
 		} elseif (isset($data)) {
 			$this->_values = $data;
 		}
@@ -226,7 +268,17 @@ abstract class Mmi_Form {
 			$this->_sessionNamespace->{$this->_formBaseName} = $this->_hash;
 			$this->_hash = $hash;
 		}
-
+		
+		//automatyczne wywołanie save()
+		if ($this->_autoSave) {
+			$this->save();
+		}
+		
+		$this->setDefaults($this->_values);
+		$this->lateInit();
+	}
+	
+	public function save() {
 		if ($this->isMine()) {
 			$values = array();
 			$validatorData = array();
@@ -245,18 +297,25 @@ abstract class Mmi_Form {
 			if ($this->_request->isPost() && $this->isValid($validatorData) && $this->hasRecord()) {
 				//zapis do rekordu
 				$this->_saved = $this->_saveRecord($this->_values);
+				$this->_saveResult = $this->_record->getSaveStatus();
 				if ($this->_saved === true) {
 					if (null != $this->_sessionNamespace) {
 						$this->_sessionNamespace->unsetAll();
 					}
 					$this->_appendFiles($this->_record->getPk(), $this->_importFiles());
-					$this->_modelId = $this->_record->getPk();
+					$this->_recordId = $this->_record->getPk();
 				}
 			}
-
 		}
-		$this->setDefaults($this->_values);
-		$this->lateInit();
+		return $this->isSaved();
+	}
+	
+	/**
+	 * Zwraca id zapisanego rekordu w bazie.
+	 * @return null|int
+	 */
+	public function getRecordId() {
+		return $this->_recordId;
 	}
 
 	/**
@@ -279,6 +338,12 @@ abstract class Mmi_Form {
 	 * @param array $options opcje
 	 */
 	public function addElement($type, $name, array $options = array()) {
+		//automatyczne dodawanie prefiksów do pól subformów
+		if ($this->_isSubForm) {
+			if (strpos($name, $this->_subFormPrefix) === false) {
+				$name = $this->_subFormPrefix . $name;
+			}
+		}
 		$className = 'Mmi_Form_Element_' . ucfirst($type);
 		$this->_elements[$name] = new $className($name, $options);
 		$this->_elements[$name]->setForm($this);
@@ -289,8 +354,16 @@ abstract class Mmi_Form {
 	 * @param Mmi_Form_Element_Abstract $element obiekt elementu formularza
 	 */
 	public function addElementObject(Mmi_Form_Element_Abstract $element) {
-		$this->_elements[$element->getName()] = $element;
-		$this->_elements[$element->getName()]->setForm($this);
+		$name = $element->getName();
+		//automatyczne dodawanie prefiksów do pól subformów
+		if ($this->_isSubForm) {
+			if (strpos($name, $this->_subFormPrefix) === false) {
+				$name = $this->_subFormPrefix . $name;
+				$element->setName($name);
+			}
+		}
+		$this->_elements[$name] = $element;
+		$this->_elements[$name]->setForm($this);
 	}
 
 	/**
@@ -307,6 +380,12 @@ abstract class Mmi_Form {
 	 * @return Mmi_Form_Element_Abstract
 	 */
 	public function getElement($name) {
+		//automatyczne dodawanie prefiksów do pól subformów
+		if ($this->_isSubForm) {
+			if (strpos($name, $this->_subFormPrefix) === false) {
+				$name = $this->_subFormPrefix . $name;
+			}
+		}
 		return isset($this->_elements[$name]) ? $this->_elements[$name] : null;
 	}
 
@@ -345,6 +424,53 @@ abstract class Mmi_Form {
 	 */
 	public function getOptions() {
 		return $this->_options;
+	}
+	
+	/**
+	 * Pobranie wartości zdefiniowanej dla pola rekordu do zapisu.
+	 * @param string $key identyfikator
+	 * @return mixed
+	 */
+	public function getRecordValue($key) {
+		return isset($this->_recordValues[$key]) ? $this->_recordValues[$key] : null;
+	}
+	
+	/**
+	 * Pobranie wartości zdefiniowanych dla pól rekordu do zapisu.
+	 * @return array
+	 */
+	public function getRecordValues() {
+		return $this->_recordValues;
+	}
+
+	/**
+	 * Ustawienie wartości dla pola rekordu do zapisu.
+	 * @param string $key identyfikator
+	 * @param mixed $value wartość
+	 * @return Mmi_Form
+	 */
+	public function setRecordValue($key, $value) {
+		$this->_recordValues[$key] = $value;
+		return $this;
+	}
+	
+	/**
+	 * Ustawienie wartości dla pól rekordu do zapisu.
+	 * @param array wartości dla pól rekordu
+	 * @return Mmi_Form
+	 */
+	public function setRecordValues(array $values = array()) {
+		$this->_recordValues = $values;
+		return $this;
+	}
+	
+	/**
+	 * Czyszczenie wartości dla pól rekordu do zapisu.
+	 * @return Mmi_Form
+	 */
+	public function clearRecordValues() {
+		$this->_recordValues = array();
+		return $this;
 	}
 
 	/**
@@ -396,7 +522,7 @@ abstract class Mmi_Form {
 	 * @return Mmi_Form_Element_Abstract
 	 */
 	public function __get($key) {
-		return isset($this->_elements[$key]) ? $this->_elements[$key] : null;
+		return $this->getElement($key);
 	}
 
 	/**
@@ -431,7 +557,7 @@ abstract class Mmi_Form {
 			throw new Exception('Invalid record supplied');
 		}
 		$recordName = $this->_recordName;
-		$this->_record = new $recordName($this->_modelId);
+		$this->_record = new $recordName($this->_recordId);
 		return true;
 	}
 
@@ -521,6 +647,44 @@ abstract class Mmi_Form {
 	public function prepareLoadData(array $data = array()) {
 		return $data;
 	}
+	
+	/**
+	 * Maper do zapisu danych.
+	 * Dla podformularzy domyślnie wycina prefix z nazwy pola forma, aby
+	 * pasował do nazwy kolumny w bazie.
+	 * @param array $data
+	 * @return array
+	 */
+	protected function _mapSaveData(array $data = array()) {
+		if (!$this->_isSubForm) {
+			return $data;
+		}
+		$data2 = array();
+		foreach ($data as $key => $val) {
+			$key = str_replace($this->_subFormPrefix, '', $key);
+			$data2[$key] = $val;
+		}
+		return $data2;
+	}
+
+	/**
+	 * Maper do odczytu danych
+	 * @param array $data
+	 * @return array
+	 */
+	protected function _mapLoadData(array $data = array()) {
+		if (!$this->_isSubForm) {
+			return $data;
+		}
+		$data2 = array();
+		foreach ($data as $key => $val) {
+			if (strpos($key, $this->_subFormPrefix) === false) {
+				$key = $this->_subFormPrefix . $key;
+			}
+			$data2[$key] = $val;
+		}
+		return $data2;
+	}
 
 	/**
 	 * Czy w modelu wystąpił zapis
@@ -529,9 +693,17 @@ abstract class Mmi_Form {
 	public function isSaved() {
 		return $this->_saved;
 	}
+	
+	/**
+	 * Czy udało się zapisać podformularze
+	 * @return boolean
+	 */
+	public function areSubFormsSaved() {
+		return $this->_subFormsSaved;
+	}
 
 	/**
-	 * Identyfikator zapisanego obiektu
+	 * Zwraca status z zapisu rekordu.
 	 * @return mixed
 	 */
 	public function getSaveResult() {
@@ -547,6 +719,16 @@ abstract class Mmi_Form {
 			$element->__set('class', trim('field ' . $element->__get('class')));
 		}
 	}
+	
+	/**
+	 * Ustawia, czy form jest subformem.
+	 * @param bool $yes
+	 * @return \Mmi_Form
+	 */
+	public function setIsSubForm($yes = true) {
+		$this->_isSubForm = (bool) $yes;
+		return $this;
+	}
 
 	/**
 	 * Dodaje podformularz
@@ -555,6 +737,7 @@ abstract class Mmi_Form {
 	 * @return Mmi_Form
 	 */
 	public function addSubForm(Mmi_Form $form, $name) {
+		$form->setIsSubForm(true);
 		$this->_subForms[$name] = $form;
 		return $this;
 	}
@@ -576,6 +759,7 @@ abstract class Mmi_Form {
 	 */
 	public function addSubForms(array $subForms) {
 		foreach ($subForms as $formName => $form) {
+			$form->setIsSubForm(true);
 			$this->_subForms[$formName] = $form;
 		}
 		return $this;
@@ -615,6 +799,69 @@ abstract class Mmi_Form {
 	public function clearSubForms() {
 		$this->_subForms = array();
 		return $this;
+	}
+	
+	/**
+	 * Ustawia nazwę kolumny do zapisu powiązania z formularzem rodzicem.
+	 * @param string $name
+	 * @return \Mmi_Form
+	 */
+	public function setParentFormColumnName($name) {
+		$this->_parentFormColumnName = $name;
+		return $this;
+	}
+	
+	/**
+	 * Zwraca nazwę kolumny do zapisu powiązania z formularzem rodzicem.
+	 * @return null|string
+	 */
+	public function getParentFormColumnName() {
+		return $this->_parentFormColumnName;
+	}
+	
+	/**
+	 * Zapisuje po kolei wszystkie podformularze.
+	 * @return bool
+	 */
+	public function saveSubForms() {
+		$results = true;
+		if (!empty($this->_subForms)) {
+			foreach ($this->_subForms as $subForm) {
+				$saved = $subForm->save();
+				if ($saved === false) {
+					$results = false;
+				}
+			}
+		}
+		$this->_subFormsSaved = $results;
+		return $this->_subFormsSaved;
+	}
+	
+	/**
+	 * Zapisuje formularz i następnie po kolei wszystkie podformularze.
+	 * @return bool
+	 */
+	public function saveWithSubForms() {
+		//zapis głównego forma
+		$this->save();
+		if ($this->isSaved()) {
+			$results = true;
+			//zapis podformów
+			if (!empty($this->_subForms)) {
+				foreach ($this->_subForms as $subForm) {
+					if ($this->getRecordId() && $subForm->getParentFormColumnName()) {
+						$subForm->setRecordValue($subForm->getParentFormColumnName(), $this->getRecordId());
+					}
+					$saved = $subForm->save();
+					if ($saved === false) {
+						$results = false;
+					}
+				}
+			}
+			$this->_subFormsSaved = $results;
+			return $this->_subFormsSaved;
+		}
+		return $this->isSaved();
 	}
 
 	/**
@@ -701,7 +948,13 @@ abstract class Mmi_Form {
 	 */
 	protected function _saveRecord($data) {
 		unset($data[$this->_formBaseName . '__ctrl']);
-		$this->_record->setFromArray($this->prepareSaveData($data), false);
+		//mapowanie pól z forma na kolumny w bazie
+		$data = $this->prepareSaveData($this->_mapSaveData($data));
+		//dodatkowe wartości przekazane dla rekordu, np. klucze obce
+		if (!empty($this->_recordValues)) {
+			$data = array_merge($data, $this->_recordValues);
+		}
+		$this->_record->setFromArray($data, false);
 		if (method_exists(($this->_record), $this->_recordSaveMethod)) {
 			return $this->_record->{$this->_recordSaveMethod}();
 		}

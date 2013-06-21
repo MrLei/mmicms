@@ -206,6 +206,14 @@
 	public final function setValue($value) {
 		$this->_options['value'] = $value;
 	}
+	
+	/**
+	 * Ustawia nazwę pola formularza
+	 * @param mixed $name wartość
+	 */
+	public final function setName($name) {
+		$this->_options['name'] = $name;
+	}
 
 	/**
 	 * Wyłącza translator
