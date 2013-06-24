@@ -118,7 +118,7 @@ abstract class Mmi_Form {
 	
 	/** 
 	 * Dane do ustawienia w zapisywanym rekordzie.
-	 * Array, którego kluczmi powinny być nazwy pól rekordu (kolumn w bazie).
+	 * Array, którego kluczami powinny być nazwy pól rekordu (kolumn w bazie).
 	 * Tutaj np. przekazujemy wartości dla kolumn, które są kluczami obcymi.
 	 * @var array
 	 */
@@ -143,8 +143,7 @@ abstract class Mmi_Form {
 	protected $_isSubForm = false;
 	
 	/**
-	 * Prefiks dla nazw pól formularza.
-	 * Używany dla podformularzy.
+	 * Prefiks dla nazw pól formularza. Używany dla podformularzy.
 	 * @var string
 	 */
 	protected $_subFormPrefix = '';
@@ -171,12 +170,25 @@ abstract class Mmi_Form {
 
 	/**
 	 * Konstruktor
-	 * @param mixed $id identyfikator modelu
+	 * @param mixed $id identyfikator modelu lub obiekt recordu
 	 * @param array $options opcje
 	 */
 	public function __construct($id = null, array $options = array(), $className = null) {
 		$this->_options = $options;
-		$this->_recordId = $id;
+		
+		//jeśli przekazano obiekt rekordu zamiast id
+		if (is_object($id)) {
+			if ($id instanceof Mmi_Dao_Record && get_class($id) === $this->_recordName) {
+				$this->_record = $id;
+				$this->_recordId = $id->getPk();
+				$id = $this->_recordId;
+			} else {
+				throw new Exception('Invalid record object');
+			}
+		} else {
+			$this->_recordId = $id;
+		}
+		
 		$className = isset($className) ? $className : get_class($this);
 
 		//kalkulacja nazwy plików dla active record
@@ -208,8 +220,15 @@ abstract class Mmi_Form {
 		$view = Mmi_View::getInstance();
 		$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
 		$view->headScript()->appendFile($view->baseUrl . '/library/js/form.js');
-
-		$this->setAttrib('name', 'form_' . $this->_formBaseName);
+		
+		if ($this->_isSubForm) {
+			//dla podformularzy nie wolno edytować ustawionej nazwy, bo jest ona
+			//używana do automatycznego generowania prefiksów pól
+			$this->setAttrib('name', $this->_formBaseName);
+		} else {
+			//brzydka zmiana nazwy, ale zostawiam, aby było kompatybilne wstecz
+			$this->setAttrib('name', 'form_' . $this->_formBaseName);
+		}
 		$this->setAttrib('class', 'form_' . $this->_formBaseName);
 		$this->setAttrib('accept-charset', 'utf-8');
 		$this->setAttrib('method', 'post');
@@ -278,6 +297,10 @@ abstract class Mmi_Form {
 		$this->lateInit();
 	}
 	
+	/**
+	 * Wywołuje walidację zapis rekordu powiązanego z formularzem.
+	 * @return bool
+	 */
 	public function save() {
 		if ($this->isMine()) {
 			$values = array();
@@ -728,6 +751,14 @@ abstract class Mmi_Form {
 	public function setIsSubForm($yes = true) {
 		$this->_isSubForm = (bool) $yes;
 		return $this;
+	}
+	
+	/**
+	 * Zwraca, czy form jest subformem.
+	 * @return bool
+	 */
+	public function getIsSubForm() {
+		return $this->_isSubForm;
 	}
 
 	/**
