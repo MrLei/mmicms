@@ -93,7 +93,7 @@
 			var tab = [];
 			var currentTxt = $(instance.textElement).text(), current = '';
 			if (currentTxt != instance.settings.emptyText) {
-				current = currentTxt.split(",");
+				current = currentTxt.split(", ");
 			}
 
 			if(current != ''){
@@ -107,7 +107,7 @@
 					return value != element.next().text();
 				});
 			}
-			$(instance.textElement).text((tab.length != 0) ? tab.join(",") : instance.settings.emptyText);
+			$(instance.textElement).text((tab.length != 0) ? tab.join(", ") : instance.settings.emptyText);
 			(tab.length != 0) ? $(instance.textElement).removeClass('default-grey') : $(instance.textElement).addClass('default-grey');
 		},
 		_getAll: function(element, instance) {
@@ -116,7 +116,7 @@
 				$(instance.element).find('option').each(function(){
 					tab.push($(this).text());
 				});
-				$(instance.textElement).text(tab.join(","));
+				$(instance.textElement).text(tab.join(", "));
 				$(instance.textElement).removeClass('default-grey');
 			} else {
 				$(instance.textElement).text(instance.settings.emptyText);
@@ -429,7 +429,7 @@
 				li.appendTo(optionsUl);
 			});
 			if (selectedTxt.length > 0) {
-				textElement.text(selectedTxt.join(","));
+				textElement.text(selectedTxt.join(", "));
 				textElement.removeClass('default-grey');
 			}
 			optionsUl.find("li:last").addClass("last");
