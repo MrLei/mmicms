@@ -26,7 +26,11 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_Radio extends Mmi_Form_Element_Abstract {
-
+	
+	/**
+	 * Buduje pole
+	 * @return string
+	 */
 	public function fetchField() {
 		$baseId = $this->_options['id'];
 		$multiOptions = isset($this->_options['multiOptions']) ? $this->_options['multiOptions'] : array();
@@ -56,6 +60,10 @@ class Mmi_Form_Element_Radio extends Mmi_Form_Element_Abstract {
 		return $html;
 	}
 	
+	/**
+	 * Buduje etykietę pola
+	 * @return string
+	 */
 	public function fetchLabel() {
 		if (!isset($this->_options['label'])) {
 			return;

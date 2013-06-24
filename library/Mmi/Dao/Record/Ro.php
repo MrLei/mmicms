@@ -58,7 +58,7 @@ class Mmi_Dao_Record_Ro {
 
 	/**
 	 * Konstruktor
-	 * @param mixed $pl klucz główny (wartość lub tablica wartości)
+	 * @param mixed $pk klucz główny (wartość lub tablica wartości)
 	 */
 	public final function __construct($pk = null) {
 		if ($this->_daoClass === null) {
@@ -153,7 +153,8 @@ class Mmi_Dao_Record_Ro {
 
 	/**
 	 * Ustawia dane w obiekcie na podstawie tabeli
-	 * @param array $currentRow tabela z danymi
+	 * @param array $row tabela z danymi
+	 * @param bool $fromDb czy z bazy danych
 	 * @return Mmi_Dao_Record_Ro
 	 */
 	public function setFromArray(array $row = array(), $fromDb = true) {

@@ -26,7 +26,10 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_Textarea extends Mmi_Form_Element_Abstract {
-
+	
+	/**
+	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora
+	 */
 	public function init() {
 		if (!isset($this->_options['rows'])) {
 			$this->_options['rows'] = 10;
@@ -35,7 +38,11 @@ class Mmi_Form_Element_Textarea extends Mmi_Form_Element_Abstract {
 			$this->_options['cols'] = 60;
 		}
 	}
-
+	
+	/**
+	 * Buduje pole
+	 * @return string
+	 */
 	public function fetchField() {
 		$value = isset($this->_options['value']) ? $this->_options['value'] : null;
 		$filter = $this->_getFilter('Input');

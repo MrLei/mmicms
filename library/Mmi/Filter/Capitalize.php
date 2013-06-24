@@ -25,6 +25,12 @@
  */
 class Mmi_Filter_Capitalize extends Mmi_Filter_Abstract {
 
+	/**
+	 * Zwiększa wszystkie litery w każdym wyrazie ciągu
+	 * @param mixed $value wartość
+	 * @throws Exception jeśli filtrowanie $value nie jest możliwe
+	 * @return mixed
+	 */
 	public function filter($value) {
 		return mb_convert_case($value, MB_CASE_TITLE, mb_detect_encoding($value));
 	}

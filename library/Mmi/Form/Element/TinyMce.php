@@ -26,12 +26,19 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
-
+	
+	/**
+	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora
+	 */
 	public function init() {
 		$this->addFilter('tinyMce');
 		return parent::init();
 	}
-
+	
+	/**
+	 * Buduje pole
+	 * @return string
+	 */
 	public function fetchField() {
 		$view = Mmi_View::getInstance();
 		$view->headScript()->appendFile($view->baseUrl . '/library/js/tiny/tiny_mce.js');

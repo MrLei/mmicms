@@ -28,6 +28,7 @@ class Mmi_Bootstrap {
 
 	/**
 	 * Konstruktor, ustawia ścieżki, ładuje domyślne klasy, ustawia autoloadera
+	 * @param string $path ścieżka
 	 */
 	public function __construct($path) {
 		//ustawienie kodowań
@@ -236,8 +237,9 @@ class Mmi_Bootstrap {
 	}
 
 	/**
-	 * 
-	 * @param type $value
+	 * Modyfikuje podany w argumencie String usuwając cudzysłowia i podwójne backslash'e.
+	 * @param string $value string do modyfikacji
+	 * @return string
 	 */
 	private function _stripslashesGpc(&$value) {
 		$value = stripslashes($value);

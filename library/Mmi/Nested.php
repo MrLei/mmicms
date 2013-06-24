@@ -34,6 +34,8 @@ class Mmi_Nested {
 	/**
 	 * Konstruktor ustawia dane do ułożenia w strukturę
 	 * @param array $data dane
+	 * @param bool $nested zagnieżdżenie w tablicy
+	 * @return self
 	 */
 	public function __construct(array $data, $nested = false) {
 		if ($nested) {
@@ -46,6 +48,10 @@ class Mmi_Nested {
 		return $this;
 	}
 
+	/**
+	 * Pobierz tabele ze strukturą
+	 * @return array
+	 */
 	public function getStructure() {
 		return $this->structure;
 	}
@@ -54,7 +60,6 @@ class Mmi_Nested {
 	 * Wyszukuje element, wraz jego dziećmi, oraz rodzicami
 	 * @param string $value wyszukiwana wartość
 	 * @param string $field nazwa pola
-	 * @param bool $parents dołącza rodziców
 	 * @return array
 	 */
 	public function seek($value, $field = 'id') {
@@ -72,7 +77,14 @@ class Mmi_Nested {
 		}
 		return $result;
 	}
-
+	/**
+	 * Buduje strukture kategorii z zagnieżdżonej tablicy
+	 * @param array $array dane
+	 * @param array $target struktura
+	 * @param int $id identyfikator
+	 * @param int $parent_id identyfikator rodzica
+	 * @param int $level poziom
+	 */
 	protected function _buildStructureFromNested(array &$array, array &$target, $id = 0, $parent_id = 0, $level = 1) {
 		foreach ($array as $k => $v) {
 			$id++;
@@ -128,7 +140,6 @@ class Mmi_Nested {
 	 * @param array $branch gałąź
 	 * @param string $field nazwa pola
 	 * @param string $value wyszukiwana wartość
-	 * @param bool $parents dołącza rodziców
 	 * @return array
 	 */
 	public function _seek($branch, $field, $value) {
@@ -149,12 +160,23 @@ class Mmi_Nested {
 		}
 	}
 
+	/**
+	 * Spłaszcza drzewo kategorii do tablicy
+	 * @param array $branch drzewo do spłaszczenia
+	 * @return array spłaszczona tablica
+	 */
 	public function flat($branch) {
 		$result = array();
 		$this->_getFlat($branch, $result);
 		return $result;
 	}
 
+	/**
+	 * Rekurencyjnie spłaszcza drzewo kategorii 
+	 * do przekazanej tablicy
+	 * @param array $branch drzewo
+	 * @param array $result tablica wynikowa
+	 */
 	public function _getFlat($branch, &$result) {
 		foreach($branch as $leaf) {
 			if (isset($leaf['id']))	{
@@ -170,7 +192,9 @@ class Mmi_Nested {
 	}
 
 	/**
-	 * Buduje strukturę kategorii
+	 * Buduje strukturę kategorii w której 
+	 * będą zagnieżdżane dzieci danej gąłęzi
+	 * @param array $flat płaskie dane (zawiera id rodzica) 
 	 */
 	protected function _buildStructure($flat) {
 		$this->structure = array(0 => array(
@@ -188,6 +212,7 @@ class Mmi_Nested {
 	 * Finalnie buduje strukturę drzewiastą
 	 * @param array $branch gałąź
 	 * @param array $flat płaskie dane (zawiera id rodzica)
+	 * @param int $level poziom
 	 */
 	protected function _buildChildren(&$branch, $flat, $level = 0) {
 		foreach ($branch as $key => $leaf) {

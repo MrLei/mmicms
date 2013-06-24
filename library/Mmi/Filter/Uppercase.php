@@ -25,6 +25,12 @@
  */
 class Mmi_Filter_Uppercase extends Mmi_Filter_Abstract {
 
+	/**
+	 * Zwiększa wszystkie litery w ciągu
+	 * @param mixed $value wartość
+	 * @throws Exception jeśli filtrowanie $value nie jest możliwe
+	 * @return mixed
+	 */
 	public function filter($value) {
 		return mb_strtoupper($value, mb_detect_encoding($value));
 	}

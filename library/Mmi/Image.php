@@ -25,7 +25,14 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Image {
-
+	
+	/**
+	 * Skaluje i przycina obrazek tak aby pasował do podanych wymiarów, zachowuje proporcje
+	 * @param mixed $input wejście
+	 * @param int $x wysokość do której chcemy przeskalować obrazek
+	 * @param int $y szerokość do której chcemy przeskalować obrazek
+	 * @return resource obrazek
+	 */
 	public static function scaleCrop($input, $x, $y) {
 		$input = self::_resource($input);
 		if (!$input) {
@@ -46,7 +53,14 @@ class Mmi_Image {
 		imagecopyresized($tmp, $input, 0, 0, abs($sx - $x) / 2, abs($sy - $y) / 2, $x, $y, $x, $y);
 		return $tmp;
 	}
-
+	
+	/**
+	 * Skaluje obrazek tak aby pasował do podanych wymiarów bez zachowania proporcji
+	 * @param mixed $input wejście
+	 * @param int $x wysokość do której chcemy przeskalować obrazek
+	 * @param int $y szerokość do której chcemy przeskalować obrazek
+	 * @return resource obrazek
+	 */
 	public static function scaleNoAspect($input, $x, $y) {
 		$input = self::_resource($input);
 		if (!$input) {
@@ -57,7 +71,13 @@ class Mmi_Image {
 		imagecopyresampled($tmp, $input, 0, 0, 0, 0, $x, $y, $width, $height);
 		return $tmp;
 	}
-
+	
+	/**
+	 * Skaluje obrazek o podany procent zachowując proporcje
+	 * @param mixed $input wejście
+	 * @param int $percent procent o jaki ma być zmieniony rozmiar obrazka
+	 * @return resource obrazek
+	 */
 	public static function scaleProportional($input, $percent) {
 		$input = self::_resource($input);
 		if (!$input) {
@@ -71,7 +91,14 @@ class Mmi_Image {
 		imagecopyresampled($tmp, $input, 0, 0, 0, 0, $sx, $sy, $width, $height);
 		return $tmp;
 	}
-
+	
+	/**
+	 * Skaluje obrazek proporcjonalnie do podanych maxymalnych wymiarów
+	 * @param mixed $input wejście
+	 * @param int $maxDimX wysokość do której chcemy przeskalować obrazek
+	 * @param int $maxDimY szerokość do której chcemy przeskalować obrazek
+	 * @return resource obrazek
+	 */
 	public static function scale($input, $maxDimX, $maxDimY = NULL) {
 		$input = self::_resource($input);
 		if (!$input) {
@@ -98,7 +125,13 @@ class Mmi_Image {
 		}
 		return $input;
 	}
-
+	
+	/**
+	 * Pomniejsza obrazek do danej szerokości zachowując proporcje, nie powiększa obrazka.
+	 * @param mixed $input wejście
+	 * @param int $maxDim szerokość do której chcemy pomniejszyć obrazek
+	 * @return resource obrazek
+	 */
 	public static function scalex($input, $maxDim) {
 		$input = self::_resource($input);
 		if (!$input) {
@@ -117,6 +150,12 @@ class Mmi_Image {
 		return $input;
 	}
 
+	/**
+	 * Pomniejsza obrazek do danej wysokości zachowując proporcje, nie powiększa obrazka.
+	 * @param mixed $input wejście
+	 * @param int $maxDim wysokość do której chcemy pomniejszyć obrazek
+	 * @return resource obrazek
+	 */
 	public static function scaley($input, $maxDim) {
 		$input = self::_resource($input);
 		if (!$input) {
@@ -134,7 +173,13 @@ class Mmi_Image {
 		}
 		return $input;
 	}
-
+	
+	/**
+	 * Obraca obrazek o dany kąt wyrażony w stopniach
+	 * @param mixed $input wejście
+	 * @param int $pivot kąt obrotu
+	 * @return resource obrazek
+	 */
 	public static function rotate($input, $pivot) {
 		$input = self::_resource($input);
 		if (!$input) {
@@ -165,7 +210,12 @@ class Mmi_Image {
 		}
 		return $output;
 	}
-
+	
+	/**
+	 * Obraca obrazek o 180 stopni
+	 * @param mixed $input wejście
+	 * @return resource obrazek
+	 */
 	public static function flip($input) {
 		$input = self::_resource($input);
 		if (!$input) {
@@ -177,7 +227,16 @@ class Mmi_Image {
 		imagecopyresampled($output, $input, 0, 0, $x - 1, 0, $x, $y, 0 - $x, $y);
 		return $output;
 	}
-
+	
+	/**
+	 * Wycina fragment obrazka z punktu x,y o danej długości i wysokości
+	 * @param mixed $input wejście
+	 * @param int $x współrzędna x
+	 * @param int $y współrzędna y
+	 * @param int $newWidth nowa Szerokość
+	 * @param int $newHeight nowa Wysokość
+	 * @return resource obrazek
+	 */
 	public static function crop($input, $x, $y, $newWidth, $newHeight) {
 		$input = self::_resource($input);
 		if (!$input) {
@@ -187,7 +246,14 @@ class Mmi_Image {
 		imagecopy($destination, $input, 0, 0, $x, $y, $newWidth, $newHeight);
 		return $destination;
 	}
-
+	
+	/**
+	 * Przerabia wejście w postaci String na obiekt resource 
+	 * lub zwraca wejście jeśli nie jest stringiem, w przypadku
+	 * błędnego wejścia zwraca false
+	 * @param mixed $input wejście
+	 * @return resource obrazek
+	 */
 	protected static function _resource($input) {
 		if (gettype($input) == 'string') {
 			try {

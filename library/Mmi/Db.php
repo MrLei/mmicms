@@ -27,7 +27,7 @@ class Mmi_Db {
 
 	/**
 	 * Tworzy obiekty adaptera na podstawie opcji
-	 * @param array $params
+	 * @param array $options
 	 * @return driver
 	 */
 	public static function factory(array $options = array()) {

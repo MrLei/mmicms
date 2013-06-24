@@ -27,11 +27,18 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
-	
+		
+	/**
+	 * Ustawia schemat
+	 * @param string $schemaName nazwa schematu
+	 */
 	public function selectSchema($schemaName) {
 		$this->query('SET search_path TO "' . $schemaName . '"');
 	}
 	
+	/**
+	 * Ustawia domyślne parametry dla importu (długie zapytania)
+	 */
 	public function setDefaultImportParams() {
 		return $this->exec('SET statement_timeout = 0;
 			SET client_encoding = \'UTF8\';
@@ -43,6 +50,9 @@ class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
 		');
 	}
 
+	/**
+	 * Tworzy połączenie z bazą danych
+	 */
 	public function connect() {
 		$this->_options['host'] = isset($this->_options['host']) ? $this->_options['host'] : '127.0.0.1';
 		$this->_options['port'] = isset($this->_options['port']) ? $this->_options['port'] : '5432';
@@ -53,6 +63,11 @@ class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
 		$this->query('SET client_encoding = ' . $this->_options['charset']);
 	}
 
+	/**
+	 * Otacza nazwę pola odpowiednimi znacznikami
+	 * @param string $fieldName nazwa pola
+	 * @return string
+	 */
 	public function prepareField($fieldName) {
 		//dla postgresql "
 		if (strpos($fieldName, '"') === false) {
@@ -61,11 +76,22 @@ class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
 		return $fieldName;
 	}
 
+	/**
+	 * Otacza nazwę tabeli odpowiednimi znacznikami
+	 * @param string $tableName nazwa tabeli
+	 * @return string
+	 */
 	public function prepareTable($tableName) {
 		//dla postgresql "
 		return $this->prepareField($tableName);
 	}
 
+	/**
+	 * Tworzy warunek limit
+	 * @param int $limit
+	 * @param int $offset 
+	 * @return string
+	 */
 	public function prepareLimit($limit = null, $offset = null) {
 		if (!($limit > 0)) {
 			return;
@@ -76,6 +102,12 @@ class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
 		return ' LIMIT ' . intval($limit);
 	}
 
+	/**
+	 * Tworzy konstrukcję sprawdzającą null w silniku bazy danych
+	 * @param string $fieldName nazwa pola
+	 * @param boolean $positive sprawdza czy null, lub czy nie null
+	 * @return string 
+	 */
 	public function prepareNullCheck($fieldName, $positive = true) {
 		if ($positive) {
 			return $fieldName . ' ISNULL';
@@ -83,6 +115,12 @@ class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
 		return $fieldName . ' NOTNULL';
 	}
 
+	/**
+	 * Zwraca informację o kolumnach tabeli
+	 * @param string $tableName nazwa tabeli
+	 * @param array $schema schemat
+	 * @return array
+	 */
 	public function tableInfo($tableName, $schema = null) {
 		return $this->_associateTableMeta($this->fetchAll('SELECT "column_name" as "name", "data_type" AS "dataType", "character_maximum_length" AS "maxLength", "is_nullable" AS "null", "column_default" AS "default" FROM INFORMATION_SCHEMA.COLUMNS WHERE "table_name" = :name AND "table_schema" = :schema ORDER BY "ordinal_position"', array(
 			':name' => $tableName,
@@ -90,6 +128,13 @@ class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
 		)));
 	}
 
+	/**
+	 * Analizuje i zwraca wynik parsowania jednego poziomu bind
+	 * @param array $rule reguła np. array(array('id', 2), array(user, 3))
+	 * @param array $params referencja do budowanego bind'a z wartościami
+	 * @param string $table nazwa tabeli
+	 * @return string ciąg SQL
+	 */
 	protected function _parseWhereBindLevel(array $rule, array &$params = array(), $table = null) {
 		$where = '';
 		$table = isset($rule[4]) ? $rule[4] : $table;

@@ -39,7 +39,7 @@ abstract class Mmi_Service_Weather_Abstract {
 	
 	/**
 	 * Wyszukanie po nazwie miejsca
-	 * @param type $placeName nazwa miejsca (np. kraj+miasto)
+	 * @param string $placeName nazwa miejsca (np. kraj+miasto)
 	 * @return Mmi_Service_Weather_Data aktualna pogoda
 	 */
 	abstract public function search($placeName);

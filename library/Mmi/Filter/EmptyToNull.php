@@ -25,6 +25,12 @@
  */
 class Mmi_Filter_EmptyToNull extends Mmi_Filter_Abstract {
 
+	/**
+	 * Zamienia pusty ciąg znaków na null
+	 * @param mixed $value wartość
+	 * @throws Exception jeśli filtrowanie $value nie jest możliwe
+	 * @return mixed
+	 */
 	public function filter($value) {
 		return ($value == '') ? null : $value;
 	}

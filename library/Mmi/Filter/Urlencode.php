@@ -25,6 +25,12 @@
  */
 class Mmi_Filter_Urlencode extends Mmi_Filter_Abstract {
 
+	/**
+	 * Filtr kodujący znaki z urlencode
+	 * @param mixed $value wartość
+	 * @throws Exception jeśli filtrowanie $value nie jest możliwe
+	 * @return mixed
+	 */
 	public function filter($value) {
 		return urlencode($value);
 	}

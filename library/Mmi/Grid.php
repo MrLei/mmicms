@@ -40,10 +40,22 @@ abstract class Mmi_Grid {
 	 */
 	protected $_id;
 
+	/**
+	 * Nazwa DAO
+	 * @var string
+	 */
 	protected $_daoName;
 	
+	/**
+	 * Nazwa metody wywoływanej w DAO
+	 * @var string
+	 */
 	protected $_daoGetMethod = 'find';
 	
+	/**
+	 * Nazwa metoda zliczania w DAO
+	 * @var string
+	 */
 	protected $_daoCountMethod = 'count';
 
 	/**
@@ -261,6 +273,10 @@ abstract class Mmi_Grid {
 		return $html;
 	}
 	
+	/**
+	 * Renderuje stronnicowanie (ilość elementów na stronie)
+	 * @return string
+	 */
 	public function renderPaging() {
 		$html = '<tr><th class="footer" colspan="' . count($this->_columns) . '">';
 
@@ -564,6 +580,12 @@ abstract class Mmi_Grid {
 		return $pages;
 	}
 
+	/**
+	 * Zastosowanie filtrów na danaj zmiennej
+	 * @param array $filters lista filtrów do zaaplikowania
+	 * @param string $value wartość do przerobienia
+	 * @return string
+	 */
 	protected function _applyFilters($filters, $value) {
 		if (empty($filters)) {
 			return $value;

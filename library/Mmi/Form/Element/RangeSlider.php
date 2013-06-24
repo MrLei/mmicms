@@ -26,8 +26,11 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_RangeSlider extends Mmi_Form_Element_Abstract {
-
-
+	
+	/**
+	 * Buduje pole
+	 * @return string
+	 */
 	public function fetchField() {
 		$min = isset($this->_options['min']) ? $this->_options['min'] : 0;
 		$max = isset($this->_options['max']) ? $this->_options['max'] : 100;

@@ -34,7 +34,12 @@ class Mmi_Validate_Integer extends Mmi_Validate_Abstract {
 	 * Treść błędu o liczbie dodatniej
 	 */
 	const INVALID_POSITIVE = 'Wprowadzona wartość nie jest liczbą dodatnią';
-
+	
+	/**
+	 * Walidacja liczb całkowitych
+	 * @param mixed $value wartość
+	 * @return boolean
+	 */
 	public function isValid($value) {
 		$positive = (isset($this->_options['positive']) && $this->_options['positive']) ? true : false;
 		if (!is_numeric($value)) {

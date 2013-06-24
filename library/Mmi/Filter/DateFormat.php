@@ -25,6 +25,12 @@
  */
 class Mmi_Filter_DateFormat extends Mmi_Filter_Abstract {
 
+	/**
+	 * Filtracja dat
+	 * @param mixed $value wartość
+	 * @throws Exception jeśli filtrowanie $value nie jest możliwe
+	 * @return mixed
+	 */
 	public function filter($value) {
 		$format = isset($this->_options[0]) ? $this->_options[0] : 'd.m.Y H:i:s';
 		$timestamp = strtotime($value);

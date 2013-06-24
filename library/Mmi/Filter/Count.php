@@ -25,6 +25,12 @@
  */
 class Mmi_Filter_Count extends Mmi_Filter_Abstract {
 
+	/**
+	 * Zlicza elementy
+	 * @param mixed $value wartość
+	 * @throws Exception jeśli filtrowanie $value nie jest możliwe
+	 * @return mixed
+	 */
 	public function filter($value) {
 		return count($value);
 	}

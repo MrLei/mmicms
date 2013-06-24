@@ -117,7 +117,7 @@ class Mmi_Translate {
 
 	/**
 	 * Tłumaczy ciąg znaków, działając analogicznie do sprintf
-	 * przykład ::translate('number %d', 12) wyświetli np. "liczba 12"
+	 * przykład : :translate('number %d', 12) wyświetli np. "liczba 12"
 	 * @return string
 	 */
 	public function _($key) {
