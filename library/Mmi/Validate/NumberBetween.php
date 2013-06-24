@@ -29,7 +29,12 @@ class Mmi_Validate_NumberBetween extends Mmi_Validate_Abstract {
 	 * Treść błędu 
 	 */
 	const INVALID = 'Wprowadzona wartość nie mieści się w wymaganym przedziale';
-
+	
+	/**
+	 * Walidacja liczb od-do
+	 * @param mixed $value wartość
+	 * @return boolean
+	 */
 	public function isValid($value) {
 		$from = isset($this->_options[0]) ? $this->_options[0] : 0;
 		$to = isset($this->_options[1]) ? $this->_options[1] : 1000000000;

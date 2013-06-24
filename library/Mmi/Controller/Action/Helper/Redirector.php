@@ -34,6 +34,7 @@ class Mmi_Controller_Action_Helper_Redirector extends Mmi_Controller_Action_Help
 	 * @param string $controller kontroler
 	 * @param string $module moduł
 	 * @param array $params parametry
+	 * @param bool $reset restart
 	 */
 	public function redirector($action = null, $controller = null, $module = null, array $params = array(), $reset = false) {
 		if (null == $action) {
@@ -71,6 +72,7 @@ class Mmi_Controller_Action_Helper_Redirector extends Mmi_Controller_Action_Help
 	 * @param string $controller kontroler
 	 * @param string $module moduł
 	 * @param array $params parametry
+	 * @param bool $reset restart
 	 */
 	public function gotoSimple($action = null, $controller = null, $module = null, array $params = array(), $reset = false) {
 		if (!$reset) {

@@ -131,7 +131,7 @@
 	}
 
 	/**
-	 *
+	 * Ustaw kolejność realizacji
 	 * @param array $renderingOrder
 	 */
 	public function setRenderingOrder(array $renderingOrder = array()) {
@@ -321,7 +321,7 @@
 
 	/**
 	 * Dodaje klasę do elementu
-	 * @param type $error
+	 * @param string $className nazwa klasy
 	 */
 	public final function addClass($className) {
 		$this->_options['class'] = trim($this->_options['class'] .= ' ' . $className);

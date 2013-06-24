@@ -30,7 +30,12 @@ class Mmi_Validate_RecordUnique extends Mmi_Validate_Abstract {
 	 * Komunikat istnienia pola
 	 */
 	const EXISTS = 'Pole o takiej wartości już istnieje';
-
+	
+	/**
+	 * Walidacja unikalności rekordu w danym DAO
+	 * @param mixed $value wartość
+	 * @return boolean
+	 */
 	public function isValid($value) {
 		if (!isset($this->_options[0])) {
 			throw new Exception('No dao class supplied.');

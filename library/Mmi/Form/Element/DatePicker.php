@@ -26,14 +26,21 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
-
+	
+	/**
+	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora
+	 */
 	public function init() {
 		$this->_options['validators'] = array(
 		array(
 			'validator' => 'Date'
 		));
 	}
-
+	
+	/**
+	 * Buduje pole
+	 * @return string
+	 */
 	public function fetchField() {
 		$view = Mmi_View::getInstance();
 		if (!isset($this->_options['startDate'])) {

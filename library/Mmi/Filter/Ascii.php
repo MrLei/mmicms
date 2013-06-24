@@ -26,6 +26,12 @@
  */
 class Mmi_Filter_Ascii extends Mmi_Filter_Abstract {
 
+	/**
+	 * Zwraca ciąg znormalizowany do ascii
+	 * @param mixed $value wartość
+	 * @throws Exception jeśli filtrowanie $value nie jest możliwe
+	 * @return mixed
+	 */
 	public function filter($value) {
 		$ruMap = array(
 			'А' => 'A', 'Б' => 'B', 'В' => 'V', 'Г' => 'G', 'Д' => 'D',

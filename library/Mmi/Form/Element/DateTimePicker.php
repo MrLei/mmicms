@@ -26,7 +26,11 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_DateTimePicker extends Mmi_Form_Element_Text {
-
+	
+	/**
+	 * Buduje pole
+	 * @return string
+	 */
 	public function fetchField() {
 		$view = Mmi_View::getInstance();
 		if (isset($this->_options['format'])) {

@@ -207,7 +207,12 @@ class Mmi_View_Helper_Panel extends Mmi_View_Helper_Abstract {
 		$html .= '</div>';
 		echo $html;
 	}
-
+	
+	/**
+	 * Koloruje składnie
+	 * @param string $text kod
+	 * @return string html
+	 */
 	public function colorify($text) {
 		$text = preg_replace('/\[([a-zA-Z]+)\]/', '[<span style="color: #fff; font-weight: bold;">${1}</span>]', $text);
 		$text = preg_replace('/\{([a-zA-Z_ ]+)\}/', '{<span style="color: #fff; font-weight: bold;">${1}</span>}', $text);

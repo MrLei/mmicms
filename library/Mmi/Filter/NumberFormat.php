@@ -25,6 +25,12 @@
  */
 class Mmi_Filter_NumberFormat extends Mmi_Filter_Abstract {
 
+	/**
+	 * Filtruje zmienne numeryczne
+	 * @param mixed $value wartość
+	 * @throws Exception jeśli filtrowanie $value nie jest możliwe
+	 * @return mixed
+	 */
 	public function filter($value) {
 		$digits = isset($this->_options[0]) ? $this->_options[0] : 2;
 		$separator = isset($this->_options[1]) ? $this->_options[1] : ',';

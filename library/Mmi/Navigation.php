@@ -26,7 +26,10 @@
  */
 class Mmi_Navigation {
 
-
+	/**
+	 * Klasa struktur zagnieżdżonych
+	 * @var Mmi_Nested
+	 */
 	private $_nested;
 
 	/**
@@ -63,7 +66,12 @@ class Mmi_Navigation {
 	public function getTree() {
 		return $this->_nested->seek(0);
 	}
-
+	
+	/**
+	 * Wyszukuje element, wraz jego dziećmi, oraz rodzicami
+	 * @param string $id wyszukiwane id
+	 * @return array
+	 */
 	public function seek($id) {
 		return $this->_nested->seek($id);
 	}

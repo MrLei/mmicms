@@ -30,7 +30,7 @@ class Mmi_View_Helper_AbstractHead extends Mmi_View_Helper_Abstract {
 
 	/**
 	 * Pobiera CRC dla danego zasobu (lokalnego lub zdalnego)
-	 * @param string $href adres zasobu
+	 * @param string $location adres zasobu
 	 * @return string
 	 */
 	protected function _getCrc($location) {

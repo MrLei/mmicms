@@ -29,7 +29,12 @@ class Mmi_Validate_Alnum extends Mmi_Validate_Abstract {
 	 * Treść wiadomości
 	 */
 	const INVALID = 'Ciąg zawiera znaki inne niż litery i cyfry';
-
+	
+	/**
+	 * Walidacja znaków alfanumerycznych
+	 * @param mixed $value wartość
+	 * @return boolean
+	 */
 	public function isValid($value) {
 
 		if (!is_string($value) && !is_int($value) && !is_float($value)) {

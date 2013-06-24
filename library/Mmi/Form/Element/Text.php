@@ -33,7 +33,11 @@ class Mmi_Form_Element_Text extends Mmi_Form_Element_Abstract {
 	public function preRender() {
 		$this->addFilter('Input');
 	}
-
+	
+	/**
+	 * Buduje pole
+	 * @return string
+	 */
 	public function fetchField() {
 		if (isset($this->_options['value'])) {
 			$filter = $this->_getFilter('Input');

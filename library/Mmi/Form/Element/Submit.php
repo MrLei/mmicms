@@ -26,7 +26,12 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_Submit extends Mmi_Form_Element_Abstract {
-
+	
+	/**
+	 * Konstruktor, ustawia nazwę pola i opcje
+	 * @param string $name nazwa
+	 * @param array $options opcje
+	 */
 	public function __construct($name, array $options = array()) {
 		if (!isset($options['ignore'])) {
 			$options['ignore'] = true;
@@ -34,15 +39,10 @@ class Mmi_Form_Element_Submit extends Mmi_Form_Element_Abstract {
 		parent::__construct($name, $options);
 	}
 
-	public function __toString() {
-		$this->preRender();
-		$html = $this->fetchBegin();
-		$html .= $this->fetchField();
-		$html .= $this->fetchErrors();
-		$html .= $this->fetchEnd();
-		return $html;
-	}
-
+	/**
+	 * Buduje pole
+	 * @return string
+	 */
 	public function fetchField() {
 		$html = '<input ';
 		if (isset($this->_options['label'])) {
@@ -52,4 +52,17 @@ class Mmi_Form_Element_Submit extends Mmi_Form_Element_Abstract {
 		return $html;
 	}
 
+	/**
+	 * Zwraca string'ową reprezentację obiektu
+	 * @return string
+	 */
+	public function __toString() {
+		$this->preRender();
+		$html = $this->fetchBegin();
+		$html .= $this->fetchField();
+		$html .= $this->fetchErrors();
+		$html .= $this->fetchEnd();
+		return $html;
+	}
+	
 }

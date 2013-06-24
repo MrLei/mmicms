@@ -40,7 +40,7 @@ class Mmi_Db_Profiler {
 
 	/**
 	 * Ilość zapytan
-	 * @var <type>
+	 * @var int
 	 */
 	private $_numQueries = 0;
 

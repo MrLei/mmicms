@@ -105,7 +105,6 @@ class Mmi_View_Helper_HeadLink extends Mmi_View_Helper_AbstractHead {
 	 * Dodaje styl CSS na początek stosu
 	 * @param string $href adres
 	 * @param string $media media
-	 * @param string $conditional warunek np. ie6
 	 * @return Mmi_View_Helper_HeadLink
 	 */
 	public function prependStylesheet($href, $media = null) {

@@ -165,7 +165,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	
 	/**
 	 * Ustawia seperator w meta
-	 * @param type $separator separator
+	 * @param string $separator separator
 	 * @return Mmi_View_Helper_Navigation
 	 */
 	public function setMetaSeparator($separator) {
@@ -291,6 +291,8 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	 * @param string $label etykieta
 	 * @param string $uri URL
 	 * @param string $title tytuł
+	 * @param string $description opis
+	 * @param string $keywords słowa kluczowe
 	 * @return Mmi_View_Helper_Navigation
 	 */
 	public function modifyBreadcrumb($index, $label, $uri = null, $title = null, $description = null, $keywords = null) {

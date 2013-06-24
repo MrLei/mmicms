@@ -10,7 +10,7 @@
  *
  * Mmi/Paginator.php
  * @category   Mmi
- * @package    MmiPaginator
+ * @package    Mmi_Paginator
  * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    $Id$
@@ -148,7 +148,7 @@ class Mmi_Paginator {
 	}
 
 	/**
-	 * Ustawia dla każdego linku #label
+	 * Ustawia dla każdego linku label
 	 * @param string $label
 	 * @return Mmi_Paginator
 	 */

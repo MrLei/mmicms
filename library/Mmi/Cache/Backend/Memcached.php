@@ -39,6 +39,7 @@ class Mmi_Cache_Backend_Memcached implements Mmi_Cache_Backend_Interface {
 
 	/**
 	 * Ustawia obiekt Memcached
+	 * @param array $params parametry
 	 */
 	public function __construct(array $params = array()) {
 		$this->_namespace = crc32(BASE_PATH);
@@ -54,25 +55,42 @@ class Mmi_Cache_Backend_Memcached implements Mmi_Cache_Backend_Interface {
 		}
 	}
 
+	/**
+	 * Ładuje dane o podanym kluczu
+	 * @param string $key klucz
+	 */
 	public function load($key) {
 		return $this->_server->get($this->_namespace . '_' . $key);
 	}
 
+	/**
+	 * Zapisuje dane pod podanym kluczem
+	 * @param string $key klucz
+	 * @param string $data
+	 * @param int $lifeTime wygaśnięcie danych w buforze (informacja dla bufora)
+	 */
 	public function save($key, $data, $lifeTime) {
 		return $this->_server->set($this->_namespace . '_' . $key, $data, $lifeTime);
 	}
 
+	/**
+	 * Kasuje dane o podanym kluczu
+	 * @param string $key klucz
+	 */
 	public function delete($key) {
 		return $this->_server->delete($this->_namespace . '_' . $key);
 	}
 
+	/**
+	 * Kasuje wszystkie dane
+	 */
 	public function deleteAll() {
 		return $this->_server->flush();
 	}
 
 	/**
 	 * Parsuje adres serwera memcached
-	 * @param string $source źródło
+	 * @param string $link źródło
 	 * @return array
 	 */
 	protected final function _parseMemcachedAddress($link) {

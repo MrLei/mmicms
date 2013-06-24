@@ -27,7 +27,11 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_Select extends Mmi_Form_Element_Abstract {
-
+	
+	/**
+	 * Buduje pole
+	 * @return string
+	 */
 	public function fetchField() {
 		$multiOptions = (isset($this->_options['multiOptions']) && is_array($this->_options['multiOptions'])) ? $this->_options['multiOptions'] : array();
 		$value = isset($this->_options['value']) ? $this->_options['value'] : null;
@@ -50,7 +54,13 @@ class Mmi_Form_Element_Select extends Mmi_Form_Element_Abstract {
 		$html .= '</select>';
 		return $html;
 	}
-
+	
+	/**
+	 * Zaznacza element który powinien być zaznaczony
+	 * @param string $key klucz
+	 * @param string $value wartość
+	 * @return string
+	 */
 	protected function _calculateSelected($key, $value) {
 		$selected = '';
 		if (is_array($value) && in_array($key, $value)) {

@@ -32,7 +32,11 @@ class Mmi_Form_Element_File extends Mmi_Form_Element_Abstract {
 	 * @var array
 	 */
 	private $_fileInfo = array();
-
+	
+	/**
+	 * Buduje pole
+	 * @return string
+	 */
 	public function fetchField() {
 		if (substr($this->getName(), -2) == '[]') {
 			$this->_options['multiple'] = '';

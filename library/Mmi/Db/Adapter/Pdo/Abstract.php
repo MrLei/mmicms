@@ -55,7 +55,6 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	);
 	
 	/**
-	 *
 	 * Stan połączenia
 	 * @var boolean
 	 */
@@ -70,7 +69,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 
 	/**
 	 * Otacza nazwę tabeli odpowiednimi znacznikami
-	 * @param string $fieldName nazwa pola
+	 * @param string $tableName nazwa tabeli
 	 * @return string
 	 */
 	abstract public function prepareTable($tableName);
@@ -78,6 +77,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	/**
 	 * Zwraca informację o kolumnach tabeli
 	 * @param string $tableName nazwa tabeli
+	 * @param array $schema schemat
 	 * @return array
 	 */
 	abstract public function tableInfo($tableName, $schema = null);
@@ -92,7 +92,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 
 	/**
 	 * Ustawia schemat
-	 * @param type $schemaName nazwa schematu
+	 * @param string $schemaName nazwa schematu
 	 */
 	abstract public function selectSchema($schemaName);
 
@@ -152,9 +152,11 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 
 	/**
 	 * Zwraca opakowaną cudzysłowami wartość
-	 * @see PDO:quote()
+	 * @see PDO::quote()
+	 * @see PDO::PARAM_STR
+	 * @see PDO::PARAM_INT
 	 * @param string $value wartość
-	 * @param string $paramType @see PDO::PARAM_STR @see PDO::PARAM_INT
+	 * @param string $paramType 
 	 * @return string
 	 */
 	public final function quote($value, $paramType = PDO::PARAM_STR) {
@@ -313,7 +315,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	/**
 	 * Aktualizacja rekordów
 	 * @param string $table nazwa tabeli
-	 * @param array $bind tabela w postaci: klucz => wartość
+	 * @param array $data tabela w postaci: klucz => wartość
 	 * @param array $whereBind warunek w postaci zagnieżdżonego bind
 	 * @return integer
 	 */
@@ -352,6 +354,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @param int $limit limit
 	 * @param int $offset ofset
 	 * @param array $fields pola do wybrania
+	 * @param array $joinSchema schemat połączeń
 	 * @return array
 	 */
 	public function select($table, array $whereBind = array(), array $orderBind = array(), $limit = null, $offset = null, array $fields = array('*'), array $joinSchema = array()) {
@@ -416,8 +419,8 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 
 	/**
 	 * Tworzy warunek limit
-	 * @param type $limit
-	 * @param type $offset 
+	 * @param int $limit
+	 * @param int $offset 
 	 * @return string
 	 */
 	public function prepareLimit($limit = null, $offset = null) {
@@ -433,6 +436,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	/**
 	 * Parsuje bind i tworzy ORDER
 	 * @param array $bind tabela w postaci: pole, ASC lub DESC
+	 * @param string $table nazwa tabeli
 	 * @return string ciąg SQL
 	 */
 	protected function _parseOrderBind(array $bind = array(), $table = null) {
@@ -470,6 +474,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * Parsuje bind i tworzy warunek WHERE
 	 * @param array $bind tabela w postaci: pole, wartość, relacja ('=','<','>','>=','<=', 'LIKE', 'IN'), typ relacji (AND|OR)
 	 * domyślna relacja: =, domyśny typ relacji: AND
+	 * @param string $table nazwa tabeli
 	 * @return array array('sql' => ..., 'bind' => array)
 	 */
 	protected function _parseWhereBind(array $bind = array(), $table = null) {
@@ -516,6 +521,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * Analizuje i zwraca wynik parsowania jednego poziomu bind
 	 * @param array $rule reguła np. array(array('id', 2), array(user, 3))
 	 * @param array $params referencja do budowanego bind'a z wartościami
+	 * @param string $table nazwa tabeli
 	 * @return string ciąg SQL
 	 */
 	protected function _parseWhereBindLevel(array $rule, array &$params = array(), $table = null) {

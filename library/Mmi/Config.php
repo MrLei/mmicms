@@ -33,7 +33,7 @@ class Mmi_Config {
 
 	/**
 	 * Łączy istniejące opcje z nowymi (nadpisuje istniejące)
-	 * @param array $data opcje
+	 * @param array $options opcje
 	 */
 	public static function addConfig(array $options = array()) {
 		self::$data = array_merge(self::$data, $options);

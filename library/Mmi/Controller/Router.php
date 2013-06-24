@@ -61,7 +61,11 @@ class Mmi_Controller_Router {
 	protected function __construct() {
 
 	}
-
+	
+	/**
+	 * Ustaw routy (trasy)
+	 * @param array $routes tablica rout (tras)
+	 */
 	public function setRoutes(array $routes = array()) {
 		$this->_routes = $routes;
 	}
@@ -235,6 +239,10 @@ class Mmi_Controller_Router {
 		return $url;
 	}
 
+	/**
+	 * Dekoduje GET na parametry żądania zgodnie z wczytanymi trasami
+	 * @return array
+	 */
 	public function _decodeGet() {
 		$params = array();
 		foreach ($_GET as $key => $value) {

@@ -25,6 +25,12 @@
  */
 class Mmi_Filter_Iban extends Mmi_Filter_Abstract {
 
+	/**
+	 * Poprawia wygląd numerów IBAN
+	 * @param mixed $value wartość
+	 * @throws Exception jeśli filtrowanie $value nie jest możliwe
+	 * @return mixed
+	 */
 	public function filter($value) {
 		$defaultCountry = isset($this->_options[0]) ? $this->_options[0] : 'PL';
 		$useSpaces = isset($this->_options[1]) ? $this->_options[1] : true;

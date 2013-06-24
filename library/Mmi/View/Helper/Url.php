@@ -35,6 +35,7 @@ class Mmi_View_Helper_Url extends Mmi_View_Helper_Abstract {
 	 * @param boolean $reset nie łączy z bierzącym requestem
 	 * @param boolean $absolute czy ścieżka bezwzględna
 	 * @param boolean | null $https czy wymusić https: tak, nie https, null = bez zmiany protokołu
+	 * @param array $unset odłącz parametr
 	 * @return string
 	 */
 	public function url(array $params = array(), $reset = false, $absolute = false, $https = null, array $unset = array()) {

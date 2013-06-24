@@ -27,7 +27,11 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_Uploader extends Mmi_Form_Element_File {
-
+	
+	/**
+	 * Buduje pole
+	 * @return string
+	 */
 	public function fetchField() {
 		$object = 'library';
 		$objectId = null;

@@ -119,7 +119,14 @@ class Mmi_Controller_Action {
 		//tworzenie brokera helperów kontrolera
 		$this->_helper = new Mmi_Controller_Action_HelperBroker($this);
 	}
-
+	
+	/**
+	 * Inicjalizacja tłumaczeń
+	 * @param string $module nazwa modułu
+	 * @param string $skin nazwa skóry
+	 * @param string $lang język
+	 * @return mixed wartość
+	 */
 	private function _initTranslaction($module, $skin, $lang) {
 		//inicjalizacja translatora
 		$key = 'Mmi_Translate_' . $lang . '_' . $skin . '_' . $module;

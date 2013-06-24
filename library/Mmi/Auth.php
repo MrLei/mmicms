@@ -119,6 +119,7 @@ class Mmi_Auth {
 
 	/**
 	 * Sprawdza istnienie roli
+	 * @param mixed $role rola
 	 * @return bool
 	 */
 	public function hasRole($role) {
@@ -199,7 +200,7 @@ class Mmi_Auth {
 
 	/**
 	 * Autoryzacja, zwraca wynik, lub false
-	 * @return mixed
+	 * @return boolean
 	 */
 	public function authenticate() {
 		$model = $this->_modelName;
@@ -218,7 +219,11 @@ class Mmi_Auth {
 		$this->_session->ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null;
 		return true;
 	}
-
+	
+	/**
+	 * Zaufana autoryzacja
+	 * @return boolean
+	 */
 	public function idAuthenticate() {
 		$model = $this->_modelName;
 		$result = $model::idAuthenticate($this->_identity);
@@ -232,7 +237,12 @@ class Mmi_Auth {
 		}
 		return true;
 	}
-
+	
+	/**
+	 * Uwierzytelnienie przez http
+	 * @param string $realm identyfikator przestrzeni chronionej
+	 * @param string $errorMessage treść komunikatu zwrotnego - błędnego
+	 */
 	public function httpAuth($realm = '', $errorMessage = '') {
 		$identity = isset($_SERVER['PHP_AUTH_USER']) ? $_SERVER['PHP_AUTH_USER'] : '';
 		$credential = isset($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : '';

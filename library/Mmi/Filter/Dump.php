@@ -25,6 +25,12 @@
  */
 class Mmi_Filter_Dump extends Mmi_Filter_Abstract {
 
+	/**
+	 * Dump zmiennej
+	 * @param mixed $value wartość
+	 * @throws Exception jeśli filtrowanie $value nie jest możliwe
+	 * @return mixed
+	 */
 	public function filter($value) {
 		return Mmi_Lib::dump($value);
 	}
