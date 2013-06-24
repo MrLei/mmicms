@@ -298,7 +298,7 @@ abstract class Mmi_Form {
 	}
 	
 	/**
-	 * Wywołuje walidację zapis rekordu powiązanego z formularzem.
+	 * Wywołuje walidację i zapis rekordu powiązanego z formularzem.
 	 * @return bool
 	 */
 	public function save() {
@@ -691,7 +691,8 @@ abstract class Mmi_Form {
 	}
 
 	/**
-	 * Maper do odczytu danych
+	 * Maper do odczytu danych.
+	 * Dla podformularzy domyślnie dodaje prefix do nazwy pola, aby pasował do forma.
 	 * @param array $data
 	 * @return array
 	 */
