@@ -1,0 +1,6 @@
+<map id="Mmi_Cache_Backend_Interface" name="Mmi_Cache_Backend_Interface">
+<area shape="rect" id="node3" href="$d9/db4/class_mmi___cache___backend___apc.html" title="Mmi_Cache_Backend_Apc" alt="" coords="283,5,461,32"/>
+<area shape="rect" id="node5" href="$d9/d0b/class_mmi___cache___backend___file.html" title="Mmi_Cache_Backend_File" alt="" coords="283,56,461,83"/>
+<area shape="rect" id="node7" href="$dd/d7a/class_mmi___cache___backend___memcache.html" title="Mmi_Cache_Backend_Memcache" alt="" coords="262,107,482,133"/>
+<area shape="rect" id="node9" href="$d4/d3f/class_mmi___cache___backend___memcached.html" title="Mmi_Cache_Backend_Memcached" alt="" coords="259,157,485,184"/>
+</map>
