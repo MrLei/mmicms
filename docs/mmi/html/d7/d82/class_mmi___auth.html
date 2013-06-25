@@ -1,0 +1,553 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.4"/>
+<title>MMI Framework: Dokumentacja klasy Mmi_Auth</title>
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../dynsections.js"></script>
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="../../ampersand_small.png"/></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">MMI Framework
+   </div>
+   <div id="projectbrief">Simply Create</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Wygenerowano przez Doxygen 1.8.4 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'Szukaj');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>Strona&#160;główna</span></a></li>
+      <li><a href="../../namespaces.html"><span>Przestrzenie&#160;nazw</span></a></li>
+      <li class="current"><a href="../../annotated.html"><span>Struktury&#160;Danych</span></a></li>
+      <li><a href="../../files.html"><span>Pliki</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Szukaj" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../annotated.html"><span>Struktury&#160;danych</span></a></li>
+      <li><a href="../../classes.html"><span>Indeks&#160;struktur&#160;danych</span></a></li>
+      <li><a href="../../inherits.html"><span>Hierarchia&#160;klas</span></a></li>
+      <li><a href="../../functions.html"><span>Pola&#160;danych</span></a></li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('d7/d82/class_mmi___auth.html','../../');});
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Struktury Danych</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Przestrzenie nazw</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pliki</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Funkcje</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Zmienne</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Metody publiczne</a> &#124;
+<a href="#pub-static-methods">Statyczne metody publiczne</a> &#124;
+<a href="#pro-methods">Metody chronione</a>  </div>
+  <div class="headertitle">
+<div class="title">Dokumentacja klasy Mmi_Auth</div>  </div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Metody publiczne</h2></td></tr>
+<tr class="memitem:a7a70d574f00f93993128299160eccf06"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d82/class_mmi___auth.html#a7a70d574f00f93993128299160eccf06">rememberMe</a> ($time)</td></tr>
+<tr class="separator:a7a70d574f00f93993128299160eccf06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadc754ef0a11cceeca05c46b1a130c92"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d82/class_mmi___auth.html#aadc754ef0a11cceeca05c46b1a130c92">forgetMe</a> ()</td></tr>
+<tr class="separator:aadc754ef0a11cceeca05c46b1a130c92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72a7a2baac16885815a76822b696f62b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d82/class_mmi___auth.html#a72a7a2baac16885815a76822b696f62b">hasIdentity</a> ()</td></tr>
+<tr class="separator:a72a7a2baac16885815a76822b696f62b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa676cae5ee8d7fb6862a8724adc2660d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d82/class_mmi___auth.html#aa676cae5ee8d7fb6862a8724adc2660d">getRoles</a> ()</td></tr>
+<tr class="separator:aa676cae5ee8d7fb6862a8724adc2660d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53a5bca218d3879ec04ebc1cb2c2bb56"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d82/class_mmi___auth.html#a53a5bca218d3879ec04ebc1cb2c2bb56">hasRole</a> ($role)</td></tr>
+<tr class="separator:a53a5bca218d3879ec04ebc1cb2c2bb56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81b37a3c9d639574e394f80c1138c75e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d82/class_mmi___auth.html#a81b37a3c9d639574e394f80c1138c75e">getUsername</a> ()</td></tr>
+<tr class="separator:a81b37a3c9d639574e394f80c1138c75e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02a01849f28e2535e888ae4ec87b20f2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d82/class_mmi___auth.html#a02a01849f28e2535e888ae4ec87b20f2">getEmail</a> ()</td></tr>
+<tr class="separator:a02a01849f28e2535e888ae4ec87b20f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62ff22e678e56d2ffe3afd80a76e2452"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d82/class_mmi___auth.html#a62ff22e678e56d2ffe3afd80a76e2452">getSessionNamespace</a> ()</td></tr>
+<tr class="separator:a62ff22e678e56d2ffe3afd80a76e2452"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8788abb2b1b62e2cd5ec7cec91047b49"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d82/class_mmi___auth.html#a8788abb2b1b62e2cd5ec7cec91047b49">setModelName</a> ($modelName)</td></tr>
+<tr class="separator:a8788abb2b1b62e2cd5ec7cec91047b49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12251d0c022e9e21c137a105ff683f13"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d82/class_mmi___auth.html#a12251d0c022e9e21c137a105ff683f13">getId</a> ()</td></tr>
+<tr class="separator:a12251d0c022e9e21c137a105ff683f13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b5120253043f6353bbf1676978bb721"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d82/class_mmi___auth.html#a8b5120253043f6353bbf1676978bb721">setIdentity</a> ($identity)</td></tr>
+<tr class="separator:a8b5120253043f6353bbf1676978bb721"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1baf34c1c7d83c6469ad02dfc52fc8a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d82/class_mmi___auth.html#af1baf34c1c7d83c6469ad02dfc52fc8a">setCredential</a> ($credential)</td></tr>
+<tr class="separator:af1baf34c1c7d83c6469ad02dfc52fc8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a363871dfafb457c24965817b69a121dc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d82/class_mmi___auth.html#a363871dfafb457c24965817b69a121dc">clearIdentity</a> ($cookies=true)</td></tr>
+<tr class="separator:a363871dfafb457c24965817b69a121dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a750c93a7dfab5314f2bf662a407bc5a6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d82/class_mmi___auth.html#a750c93a7dfab5314f2bf662a407bc5a6">authenticate</a> ()</td></tr>
+<tr class="separator:a750c93a7dfab5314f2bf662a407bc5a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16fbd75a6a8c630a60ae259d3a44f797"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d82/class_mmi___auth.html#a16fbd75a6a8c630a60ae259d3a44f797">idAuthenticate</a> ()</td></tr>
+<tr class="separator:a16fbd75a6a8c630a60ae259d3a44f797"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96ab54fdd98f2b692fa7fc0cd2ebe6e3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d82/class_mmi___auth.html#a96ab54fdd98f2b692fa7fc0cd2ebe6e3">httpAuth</a> ($realm= '', $errorMessage= '')</td></tr>
+<tr class="separator:a96ab54fdd98f2b692fa7fc0cd2ebe6e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Statyczne metody publiczne</h2></td></tr>
+<tr class="memitem:ac93fbec81f07e5d15f80db907e63dc10"><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d82/class_mmi___auth.html#ac93fbec81f07e5d15f80db907e63dc10">getInstance</a> ()</td></tr>
+<tr class="separator:ac93fbec81f07e5d15f80db907e63dc10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Metody chronione</h2></td></tr>
+<tr class="memitem:a095c5d389db211932136b53f25f39685"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d82/class_mmi___auth.html#a095c5d389db211932136b53f25f39685">__construct</a> ()</td></tr>
+<tr class="separator:a095c5d389db211932136b53f25f39685"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Dokumentacja konstruktora i destruktora</h2>
+<a class="anchor" id="a095c5d389db211932136b53f25f39685"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__construct </td>
+          <td>(</td>
+          <td class="paramname">)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Kostruktor, tworzy przestrzeń w sesji </p>
+
+</div>
+</div>
+<h2 class="groupheader">Dokumentacja funkcji składowych</h2>
+<a class="anchor" id="a750c93a7dfab5314f2bf662a407bc5a6"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">authenticate </td>
+          <td>(</td>
+          <td class="paramname">)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Autoryzacja, zwraca wynik, lub false </p>
+<dl class="section return"><dt>Zwraca</dt><dd>boolean </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a363871dfafb457c24965817b69a121dc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">clearIdentity </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$cookies</em> = <code>true</code>)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Czyści tożsamość </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">bool</td><td class="paramname">$cookies</td><td>czyści także ciastka zapamiętujące użytkownika </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="aadc754ef0a11cceeca05c46b1a130c92"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">forgetMe </td>
+          <td>(</td>
+          <td class="paramname">)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Usuwa pamięć o automatycznym logowaniu użytkownika </p>
+
+</div>
+</div>
+<a class="anchor" id="a02a01849f28e2535e888ae4ec87b20f2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">getEmail </td>
+          <td>(</td>
+          <td class="paramname">)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Pobiera email zalogowanego użytkownika </p>
+<dl class="section return"><dt>Zwraca</dt><dd>string | null </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a12251d0c022e9e21c137a105ff683f13"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">getId </td>
+          <td>(</td>
+          <td class="paramname">)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Pobiera identyfikator użytkownika, lub null jeśli brak </p>
+<dl class="section return"><dt>Zwraca</dt><dd>mixed </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ac93fbec81f07e5d15f80db907e63dc10"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static getInstance </td>
+          <td>(</td>
+          <td class="paramname">)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Pobiera instancję </p>
+<dl class="section return"><dt>Zwraca</dt><dd><a class="el" href="../../d7/d82/class_mmi___auth.html">Mmi_Auth</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aa676cae5ee8d7fb6862a8724adc2660d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">getRoles </td>
+          <td>(</td>
+          <td class="paramname">)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Pobiera rolę </p>
+<dl class="section return"><dt>Zwraca</dt><dd>string </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a62ff22e678e56d2ffe3afd80a76e2452"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">getSessionNamespace </td>
+          <td>(</td>
+          <td class="paramname">)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Zwraca przestrzeń w sesji </p>
+<dl class="section return"><dt>Zwraca</dt><dd><a class="el" href="../../d4/d21/class_mmi___session___namespace.html">Mmi_Session_Namespace</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a81b37a3c9d639574e394f80c1138c75e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">getUsername </td>
+          <td>(</td>
+          <td class="paramname">)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Pobiera nazwę zalgowanego użytkownika </p>
+<dl class="section return"><dt>Zwraca</dt><dd>string | null </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a72a7a2baac16885815a76822b696f62b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">hasIdentity </td>
+          <td>(</td>
+          <td class="paramname">)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Sprawdza czy użytkownik posiada tożsamość </p>
+<dl class="section return"><dt>Zwraca</dt><dd>boolean </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a53a5bca218d3879ec04ebc1cb2c2bb56"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">hasRole </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$role</em>)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Sprawdza istnienie roli </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">mixed</td><td class="paramname">$role</td><td>rola </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Zwraca</dt><dd>bool </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a96ab54fdd98f2b692fa7fc0cd2ebe6e3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">httpAuth </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$realm</em> = <code>''</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$errorMessage</em> = <code>''</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Uwierzytelnienie przez http </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$realm</td><td>identyfikator przestrzeni chronionej </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$errorMessage</td><td>treść komunikatu zwrotnego - błędnego </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a16fbd75a6a8c630a60ae259d3a44f797"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">idAuthenticate </td>
+          <td>(</td>
+          <td class="paramname">)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Zaufana autoryzacja </p>
+<dl class="section return"><dt>Zwraca</dt><dd>boolean </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a7a70d574f00f93993128299160eccf06"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rememberMe </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$time</em>)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Pozwala automatycznie zalogować użytkownika przez dany czas </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$time</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="af1baf34c1c7d83c6469ad02dfc52fc8a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">setCredential </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$credential</em>)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Ustawia ciąg uwierzytelniający do autoryzacji (np. hasło) </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$credential</td><td>ciąg uwierzytelniający </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a8b5120253043f6353bbf1676978bb721"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">setIdentity </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$identity</em>)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Ustawia identyfikator do autoryzacji (np. login) </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$identity</td><td>identyfikator </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a8788abb2b1b62e2cd5ec7cec91047b49"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">setModelName </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$modelName</em>)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Ustawia nazwę modelu </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$modelName</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>Dokumentacja dla tej klasy została wygenerowana z pliku:<ul>
+<li>C:/www/MmiCms/library/Mmi/<a class="el" href="../../da/d45/_auth_8php.html">Auth.php</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../d7/d82/class_mmi___auth.html">Mmi_Auth</a></li>
+    <li class="footer">Wygenerowano Pn, 24 cze 2013 16:03:10 dla MMI Framework programem
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.4 </li>
+  </ul>
+</div>
+</body>
+</html>
