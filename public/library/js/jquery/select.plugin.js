@@ -282,7 +282,6 @@
 			clearButton = $('<a>', {
 				'class': 'clear-button',
 				'text': 'wyczyść zaznaczenia',
-				'id': 'clear',
 				'click': function(e){
 					$(this).parent().prev().find('li input').prop("checked", false);
 					self._synchornizeSelect($(this), instance);
@@ -292,8 +291,8 @@
 			});
 
 			chooseButton = $('<a>', {
-				'id': 'choose',
 				'class': 'choose',
+				//'text': 'wybierz',
 				'click': function(){
 					self._closeSelectbox(instance.element);
 				}

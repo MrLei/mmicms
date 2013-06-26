@@ -47,7 +47,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	 * @var string
 	 */
 	private $_separator = ' &gt; ';
-	
+
 	/**
 	 * Separator breadcrumbs
 	 * @var string
@@ -89,7 +89,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	 * @var array
 	 */
 	private $_breadcrumbsData;
-	
+
 	/**
 	 * Przechowuje czy ostatni breadcrumb to link
 	 * @var bool
@@ -162,7 +162,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 		$this->_buildBreadcrumbs();
 		return $this;
 	}
-	
+
 	/**
 	 * Ustawia seperator w meta
 	 * @param string $separator separator
@@ -215,7 +215,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 		$this->_title = $title;
 		return $this;
 	}
-	
+
 	/**
 	 * Pobiera tytuł
 	 * @return string
@@ -233,7 +233,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 		$this->_description = $description;
 		return $this;
 	}
-	
+
 	/**
 	 * Pobiera opis
 	 * @return string
@@ -275,7 +275,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	public function breadcrumbs() {
 		return $this->_breadcrumbs;
 	}
-	
+
 	/**
 	 * Linkuj ostatni breadcrumb w ścieżce
 	 * @param bool $link linkuj
@@ -490,7 +490,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 		foreach ($data as $breadcrumb) {
 			$i++;
 			if ($i == $count && !$this->_linkLastBreadcrumb) {
-				$breadcrumbs[] = strip_tags($breadcrumb['label']);
+				$breadcrumbs[] = '<span>' . strip_tags($breadcrumb['label']) . '</span>';
 			} else {
 				$breadcrumbs[] = '<a href="' . $breadcrumb['uri'] . '">' . strip_tags($breadcrumb['label']) . '</a>';
 			}
