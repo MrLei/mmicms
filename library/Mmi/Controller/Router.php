@@ -61,7 +61,7 @@ class Mmi_Controller_Router {
 	protected function __construct() {
 
 	}
-	
+
 	/**
 	 * Ustaw routy (trasy)
 	 * @param array $routes tablica rout (tras)
@@ -248,7 +248,6 @@ class Mmi_Controller_Router {
 		foreach ($_GET as $key => $value) {
 			$params[$this->filter($key)] = $this->filter($value);
 		}
-		$_GET = array();
 		return $params;
 	}
 
