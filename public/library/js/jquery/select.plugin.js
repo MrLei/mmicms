@@ -145,6 +145,7 @@
 				left:  left + "px",
 				top:  top + "px"
 			});
+			instance.optionsContainer.position({of: instance.textElement, my: "left top", at: "left bottom", collision: "fit"});
 			instance.isOpen = true;
 			this._state[instance.uid] = true;
 			if (onOpen) {
@@ -446,7 +447,6 @@
 
 			instance.textElement = textElement;
 			instance.optionsContainer = optionsContainer;
-
             optionsContainer.css({
                 width: (labelLength*8*numberColumns+instance.optionsUlWidth) + 'px'
             });
