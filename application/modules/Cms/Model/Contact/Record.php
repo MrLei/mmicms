@@ -23,7 +23,6 @@ class Cms_Model_Contact_Record extends Mmi_Dao_Record {
 	public function reply() {
 		Mail_Model_Dao::pushEmail('contact_reply', $this->email, array(
 			'id' => $this->id,
-			'subject' => substr($this->text, 0, 20),
 			'text' => $this->text,
 			'replyText' => $this->reply
 		));
