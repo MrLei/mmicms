@@ -539,7 +539,18 @@ abstract class Mmi_Grid {
 		$bind = array();
 		$order = array();
 		foreach ($this->_options['filter'] as $field => $value) {
-			$bind = array($bind, array($field, '%' . $value . '%', 'LIKE'));	
+			$type = 'text';
+			foreach ($this->_columns as $column) {
+				if ($column['name'] == $field) {
+					$type = $column['type'];
+					break;
+				}
+			}
+			if ($type == 'select' || $type == 'checkbox') {
+				$bind = array($bind, array($field, '' . $value, '='));	
+			} else {
+				$bind = array($bind, array($field, '%' . $value . '%', 'LIKE'));	
+			}
 		}
 		if (empty($this->_options['order'])) {
 			//@TODO: do zmiany po rozwinięciu DAO
