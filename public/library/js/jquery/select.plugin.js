@@ -1,4 +1,3 @@
-;
 (function ( $, window, document, undefined ) {
 	'use strict';
 	var PLUGIN_NAME = 'ecsSelect';
@@ -293,7 +292,7 @@
 
 			chooseButton = $('<a>', {
 				'class': 'choose',
-				//'text': 'wybierz',
+				'text': 'wybierz',
 				'click': function(){
 					self._closeSelectbox(instance.element);
 				}
