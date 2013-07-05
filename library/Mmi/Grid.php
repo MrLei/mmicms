@@ -45,13 +45,13 @@ abstract class Mmi_Grid {
 	 * @var string
 	 */
 	protected $_daoName;
-	
+
 	/**
 	 * Nazwa metody wywoływanej w DAO
 	 * @var string
 	 */
 	protected $_daoGetMethod = 'find';
-	
+
 	/**
 	 * Nazwa metoda zliczania w DAO
 	 * @var string
@@ -111,7 +111,7 @@ abstract class Mmi_Grid {
 		$this->_view->headScript()->appendFile($this->_view->baseUrl . '/library/js/grid.js');
 		$class = get_class($this);
 		$this->_id = strtolower(substr($class, strrpos($class, '_') + 1));
-		
+
 		if ($this->_daoName === null) {
 			throw new exception('Dao name for grid not specified');
 		}
@@ -272,7 +272,7 @@ abstract class Mmi_Grid {
 		$html .= '<input type="hidden" id="' . $this->_id . '__counter" value="' . ceil($this->_dataCount / $this->_options['rows']) . '" /></td></tr>';
 		return $html;
 	}
-	
+
 	/**
 	 * Renderuje stronnicowanie (ilość elementów na stronie)
 	 * @return string
