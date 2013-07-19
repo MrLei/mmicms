@@ -36,6 +36,10 @@ function fieldValidationOnBlur(element) {
 		function (result) {
 			if (result) {
 				$('#' + errorsId).parent().addClass('error');
+				// Ukrycie dymka po kliknięciu
+				$('#' + errorsId).show().click(function () {
+					$(this).hide();
+				});
 			} else {
 				$('#' + errorsId).parent().removeClass('error');
 			}
