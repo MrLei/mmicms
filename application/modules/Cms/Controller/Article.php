@@ -23,8 +23,11 @@ class Cms_Controller_Article extends Mmi_Controller_Action {
 			}
 			Mmi_Cache::getInstance()->save($article, $cacheKey, 28800);
 		}
+		if ($article->noindex) {
+			$this->view->headMeta(array('name' => 'robots', 'content' => 'noindex,nofollow'));
+		}
 		$this->view->article = $article;
 		$this->view->navigation()->modifyLastBreadcrumb(strip_tags($article->title), $this->view->url(), strip_tags($article->title), strip_tags($article->title . ', ' . mb_substr(strip_tags($article->text), 0, 150) . '...'));
 	}
-	
+
 }
