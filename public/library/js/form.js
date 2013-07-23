@@ -52,6 +52,10 @@ $(document).ready(function () {
 	$('.validate').blur(function () {
 		fieldValidationOnBlur(jQuery(this));
 	});
-
+	$('div.errors').each(function () {
+		$(this).click(function () {
+			$(this).hide();
+		});
+	});
 	$('div.antirobot > input').val('js-' + $('div.antirobot > input').val() + '-js');
 });
