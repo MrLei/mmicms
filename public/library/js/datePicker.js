@@ -1,17 +1,525 @@
+/*
+ * Date prototype extensions. Doesn't depend on any
+ * other code. Doens't overwrite existing methods.
+ *
+ * Adds dayNames, abbrDayNames, monthNames and abbrMonthNames static properties and isLeapYear,
+ * isWeekend, isWeekDay, getDaysInMonth, getDayName, getMonthName, getDayOfYear, getWeekOfYear,
+ * setDayOfYear, addYears, addMonths, addDays, addHours, addMinutes, addSeconds methods
+ *
+ * Copyright (c) 2006 JĂśrn Zaefferer and Brandon Aaron (brandon.aaron@gmail.com || http://brandonaaron.net)
+ *
+ * Additional methods and properties added by Kelvin Luck: firstDayOfWeek, dateFormat, zeroTime, asString, fromString -
+ * I've added my name to these methods so you know who to blame if they are broken!
+ *
+ * Dual licensed under the MIT and GPL licenses:
+ *   http://www.opensource.org/licenses/mit-license.php
+ *   http://www.gnu.org/licenses/gpl.html
+ *
+ */
+
+/**
+ * An Array of day names starting with Sunday.
+ *
+ * @example dayNames[0]
+ * @result 'Sunday'
+ *
+ * @name dayNames
+ * @type Array
+ * @cat Plugins/Methods/Date
+ */
+Date.dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+/**
+ * An Array of abbreviated day names starting with Sun.
+ *
+ * @example abbrDayNames[0]
+ * @result 'Sun'
+ *
+ * @name abbrDayNames
+ * @type Array
+ * @cat Plugins/Methods/Date
+ */
+Date.abbrDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+/**
+ * An Array of month names starting with Janurary.
+ *
+ * @example monthNames[0]
+ * @result 'January'
+ *
+ * @name monthNames
+ * @type Array
+ * @cat Plugins/Methods/Date
+ */
+Date.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+/**
+ * An Array of abbreviated month names starting with Jan.
+ *
+ * @example abbrMonthNames[0]
+ * @result 'Jan'
+ *
+ * @name monthNames
+ * @type Array
+ * @cat Plugins/Methods/Date
+ */
+Date.abbrMonthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+/**
+ * The first day of the week for this locale.
+ *
+ * @name firstDayOfWeek
+ * @type Number
+ * @cat Plugins/Methods/Date
+ * @author Kelvin Luck
+ */
+Date.firstDayOfWeek = 1;
+
+/**
+ * The format that string dates should be represented as (e.g. 'dd/mm/yyyy' for UK, 'mm/dd/yyyy' for US, 'yyyy-mm-dd' for Unicode etc).
+ *
+ * @name format
+ * @type String
+ * @cat Plugins/Methods/Date
+ * @author Kelvin Luck
+ */
+Date.format = 'dd/mm/yyyy';
+//Date.format = 'mm/dd/yyyy';
+//Date.format = 'yyyy-mm-dd';
+//Date.format = 'dd mmm yy';
+
+/**
+ * The first two numbers in the century to be used when decoding a two digit year. Since a two digit year is ambiguous (and date.setYear
+ * only works with numbers < 99 and so doesn't allow you to set years after 2000) we need to use this to disambiguate the two digit year codes.
+ *
+ * @name format
+ * @type String
+ * @cat Plugins/Methods/Date
+ * @author Kelvin Luck
+ */
+Date.fullYearStart = '20';
+
+(function() {
+
+	/**
+	 * Adds a given method under the given name
+	 * to the Date prototype if it doesn't
+	 * currently exist.
+	 *
+	 * @private
+	 */
+	function add(name, method) {
+		if( !Date.prototype[name] ) {
+			Date.prototype[name] = method;
+		}
+	};
+
+	/**
+	 * Checks if the year is a leap year.
+	 *
+	 * @example var dtm = new Date("01/12/2008");
+	 * dtm.isLeapYear();
+	 * @result true
+	 *
+	 * @name isLeapYear
+	 * @type Boolean
+	 * @cat Plugins/Methods/Date
+	 */
+	add("isLeapYear", function() {
+		var y = this.getFullYear();
+		return (y%4==0 && y%100!=0) || y%400==0;
+	});
+
+	/**
+	 * Checks if the day is a weekend day (Sat or Sun).
+	 *
+	 * @example var dtm = new Date("01/12/2008");
+	 * dtm.isWeekend();
+	 * @result false
+	 *
+	 * @name isWeekend
+	 * @type Boolean
+	 * @cat Plugins/Methods/Date
+	 */
+	add("isWeekend", function() {
+		return this.getDay()==0 || this.getDay()==6;
+	});
+
+	/**
+	 * Check if the day is a day of the week (Mon-Fri)
+	 *
+	 * @example var dtm = new Date("01/12/2008");
+	 * dtm.isWeekDay();
+	 * @result false
+	 *
+	 * @name isWeekDay
+	 * @type Boolean
+	 * @cat Plugins/Methods/Date
+	 */
+	add("isWeekDay", function() {
+		return !this.isWeekend();
+	});
+
+	/**
+	 * Gets the number of days in the month.
+	 *
+	 * @example var dtm = new Date("01/12/2008");
+	 * dtm.getDaysInMonth();
+	 * @result 31
+	 *
+	 * @name getDaysInMonth
+	 * @type Number
+	 * @cat Plugins/Methods/Date
+	 */
+	add("getDaysInMonth", function() {
+		return [31,(this.isLeapYear() ? 29:28),31,30,31,30,31,31,30,31,30,31][this.getMonth()];
+	});
+
+	/**
+	 * Gets the name of the day.
+	 *
+	 * @example var dtm = new Date("01/12/2008");
+	 * dtm.getDayName();
+	 * @result 'Saturday'
+	 *
+	 * @example var dtm = new Date("01/12/2008");
+	 * dtm.getDayName(true);
+	 * @result 'Sat'
+	 *
+	 * @param abbreviated Boolean When set to true the name will be abbreviated.
+	 * @name getDayName
+	 * @type String
+	 * @cat Plugins/Methods/Date
+	 */
+	add("getDayName", function(abbreviated) {
+		return abbreviated ? Date.abbrDayNames[this.getDay()] : Date.dayNames[this.getDay()];
+	});
+
+	/**
+	 * Gets the name of the month.
+	 *
+	 * @example var dtm = new Date("01/12/2008");
+	 * dtm.getMonthName();
+	 * @result 'Janurary'
+	 *
+	 * @example var dtm = new Date("01/12/2008");
+	 * dtm.getMonthName(true);
+	 * @result 'Jan'
+	 *
+	 * @param abbreviated Boolean When set to true the name will be abbreviated.
+	 * @name getDayName
+	 * @type String
+	 * @cat Plugins/Methods/Date
+	 */
+	add("getMonthName", function(abbreviated) {
+		return abbreviated ? Date.abbrMonthNames[this.getMonth()] : Date.monthNames[this.getMonth()];
+	});
+
+	/**
+	 * Get the number of the day of the year.
+	 *
+	 * @example var dtm = new Date("01/12/2008");
+	 * dtm.getDayOfYear();
+	 * @result 11
+	 *
+	 * @name getDayOfYear
+	 * @type Number
+	 * @cat Plugins/Methods/Date
+	 */
+	add("getDayOfYear", function() {
+		var tmpdtm = new Date("1/1/" + this.getFullYear());
+		return Math.floor((this.getTime() - tmpdtm.getTime()) / 86400000);
+	});
+
+	/**
+	 * Get the number of the week of the year.
+	 *
+	 * @example var dtm = new Date("01/12/2008");
+	 * dtm.getWeekOfYear();
+	 * @result 2
+	 *
+	 * @name getWeekOfYear
+	 * @type Number
+	 * @cat Plugins/Methods/Date
+	 */
+	add("getWeekOfYear", function() {
+		return Math.ceil(this.getDayOfYear() / 7);
+	});
+
+	/**
+	 * Set the day of the year.
+	 *
+	 * @example var dtm = new Date("01/12/2008");
+	 * dtm.setDayOfYear(1);
+	 * dtm.toString();
+	 * @result 'Tue Jan 01 2008 00:00:00'
+	 *
+	 * @name setDayOfYear
+	 * @type Date
+	 * @cat Plugins/Methods/Date
+	 */
+	add("setDayOfYear", function(day) {
+		this.setMonth(0);
+		this.setDate(day);
+		return this;
+	});
+
+	/**
+	 * Add a number of years to the date object.
+	 *
+	 * @example var dtm = new Date("01/12/2008");
+	 * dtm.addYears(1);
+	 * dtm.toString();
+	 * @result 'Mon Jan 12 2009 00:00:00'
+	 *
+	 * @name addYears
+	 * @type Date
+	 * @cat Plugins/Methods/Date
+	 */
+	add("addYears", function(num) {
+		this.setFullYear(this.getFullYear() + num);
+		return this;
+	});
+
+	/**
+	 * Add a number of months to the date object.
+	 *
+	 * @example var dtm = new Date("01/12/2008");
+	 * dtm.addMonths(1);
+	 * dtm.toString();
+	 * @result 'Tue Feb 12 2008 00:00:00'
+	 *
+	 * @name addMonths
+	 * @type Date
+	 * @cat Plugins/Methods/Date
+	 */
+	add("addMonths", function(num) {
+		var tmpdtm = this.getDate();
+
+		this.setMonth(this.getMonth() + num);
+
+		if (tmpdtm > this.getDate())
+			this.addDays(-this.getDate());
+
+		return this;
+	});
+
+	/**
+	 * Add a number of days to the date object.
+	 *
+	 * @example var dtm = new Date("01/12/2008");
+	 * dtm.addDays(1);
+	 * dtm.toString();
+	 * @result 'Sun Jan 13 2008 00:00:00'
+	 *
+	 * @name addDays
+	 * @type Date
+	 * @cat Plugins/Methods/Date
+	 */
+	add("addDays", function(num) {
+		//this.setDate(this.getDate() + num);
+		this.setTime(this.getTime() + (num*86400000) );
+		return this;
+	});
+
+	/**
+	 * Add a number of hours to the date object.
+	 *
+	 * @example var dtm = new Date("01/12/2008");
+	 * dtm.addHours(24);
+	 * dtm.toString();
+	 * @result 'Sun Jan 13 2008 00:00:00'
+	 *
+	 * @name addHours
+	 * @type Date
+	 * @cat Plugins/Methods/Date
+	 */
+	add("addHours", function(num) {
+		this.setHours(this.getHours() + num);
+		return this;
+	});
+
+	/**
+	 * Add a number of minutes to the date object.
+	 *
+	 * @example var dtm = new Date("01/12/2008");
+	 * dtm.addMinutes(60);
+	 * dtm.toString();
+	 * @result 'Sat Jan 12 2008 01:00:00'
+	 *
+	 * @name addMinutes
+	 * @type Date
+	 * @cat Plugins/Methods/Date
+	 */
+	add("addMinutes", function(num) {
+		this.setMinutes(this.getMinutes() + num);
+		return this;
+	});
+
+	/**
+	 * Add a number of seconds to the date object.
+	 *
+	 * @example var dtm = new Date("01/12/2008");
+	 * dtm.addSeconds(60);
+	 * dtm.toString();
+	 * @result 'Sat Jan 12 2008 00:01:00'
+	 *
+	 * @name addSeconds
+	 * @type Date
+	 * @cat Plugins/Methods/Date
+	 */
+	add("addSeconds", function(num) {
+		this.setSeconds(this.getSeconds() + num);
+		return this;
+	});
+
+	/**
+	 * Sets the time component of this Date to zero for cleaner, easier comparison of dates where time is not relevant.
+	 *
+	 * @example var dtm = new Date();
+	 * dtm.zeroTime();
+	 * dtm.toString();
+	 * @result 'Sat Jan 12 2008 00:01:00'
+	 *
+	 * @name zeroTime
+	 * @type Date
+	 * @cat Plugins/Methods/Date
+	 * @author Kelvin Luck
+	 */
+	add("zeroTime", function() {
+		this.setMilliseconds(0);
+		this.setSeconds(0);
+		this.setMinutes(0);
+		this.setHours(0);
+		return this;
+	});
+
+	/**
+	 * Returns a string representation of the date object according to Date.format.
+	 * (Date.toString may be used in other places so I purposefully didn't overwrite it)
+	 *
+	 * @example var dtm = new Date("01/12/2008");
+	 * dtm.asString();
+	 * @result '12/01/2008' // (where Date.format == 'dd/mm/yyyy'
+	 *
+	 * @name asString
+	 * @type Date
+	 * @cat Plugins/Methods/Date
+	 * @author Kelvin Luck
+	 */
+	add("asString", function(format) {
+		var r = format || Date.format;
+		if (r.split('mm').length>1) { // ugly workaround to make sure we don't replace the m's in e.g. noveMber
+			r = r.split('mmmm').join(this.getMonthName(false))
+				.split('mmm').join(this.getMonthName(true))
+				.split('mm').join(_zeroPad(this.getMonth()+1))
+		} else {
+			r = r.split('m').join(this.getMonth()+1);
+		}
+		r = r.split('yyyy').join(this.getFullYear())
+			.split('yy').join((this.getFullYear() + '').substring(2))
+			.split('dd').join(_zeroPad(this.getDate()))
+			.split('d').join(this.getDate());
+		return r;
+	});
+
+	/**
+	 * Returns a new date object created from the passed String according to Date.format or false if the attempt to do this results in an invalid date object
+	 * (We can't simple use Date.parse as it's not aware of locale and I chose not to overwrite it incase it's functionality is being relied on elsewhere)
+	 *
+	 * @example var dtm = Date.fromString("12/01/2008");
+	 * dtm.toString();
+	 * @result 'Sat Jan 12 2008 00:00:00' // (where Date.format == 'dd/mm/yyyy'
+	 *
+	 * @name fromString
+	 * @type Date
+	 * @cat Plugins/Methods/Date
+	 * @author Kelvin Luck
+	 */
+	Date.fromString = function(s)
+	{
+		var f = Date.format;
+
+		var d = new Date('01/01/1970');
+
+		if (s == '') return d;
+
+		s = s.toLowerCase();
+		var matcher = '';
+		var order = [];
+		var r = /(dd?d?|mm?m?|yy?yy?)+([^(m|d|y)])?/g;
+		var results;
+		while ((results = r.exec(f)) != null)
+		{
+			switch (results[1]) {
+				case 'd':
+				case 'dd':
+				case 'm':
+				case 'mm':
+				case 'yy':
+				case 'yyyy':
+					matcher += '(\\d+\\d?\\d?\\d?)+';
+					order.push(results[1].substr(0, 1));
+					break;
+				case 'mmm':
+					matcher += '([a-z]{3})';
+					order.push('M');
+					break;
+			}
+			if (results[2]) {
+				matcher += results[2];
+			}
+
+		}
+		var dm = new RegExp(matcher);
+		var result = s.match(dm);
+		for (var i=0; i<order.length; i++) {
+			var res = result[i+1];
+			switch(order[i]) {
+				case 'd':
+					d.setDate(res);
+					break;
+				case 'm':
+					d.setMonth(Number(res)-1);
+					break;
+				case 'M':
+					for (var j=0; j<Date.abbrMonthNames.length; j++) {
+						if (Date.abbrMonthNames[j].toLowerCase() == res) break;
+					}
+					d.setMonth(j);
+					break;
+				case 'y':
+					d.setYear(res);
+					break;
+			}
+		}
+
+		return d;
+	};
+
+	// utility method
+	var _zeroPad = function(num) {
+		var s = '0'+num;
+		return s.substring(s.length-2)
+		//return ('0'+num).substring(-2); // doesn't work on IE :(
+	};
+
+})();
+
 /**
  * Copyright (c) 2008 Kelvin Luck (http://www.kelvinluck.com/)
- * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php) 
+ * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  * .
  * $Id: jquery.datePicker.js 108 2011-11-17 21:19:57Z kelvin.luck@gmail.com $
  **/
 
 (function($){
-    
+
 	$.fn.extend({
 /**
  * Render a calendar table into any matched elements.
- * 
+ *
  * @param Object s (optional) Customize your calendars.
  * @option Number month The month to render (NOTE that months are zero based). Default is today's month.
  * @option Number year The year to render. Default is today's year.
@@ -43,7 +551,7 @@
  *	}
  * }
  * $('#calendar-me').renderCalendar({month:0, year:2007, renderCallback:testCallback});
- * 
+ *
  * @desc Renders a calendar displaying January 2007 into the element with an id of calendar-me. Every Thursday in the current month has a class of "thursday" applied to it, is clickable and shows an alert when clicked. Every Friday on the calendar has the number inside replaced with text.
  **/
 		renderCalendar  :   function(s)
@@ -54,7 +562,7 @@
 			};
 
 			s = $.extend({}, $.fn.datePicker.defaults, s);
-			
+
 			if (s.showHeader != $.dpConst.SHOW_HEADER_NONE) {
 				var headRow = $(dc('tr'));
 				for (var i=Date.firstDayOfWeek; i<Date.firstDayOfWeek+7; i++) {
@@ -65,7 +573,7 @@
 					);
 				}
 			};
-			
+
 			var calendarTable = $(dc('table'))
 									.attr(
 										{
@@ -74,7 +582,7 @@
 									)
 									.addClass('jCalendar')
 									.append(
-										(s.showHeader != $.dpConst.SHOW_HEADER_NONE ? 
+										(s.showHeader != $.dpConst.SHOW_HEADER_NONE ?
 											$(dc('thead'))
 												.append(headRow)
 											:
@@ -82,21 +590,21 @@
 										)
 									);
 			var tbody = $(dc('tbody'));
-			
+
 			var today = (new Date()).zeroTime();
 			today.setHours(12);
-			
+
 			var month = s.month == undefined ? today.getMonth() : s.month;
 			var year = s.year || today.getFullYear();
-			
+
 			var currentDate = (new Date(year, month, 1, 12, 0, 0));
-			
-			
+
+
 			var firstDayOffset = Date.firstDayOfWeek - currentDate.getDay() + 1;
 			if (firstDayOffset > 1) firstDayOffset -= 7;
 			var weeksToDraw = Math.ceil(( (-1*firstDayOffset+1) + currentDate.getDaysInMonth() ) /7);
 			currentDate.addDays(firstDayOffset-1);
-			
+
 			var doHover = function(firstDayInBounds)
 			{
 				return function()
@@ -147,7 +655,7 @@
 				tbody.append(r);
 			}
 			calendarTable.append(tbody);
-			
+
 			return this.each(
 				function()
 				{
@@ -162,7 +670,7 @@
  *
  * dateSelected(event, date, $td, status)
  * Triggered when a date is selected. event is a reference to the event, date is the Date selected, $td is a jquery object wrapped around the TD that was clicked on and status is whether the date was selected (true) or deselected (false)
- * 
+ *
  * dpClosed(event, selected)
  * Triggered when the date picker is closed. event is a reference to the event and selected is an Array containing Date objects.
  *
@@ -206,35 +714,35 @@
  * @desc See the projects homepage for many more complex examples...
  **/
 		datePicker : function(s)
-		{			
+		{
 			if (!$.event._dpCache) $.event._dpCache = [];
-			
+
 			// initialise the date picker controller with the relevant settings...
 			s = $.extend({}, $.fn.datePicker.defaults, s);
-			
+
 			return this.each(
 				function()
 				{
 					var $this = $(this);
 					var alreadyExists = true;
-					
+
 					if (!this._dpId) {
 						this._dpId = $.guid++;
 						$.event._dpCache[this._dpId] = new DatePicker(this);
 						alreadyExists = false;
 					}
-					
+
 					if (s.inline) {
 						s.createButton = false;
 						s.displayClose = false;
 						s.closeOnSelect = false;
 						$this.empty();
 					}
-					
+
 					var controller = $.event._dpCache[this._dpId];
-					
+
 					controller.init(s);
-					
+
 					if (!alreadyExists && s.createButton) {
 						// create it!
 						controller.button = $('<a href="#" class="dp-choose-date" title="' + $.dpText.TEXT_CHOOSE_DATE + '">' + $.dpText.TEXT_CHOOSE_DATE + '</a>')
@@ -249,7 +757,7 @@
 								);
 						$this.after(controller.button);
 					}
-					
+
 					if (!alreadyExists && $this.is(':text')) {
 						$this
 							.bind(
@@ -288,9 +796,9 @@
 							controller.setSelected(d, true, true);
 						}
 					}
-					
+
 					$this.addClass('dp-applied');
-					
+
 				}
 			)
 		},
@@ -526,7 +1034,7 @@
 			// TODO - implement this?
 		}
 	});
-	
+
 	// private internal function to cut down on the amount of code needed where we forward
 	// dp* methods on the jQuery object on to the relevant DatePicker controllers...
 	var _w = function(f, a1, a2, a3, a4)
@@ -541,11 +1049,11 @@
 			}
 		);
 	};
-	
+
 	function DatePicker(ele)
 	{
 		this.ele = ele;
-		
+
 		// initial values...
 		this.displayedMonth		=	null;
 		this.displayedYear		=	null;
@@ -571,7 +1079,7 @@
 	};
 	$.extend(
 		DatePicker.prototype,
-		{	
+		{
 			init : function(s)
 			{
 				this.setStartDate(s.startDate);
@@ -659,7 +1167,7 @@
 				s.setDate(1);
 				var e = new Date(this.endDate.getTime());
 				e.setDate(1);
-				
+
 				var t;
 				if ((!m && !y) || (isNaN(m) && isNaN(y))) {
 					// no month or year passed - default to current month
@@ -733,12 +1241,12 @@
 							{
 								$td.parent()[v ? 'addClass' : 'removeClass']('selectedWeek');
 							}
-							$td[v ? 'addClass' : 'removeClass']('selected'); 
+							$td[v ? 'addClass' : 'removeClass']('selected');
 						}
 					}
 				);
 				$('td', this.context).not('.selected')[this.selectMultiple &&  this.numSelected == this.numSelectable ? 'addClass' : 'removeClass']('unselectable');
-				
+
 				if (dispatchEvents)
 				{
 					var s = this.isSelected(d);
@@ -771,17 +1279,17 @@
 			display : function(eleAlignTo)
 			{
 				if ($(this.ele).is('.dp-disabled')) return;
-				
+
 				eleAlignTo = eleAlignTo || this.ele;
 				var c = this;
 				var $ele = $(eleAlignTo);
 				var eleOffset = $ele.offset();
-				
+
 				var $createIn;
 				var attrs;
 				var attrsCalendarHolder;
 				var cssRules;
-				
+
 				if (c.inline) {
 					$createIn = $(this.ele);
 					attrs = {
@@ -802,12 +1310,12 @@
 						'top'	:	eleOffset.top + c.verticalOffset,
 						'left'	:	eleOffset.left + c.horizontalOffset
 					};
-					
+
 					var _checkMouse = function(e)
 					{
 						var el = e.target;
 						var cal = $('#dp-popup')[0];
-						
+
 						while (true){
 							if (el == cal) {
 								return true;
@@ -820,10 +1328,10 @@
 						}
 					};
 					this._checkMouse = _checkMouse;
-					
+
 					c._closeCalendar(true);
 					$(document).bind(
-						'keydown.datepicker', 
+						'keydown.datepicker',
 						function(event)
 						{
 							if (event.keyCode == 27) {
@@ -832,7 +1340,7 @@
 						}
 					);
 				}
-				
+
 				if (!c.rememberViewedMonth)
 				{
 					var selectedDate = this.getSelected()[0];
@@ -841,7 +1349,7 @@
 						this.setDisplayedMonth(selectedDate.getMonth(), selectedDate.getFullYear(), false);
 					}
 				}
-				
+
 				$createIn
 					.append(
 						$('<div></div>')
@@ -892,9 +1400,9 @@
 							)
 							.bgIframe()
 						);
-					
+
 				var $pop = this.inline ? $('.dp-popup', this.context) : $('#dp-popup');
-				
+
 				if (this.showYearNavigation == false) {
 					$('.dp-nav-prev-year, .dp-nav-next-year', c.context).css('display', 'none');
 				}
@@ -914,7 +1422,7 @@
 				c._renderCalendar();
 
 				$(this.ele).trigger('dpDisplayed', $pop);
-				
+
 				if (!c.inline) {
 					if (this.verticalPosition == $.dpConst.POS_BOTTOM) {
 						$pop.css('top', eleOffset.top + $ele.height() - $pop.height() + c.verticalOffset);
@@ -925,7 +1433,7 @@
 //					$('.selectee', this.context).focus();
 					$(document).bind('mousedown.datepicker', this._checkMouse);
 				}
-				
+
 			},
 			setRenderCallback : function(a)
 			{
@@ -938,9 +1446,9 @@
 			cellRender : function ($td, thisDate, month, year) {
 				var c = this.dpController;
 				var d = new Date(thisDate.getTime());
-				
+
 				// add our click handlers to deal with it when the days are clicked...
-				
+
 				$td.bind(
 					'click',
 					function()
@@ -982,7 +1490,7 @@
 				} else  if (c.selectMultiple && c.numSelected == c.numSelectable) {
 					$td.addClass('unselectable');
 				}
-				
+
 			},
 			_applyRenderCallbacks : function()
 			{
@@ -1000,7 +1508,7 @@
 			},
 			// ele is the clicked button - only proceed if it doesn't have the class disabled...
 			// m and y are -1, 0 or 1 depending which direction we want to go in...
-			_displayNewMonth : function(ele, m, y) 
+			_displayNewMonth : function(ele, m, y)
 			{
 				if (!$(ele).is('.disabled')) {
 					this.setDisplayedMonth(this.displayedMonth + m, this.displayedYear + y, true);
@@ -1017,12 +1525,12 @@
 			{
 				// set the title...
 				$('h2', this.context).html((new Date(this.displayedYear, this.displayedMonth, 1)).asString($.dpText.HEADER_FORMAT));
-				
+
 				// render the calendar...
 				$('.dp-calendar', this.context).renderCalendar(
 					$.extend(
 						{},
-						this.settings, 
+						this.settings,
 						{
 							month			: this.displayedMonth,
 							year			: this.displayedYear,
@@ -1031,7 +1539,7 @@
 							hoverClass		: this.hoverClass
 						})
 				);
-				
+
 				// update the status of the control buttons and disable dates before startDate or after endDate...
 				// TODO: When should the year buttons be disabled? When you can't go forward a whole year from where you are or is that annoying?
 				if (this.displayedYear == this.startDate.getFullYear() && this.displayedMonth == this.startDate.getMonth()) {
@@ -1148,7 +1656,7 @@
 			}
 		}
 	);
-	
+
 	// static constants
 	$.dpConst = {
 		SHOW_HEADER_NONE	:	0,
@@ -1203,7 +1711,7 @@
 		if (ele._dpId) return $.event._dpCache[ele._dpId];
 		return false;
 	};
-	
+
 	// make it so that no error is thrown if bgIframe plugin isn't included (allows you to use conditional
 	// comments to only include bgIframe where it is needed in IE without breaking this plugin).
 	if ($.fn.bgIframe == undefined) {
@@ -1219,6 +1727,6 @@
 				$(els[i].ele)._dpDestroy();
 			}
 		});
-		
-	
+
+
 })(jQuery);

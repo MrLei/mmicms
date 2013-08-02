@@ -26,7 +26,7 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
-	
+
 	/**
 	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora
 	 */
@@ -36,7 +36,7 @@ class Mmi_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
 			'validator' => 'Date'
 		));
 	}
-	
+
 	/**
 	 * Buduje pole
 	 * @return string
@@ -53,8 +53,7 @@ class Mmi_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
 			$this->_options['format'] = 'yyyy-mm-dd';
 		}
 		$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
-		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/date.js');
-		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/datePicker.js');
+		$view->headScript()->appendFile($view->baseUrl . '/library/js/datePicker.js');
 
         if (!$this->value && !(isset($this->_options['emptyValue'])&&$this->_options['emptyValue']===true)) {
 			$this->value = date('Y-m-d');

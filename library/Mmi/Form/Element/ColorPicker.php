@@ -26,7 +26,7 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_ColorPicker extends Mmi_Form_Element_Text {
-	
+
 	/**
 	 * Buduje pole
 	 * @return string
@@ -34,7 +34,7 @@ class Mmi_Form_Element_ColorPicker extends Mmi_Form_Element_Text {
 	public function fetchField() {
 		$view = Mmi_View::getInstance();
 		$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
-		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/farbtastic.js');
+		$view->headScript()->appendFile($view->baseUrl . '/library/js/farbtastic.js');
 		$view->headScript()->appendScript('
 			$(document).ready(function() {
 				$(\'#' . $this->id . 'Picker\').farbtastic(\'#' . $this->id . '\');
