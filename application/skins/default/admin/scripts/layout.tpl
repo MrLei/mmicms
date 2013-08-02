@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>{navigation()->title()}</title>
-		{headLink()->appendStyleSheet($baseUrl . '/default/admin/style.css')}
+		{headLink()->appendStyleSheet($baseUrl . '/default/cms/style.css')}
 		{headLink()}
 		{headScript()}
 	</head>

@@ -1,5 +1,5 @@
 {headScript()->appendFile($baseUrl . '/library/js/jquery/jquery.js')}
-{headScript()->appendFile($baseUrl . '/library/js/jquery/flot.js')}
+{headScript()->appendFile($baseUrl . '/default/stat/js/flot.js')}
 {headScript()->appendFile($baseUrl . '/default/stat/js/tooltip.js')}
 {headLink()->appendStylesheet($baseUrl . '/default/stat/admin.css')}
 <script type="text/javascript">

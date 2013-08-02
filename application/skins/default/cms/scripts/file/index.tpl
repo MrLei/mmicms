@@ -2,9 +2,8 @@
 <div class="attachments">
 	{if php_isset($files.image)}
 	{headScript()->prependFile($baseUrl . '/library/js/jquery/jquery.js')}
-	{headScript()->appendFile($baseUrl . '/library/js/jquery/lightbox.js')}
+	{headScript()->appendFile($baseUrl . '/default/file/js/jquery/lightbox.js')}
 	{headScript()->appendFile($baseUrl . '/default/file/js/gallery.js')}
-	{headLink()->prependStylesheet($baseUrl . '/library/css/lightbox.css')}
 	<ul class="imageFiles">
 	{foreach $files.image as $file}
 		<li>
