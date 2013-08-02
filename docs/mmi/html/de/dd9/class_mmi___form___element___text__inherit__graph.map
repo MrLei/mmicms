@@ -1,7 +1,0 @@
-<map id="Mmi_Form_Element_Text" name="Mmi_Form_Element_Text">
-<area shape="rect" id="node5" href="$d3/d49/class_mmi___form___element___autocomplete.html" title="Mmi_Form_Element_Autocomplete" alt="" coords="467,5,693,32"/>
-<area shape="rect" id="node7" href="$d8/d52/class_mmi___form___element___color_picker.html" title="Mmi_Form_Element_ColorPicker" alt="" coords="473,56,687,83"/>
-<area shape="rect" id="node9" href="$d0/dc9/class_mmi___form___element___date_time_picker.html" title="Mmi_Form_Element_DateTime\lPicker" alt="" coords="479,107,681,149"/>
-<area shape="rect" id="node11" href="$db/d34/class_mmi___form___element___slider.html" title="Mmi_Form_Element_Slider" alt="" coords="491,173,669,200"/>
-<area shape="rect" id="node2" href="$df/d89/class_mmi___form___element___abstract.html" title="Mmi_Form_Element_Abstract" alt="" coords="5,85,200,112"/>
-</map>

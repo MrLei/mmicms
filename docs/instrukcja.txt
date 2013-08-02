@@ -4,4 +4,4 @@ Instrukcja generowania dokumentacji:
  - Doxygen (testowane na wersji 1.8.4) - http://www.stack.nl/~dimitri/doxygen/download.html
 
 2. Otwieramy doxygena i wczytujemy doxygen.mmi.conf
-3. Przechodzimy do zak≥adki Run i wciskamu Run doxygen
+3. Przechodzimy do zak≈Çadki Run i wciskamu Run doxygen

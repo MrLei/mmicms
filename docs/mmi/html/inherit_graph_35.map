@@ -1,6 +1,0 @@
-<map id="Graficzna hierarchia klas" name="Graficzna hierarchia klas">
-<area shape="rect" id="node1" href="$db/d10/class_mmi___service___weather___abstract.html" title="Mmi_Service_Weather\l_Abstract" alt="" coords="5,70,157,111"/>
-<area shape="rect" id="node3" href="$d3/d76/class_mmi___service___weather___google.html" title="Mmi_Service_Weather\l_Google" alt="" coords="205,5,357,46"/>
-<area shape="rect" id="node5" href="$d6/d70/class_mmi___service___weather___ground.html" title="Mmi_Service_Weather\l_Ground" alt="" coords="205,70,357,111"/>
-<area shape="rect" id="node7" href="$d0/dfa/class_mmi___service___weather___yahoo.html" title="Mmi_Service_Weather\l_Yahoo" alt="" coords="205,135,357,177"/>
-</map>

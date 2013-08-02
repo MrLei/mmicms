@@ -1,6 +1,0 @@
-<map id="Graficzna hierarchia klas" name="Graficzna hierarchia klas">
-<area shape="rect" id="node1" href="$dc/dfd/class_mmi___controller___action___helper___abstract.html" title="Mmi_Controller_Action\l_Helper_Abstract" alt="" coords="6,70,159,111"/>
-<area shape="rect" id="node3" href="$d4/dd4/class_mmi___controller___action___helper___action.html" title="Mmi_Controller_Action\l_Helper_Action" alt="" coords="209,5,362,46"/>
-<area shape="rect" id="node5" href="$dc/d8f/class_mmi___controller___action___helper___messenger.html" title="Mmi_Controller_Action\l_Helper_Messenger" alt="" coords="209,70,362,111"/>
-<area shape="rect" id="node7" href="$de/d32/class_mmi___controller___action___helper___redirector.html" title="Mmi_Controller_Action\l_Helper_Redirector" alt="" coords="209,135,362,177"/>
-</map>

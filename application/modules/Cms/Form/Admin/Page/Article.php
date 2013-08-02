@@ -23,7 +23,7 @@ class Cms_Form_Admin_Page_Article extends Mmi_Form {
 				array('validator' => 'StringLength', 'options' => array(3, 1024)),
 			)
 		));
-		
+
 		//opcjonalne keywords
 		$this->addElement('text', 'keywords', array(
 			'label' => 'Słowa kluczowe (meta/keywords)',
@@ -39,15 +39,15 @@ class Cms_Form_Admin_Page_Article extends Mmi_Form {
 			'multiOptions' => $options
 			)
 		);
-		
+
 		$this->addElement('checkbox', 'absolute', array(
 			'label' => 'Link bezwzględny'
 		));
-		
+
 		$this->addElement('checkbox', 'https', array(
 			'label' => 'Połączenie HTTPS'
 		));
-		
+
 		//optional url
 		$this->addElement('select', 'visible', array(
 			'label' => 'Pokazuj w menu',
@@ -56,7 +56,7 @@ class Cms_Form_Admin_Page_Article extends Mmi_Form {
 				0 => 'ukryty',
 			),
 		));
-		
+
 		$this->addElement('checkbox', 'nofollow', array(
 			'label' => 'Atrybut rel="nofollow"'
 		));
@@ -70,6 +70,18 @@ class Cms_Form_Admin_Page_Article extends Mmi_Form {
 			'label' => 'Element nadrzędny',
 			'value' => Mmi_Controller_Front::getInstance()->getRequest()->parent,
 			'multiOptions' => Cms_Model_Navigation_Dao::getMultiOptions()
+		));
+
+		$this->addElement('dateTimePicker', 'dateStart', array(
+			'label' => 'Data i czas włączenia',
+		));
+
+		$this->addElement('dateTimePicker', 'dateEnd', array(
+			'label' => 'Data i czas wyłączenia',
+		));
+
+		$this->addElement('checkbox', 'active', array(
+			'label' => 'Włączony'
 		));
 
 		//submit

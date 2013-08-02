@@ -14,9 +14,9 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 		self::_initNested();
 		return self::$_nested->seek($id);
 	}
-	
+
 	public static function getMultiOptions() {
-		self::_initNested();
+		self::_initNested(true);
 		$multiOptions = array();
 		foreach (self::$_nested->flat(self::$_nested->getStructure()) as $leaf) {
 			if ($leaf['label'] == '')
@@ -47,6 +47,10 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 		$data = self::find(array('lang', $lang), array(array('parent_id'), array('order')))->toArray();
 		$view = Mmi_View::getInstance();
 		foreach ($data as $key => $item) {
+			$data[$key]['disabled'] = 0;
+			if (isset($item['active']) && ($item['active'] == 0 || ($item['dateStart'] !== null && $item['dateStart'] > date('Y-m-d H:i:s')) || ($item['dateEnd'] !== null && $item['dateEnd'] < date('Y-m-d H:i:s')))) {
+				$data[$key]['disabled'] = 1;
+			}
 			$data[$key]['active'] = 0;
 			if (!$item['uri']) {
 				$params = array();
@@ -89,7 +93,7 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 		}
 		return $data;
 	}
-	
+
 	/**
 	 * Sortuje po zserializowanej tabeli identyfikatorów
 	 * @param array $serial tabela identyfikatorów

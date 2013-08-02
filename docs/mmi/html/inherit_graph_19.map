@@ -1,6 +1,0 @@
-<map id="Graficzna hierarchia klas" name="Graficzna hierarchia klas">
-<area shape="rect" id="node1" href="$d3/d01/class_mmi___db___adapter___pdo___abstract.html" title="Mmi_Db_Adapter_Pdo\l_Abstract" alt="" coords="5,70,157,111"/>
-<area shape="rect" id="node3" href="$d5/d9c/class_mmi___db___adapter___pdo___mysql.html" title="Mmi_Db_Adapter_Pdo\l_Mysql" alt="" coords="205,5,357,46"/>
-<area shape="rect" id="node5" href="$da/d52/class_mmi___db___adapter___pdo___pgsql.html" title="Mmi_Db_Adapter_Pdo\l_Pgsql" alt="" coords="205,70,357,111"/>
-<area shape="rect" id="node7" href="$df/df7/class_mmi___db___adapter___pdo___sqlite.html" title="Mmi_Db_Adapter_Pdo\l_Sqlite" alt="" coords="205,135,357,177"/>
-</map>

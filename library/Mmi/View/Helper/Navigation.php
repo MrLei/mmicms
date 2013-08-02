@@ -530,7 +530,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 			} else {
 				$allowed = true;
 			}
-			if (!$leaf['visible'] || !$allowed) {
+			if ($leaf['disabled'] || !$leaf['visible'] || !$allowed) {
 				unset($menu[$key]);
 			}
 		}

@@ -38,7 +38,7 @@ class Mmi_View_Helper_HeadMeta extends Mmi_View_Helper_AbstractHead {
 	 * @param array $params parametry skryptu
 	 * @param boolean $prepend dodaj na początek stosu
 	 * @param string $conditional warunek np. ie6
-	 * @return Mmi_View_Helper_HeadScript
+	 * @return Mmi_View_Helper_HeadMeta
 	 */
 	public function headMeta(array $params = array(), $prepend = false, $conditional = '') {
 		if (!empty($params)) {
