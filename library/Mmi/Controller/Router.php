@@ -151,8 +151,12 @@ class Mmi_Controller_Router {
 			}
 			$value = isset($vars[$i + 1]) ? $this->filter($vars[$i + 1]) : '';
 			//obsługa tablic
-			if (strpos($value, '0=') !== false) {
-				parse_str($value, $value);
+			$valueLength = strlen($value);
+			if ($valueLength > 0 && $value[0] == '(' && $value[$valueLength - 1] == ')') {
+				$value = explode(';', rtrim(ltrim($value, '('), ')'));
+				if (!is_array($value)) {
+					$value = array($value);
+				}
 			}
 			$params[$this->filter($vars[$i])] = $value;
 			$i++;
@@ -228,7 +232,7 @@ class Mmi_Controller_Router {
 		}
 		foreach ($params as $key => $value) {
 			if (is_array($value)) {
-				$value = http_build_query($value);
+				$value = '(' . implode(';', $value) . ')';
 			}
 			$urlParams .= $key . '/' . $value . '/';
 		}
