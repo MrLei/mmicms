@@ -34,7 +34,7 @@ $(document).ready(function () {
 
 	}
 
-	$('a.edit-file').on('click', function () {
+	$('body').on('click', 'a.edit-file', function () {
 		var id = $(this).attr('id').split('-');
 		$('li').removeClass('editActive');
 		$('#item-file-' + id[2]).addClass('editActive');
@@ -56,7 +56,7 @@ $(document).ready(function () {
 		return false;
 	});
 
-	$('a.remove-file').on('click', function () {
+	$('body').on('click', 'a.remove-file', function () {
 		if (!window.confirm($(this).attr('title') + '?')) {
 			return false;
 		}
@@ -73,7 +73,7 @@ $(document).ready(function () {
 		return false;
 	});
 
-	$('input#editReset').on('click', function () {
+	$('body').on('click', 'input#editReset', function () {
 		$('li').removeClass('editActive');
 		$('#uploaderEdit').hide();
 		$('#fileUpload').show();
@@ -81,7 +81,7 @@ $(document).ready(function () {
 		return true;
 	});
 
-	$('input#editSubmit').on('click', function () {
+	$('body').on('click', 'input#editSubmit', function () {
 		$.post(
 			$('#uploaderEditForm').attr('action'),
 			$('#uploaderEditForm').serialize(),
@@ -98,7 +98,7 @@ $(document).ready(function () {
 		return false;
 	});
 
-	$('input.sticky').on('click', function () {
+	$('body').on('click', 'input.sticky', function () {
 		var id = $(this).attr('id').split('-');
 		$.get(
 			request.baseUrl + '/cms/adminFile/stick/id/' + id[2] + '/hash/' + id[3],
@@ -163,7 +163,7 @@ $(document).ready(function () {
 		document.getElementById('manageOther').innerHTML = '<li class="item">Upload...</li>';
 	}
 
-	$('input#file').on('change', function () {
+	$('body').on('change', 'input#file', function () {
 		fileUpload();
 		$('input#file').val('');
 	});
