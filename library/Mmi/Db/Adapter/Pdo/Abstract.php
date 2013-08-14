@@ -53,7 +53,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	protected static $_orderFunctions = array(
 		'RAND()' => 'RAND()'
 	);
-	
+
 	/**
 	 * Stan połączenia
 	 * @var boolean
@@ -86,7 +86,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * Tworzy konstrukcję sprawdzającą null w silniku bazy danych
 	 * @param string $fieldName nazwa pola
 	 * @param boolean $positive sprawdza czy null, lub czy nie null
-	 * @return string 
+	 * @return string
 	 */
 	abstract public function prepareNullCheck($fieldName, $positive = true);
 
@@ -104,7 +104,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	/**
 	 * Zwraca nazwę sekwencji dla tabeli
 	 * @param string $tableName nazwa tabeli
-	 * @return string 
+	 * @return string
 	 */
 	public function prepareSequenceName($tableName) {
 		return $tableName . '_id_seq';
@@ -112,7 +112,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 
 	/**
 	 * Konstruktor wczytujący konfigurację
-	 * @param array $options 
+	 * @param array $options
 	 */
 	public function __construct(array $options) {
 		$options['persistent'] = (isset($options['persistent']) && $options['persistent']) ? true : false;
@@ -156,7 +156,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @see PDO::PARAM_STR
 	 * @see PDO::PARAM_INT
 	 * @param string $value wartość
-	 * @param string $paramType 
+	 * @param string $paramType
 	 * @return string
 	 */
 	public final function quote($value, $paramType = PDO::PARAM_STR) {
@@ -420,7 +420,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	/**
 	 * Tworzy warunek limit
 	 * @param int $limit
-	 * @param int $offset 
+	 * @param int $offset
 	 * @return string
 	 */
 	public function prepareLimit($limit = null, $offset = null) {
@@ -452,7 +452,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 			if ($orderTable !== null) {
 				$orderTable = $this->prepareTable($orderTable) . '.';
 			}
-			
+
 			if (isset(static::$_orderFunctions[$rule[0]])) {
 				$order .= static::$_orderFunctions[$rule[0]];
 			} else {
