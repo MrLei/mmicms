@@ -58,4 +58,18 @@ $(document).ready(function () {
 		});
 	});
 	$('div.antirobot > input').val('js-' + $('div.antirobot > input').val() + '-js');
+
+	// Obsługa standardowego pola autocomplete generowanego przez backend php
+	$('input[type="text"][data-source]').each(function () {
+		var url = $(this).attr('data-source');
+		$(this).autocomplete({
+			source: url,
+			open: function () {
+				$(this).removeClass('ui-corner-all').addClass('ui-corner-top');
+			},
+			close: function () {
+				$(this).removeClass('ui-corner-top').addClass('ui-corner-all');
+			}
+		});
+	});
 });
