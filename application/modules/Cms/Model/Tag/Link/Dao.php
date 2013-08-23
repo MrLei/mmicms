@@ -4,6 +4,14 @@ class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_tag_link';
 	protected static $_tagJoinSchema = array('cms_tag' => array('id', 'cms_tag_id'));
+	protected static $_mdsCountryJoinSchema = array(
+		'mds_country' => array('id', '"objectId"'),
+		'cms_tag'     => array('id', 'cms_tag_id')
+	);
+	protected static $_mdsRegionJoinSchema = array(
+		'mds_region' => array('id', '"objectId"'),
+		'cms_tag'    => array('id', 'cms_tag_id')
+	);
 
 	//@TODO: usunąć jeśli już nieużywany
 	public static function link($objectId, array $tags, $objectType) {
@@ -156,6 +164,43 @@ class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
 			$tagString .= $tag->tag . ',';
 		}
 		return trim($tagString, ', ');
+	}
+	
+	/**
+	 * Znajduje aktywne kraje ze słownika mds_country oznaczone danym tagiem.
+	 * @return Mmi_Dao_Collection
+	 */
+	public static function findActiveMdsCountriesByTag($tag) {
+		$bind = array(
+			array('object', 'mdsCountry', '=', 'AND', 'cms_tag_link'),
+			array('tag', trim($tag), '=', 'AND', 'cms_tag'),
+			array('active', true, '=', 'AND', 'mds_country')
+		);
+		
+		$order = array(
+			array('name', 'ASC', 'mds_country')
+		);
+		
+		return self::find($bind, $order, null, null, self::$_mdsCountryJoinSchema);
+	}
+	
+	/**
+	 * Znajduje aktywne regiony ze słownika mds_country oznaczone danym tagiem.
+	 * @return Mmi_Dao_Collection
+	 */
+	public static function findActiveMdsRegionsByTagAndMdsCountryId($tag, $mdsCountryId) {
+		$bind = array(
+			array('object', 'mdsRegion', '=', 'AND', 'cms_tag_link'),
+			array('tag', trim($tag), '=', 'AND', 'cms_tag'),
+			array('active', true, '=', 'AND', 'mds_region'),
+			array('mds_country_id', intval($mdsCountryId), '=', 'AND', 'mds_region')
+		);
+		
+		$order = array(
+			array('name', 'ASC', 'mds_region')
+		);
+		
+		return self::find($bind, $order, null, null, self::$_mdsRegionJoinSchema);
 	}
 
 }
