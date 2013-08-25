@@ -33,15 +33,7 @@ class Mmi_Filter_Input extends Mmi_Filter_Abstract {
 	 */
 	public function filter($value) {
 
-		return str_replace(array(
-			'"',
-			'<',
-			'>',
-		), array(
-			'&#34;',
-			'&#60;',
-			'&#62;',
-		), $value);
+		return htmlspecialchars($value);
 
 	}
 
