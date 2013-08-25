@@ -33,15 +33,7 @@ class Mmi_Filter_Escape extends Mmi_Filter_Abstract {
 	 */
 	public function filter($value) {
 
-		return str_replace(array(
-			'"',
-			'<',
-			'>',
-		), array(
-			'&#34;',
-			'&#60;',
-			'&#62;',
-		), strip_tags($value));
+		return htmlspecialchars(strip_tags($value));
 
 	}
 
