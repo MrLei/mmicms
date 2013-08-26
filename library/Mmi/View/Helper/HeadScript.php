@@ -83,7 +83,7 @@ class Mmi_View_Helper_HeadScript extends Mmi_View_Helper_AbstractHead {
 						$value .= '?crc=' . $crc;
 					}
 				}
-				$html .= htmlentities($key). '="' . htmlentities($value) . '" ';
+				$html .= htmlspecialchars($key). '="' . htmlspecialchars($value) . '" ';
 			}
 			$html .= '>';
 			if (isset($scriptContent)) {
