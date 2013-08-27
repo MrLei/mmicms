@@ -8,7 +8,7 @@ $(document).ready(function () {
 
 function initGrid() {
 
-	$(".grid-spot").on('change', function () {
+	$("body").on('change', ".grid-spot", function () {
 		var id = $(this).attr('id');
 		var splitedId = id.split('-');
 		var formId = splitedId[0];
