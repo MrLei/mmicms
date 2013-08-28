@@ -178,6 +178,9 @@ class Mmi_Paginator {
 	 * @return int
 	 */
 	public function getPagesCount() {
+		if ($this->getRowsPerPage() == 0) {
+			return 0;
+		}
 		return ceil($this->getRowsCount() / $this->getRowsPerPage());
 	}
 
@@ -192,7 +195,10 @@ class Mmi_Paginator {
 		if (!isset($this->_options['rowsPerPage'])) {
 			return '';
 		}
-		$pagesCount = ceil($this->_options['rowsCount'] / $this->_options['rowsPerPage']);
+		$pagesCount = 0;
+		if ($this->_options['rowsPerPage'] != 0) {
+			$pagesCount = ceil($this->_options['rowsCount'] / $this->_options['rowsPerPage']);
+		}
 		if ($pagesCount < 2) {
 			return '';
 		}
