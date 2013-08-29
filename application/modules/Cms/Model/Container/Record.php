@@ -22,15 +22,15 @@ class Cms_Model_Container_Record extends Mmi_Dao_Record {
 		Mmi_Cache::getInstance()->remove('Cms_Container_' . $this->uri);
 		return $result;
 	}
-	
+
 	public function getLeftBoxes($parseParams = true) {
 		return $this->_getBoxes('left', $parseParams);
 	}
-	
+
 	public function getRightBoxes($parseParams = true) {
 		return $this->_getBoxes('right', $parseParams);
 	}
-	
+
 	public function getText() {
 		if (!$this->serial) {
 			return;
@@ -38,7 +38,7 @@ class Cms_Model_Container_Record extends Mmi_Dao_Record {
 		$serial = unserialize($this->serial);
 		return isset($serial['text']) ? $serial['text'] : null;
 	}
-	
+
 	public function getLead() {
 		if (!$this->serial) {
 			return;
@@ -46,7 +46,7 @@ class Cms_Model_Container_Record extends Mmi_Dao_Record {
 		$serial = unserialize($this->serial);
 		return isset($serial['lead']) ? $serial['lead'] : null;
 	}
-	
+
 	protected function _getBoxes($type, $parseParams = true) {
 		if (!$this->serial) {
 			return array();
@@ -77,11 +77,12 @@ class Cms_Model_Container_Record extends Mmi_Dao_Record {
 	}
 
 	public function delete() {
+		Mmi_Cache::getInstance()->remove('Cms_Container_' . $this->uri);
 		$container = Cms_Model_Navigation_Dao::findFirst(array(
 				array('module', 'cms'),
 				array('controller', 'container'),
 				array('action', 'index'),
-				array('params', 'uri=' . $this->uri)
+				array('params', 'uri', $this->uri)
 		));
 		if ($container !== null) {
 			$container->delete();
