@@ -41,58 +41,50 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 	 */
 	public function fetchField() {
 		$view = Mmi_View::getInstance();
-		$view->headScript()->appendFile($view->baseUrl . '/library/js/tiny/tiny_mce.js');
+		$view->headScript()->appendFile($view->baseUrl . '/library/js/tiny/tinymce.min.js');
 
 		switch (isset($this->_options['mode']) ? $this->_options['mode'] : null) {
 			case 'simple':
 				$toolbarOptions = "
-					theme_advanced_buttons1 : 'bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull',
-					theme_advanced_buttons2: '',
-					theme_advanced_buttons3: '',
-					theme_advanced_buttons4: '',
+					toolbar1 : 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify',
 				";
-				$plugins = "plugins : 'safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,wordcount',";
-				$theme = "theme : 'advanced',";
-				$themeOptions = "theme_advanced_toolbar_location : 'top',
-				theme_advanced_toolbar_align : 'left',
+				$plugins = "plugins : 'advlist,anchor,autolink,autoresize,autosave,charmap,code,contextmenu,fullscreen,hr,image,insertdatetime,link,lists,media,nonbreaking,noneditable,paste,print,preview,searchreplace,tabfocus,table,template,textcolor,visualblocks,visualchars,wordcount',";
+				$theme = "theme : 'modern',";
+				$tskin = "skin : 'lightgray',";
+				$themeOptions = "image_advtab: true,
+				contextmenu: 'link image inserttable | cell row column deletetable',
 				width: '" . (isset($this->_options['width']) ? $this->_options['width'] : 400) . "',
 				height: '" . (isset($this->_options['height']) ? $this->_options['height'] : 200) . "',
-				theme_advanced_statusbar_location : 'none',
-				theme_advanced_resizing : false,
+				menubar: false,
+				resize : false,
 				";
 				break;
 			case 'advanced':
 				$toolbarOptions = "
-					theme_advanced_buttons1 : 'bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,formatselect,fontselect,fontsizeselect',
-					theme_advanced_buttons2 : 'cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor',
-					theme_advanced_buttons3 : 'tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,fullscreen',
-					theme_advanced_buttons4 : 'insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,pagebreak',
+					toolbar1 : 'undo redo | cut copy paste pastetext | bold italic underline strikethrough | subscript superscript | alignleft aligncenter alignright alignjustify | fontselect fontsizeselect | forecolor backcolor',
+					toolbar2 : 'styleselect | table | bullist numlist outdent indent blockquote | link unlink anchor image media code |  preview fullscreen | charmap visualchars nonbreaking inserttime hr template | searchreplace',
 				";
-				$plugins = "plugins : 'safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,wordcount',";
-				$theme = "theme : 'advanced',";
-				$themeOptions = "theme_advanced_toolbar_location : 'top',
-				theme_advanced_toolbar_align : 'left',
+				$plugins = "plugins : 'advlist,anchor,autolink,autoresize,autosave,charmap,code,contextmenu,fullscreen,hr,image,insertdatetime,link,lists,media,nonbreaking,noneditable,paste,print,preview,searchreplace,tabfocus,table,template,textcolor,visualblocks,visualchars,wordcount',";
+				$theme = "theme : 'modern',";
+				$tskin = "skin : 'lightgray',";
+				$themeOptions = "image_advtab: true,
+				contextmenu: 'link image inserttable | cell row column deletetable',
 				width: '" . (isset($this->_options['width']) ? $this->_options['width'] : 400) . "',
 				height: '" . (isset($this->_options['height']) ? $this->_options['height'] : 200) . "',
-				theme_advanced_statusbar_location : 'bottom',
-				theme_advanced_resizing : true,
+				resize : true,
 				";
 				break;
 			default:
 				$toolbarOptions = "
-					theme_advanced_buttons1 : 'bold,italic,underline,strikethrough,forecolor,image,|,bullist,numlist,|,link,unlink,anchor,|,justifyleft,justifycenter,justifyright,justifyfull,|,tablecontrols,|,formatselect,fontselect,fontsizeselect',
-					theme_advanced_buttons2: '',
-					theme_advanced_buttons3: '',
-					theme_advanced_buttons4: '',
+					toolbar1 : 'undo redo | bold italic underline strikethrough | forecolor backcolor | styleselect | bullist numlist outdent indent | fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | link unlink anchor image insertfile preview ',
 				";
-				$plugins = "plugins : 'safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,wordcount',";
-				$theme = "theme : 'advanced',";
-				$themeOptions = "theme_advanced_toolbar_location : 'top',
+				$plugins = "plugins : 'advlist,anchor,autolink,autoresize,autosave,charmap,code,contextmenu,fullscreen,hr,image,insertdatetime,link,lists,media,nonbreaking,noneditable,paste,print,preview,searchreplace,tabfocus,table,template,textcolor,visualblocks,visualchars,wordcount',";
+				$theme = "theme : 'modern',";
+				$tskin = "skin : 'lightgray',";
+				$themeOptions = "image_advtab: true,
+				contextmenu: 'link image inserttable | cell row column deletetable',
 				width: '" . (isset($this->_options['width']) ? $this->_options['width'] : '') . "',
 				height: '" . (isset($this->_options['height']) ? $this->_options['height'] : 320) . "',
-				theme_advanced_toolbar_align : 'left',
-				theme_advanced_statusbar_location : 'bottom',
-				theme_advanced_resizing : false,
 				";
 		}
 		unset($this->_options['mode']);
@@ -115,19 +107,44 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 		$hash = md5(Mmi_Session::getId() . '+' . $t . '+' . $objectId);
 		$view->headScript()->appendScript("
 			tinyMCE.init({
-				mode : 'textareas',
-				editor_selector : '".$class."',
+				selector : '.".$class."',		
+				language : 'pl',
 				" . $theme . "
+				" . $tskin . "
 				" . $plugins . "
 				" . $toolbarOptions . "
 				" . $themeOptions . "
 				" . $onInit . "
-				external_image_list_url : request.baseUrl + '/cms/file/list/object/$object/objectId/$objectId/t/$t/hash/$hash',
+				autoresize_min_height: 100,
+				image_list : [
+					{title: 'Image', value: request.baseUrl + '/cms/file/list/object/$object/objectId/$objectId/t/$t/hash/$hash'}
+				],
 				document_base_url: request.baseUrl,
-				convert_urls: false 
+				content_css : request.baseUrl + '/$skin/default/style.css',
+				convert_urls: false,
+				font_formats: 'Andale Mono=andale mono,times;'+
+					'Arial=arial,helvetica,sans-serif;'+
+					'Arial Black=arial black,avant garde;'+
+					'Book Antiqua=book antiqua,palatino;'+
+					'Comic Sans MS=comic sans ms,sans-serif;'+
+					'Courier New=courier new,courier;'+
+					'Georgia=georgia,palatino;'+
+					'Helvetica=helvetica;'+
+					'Impact=impact,chicago;'+
+					'Symbol=symbol;'+
+					'Tahoma=tahoma,arial,helvetica,sans-serif;'+
+					'Terminal=terminal,monaco;'+
+					'Times New Roman=times new roman,times;'+
+					'Trebuchet MS=trebuchet ms,geneva;'+
+					'Verdana=verdana,geneva;'+
+					'Webdings=webdings;'+
+					'Wingdings=wingdings,zapf dingbats;'+
+					'EmpikBTT=empikb;'+
+					'EmpikLTT=empikl;'+
+					'EmpikRTT=empikr'
 			});
 		");
-		//content_css : baseUrl + '/$skin/default/style.css',
+		
 		return parent::fetchField();
 	}
 }
