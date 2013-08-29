@@ -82,7 +82,7 @@ class Cms_Model_Container_Record extends Mmi_Dao_Record {
 				array('module', 'cms'),
 				array('controller', 'container'),
 				array('action', 'index'),
-				array('params', 'uri', $this->uri)
+				array('params', 'uri=' . $this->uri)
 		));
 		if ($container !== null) {
 			$container->delete();
