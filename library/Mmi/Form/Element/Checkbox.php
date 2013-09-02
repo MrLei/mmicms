@@ -27,10 +27,17 @@
  */
 class Mmi_Form_Element_Checkbox extends Mmi_Form_Element_Abstract {
 	
+	/**
+	 * Kolejność renderowania pola
+	 * @var array
+	 */
 	protected $_renderingOrder = array(
 		'fetchErrors', 'fetchField', 'fetchLabel',  'fetchDescription'
 	);
-
+	
+	/**
+	 * Funkcja użytkownika, jest wykonywana przed renderingiem
+	 */
 	public function preRender() {
 		$this->_labelPostfix = '';
 		if (isset($this->_options['value']) && $this->_options['value'] == 1) {
@@ -40,7 +47,11 @@ class Mmi_Form_Element_Checkbox extends Mmi_Form_Element_Abstract {
 		}
 		$this->_options['value'] = '1';
 	}
-
+	
+	/**
+	 * Buduje pole
+	 * @return string
+	 */
 	public function fetchField() {
 		return '<input type="checkbox" ' . $this->_getHtmlOptions() . '/>';
 	}

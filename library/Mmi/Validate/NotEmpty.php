@@ -29,7 +29,12 @@ class Mmi_Validate_NotEmpty extends Mmi_Validate_Abstract {
 	 * Treść wiadomości
 	 */
 	const INVALID = 'Pole nie może być puste';
-
+	
+	/**
+	 * Walidacja niepustości
+	 * @param mixed $value wartość
+	 * @return boolean
+	 */
 	public function isValid($value) {
 		if (!is_null($value) && !is_string($value) && !is_int($value) && !is_float($value) &&
 				!is_bool($value) && !is_array($value)) {

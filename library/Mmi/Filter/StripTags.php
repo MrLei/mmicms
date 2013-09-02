@@ -25,6 +25,12 @@
  */
 class Mmi_Filter_StripTags extends Mmi_Filter_Abstract {
 
+	/**
+	 * Kasuje html'a
+	 * @param mixed $value wartość
+	 * @throws Exception jeśli filtrowanie $value nie jest możliwe
+	 * @return mixed
+	 */
 	public function filter($value) {
 		$except = '';
 		if (isset($this->_options['exceptions'])) {

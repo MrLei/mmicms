@@ -29,9 +29,22 @@ class Mmi_Validate_Regex extends Mmi_Validate_Abstract {
 	 * Treść wiadomości
 	 */
 	const INVALID = 'Nieprawidłowy typ danych wejściowych';
+		
+	/**
+     * Komunikat - nie pasuje do wzorca
+     */
     const NOT_MATCH = 'Wartość nie pasuje do wzorca';
+		
+	/**
+     * Komunikat o błędzie wyrażenia regularnego
+     */
     const ERROROUS  = 'Błędne wyrażenie regularne';
-
+	
+	/**
+	 * Walidacja za pomocą wyrażenia regularnego
+	 * @param mixed $value wartość
+	 * @return boolean
+	 */
 	public function isValid($value) {
 		$pattern = isset($this->_options[0]) ? $this->_options[0] : null;
 		//jeśli nie podano wzorca, to przyjmujemy, że pasuje

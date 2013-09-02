@@ -30,23 +30,43 @@ class Mmi_Cache_Backend_Apc implements Mmi_Cache_Backend_Interface {
 	 * @var string
 	 */
 	private $_namespace;
-	
+	/**
+	 * Kostruktor
+	 * @param array $params parametry
+	 */
 	public function __construct(array $params = array()) {
 		$this->_namespace = crc32(BASE_PATH);
 	}
 
+	/**
+	 * Ładuje dane o podanym kluczu
+	 * @param string $key klucz
+	 */
 	public function load($key) {
 		return apc_fetch($this->_namespace . '_' . $key);
 	}
 
+	/**
+	 * Zapisuje dane pod podanym kluczem
+	 * @param string $key klucz
+	 * @param string $data
+	 * @param int $lifeTime wygaśnięcie danych w buforze (informacja dla bufora)
+	 */
 	public function save($key, $data, $lifeTime) {
         return apc_store($this->_namespace . '_' . $key, $data, $lifeTime);
 	}
 
+	/**
+	 * Kasuje dane o podanym kluczu
+	 * @param string $key klucz
+	 */
 	public function delete($key) {
 		return apc_delete($this->_namespace . '_' . $key);
 	}
 
+	/**
+	 * Kasuje wszystkie dane
+	 */
 	public function deleteAll() {
 		return apc_clear_cache('user');
 	}

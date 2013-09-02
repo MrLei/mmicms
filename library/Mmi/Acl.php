@@ -17,12 +17,6 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 
-/**
- * Klasa implementująca kontrolę dostępu do zasobów (acl)
- * @category   Mmi
- * @package    Mmi_Acl
- * @license    http://www.hqsoft.pl/new-bsd     New BSD License
- */
 class Mmi_Acl {
 
 	/**
@@ -79,8 +73,8 @@ class Mmi_Acl {
 
 	/**
 	 * Ustawia pozwolenie na dostęp roli do zasobu
-	 * @param <type> $role rola
-	 * @param <type> $resource zasób
+	 * @param string $role rola
+	 * @param string $resource zasób
 	 */
 	public function allow($role, $resource) {
 		$this->addRole($role);

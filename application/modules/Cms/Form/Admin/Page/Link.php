@@ -38,7 +38,7 @@ class Cms_Form_Admin_Page_Link extends Mmi_Form {
 				0 => 'ukryty',
 			),
 		));
-		
+
 		$this->addElement('checkbox', 'nofollow', array(
 			'label' => 'Atrybut rel="nofollow"'
 		));
@@ -52,6 +52,18 @@ class Cms_Form_Admin_Page_Link extends Mmi_Form {
 			'label' => 'Element nadrzędny',
 			'value' => Mmi_Controller_Front::getInstance()->getRequest()->parent,
 			'multiOptions' => Cms_Model_Navigation_Dao::getMultiOptions()
+		));
+
+		$this->addElement('dateTimePicker', 'dateStart', array(
+			'label' => 'Data i czas włączenia',
+		));
+
+		$this->addElement('dateTimePicker', 'dateEnd', array(
+			'label' => 'Data i czas wyłączenia',
+		));
+
+		$this->addElement('checkbox', 'active', array(
+			'label' => 'Włączony'
 		));
 
 		//submit

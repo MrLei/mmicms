@@ -30,11 +30,11 @@ class Mmi_View_Helper_AbstractHead extends Mmi_View_Helper_Abstract {
 
 	/**
 	 * Pobiera CRC dla danego zasobu (lokalnego lub zdalnego)
-	 * @param string $href adres zasobu
+	 * @param string $location adres zasobu
 	 * @return string
 	 */
 	protected function _getCrc($location) {
-		$cacheKey = 'Head_Crc' . str_replace(array('/', '.'), '_', $location);
+		$cacheKey = 'Head_Crc_' . md5($location);
 		$cacheActive = isset(Mmi_Config::$data['cache']['active']) ? Mmi_Config::$data['cache']['active'] : false;
 		if ($cacheActive && $crc = Mmi_Cache::getInstance()->load($cacheKey)) {
 			return $crc;

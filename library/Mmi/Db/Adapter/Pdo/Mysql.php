@@ -28,10 +28,17 @@
  */
 class Mmi_Db_Adapter_Pdo_Mysql extends Mmi_Db_Adapter_Pdo_Abstract {
 	
+	/**
+	 * Ustawia schemat
+	 * @param string $schemaName nazwa schematu
+	 */
 	public function selectSchema($schemaName) {
 		$this->query('USE `' . $schemaName . '`');
 	}
 
+	/**
+	 * Ustawia domyślne parametry dla importu (długie zapytania)
+	 */
 	public function setDefaultImportParams() {
 		return $this->exec('SET NAMES utf8;
 			SET foreign_key_checks = 0;
@@ -40,6 +47,9 @@ class Mmi_Db_Adapter_Pdo_Mysql extends Mmi_Db_Adapter_Pdo_Abstract {
 		');
 	}
 
+	/**
+	 * Tworzy połączenie z bazą danych
+	 */
 	public function connect() {
 		$this->_options['host'] = isset($this->_options['host']) ? $this->_options['host'] : '127.0.0.1';
 		$this->_options['port'] = isset($this->_options['port']) ? $this->_options['port'] : '3306';
@@ -47,6 +57,11 @@ class Mmi_Db_Adapter_Pdo_Mysql extends Mmi_Db_Adapter_Pdo_Abstract {
 		$this->query('SET NAMES ' . $this->_options['charset']);
 	}
 
+	/**
+	 * Otacza nazwę pola odpowiednimi znacznikami
+	 * @param string $fieldName nazwa pola
+	 * @return string
+	 */
 	public function prepareField($fieldName) {
 		//dla mysql `
 		if (strpos($fieldName, '`') === false) {
@@ -55,11 +70,22 @@ class Mmi_Db_Adapter_Pdo_Mysql extends Mmi_Db_Adapter_Pdo_Abstract {
 		return $fieldName;
 	}
 
+	/**
+	 * Otacza nazwę tabeli odpowiednimi znacznikami
+	 * @param string $tableName nazwa tabeli
+	 * @return string
+	 */
 	public function prepareTable($tableName) {
 		//dla mysql tak jak pola
 		return $this->prepareField($tableName);
 	}
 
+	/**
+	 * Zwraca informację o kolumnach tabeli
+	 * @param string $tableName nazwa tabeli
+	 * @param array $schema schemat
+	 * @return array
+	 */
 	public function tableInfo($tableName, $schema = null) {
 		return $this->_associateTableMeta($this->fetchAll('SELECT `column_name` as `name`, `data_type` AS `dataType`, `character_maximum_length` AS `maxLength`, `is_nullable` AS `null`, `column_default` AS `default`, `extra` AS `extra`, `column_key` AS `column_key` FROM INFORMATION_SCHEMA.COLUMNS WHERE `table_name` = :name AND `table_schema` = :schema ORDER BY `ordinal_position`', array(
 			':name' => $tableName,
@@ -67,6 +93,12 @@ class Mmi_Db_Adapter_Pdo_Mysql extends Mmi_Db_Adapter_Pdo_Abstract {
 		)));
 	}
 
+	/**
+	 * Tworzy konstrukcję sprawdzającą null w silniku bazy danych
+	 * @param string $fieldName nazwa pola
+	 * @param boolean $positive sprawdza czy null, lub czy nie null
+	 * @return string 
+	 */
 	public function prepareNullCheck($fieldName, $positive = true) {
 		$positive = $positive ? '' : '!';
 		return $positive . 'ISNULL(' . $fieldName . ')';

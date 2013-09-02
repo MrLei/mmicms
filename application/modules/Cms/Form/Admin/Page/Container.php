@@ -15,7 +15,7 @@ class Cms_Form_Admin_Page_Container extends Mmi_Form {
 				array('validator' => 'StringLength', 'options' => array(3, 64)),
 			)
 		));
-		
+
 		//opcjonalny tytuł
 		$this->addElement('text', 'title', array(
 			'label' => 'Tytuł strony (meta/title)',
@@ -24,7 +24,7 @@ class Cms_Form_Admin_Page_Container extends Mmi_Form {
 				array('validator' => 'StringLength', 'options' => array(3, 128)),
 			)
 		));
-		
+
 		//opcjonalny opis
 		$this->addElement('textarea', 'description', array(
 			'label' => 'Opis strony (meta/description)',
@@ -32,7 +32,7 @@ class Cms_Form_Admin_Page_Container extends Mmi_Form {
 				array('validator' => 'StringLength', 'options' => array(3, 1024)),
 			)
 		));
-		
+
 		//opcjonalne keywords
 		$this->addElement('text', 'keywords', array(
 			'label' => 'Słowa kluczowe (meta/keywords)',
@@ -40,7 +40,7 @@ class Cms_Form_Admin_Page_Container extends Mmi_Form {
 				array('validator' => 'StringLength', 'options' => array(3, 512)),
 			)
 		));
-		
+
 		$this->addElement('checkbox', 'independent', array(
 			'label' => 'Niezależne meta'
 		));
@@ -52,11 +52,11 @@ class Cms_Form_Admin_Page_Container extends Mmi_Form {
 			'multiOptions' => $options
 			)
 		);
-		
+
 		$this->addElement('checkbox', 'absolute', array(
 			'label' => 'Link bezwzględny'
 		));
-		
+
 		$this->addElement('checkbox', 'https', array(
 			'label' => 'Połączenie HTTPS'
 		));
@@ -69,7 +69,7 @@ class Cms_Form_Admin_Page_Container extends Mmi_Form {
 				0 => 'ukryty',
 			),
 		));
-		
+
 		$this->addElement('checkbox', 'nofollow', array(
 			'label' => 'Atrybut rel="nofollow"'
 		));
@@ -83,6 +83,18 @@ class Cms_Form_Admin_Page_Container extends Mmi_Form {
 			'label' => 'Element nadrzędny',
 			'value' => Mmi_Controller_Front::getInstance()->getRequest()->parent,
 			'multiOptions' => Cms_Model_Navigation_Dao::getMultiOptions()
+		));
+
+		$this->addElement('dateTimePicker', 'dateStart', array(
+			'label' => 'Data i czas włączenia',
+		));
+
+		$this->addElement('dateTimePicker', 'dateEnd', array(
+			'label' => 'Data i czas wyłączenia',
+		));
+
+		$this->addElement('checkbox', 'active', array(
+			'label' => 'Włączony'
 		));
 
 		//submit

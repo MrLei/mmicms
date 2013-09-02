@@ -29,11 +29,13 @@ class Mmi_View_Helper_Escape extends Mmi_View_Helper_Abstract {
 
 	/**
 	 * Usuwa tagi z ciągu znaków
+	 * @see Mmi_Filter_Escape
 	 * @param string $input ciąg wejściowy
 	 * @return string
 	 */
 	public function escape($input) {
-		return strip_tags($input);
+		$escape = new Mmi_Filter_Escape();
+		return $escape->filter($input);
 	}
 	
 }

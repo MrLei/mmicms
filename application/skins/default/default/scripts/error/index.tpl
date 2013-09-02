@@ -1,1 +1,1 @@
-<h2>{#Przepraszamy, wystąpił błąd#}.</h2>
+<h2>{#Z uwagi na aktualizację oprogramowania mogą występować chwilowe problemy ze stroną internetową#}.</h2>

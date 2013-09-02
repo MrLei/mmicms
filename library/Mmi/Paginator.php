@@ -10,7 +10,7 @@
  *
  * Mmi/Paginator.php
  * @category   Mmi
- * @package    MmiPaginator
+ * @package    Mmi_Paginator
  * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    $Id$
@@ -148,7 +148,7 @@ class Mmi_Paginator {
 	}
 
 	/**
-	 * Ustawia dla każdego linku #label
+	 * Ustawia dla każdego linku label
 	 * @param string $label
 	 * @return Mmi_Paginator
 	 */
@@ -178,6 +178,9 @@ class Mmi_Paginator {
 	 * @return int
 	 */
 	public function getPagesCount() {
+		if ($this->getRowsPerPage() == 0) {
+			return 0;
+		}
 		return ceil($this->getRowsCount() / $this->getRowsPerPage());
 	}
 
@@ -192,7 +195,10 @@ class Mmi_Paginator {
 		if (!isset($this->_options['rowsPerPage'])) {
 			return '';
 		}
-		$pagesCount = ceil($this->_options['rowsCount'] / $this->_options['rowsPerPage']);
+		$pagesCount = 0;
+		if ($this->_options['rowsPerPage'] != 0) {
+			$pagesCount = ceil($this->_options['rowsCount'] / $this->_options['rowsPerPage']);
+		}
 		if ($pagesCount < 2) {
 			return '';
 		}

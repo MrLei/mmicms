@@ -25,6 +25,12 @@
  */
 class Mmi_Filter_Url extends Mmi_Filter_Abstract {
 
+	/**
+	 * Klasa filtracji tekstów do url
+	 * @param mixed $value wartość
+	 * @throws Exception jeśli filtrowanie $value nie jest możliwe
+	 * @return mixed
+	 */
 	public function filter($value) {
 		if (!is_array($value)) {
 			$ascii = new Mmi_Filter_Ascii();

@@ -25,7 +25,7 @@
 			{foreach $navigation.children as $id => $child}
 			<li id="navigation-item-{$id}" class="navigation-{$child.type}">
 				<div><a href="{url(array('id' => $child['id']))}">{$child.label}</a></div>
-                <div> {if $child.visible==1}{#Widoczny#}{else}{#Ukryty#}{/if}</div>
+                <div>{if $child.disabled}Wyłączony{else}{if $child.visible==1}{#Widoczny#}{else}{#Ukryty#}{/if}{/if}</div>
 				<a href="{@module=cms&controller=adminNavigation&action=edit&action=edit&type={$child.type}&id={$child.id}@}" class="button edit">{#edytuj#}</a>
 				<a href="{@module=cms&controller=adminNavigation&action=edit&action=delete&id={$child.id}@}" class="button delete confirm" title="{#Czy na pewno usunąć pozycję menu wraz z podmenu#}?">{#usuń#}</a>
 			</li>

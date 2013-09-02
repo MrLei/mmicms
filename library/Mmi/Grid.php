@@ -40,10 +40,22 @@ abstract class Mmi_Grid {
 	 */
 	protected $_id;
 
+	/**
+	 * Nazwa DAO
+	 * @var string
+	 */
 	protected $_daoName;
-	
+
+	/**
+	 * Nazwa metody wywoływanej w DAO
+	 * @var string
+	 */
 	protected $_daoGetMethod = 'find';
-	
+
+	/**
+	 * Nazwa metoda zliczania w DAO
+	 * @var string
+	 */
 	protected $_daoCountMethod = 'count';
 
 	/**
@@ -99,7 +111,7 @@ abstract class Mmi_Grid {
 		$this->_view->headScript()->appendFile($this->_view->baseUrl . '/library/js/grid.js');
 		$class = get_class($this);
 		$this->_id = strtolower(substr($class, strrpos($class, '_') + 1));
-		
+
 		if ($this->_daoName === null) {
 			throw new exception('Dao name for grid not specified');
 		}
@@ -260,7 +272,11 @@ abstract class Mmi_Grid {
 		$html .= '<input type="hidden" id="' . $this->_id . '__counter" value="' . ceil($this->_dataCount / $this->_options['rows']) . '" /></td></tr>';
 		return $html;
 	}
-	
+
+	/**
+	 * Renderuje stronnicowanie (ilość elementów na stronie)
+	 * @return string
+	 */
 	public function renderPaging() {
 		$html = '<tr><th class="footer" colspan="' . count($this->_columns) . '">';
 
@@ -523,7 +539,18 @@ abstract class Mmi_Grid {
 		$bind = array();
 		$order = array();
 		foreach ($this->_options['filter'] as $field => $value) {
-			$bind = array($bind, array($field, '%' . $value . '%', 'LIKE'));	
+			$type = 'text';
+			foreach ($this->_columns as $column) {
+				if ($column['name'] == $field) {
+					$type = $column['type'];
+					break;
+				}
+			}
+			if ($type == 'select' || $type == 'checkbox') {
+				$bind = array($bind, array($field, '' . $value, '='));	
+			} else {
+				$bind = array($bind, array($field, '%' . $value . '%', 'LIKE'));	
+			}
 		}
 		if (empty($this->_options['order'])) {
 			//@TODO: do zmiany po rozwinięciu DAO
@@ -564,6 +591,12 @@ abstract class Mmi_Grid {
 		return $pages;
 	}
 
+	/**
+	 * Zastosowanie filtrów na danaj zmiennej
+	 * @param array $filters lista filtrów do zaaplikowania
+	 * @param string $value wartość do przerobienia
+	 * @return string
+	 */
 	protected function _applyFilters($filters, $value) {
 		if (empty($filters)) {
 			return $value;

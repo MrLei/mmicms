@@ -25,6 +25,12 @@
  */
 class Mmi_Filter_StringTrim extends Mmi_Filter_Abstract {
 
+	/**
+	 * Usuwa spacę z końców ciągu znaków
+	 * @param mixed $value wartość
+	 * @throws Exception jeśli filtrowanie $value nie jest możliwe
+	 * @return mixed
+	 */
 	public function filter($value) {
 		$chars = ' ';
 		if (isset($this->_options[0])) {

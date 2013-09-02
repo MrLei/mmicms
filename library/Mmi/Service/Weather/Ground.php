@@ -33,6 +33,11 @@ class Mmi_Service_Weather_Ground extends Mmi_Service_Weather_Abstract {
 		$this->_url = 'http://api.wunderground.com/api/' . $apiKey;
 	}
 	
+	/**
+	 * Wyszukanie po nazwie miejsca
+	 * @param string $placeName nazwa miejsca (np. kraj+miasto)
+	 * @return Mmi_Service_Weather_Data aktualna pogoda
+	 */
 	public function search($placeName) {
 		$current = json_decode(file_get_contents($this->_url . '/conditions/forecast/q/' . urlencode($placeName) . '.json'));
 		if (!isset($current->current_observation)) {

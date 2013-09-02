@@ -8,15 +8,7 @@ class Cms_Plugin_FileGrid extends Mmi_Grid {
 
 		$this->addColumn('custom', 'thumb', array(
 			'label' => 'miniatura',
-			'value' =>
-			'
-				{if ($rowData->class ==\'image\')}
-					<a class="lightbox" href="{thumbId($rowData->id, \'scalex\', \'640\')}"><img src="{thumbId($rowData->id, \'scaley\', \'30\')}" /></a>
-					{$mimeType}
-				{else}
-					{$mimeType}
-				{/if}
-			'
+			'value' => '{if ($rowData->class ==\'image\')}<img src="{thumb($rowData, \'scaley\', \'30\')}" />{else}-{/if}'
 		));
 
 		$this->addColumn('text', 'size', array(

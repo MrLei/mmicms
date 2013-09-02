@@ -97,7 +97,7 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		$view->baseUrl = $base;
 		$view->baseModule = $request->getParam('baseModule');
 		$view->baseSkin = $request->getParam('baseSkin');
-		
+
 		$jsReqestArray = array();
 		$jsReqestArray[] = "'baseUrl' : '".$base."'";
 		$filter = new Mmi_Filter_Urlencode();
@@ -114,7 +114,7 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		}
 		$jsRequest = "var request = {\n".implode(",\n", $jsReqestArray)."\n};";
 		$view->headScript()->appendScript($jsRequest);
-		
+
 		$auth = Mmi_Auth::getInstance();
 		$auth->setModelName(isset(Mmi_Config::$data['session']['model']) ? Mmi_Config::$data['session']['model'] : 'Cms_Model_Auth');
 		$cookie = new Mmi_Http_Cookie();
@@ -161,7 +161,7 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		if (!$cacheActive || !($navigation = $cache->load('Mmi_Navigation_' . $request->__get('lang')))) {
 			$navigation = new Mmi_Navigation(Cms_Model_Navigation_Dao::getNested());
 			if ($cacheActive) {
-				$cache->save($navigation, 'Mmi_Navigation_' . $request->__get('lang'), 86400);
+				$cache->save($navigation, 'Mmi_Navigation_' . $request->__get('lang'), 3600);
 			}
 		}
 		$view->mediaServer = '';

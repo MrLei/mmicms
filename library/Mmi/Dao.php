@@ -59,6 +59,7 @@ class Mmi_Dao {
 	/**
 	 * Zwraca ilość rekordów o podanych parametrach
 	 * @param array $bind tabela w postaci: @see Mmi_Db_Adapter_Pdo_Abstract::parseWhereBind()
+	 * @param array $joinSchema schemat połączeń
 	 * @return int
 	 */
 	public static final function count(array $bind = array(), array $joinSchema = array()) {

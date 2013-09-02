@@ -26,6 +26,10 @@
  */
 class Mmi_Service_Weather_Yahoo extends Mmi_Service_Weather_Abstract {
 
+	/**
+	 * Konstruktor, ustawienie url usługi
+	 * @param string $appId Identyfikator aplikacji
+	 */
 	public function __construct($appId = '') {
 		$this->_url = 'http://weather.yahooapis.com/forecastrss?u=c&w=';
 		$this->_geoCityUrl = 'http://where.yahooapis.com/v1/places.q';
@@ -45,11 +49,21 @@ class Mmi_Service_Weather_Yahoo extends Mmi_Service_Weather_Abstract {
 		$xml = new SimpleXMLElement(file_get_contents($this->_geoCityUrl . '(\'' . $placeName . '\')?appid=' . $this->_appId));
 		return $xml->place->woeid;
 	}
-
+	
+	/**
+	 * Wyszukanie po nazwie miasta
+	 * @param string $cityName nazwa miasta
+	 * @return Mmi_Service_Weather_Data aktualna pogoda
+	 */
 	public function search($cityName) {
 		return $this->getByWoeid($this->getWoeid($cityName));
 	}
-
+	
+	/**
+	 * Pobranie pogody po woeid
+	 * @param string $woeid woeid
+	 * @return Mmi_Service_Weather_Data aktualna pogoda
+	 */
 	public function getByWoeid($woeid) {
 		$xml = new SimpleXmlElement(file_get_contents($this->_url . intval($woeid)));
 
@@ -98,6 +112,11 @@ class Mmi_Service_Weather_Yahoo extends Mmi_Service_Weather_Abstract {
 		return $current;
 	}
 	
+	/**
+	 * Formatowanie czasu z 12h na 24h
+	 * @param string $time nazwa miejsca (np. kraj+miasto)
+	 * @return string - czas 24h
+	 */
 	protected function _formatTime($time) {
 		$time = explode(' ', $time);
 		if (isset($time[1]) && $time[1] == 'pm') {

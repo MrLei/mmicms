@@ -1,7 +1,7 @@
 <?php
 
 class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
-	
+
 	public function init() {
 		$this->module = $this->module ? $this->module : 'default';
 		$this->controller = $this->controller ? $this->controller : 'index';
@@ -47,7 +47,7 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 			}
 			unset($this->object);
 		}
-		
+
 		//wiązanie artykułu
 		if ($this->article_id) {
 			$article = new Cms_Model_Article_Record($this->article_id);
@@ -68,15 +68,18 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 			$this->uri = null;
 		}
 
+		$this->dateStart = $this->dateStart ? $this->dateStart : null;
+		$this->dateEnd = $this->dateEnd ? $this->dateEnd : null;
+
 		return $this->save();
 	}
-	
+
 	public function save() {
 		$result = parent::save();
 		$this->_clearCache();
 		return $result;
 	}
-	
+
 	public function _insert() {
 		//dodawanie na końcu listy
 		if ($this->parent_id) {
@@ -88,13 +91,13 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 		}
 		return parent::_insert();
 	}
-	
+
 	public function delete() {
 		Cms_Model_Navigation_Dao::find(array('parent_id', $this->id))->delete();
 		$this->_clearCache();
 		return parent::delete();
 	}
-	
+
 	protected function _clearCache() {
 		Mmi_Cache::getInstance()->remove('Mmi_Navigation_' . Mmi_Controller_Front::getInstance()->getRequest()->lang);
 		Mmi_Cache::getInstance()->remove('Mmi_Acl');

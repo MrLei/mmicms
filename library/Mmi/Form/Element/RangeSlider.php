@@ -27,7 +27,10 @@
  */
 class Mmi_Form_Element_RangeSlider extends Mmi_Form_Element_Abstract {
 
-
+	/**
+	 * Buduje pole
+	 * @return string
+	 */
 	public function fetchField() {
 		$min = isset($this->_options['min']) ? $this->_options['min'] : 0;
 		$max = isset($this->_options['max']) ? $this->_options['max'] : 100;
@@ -51,9 +54,9 @@ class Mmi_Form_Element_RangeSlider extends Mmi_Form_Element_Abstract {
 				$(\'#' . $this->id . '_label span.min\').text(\''.$value[0].'\');
 				$(\'#' . $this->id . '_label span.max\').text(\''.$value[1].'\');
 				$(\'#' . $this->id . 'Slider\').slider({range: true, \'values\': ' . json_encode($value) . ', \'min\': ' . $min . ',\'max\': ' . $max . ', '.(($step)? '\'step\' : '.$step.' ,' : '').'
-					slide: function(event, ui) { 
+					slide: function(event, ui) {
 						$(\'#' . $this->id . '_min\').val(ui.values[0]); $(\'#' . $this->id . '_min\').trigger(\'change\');
-						$(\'#' . $this->id . '_max\').val(ui.values[1]); $(\'#' . $this->id . '_max\').trigger(\'change\'); 
+						$(\'#' . $this->id . '_max\').val(ui.values[1]); $(\'#' . $this->id . '_max\').trigger(\'change\');
 						$(\'#' . $this->id . '_label span.min\').text(ui.values[0]);
 						$(\'#' . $this->id . '_label span.max\').text(ui.values[1]);
 					}
@@ -69,11 +72,39 @@ class Mmi_Form_Element_RangeSlider extends Mmi_Form_Element_Abstract {
 				});
 			});
 		');
-		
+
 		$html = '<input class="sliderField" type="hidden" id="'.$this->id.'_min" name="'.$this->getName().'[]" value="'.$value[0].'" />';
 		$html .= '<input class="sliderField" type="hidden" id="'.$this->id.'_max" name="'.$this->getName().'[]" value="'.$value[1].'" />';
 		$html .= '<p class="slider range-slider"><span class="slider" id="' . $this->id . 'Slider"></span><span class="sliderFrom">' . number_format($min, 0, ',', ' ') . '</span><span class="sliderTo">' . number_format($max, 0, ',', ' ') . '</span></p>';
 		return $html;
+	}
+
+	/**
+	 * Buduje etykietę pola
+	 * @return string
+	 */
+	public function fetchLabel() {
+		if (!isset($this->_options['label'])) {
+			return;
+		}
+		if (isset($this->_options['id'])) {
+			$forHtml = ' id="' . $this->_options['id'] . '_label"';
+		} else {
+			$forHtml = '';
+		}
+		if (isset($this->_options['required']) && $this->_options['required'] && isset($this->_options['markRequired']) && $this->_options['markRequired']) {
+			$requiredClass = ' class="required"';
+			$required = '<span class="required">' . $this->_requiredAsterisk . '</span>';
+		} else {
+			$requiredClass = '';
+			$required = '';
+		}
+		if ($this->_translatorEnabled) {
+			$label = $this->getTranslator()->_($this->_options['label']);
+		} else {
+			$label = $this->_options['label'];
+		}
+		return '<label' . $forHtml . $requiredClass . '>' . $label . $this->_labelPostfix . $required . '</label>';
 	}
 
 }

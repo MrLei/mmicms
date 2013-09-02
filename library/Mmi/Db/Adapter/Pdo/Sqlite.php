@@ -28,18 +28,32 @@
  */
 class Mmi_Db_Adapter_Pdo_Sqlite extends Mmi_Db_Adapter_Pdo_Abstract {
 	
+	/**
+	 * Przechowuje funkcje sortowania
+	 * @var array
+	 */
 	protected static $_orderFunctions = array(
 		'RAND()' => 'RANDOM()'
 	);
-
+	
+	/**
+	 * Ustawia schemat
+	 * @param string $schemaName nazwa schematu
+	 */
 	public function selectSchema($schemaName) {
 		
 	}
 
+	/**
+	 * Ustawia domyślne parametry dla importu (długie zapytania)
+	 */
 	public function setDefaultImportParams() {
 
 	}
 
+	/**
+	 * Tworzy połączenie z bazą danych
+	 */
 	public function connect() {
 		if (isset($this->_options['profiler']) && $this->_options['profiler']) {
 			$this->_profiler = Mmi_Db_Profiler::getInstance();
@@ -56,6 +70,12 @@ class Mmi_Db_Adapter_Pdo_Sqlite extends Mmi_Db_Adapter_Pdo_Abstract {
 		$this->query('PRAGMA foreign_keys = ON');
 	}
 
+	/**
+	 * Wstawianie wielu rekordów
+	 * @param string $table nazwa tabeli
+	 * @param array $data tabela tabel w postaci: klucz => wartość
+	 * @return integer
+	 */
 	public function insertAll($table, array $data = array()) {
 		//brak natywnego wsparcia sqlite, wiele insertów dokonuje się uniami selectów
 		$fields = '';
@@ -85,6 +105,11 @@ class Mmi_Db_Adapter_Pdo_Sqlite extends Mmi_Db_Adapter_Pdo_Abstract {
 		return $this->query($sql, $bind)->rowCount();
 	}
 
+	/**
+	 * Otacza nazwę pola odpowiednimi znacznikami
+	 * @param string $fieldName nazwa pola
+	 * @return string
+	 */
 	public function prepareField($fieldName) {
 		//dla sqlite "
 		if (strpos($fieldName, '"') === false) {
@@ -93,23 +118,45 @@ class Mmi_Db_Adapter_Pdo_Sqlite extends Mmi_Db_Adapter_Pdo_Abstract {
 		return $fieldName;
 	}
 
+	/**
+	 * Otacza nazwę tabeli odpowiednimi znacznikami
+	 * @param string $tableName nazwa tabeli
+	 * @return string
+	 */
 	public function prepareTable($tableName) {
 		//dla sqlite jak pola
 		return $this->prepareField($tableName);
 	}
 
+	/**
+	 * Zwraca informację o kolumnach tabeli
+	 * @param string $tableName nazwa tabeli
+	 * @param array $schema schemat
+	 * @return array
+	 */
 	public function tableInfo($tableName, $schema = null) {
 		//schema nie jest używane w sqlite
 		return $this->_associateTableMeta($this->fetchAll('PRAGMA table_info(' . $this->prepareTable($tableName) . ')'));
 	}
 
+	/**
+	 * Tworzy konstrukcję sprawdzającą null w silniku bazy danych
+	 * @param string $fieldName nazwa pola
+	 * @param boolean $positive sprawdza czy null, lub czy nie null
+	 * @return string 
+	 */
 	public function prepareNullCheck($fieldName, $positive = true) {
 		if ($positive) {
 			return '(' . $fieldName . ' is null OR ' . $fieldName . ' = ' . $this->quote('') . ')';
 		}
 		return $fieldName . ' is not null';
 	}
-
+	
+	/**
+	 * Konwertuje do tabeli asocjacyjnej meta dane tabel
+	 * @param array $meta meta data
+	 * @return array
+	 */
 	protected function _associateTableMeta($meta) {
 		$associativeMeta = array();
 		foreach ($meta as $column) {
