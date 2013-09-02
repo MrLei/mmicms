@@ -19,7 +19,7 @@
  */
 
 /**
- * Filtr filtrujący zmienną, tak by mogła być wykorzystana wewnątrz właściwości znacznika HTML,
+ * Filtr filtrujący zmienną, tak by mogła być wykorzystana wewnątrz właściwości znacznika HTML
  * bez HTML i cudzysłowów
  * @category   Mmi
  * @package    Mmi_Filter
@@ -27,6 +27,12 @@
  */
 class Mmi_Filter_MarkupProperty extends Mmi_Filter_Abstract {
 
+	/**
+	 * Zmienia zmienną, tak by mogła być wykorzystana wewnątrz właściwości znacznika HTML
+	 * @param mixed $value wartość
+	 * @throws Exception jeśli filtrowanie $value nie jest możliwe
+	 * @return mixed
+	 */
 	public function filter($value) {
 		$value = trim(strip_tags($value));
 

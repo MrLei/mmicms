@@ -25,6 +25,12 @@
  */
 class Mmi_Filter_Intval extends Mmi_Filter_Abstract {
 
+	/**
+	 * Wycina wszystko poza liczbami
+	 * @param mixed $value wartość
+	 * @throws Exception jeśli filtrowanie $value nie jest możliwe
+	 * @return mixed
+	 */
 	public function filter($value) {
 		return intval($value);
 	}

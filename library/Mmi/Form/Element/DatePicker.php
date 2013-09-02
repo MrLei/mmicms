@@ -27,6 +27,9 @@
  */
 class Mmi_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
 
+	/**
+	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora
+	 */
 	public function init() {
 		$this->_options['validators'] = array(
 		array(
@@ -34,6 +37,10 @@ class Mmi_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
 		));
 	}
 
+	/**
+	 * Buduje pole
+	 * @return string
+	 */
 	public function fetchField() {
 		$view = Mmi_View::getInstance();
 		if (!isset($this->_options['startDate'])) {
@@ -46,8 +53,7 @@ class Mmi_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
 			$this->_options['format'] = 'yyyy-mm-dd';
 		}
 		$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
-		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/date.js');
-		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/datePicker.js');
+		$view->headScript()->appendFile($view->baseUrl . '/library/js/datePicker.js');
 
         if (!$this->value && !(isset($this->_options['emptyValue'])&&$this->_options['emptyValue']===true)) {
 			$this->value = date('Y-m-d');

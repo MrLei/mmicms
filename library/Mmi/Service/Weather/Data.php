@@ -85,6 +85,10 @@ class Mmi_Service_Weather_Data {
 	 */
 	public $icon;
 	
+	/**
+	 * Zwraca wszystkie dane obiektu w formie tablicy
+	 * @return array
+	 */
 	public function toArray() {
 		return array(
 			'condition' => $this->condition,

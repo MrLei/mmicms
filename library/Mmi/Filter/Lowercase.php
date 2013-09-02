@@ -25,6 +25,12 @@
  */
 class Mmi_Filter_Lowercase extends Mmi_Filter_Abstract {
 
+	/**
+	 * Zmniejsza wszystkie litery w ciągu
+	 * @param mixed $value wartość
+	 * @throws Exception jeśli filtrowanie $value nie jest możliwe
+	 * @return mixed
+	 */
 	public function filter($value) {
 		return mb_strtolower($value, mb_detect_encoding($value));
 	}

@@ -15,6 +15,10 @@ class Cms_Form_Admin_Article extends Mmi_Form {
 			'mode' => 'advanced'
 		));
 
+		$this->addElement('checkbox', 'noindex', array(
+			'label' => 'Bez indeksowania w google'
+		));
+
 		//uploader
 		$this->addElement('uploader', 'uploader', array(
 			'label' => 'Załaduj pliki'

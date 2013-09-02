@@ -29,7 +29,12 @@ class Mmi_Validate_Date extends Mmi_Validate_Abstract {
 	 * Treść wiadomości
 	 */
 	const INVALID = 'Wprowadzona wartość nie jest poprawną datą';
-
+	
+	/**
+	 * Walidacja daty
+	 * @param mixed $value wartość
+	 * @return boolean
+	 */
 	public function isValid($value) {
 		if (!strtotime($value)) {
 			$this->_error(self::INVALID);

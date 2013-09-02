@@ -47,7 +47,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	 * @var string
 	 */
 	private $_separator = ' &gt; ';
-	
+
 	/**
 	 * Separator breadcrumbs
 	 * @var string
@@ -89,7 +89,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	 * @var array
 	 */
 	private $_breadcrumbsData;
-	
+
 	/**
 	 * Przechowuje czy ostatni breadcrumb to link
 	 * @var bool
@@ -162,10 +162,10 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 		$this->_buildBreadcrumbs();
 		return $this;
 	}
-	
+
 	/**
 	 * Ustawia seperator w meta
-	 * @param type $separator separator
+	 * @param string $separator separator
 	 * @return Mmi_View_Helper_Navigation
 	 */
 	public function setMetaSeparator($separator) {
@@ -215,7 +215,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 		$this->_title = $title;
 		return $this;
 	}
-	
+
 	/**
 	 * Pobiera tytuł
 	 * @return string
@@ -233,7 +233,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 		$this->_description = $description;
 		return $this;
 	}
-	
+
 	/**
 	 * Pobiera opis
 	 * @return string
@@ -275,7 +275,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	public function breadcrumbs() {
 		return $this->_breadcrumbs;
 	}
-	
+
 	/**
 	 * Linkuj ostatni breadcrumb w ścieżce
 	 * @param bool $link linkuj
@@ -291,6 +291,8 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	 * @param string $label etykieta
 	 * @param string $uri URL
 	 * @param string $title tytuł
+	 * @param string $description opis
+	 * @param string $keywords słowa kluczowe
 	 * @return Mmi_View_Helper_Navigation
 	 */
 	public function modifyBreadcrumb($index, $label, $uri = null, $title = null, $description = null, $keywords = null) {
@@ -488,7 +490,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 		foreach ($data as $breadcrumb) {
 			$i++;
 			if ($i == $count && !$this->_linkLastBreadcrumb) {
-				$breadcrumbs[] = strip_tags($breadcrumb['label']);
+				$breadcrumbs[] = '<span>' . strip_tags($breadcrumb['label']) . '</span>';
 			} else {
 				$breadcrumbs[] = '<a href="' . $breadcrumb['uri'] . '">' . strip_tags($breadcrumb['label']) . '</a>';
 			}
@@ -528,7 +530,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 			} else {
 				$allowed = true;
 			}
-			if (!$leaf['visible'] || !$allowed) {
+			if ($leaf['disabled'] || !$leaf['visible'] || !$allowed) {
 				unset($menu[$key]);
 			}
 		}
@@ -561,7 +563,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 			if (isset($leaf['blank']) && $leaf['blank'] == 1) {
 				$extras .= ' target="_blank"';
 			}
-			$html .= '<li id="item-' . $leaf['id'] . '" ' . $class . '><span class="item-begin"></span><a href="' . $leaf['uri'] . '"' . $extras . '>' . $leaf['label'] . '</a>' . $subHtml . '<span class="item-end"></span></li>';
+			$html .= '<li id="item-' . $leaf['id'] . '" ' . $class . '><span class="item-begin"></span><a href="' . htmlspecialchars($leaf['uri']) . '"' . $extras . '>' . $leaf['label'] . '</a>' . $subHtml . '<span class="item-end"></span></li>';
 			$index++;
 		}
 		if ($this->_minDepth > $depth) {

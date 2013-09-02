@@ -3,7 +3,7 @@
 class Cms_Controller_AdminNavigation extends MmiCms_Controller_Admin {
 
 	public function indexAction() {
-		$this->view->navigation = Cms_Model_Navigation_Dao::seek($this->_getParam('id'));;
+		$this->view->navigation = Cms_Model_Navigation_Dao::seek($this->_getParam('id'));
 	}
 
 	public function editAction() {

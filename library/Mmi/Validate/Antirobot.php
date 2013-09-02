@@ -24,7 +24,10 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Validate_Antirobot extends Mmi_Validate_Abstract {
-
+	
+	/**
+     * Komunikat błędnego kodu zabezpieczającego
+     */
 	const INVALID = 'Kod zabezpieczenia niepoprawny';
 
 	/**
@@ -37,6 +40,10 @@ class Mmi_Validate_Antirobot extends Mmi_Validate_Abstract {
 		return (('js-' . self::generateCrc() . '-js') == $value);
 	}
 	
+	/**
+	 * Generowanie unikalnego CRC na dany dzień
+	 * @return integer
+	 */
 	public static function generateCrc() {
 		return crc32(date('Y-m-d') . 'antirobot-crc');
 	}

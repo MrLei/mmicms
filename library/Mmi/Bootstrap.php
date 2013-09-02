@@ -28,6 +28,7 @@ class Mmi_Bootstrap {
 
 	/**
 	 * Konstruktor, ustawia ścieżki, ładuje domyślne klasy, ustawia autoloadera
+	 * @param string $path ścieżka
 	 */
 	public function __construct($path) {
 		//ustawienie kodowań
@@ -82,13 +83,10 @@ class Mmi_Bootstrap {
 
 		//obsługa włączonych magic quotes
 		if (ini_get('magic_quotes_gpc')) {
-			function stripslashes_gpc(&$value) {
-				$value = stripslashes($value);
-			}
-			array_walk_recursive($_GET, 'stripslashes_gpc');
-			array_walk_recursive($_POST, 'stripslashes_gpc');
-			array_walk_recursive($_COOKIE, 'stripslashes_gpc');
-			array_walk_recursive($_REQUEST, 'stripslashes_gpc');
+			array_walk_recursive($_GET, array($this, '_stripslashesGpc'));
+			array_walk_recursive($_POST, array($this, '_stripslashesGpc'));
+			array_walk_recursive($_COOKIE, array($this, '_stripslashesGpc'));
+			array_walk_recursive($_REQUEST, array($this, '_stripslashesGpc'));
 		}
 
 		//ustawienie lokalizacji
@@ -236,6 +234,15 @@ class Mmi_Bootstrap {
 		$front = $this->registerPlugins();
 		$front->dispatch();
 		ob_end_flush();
+	}
+
+	/**
+	 * Modyfikuje podany w argumencie String usuwając cudzysłowia i podwójne backslash'e.
+	 * @param string $value string do modyfikacji
+	 * @return string
+	 */
+	private function _stripslashesGpc(&$value) {
+		$value = stripslashes($value);
 	}
 
 }

@@ -3,12 +3,12 @@ $(document).ready(function () {
 	initGridInterior();
 	initGridFields();
 	initGridInputs();
-	
+
 });
 
 function initGrid() {
 
-	$(".grid-spot").live('change', function () {
+	$("body").on('change', ".grid-spot", function () {
 		var id = $(this).attr('id');
 		var splitedId = id.split('-');
 		var formId = splitedId[0];
@@ -50,7 +50,7 @@ function initGrid() {
 			initGridInterior();
 		});
 	});
-		
+
 	$("a.grid-spot").click(function () {
 		$(this).trigger('change');
 	});
@@ -101,7 +101,7 @@ function initGridInputs()
 		{
 			value = $(this).val();
 		} else if (fieldType == 'checkbox') {
-			if ($(this).attr('checked')) {
+			if ($(this).is(':checked')) {
 				value = '1';
 			} else {
 				value = '0';

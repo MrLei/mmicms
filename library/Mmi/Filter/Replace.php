@@ -25,6 +25,12 @@
  */
 class Mmi_Filter_Replace extends Mmi_Filter_Abstract {
 
+	/**
+	 * Zamienia znaki
+	 * @param mixed $value wartość
+	 * @throws Exception jeśli filtrowanie $value nie jest możliwe
+	 * @return mixed
+	 */
 	public function filter($value) {
 		$search = isset($this->_options[0]) ? $this->_options[0] : '';
 		$replace = isset($this->_options[1]) ? $this->_options[1] : '';

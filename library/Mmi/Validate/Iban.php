@@ -30,9 +30,17 @@ class Mmi_Validate_Iban extends Mmi_Validate_Abstract {
 	 * Treść błędu
 	 */
 	const INVALID = 'Wprowadzona wartość nie jest poprawnym numerem IBAN';
-
+	
+	/**
+     * Treść błędu o złym kraju IBAN
+     */
 	const INVALID_COUNTRY = 'IBAN pochodzi z niedozwolonego kraju';
-
+	
+	/**
+	 * Walidacja IBAN (rachunek bankowy)
+	 * @param mixed $value wartość
+	 * @return boolean
+	 */
 	public function isValid($value) {
 		$country = isset($this->_options[0]) ? $this->_options[0] : 'PL';
 		$limitCountries = isset($this->_options[1]) ? $this->_options[1] : false;

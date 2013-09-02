@@ -189,7 +189,7 @@ SELECT pg_catalog.setval('cms_contact_id_seq', 4, true);
 --
 -- TOC entry 181 (class 1259 OID 16561)
 -- Dependencies: 7
--- Name: cms_contact_option; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_contact_option; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE TABLE cms_contact_option (
@@ -236,7 +236,7 @@ SELECT pg_catalog.setval('cms_contact_option_id_seq', 4, true);
 --
 -- TOC entry 185 (class 1259 OID 16599)
 -- Dependencies: 7
--- Name: cms_file; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_file; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE TABLE cms_file (
@@ -299,7 +299,7 @@ SELECT pg_catalog.setval('cms_file_id_seq', 3, true);
 --
 -- TOC entry 176 (class 1259 OID 16491)
 -- Dependencies: 2095 7
--- Name: cms_log; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_log; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE TABLE cms_log (
@@ -356,7 +356,7 @@ SELECT pg_catalog.setval('cms_log_id_seq', 17, true);
 --
 -- TOC entry 170 (class 1259 OID 16435)
 -- Dependencies: 2089 2090 2091 7
--- Name: cms_navigation; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_navigation; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE TABLE cms_navigation (
@@ -415,7 +415,7 @@ SELECT pg_catalog.setval('cms_navigation_id_seq', 200, true);
 --
 -- TOC entry 165 (class 1259 OID 16403)
 -- Dependencies: 7
--- Name: cms_role; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_role; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE TABLE cms_role (
@@ -488,7 +488,7 @@ CREATE UNIQUE INDEX cms_text_lang_key_idx
 --
 -- TOC entry 187 (class 1259 OID 16626)
 -- Dependencies: 2104 7
--- Name: cron; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cron; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE TABLE cron (
@@ -549,7 +549,7 @@ SELECT pg_catalog.setval('cron_id_seq', 1, true);
 --
 -- TOC entry 204 (class 1259 OID 16772)
 -- Dependencies: 2126 2127 7
--- Name: mail; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: mail; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE TABLE mail (
@@ -574,7 +574,7 @@ ALTER TABLE mail OWNER TO mmi;
 --
 -- TOC entry 202 (class 1259 OID 16752)
 -- Dependencies: 2122 2123 2124 7
--- Name: mail_definition; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: mail_definition; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE TABLE mail_definition (
@@ -666,7 +666,7 @@ SELECT pg_catalog.setval('mail_id_seq', 1, false);
 --
 -- TOC entry 200 (class 1259 OID 16740)
 -- Dependencies: 2118 2119 2120 7
--- Name: mail_server; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: mail_server; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE TABLE mail_server (
@@ -722,7 +722,7 @@ SELECT pg_catalog.setval('mail_server_id_seq', 1, true);
 --
 -- TOC entry 208 (class 1259 OID 16798)
 -- Dependencies: 2129 7
--- Name: news; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: news; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE TABLE news (
@@ -781,7 +781,7 @@ SELECT pg_catalog.setval('news_id_seq', 2, true);
 --
 -- TOC entry 218 (class 1259 OID 21634)
 -- Dependencies: 2137 2138 7
--- Name: payment; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: payment; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE TABLE payment (
@@ -804,7 +804,7 @@ ALTER TABLE payment OWNER TO mmi;
 --
 -- TOC entry 216 (class 1259 OID 21623)
 -- Dependencies: 2135 7
--- Name: payment_config; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: payment_config; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE TABLE payment_config (
@@ -891,7 +891,7 @@ SELECT pg_catalog.setval('payment_id_seq', 1, false);
 --
 -- TOC entry 210 (class 1259 OID 16810)
 -- Dependencies: 7
--- Name: stat; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: stat; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE TABLE stat (
@@ -907,7 +907,7 @@ ALTER TABLE stat OWNER TO mmi;
 --
 -- TOC entry 212 (class 1259 OID 20227)
 -- Dependencies: 2132 7
--- Name: stat_date; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: stat_date; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE TABLE stat_date (
@@ -995,7 +995,7 @@ SELECT pg_catalog.setval('stat_id_seq', 2, true);
 --
 -- TOC entry 214 (class 1259 OID 20238)
 -- Dependencies: 7
--- Name: stat_label; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: stat_label; Type: TABLE; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE TABLE stat_label (
@@ -1422,7 +1422,7 @@ INSERT INTO stat (id, object, "objectId", "dateTime") VALUES (2, 'user_login', N
 --
 -- TOC entry 2144 (class 2606 OID 16469)
 -- Dependencies: 163 163
--- Name: cms_acl_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_acl_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 ALTER TABLE ONLY cms_acl
@@ -1432,7 +1432,7 @@ ALTER TABLE ONLY cms_acl
 --
 -- TOC entry 2168 (class 2606 OID 16485)
 -- Dependencies: 174 174
--- Name: cms_article_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_article_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 ALTER TABLE ONLY cms_article
@@ -1442,7 +1442,7 @@ ALTER TABLE ONLY cms_article
 --
 -- TOC entry 2153 (class 2606 OID 16424)
 -- Dependencies: 167 167
--- Name: cms_auth_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_auth_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 ALTER TABLE ONLY cms_auth
@@ -1452,7 +1452,7 @@ ALTER TABLE ONLY cms_auth
 --
 -- TOC entry 2161 (class 2606 OID 16457)
 -- Dependencies: 172 172
--- Name: cms_auth_role_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_auth_role_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 ALTER TABLE ONLY cms_auth_role
@@ -1462,7 +1462,7 @@ ALTER TABLE ONLY cms_auth_role
 --
 -- TOC entry 2184 (class 2606 OID 16550)
 -- Dependencies: 179 179
--- Name: cms_comment_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_comment_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 ALTER TABLE ONLY cms_comment
@@ -1472,7 +1472,7 @@ ALTER TABLE ONLY cms_comment
 --
 -- TOC entry 2189 (class 2606 OID 16566)
 -- Dependencies: 181 181
--- Name: cms_contact_option_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_contact_option_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 ALTER TABLE ONLY cms_contact_option
@@ -1482,7 +1482,7 @@ ALTER TABLE ONLY cms_contact_option
 --
 -- TOC entry 2194 (class 2606 OID 16578)
 -- Dependencies: 183 183
--- Name: cms_contact_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_contact_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 ALTER TABLE ONLY cms_contact
@@ -1492,7 +1492,7 @@ ALTER TABLE ONLY cms_contact
 --
 -- TOC entry 2208 (class 2606 OID 16607)
 -- Dependencies: 185 185
--- Name: cms_file_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_file_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 ALTER TABLE ONLY cms_file
@@ -1502,7 +1502,7 @@ ALTER TABLE ONLY cms_file
 --
 -- TOC entry 2177 (class 2606 OID 16500)
 -- Dependencies: 176 176
--- Name: cms_log_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_log_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 ALTER TABLE ONLY cms_log
@@ -1512,7 +1512,7 @@ ALTER TABLE ONLY cms_log
 --
 -- TOC entry 2158 (class 2606 OID 16446)
 -- Dependencies: 170 170
--- Name: cms_navigation_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_navigation_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 ALTER TABLE ONLY cms_navigation
@@ -1522,7 +1522,7 @@ ALTER TABLE ONLY cms_navigation
 --
 -- TOC entry 2148 (class 2606 OID 16408)
 -- Dependencies: 165 165
--- Name: cms_role_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_role_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 ALTER TABLE ONLY cms_role
@@ -1532,7 +1532,7 @@ ALTER TABLE ONLY cms_role
 --
 -- TOC entry 2214 (class 2606 OID 16635)
 -- Dependencies: 187 187
--- Name: cron_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cron_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 ALTER TABLE ONLY cron
@@ -1542,7 +1542,7 @@ ALTER TABLE ONLY cron
 --
 -- TOC entry 2243 (class 2606 OID 16763)
 -- Dependencies: 202 202
--- Name: mail_definition_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: mail_definition_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 ALTER TABLE ONLY mail_definition
@@ -1552,7 +1552,7 @@ ALTER TABLE ONLY mail_definition
 --
 -- TOC entry 2247 (class 2606 OID 16782)
 -- Dependencies: 204 204
--- Name: mail_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: mail_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 ALTER TABLE ONLY mail
@@ -1562,7 +1562,7 @@ ALTER TABLE ONLY mail
 --
 -- TOC entry 2239 (class 2606 OID 16748)
 -- Dependencies: 200 200
--- Name: mail_server_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: mail_server_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 ALTER TABLE ONLY mail_server
@@ -1572,7 +1572,7 @@ ALTER TABLE ONLY mail_server
 --
 -- TOC entry 2250 (class 2606 OID 16807)
 -- Dependencies: 208 208
--- Name: news_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: news_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 ALTER TABLE ONLY news
@@ -1582,7 +1582,7 @@ ALTER TABLE ONLY news
 --
 -- TOC entry 2262 (class 2606 OID 21629)
 -- Dependencies: 216 216
--- Name: payment_config_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: payment_config_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 ALTER TABLE ONLY payment_config
@@ -1592,7 +1592,7 @@ ALTER TABLE ONLY payment_config
 --
 -- TOC entry 2268 (class 2606 OID 21644)
 -- Dependencies: 218 218
--- Name: payment_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: payment_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 ALTER TABLE ONLY payment
@@ -1602,7 +1602,7 @@ ALTER TABLE ONLY payment
 --
 -- TOC entry 2256 (class 2606 OID 20233)
 -- Dependencies: 212 212
--- Name: stat_date_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: stat_date_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 ALTER TABLE ONLY stat_date
@@ -1612,7 +1612,7 @@ ALTER TABLE ONLY stat_date
 --
 -- TOC entry 2259 (class 2606 OID 20246)
 -- Dependencies: 214 214
--- Name: stat_label_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: stat_label_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 ALTER TABLE ONLY stat_label
@@ -1622,7 +1622,7 @@ ALTER TABLE ONLY stat_label
 --
 -- TOC entry 2252 (class 2606 OID 16815)
 -- Dependencies: 210 210
--- Name: stat_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: stat_pkey; Type: CONSTRAINT; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 ALTER TABLE ONLY stat
@@ -1632,7 +1632,7 @@ ALTER TABLE ONLY stat
 --
 -- TOC entry 2139 (class 1259 OID 16688)
 -- Dependencies: 163
--- Name: cms_acl_access_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_acl_access_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_acl_access_idx ON cms_acl USING btree (access);
@@ -1641,7 +1641,7 @@ CREATE INDEX cms_acl_access_idx ON cms_acl USING btree (access);
 --
 -- TOC entry 2140 (class 1259 OID 16687)
 -- Dependencies: 163
--- Name: cms_acl_action_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_acl_action_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_acl_action_idx ON cms_acl USING btree (action);
@@ -1650,7 +1650,7 @@ CREATE INDEX cms_acl_action_idx ON cms_acl USING btree (action);
 --
 -- TOC entry 2141 (class 1259 OID 16686)
 -- Dependencies: 163
--- Name: cms_acl_controller_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_acl_controller_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_acl_controller_idx ON cms_acl USING btree (controller);
@@ -1659,7 +1659,7 @@ CREATE INDEX cms_acl_controller_idx ON cms_acl USING btree (controller);
 --
 -- TOC entry 2142 (class 1259 OID 16685)
 -- Dependencies: 163
--- Name: cms_acl_module_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_acl_module_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_acl_module_idx ON cms_acl USING btree (module);
@@ -1668,7 +1668,7 @@ CREATE INDEX cms_acl_module_idx ON cms_acl USING btree (module);
 --
 -- TOC entry 2164 (class 1259 OID 16690)
 -- Dependencies: 174
--- Name: cms_article_dateAdd_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_article_dateAdd_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX "cms_article_dateAdd_idx" ON cms_article USING btree ("dateAdd");
@@ -1677,7 +1677,7 @@ CREATE INDEX "cms_article_dateAdd_idx" ON cms_article USING btree ("dateAdd");
 --
 -- TOC entry 2165 (class 1259 OID 16691)
 -- Dependencies: 174
--- Name: cms_article_dateModify_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_article_dateModify_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX "cms_article_dateModify_idx" ON cms_article USING btree ("dateModify");
@@ -1686,7 +1686,7 @@ CREATE INDEX "cms_article_dateModify_idx" ON cms_article USING btree ("dateModif
 --
 -- TOC entry 2166 (class 1259 OID 16487)
 -- Dependencies: 174
--- Name: cms_article_lang_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_article_lang_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_article_lang_idx ON cms_article USING btree (lang);
@@ -1695,7 +1695,7 @@ CREATE INDEX cms_article_lang_idx ON cms_article USING btree (lang);
 --
 -- TOC entry 2169 (class 1259 OID 16689)
 -- Dependencies: 174
--- Name: cms_article_title_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_article_title_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_article_title_idx ON cms_article USING btree (title);
@@ -1704,7 +1704,7 @@ CREATE INDEX cms_article_title_idx ON cms_article USING btree (title);
 --
 -- TOC entry 2170 (class 1259 OID 16486)
 -- Dependencies: 174
--- Name: cms_article_uri_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_article_uri_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_article_uri_idx ON cms_article USING btree (uri);
@@ -1713,7 +1713,7 @@ CREATE INDEX cms_article_uri_idx ON cms_article USING btree (uri);
 --
 -- TOC entry 2149 (class 1259 OID 16426)
 -- Dependencies: 167
--- Name: cms_auth_active_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_auth_active_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_auth_active_idx ON cms_auth USING btree (active);
@@ -1722,7 +1722,7 @@ CREATE INDEX cms_auth_active_idx ON cms_auth USING btree (active);
 --
 -- TOC entry 2150 (class 1259 OID 16428)
 -- Dependencies: 167
--- Name: cms_auth_email_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_auth_email_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_auth_email_idx ON cms_auth USING btree (email);
@@ -1731,7 +1731,7 @@ CREATE INDEX cms_auth_email_idx ON cms_auth USING btree (email);
 --
 -- TOC entry 2151 (class 1259 OID 16693)
 -- Dependencies: 167
--- Name: cms_auth_logged_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_auth_logged_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_auth_logged_idx ON cms_auth USING btree (logged);
@@ -1740,7 +1740,7 @@ CREATE INDEX cms_auth_logged_idx ON cms_auth USING btree (logged);
 --
 -- TOC entry 2154 (class 1259 OID 16427)
 -- Dependencies: 167
--- Name: cms_auth_username_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_auth_username_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_auth_username_idx ON cms_auth USING btree (username);
@@ -1749,7 +1749,7 @@ CREATE INDEX cms_auth_username_idx ON cms_auth USING btree (username);
 --
 -- TOC entry 2180 (class 1259 OID 16557)
 -- Dependencies: 179
--- Name: cms_comment_dateAdd_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_comment_dateAdd_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX "cms_comment_dateAdd_idx" ON cms_comment USING btree ("dateAdd");
@@ -1758,7 +1758,7 @@ CREATE INDEX "cms_comment_dateAdd_idx" ON cms_comment USING btree ("dateAdd");
 --
 -- TOC entry 2181 (class 1259 OID 16556)
 -- Dependencies: 179 179
--- Name: cms_comment_object_objectId_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_comment_object_objectId_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX "cms_comment_object_objectId_idx" ON cms_comment USING btree (object, "objectId");
@@ -1767,7 +1767,7 @@ CREATE INDEX "cms_comment_object_objectId_idx" ON cms_comment USING btree (objec
 --
 -- TOC entry 2182 (class 1259 OID 16694)
 -- Dependencies: 179
--- Name: cms_comment_parent_id_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_comment_parent_id_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_comment_parent_id_idx ON cms_comment USING btree (parent_id);
@@ -1776,7 +1776,7 @@ CREATE INDEX cms_comment_parent_id_idx ON cms_comment USING btree (parent_id);
 --
 -- TOC entry 2185 (class 1259 OID 16558)
 -- Dependencies: 179
--- Name: cms_comment_stars_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_comment_stars_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_comment_stars_idx ON cms_comment USING btree (stars);
@@ -1785,7 +1785,7 @@ CREATE INDEX cms_comment_stars_idx ON cms_comment USING btree (stars);
 --
 -- TOC entry 2190 (class 1259 OID 16594)
 -- Dependencies: 183
--- Name: cms_contact_active_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_contact_active_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_contact_active_idx ON cms_contact USING btree (active);
@@ -1794,7 +1794,7 @@ CREATE INDEX cms_contact_active_idx ON cms_contact USING btree (active);
 --
 -- TOC entry 2191 (class 1259 OID 16596)
 -- Dependencies: 183
--- Name: cms_contact_dateAdd_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_contact_dateAdd_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX "cms_contact_dateAdd_idx" ON cms_contact USING btree ("dateAdd");
@@ -1803,7 +1803,7 @@ CREATE INDEX "cms_contact_dateAdd_idx" ON cms_contact USING btree ("dateAdd");
 --
 -- TOC entry 2192 (class 1259 OID 16595)
 -- Dependencies: 183
--- Name: cms_contact_email_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_contact_email_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_contact_email_idx ON cms_contact USING btree (email);
@@ -1812,7 +1812,7 @@ CREATE INDEX cms_contact_email_idx ON cms_contact USING btree (email);
 --
 -- TOC entry 2187 (class 1259 OID 16697)
 -- Dependencies: 181
--- Name: cms_contact_option_name_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_contact_option_name_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_contact_option_name_idx ON cms_contact_option USING btree (name);
@@ -1821,7 +1821,7 @@ CREATE INDEX cms_contact_option_name_idx ON cms_contact_option USING btree (name
 --
 -- TOC entry 2195 (class 1259 OID 16696)
 -- Dependencies: 183
--- Name: cms_contact_uri_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_contact_uri_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_contact_uri_idx ON cms_contact USING btree (uri);
@@ -1830,7 +1830,7 @@ CREATE INDEX cms_contact_uri_idx ON cms_contact USING btree (uri);
 --
 -- TOC entry 2199 (class 1259 OID 16614)
 -- Dependencies: 185
--- Name: cms_file_active_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_file_active_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_file_active_idx ON cms_file USING btree (active);
@@ -1839,7 +1839,7 @@ CREATE INDEX cms_file_active_idx ON cms_file USING btree (active);
 --
 -- TOC entry 2200 (class 1259 OID 16621)
 -- Dependencies: 185
--- Name: cms_file_author_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_file_author_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_file_author_idx ON cms_file USING btree (author);
@@ -1848,7 +1848,7 @@ CREATE INDEX cms_file_author_idx ON cms_file USING btree (author);
 --
 -- TOC entry 2201 (class 1259 OID 16618)
 -- Dependencies: 185
--- Name: cms_file_class_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_file_class_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_file_class_idx ON cms_file USING btree (class);
@@ -1857,7 +1857,7 @@ CREATE INDEX cms_file_class_idx ON cms_file USING btree (class);
 --
 -- TOC entry 2202 (class 1259 OID 16622)
 -- Dependencies: 185
--- Name: cms_file_dateAdd_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_file_dateAdd_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX "cms_file_dateAdd_idx" ON cms_file USING btree ("dateAdd");
@@ -1866,7 +1866,7 @@ CREATE INDEX "cms_file_dateAdd_idx" ON cms_file USING btree ("dateAdd");
 --
 -- TOC entry 2203 (class 1259 OID 16623)
 -- Dependencies: 185
--- Name: cms_file_dateModify_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_file_dateModify_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX "cms_file_dateModify_idx" ON cms_file USING btree ("dateModify");
@@ -1875,7 +1875,7 @@ CREATE INDEX "cms_file_dateModify_idx" ON cms_file USING btree ("dateModify");
 --
 -- TOC entry 2204 (class 1259 OID 16619)
 -- Dependencies: 185
--- Name: cms_file_name_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_file_name_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_file_name_idx ON cms_file USING btree (name);
@@ -1884,7 +1884,7 @@ CREATE INDEX cms_file_name_idx ON cms_file USING btree (name);
 --
 -- TOC entry 2205 (class 1259 OID 16615)
 -- Dependencies: 185 185
--- Name: cms_file_object_objectId_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_file_object_objectId_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX "cms_file_object_objectId_idx" ON cms_file USING btree (object, "objectId");
@@ -1893,7 +1893,7 @@ CREATE INDEX "cms_file_object_objectId_idx" ON cms_file USING btree (object, "ob
 --
 -- TOC entry 2206 (class 1259 OID 16617)
 -- Dependencies: 185
--- Name: cms_file_order_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_file_order_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_file_order_idx ON cms_file USING btree ("order");
@@ -1902,7 +1902,7 @@ CREATE INDEX cms_file_order_idx ON cms_file USING btree ("order");
 --
 -- TOC entry 2209 (class 1259 OID 16616)
 -- Dependencies: 185
--- Name: cms_file_sticky_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_file_sticky_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_file_sticky_idx ON cms_file USING btree (sticky);
@@ -1911,7 +1911,7 @@ CREATE INDEX cms_file_sticky_idx ON cms_file USING btree (sticky);
 --
 -- TOC entry 2210 (class 1259 OID 16620)
 -- Dependencies: 185
--- Name: cms_file_title_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_file_title_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_file_title_idx ON cms_file USING btree (title);
@@ -1920,7 +1920,7 @@ CREATE INDEX cms_file_title_idx ON cms_file USING btree (title);
 --
 -- TOC entry 2171 (class 1259 OID 16533)
 -- Dependencies: 176
--- Name: cms_log_dateTime_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_log_dateTime_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX "cms_log_dateTime_idx" ON cms_log USING btree ("dateTime");
@@ -1929,7 +1929,7 @@ CREATE INDEX "cms_log_dateTime_idx" ON cms_log USING btree ("dateTime");
 --
 -- TOC entry 2172 (class 1259 OID 16529)
 -- Dependencies: 176
--- Name: cms_log_ip_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_log_ip_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_log_ip_idx ON cms_log USING btree (ip);
@@ -1938,7 +1938,7 @@ CREATE INDEX cms_log_ip_idx ON cms_log USING btree (ip);
 --
 -- TOC entry 2173 (class 1259 OID 16532)
 -- Dependencies: 176
--- Name: cms_log_objectId_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_log_objectId_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX "cms_log_objectId_idx" ON cms_log USING btree ("objectId");
@@ -1947,7 +1947,7 @@ CREATE INDEX "cms_log_objectId_idx" ON cms_log USING btree ("objectId");
 --
 -- TOC entry 2174 (class 1259 OID 16531)
 -- Dependencies: 176
--- Name: cms_log_object_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_log_object_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_log_object_idx ON cms_log USING btree (object);
@@ -1956,7 +1956,7 @@ CREATE INDEX cms_log_object_idx ON cms_log USING btree (object);
 --
 -- TOC entry 2175 (class 1259 OID 16530)
 -- Dependencies: 176
--- Name: cms_log_operation_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_log_operation_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_log_operation_idx ON cms_log USING btree (operation);
@@ -1965,7 +1965,7 @@ CREATE INDEX cms_log_operation_idx ON cms_log USING btree (operation);
 --
 -- TOC entry 2178 (class 1259 OID 16528)
 -- Dependencies: 176
--- Name: cms_log_url_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_log_url_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_log_url_idx ON cms_log USING btree (url);
@@ -1974,7 +1974,7 @@ CREATE INDEX cms_log_url_idx ON cms_log USING btree (url);
 --
 -- TOC entry 2155 (class 1259 OID 16448)
 -- Dependencies: 170
--- Name: cms_navigation_order_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_navigation_order_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_navigation_order_idx ON cms_navigation USING btree ("order");
@@ -1983,7 +1983,7 @@ CREATE INDEX cms_navigation_order_idx ON cms_navigation USING btree ("order");
 --
 -- TOC entry 2156 (class 1259 OID 16447)
 -- Dependencies: 170
--- Name: cms_navigation_parent_id_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_navigation_parent_id_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_navigation_parent_id_idx ON cms_navigation USING btree (parent_id);
@@ -1992,7 +1992,7 @@ CREATE INDEX cms_navigation_parent_id_idx ON cms_navigation USING btree (parent_
 --
 -- TOC entry 2159 (class 1259 OID 16449)
 -- Dependencies: 170
--- Name: cms_navigation_visible_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_navigation_visible_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_navigation_visible_idx ON cms_navigation USING btree (visible);
@@ -2001,7 +2001,7 @@ CREATE INDEX cms_navigation_visible_idx ON cms_navigation USING btree (visible);
 --
 -- TOC entry 2146 (class 1259 OID 16698)
 -- Dependencies: 165
--- Name: cms_role_name_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cms_role_name_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cms_role_name_idx ON cms_role USING btree (name);
@@ -2010,7 +2010,7 @@ CREATE INDEX cms_role_name_idx ON cms_role USING btree (name);
 --
 -- TOC entry 2212 (class 1259 OID 16699)
 -- Dependencies: 187
--- Name: cron_active_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: cron_active_idx; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX cron_active_idx ON cron USING btree (active);
@@ -2019,7 +2019,7 @@ CREATE INDEX cron_active_idx ON cron USING btree (active);
 --
 -- TOC entry 2145 (class 1259 OID 21660)
 -- Dependencies: 163
--- Name: fki_cms_acl_cms_role_id_fkey; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: fki_cms_acl_cms_role_id_fkey; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX fki_cms_acl_cms_role_id_fkey ON cms_acl USING btree (cms_role_id);
@@ -2028,7 +2028,7 @@ CREATE INDEX fki_cms_acl_cms_role_id_fkey ON cms_acl USING btree (cms_role_id);
 --
 -- TOC entry 2162 (class 1259 OID 21661)
 -- Dependencies: 172
--- Name: fki_cms_auth_role_cms_auth_id; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: fki_cms_auth_role_cms_auth_id; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX fki_cms_auth_role_cms_auth_id ON cms_auth_role USING btree (cms_auth_id);
@@ -2037,7 +2037,7 @@ CREATE INDEX fki_cms_auth_role_cms_auth_id ON cms_auth_role USING btree (cms_aut
 --
 -- TOC entry 2163 (class 1259 OID 21662)
 -- Dependencies: 172
--- Name: fki_cms_auth_role_cms_role_id; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: fki_cms_auth_role_cms_role_id; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX fki_cms_auth_role_cms_role_id ON cms_auth_role USING btree (cms_role_id);
@@ -2046,7 +2046,7 @@ CREATE INDEX fki_cms_auth_role_cms_role_id ON cms_auth_role USING btree (cms_rol
 --
 -- TOC entry 2186 (class 1259 OID 21663)
 -- Dependencies: 179
--- Name: fki_cms_comment_cms_auth_id_fkey; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: fki_cms_comment_cms_auth_id_fkey; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX fki_cms_comment_cms_auth_id_fkey ON cms_comment USING btree (cms_auth_id);
@@ -2055,7 +2055,7 @@ CREATE INDEX fki_cms_comment_cms_auth_id_fkey ON cms_comment USING btree (cms_au
 --
 -- TOC entry 2196 (class 1259 OID 21664)
 -- Dependencies: 183
--- Name: fki_cms_contact_cms_auth_id_fkey; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: fki_cms_contact_cms_auth_id_fkey; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX fki_cms_contact_cms_auth_id_fkey ON cms_contact USING btree (cms_auth_id);
@@ -2064,7 +2064,7 @@ CREATE INDEX fki_cms_contact_cms_auth_id_fkey ON cms_contact USING btree (cms_au
 --
 -- TOC entry 2197 (class 1259 OID 21665)
 -- Dependencies: 183
--- Name: fki_cms_contact_cms_auth_id_reply_fkey; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: fki_cms_contact_cms_auth_id_reply_fkey; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX fki_cms_contact_cms_auth_id_reply_fkey ON cms_contact USING btree (cms_auth_id_reply);
@@ -2073,7 +2073,7 @@ CREATE INDEX fki_cms_contact_cms_auth_id_reply_fkey ON cms_contact USING btree (
 --
 -- TOC entry 2198 (class 1259 OID 21666)
 -- Dependencies: 183
--- Name: fki_cms_contact_cms_contact_option_id_fkey; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: fki_cms_contact_cms_contact_option_id_fkey; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX fki_cms_contact_cms_contact_option_id_fkey ON cms_contact USING btree (cms_contact_option_id);
@@ -2082,7 +2082,7 @@ CREATE INDEX fki_cms_contact_cms_contact_option_id_fkey ON cms_contact USING btr
 --
 -- TOC entry 2211 (class 1259 OID 21667)
 -- Dependencies: 185
--- Name: fki_cms_file_cms_auth_id_fkey; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: fki_cms_file_cms_auth_id_fkey; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX fki_cms_file_cms_auth_id_fkey ON cms_file USING btree (cms_auth_id);
@@ -2091,7 +2091,7 @@ CREATE INDEX fki_cms_file_cms_auth_id_fkey ON cms_file USING btree (cms_auth_id)
 --
 -- TOC entry 2179 (class 1259 OID 21668)
 -- Dependencies: 176
--- Name: fki_cms_log_cms_auth_id_fkey; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: fki_cms_log_cms_auth_id_fkey; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX fki_cms_log_cms_auth_id_fkey ON cms_log USING btree (cms_auth_id);
@@ -2100,7 +2100,7 @@ CREATE INDEX fki_cms_log_cms_auth_id_fkey ON cms_log USING btree (cms_auth_id);
 --
 -- TOC entry 2240 (class 1259 OID 21679)
 -- Dependencies: 202
--- Name: fki_mail_definition_mail_server_id_fkey; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: fki_mail_definition_mail_server_id_fkey; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX fki_mail_definition_mail_server_id_fkey ON mail_definition USING btree (mail_server_id);
@@ -2109,7 +2109,7 @@ CREATE INDEX fki_mail_definition_mail_server_id_fkey ON mail_definition USING bt
 --
 -- TOC entry 2244 (class 1259 OID 21678)
 -- Dependencies: 204
--- Name: fki_mail_mail_definition_id_fkey; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace: 
+-- Name: fki_mail_mail_definition_id_fkey; Type: INDEX; Schema: mmi; Owner: mmi; Tablespace:
 --
 
 CREATE INDEX fki_mail_mail_definition_id_fkey ON mail USING btree (mail_definition_id);
@@ -2188,14 +2188,14 @@ ALTER TABLE cms_contact_option OWNER TO mmi;
 
 CREATE TABLE cms_route
 (
-   id serial NOT NULL, 
-   pattern character varying(255), 
-   replace text, 
-   "default" text, 
-   "order" integer NOT NULL DEFAULT 0, 
-   active smallint NOT NULL DEFAULT 0, 
+   id serial NOT NULL,
+   pattern character varying(255),
+   replace text,
+   "default" text,
+   "order" integer NOT NULL DEFAULT 0,
+   active smallint NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
-) 
+)
 WITH (
   OIDS = FALSE
 );
@@ -2213,6 +2213,24 @@ CREATE INDEX cms_route_order_idx
 ALTER TABLE cms_navigation ADD COLUMN independent smallint NOT NULL DEFAULT 0;
 ALTER TABLE cms_navigation ADD COLUMN nofollow smallint NOT NULL DEFAULT 0;
 ALTER TABLE cms_navigation ADD COLUMN blank smallint NOT NULL DEFAULT 0;
+ALTER TABLE cms_navigation ADD COLUMN "dateStart" timestamp without time zone;
+ALTER TABLE cms_navigation ADD COLUMN "dateEnd" timestamp without time zone;
+ALTER TABLE cms_navigation ADD COLUMN active smallint NOT NULL DEFAULT 1;
+
+CREATE INDEX cms_navigation_datestart_idx
+  ON cms_navigation
+  USING btree
+  ("dateStart" );
+
+CREATE INDEX cms_navigation_dateend_idx
+  ON cms_navigation
+  USING btree
+  ("dateEnd" );
+
+CREATE INDEX cms_navigation_active_idx
+  ON cms_navigation
+  USING btree
+  ("active" );
 
 DROP TABLE IF EXISTS cms_tag_link CASCADE;
 DROP TABLE IF EXISTS cms_tag CASCADE;
@@ -2261,3 +2279,5 @@ CREATE INDEX cms_tag_link_object_objectId_idx
   ON cms_tag_link
   USING btree
   ("object", "objectId" );
+
+ALTER TABLE cms_article ADD COLUMN noindex smallint NOT NULL DEFAULT 0;

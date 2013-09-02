@@ -31,10 +31,18 @@ class Mmi_Service_Weather_Google extends Mmi_Service_Weather_Abstract {
 	 */
 	protected $_iconBaseUrl = 'http://www.google.com';
 
+	/**
+	 * Konstruktor, ustawienie url usługi
+	 */
 	public function __construct() {
 		$this->_url = 'http://www.google.com/ig/api?weather';
 	}
 	
+	/**
+	 * Wyszukanie po nazwie miejsca
+	 * @param string $placeName nazwa miejsca (np. kraj+miasto)
+	 * @return Mmi_Service_Weather_Data aktualna pogoda
+	 */
 	public function search($placeName) {
 		$xml = new SimpleXMLElement(preg_replace('/<(city|postal_code) data="(.[^>]+)"\/>/', '<$1 data=""/>', file_get_contents($this->_url . '=' . urlencode($placeName))));
 		$wd = new Mmi_Service_Weather_Data();

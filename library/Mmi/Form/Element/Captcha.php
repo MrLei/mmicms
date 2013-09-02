@@ -39,7 +39,11 @@ class Mmi_Form_Element_Captcha extends Mmi_Form_Element_Abstract {
 			'options' => array('name' => $this->_options['name'])
 		));
 	}
-
+	
+	/**
+	 * Buduje pole
+	 * @return string
+	 */
 	public function fetchField() {
 		if (isset($this->_options['value'])) {
 			$this->_options['value'] = str_replace('"', '&quot;', $this->_options['value']);

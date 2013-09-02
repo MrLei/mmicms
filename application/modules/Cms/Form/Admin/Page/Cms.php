@@ -23,7 +23,7 @@ class Cms_Form_Admin_Page_Cms extends Mmi_Form {
 				array('validator' => 'StringLength', 'options' => array(3, 128)),
 			)
 		));
-		
+
 		//opcjonalny opis
 		$this->addElement('textarea', 'description', array(
 			'label' => 'Opis strony (meta/description)',
@@ -39,7 +39,7 @@ class Cms_Form_Admin_Page_Cms extends Mmi_Form {
 				array('validator' => 'StringLength', 'options' => array(3, 512)),
 			)
 		));
-		
+
 		$this->addElement('checkbox', 'independent', array(
 			'label' => 'Niezależne meta'
 		));
@@ -80,7 +80,7 @@ class Cms_Form_Admin_Page_Cms extends Mmi_Form {
 				0 => 'ukryty',
 			),
 		));
-		
+
 		$this->addElement('checkbox', 'nofollow', array(
 			'label' => 'Atrybut rel="nofollow"'
 		));
@@ -94,6 +94,18 @@ class Cms_Form_Admin_Page_Cms extends Mmi_Form {
 			'label' => 'Element nadrzędny',
 			'value' => Mmi_Controller_Front::getInstance()->getRequest()->parent,
 			'multiOptions' => Cms_Model_Navigation_Dao::getMultiOptions()
+		));
+
+		$this->addElement('dateTimePicker', 'dateStart', array(
+			'label' => 'Data i czas włączenia',
+		));
+
+		$this->addElement('dateTimePicker', 'dateEnd', array(
+			'label' => 'Data i czas wyłączenia',
+		));
+
+		$this->addElement('checkbox', 'active', array(
+			'label' => 'Włączony'
 		));
 
 		//submit

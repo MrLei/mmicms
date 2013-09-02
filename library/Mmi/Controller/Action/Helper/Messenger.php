@@ -58,6 +58,7 @@ class Mmi_Controller_Action_Helper_Messenger extends Mmi_Controller_Action_Helpe
 	 * Metoda główna, dodaje wiadomość
 	 * @param string $message wiadomość
 	 * @param bool $type true - pozytywna, null - neutralna, false - negatywna
+	 * @param bool $translate - sprawdza czy jest tłumaczenie
 	 * @return Mmi_Session_Namespace
 	 */
 	public function messenger($message, $type = null, $translate = true) {

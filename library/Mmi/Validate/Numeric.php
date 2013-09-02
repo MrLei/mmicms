@@ -29,7 +29,12 @@ class Mmi_Validate_Numeric extends Mmi_Validate_Abstract {
 	 * Treść wiadomości
 	 */
 	const INVALID = 'Wprowadzona wartość nie jest liczbą';
-
+	
+	/**
+	 * Walidacja liczb
+	 * @param mixed $value wartość
+	 * @return boolean
+	 */
 	public function isValid($value) {
 		if (!is_numeric($value)) {
 			$this->_error(self::INVALID);

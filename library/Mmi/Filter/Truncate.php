@@ -25,6 +25,12 @@
  */
 class Mmi_Filter_Truncate extends Mmi_Filter_Abstract {
 
+	/**
+	 * Obcina ciąg do zadanej długości
+	 * @param mixed $value wartość
+	 * @throws Exception jeśli filtrowanie $value nie jest możliwe
+	 * @return mixed
+	 */
 	public function filter($value) {
 		$length = isset($this->_options[0]) ? (int)$this->_options[0] : 80;
 

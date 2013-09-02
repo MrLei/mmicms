@@ -26,16 +26,11 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_Hidden extends Mmi_Form_Element_Abstract {
-
-	public function __toString() {
-		$this->preRender();
-		$html = $this->fetchBegin();
-		$html .= $this->fetchField();
-		$html .= $this->fetchErrors();
-		$html .= $this->fetchEnd();
-		return $html;
-	}
-
+	
+	/**
+	 * Buduje pole
+	 * @return string
+	 */
 	public function fetchField() {
 		if (isset($this->_options['value'])) {
 			$this->_options['value'] = str_replace('"', '&quot;', $this->_options['value']);
@@ -45,4 +40,16 @@ class Mmi_Form_Element_Hidden extends Mmi_Form_Element_Abstract {
 		return $html;
 	}
 
+	/**
+	 * Zwraca string'ową reprezentację obiektu
+	 * @return string
+	 */
+	public function __toString() {
+		$this->preRender();
+		$html = $this->fetchBegin();
+		$html .= $this->fetchField();
+		$html .= $this->fetchErrors();
+		$html .= $this->fetchEnd();
+		return $html;
+	}
 }

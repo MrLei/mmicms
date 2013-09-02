@@ -27,7 +27,8 @@ CREATE TABLE cms_article (
     uri character varying(160) NOT NULL,
     "dateAdd" DATETIME,
     "dateModify" DATETIME,
-    "text" text
+    "text" text,
+	noindex smallint DEFAULT 0 NOT NULL
 );
 
 CREATE INDEX "cms_article_dateAdd_idx" ON cms_article ("dateAdd");
@@ -191,12 +192,18 @@ CREATE TABLE cms_navigation (
 	independent smallint DEFAULT 0 NOT NULL,
 	nofollow smallint DEFAULT 0 NOT NULL,
 	blank smallint DEFAULT 0 NOT NULL,
-    visible smallint DEFAULT 0 NOT NULL
+    visible smallint DEFAULT 0 NOT NULL,
+	"dateStart" DATETIME,
+	"dateEnd" DATETIME,
+	active smallint DEFAULT 1 NOT NULL
 );
 
 CREATE INDEX cms_navigation_order_idx ON cms_navigation ("order");
 CREATE INDEX cms_navigation_parent_id_idx ON cms_navigation (parent_id);
 CREATE INDEX cms_navigation_visible_idx ON cms_navigation (visible);
+CREATE INDEX "cms_contact_dateStart_idx" ON cms_contact ("dateStart");
+CREATE INDEX "cms_contact_dateEnd_idx" ON cms_contact ("dateEnd");
+CREATE INDEX cms_navigation_active_idx ON cms_navigation (active);
 
 CREATE TABLE cms_role (
     id INTEGER PRIMARY KEY,
@@ -208,10 +215,10 @@ CREATE INDEX cms_role_name_idx ON cms_role ("name");
 CREATE TABLE cms_route
 (
    id INTEGER PRIMARY KEY,
-   pattern character varying(255), 
-   replace text, 
-   "default" text, 
-   "order" integer NOT NULL DEFAULT 0, 
+   pattern character varying(255),
+   replace text,
+   "default" text,
+   "order" integer NOT NULL DEFAULT 0,
    active smallint NOT NULL DEFAULT 0
 );
 

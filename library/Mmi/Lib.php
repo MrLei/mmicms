@@ -116,7 +116,7 @@ class Mmi_Lib {
 	 * @param int $size rozmiar w bajtach
 	 * @param int $digitsAfterDot miejsc po przecinku
 	 * @param int $row rząd 0-bajt, 1-kilo bajt itd.
-	 * @return <type>
+	 * @return string
 	 */
 	public static function bytes2human($size, $digitsAfterDot = 2, $row = 0) {
 		while ($size > 1024) {
@@ -177,7 +177,7 @@ class Mmi_Lib {
 
 	/**
 	 * Zrzuca zmienną
-	 * @param mixed $a zmienna do zrzucenia
+	 * @param mixed $var zmienna do zrzucenia
 	 */
 	public static function dump($var) {
 		echo '<pre>' . print_r($var, true) . '</pre>';

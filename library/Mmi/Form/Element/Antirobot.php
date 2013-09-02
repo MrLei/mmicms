@@ -39,7 +39,11 @@ class Mmi_Form_Element_Antirobot extends Mmi_Form_Element_Hidden {
 			'options' => array('name' => $this->_options['name'])
 		));
 	}
-
+	
+	/**
+	 * Buduje pole
+	 * @return string
+	 */
 	public function fetchField() {
 		$this->_options['value'] = Mmi_Validate_Antirobot::generateCrc();
 		return parent::fetchField();

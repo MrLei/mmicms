@@ -88,7 +88,7 @@ abstract class Mmi_Form {
 
 	/**
 	 * Zwrot zapisu z modelu
-	 * @var type 
+	 * @var mixed
 	 */
 	protected $_saveResult;
 
@@ -172,6 +172,7 @@ abstract class Mmi_Form {
 	 * Konstruktor
 	 * @param mixed $id identyfikator modelu lub obiekt recordu
 	 * @param array $options opcje
+	 * @param string $className nazwa klasy
 	 */
 	public function __construct($id = null, array $options = array(), $className = null) {
 		$this->_options = $options;
@@ -920,7 +921,8 @@ abstract class Mmi_Form {
 
 	/**
 	 * Automatyczny renderer formularza
-	 * @param bool borders renderowanie początku i zamknięcia formularza
+	 * @param bool $borders renderowanie początku i zamknięcia formularza
+	 * @param bool $renderSub renderowanie submita
 	 * @return string
 	 */
 	public function render($borders = true, $renderSub = true) {
@@ -996,6 +998,7 @@ abstract class Mmi_Form {
 	/**
 	 * Dołaczenie plików do obiektu
 	 * @param mixed $id
+	 * @param array $files tabela plików
 	 */
 	protected function _appendFiles($id, $files) {
 		try {
@@ -1028,7 +1031,7 @@ abstract class Mmi_Form {
 
 	/**
 	 * Zwraca nazwę plików powiązanych z danym formularzem (na podstawie klasy rekordu / modelu)
-	 * @param type $name
+	 * @param string $name
 	 * @return string
 	 */
 	protected function _classToFileObject($name) {

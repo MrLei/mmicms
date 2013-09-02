@@ -40,26 +40,26 @@ interface Mmi_Session_Handler_Interface {
 
 	/**
 	 * Odczyt danych sesji
-	 * @id string identyfikator sesji
+	 * @param string $id identyfikator sesji
 	 */
 	public function read($id);
 
 	/**
 	 * Zapis danych sesji 
-	 * @id string identyfikator sesji
-	 * @data mixed dane
+	 * @param string $id identyfikator sesji
+	 * @param mixed $data dane
 	 */
 	public function write($id, $data);
 
 	/**
 	 * Niszczenie sesji 
-	 * @id string identyfikator sesji
+	 * @param string $id identyfikator sesji
 	 */
 	public function destroy($id);
 
 	/**
 	 * Garbage collector 
-	 * @maxlifetime float maksymalny czas życia
+	 *@param float $maxlifetime maksymalny czas życia
 	 */
 	public function gc($maxlifetime);
 

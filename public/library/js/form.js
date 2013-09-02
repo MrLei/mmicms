@@ -36,6 +36,10 @@ function fieldValidationOnBlur(element) {
 		function (result) {
 			if (result) {
 				$('#' + errorsId).parent().addClass('error');
+				// Ukrycie dymka po kliknięciu
+				$('#' + errorsId).show().click(function () {
+					$(this).hide();
+				});
 			} else {
 				$('#' + errorsId).parent().removeClass('error');
 			}
@@ -48,6 +52,24 @@ $(document).ready(function () {
 	$('.validate').blur(function () {
 		fieldValidationOnBlur(jQuery(this));
 	});
-
+	$('div.errors').each(function () {
+		$(this).click(function () {
+			$(this).hide();
+		});
+	});
 	$('div.antirobot > input').val('js-' + $('div.antirobot > input').val() + '-js');
+
+	// Obsługa standardowego pola autocomplete generowanego przez backend php
+	$('input[type="text"][data-source]').each(function () {
+		var url = $(this).attr('data-source');
+		$(this).autocomplete({
+			source: url,
+			open: function () {
+				$(this).removeClass('ui-corner-all').addClass('ui-corner-top');
+			},
+			close: function () {
+				$(this).removeClass('ui-corner-top').addClass('ui-corner-all');
+			}
+		});
+	});
 });

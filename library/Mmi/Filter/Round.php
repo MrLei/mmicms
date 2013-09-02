@@ -25,6 +25,12 @@
  */
 class Mmi_Filter_Round extends Mmi_Filter_Abstract {
 
+	/**
+	 * Zaokrągla liczby
+	 * @param mixed $value wartość
+	 * @throws Exception jeśli filtrowanie $value nie jest możliwe
+	 * @return mixed
+	 */
 	public function filter($value) {
 		$precision = (int)(isset($this->_options[0]) ? $this->_options[0] : '');
 		return round($value, $precision);

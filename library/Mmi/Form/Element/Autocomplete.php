@@ -27,40 +27,14 @@
  */
 class Mmi_Form_Element_Autocomplete extends Mmi_Form_Element_Text {
 
+	/**
+	 * Buduje pole
+	 * @return string
+	 */
 	public function fetchField() {
 		$view = Mmi_View::getInstance();
 		$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
-		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/autocomplete.js');
-
-		$match = 'mustMatch: false';
-		if (isset($this->_options['mustMatch']) && $this->_options['mustMatch']) {
-			$match = 'mustMatch: true';
-		}
-
-		//opcje w tabeli
-		if (isset($this->_options['multiOptions']) && is_array($this->_options['multiOptions'])) {
-			$multiOptionsString = '';
-			foreach($this->_options['multiOptions'] as $option) {
-				$multiOptionsString	.= '"' . $option . '",';
-			}
-			$multiOptionsString = trim($multiOptionsString, ',');
-
-			$view->headScript()->appendScript('
-				$(document).ready(function() {
-					var ' . $this->id . 'Data = new Array('. $multiOptionsString .');
-					$(\'#' . $this->id . '\').autocomplete(' . $this->id . 'Data);
-				});
-			');
-		//backend skryptowy
-		} elseif (isset($this->_options['backend'])) {
-			$view->headScript()->appendScript('
-				$(document).ready(function() {
-					$(\'#' . $this->id . '\').autocomplete("' . $this->_options['backend'] . '/", {
-					' . $match . '
-					});
-				});
-			');
-		}
+		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/ui.js');
 		$view->headLink()->appendStylesheet($view->baseUrl . '/library/css/autocomplete.css');
 		return parent::fetchField();
 	}
