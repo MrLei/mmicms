@@ -48,7 +48,7 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 				$toolbarOptions = "
 					toolbar1 : 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify',
 				";
-				$plugins = "plugins : 'advlist,anchor,autolink,autoresize,autosave,charmap,code,contextmenu,fullscreen,hr,image,insertdatetime,link,lists,media,nonbreaking,noneditable,paste,print,preview,searchreplace,tabfocus,table,template,textcolor,visualblocks,visualchars,wordcount',";
+				$plugins = "plugins : 'advlist,anchor,autolink,autoresize,charmap,code,contextmenu,fullscreen,hr,image,insertdatetime,link,lists,media,nonbreaking,noneditable,paste,print,preview,searchreplace,tabfocus,table,template,textcolor,visualblocks,visualchars,wordcount',";
 				$theme = "theme : 'modern',";
 				$tskin = "skin : 'lightgray',";
 				$themeOptions = "image_advtab: true,
@@ -64,7 +64,7 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 					toolbar1 : 'undo redo | cut copy paste pastetext | bold italic underline strikethrough | subscript superscript | alignleft aligncenter alignright alignjustify | fontselect fontsizeselect | forecolor backcolor',
 					toolbar2 : 'styleselect | table | bullist numlist outdent indent blockquote | link unlink anchor image media code |  preview fullscreen | charmap visualchars nonbreaking inserttime hr template | searchreplace',
 				";
-				$plugins = "plugins : 'advlist,anchor,autolink,autoresize,autosave,charmap,code,contextmenu,fullscreen,hr,image,insertdatetime,link,lists,media,nonbreaking,noneditable,paste,print,preview,searchreplace,tabfocus,table,template,textcolor,visualblocks,visualchars,wordcount',";
+				$plugins = "plugins : 'advlist,anchor,autolink,autoresize,charmap,code,contextmenu,fullscreen,hr,image,insertdatetime,link,lists,media,nonbreaking,noneditable,paste,print,preview,searchreplace,tabfocus,table,template,textcolor,visualblocks,visualchars,wordcount',";
 				$theme = "theme : 'modern',";
 				$tskin = "skin : 'lightgray',";
 				$themeOptions = "image_advtab: true,
@@ -78,7 +78,7 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 				$toolbarOptions = "
 					toolbar1 : 'undo redo | bold italic underline strikethrough | forecolor backcolor | styleselect | bullist numlist outdent indent | fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | link unlink anchor image insertfile preview ',
 				";
-				$plugins = "plugins : 'advlist,anchor,autolink,autoresize,autosave,charmap,code,contextmenu,fullscreen,hr,image,insertdatetime,link,lists,media,nonbreaking,noneditable,paste,print,preview,searchreplace,tabfocus,table,template,textcolor,visualblocks,visualchars,wordcount',";
+				$plugins = "plugins : 'advlist,anchor,autolink,autoresize,charmap,code,contextmenu,fullscreen,hr,image,insertdatetime,link,lists,media,nonbreaking,noneditable,paste,print,preview,searchreplace,tabfocus,table,template,textcolor,visualblocks,visualchars,wordcount',";
 				$theme = "theme : 'modern',";
 				$tskin = "skin : 'lightgray',";
 				$themeOptions = "image_advtab: true,
@@ -141,7 +141,8 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 					'Wingdings=wingdings,zapf dingbats;'+
 					'EmpikBTT=empikb;'+
 					'EmpikLTT=empikl;'+
-					'EmpikRTT=empikr'
+					'EmpikRTT=empikr',
+				fontsize_formats: '1px 2px 3px 4px 6px 8px 9pc 10px 11px 12px 13px 14px 16px 18px 20px 22px 24px 26px 28px 36px 48px 50px 72px 100px'
 			});
 		");
 		
