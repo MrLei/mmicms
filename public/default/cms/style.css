@@ -168,8 +168,9 @@ p {
 
 /************ Button ************/
 
-.button,
-div.submit input.field {
+a.button,
+div.submit input.field,
+div.button input.field {
 	font-family: Verdana, Arial, sans-serif;
 	display: inline-block;
 	background: #459300 url('images/bg-button-green.gif') top left repeat-x !important;
@@ -180,8 +181,9 @@ div.submit input.field {
 	cursor: pointer;
 }
 
-.button:active,
-div.submit input.field:active
+a.button:active,
+div.submit input.field:active,
+div.button input.field:active
 {
 	padding: 5px 7px 3px 7px !important;
 }
