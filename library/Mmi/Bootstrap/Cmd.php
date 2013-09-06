@@ -43,7 +43,6 @@ class Mmi_Bootstrap_Cmd extends Mmi_Bootstrap {
 		define('TMP_PATH', BASE_PATH . '/tmp');
 		define('PUBLIC_PATH', BASE_PATH . '/public');
 		define('DATA_PATH', BASE_PATH . '/data');
-		define('HOST', isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null);
 
 		//ustawianie PHP
 		set_include_path(LIB_PATH);
@@ -58,8 +57,10 @@ class Mmi_Bootstrap_Cmd extends Mmi_Bootstrap {
 		require APPLICATION_PATH . '/configs/routes.php';
 		require APPLICATION_PATH . '/configs/local.php';
 		Mmi_Config::setConfig($_);
-
 		Mmi_Profiler::event('Configuration loaded');
+
+		//ustawianie hosta (jeśli brak - predefiniowany w configu)
+		define('HOST', isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : Mmi_Config::get('global', 'host'));
 
 		//wyłączenie cache
 		Mmi_Config::$data['cache']['active'] = false;
