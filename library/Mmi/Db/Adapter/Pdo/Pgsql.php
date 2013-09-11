@@ -27,15 +27,16 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
-		
+
 	/**
 	 * Ustawia schemat
 	 * @param string $schemaName nazwa schematu
 	 */
 	public function selectSchema($schemaName) {
+		$this->_options['schema'] = $schemaName;
 		$this->query('SET search_path TO "' . $schemaName . '"');
 	}
-	
+
 	/**
 	 * Ustawia domyślne parametry dla importu (długie zapytania)
 	 */
@@ -58,7 +59,7 @@ class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
 		$this->_options['port'] = isset($this->_options['port']) ? $this->_options['port'] : '5432';
 		parent::connect();
 		if (isset($this->_options['schema'])) {
-			$this->query('SET search_path TO "' . $this->_options['schema'] . '"');
+			$this->selectSchema($this->_options['schema']);
 		}
 		$this->query('SET client_encoding = ' . $this->_options['charset']);
 	}
@@ -89,7 +90,7 @@ class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
 	/**
 	 * Tworzy warunek limit
 	 * @param int $limit
-	 * @param int $offset 
+	 * @param int $offset
 	 * @return string
 	 */
 	public function prepareLimit($limit = null, $offset = null) {
@@ -106,7 +107,7 @@ class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
 	 * Tworzy konstrukcję sprawdzającą null w silniku bazy danych
 	 * @param string $fieldName nazwa pola
 	 * @param boolean $positive sprawdza czy null, lub czy nie null
-	 * @return string 
+	 * @return string
 	 */
 	public function prepareNullCheck($fieldName, $positive = true) {
 		if ($positive) {
