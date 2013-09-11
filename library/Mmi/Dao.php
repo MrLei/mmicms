@@ -37,13 +37,13 @@ class Mmi_Dao {
 	 * @var string
 	 */
 	protected static $_adapterName = 'Mmi_Db';
-	
+
 	/**
 	 * Nazwa klasy kolekcji rekordów
 	 * @var string
 	 */
 	protected static $_collectionName = 'Mmi_Dao_Record_Collection';
-	
+
 	/**
 	 * Nazwa klasy active recordu (jeśli nie podana ustalana jest automatycznie według konwencji)
 	 * Przykład konwencji: News_Model_Dao -> News_Model_Record (tabela w DB news)
@@ -66,7 +66,7 @@ class Mmi_Dao {
 		$result = self::getAdapter()->select(static::$_tableName, $bind, array(), null, null, array('COUNT(*)'), $joinSchema);
 		return isset($result[0]) ? current($result[0]) : 0;
 	}
-	
+
 	/**
 	 * Pobiera wszystkie rekordy i zwraca ich kolekcję
 	 * @param array $bind tabela w postaci: @see Mmi_Db_Adapter_Pdo_Abstract::_parseWhereBind()
@@ -87,7 +87,7 @@ class Mmi_Dao {
 		}
 		return $collection;
 	}
-	
+
 	/**
 	 * Pobiera obiekt pierwszy ze zbioru
 	 * @param array $bind tabela w postaci: @see Mmi_Db_Adapter_Pdo_Abstract::_parseWhereBind()
@@ -106,7 +106,7 @@ class Mmi_Dao {
 		$record->setFromArray($result[0])->clearModified()->setNew(false);
 		return $record;
 	}
-	
+
 	/**
 	 * Pobiera obiekt po kluczu głównym
 	 * @param mixed $id identyfikator
@@ -117,7 +117,7 @@ class Mmi_Dao {
 		$record = new $recordName($id);
 		return ($record->getPk() === null) ? null : $record;
 	}
-	
+
 	/**
 	 * Pobiera tabelę asocjacyjną klucz => wartość
 	 * @param string $keyName nazwa klucza
@@ -145,7 +145,7 @@ class Mmi_Dao {
 		}
 		return $kv;
 	}
-	
+
 	/**
 	 * Pobiera wartość maksymalną ze zbioru rekordów
 	 * @param string $keyName nazwa klucza
@@ -157,7 +157,7 @@ class Mmi_Dao {
 		$result = self::getAdapter()->select(static::$_tableName, $bind, array(), 1, 0, array('MAX(' . self::getAdapter()->prepareField($keyName) . ')'), $joinSchema);
 		return isset($result[0]) ? current($result[0]) : 0;
 	}
-	
+
 	/**
 	 * Pobiera adapter bazodanowy
 	 * @return Mmi_Db_Adapter_Pdo_Abstract
@@ -172,7 +172,7 @@ class Mmi_Dao {
 		}
 		return $adapter;
 	}
-	
+
 	/**
 	 * Pobiera strukturę tabeli
 	 * @return array
@@ -187,7 +187,7 @@ class Mmi_Dao {
 		}
 		return $structure;
 	}
-	
+
 	/**
 	 * Pobiera nazwę tabeli
 	 * @return array
@@ -195,7 +195,7 @@ class Mmi_Dao {
 	public static final function getTableName() {
 		return static::$_tableName;
 	}
-	
+
 	/**
 	 * Zwraca nazwę klasy rekordu
 	 * @return string
@@ -206,5 +206,5 @@ class Mmi_Dao {
 		}
 		return substr(get_called_class(), 0, -3) . 'Record';
 	}
-	
+
 }
