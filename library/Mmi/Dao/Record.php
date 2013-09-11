@@ -48,7 +48,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 
 	/**
 	 * Zwraca status ostatniego zapisu
-	 * @return int status 
+	 * @return int status
 	 */
 	public function getSaveStatus() {
 		return $this->_saveStatus;
@@ -56,7 +56,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 
 	/**
 	 * Kasowanie obiektu
-	 * @return boolean 
+	 * @return boolean
 	 */
 	public function delete() {
 		if ($this->getPk() === null) {
