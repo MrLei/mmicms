@@ -120,7 +120,7 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 					{title: 'Image', value: request.baseUrl + '/cms/file/list/object/$object/objectId/$objectId/t/$t/hash/$hash'}
 				],
 				document_base_url: request.baseUrl,
-				content_css : request.baseUrl + '/$skin/default/style.css',
+				content_css : request.baseUrl + '/$skin/default/css/default.css',
 				convert_urls: false,
 				font_formats: 'Andale Mono=andale mono,times;'+
 					'Arial=arial,helvetica,sans-serif;'+
