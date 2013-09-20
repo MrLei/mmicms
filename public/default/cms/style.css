@@ -696,7 +696,7 @@ ul.list li {
 ul.list div {
 	line-height: 160%;
 	float: left;
-	width: 220px;
+	min-width: 220px;
 	margin-right: 20px;
 	padding: 0!important;
 }

@@ -68,7 +68,7 @@ class Mmi_View_Helper_HeadLink extends Mmi_View_Helper_AbstractHead {
 			if ($conditional) {
 				$html .= '<!--[if ' . $conditional . ']>';
 			}
-			$html .= '<link ';
+			$html .= '	<link ';
 			$crc = isset($link['crc']) ? $link['crc'] : null;
 			unset($link['crc']);
 			foreach ($link as $key => $value) {

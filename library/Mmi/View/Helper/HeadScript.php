@@ -72,7 +72,7 @@ class Mmi_View_Helper_HeadScript extends Mmi_View_Helper_AbstractHead {
 			if ($conditional) {
 				$html .= '<!--[if ' . $conditional . ']>';
 			}
-			$html .= '<script ';
+			$html .= '	<script ';
 			$crc = $script['crc'];
 			unset($script['crc']);
 			foreach ($script as $key => $value) {
@@ -87,7 +87,7 @@ class Mmi_View_Helper_HeadScript extends Mmi_View_Helper_AbstractHead {
 			}
 			$html .= '>';
 			if (isset($scriptContent)) {
-				$html .= PHP_EOL . '// <![CDATA[' . PHP_EOL . $scriptContent . PHP_EOL . '// ]]>';
+				$html .= PHP_EOL . '		// <![CDATA[' . PHP_EOL . $scriptContent . PHP_EOL . '		// ]]>';
 				unset($scriptContent);
 			}
 			$html .= '</script>';

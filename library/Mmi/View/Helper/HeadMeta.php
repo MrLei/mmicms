@@ -68,7 +68,7 @@ class Mmi_View_Helper_HeadMeta extends Mmi_View_Helper_AbstractHead {
 			if ($conditional) {
 				$html .= '<!--[if ' . $conditional . ']>';
 			}
-			$html .= '<meta ';
+			$html .= '	<meta ';
 			foreach ($meta as $key => $value) {
 				$html .= $key. '="' . $value . '" ';
 			}
