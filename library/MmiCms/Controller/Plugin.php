@@ -112,7 +112,7 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 			}
 			$jsReqestArray[] = "'".$filter->filter($param)."' : ".$value;
 		}
-		$jsRequest = "var request = {\n".implode(",\n", $jsReqestArray)."\n};";
+		$jsRequest = "		var request = {\n		".implode(",\n		", $jsReqestArray)."\n		};";
 		$view->headScript()->appendScript($jsRequest);
 
 		$auth = Mmi_Auth::getInstance();
