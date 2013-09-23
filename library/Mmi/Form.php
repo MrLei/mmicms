@@ -219,8 +219,6 @@ abstract class Mmi_Form {
 		}
 		
 		$view = Mmi_View::getInstance();
-		$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
-		$view->headScript()->appendFile($view->baseUrl . '/library/js/form.js');
 		
 		if ($this->_isSubForm) {
 			//dla podformularzy nie wolno edytować ustawionej nazwy, bo jest ona
@@ -247,6 +245,11 @@ abstract class Mmi_Form {
 			$this->_values = $data;
 		}
 		$this->init();
+		//dołączanie jquery
+		if (!$this->getOption('noJs')) {
+			$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
+			$view->headScript()->appendFile($view->baseUrl . '/library/js/form.js');
+		}
 		//obsługa checkboxów i selectów
 		if (!empty($this->_values)) {
 			foreach ($this->getElements() as $element) {
