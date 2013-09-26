@@ -357,13 +357,13 @@ class Mmi_View {
 		if (isset($this->_structure['skin'][$skin][$module][$controller]['layout'])) {
 			return APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/scripts/' . $controller . '/layout.tpl';
 		}
-		//default / moduł / kontroler
-		if (isset($this->_structure['skin']['default'][$module][$controller]['layout'])) {
-			return APPLICATION_PATH . '/skins/default/' . $module . '/scripts/' . $controller .  '/layout.tpl';
-		}
 		//skóra / moduł
 		if (isset($this->_structure['skin'][$skin][$module]['layout'])) {
 			return APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/scripts/layout.tpl';
+		}
+		//default / moduł / kontroler
+		if (isset($this->_structure['skin']['default'][$module][$controller]['layout'])) {
+			return APPLICATION_PATH . '/skins/default/' . $module . '/scripts/' . $controller .  '/layout.tpl';
 		}
 		//default / moduł
 		if (isset($this->_structure['skin']['default'][$module]['layout'])) {
