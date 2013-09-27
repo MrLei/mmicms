@@ -23,7 +23,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 
 @font-face{
 	font-family: 'empikr';
-	src: local('EmpikRTT'), url('/travel/default/ttf/empikRTT.ttf') format("truetype");
+	src: local('EmpikRTT'), url('../../bikini/default/ttf/empikRTT.ttf') format("truetype");
 }
 
 body {
