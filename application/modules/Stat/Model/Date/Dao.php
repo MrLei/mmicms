@@ -144,7 +144,7 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 		return $statArray;
 	}
 
-	public static function flotCode($chartName, array $series, $type = 'lines', $points = false, $labels = true) {
+	public static function flotCode($chartName, array $series, $type = 'lines', $points = false, $labels = true, $legendContainer = null) {
 		if ($points) {
 			$points = 'true';
 		} else {
@@ -199,9 +199,13 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
                series: {
                    ' . $type . ': { show: true },
                    points: { show: ' . $points . ' }
-               },
-			   legend: { margin: [0, 0], backgroundOpacity: 0 },
-               grid: { hoverable: true, clickable: true },
+               },';
+		if ($legendContainer == null) {
+			$html .= 'legend: { margin: [0, 0], backgroundOpacity: 0 },';
+		} else {
+			$html .= 'legend: { margin: [0, 0], backgroundOpacity: 0, container: $("#'.$legendContainer.'") },';
+		}
+		$html .= 'grid: { hoverable: true, clickable: true },
                yaxis: { min: ' . $min . ', max: ' . $max . ' },
 			   xaxis: {';
 		$html .= 'ticks: [';
