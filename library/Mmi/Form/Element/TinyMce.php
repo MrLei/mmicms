@@ -76,7 +76,7 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 				break;
 			default:
 				$toolbarOptions = "
-					toolbar1 : 'undo redo | bold italic underline strikethrough | forecolor backcolor | styleselect | bullist numlist outdent indent | fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | link unlink anchor image insertfile preview ',
+					toolbar1 : 'undo redo | bold italic underline strikethrough | forecolor backcolor | styleselect | bullist numlist outdent indent | fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | link unlink anchor image insertfile preview',
 				";
 				$plugins = "plugins : 'advlist,anchor,autolink,autoresize,charmap,code,contextmenu,fullscreen,hr,image,insertdatetime,link,lists,media,nonbreaking,noneditable,paste,print,preview,searchreplace,tabfocus,table,template,textcolor,visualblocks,visualchars,wordcount',";
 				$theme = "theme : 'modern',";
@@ -122,6 +122,9 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 				document_base_url: request.baseUrl,
 				content_css : request.baseUrl + '/$skin/default/css/default.css',
 				convert_urls: false,
+				entity_encoding: 'raw',
+				relative_urls: false,
+				paste_data_images: true,
 				font_formats: 'Andale Mono=andale mono,times;'+
 					'Arial=arial,helvetica,sans-serif;'+
 					'Arial Black=arial black,avant garde;'+
