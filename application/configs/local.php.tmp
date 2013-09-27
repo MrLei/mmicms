@@ -1,0 +1,14 @@
+<?php
+
+//debugger enabled
+$_['global']['debug'] = true;
+
+//cache disabled
+$_['cache']['active'] = false;
+
+//local database
+$_['db']['host'] = 'localhost';
+$_['db']['driver'] = 'pgsql';
+$_['db']['dbname'] = 'mmi';
+$_['db']['username'] = 'mmi';
+$_['db']['password'] = 'mmi';
