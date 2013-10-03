@@ -3,21 +3,8 @@
 class Cms_Model_Container_Record extends Mmi_Dao_Record {
 
 	public function save() {
-		$data = $this->toArray();
-		$boxes = array('left' => array(), 'right' => array());
-		foreach ($data as $field => $value) {
-			if (preg_match('/(left|right)\-box\-([0-9]+)-?(params)?/', $field, $found)) {
-				if ($value === null || $value == '') {
-					continue;
-				}
-				$boxes[$found[1]][$found[2]][isset($found[3]) ? 'params' : 'box'] = $value;
-			}
-		}
-		$boxes['text'] = $this->text;
-		$boxes['lead'] = $this->lead;
-		$this->serial = serialize($boxes);
 		$filter = new Mmi_Filter_Url();
-		$this->uri = strtolower($filter->filter($this->title));
+		$this->uri = $filter->filter($this->title);
 		$result = parent::save();
 		Mmi_Cache::getInstance()->remove('Cms_Container_' . $this->uri);
 		return $result;
@@ -81,7 +68,7 @@ class Cms_Model_Container_Record extends Mmi_Dao_Record {
 		$container = Cms_Model_Navigation_Dao::findFirst(array(
 				array('module', 'cms'),
 				array('controller', 'container'),
-				array('action', 'index'),
+				array('action', 'display'),
 				array('params', 'uri=' . $this->uri)
 		));
 		if ($container !== null) {

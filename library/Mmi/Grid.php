@@ -105,8 +105,8 @@ abstract class Mmi_Grid {
 	 */
 	public function __construct() {
 		$this->_view = Mmi_View::getInstance();
+		$this->_request = $this->_view->request;
 		$this->_setDefaultOptions();
-		$this->_request = Mmi_Controller_Front::getInstance()->getRequest();
 		$this->_view->headScript()->prependFile($this->_view->baseUrl . '/library/js/jquery/jquery.js');
 		$this->_view->headScript()->appendFile($this->_view->baseUrl . '/library/js/grid.js');
 		$class = get_class($this);
@@ -509,7 +509,7 @@ abstract class Mmi_Grid {
 	 */
 	protected function _setDefaultOptions() {
 		$this->_columns = array();
-		if (Mmi_Controller_Front::getInstance()->getRequest()->run != '') {
+		if ($this->_request->run != '') {
 			$links = array(
 				'edit' => $this->_view->url(array('id' => '%id%', 'run' => 'edit')),
 				'delete' => $this->_view->url(array('id' => '%id%', 'run' => 'delete')),
@@ -547,9 +547,9 @@ abstract class Mmi_Grid {
 				}
 			}
 			if ($type == 'select' || $type == 'checkbox') {
-				$bind = array($bind, array($field, '' . $value, '='));	
+				$bind = array($bind, array($field, '' . $value, '='));
 			} else {
-				$bind = array($bind, array($field, '%' . $value . '%', 'LIKE'));	
+				$bind = array($bind, array($field, '%' . $value . '%', 'LIKE'));
 			}
 		}
 		if (empty($this->_options['order'])) {
