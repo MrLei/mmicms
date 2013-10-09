@@ -24,6 +24,22 @@ var handleTooltip = function handleTooltip(event, pos, item, ticks, index) {
 	}
 }
 
+var extendHandleTooltip = function handleTooltip(event, pos, item, ticks, index) {
+	$("#x").text(pos.x.toFixed(2));
+	$("#y").text(pos.y.toFixed(2));
+	if (item) {
+		$("#tooltip").remove();
+		var x = item.datapoint[0].toFixed(2), y = item.datapoint[1].toFixed(2);
+		if (Math.round(y) == y) {
+			y = Math.round(y);
+		}
+		x = Math.round(x);
+		console.log(item);
+		showTooltip(item.pageX, item.pageY, item.series.label + ': ' + ticks[x-1] + ' (<strong>' + y +'</strong>)');
+	}
+}
+
+
 $(document).ready(function() {
 	$('select').change(function () {
 		$('#form_object').trigger('submit');
