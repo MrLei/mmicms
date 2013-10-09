@@ -144,7 +144,7 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 		return $statArray;
 	}
 
-	public static function flotCode($chartName, array $series, $type = 'lines', $points = false, $labels = true, $legendContainer = null) {
+	public static function flotCode($chartName, array $series, $type = 'lines', $points = false, $labels = true, $legendContainer = null, $extendHandleTooltip = false) {
 		if ($points) {
 			$points = 'true';
 		} else {
@@ -181,7 +181,11 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 				$html .= '\'' . $tick . '\',';
 			}
 			$html = trim($html, ',') . '];';
-			$html .= '$(\'#' . $chartName . '\').bind(\'plothover\', function (event, pos, item) {handleTooltip(event, pos, item, ' . $chartName . '_ticks_' . $key . ', ' . $key . ');});';
+			if($extendHandleTooltip){
+				$html .= '$(\'#' . $chartName . '\').bind(\'plothover\', function (event, pos, item) {extendHandleTooltip(event, pos, item, ' . $chartName . '_ticks_' . $key . ', ' . $key . ');});';
+			} else {
+				$html .= '$(\'#' . $chartName . '\').bind(\'plothover\', function (event, pos, item) {handleTooltip(event, pos, item, ' . $chartName . '_ticks_' . $key . ', ' . $key . ');});';
+			}
 		}
 
 		$max = $max + 15 / 100 * $max;
