@@ -48,12 +48,18 @@ class Cron_Form_Cron extends Mmi_Form {
 			'required' => true,
 		));
 
+		$value = null;
+		if ($this->getRecord()) {
+			$value = $this->getRecord()->module . '_' . $this->getRecord()->controller . '_' . $this->getRecord()->action;
+		}
+
 		//system object
 		$this->addElement('select', 'object', array(
 			'label' => 'Obiekt CMS',
 			'description' => 'Istniejące obiekty CMS',
 			'required' => true,
 			'id' => 'objectId',
+			'value' => $value
 		));
 
 		$reflection = new Admin_Model_Reflection();
