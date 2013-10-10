@@ -104,6 +104,7 @@ abstract class Mmi_Grid {
 	 * Konstruktor, ustawia wartości domyślne, referencje do obiektów i tworzy model
 	 */
 	public function __construct() {
+		$options = new Mmi_Session_Namespace(get_class($this));
 		$this->_view = Mmi_View::getInstance();
 		$this->_request = $this->_view->request;
 		$this->_setDefaultOptions();
@@ -160,7 +161,7 @@ abstract class Mmi_Grid {
 	 */
 	public function setOptions(array $options = array()) {
 		foreach ($options as $key => $value) {
-			$this->_options[$key] = $value;
+			$this->setOption($key, $value);
 		}
 		return $this;
 	}
@@ -173,6 +174,8 @@ abstract class Mmi_Grid {
 	 */
 	public function setOption($name, $value) {
 		$this->_options[$name] = $value;
+		$options = new Mmi_Session_Namespace(get_class($this));
+		$options->options = $this->_options;
 		return $this;
 	}
 
@@ -520,16 +523,21 @@ abstract class Mmi_Grid {
 				'delete' => $this->_view->url(array('id' => '%id%', 'action' => 'delete')),
 			);
 		}
-		$this->_options = array(
-			'className' => get_class($this),
-			'links' => $links,
-			'class' => 'grid',
-			'locked' => true,
-			'filter' => array(),
-			'order' => array(),
-			'page' => '1',
-			'rows' => '20',
-		);
+		$options = new Mmi_Session_Namespace(get_class($this));
+		if (!empty($options->options)) {
+			$this->_options = $options->options;
+		} else {
+			$this->_options = array(
+				'className' => get_class($this),
+				'links' => $links,
+				'class' => 'grid',
+				'locked' => true,
+				'filter' => array(),
+				'order' => array(),
+				'page' => '1',
+				'rows' => '20',
+			);
+		}
 	}
 
 	/**
