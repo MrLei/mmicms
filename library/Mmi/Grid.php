@@ -104,7 +104,6 @@ abstract class Mmi_Grid {
 	 * Konstruktor, ustawia wartości domyślne, referencje do obiektów i tworzy model
 	 */
 	public function __construct() {
-		$options = new Mmi_Session_Namespace(get_class($this));
 		$this->_view = Mmi_View::getInstance();
 		$this->_request = $this->_view->request;
 		$this->_setDefaultOptions();
