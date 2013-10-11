@@ -60,18 +60,17 @@ CMS.grid = function () {
 			$(this).trigger('change');
 		});
 
-		$(".grid-field").keypress(function (e) {
-			if (e.keyCode === '13') {
+		$(".grid-field").keydown(function (event) {
+			if (event.which === '13') {
+				event.preventDefault();
 				$(this).trigger('change');
-				return false;
 			}
-			if (e.keyCode === '27') {
+			if (event.which === '27') {
+				event.preventDefault();
 				$(this).val($(this).attr('name'));
 				$(this).replaceWith('<a href="#" id="' + $(this).attr('id') +
 					'" type="text" class="grid-field-trigger">' + $(this).val() + '</a>');
-				return false;
 			}
-			return true;
 		});
 	};
 
