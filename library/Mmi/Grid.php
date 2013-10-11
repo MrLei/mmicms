@@ -283,13 +283,13 @@ abstract class Mmi_Grid {
 		$html = '<tr><th class="footer" colspan="' . count($this->_columns) . '">';
 
 		$html .= Mmi_Registry::get('Mmi_Translate')->_('Strona') . ': ';
-		$html .= '<select id="' . $this->_id . '-filter-counter" class="grid-spot" style="width: 55px;">';
+		$html .= '<select id="' . $this->_id . '-filter-counter" class="grid-spot" style="width: 65px;">';
 		foreach ($this->_getPagesCount() as $page => $label) {
 			$html .= '<option value="' . $page . '"' . (($this->_options['page'] == $page) ? ' selected="selected"' : '') . '>' . $label . '</option>';
 		}
 		$html .= '</select>';
 		$html .= ' ' . Mmi_Registry::get('Mmi_Translate')->_('ilość wierszy na stronie') . ': ';
-		$html .= '<select id="' . $this->_id . '-filter-setRowsPerPage" class="grid-spot" style="width: 55px;">';
+		$html .= '<select id="' . $this->_id . '-filter-setRowsPerPage" class="grid-spot" style="width: 65px;">';
 		$html .= '<option value="10"' . (($this->_options['rows'] == 10) ? ' selected="selected"' : '') . '>10</option>';
 		$html .= '<option value="20"' . (($this->_options['rows'] == 20) ? ' selected="selected"' : '') . '>20</option>';
 		$html .= '<option value="50"' . (($this->_options['rows'] == 50) ? ' selected="selected"' : '') . '>50</option>';
