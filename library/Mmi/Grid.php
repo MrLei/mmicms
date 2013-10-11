@@ -312,6 +312,10 @@ abstract class Mmi_Grid {
 		}
 		$html = '<tr>';
 		foreach ($this->_columns as $column) {
+			$sort = '';
+			if (isset($this->_options['order'][$column['name']])) {
+				$sort = ' ' . strtolower($this->_options['order'][$column['name']]);
+			}
 			if (Mmi_Registry::get('Mmi_Translate') !== null && $column['translate']) {
 				if ($column['translate'] && $column['label'] != '' && $column['label'] != '#') {
 					$column['label'] = Mmi_Registry::get('Mmi_Translate')->_($column['label']);
@@ -326,7 +330,7 @@ abstract class Mmi_Grid {
 			$html .= '<th class="' . $column['class'] . '">';
 			$html .= '<div>';
 			if ($column['sortable'] || (isset($column['sort']) && $column['sort'])) {
-				$html .= '<a href="#' . $column['name'] . '" class="grid-spot" ' . $id . '>' . $column['label'] . '</a>';
+				$html .= '<a href="#' . $column['name'] . '" class="grid-spot' . $sort . '" ' . $id . '>' . $column['label'] . '</a>';
 			} else {
 				$html .= $column['label'];
 			}
