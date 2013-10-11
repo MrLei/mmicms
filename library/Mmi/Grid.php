@@ -353,7 +353,7 @@ abstract class Mmi_Grid {
 		$html = '';
 		$value = '';
 		if (isset($this->_options['filter'][$column['name']])) {
-			$value = $this->_options['filter'][$column['name']];
+			$value = (string) $this->_options['filter'][$column['name']];
 		}
 		$selected = '';
 
@@ -365,7 +365,7 @@ abstract class Mmi_Grid {
 					$html = '<select class="grid-spot" ' . $id . '>';
 					$html .= '<option value="">---</option>';
 					foreach ($column['multiOptions'] as $optionValue => $optionName) {
-						($value != $optionValue) ? $selected = '' : $selected = ' selected="selected"';
+						($value !== (string) $optionValue) ? $selected = '' : $selected = ' selected="selected"';
 						$html .= '<option value="' . $optionValue . '"' . $selected . '>' . $optionName . '</option>';
 					}
 					$html .= '</select>';
@@ -382,9 +382,9 @@ abstract class Mmi_Grid {
 				}
 				$html = '<select class="grid-spot" ' . $id . '>';
 				$html .= '<option value="">---</option>';
-				($value != '1') ? $selected = '' : $selected = ' selected="selected"';
+				($value !== '1') ? $selected = '' : $selected = ' selected="selected"';
 				$html .= '<option value="1"' . $selected . '>' . $on . '</option>';
-				($value != '0') ? $selected = '' : $selected = ' selected="selected"';
+				($value !== '0') ? $selected = '' : $selected = ' selected="selected"';
 				$html .= '<option value="0"' . $selected . '>' . $off . '</option>';
 				$html .= '</select>';
 				break;
@@ -397,7 +397,7 @@ abstract class Mmi_Grid {
 						$html .= '<option value="">---</option>';
 					}
 					foreach ($column['multiOptions'] as $optionValue => $optionName) {
-						($value != $optionValue) ? $selected = '' : $selected = ' selected="selected"';
+						($value !== (string) $optionValue) ? $selected = '' : $selected = ' selected="selected"';
 						$html .= '<option value="' . $optionValue . '"' . $selected . '>' . $optionName . '</option>';
 					}
 					$html .= '</select>';
