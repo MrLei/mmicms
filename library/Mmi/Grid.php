@@ -347,6 +347,12 @@ abstract class Mmi_Grid {
 	 */
 	protected function _buildHeadInput(array $column) {
 		$html = '';
+		$value = '';
+		if (isset($this->_options['filter'][$column['name']])) {
+			$value = $this->_options['filter'][$column['name']];
+		}
+		$selected = '';
+
 		$id = 'id="' . $this->_id . '-filter-' . $column['name'] . '"';
 		switch ($column['type']) {
 			case 'text':
@@ -355,11 +361,12 @@ abstract class Mmi_Grid {
 					$html = '<select class="grid-spot" ' . $id . '>';
 					$html .= '<option value="">---</option>';
 					foreach ($column['multiOptions'] as $optionValue => $optionName) {
-						$html .= '<option value="' . $optionValue . '">' . $optionName . '</option>';
+						($value != $optionValue) ? $selected = '' : $selected = ' selected="selected"';
+						$html .= '<option value="' . $optionValue . '"' . $selected . '>' . $optionName . '</option>';
 					}
 					$html .= '</select>';
 				} else {
-					$html = '<input class="grid-spot" type="text" ' . $id . ' />';
+					$html = '<input class="grid-spot" type="text" ' . $id . ' value="' . htmlentities($value) . '"/>';
 				}
 				break;
 			case 'checkbox':
@@ -371,8 +378,10 @@ abstract class Mmi_Grid {
 				}
 				$html = '<select class="grid-spot" ' . $id . '>';
 				$html .= '<option value="">---</option>';
-				$html .= '<option value="1">' . $on . '</option>';
-				$html .= '<option value="0">' . $off . '</option>';
+				($value != '1') ? $selected = '' : $selected = ' selected="selected"';
+				$html .= '<option value="1"' . $selected . '>' . $on . '</option>';
+				($value != '0') ? $selected = '' : $selected = ' selected="selected"';
+				$html .= '<option value="0"' . $selected . '>' . $off . '</option>';
 				$html .= '</select>';
 				break;
 			case 'counter':
@@ -384,7 +393,8 @@ abstract class Mmi_Grid {
 						$html .= '<option value="">---</option>';
 					}
 					foreach ($column['multiOptions'] as $optionValue => $optionName) {
-						$html .= '<option value="' . $optionValue . '">' . $optionName . '</option>';
+						($value != $optionValue) ? $selected = '' : $selected = ' selected="selected"';
+						$html .= '<option value="' . $optionValue . '"' . $selected . '>' . $optionName . '</option>';
 					}
 					$html .= '</select>';
 				}
