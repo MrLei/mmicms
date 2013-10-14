@@ -373,7 +373,12 @@ CREATE TABLE cms_navigation (
     keywords text,
     description text,
     uri text,
-    visible smallint DEFAULT 0 NOT NULL
+    visible smallint DEFAULT 0 NOT NULL,
+	https smallint DEFAULT NULL,
+	absolute smallint NOT NULL DEFAULT 0,
+	independent smallint NOT NULL DEFAULT 0,
+	nofollow smallint NOT NULL DEFAULT 0,
+	blank smallint NOT NULL DEFAULT 0,
 );
 
 
