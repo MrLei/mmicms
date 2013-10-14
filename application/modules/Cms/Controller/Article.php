@@ -30,4 +30,14 @@ class Cms_Controller_Article extends Mmi_Controller_Action {
 		$this->view->navigation()->modifyLastBreadcrumb(strip_tags($article->title), $this->view->url(), strip_tags($article->title), strip_tags($article->title . ', ' . mb_substr(strip_tags($article->text), 0, 150) . '...'));
 	}
 
+	public function widgetAction() {
+		$uri = $this->_getParam('uri');
+		$cacheKey = 'Cms_Article_' . $uri;
+		if (!Mmi_Config::get('cache', 'active') || null === ($article = Mmi_Cache::getInstance()->load($cacheKey))) {
+			$article = Cms_Model_Article_Dao::findFirst(array('uri', $uri));
+			Mmi_Cache::getInstance()->save($article, $cacheKey, 28800);
+		}
+		$this->view->article = $article;
+	}
+
 }
