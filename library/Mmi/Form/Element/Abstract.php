@@ -430,7 +430,10 @@
 		unset($options['required']);
 		unset($options['translatorDisabled']);
 		unset($options['validators']);
-		unset($options['classDisabled']);
+		unset($options['divideClass']);
+		if (isset($options['disabled']) && empty($options['disabled'])) {
+			unset($options['disabled']);
+		}
 		$html = '';
 		foreach ($options as $key => $value) {
 			$html .= $key . '="' . str_replace('"', '&quot;', $value) . '" ';

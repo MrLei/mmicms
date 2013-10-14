@@ -41,6 +41,9 @@ class Mmi_Form_Element_Select extends Mmi_Form_Element_Abstract {
 		unset($this->_options['value']);
 		$html = '<select ' . $this->_getHtmlOptions() . '>';
 		foreach ($multiOptions as $key => $caption) {
+			if (strpos($key, ':divide')) {
+				continue;
+			}
 			if (is_array($caption)) {
 				$html .= '<optgroup label="' . $key . '">';
 				foreach ($caption as $k => $c) {
