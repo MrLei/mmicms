@@ -51,11 +51,19 @@ class Mmi_Form_Element_MultiCheckbox extends Mmi_Form_Element_Abstract {
 			$this->_options['id'] = $baseId . '_' . $f->filter($key);
 			$this->_options['value'] = $key;
 			
-			if (strpos($key, ':disabled') !== false) {
-				if (isset($this->_options['classDisabled'])) {
-					$html .= '<li class="' . $this->_options['classDisabled'] . '"></li>';
+			if (strpos($key, ':divide') !== false) {
+				if (isset($this->_options['divideClass'])) {
+					$html .= '<li class="' . $this->_options['divideClass'] . '"></li>';
 				}
+			} elseif (strpos($key, ':disabled') !== false) {
+				$this->_options['value'] = '';
+				$this->_options['disabled'] = 'disabled';
+				$html .= '<li class="disabled" id="' . $this->_options['id'] . '_item' . '">
+					<input type="checkbox" ' . $this->_getHtmlOptions() . '/>
+					<label for="' . $this->_options['id'] . '">' . $caption . '</label>
+				</li>';
 			} else {
+				$this->_options['disabled'] = '';
 				$html .= '<li id="' . $this->_options['id'] . '_item' . '">
 					<input type="checkbox" ' . $this->_getHtmlOptions() . '/>
 					<label for="' . $this->_options['id'] . '">' . $caption . '</label>
