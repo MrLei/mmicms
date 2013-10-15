@@ -68,8 +68,13 @@ class Cms_Form_Admin_Page_Cms extends Mmi_Form {
 			'label' => 'Link bezwzględny'
 		));
 
-		$this->addElement('checkbox', 'https', array(
-			'label' => 'Połączenie HTTPS'
+		$this->addElement('select', 'https', array(
+			'label' => 'Połączenie HTTPS',
+			'multiOptions' => array(
+				null => 'bez zmian',
+				'0' => 'wymuś http',
+				'1' => 'wymuś https',
+			)
 		));
 
 		//optional url

@@ -43,14 +43,19 @@ class Mmi_Form_Element_Radio extends Mmi_Form_Element_Abstract {
 			if ($value == $key && !is_null($value)) {
 				$this->_options['checked'] = 'checked';
 			}
-			if (strpos($key, ':disabled')) {
-				$key = '';
+			$liClass = '';
+			if (mb_stripos($key, ':disabled')) {
+				$key = mb_strstr($key, ':disabled', true, 'utf-8');
 				$this->_options['disabled'] = 'disabled';
+				$this->_options['value'] = '';
+				$liClass = 'disabled';
+			} else {
+				$this->_options['disabled'] = '';
+				$this->_options['value'] = $key;
 			}
 			$f = new Mmi_Filter_Url();
 			$this->_options['id'] = $baseId . '_' . $f->filter($key);
-			$this->_options['value'] = $key;
-			$html .= '<li id="' . $this->_options['id'] .'_item">
+			$html .= '<li id="' . $this->_options['id'] . '_item" class="'. $liClass .'">
 				<input type="radio" ' . $this->_getHtmlOptions() . '/>
 				<label for="' . $this->_options['id'] . '">'. $caption .'</label>
 			</li>';

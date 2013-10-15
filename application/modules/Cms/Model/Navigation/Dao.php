@@ -64,7 +64,13 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 				$params['module'] = $item['module'];
 				$params['controller'] = $item['controller'] ? $item['controller'] : 'index';
 				$params['action'] = $item['action'] ? $item['action'] : 'index';
-				$https = (isset($item['https']) && $item['https']) ? true : null;
+				$https = null;
+				if (array_key_exists('https', $item) && $item['https'] == 1) {
+					$https = true;
+				}
+				if (array_key_exists('https', $item) && $item['https'] == 0) {
+					$https = false;
+				}
 				$absolute = (isset($item['absolute']) && $item['absolute']) ? true : false;
 				if ($item['module'] != '') {
 					$data[$key]['uri'] = $view->url($params, true, $absolute, $https);
