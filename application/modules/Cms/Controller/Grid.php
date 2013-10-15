@@ -22,6 +22,7 @@ class Cms_Controller_Grid extends Mmi_Controller_Action {
 		if ($field == 'counter') {
 			$options['page'] = $value;
 		} elseif ($field == 'setRowsPerPage') {
+			$options['page'] = '1';
 			$options['rows'] = $value;
 		} else {
 			$options['page'] = '1';
@@ -33,7 +34,7 @@ class Cms_Controller_Grid extends Mmi_Controller_Action {
 		$grid->setOptions($options);
 		$this->view->grid = $grid;
 	}
-	
+
 	public function orderAction() {
 		if (!isset($_POST['ctrl']) || !isset($_POST['field'])) {
 			return;

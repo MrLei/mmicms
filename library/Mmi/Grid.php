@@ -160,7 +160,7 @@ abstract class Mmi_Grid {
 	 */
 	public function setOptions(array $options = array()) {
 		foreach ($options as $key => $value) {
-			$this->_options[$key] = $value;
+			$this->setOption($key, $value);
 		}
 		return $this;
 	}
@@ -173,6 +173,8 @@ abstract class Mmi_Grid {
 	 */
 	public function setOption($name, $value) {
 		$this->_options[$name] = $value;
+		$options = new Mmi_Session_Namespace(get_class($this));
+		$options->options = $this->_options;
 		return $this;
 	}
 
@@ -281,13 +283,13 @@ abstract class Mmi_Grid {
 		$html = '<tr><th class="footer" colspan="' . count($this->_columns) . '">';
 
 		$html .= Mmi_Registry::get('Mmi_Translate')->_('Strona') . ': ';
-		$html .= '<select id="' . $this->_id . '-filter-counter" class="grid-spot" style="width: 55px;">';
+		$html .= '<select id="' . $this->_id . '-filter-counter" class="grid-spot" style="width: 65px;">';
 		foreach ($this->_getPagesCount() as $page => $label) {
 			$html .= '<option value="' . $page . '"' . (($this->_options['page'] == $page) ? ' selected="selected"' : '') . '>' . $label . '</option>';
 		}
 		$html .= '</select>';
 		$html .= ' ' . Mmi_Registry::get('Mmi_Translate')->_('ilość wierszy na stronie') . ': ';
-		$html .= '<select id="' . $this->_id . '-filter-setRowsPerPage" class="grid-spot" style="width: 55px;">';
+		$html .= '<select id="' . $this->_id . '-filter-setRowsPerPage" class="grid-spot" style="width: 65px;">';
 		$html .= '<option value="10"' . (($this->_options['rows'] == 10) ? ' selected="selected"' : '') . '>10</option>';
 		$html .= '<option value="20"' . (($this->_options['rows'] == 20) ? ' selected="selected"' : '') . '>20</option>';
 		$html .= '<option value="50"' . (($this->_options['rows'] == 50) ? ' selected="selected"' : '') . '>50</option>';
@@ -310,6 +312,10 @@ abstract class Mmi_Grid {
 		}
 		$html = '<tr>';
 		foreach ($this->_columns as $column) {
+			$sort = '';
+			if (isset($this->_options['order'][$column['name']])) {
+				$sort = ' ' . strtolower($this->_options['order'][$column['name']]);
+			}
 			if (Mmi_Registry::get('Mmi_Translate') !== null && $column['translate']) {
 				if ($column['translate'] && $column['label'] != '' && $column['label'] != '#') {
 					$column['label'] = Mmi_Registry::get('Mmi_Translate')->_($column['label']);
@@ -324,7 +330,7 @@ abstract class Mmi_Grid {
 			$html .= '<th class="' . $column['class'] . '">';
 			$html .= '<div>';
 			if ($column['sortable'] || (isset($column['sort']) && $column['sort'])) {
-				$html .= '<a href="#' . $column['name'] . '" class="grid-spot" ' . $id . '>' . $column['label'] . '</a>';
+				$html .= '<a href="#' . $column['name'] . '" class="grid-spot' . $sort . '" ' . $id . '>' . $column['label'] . '</a>';
 			} else {
 				$html .= $column['label'];
 			}
@@ -345,6 +351,12 @@ abstract class Mmi_Grid {
 	 */
 	protected function _buildHeadInput(array $column) {
 		$html = '';
+		$value = '';
+		if (isset($this->_options['filter'][$column['name']])) {
+			$value = (string) $this->_options['filter'][$column['name']];
+		}
+		$selected = '';
+
 		$id = 'id="' . $this->_id . '-filter-' . $column['name'] . '"';
 		switch ($column['type']) {
 			case 'text':
@@ -353,11 +365,12 @@ abstract class Mmi_Grid {
 					$html = '<select class="grid-spot" ' . $id . '>';
 					$html .= '<option value="">---</option>';
 					foreach ($column['multiOptions'] as $optionValue => $optionName) {
-						$html .= '<option value="' . $optionValue . '">' . $optionName . '</option>';
+						($value !== (string) $optionValue) ? $selected = '' : $selected = ' selected="selected"';
+						$html .= '<option value="' . $optionValue . '"' . $selected . '>' . $optionName . '</option>';
 					}
 					$html .= '</select>';
 				} else {
-					$html = '<input class="grid-spot" type="text" ' . $id . ' />';
+					$html = '<input class="grid-spot" type="text" ' . $id . ' value="' . htmlentities($value) . '"/>';
 				}
 				break;
 			case 'checkbox':
@@ -369,8 +382,10 @@ abstract class Mmi_Grid {
 				}
 				$html = '<select class="grid-spot" ' . $id . '>';
 				$html .= '<option value="">---</option>';
-				$html .= '<option value="1">' . $on . '</option>';
-				$html .= '<option value="0">' . $off . '</option>';
+				($value !== '1') ? $selected = '' : $selected = ' selected="selected"';
+				$html .= '<option value="1"' . $selected . '>' . $on . '</option>';
+				($value !== '0') ? $selected = '' : $selected = ' selected="selected"';
+				$html .= '<option value="0"' . $selected . '>' . $off . '</option>';
 				$html .= '</select>';
 				break;
 			case 'counter':
@@ -382,7 +397,8 @@ abstract class Mmi_Grid {
 						$html .= '<option value="">---</option>';
 					}
 					foreach ($column['multiOptions'] as $optionValue => $optionName) {
-						$html .= '<option value="' . $optionValue . '">' . $optionName . '</option>';
+						($value !== (string) $optionValue) ? $selected = '' : $selected = ' selected="selected"';
+						$html .= '<option value="' . $optionValue . '"' . $selected . '>' . $optionName . '</option>';
 					}
 					$html .= '</select>';
 				}
@@ -520,16 +536,21 @@ abstract class Mmi_Grid {
 				'delete' => $this->_view->url(array('id' => '%id%', 'action' => 'delete')),
 			);
 		}
-		$this->_options = array(
-			'className' => get_class($this),
-			'links' => $links,
-			'class' => 'grid',
-			'locked' => true,
-			'filter' => array(),
-			'order' => array(),
-			'page' => '1',
-			'rows' => '20',
-		);
+		$options = new Mmi_Session_Namespace(get_class($this));
+		if (!empty($options->options)) {
+			$this->_options = $options->options;
+		} else {
+			$this->_options = array(
+				'className' => get_class($this),
+				'links' => $links,
+				'class' => 'grid',
+				'locked' => true,
+				'filter' => array(),
+				'order' => array(),
+				'page' => '1',
+				'rows' => '20',
+			);
+		}
 	}
 
 	/**
