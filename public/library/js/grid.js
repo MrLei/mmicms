@@ -1,158 +1,154 @@
-$(document).ready(function () {
-	initGrid();
-	initGridInterior();
-	initGridFields();
-	initGridInputs();
+/*jslint unparam: true */
+/*global $, document, window, request */
+var CMS = {};
 
-});
+CMS.grid = function () {
+	"use strict";
+	var initGrid,
+		getPages,
+		initGridInputs;
 
-function initGrid() {
-
-	$("body").on('change', ".grid-spot", function () {
-		var id = $(this).attr('id');
-		var splitedId = id.split('-');
-		var formId = splitedId[0];
-		var type = splitedId[1];
-		var field = splitedId[2];
-		if (type == 'filter') {
-			var value = $(this).val();
-		} else
-		if (type == 'order') {
-			var value;
-			if ($(this).attr('class') == 'grid-spot asc') {
-				value = 'DESC';
-				$(this).attr('class', 'grid-spot desc');
-			} else if ($(this).attr('class') == 'grid-spot') {
-				value = 'ASC';
-				$(this).attr('class', 'grid-spot asc');
+	getPages = function (rowsCount, selected) {
+		var i,
+			html = '';
+		for (i = 1; i <= rowsCount; i += 1) {
+			if (selected === i) {
+				selected = ' selected = ""';
 			} else {
-				value = '';
-				$(this).attr('class', 'grid-spot');
+				selected = '';
 			}
+			html = html + '<option value="' + i + '"' + selected + '>' + i + '</option>';
 		}
-		var ctrl = $('#' + formId + '__ctrl').val();
-		$.post(request.baseUrl + "/" + request.lang + "/cms/grid/" + type + "/baseModule/" + request.module + "/baseSkin/" + request.skin,
-		{
-			'ctrl': ctrl,
-			'field': field,
-			'value': value
-		},
-		function (result)
-		{
-			$('#' + formId + '_body').html(result);
-			if (type == 'filter' && field != 'counter')
-			{
-				var rowsCount = $('#' + formId + '__counter').val();
-				var selected = $('#' + formId + '_filter_counter').val();
-				$('#' + formId + '-filter-counter').html(getPages(rowsCount, selected));
+		return html;
+	};
+
+	initGridInputs = function () {
+
+		$(".grid-field").change(function () {
+			var id = $(this).attr('id'),
+				splitedId = id.split('-'),
+				formId = splitedId[0],
+				type = splitedId[1],
+				fieldType = splitedId[2],
+				field = splitedId[3],
+				identifier = splitedId[4],
+				value = '',
+				ctrl,
+				url;
+
+			if (fieldType === 'text' || fieldType === 'select') {
+				value = $(this).val();
+			} else if (fieldType === 'checkbox') {
+				if ($(this).is(':checked')) {
+					value = '1';
+				} else {
+					value = '0';
+				}
 			}
-			initGridFields();
-			initGridInterior();
+			ctrl = $('#' + formId + '__ctrl').val();
+			url = request.baseUrl + "/" + request.lang + "/cms/grid/" + type +
+				"/baseModule/" + request.module + "/baseSkin/" + request.skin;
+			$.post(url, {ctrl: ctrl, identifier: identifier, field: field, value: value});
+			if (fieldType === 'text') {
+				$(this).replaceWith('<a href="#" id="' + $(this).attr('id') +
+					'" type="text" class="grid-field-trigger">' + $(this).val() + '</a>');
+				$('#hid_' + $(this).attr('id')).remove();
+			}
 		});
-	});
 
-	$("a.grid-spot").click(function () {
-		$(this).trigger('change');
-	});
-
-	$("input.grid-spot").keypress(function (e) {
-		if (e.which == '13') {
+		$(".grid-field").blur(function () {
 			$(this).trigger('change');
-			return false;
-		}
-		return true;
-	});
-}
+		});
 
-function initGridInterior() {
-	$(".grid tr").mouseover(function () {
-		$(this).attr('class', 'hover');
-	});
-
-	$(".grid tr").mouseout(function () {
-		$(this).attr('class', 'unhover');
-	});
-
-	$('a.confirm').click(function () {
-		return window.confirm($(this).attr('title') + '?');
-	});
-}
-
-function initGridFields() {
-	$("a.grid-field-trigger").click(function () {
-		$(this).replaceWith('<input name="' + $(this).html() + '" id="' + $(this).attr('id') + '" type="text" class="grid-field" value="' + $(this).html() + '"/>');
-		document.getElementById($(this).attr('id')).focus();
-		initGridInputs();
-	});
-}
-
-function initGridInputs()
-{
-	$(".grid-field").change(function () {
-		var id = $(this).attr('id');
-		var splitedId = id.split('-');
-		var formId = splitedId[0];
-		var type = splitedId[1];
-		var fieldType = splitedId[2];
-		var field = splitedId[3];
-		var identifier = splitedId[4];
-		var value = '';
-		if (fieldType == 'text' || fieldType == 'select')
-		{
-			value = $(this).val();
-		} else if (fieldType == 'checkbox') {
-			if ($(this).is(':checked')) {
-				value = '1';
-			} else {
-				value = '0';
+		$(".grid-field").keydown(function (event) {
+			if (event.which === '13') {
+				event.preventDefault();
+				$(this).trigger('change');
 			}
-		}
-		var ctrl = $('#' + formId + '__ctrl').val();
-		$.post(
-			request.baseUrl + "/" + request.lang + "/cms/grid/" + type + "/baseModule/" + request.module + "/baseSkin/" + request.skin,
-			{
-				'ctrl': ctrl,
-				'identifier': identifier,
-				'field': field,
-				'value': value
+			if (event.which === '27') {
+				event.preventDefault();
+				$(this).val($(this).attr('name'));
+				$(this).replaceWith('<a href="#" id="' + $(this).attr('id') +
+					'" type="text" class="grid-field-trigger">' + $(this).val() + '</a>');
 			}
-			);
-		if (fieldType == 'text')
-		{
-			$(this).replaceWith('<a href="#" id="' + $(this).attr('id') + '" type="text" class="grid-field-trigger">' + $(this).val() + '</a>');
-			$('#hid_' + $(this).attr('id')).remove();
-		}
-		initGridFields();
-	});
+		});
+	};
 
-	$(".grid-field").blur(function () {
-		$(this).trigger('change');
-	});
+	initGrid = function () {
+		$("body").on('change', ".grid-spot", function () {
+			var id = $(this).attr('id'),
+				splitedId = id.split('-'),
+				formId = splitedId[0],
+				type = splitedId[1],
+				field = splitedId[2],
+				value,
+				ctrl,
+				url;
 
-	$(".grid-field").keypress(function (e) {
-		if (e.keyCode == '13') {
+			if (type === 'filter') {
+				value = $(this).val();
+			} else if (type === 'order') {
+				if ($(this).attr('class') === 'grid-spot asc') {
+					value = 'DESC';
+					$(this).attr('class', 'grid-spot desc');
+				} else if ($(this).attr('class') === 'grid-spot') {
+					value = 'ASC';
+					$(this).attr('class', 'grid-spot asc');
+				} else {
+					value = '';
+					$(this).attr('class', 'grid-spot');
+				}
+			}
+			ctrl = $('#' + formId + '__ctrl').val();
+			url = request.baseUrl + "/" + request.lang + "/cms/grid/" + type +
+				"/baseModule/" + request.module + "/baseSkin/" + request.skin;
+			$.post(url, {ctrl: ctrl, field: field, value: value}, function (result) {
+				var rowsCount,
+					selected;
+				$('#' + formId + '_body').html(result);
+				if (type === 'filter' && field !== 'counter') {
+					rowsCount = $('#' + formId + '__counter').val();
+					selected = $('#' + formId + '_filter_counter').val();
+					$('#' + formId + '-filter-counter').html(getPages(rowsCount, selected));
+				}
+			});
+		});
+
+		// Grid fields
+		$('body').on('click', 'a.grid-field-trigger', function () {
+			$(this).replaceWith('<input name="' + $(this).html() + '" id="' +
+				$(this).attr('id') + '" type="text" class="grid-field" value="' +
+				$(this).html() + '"/>');
+			document.getElementById($(this).attr('id')).focus();
+			initGridInputs();
+		});
+
+		// Grid interiors
+		$('body').on('mouseenter', '.grid tr', function () {
+			$(this).attr('class', 'hover');
+		}).on('mouseleave', '.grid tr', function () {
+			$(this).attr('class', 'unhover');
+		}).on('click', '.grid a.confirm', function () {
+			return window.confirm($(this).attr('title') + '?');
+		});
+
+		// Nagłówek tabelki, nie jest zmieniany po sciągnięciu
+		$("a.grid-spot").click(function () {
 			$(this).trigger('change');
-			return false;
-		}
-		if (e.keyCode == '27') {
-			$(this).val($(this).attr('name'));
-			$(this).replaceWith('<a href="#" id="' + $(this).attr('id') + '" type="text" class="grid-field-trigger">' + $(this).val() + '</a>');
-			initGridFields();
-			return false;
-		} else {}
-		return true;
-	});
-}
+		});
+		$("input.grid-spot").keydown(function (event) {
+			if (event.which === 13) {
+				event.preventDefault();
+				$(this).trigger('change');
+			}
+		});
+	};
 
-function getPages(rowsCount, selected) {
-	var html = '';
-	for (i=1; i<=rowsCount; i = i + 1) {
-		if (selected == i) {
-			selected = ' selected = ""';
-		} else {
-			selected = '';
-		}
-		html = html + '<option value="' + i + '"' + selected + '>' + i + '</option>';
-	}
-	return html;
-}
+	initGrid();
+	initGridInputs();
+};
+
+$(document).ready(function () {
+	"use strict";
+	CMS.grid();
+});
