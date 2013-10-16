@@ -18,7 +18,7 @@
  */
 
 /**
- * Implementuje paginator danych, zintegrowany z Mmi_Request (pobierany z Mmi_Controller_Front)
+ * Implementuje paginator danych, zintegrowany z Mmi_Request (pobierany z Mmi_View)
  * @category   Mmi
  * @package    Mmi_Paginator
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
@@ -73,7 +73,7 @@ class Mmi_Paginator {
 		if (isset($this->_options['page'])) {
 			return $this->_options['page'];
 		}
-		$page = Mmi_Controller_Front::getInstance()->getRequest()->__get($this->_options['pageVariable']);
+		$page = Mmi_View::getInstance()->request->__get($this->_options['pageVariable']);
 		$page = ($page > 0) ? $page : 1;
 		$this->_options['page'] = $page;
 		return $page;
