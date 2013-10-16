@@ -38,6 +38,12 @@ class Mmi_Controller_Action {
 	protected $_helper;
 
 	/**
+	 * Widok
+	 * @var Mmi_View
+	 */
+	public $view;
+
+	/**
 	 * Konstruktor
 	 */
 	public function __construct(Mmi_Controller_Request $request) {
@@ -119,7 +125,7 @@ class Mmi_Controller_Action {
 		//tworzenie brokera helperów kontrolera
 		$this->_helper = new Mmi_Controller_Action_HelperBroker($this);
 	}
-	
+
 	/**
 	 * Inicjalizacja tłumaczeń
 	 * @param string $module nazwa modułu
