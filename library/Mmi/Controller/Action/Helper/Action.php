@@ -37,20 +37,27 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 	 * @return mixed
 	 */
 	public function action($moduleName = 'default', $controllerName = 'index', $actionName = 'index', array $params = array(), $fetch = false) {
-		$front = Mmi_Controller_Front::getInstance();
-		$params = array_merge($front->getRequest()->toArray(), $params);
+		$frontRequest = Mmi_Controller_Front::getInstance()->getRequest();
+		//budowanie parametrów kontrollera
 		$params['module'] = $moduleName;
 		$params['controller'] = $controllerName;
 		$params['action'] = $actionName;
-		$controllerClassName = ucfirst($params['module']) . '_Controller_' . ucfirst($params['controller']);
-		$controller = new $controllerClassName(new Mmi_Controller_Request($params));
-		$actionMethodName = $params['action'] . 'Action';
+		$params = array_merge($frontRequest->toArray(), $params);
+		$controllerRequest = new Mmi_Controller_Request($params);
+		//ustawienie requestu w widoku
+		Mmi_View::getInstance()->setRequest($controllerRequest);
+		//powołanie kontrolera
+		$controllerClassName = ucfirst($controllerRequest->getModuleName()) . '_Controller_' . ucfirst($controllerRequest->getControllerName());
+		$actionMethodName = $controllerRequest->getActionName() . 'Action';
+		$controller = new $controllerClassName($controllerRequest);
+		//wywołanie akcji
 		$controller->$actionMethodName();
 		Mmi_Profiler::event('Run: ' . $controllerClassName . '::' . $actionMethodName);
-		$skin = isset($params['skin']) ? $params['skin'] : 'default';
+		//rendering szablonu
+		$skin = $controllerRequest->getParam('skin') ? $controllerRequest->getParam('skin') : 'default';
 		$content = Mmi_View::getInstance()->renderTemplate($skin, $moduleName, $controllerName, $actionName, $fetch);
 		//przywrócenie do widoku request'a z front controllera
-		Mmi_View::getInstance()->setRequest($front->getRequest());
+		Mmi_View::getInstance()->setRequest($frontRequest);
 		return $content;
 	}
 
