@@ -27,7 +27,7 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_Select extends Mmi_Form_Element_Abstract {
-	
+
 	/**
 	 * Buduje pole
 	 * @return string
@@ -57,7 +57,7 @@ class Mmi_Form_Element_Select extends Mmi_Form_Element_Abstract {
 		$html .= '</select>';
 		return $html;
 	}
-	
+
 	/**
 	 * Zaznacza element który powinien być zaznaczony
 	 * @param string $key klucz
@@ -76,38 +76,6 @@ class Mmi_Form_Element_Select extends Mmi_Form_Element_Abstract {
 			$selected .= ' disabled="disabled"';
 		}
 		return $selected;
-	}
-
-	/**
-	 * Dodaje opcję wyboru
-	 * @param string $value wartość
-	 * @param string $caption nazwa
-	 * @return Mmi_Form_Element_Select
-	 */
-	public function addMultiOption($value, $caption) {
-		if (!isset($this->_options['multiOptions']) || !is_array($this->_options['multiOptions'])) {
-			$this->_options['multiOptions'] = array();
-		}
-		$this->_options['multiOptions'][$value] = $caption;
-		return $this;
-	}
-
-	/**
-	 * Ustawia wszystkie opcje wyboru na podstawie tabeli
-	 * @param array $multiOptions opcje
-	 * @return Mmi_Form_Element_Select
-	 */
-	public function setMultiOptions(array $multiOptions = array()) {
-		$this->_options['multiOptions'] = $multiOptions;
-		return $this;
-	}
-
-	/**
-	 * Zwraca multi opcje pola
-	 * @return array
-	 */
-	public function getMultiOptions() {
-		return isset($this->_options['multiOptions']) ? $this->_options['multiOptions'] : array();
 	}
 
 }

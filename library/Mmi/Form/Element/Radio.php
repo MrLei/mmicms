@@ -26,7 +26,7 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_Radio extends Mmi_Form_Element_Abstract {
-	
+
 	/**
 	 * Buduje pole
 	 * @return string
@@ -64,7 +64,7 @@ class Mmi_Form_Element_Radio extends Mmi_Form_Element_Abstract {
 		$this->_options['id'] = $baseId;
 		return $html;
 	}
-	
+
 	/**
 	 * Buduje etykietę pola
 	 * @return string
@@ -87,30 +87,5 @@ class Mmi_Form_Element_Radio extends Mmi_Form_Element_Abstract {
 		}
 		return '<label' . $requiredClass . '>' . $label . $this->_labelPostfix . $required . '</label>';
 	}
-
-	/**
-	 * Dodaje opcję wyboru
-	 * @param string $value wartość
-	 * @param string $caption nazwa
-	 * @return Mmi_Form_Element_Select
-	 */
-	public function addMultiOption($value, $caption) {
-		if (!isset($this->_options['multiOptions']) || !is_array($this->_options['multiOptions'])) {
-			$this->_options['multiOptions'] = array();
-		}
-		$this->_options['multiOptions'][$value] = $caption;
-		return $this;
-	}
-
-	/**
-	 * Ustawia wszystkie opcje wyboru na podstawie tabeli
-	 * @param array $multiOptions opcje
-	 * @return Mmi_Form_Element_Select
-	 */
-	public function setMultiOptions(array $multiOptions = array()) {
-		$this->_options['multiOptions'] = $multiOptions;
-		return $this;
-	}
-
 
 }
