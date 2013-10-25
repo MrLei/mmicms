@@ -34,7 +34,7 @@ class Cms_Controller_Container extends Mmi_Controller_Action {
 			$content = $action->action($placeholder->module, $placeholder->controller, $placeholder->action, $params, true);
 			Mmi_View::getInstance()->setPlaceholder($placeholder->placeholder, $content);
 		}
-		Mmi_View::getInstance()->render(APPLICATION_PATH . '/skins/' . ltrim($container->template->path, '/'));
+		Mmi_View::getInstance()->render($container->template->path);
 		exit;
 	}
 
