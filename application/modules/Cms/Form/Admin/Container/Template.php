@@ -11,12 +11,9 @@ class Cms_Form_Admin_Container_Template extends Mmi_Form {
 			'required' => true,
 			'validators' => array('NotEmpty'),
 		));
-
-		$this->addElement('text', 'path', array(
-			'label' => 'ścieżka szablonu',
-			'description' => '/skin-name/path-to-template.tpl',
-			'required' => true,
-			'validators' => array('NotEmpty'),
+		
+		$this->addElement('textarea', 'text', array(
+			'label' => 'kod szablonu',
 		));
 
 		$this->addElement('submit', 'submit', array(
