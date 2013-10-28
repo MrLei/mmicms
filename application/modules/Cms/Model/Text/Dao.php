@@ -20,13 +20,13 @@ class Cms_Model_Text_Dao extends Mmi_Dao {
 	}
 	
 	protected static function _initDictionary() {
-		if (!(Mmi_Config::$data['cache']['active']) || !(self::$_texts = Mmi_Cache::getInstance()->load('Cms_Text'))) {
+		if (!(Mmi_Config::$data['cache']['active']) || !(self::$_texts = MmiCar_Cache_Front::load('Cms_Text'))) {
 			self::$_texts = array();
 			foreach (self::find() as $text) {
 				self::$_texts[$text->lang][$text->key] = $text->content;
 			}
 			if (Mmi_Config::$data['cache']['active']) {
-				Mmi_Cache::getInstance()->save(self::$_texts, 'Cms_Text', 86400);
+				MmiCar_Cache_Front::save(self::$_texts, 'Cms_Text', 86400);
 			}
 		}
 	}

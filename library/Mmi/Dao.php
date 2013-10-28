@@ -179,11 +179,9 @@ class Mmi_Dao {
 	 */
 	public static final function getTableStructure() {
 		$cacheKey = 'Dao_structure_' . static::$_tableName . '_' . self::$_adapterName;
-		if (!Mmi_Config::$data['cache']['active'] || !($structure = Mmi_Cache::getInstance()->load($cacheKey))) {
+		if (!($structure = Mmi_Cache::load($cacheKey))) {
 			$structure = self::getAdapter()->tableInfo(static::$_tableName);
-			if (Mmi_Config::$data['cache']['active']) {
-				Mmi_Cache::getInstance()->save($structure, $cacheKey, 28800);
-			}
+			Mmi_Cache::save($structure, $cacheKey, 28800);
 		}
 		return $structure;
 	}

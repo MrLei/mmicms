@@ -9,7 +9,7 @@ class Cms_Model_Text_Record extends Mmi_Dao_Record {
 			unlink($compilant);
 		}
 		$result = parent::save();
-		Mmi_Cache::getInstance()->remove('Cms_Text');
+		MmiCar_Cache_Front::remove('Cms_Text');
 		return $result;
 	}
 

@@ -18,7 +18,8 @@
  */
 
 /**
- * Klasa buforowania (cache)
+ * Prosta klasa buforowania (cache) z domyślnych wartości config
+ * Automatycznie sprawdza aktywności bufora
  * @category   Mmi
  * @package    Mmi_Cache
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
@@ -26,43 +27,25 @@
 class Mmi_Cache {
 
 	/**
-	 * Instancja
-	 * @var Mmi_Cache
+	 * Slave
+	 * @var Mmi_Cache_Slave
 	 */
-	private static $_instance;
+	protected static $_slave;
 
 	/**
-	 * Backend bufora (źródło danych)
-	 * @var mixed
+	 * Określa aktywność cache
+	 * @var boolean
 	 */
-	private $_backend;
-
-	/**
-	 * Czas życia danych w buforze
-	 * @var int
-	 */
-	private $_lifeTime;
+	protected static $_active = false;
 
 	/**
 	 * Pobiera instancję
 	 * @return Mmi_Cache
 	 */
-	public static function getInstance() {
-		if (null === self::$_instance) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
-
-	/**
-	 * Konstruktor, wczytuje konfigurację i ustawia backend
-	 */
-	protected function __construct() {
-		$this->_lifeTime = Mmi_Config::$data['cache']['lifetime'];
-		$backend = 'Mmi_Cache_Backend_' . ucfirst(Mmi_Config::$data['cache']['save_handler']);
-		$this->_backend = new $backend(Mmi_Config::$data['cache']);
-		if (!($this->_backend instanceof Mmi_Cache_Backend_Interface)) {
-			throw new Exception('Cache backend invalid');
+	protected static function _init() {
+		if (null === static::$_slave) {
+			static::$_active = (isset(Mmi_Config::$data['cache']['active']) && Mmi_Config::$data['cache']['active']) ? true : false;
+			static::$_slave = new Mmi_Cache_Slave(Mmi_Config::$data['cache']);
 		}
 	}
 
@@ -71,8 +54,12 @@ class Mmi_Cache {
 	 * @param string $key klucz
 	 * @return mixed
 	 */
-	public function load($key) {
-		return $this->_getValidCacheData($this->_backend->load($key));
+	public static function load($key) {
+		static::_init();
+		if (!static::$_active) {
+			return;
+		}
+		return static::$_slave->load($key);
 	}
 
 	/**
@@ -82,57 +69,29 @@ class Mmi_Cache {
 	 * @param string $key klucz
 	 * @param int $lifeTime czas życia
 	 */
-	public function save($data, $key, $lifeTime = null) {
-		if ($lifeTime === null) {
-			$lifeTime = $this->_lifeTime;
-		} elseif ($lifeTime == 0) {
+	public static function save($data, $key, $lifeTime = null) {
+		static::_init();
+		if (!static::$_active) {
 			return;
 		}
-		$expire = time() + $lifeTime;
-		$this->_backend->save($key, $this->_setCacheData($data, $expire), $lifeTime);
+		return static::$_slave->save($data, $key, $lifeTime);
 	}
 
 	/**
 	 * Usuwanie danych z bufora na podstawie klucza
 	 * @param string $key klucz
 	 */
-	public function remove($key) {
-		$this->_backend->delete($key);
+	public static function remove($key) {
+		static::_init();
+		return static::$_slave->delete($key);
 	}
 
 	/**
 	 * Usuwa wszystkie dane z bufora
 	 */
-	public function flush() {
-		$this->_backend->deleteAll();
-	}
-
-	/**
-	 * Serializuje dane i stempluje datą wygaśnięcia
-	 * @param mixed $data dane
-	 * @param int $expire wygasa
-	 * @return string
-	 */
-	protected function _setCacheData($data, $expire) {
-		return serialize(array('expire' => $expire, 'data' => $data));
-	}
-
-	/**
-	 * Zwraca aktualne dane (sprawdza ważność)
-	 * @param mixed $data dane
-	 * @return mixed
-	 */
-	protected function _getValidCacheData($data) {
-		if (!$data) {
-			return;
-		}
-		$data = unserialize($data);
-		if (!isset($data['expire']) || !isset($data['data'])) {
-			return;
-		}
-		if ($data['expire'] > time()) {
-			return $data['data'];
-		}
+	public static function flush() {
+		static::_init();
+		return static::$_slave->deleteAll();
 	}
 
 }

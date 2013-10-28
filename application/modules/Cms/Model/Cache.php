@@ -6,21 +6,21 @@ class Cms_Model_Cache {
 		if (!self::_isActive()) {
 			return;
 		}
-		return Mmi_Cache::getInstance()->load($key);
+		return MmiCar_Cache_Front::load($key);
 	}
 	
 	public static function save($data, $key, $lifeTime = 360) {
 		if (!self::_isActive()) {
 			return;
 		}
-		Mmi_Cache::getInstance()->save($data, $key, $lifeTime);
+		MmiCar_Cache_Front::save($data, $key, $lifeTime);
 	}
 	
 	public static function remove($key) {
 		if (!self::_isActive()) {
 			return;
 		}
-		Mmi_Cache::getInstance()->remove($key);
+		MmiCar_Cache_Front::remove($key);
 	}
 	
 	protected static function _isActive() {
