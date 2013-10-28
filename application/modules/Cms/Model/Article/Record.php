@@ -8,8 +8,8 @@ class Cms_Model_Article_Record extends Mmi_Dao_Record {
 		$this->uri = $filter->filter(strip_tags($this->title));
 		$this->lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
 		$result = parent::save();
-		Mmi_Cache::getInstance()->remove('Cms_Article_' . $this->uri);
-		Mmi_Cache::getInstance()->remove('Cms_article_image' . $this->id);
+		MmiCar_Cache_Front::remove('Cms_Article_' . $this->uri);
+		MmiCar_Cache_Front::remove('Cms_article_image' . $this->id);
 		return $result;
 	}
 
