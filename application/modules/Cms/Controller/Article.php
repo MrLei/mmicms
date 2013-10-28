@@ -12,7 +12,7 @@ class Cms_Controller_Article extends Mmi_Controller_Action {
 			$id = intval($this->_getParam('id'));
 			$cacheKey = 'Cms_Article_' . $id;
 		}
-		if (!Mmi_Config::get('cache', 'active') || null === ($article = Mmi_Cache::getInstance()->load($cacheKey))) {
+		if (!Mmi_Config::get('cache', 'active') || null === ($article = MmiCar_Cache_Front::load($cacheKey))) {
 			if (isset($uri)) {
 				$article = Cms_Model_Article_Dao::findFirst(array('uri', $uri));
 			} else {
@@ -21,7 +21,7 @@ class Cms_Controller_Article extends Mmi_Controller_Action {
 			if ($article === null) {
 				$this->_helper->redirector('index', 'index', 'default', array(), true);
 			}
-			Mmi_Cache::getInstance()->save($article, $cacheKey, 28800);
+			MmiCar_Cache_Front::save($article, $cacheKey, 28800);
 		}
 		if ($article->noindex) {
 			$this->view->headMeta(array('name' => 'robots', 'content' => 'noindex,nofollow'));
@@ -33,9 +33,9 @@ class Cms_Controller_Article extends Mmi_Controller_Action {
 	public function widgetAction() {
 		$uri = $this->_getParam('uri');
 		$cacheKey = 'Cms_Article_' . $uri;
-		if (!Mmi_Config::get('cache', 'active') || null === ($article = Mmi_Cache::getInstance()->load($cacheKey))) {
+		if (!Mmi_Config::get('cache', 'active') || null === ($article = MmiCar_Cache_Front::load($cacheKey))) {
 			$article = Cms_Model_Article_Dao::findFirst(array('uri', $uri));
-			Mmi_Cache::getInstance()->save($article, $cacheKey, 28800);
+			MmiCar_Cache_Front::save($article, $cacheKey, 28800);
 		}
 		$this->view->article = $article;
 	}

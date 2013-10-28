@@ -6,7 +6,7 @@ class Cms_Model_Container_Record extends Mmi_Dao_Record {
 		$filter = new Mmi_Filter_Url();
 		$this->uri = $filter->filter($this->title);
 		$result = parent::save();
-		Mmi_Cache::getInstance()->remove('Cms_Container_' . $this->uri);
+		MmiCar_Cache_Front::remove('Cms_Container_' . $this->uri);
 		return $result;
 	}
 
@@ -64,7 +64,7 @@ class Cms_Model_Container_Record extends Mmi_Dao_Record {
 	}
 
 	public function delete() {
-		Mmi_Cache::getInstance()->remove('Cms_Container_' . $this->uri);
+		MmiCar_Cache_Front::remove('Cms_Container_' . $this->uri);
 		$container = Cms_Model_Navigation_Dao::findFirst(array(
 				array('module', 'cms'),
 				array('controller', 'container'),

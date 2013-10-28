@@ -3,7 +3,7 @@
 class Cms_Model_Route_Record extends Mmi_Dao_Record {
 	
 	public function save() {
-		Mmi_Cache::getInstance()->remove('Mmi_Route');
+		MmiCar_Cache_Front::remove('Mmi_Route');
 		return parent::save();
 	}
 
