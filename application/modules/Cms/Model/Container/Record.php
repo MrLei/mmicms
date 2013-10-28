@@ -3,8 +3,8 @@
 class Cms_Model_Container_Record extends Mmi_Dao_Record {
 
 	public function save() {
-		$filter = new Mmi_Filter_Url();
-		$this->uri = $filter->filter($this->title);
+		$uf = new Mmi_Filter_Url();
+		$this->uri = $uf->filter($this->title);
 		$result = parent::save();
 		MmiCar_Cache_Front::remove('Cms_Container_' . $this->uri);
 		return $result;

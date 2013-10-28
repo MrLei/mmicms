@@ -2286,3 +2286,137 @@ CREATE INDEX cms_tag_link_object_objectId_idx
   ("object", "objectId" );
 
 ALTER TABLE cms_article ADD COLUMN noindex smallint NOT NULL DEFAULT 0;
+
+-- Table: travel.cms_container_template
+
+-- DROP TABLE travel.cms_container_template;
+
+CREATE TABLE travel.cms_container_template
+(
+  id serial NOT NULL,
+  name character varying(32),
+  path character varying(64),
+  CONSTRAINT cms_container_template_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE travel.cms_container_template
+  OWNER TO travel;
+
+-- Table: travel.cms_container_template_placeholder
+
+-- DROP TABLE travel.cms_container_template_placeholder;
+
+CREATE TABLE travel.cms_container_template_placeholder
+(
+  id serial NOT NULL,
+  cms_container_template_id integer NOT NULL,
+  placeholder character varying(32) NOT NULL,
+  name text,
+  CONSTRAINT cms_container_template_placeholder_pkey PRIMARY KEY (id),
+  CONSTRAINT cms_container_template_placehold_cms_container_template_id_fkey FOREIGN KEY (cms_container_template_id)
+      REFERENCES travel.cms_container_template (id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT cms_container_template_placeh_cms_container_template_id_pla_key UNIQUE (cms_container_template_id, placeholder)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE travel.cms_container_template_placeholder
+  OWNER TO travel;
+
+-- Index: travel.cms_container_template_placeholde_cms_container_template_id_idx
+
+-- DROP INDEX travel.cms_container_template_placeholde_cms_container_template_id_idx;
+
+CREATE INDEX cms_container_template_placeholde_cms_container_template_id_idx
+  ON travel.cms_container_template_placeholder
+  USING btree
+  (cms_container_template_id);
+
+-- Table: travel.cms_container_template_placeholder_container
+
+-- DROP TABLE travel.cms_container_template_placeholder_container;
+
+CREATE TABLE travel.cms_container_template_placeholder_container
+(
+  id serial NOT NULL,
+  cms_container_id integer NOT NULL,
+  cms_container_template_placeholder_id integer NOT NULL,
+  module character varying(32) NOT NULL,
+  controller character varying(32) NOT NULL,
+  action character varying(32) NOT NULL,
+  params text,
+  active boolean NOT NULL DEFAULT true,
+  CONSTRAINT cms_container_template_placeholder_container_pkey PRIMARY KEY (id),
+  CONSTRAINT cms_container_template_placeh_cms_container_template_place_fkey FOREIGN KEY (cms_container_template_placeholder_id)
+      REFERENCES travel.cms_container_template_placeholder (id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT cms_container_template_placeholder_contai_cms_container_id_fkey FOREIGN KEY (cms_container_id)
+      REFERENCES travel.cms_container (id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE travel.cms_container_template_placeholder_container
+  OWNER TO travel;
+
+-- Index: travel.cms_container_template_placeh_cms_container_template_placeh_idx
+
+-- DROP INDEX travel.cms_container_template_placeh_cms_container_template_placeh_idx;
+
+CREATE INDEX cms_container_template_placeh_cms_container_template_placeh_idx
+  ON travel.cms_container_template_placeholder_container
+  USING btree
+  (cms_container_template_placeholder_id);
+
+-- Index: travel.cms_container_template_placeholder_contain_cms_container_id_idx
+
+-- DROP INDEX travel.cms_container_template_placeholder_contain_cms_container_id_idx;
+
+CREATE INDEX cms_container_template_placeholder_contain_cms_container_id_idx
+  ON travel.cms_container_template_placeholder_container
+  USING btree
+  (cms_container_id);
+
+-- Table: travel.cms_container
+
+-- DROP TABLE travel.cms_container;
+
+CREATE TABLE travel.cms_container
+(
+  id serial NOT NULL,
+  title character varying(160),
+  serial text,
+  uri character varying(160),
+  cms_container_template_id integer,
+  CONSTRAINT cms_container_pkey PRIMARY KEY (id),
+  CONSTRAINT cms_container_cms_container_template FOREIGN KEY (cms_container_template_id)
+      REFERENCES travel.cms_container_template (id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE travel.cms_container
+  OWNER TO travel;
+
+-- Index: travel.cms_container_uri_idx
+
+-- DROP INDEX travel.cms_container_uri_idx;
+
+CREATE INDEX cms_container_uri_idx
+  ON travel.cms_container
+  USING btree
+  (uri COLLATE pg_catalog."default");
+
+-- Index: travel.fki_cms_container_cms_container_template
+
+-- DROP INDEX travel.fki_cms_container_cms_container_template;
+
+CREATE INDEX fki_cms_container_cms_container_template
+  ON travel.cms_container
+  USING btree
+  (cms_container_template_id);
