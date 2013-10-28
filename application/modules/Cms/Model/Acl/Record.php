@@ -20,8 +20,8 @@ class Cms_Model_Acl_Record extends Mmi_Dao_Record {
 	}
 
 	protected function _clearCache() {
-		Mmi_Cache::getInstance()->remove('Mmi_Navigation_' . Mmi_Controller_Front::getInstance()->getRequest()->lang);
-		Mmi_Cache::getInstance()->remove('Mmi_Acl');
+		MmiCar_Cache_Front::remove('Mmi_Navigation_' . Mmi_Controller_Front::getInstance()->getRequest()->lang);
+		MmiCar_Cache_Front::remove('Mmi_Acl');
 	}
 
 }

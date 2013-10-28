@@ -40,14 +40,12 @@ class MmiCms_View_Helper_Widget extends Mmi_View_Helper_Abstract {
 	 */
 	public function widget($module, $controller, $action = 'index', array $params = array(), $life = 0) {
 		$key = 'Widget_' . Mmi_Controller_Front::getInstance()->getRequest()->lang . '_' . $module . '_' . $controller . '_' . $action . '_' . md5(print_r($params, true)) . implode('-', Mmi_Auth::getInstance()->getRoles());
-		if (Mmi_Config::$data['cache']['active'] && $life > 0 && ($data = Mmi_Cache::getInstance()->load($key))) {
+		if ($life > 0 && ($data = Mmi_Cache::load($key))) {
 			return $data;
 		}
 		$actionHelper = new MmiCms_Controller_Action_Helper_Action();
 		$data = $actionHelper->action($module, $controller, $action, $params, true);
-		if (Mmi_Config::$data['cache']['active'] && $life > 0) {
-			Mmi_Cache::getInstance()->save($data, $key, $life);
-		}
+		Mmi_Cache::save($data, $key, $life);
 		return $data;
 	}
 
