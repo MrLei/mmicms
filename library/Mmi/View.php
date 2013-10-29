@@ -317,10 +317,11 @@ class Mmi_View {
 		if (!$this->_locale && Mmi_Registry::get('Mmi_Translate')) {
 			$this->_locale = Mmi_Registry::get('Mmi_Translate')->getLocale();
 		}
-		$destFile = TMP_PATH . '/compile/' . $this->_locale . '_' . str_replace(array('/','\\'), '_', substr($fileName, strrpos($fileName, '/application') + 19, -4) . '.php');
+		$destFile = TMP_PATH . '/compile/' . $this->_locale . '_' . str_replace(array('/','\\'), '_', substr($fileName, strrpos($fileName, '/application') + 13, -4) . '.php');
 		$cacheActive = isset(Mmi_Config::$data['cache']['active']) ? Mmi_Config::$data['cache']['active'] : false;
 		if ($cacheActive) {
 			try {
+
 				include $destFile;
 			} catch (Exception $e) {
 				$input = file_get_contents($fileName);
@@ -339,9 +340,8 @@ class Mmi_View {
 			echo $prev;
 			Mmi_Profiler::event('Fetch: ' . $fileName);
 			return $data;
-		} else {
-			Mmi_Profiler::event('Render: ' . $fileName);
 		}
+		Mmi_Profiler::event('Render: ' . $fileName);
 	}
 
 	/**
