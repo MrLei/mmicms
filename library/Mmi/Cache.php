@@ -83,7 +83,7 @@ class Mmi_Cache {
 	 */
 	public static function remove($key) {
 		static::_init();
-		return static::$_slave->delete($key);
+		return static::$_slave->remove($key);
 	}
 
 	/**
@@ -91,7 +91,7 @@ class Mmi_Cache {
 	 */
 	public static function flush() {
 		static::_init();
-		return static::$_slave->deleteAll();
+		return static::$_slave->flush();
 	}
 
 }
