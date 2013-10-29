@@ -29,9 +29,10 @@ class Cms_Model_Article_Record extends Mmi_Dao_Record {
 	public function getFirstImage() {
 		$cacheKey = 'Cms_article_image_' . $this->id;
 		$image = Mmi_Cache::load($cacheKey);
-		if ($image === null) {
-			$image = Cms_Model_File_Dao::findFirstImage('cmsarticle', $this->id);
+		if (null !== ($image = Mmi_Cache::load($cacheKey))) {
+			return $image;
 		}
+		$image = Cms_Model_File_Dao::findFirstImage('cmsarticle', $this->id);
 		Mmi_Cache::save($image, $cacheKey, 3600);
 		return $image;
 	}

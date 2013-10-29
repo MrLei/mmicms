@@ -151,7 +151,7 @@ class Mmi_Controller_Action {
 		}
 
 		//dodawanie tłumaczeń
-		if ($lang != $languages[0] && !($cachedTranslate = Mmi_Cache::load($key))) {
+		if ($lang != $languages[0] && null === ($cachedTranslate = Mmi_Cache::load($key))) {
 			if (file_exists(APPLICATION_PATH . '/skins/default/default/i18n/' . $lang . '.ini')) {
 				$translate->addTranslation(APPLICATION_PATH . '/skins/default/default/i18n/' . $lang . '.ini', $lang);
 			}

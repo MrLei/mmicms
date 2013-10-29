@@ -8,7 +8,7 @@ class Cms_Controller_Container extends Mmi_Controller_Action {
 			$this->_helper->redirector('index', 'index', 'default', array(), true);
 		}
 		$cacheKey = 'Cms_Container_' . $this->_getParam('uri');
-		if (!($container = Mmi_Cache::load($cacheKey))) {
+		if (null === ($container = Mmi_Cache::load($cacheKey))) {
 			$container = Cms_Model_Container_Dao::findFirst(array('uri', $this->_getParam('uri')));
 			if ($container === null) {
 				$this->_helper->redirector('index', 'index', 'default', array(), true);

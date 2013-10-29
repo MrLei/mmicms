@@ -20,7 +20,7 @@ class Cms_Model_Text_Dao extends Mmi_Dao {
 	}
 
 	protected static function _initDictionary() {
-		if (!(self::$_texts = Mmi_Cache::load('Cms_Text'))) {
+		if (null === (self::$_texts = Mmi_Cache::load('Cms_Text'))) {
 			self::$_texts = array();
 			foreach (self::find() as $text) {
 				self::$_texts[$text->lang][$text->key] = $text->content;
