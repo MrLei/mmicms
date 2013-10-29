@@ -4,7 +4,7 @@ class Embed_Model_Html {
 
 	public static function getContent($domainId, $contentId, $postData) {
 		$cacheKey = 'Embed_' . $domainId . '_' . $contentId;
-		if (!$embed = Mmi_Cache::getInstance()->load($cacheKey)) {
+		if (!$embed = Mmi_Cache::load($cacheKey)) {
 			$embed = Embed_Model_Dao::findFirst(array(
 				array('active', 1),
 				array('embed_domain_id', $domainId),
@@ -14,7 +14,7 @@ class Embed_Model_Html {
 				return 'No content';
 			}
 			if (Mmi_Config::$data['cache']['active']) {
-				Mmi_Cache::getInstance()->save($embed, $cacheKey);
+				Mmi_Cache::save($embed, $cacheKey);
 			}
 		}
 		parse_str($embed->params, $params);
