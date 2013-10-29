@@ -65,7 +65,7 @@ class Mmi_Controller_Front {
 	 * Zabezpieczony konstruktor
 	 */
 	protected function __construct() {
-		if ($this->_structure = Mmi_Cache::load('Mmi_Structure')) {
+		if (null !== ($this->_structure = Mmi_Cache::load('Mmi_Structure'))) {
 			return;
 		}
 		$this->_structure = Mmi_Structure::getStructure();
