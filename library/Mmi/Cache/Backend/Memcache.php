@@ -30,7 +30,7 @@ class Mmi_Cache_Backend_Memcache implements Mmi_Cache_Backend_Interface {
 	 * @var Memcache
 	 */
 	private $_server;
-	
+
 	/**
 	 * Cache namespace
 	 * @var string
@@ -43,6 +43,7 @@ class Mmi_Cache_Backend_Memcache implements Mmi_Cache_Backend_Interface {
 	 */
 	public function __construct(array $params = array()) {
 		$this->_namespace = crc32(BASE_PATH);
+		echo $this->_namespace;
 		$this->_server = new Memcache;
 		if (is_array($params['save_path'])) {
 			$this->_addServers($params['save_path']);
@@ -106,7 +107,7 @@ class Mmi_Cache_Backend_Memcache implements Mmi_Cache_Backend_Interface {
 		$serverOptions['port'] = $server[1];
 		return $serverOptions;
 	}
-	
+
 	/**
 	 * Dodaje serwer
 	 * @param string $server adres serwera
@@ -122,7 +123,7 @@ class Mmi_Cache_Backend_Memcache implements Mmi_Cache_Backend_Interface {
 			isset($server['retry_interval']) ? $server['retry_interval'] : 15
 		);
 	}
-	
+
 	/**
 	 * Dodaje serwery
 	 * @param array $servers tablica adresów serwera
