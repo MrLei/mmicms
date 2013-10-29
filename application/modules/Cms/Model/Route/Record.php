@@ -1,9 +1,9 @@
 <?php
 
 class Cms_Model_Route_Record extends Mmi_Dao_Record {
-	
+
 	public function save() {
-		MmiCar_Cache_Front::remove('Mmi_Route');
+		Mmi_Cache::remove('Mmi_Route');
 		return parent::save();
 	}
 

@@ -136,7 +136,6 @@ class Mmi_Controller_Action {
 	private function _initTranslaction($module, $skin, $lang) {
 		//inicjalizacja translatora
 		$key = 'Mmi_Translate_' . $lang . '_' . $skin . '_' . $module;
-		$cacheActive = isset(Mmi_Config::$data['cache']['active']) ? Mmi_Config::$data['cache']['active'] : false;
 
 		$translate = Mmi_Registry::get('Mmi_Translate');
 		if (!($translate instanceof Mmi_Translate)) {
@@ -152,7 +151,7 @@ class Mmi_Controller_Action {
 		}
 
 		//dodawanie tłumaczeń
-		if ($lang != $languages[0] && (!$cacheActive || !($cachedTranslate = Mmi_Cache::getInstance()->load($key)))) {
+		if ($lang != $languages[0] && !($cachedTranslate = Mmi_Cache::load($key))) {
 			if (file_exists(APPLICATION_PATH . '/skins/default/default/i18n/' . $lang . '.ini')) {
 				$translate->addTranslation(APPLICATION_PATH . '/skins/default/default/i18n/' . $lang . '.ini', $lang);
 			}
@@ -166,9 +165,7 @@ class Mmi_Controller_Action {
 				$translate->addTranslation(APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/i18n/' . $lang . '.ini', $lang);
 			}
 			$translate->setLocale($lang);
-			if ($cacheActive) {
-				Mmi_Cache::getInstance()->save($translate, $key);
-			}
+			Mmi_Cache::save($translate, $key);
 			Mmi_Profiler::event('Init Translate setup');
 		}
 		if (isset($cachedTranslate)) {
