@@ -43,8 +43,7 @@ class Mmi_Cache_Backend_Memcache implements Mmi_Cache_Backend_Interface {
 	 */
 	public function __construct(array $params = array()) {
 		$this->_namespace = crc32(BASE_PATH);
-		echo $this->_namespace;
-		$this->_server = new Memcache;
+		$this->_server = new Memcache();
 		if (is_array($params['save_path'])) {
 			$this->_addServers($params['save_path']);
 		} else {
@@ -67,6 +66,10 @@ class Mmi_Cache_Backend_Memcache implements Mmi_Cache_Backend_Interface {
 	 * @param int $lifeTime wygaśnięcie danych w buforze (informacja dla bufora)
 	 */
 	public final function save($key, $data, $lifeTime) {
+		if ($lifeTime > 2592000) {
+			//memcache bug ta wartość nie może być większa
+			$lifeTime = 2592000;
+		}
 		return $this->_server->set($this->_namespace . '_' . $key, $data, 0, $lifeTime);
 	}
 
