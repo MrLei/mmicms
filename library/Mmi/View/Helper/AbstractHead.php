@@ -35,7 +35,7 @@ class Mmi_View_Helper_AbstractHead extends Mmi_View_Helper_Abstract {
 	 */
 	protected function _getCrc($location) {
 		$cacheKey = 'Head_Crc_' . md5($location);
-		if ($crc = Mmi_Cache::load($cacheKey)) {
+		if (null !== ($crc = Mmi_Cache::load($cacheKey))) {
 			return $crc;
 		}
 		//internal
