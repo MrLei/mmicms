@@ -65,12 +65,11 @@ class Mmi_Controller_Front {
 	 * Zabezpieczony konstruktor
 	 */
 	protected function __construct() {
-		if (!Mmi_Config::$data['cache']['active'] || !($this->_structure = Mmi_Cache::getInstance()->load('Mmi_Structure'))) {
-			$this->_structure = Mmi_Structure::getStructure();
-			if (Mmi_Config::$data['cache']['active']) {
-				Mmi_Cache::getInstance()->save($this->_structure, 'Mmi_Structure', 86400);
-			}
+		if (null !== ($this->_structure = Mmi_Cache::load('Mmi_Structure'))) {
+			return;
 		}
+		$this->_structure = Mmi_Structure::getStructure();
+		Mmi_Cache::save($this->_structure, 'Mmi_Structure', 86400);
 	}
 
 	/**

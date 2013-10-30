@@ -48,9 +48,10 @@ class Mmi_Bootstrap {
 		set_include_path(LIB_PATH);
 
 		//ładowanie domyślnych komponentów
-		require LIB_PATH . '/Mmi/Cache.php';
 		require LIB_PATH . '/Mmi/Cache/Backend/Interface.php';
 		require LIB_PATH . '/Mmi/Cache/Backend/Apc.php';
+		require LIB_PATH . '/Mmi/Cache/Slave.php';
+		require LIB_PATH . '/Mmi/Cache.php';
 		require LIB_PATH . '/Mmi/Config.php';
 		require LIB_PATH . '/Mmi/Profiler.php';
 		require LIB_PATH . '/Mmi/Controller/Action/Helper/Abstract.php';

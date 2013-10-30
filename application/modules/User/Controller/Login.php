@@ -14,7 +14,7 @@ class User_Controller_Login extends Mmi_Controller_Action {
 			Stat_Model_Stat::hit('user_login');
 			$this->_helper->messenger('Zalogowano poprawnie', true);
 			$user = new User_Model_Profile($auth->getId());
-			Mmi_Cache::getInstance()->save($user, 'Profile_' . $user->getId(), 28800);
+			Mmi_Cache::save($user, 'Profile_' . $user->getId(), 28800);
 		}
 		if (strpos($this->getRequest()->getReferer(), 'zaloguj') === false && strpos($this->getRequest()->getReferer(), 'rejestracja') === false) {
 			$this->_helper->redirector()->gotoUrl($this->getRequest()->getReferer());
@@ -22,14 +22,14 @@ class User_Controller_Login extends Mmi_Controller_Action {
 			return $this->_helper->redirector('index', 'index', 'default', array(), true);
 		}
 	}
-	
-	
+
+
 	public function logoutAction() {
 		Mmi_Auth::getInstance()->clearIdentity();
 		$this->_helper->messenger('Wylogowano poprawnie');
 		$this->_helper->redirector()->gotoUrl($this->getRequest()->getReferer());
 	}
-	
+
 	public function widgetAction() {
 		Mmi_View_Layout::getInstance()->setDisabled();
 		$form = new User_Form_Login();
@@ -41,7 +41,7 @@ class User_Controller_Login extends Mmi_Controller_Action {
 		}
 		$auth = new Cms_Model_Auth();
 		if (false === $auth->login($form->getValues())) {
-			
+
 		}
 		$this->_helper->redirector()->gotoUrl($this->getRequest()->getReferer());
 	}

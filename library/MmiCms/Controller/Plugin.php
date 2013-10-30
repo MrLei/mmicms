@@ -33,9 +33,6 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		require LIB_PATH . '/Mmi/Registry.php';
 		require LIB_PATH . '/Mmi/Translate.php';
 
-		$cacheActive = Mmi_Config::$data['cache']['active'];
-		$cache = Mmi_Cache::getInstance();
-
 		//database connection
 		if (Mmi_Config::$data['global']['debug']) {
 			Mmi_Config::$data['db']['profiler'] = true;
@@ -48,19 +45,14 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		Mmi_Registry::set('Mmi_Db', Mmi_Db::factory($db));
 
 		//route z cms
-		if (!$cacheActive || null === ($routes = $cache->load('Mmi_Route'))) {
+		if (null === ($routes = Mmi_Cache::load('Mmi_Route'))) {
 			$routes = Cms_Model_Route_Dao::findActive();
-			if ($cacheActive) {
-				$cache->save($routes, 'Mmi_Route', 86400);
-			}
+			Mmi_Cache::save($routes, 'Mmi_Route', 86400);
 		}
 		Mmi_Controller_Router::getInstance()->setRoutes(array_merge(Mmi_Config::$data['routes'], $routes));
 	}
 
 	public function preDispatch(Mmi_Controller_Request $request) {
-
-		$cacheActive = Mmi_Config::$data['cache']['active'];
-		$cache = Mmi_Cache::getInstance();
 
 		//niepoprawny język
 		if (!in_array($request->__get('lang'), Mmi_Config::$data['global']['languages'])) {
@@ -132,12 +124,10 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		}
 
 		//acl
-		if (!$cacheActive || !($acl = $cache->load('Mmi_Acl'))) {
+		if (null === ($acl = Mmi_Cache::load('Mmi_Acl'))) {
 			Mmi_Profiler::event('Init Acl');
 			$acl = Cms_Model_Acl_Dao::setupAcl();
-			if ($cacheActive) {
-				$cache->save($acl, 'Mmi_Acl', 86400);
-			}
+			Mmi_Cache::save($acl, 'Mmi_Acl', 86400);
 		}
 		Mmi_Registry::set('Mmi_Acl', $acl);
 
@@ -158,11 +148,9 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 			}
 		}
 		Mmi_Profiler::event('Init plugin');
-		if (!$cacheActive || !($navigation = $cache->load('Mmi_Navigation_' . $request->__get('lang')))) {
+		if (null === ($navigation = Mmi_Cache::load('Mmi_Navigation_' . $request->__get('lang')))) {
 			$navigation = new Mmi_Navigation(Cms_Model_Navigation_Dao::getNested());
-			if ($cacheActive) {
-				$cache->save($navigation, 'Mmi_Navigation_' . $request->__get('lang'), 3600);
-			}
+			Mmi_Cache::save($navigation, 'Mmi_Navigation_' . $request->__get('lang'), 3600);
 		}
 		$view->mediaServer = '';
 		if (isset(Mmi_Config::$data['cms']['mediaServer'])) {

@@ -30,7 +30,7 @@ class Mmi_Cache_Backend_Memcached implements Mmi_Cache_Backend_Interface {
 	 * @var Memcached
 	 */
 	private $_server;
-	
+
 	/**
 	 * Cache namespace
 	 * @var string
@@ -70,6 +70,10 @@ class Mmi_Cache_Backend_Memcached implements Mmi_Cache_Backend_Interface {
 	 * @param int $lifeTime wygaśnięcie danych w buforze (informacja dla bufora)
 	 */
 	public function save($key, $data, $lifeTime) {
+		if ($lifeTime > 2592000) {
+			//memcache bug ta wartość nie może być większa
+			$lifeTime = 2592000;
+		}
 		return $this->_server->set($this->_namespace . '_' . $key, $data, $lifeTime);
 	}
 
@@ -106,7 +110,7 @@ class Mmi_Cache_Backend_Memcached implements Mmi_Cache_Backend_Interface {
 		$serverOptions['port'] = $server[1];
 		return $serverOptions;
 	}
-	
+
 
 	/**
 	 * Dodaje serwer
@@ -120,7 +124,7 @@ class Mmi_Cache_Backend_Memcached implements Mmi_Cache_Backend_Interface {
 			isset($server['weight']) ? $server['weight'] : 1
 		);
 	}
-	
+
 	/**
 	 * Dodaje serwery
 	 * @param array $servers tablica adresów serwera
@@ -130,7 +134,7 @@ class Mmi_Cache_Backend_Memcached implements Mmi_Cache_Backend_Interface {
 			$this->_addServer($server);
 		}
 	}
-	
+
 	/**
 	 * Magiczne wywołanie metod z Memcached
 	 * @param string $method nazwa metody
