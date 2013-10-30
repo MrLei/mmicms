@@ -317,7 +317,8 @@ class Mmi_View {
 		if (!$this->_locale && Mmi_Registry::get('Mmi_Translate')) {
 			$this->_locale = Mmi_Registry::get('Mmi_Translate')->getLocale();
 		}
-		$destFile = TMP_PATH . '/compile/' . $this->_locale . '_' . str_replace(array('/','\\'), '_', substr($fileName, strrpos($fileName, '/application') + 19, -4) . '.php');
+		$compileName = $this->_locale . '_' . str_replace(array('/','\\'), '_', substr($fileName, strrpos($fileName, '/application') + 13, -4) . '.php');
+		$destFile = TMP_PATH . '/compile/' . $compileName;
 		$cacheActive = isset(Mmi_Config::$data['cache']['active']) ? Mmi_Config::$data['cache']['active'] : false;
 		if ($cacheActive) {
 			try {
@@ -337,11 +338,10 @@ class Mmi_View {
 			ob_clean();
 			//zwrot starego bufora
 			echo $prev;
-			Mmi_Profiler::event('Fetch: ' . $fileName);
+			Mmi_Profiler::event('Fetch: ' . $compileName);
 			return $data;
-		} else {
-			Mmi_Profiler::event('Render: ' . $fileName);
 		}
+		Mmi_Profiler::event('Render: ' . $compileName);
 	}
 
 	/**

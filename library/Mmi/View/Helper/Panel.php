@@ -45,12 +45,12 @@ class Mmi_View_Helper_Panel extends Mmi_View_Helper_Abstract {
 		$html = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
 		$exception = $view->_exceptionInfo;
 		$html .= '<div id="MmiPanelBar" onclick="document.getElementById(\'MmiPanel\').style.display=\'block\'; window.scrollTo(0,document.getElementById(\'MmiPanel\').offsetTop);" style="';
-		$html .= 'text-align: center; position: fixed; padding: 0 10px; margin: 0; line-height: 0; background: #000; border-radius: 5px 5px 0 0; font: bold 10px Arial; color: #fff; bottom: 0px; left: 45%; text-transform: none;">' . $elapsed . ', ' . $memory . ' - ' . $cacheInfo . '</div>';
+		$html .= 'text-align: center; position: fixed; padding: 0 10px; margin: 0; line-height: 0; background: #000; border-radius: 5px 5px 0 0; font: bold 10px Arial!important; color: #fff; bottom: 0px; left: 45%; text-transform: none;">' . $elapsed . ', ' . $memory . ' - ' . $cacheInfo . '</div>';
 		$html .= '<div id="MmiPanel" ondblclick="this.style.display=\'none\';" style="';
 		if (null === $exception) {
-			$html .= 'display: none; '; 
+			$html .= 'display: none; ';
 		}
-		$html .= 'position: relative; text-align: left; padding: 20px 10px 5px 10px; background: #000; color: #eee; font: normal 11px Arial;">';
+		$html .= 'position: relative; text-align: left; padding: 20px 10px 5px 10px; background: #000; color: #eee; font: normal 11px Monospace;">';
 		if (null !== $exception) {
 			$html .= '<h2 style="color: #bb0000; margin: 0px; font-size: 14px; text-transform: none;">' . $exception['message'] . '</h2>';
 			$html .= '<p style="margin: 0px; padding: 0px 0px 10px 0px;">' . $exception['file'] . ' <strong>(' . $exception['line'] . ')</strong></p>';
@@ -64,7 +64,7 @@ class Mmi_View_Helper_Panel extends Mmi_View_Helper_Abstract {
 		asort($classes);
 		asort($extensions);
 		asort($constants);
-		$html .= '<table cellspacing="0" cellpadding="0" border="0" style="width: 100%; padding: 0px; margin: 0px;"><tr><td valign="top" style="padding-right: 5px;">';
+		$html .= '<table cellspacing="0" cellpadding="0" border="0" style="width: 100%; padding: 0px; margin: 0px;"><tr><td style="vertical-align: top; padding-right: 5px;">';
 
 		$html .= '<p style="margin: 0px;">Transfer:</p>';
 		$html .= '<pre style="margin:  0px 0px 10px 0px; color: #ddd; background: #222; padding: 3px; border: 1px solid #666;">';
@@ -111,7 +111,7 @@ class Mmi_View_Helper_Panel extends Mmi_View_Helper_Abstract {
 			$color = ($color + 80) > 255 ? 255 : $color + 80;
 			$color = dechex($color);
 			$color = $color . $color . $color;
-			$html .= '<div style="color: #' . $color . '"><div style="float: left; width: 550px;">' . $event['name'] . '</div><div style="float: left; width: 60px;"><b>' . round($event['elapsed'], 4) . 's</b></div><div style="float: left; width: 60px;"><b>' . round($event['percent'], 2) . '%</b></div><div style="float: left;"><b>' . round($percentSum, 2) . '%</b></div></div><div style="clear: both"></div>';
+			$html .= '<div style="color: #' . $color . '"><div style="float: left; width: 500px;">' . $event['name'] . '</div><div style="float: left; width: 60px;"><b>' . round($event['elapsed'], 4) . 's</b></div><div style="float: left; width: 60px;"><b>' . round($event['percent'], 2) . '%</b></div><div style="float: left;"><b>' . round($percentSum, 2) . '%</b></div></div><div style="clear: both"></div>';
 		}
 		$html .= '</pre>';
 		$html .= '<p style="margin: 0px;">Alternative PHP Cache:</p>';
@@ -133,7 +133,7 @@ class Mmi_View_Helper_Panel extends Mmi_View_Helper_Abstract {
 		}
 		$html .= '</pre>';
 
-		$html .= '</td><td valign="top" style="padding-left: 5px;">';
+		$html .= '</td><td style="vertical-align: top; padding-left: 5px;">';
 
 		if ($view !== null) {
 			$viewVars = array();
@@ -158,7 +158,7 @@ class Mmi_View_Helper_Panel extends Mmi_View_Helper_Abstract {
 				}
 			}
 			$html .= '<p style="margin: 0px;">Request Variables: </p><pre style="margin: 0px 0px 10px 0px; color: #ddd; background: #222; padding: 3px; border: 1px solid #666;">' . $this->colorify(print_r(Mmi_Controller_Front::getInstance()->getRequest()->toArray(), true)) . '</pre>';
-			$html .= '<p style="margin: 0px;">View Variables: </p><pre style="overflow-x: auto; max-width: 1150px; margin: 0px 0px 10px 0px; color: #ddd; background: #222; padding: 3px; border: 1px solid #666; ">' . $this->colorify(print_r($viewVars, true)) . '</pre>';
+			$html .= '<p style="margin: 0px;">View Variables: </p><pre style="overflow-x: auto; max-width: 1000px; margin: 0px 0px 10px 0px; color: #ddd; background: #222; padding: 3px; border: 1px solid #666; ">' . $this->colorify(print_r($viewVars, true)) . '</pre>';
 		}
 		if (isset($_COOKIE) && count($_COOKIE) > 0) {
 			$html .= '<p style="margin: 0px;">Cookie Variables: </p><pre style="margin: 0px 0px 10px 0px; color: #ddd; background: #222; padding: 3px; border: 1px solid #666;">' . $this->colorify(print_r($_COOKIE, true)) . '</pre>';
@@ -180,11 +180,11 @@ class Mmi_View_Helper_Panel extends Mmi_View_Helper_Abstract {
 
 		$html .= '</td></tr><tr><td colspan="2">';
 
-		$exHtml = '<table style="color: #ddd; background: #222; padding: 3px; border: 1px solid #666;" width="100%"><tr><td valign="top">';
+		$exHtml = '<table style="color: #ddd; background: #222; padding: 3px; border: 1px solid #666;" width="100%"><tr><td style="vertical-align: top;">';
 		$ei = 0;
 		foreach ($classes as $ext) {
 			if ($ei != 0 && $ei % 40 == 0) {
-				$exHtml .= '</td><td valign="top">';
+				$exHtml .= '</td><td style="vertical-align: top;">';
 			}
 			$ei++;
 			$exHtml .= $ei . '. ' . $ext . '<br />';
@@ -192,11 +192,11 @@ class Mmi_View_Helper_Panel extends Mmi_View_Helper_Abstract {
 		$exHtml .= '</td></tr></table>';
 		$html .= '<p style="margin: 0px">Declared classes:</p>' . $exHtml;
 
-		$exHtml = '<table style="color: #ddd; background: #222; padding: 3px; border: 1px solid #666;" width="100%"><tr><td valign="top">';
+		$exHtml = '<table style="color: #ddd; background: #222; padding: 3px; border: 1px solid #666;" width="100%"><tr><td style="vertical-align: top;">';
 		$ei = 0;
 		foreach ($extensions as $ext) {
 			if ($ei != 0 && $ei % 10 == 0) {
-				$exHtml .= '</td><td valign="top">';
+				$exHtml .= '</td><td style="vertical-align: top;">';
 			}
 			$ei++;
 			$exHtml .= $ei . '. ' . $ext . '<br />';
@@ -207,7 +207,7 @@ class Mmi_View_Helper_Panel extends Mmi_View_Helper_Abstract {
 		$html .= '</div>';
 		echo $html;
 	}
-	
+
 	/**
 	 * Koloruje składnie
 	 * @param string $text kod
