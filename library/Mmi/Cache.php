@@ -55,10 +55,10 @@ class Mmi_Cache {
 	 * @return mixed
 	 */
 	public static function load($key) {
+		static::_init();
 		if (!static::$_active) {
 			return;
 		}
-		static::_init();
 		return static::$_slave->load($key);
 	}
 
@@ -70,10 +70,10 @@ class Mmi_Cache {
 	 * @param int $lifeTime czas życia
 	 */
 	public static function save($data, $key, $lifeTime = null) {
+		static::_init();
 		if (!static::$_active) {
 			return;
 		}
-		static::_init();
 		return static::$_slave->save($data, $key, $lifeTime);
 	}
 
@@ -82,10 +82,10 @@ class Mmi_Cache {
 	 * @param string $key klucz
 	 */
 	public static function remove($key) {
+		static::_init();
 		if (!static::$_active) {
 			return;
 		}
-		static::_init();
 		return static::$_slave->remove($key);
 	}
 
@@ -93,10 +93,10 @@ class Mmi_Cache {
 	 * Usuwa wszystkie dane z bufora
 	 */
 	public static function flush() {
+		static::_init();
 		if (!static::$_active) {
 			return;
 		}
-		static::_init();
 		return static::$_slave->flush();
 	}
 
