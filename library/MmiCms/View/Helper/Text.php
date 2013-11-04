@@ -1,6 +1,6 @@
 <?php
 /**
- * Mmi
+ * MmiCms
  *
  * LICENSE
  *
@@ -9,8 +9,8 @@
  * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
  *
  * MmiCms/View/Helper/Text.php
- * @category   Mmi
- * @package    Mmi_View
+ * @category   MmiCms
+ * @package    MmiCms_View
  * @subpackage Helper
  * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>

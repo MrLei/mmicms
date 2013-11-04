@@ -26,4 +26,30 @@
 
 abstract class Mmi_Config_Abstract {
 
+	/**
+	 * Podstawowa konfiguracja aplikacji
+	 * @var Mmi_Config2
+	 */
+	public $mmi;
+
+	/**
+	 * Konfiguracja postawowego cache
+	 * @var Mmi_Cache_Config
+	 */
+	public $cache;
+
+	/**
+	 * Konfiguracja routera
+	 * @var Mmi_Controller_Router_Config
+	 */
+	public $router;
+
+	public function __construct() {
+
+		$this->mmi = new Mmi_Config2();
+		$this->cache = new Mmi_Cache_Config();
+		$this->router = new Mmi_Controller_Router_Config();
+
+	}
+
 }

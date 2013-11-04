@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Mmi
+ * MmiCms
  *
  * LICENSE
  *
@@ -9,8 +10,8 @@
  * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
  *
  * MmiCms/Controller/Action/Helper/Action.php
- * @category   Mmi
- * @package    Mmi_Controller
+ * @category   MmiCms
+ * @package    MmiCms_Controller
  * @subpackage Helper
  * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -20,8 +21,8 @@
 
 /**
  * Helper akcji, sprawdza uprawnienia w ACL, wykonuje akcję z kontrolera akcji i zwraca bądź renderuje wynik
- * @category   Mmi
- * @package    Mmi_Controller
+ * @category   MmiCms
+ * @package    MmiCms_Controller
  * @subpackage Helper
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
