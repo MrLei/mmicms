@@ -8,9 +8,9 @@
  * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
  * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
  *
- * Mmi/Cache/Config.php
+ * Mmi/Controller/Router/Config/Route.php
  * @category   Mmi
- * @package    Mmi_Cache
+ * @package    Mmi_Controller
  * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    $Id$
@@ -18,37 +18,40 @@
  */
 
 /**
- * Konfiguracja cache
+ * Konfiguracja pojedynczej routy
  * @category   Mmi
- * @package    Mmi_Cache
+ * @package    Mmi_Controller
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 
-class Mmi_Cache_Config {
+class Mmi_Controller_Router_Config_Route {
 
 	/**
-	 * Buforowanie włączone
-	 * @var boolean
-	 */
-	public $active = false;
-
-	/**
-	 * Czas życia bufora
-	 * @var int
-	 */
-	public $lifetime = 300;
-
-	/**
-	 * Nazwa backendu obsługującego bufor:
-	 * apc | file | memcache
+	 * Nazwa routy (unikalna)
 	 * @var string
 	 */
-	public $handler = 'apc';
+	public $name;
 
 	/**
-	 * Ścieżka dla handlerów plikowych i memcache
+	 * Wyrażenie regularne, lub czysty tekst, np.:
+	 * /^hit\/(.[^\/]+)/
+	 * witaj/potwierdzenie
 	 * @var string
 	 */
-	public $path;
+	public $pattern;
+
+	/**
+	 * Tabela zastąpień, np.:
+	 * array('module' => 'news', 'controller' => 'index', 'action' => 'index');
+	 * @var array
+	 */
+	public $replace = array();
+
+	/**
+	 * Tabela wartości domyślnych, np.:
+	 * array('lang' => 'pl');
+	 * @var array
+	 */
+	public $default = array();
 
 }

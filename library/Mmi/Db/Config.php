@@ -24,7 +24,7 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 
-class Mmi_Db_Config extends Mmi_Config_Abstract {
+class Mmi_Db_Config {
 
 	/**
 	 * Silnik bazy danych
