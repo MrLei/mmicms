@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Mmi
+ * MmiCms
  *
  * LICENSE
  *
@@ -10,8 +10,8 @@
  * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
  *
  * MmiCms/View/Helper/Widget.php
- * @category   Mmi
- * @package    Mmi_View
+ * @category   MmiCms
+ * @package    MmiCms_View
  * @subpackage Helper
  * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -21,7 +21,7 @@
 
 /**
  * Helper widgetów
- * @see Mmi_Acl
+ * @see MmiCms_Controller_Action_Helper_Action
  * @category   MmiCms
  * @package    MmiCms_View
  * @subpackage Helper
