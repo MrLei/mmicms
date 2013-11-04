@@ -24,7 +24,7 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 
-class Mmi_Config2 extends Mmi_Config_Abstract {
+class Mmi_Config2 {
 
 	/**
 	 * Charset

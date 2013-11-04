@@ -25,7 +25,7 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 
-class Mmi_Session_Config extends Mmi_Config_Abstract {
+class Mmi_Session_Config {
 
 	/**
 	 * Nazwa sesji

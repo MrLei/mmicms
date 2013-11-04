@@ -24,7 +24,7 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 
-class Mmi_Controller_Router_Config_Route extends Mmi_Config_Abstract {
+class Mmi_Controller_Router_Config_Route {
 
 	/**
 	 * Nazwa routy (unikalna)
