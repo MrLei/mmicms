@@ -426,6 +426,7 @@
 		unset($options['labelPostfix']);
 		unset($options['markRequired']);
 		unset($options['multiOptions']);
+		unset($options['labelClass']);
 		unset($options['options']);
 		unset($options['required']);
 		unset($options['translatorDisabled']);

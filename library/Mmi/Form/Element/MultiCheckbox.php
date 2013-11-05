@@ -34,6 +34,7 @@ class Mmi_Form_Element_MultiCheckbox extends Mmi_Form_Element_Abstract {
 	public function fetchField() {
 		$baseId = $this->_options['id'];
 		$multiOptions = isset($this->_options['multiOptions']) ? $this->_options['multiOptions'] : array();
+		$labelClass = isset($this->_options['labelClass']) ? $this->_options['labelClass'] : array();
 		$values = isset($this->_options['value']) ? $this->_options['value'] : null;
 		
 		unset($this->_options['value']);
@@ -51,6 +52,13 @@ class Mmi_Form_Element_MultiCheckbox extends Mmi_Form_Element_Abstract {
 			$this->_options['id'] = $baseId . '_' . $f->filter($key);
 			$this->_options['value'] = $key;
 			
+			$classTag = "";
+			foreach ($labelClass as $labelId => $className) {
+				if($labelId == $key) {
+					$classTag .= 'class="' . $className . '" ';
+				}
+			}
+			
 			if (strpos($key, ':divide') !== false) {
 				if (isset($this->_options['divideClass'])) {
 					$html .= '<li class="' . $this->_options['divideClass'] . '"></li>';
@@ -60,13 +68,13 @@ class Mmi_Form_Element_MultiCheckbox extends Mmi_Form_Element_Abstract {
 				$this->_options['disabled'] = 'disabled';
 				$html .= '<li class="disabled" id="' . $this->_options['id'] . '_item' . '">
 					<input type="checkbox" ' . $this->_getHtmlOptions() . '/>
-					<label for="' . $this->_options['id'] . '">' . $caption . '</label>
+					<label ' . $classTag . 'for="' . $this->_options['id'] . '">' . $caption . '</label>
 				</li>';
 			} else {
 				$this->_options['disabled'] = '';
 				$html .= '<li id="' . $this->_options['id'] . '_item' . '">
 					<input type="checkbox" ' . $this->_getHtmlOptions() . '/>
-					<label for="' . $this->_options['id'] . '">' . $caption . '</label>
+					<label ' . $classTag . 'for="' . $this->_options['id'] . '">' . $caption . '</label>
 				</li>';
 			}
 		}
@@ -91,7 +99,7 @@ class Mmi_Form_Element_MultiCheckbox extends Mmi_Form_Element_Abstract {
 			$required = '';
 		}
 		if ($this->_translatorEnabled) {
-			$label = $this->getTranslator()->_($this->_options['label']);
+			$label = $this->getTranslate()->_($this->_options['label']);
 		} else {
 			$label = $this->_options['label'];
 		}
