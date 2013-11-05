@@ -75,6 +75,12 @@ class Mmi_View {
 	private $_structure = array();
 
 	/**
+	 * Obiekt tłumaczeń
+	 * @var Mmi_Translate
+	 */
+	private $_translate;
+
+	/**
 	 * Obiekt requestu
 	 * @var Mmi_Controller_Request
 	 */
@@ -152,9 +158,29 @@ class Mmi_View {
 	/**
 	 * Ustawia obiekt request
 	 * @param Mmi_Controller_Request $request
+	 * @return \Mmi_View
 	 */
 	public function setRequest(Mmi_Controller_Request $request) {
 		$this->request = $request;
+		return $this;
+	}
+
+	/**
+	 * Ustawia translator
+	 * @param Mmi_Translate $translate
+	 * @return \Mmi_View
+	 */
+	public function setTranslate(Mmi_Translate $translate) {
+		$this->_translate = $translate;
+		return $this;
+	}
+
+	/**
+	 * Zwraca obiekt translatora
+	 * @return Mmi_Translate
+	 */
+	public function getTranslate() {
+		return $this->_translate;
 	}
 
 	/**
@@ -211,9 +237,11 @@ class Mmi_View {
 	 * Ustawia placeholder
 	 * @param string $name nazwa
 	 * @param string $content zawartość
+	 * @return \Mmi_View
 	 */
 	public function setPlaceholder($name, $content) {
 		$this->_placeholders[$name] = $content;
+		return $this;
 	}
 
 	/**
@@ -266,9 +294,11 @@ class Mmi_View {
 	/**
 	 * Ustawia wyłączenie layoutu
 	 * @param boolean $disabled wyłączony
+	 * @return \Mmi_View
 	 */
 	public function setLayoutDisabled($disabled = true) {
 		$this->_layoutDisabled = $disabled;
+		return $this;
 	}
 
 	/**
@@ -294,15 +324,6 @@ class Mmi_View {
 	}
 
 	/**
-	 * Nakładka na translator
-	 * @return string
-	 */
-	public function _() {
-		$translator = Mmi_Registry::get('Mmi_Translate');
-		return call_user_func_array(array($translator, '_'), func_get_args());
-	}
-
-	/**
 	 * Renderuje szablon z pliku
 	 * @param string $fileName nazwa pliku szablonu
 	 * @param boolean $fetch nie renderuj tylko zwróć dane
@@ -314,8 +335,8 @@ class Mmi_View {
 			$prev = ob_get_contents();
 			ob_clean();
 		}
-		if (!$this->_locale && Mmi_Registry::get('Mmi_Translate')) {
-			$this->_locale = Mmi_Registry::get('Mmi_Translate')->getLocale();
+		if (!$this->_locale && $this->_translate !== null) {
+			$this->_locale = $this->_translate->getLocale();
 		}
 		$compileName = $this->_locale . '_' . str_replace(array('/','\\'), '_', substr($fileName, strrpos($fileName, '/application') + 13, -4) . '.php');
 		$destFile = TMP_PATH . '/compile/' . $compileName;

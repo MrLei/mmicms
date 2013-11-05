@@ -81,7 +81,7 @@ class Mmi_Form_Element_Radio extends Mmi_Form_Element_Abstract {
 			$required = '';
 		}
 		if ($this->_translatorEnabled) {
-			$label = $this->getTranslator()->_($this->_options['label']);
+			$label = $this->getTranslate()->_($this->_options['label']);
 		} else {
 			$label = $this->_options['label'];
 		}

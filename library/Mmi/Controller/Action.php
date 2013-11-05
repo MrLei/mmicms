@@ -137,10 +137,10 @@ class Mmi_Controller_Action {
 		//inicjalizacja translatora
 		$key = 'Mmi_Translate_' . $lang . '_' . $skin . '_' . $module;
 
-		$translate = Mmi_Registry::get('Mmi_Translate');
+		$translate = $this->view->getTranslate();
 		if (!($translate instanceof Mmi_Translate)) {
 			$translate = new Mmi_Translate(null, $lang);
-			Mmi_Registry::set('Mmi_Translate', $translate);
+			$this->view->setTranslate($translate);
 		}
 
 		//język nie istnieje
@@ -169,7 +169,7 @@ class Mmi_Controller_Action {
 			Mmi_Profiler::event('Init Translate setup');
 		}
 		if (isset($cachedTranslate)) {
-			Mmi_Registry::set('Mmi_Translate', $cachedTranslate);
+			$this->view->setTranslate($cachedTranslate);
 		}
 		Mmi_Profiler::event('Init Translate: [' . $lang . '] ' . $module);
 	}
