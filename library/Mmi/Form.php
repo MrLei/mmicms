@@ -52,13 +52,13 @@ abstract class Mmi_Form {
 
 	/**
 	 * Nazwa rekordu
-	 * @var string 
+	 * @var string
 	 */
 	protected $_recordName;
-	
+
 	/**
 	 * Obiekt rekordu
-	 * @var Mmi_Dao_Record 
+	 * @var Mmi_Dao_Record
 	 */
 	protected $_record;
 
@@ -73,7 +73,7 @@ abstract class Mmi_Form {
 	 * @var string
 	 */
 	protected $_recordSaveMethod = 'save';
-	
+
 	/**
 	 * Automatyczne wywołanie save w konstruktorze.
 	 * @var bool
@@ -115,8 +115,8 @@ abstract class Mmi_Form {
 	 * @var array
 	 */
 	protected $_values = array();
-	
-	/** 
+
+	/**
 	 * Dane do ustawienia w zapisywanym rekordzie.
 	 * Array, którego kluczami powinny być nazwy pól rekordu (kolumn w bazie).
 	 * Tutaj np. przekazujemy wartości dla kolumn, które są kluczami obcymi.
@@ -129,25 +129,25 @@ abstract class Mmi_Form {
 	 * @var array
 	 */
 	protected $_subForms = array();
-	
+
 	/**
 	 * Czy udało się zapisać podformularze
 	 * @var bool
 	 */
 	protected $_subFormsSaved = false;
-	
+
 	/**
 	 * Czy jestem podformularzem
 	 * @var bool
 	 */
 	protected $_isSubForm = false;
-	
+
 	/**
 	 * Prefiks dla nazw pól formularza. Używany dla podformularzy.
 	 * @var string
 	 */
 	protected $_subFormPrefix = '';
-	
+
 	/**
 	 * Nazwa kolumny do zapisu powiązania z formularzem rodzicem.
 	 * Jeśli podana, zapis podformularza ustawi wartość dla tej kolumny
@@ -176,7 +176,7 @@ abstract class Mmi_Form {
 	 */
 	public function __construct($id = null, array $options = array(), $className = null) {
 		$this->_options = $options;
-		
+
 		//jeśli przekazano obiekt rekordu zamiast id
 		if (is_object($id)) {
 			if ($id instanceof Mmi_Dao_Record && get_class($id) === $this->_recordName) {
@@ -189,7 +189,7 @@ abstract class Mmi_Form {
 		} else {
 			$this->_recordId = $id;
 		}
-		
+
 		$className = isset($className) ? $className : get_class($this);
 
 		//kalkulacja nazwy plików dla active record
@@ -204,7 +204,7 @@ abstract class Mmi_Form {
 		} else {
 			$this->_formBaseName = $this->getAttrib('name');
 		}
-		
+
 		//nadpisana obsługa autoSave
 		if ($this->getOption('autoSave') !== null) {
 			$this->_autoSave = (bool) $this->getOption('autoSave');
@@ -217,9 +217,9 @@ abstract class Mmi_Form {
 		if ($this->_isSubForm && empty($this->_subFormPrefix)) {
 			$this->_subFormPrefix = $this->_formBaseName . '_';
 		}
-		
+
 		$view = Mmi_View::getInstance();
-		
+
 		if ($this->_isSubForm) {
 			//dla podformularzy nie wolno edytować ustawionej nazwy, bo jest ona
 			//używana do automatycznego generowania prefiksów pól
@@ -233,7 +233,7 @@ abstract class Mmi_Form {
 		$this->setAttrib('method', 'post');
 		$this->setAttrib('enctype', 'multipart/form-data');
 		$this->_saved = false;
-		
+
 		//dane z post
 		if ($this->isMine()) {
 			$data = $this->_request->getPost();
@@ -291,16 +291,16 @@ abstract class Mmi_Form {
 			$this->_sessionNamespace->{$this->_formBaseName} = $this->_hash;
 			$this->_hash = $hash;
 		}
-		
+
 		//automatyczne wywołanie save()
 		if ($this->_autoSave) {
 			$this->save();
 		}
-		
+
 		$this->setDefaults($this->_values);
 		$this->lateInit();
 	}
-	
+
 	/**
 	 * Wywołuje walidację i zapis rekordu powiązanego z formularzem.
 	 * @return bool
@@ -336,7 +336,7 @@ abstract class Mmi_Form {
 		}
 		return $this->isSaved();
 	}
-	
+
 	/**
 	 * Zwraca id zapisanego rekordu w bazie.
 	 * @return null|int
@@ -355,7 +355,7 @@ abstract class Mmi_Form {
 	 * Metoda użytkownika wykonywana na koniec konstruktora
 	 */
 	public function lateInit() {
-		
+
 	}
 
 	/**
@@ -452,7 +452,7 @@ abstract class Mmi_Form {
 	public function getOptions() {
 		return $this->_options;
 	}
-	
+
 	/**
 	 * Pobranie wartości zdefiniowanej dla pola rekordu do zapisu.
 	 * @param string $key identyfikator
@@ -461,7 +461,7 @@ abstract class Mmi_Form {
 	public function getRecordValue($key) {
 		return isset($this->_recordValues[$key]) ? $this->_recordValues[$key] : null;
 	}
-	
+
 	/**
 	 * Pobranie wartości zdefiniowanych dla pól rekordu do zapisu.
 	 * @return array
@@ -480,7 +480,7 @@ abstract class Mmi_Form {
 		$this->_recordValues[$key] = $value;
 		return $this;
 	}
-	
+
 	/**
 	 * Ustawienie wartości dla pól rekordu do zapisu.
 	 * @param array wartości dla pól rekordu
@@ -490,7 +490,7 @@ abstract class Mmi_Form {
 		$this->_recordValues = $values;
 		return $this;
 	}
-	
+
 	/**
 	 * Czyszczenie wartości dla pól rekordu do zapisu.
 	 * @return Mmi_Form
@@ -525,14 +525,6 @@ abstract class Mmi_Form {
 	 */
 	public function setSecured($secured = true) {
 		$this->_secured = $secured;
-	}
-
-	/**
-	 * Pobiera translator
-	 * @return Mmi_Translate
-	 */
-	public function getTranslator() {
-		return Mmi_Registry::get('Mmi_Translate');
 	}
 
 	/**
@@ -571,7 +563,7 @@ abstract class Mmi_Form {
 
 	/**
 	 * Czy do formularza przypisany jest active record, jeśli nie, a podana jest nazwa, stworzy obiekt rekordu
-	 * @return boolean 
+	 * @return boolean
 	 */
 	public function hasRecord() {
 		if (!$this->_recordName) {
@@ -674,7 +666,7 @@ abstract class Mmi_Form {
 	public function prepareLoadData(array $data = array()) {
 		return $data;
 	}
-	
+
 	/**
 	 * Maper do zapisu danych.
 	 * Dla podformularzy domyślnie wycina prefix z nazwy pola forma, aby
@@ -721,7 +713,7 @@ abstract class Mmi_Form {
 	public function isSaved() {
 		return $this->_saved;
 	}
-	
+
 	/**
 	 * Czy udało się zapisać podformularze
 	 * @return boolean
@@ -747,7 +739,7 @@ abstract class Mmi_Form {
 			$element->__set('class', trim('field ' . $element->__get('class')));
 		}
 	}
-	
+
 	/**
 	 * Ustawia, czy form jest subformem.
 	 * @param bool $yes
@@ -757,7 +749,7 @@ abstract class Mmi_Form {
 		$this->_isSubForm = (bool) $yes;
 		return $this;
 	}
-	
+
 	/**
 	 * Zwraca, czy form jest subformem.
 	 * @return bool
@@ -836,7 +828,7 @@ abstract class Mmi_Form {
 		$this->_subForms = array();
 		return $this;
 	}
-	
+
 	/**
 	 * Ustawia nazwę kolumny do zapisu powiązania z formularzem rodzicem.
 	 * @param string $name
@@ -846,7 +838,7 @@ abstract class Mmi_Form {
 		$this->_parentFormColumnName = $name;
 		return $this;
 	}
-	
+
 	/**
 	 * Zwraca nazwę kolumny do zapisu powiązania z formularzem rodzicem.
 	 * @return null|string
@@ -854,7 +846,7 @@ abstract class Mmi_Form {
 	public function getParentFormColumnName() {
 		return $this->_parentFormColumnName;
 	}
-	
+
 	/**
 	 * Zapisuje po kolei wszystkie podformularze.
 	 * @return bool
@@ -872,7 +864,7 @@ abstract class Mmi_Form {
 		$this->_subFormsSaved = $results;
 		return $this->_subFormsSaved;
 	}
-	
+
 	/**
 	 * Zapisuje formularz i następnie po kolei wszystkie podformularze.
 	 * @return bool
@@ -977,7 +969,7 @@ abstract class Mmi_Form {
 	public function setFileObjectName($name) {
 		$this->_fileObjectName = $name;
 	}
-	
+
 	/**
 	 * Zapis danych do obiektu rekordu
 	 * @param array $data
@@ -1008,7 +1000,7 @@ abstract class Mmi_Form {
 			Cms_Model_File_Dao::appendFiles($this->_fileObjectName, $id, $files);
 			Cms_Model_File_Dao::move('tmp-' . $this->_fileObjectName, Mmi_Session::getNumericId(), $this->_fileObjectName, $id);
 		} catch (Exception $e) {
-			
+
 		}
 	}
 

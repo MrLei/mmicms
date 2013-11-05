@@ -34,16 +34,16 @@ class Mmi_Controller_Action_Helper_Messenger extends Mmi_Controller_Action_Helpe
 	static protected $_session = null;
 
 	/**
-	 * Czy dodano wiadomość
-	 * @var boolean
-	 */
-	static protected $_messageAdded = false;
-
-	/**
 	 * Nazwa przestrzeni
 	 * @var string
 	 */
 	private $_namespace;
+
+	/**
+	 * Obiekt tłumaczeń
+	 * @var Mmi_Translate
+	 */
+	private $_translate;
 
 	/**
 	 * Konstruktor pozwala zdefiniować w opcjach 'namespace' czyli nazwę przestrzeni
@@ -55,17 +55,28 @@ class Mmi_Controller_Action_Helper_Messenger extends Mmi_Controller_Action_Helpe
 	}
 
 	/**
+	 * Ustawia translator
+	 * @param Mmi_Translate $translate
+	 * @return \Mmi_Controller_Action_Helper_Messenger
+	 */
+	public function setTranslate(Mmi_Translate $translate) {
+		$this->_translate = $translate;
+		return $this;
+	}
+
+	/**
 	 * Metoda główna, dodaje wiadomość
-	 * @param string $message wiadomość
+	 * @param string $message wiadomość w formacie sprintf
 	 * @param bool $type true - pozytywna, null - neutralna, false - negatywna
-	 * @param bool $translate - sprawdza czy jest tłumaczenie
+	 * @param array $variables zawiera zmienne do sprintf
 	 * @return Mmi_Session_Namespace
 	 */
-	public function messenger($message, $type = null, $translate = true) {
-		if ($translate) {
-			$message = Mmi_Registry::get('Mmi_Translate')->_($message);
+	public function messenger($message, $type = null, array $variables = array()) {
+		if ($this->_translate !== null) {
+			$message = $this->_translate->_($message);
 		}
-		return $this->addMessage($message, $type);
+		array_unshift($variables, $message);
+		return $this->addMessage(call_user_func_array('sprintf', $variables), $type);
 	}
 
 	/**
