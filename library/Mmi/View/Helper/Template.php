@@ -229,10 +229,10 @@ class Mmi_View_Helper_Template extends Mmi_View_Helper_Abstract {
 	 * @return string
 	 */
 	private function _translate(array $matches) {
-		if (!Mmi_Registry::get('Mmi_Translate')) {
+		if ($this->view->getTranslate() === null) {
 			return $matches[1];
 		}
-		return Mmi_Registry::get('Mmi_Translate')->_($matches[1]);
+		return $this->view->getTranslate()->_($matches[1]);
 	}
 
 	/**
