@@ -137,11 +137,7 @@ class Mmi_Controller_Action {
 		//inicjalizacja translatora
 		$key = 'Mmi_Translate_' . $lang . '_' . $skin . '_' . $module;
 
-		$translate = $this->view->getTranslate();
-		if (!($translate instanceof Mmi_Translate)) {
-			$translate = new Mmi_Translate(null, $lang);
-			$this->view->setTranslate($translate);
-		}
+		$translate = Default_Registry::$translate;
 
 		//język nie istnieje
 		$languages = Default_Registry::$config->application->languages;

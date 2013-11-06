@@ -212,7 +212,7 @@ class Mmi_Controller_Router {
 		$lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
 		$urlParams = '';
 		$matched = array();
-		foreach ($this->_config as $route) {
+		foreach ($this->_config->getRoutes() as $route) {
 			/* @var $route Mmi_Controller_Router_Config_Route */
 			$currentParams = array_merge($route->default, $params);
 			unset($currentParams['skin']);
@@ -412,7 +412,7 @@ class Mmi_Controller_Router {
 			$matched[$key] = true;
 		}
 		if ($applied) {
-			$pattern = str_replace(array('\\', '?'), '', trim($pattern, '/^$'));
+			$pattern = str_replace(array('\\', '?'), '', trim($route->pattern, '/^$'));
 			foreach ($matches as $match) {
 				if (is_array($match)) {
 					$match = trim(implode(';', $match), ';');
