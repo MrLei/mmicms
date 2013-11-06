@@ -9,9 +9,9 @@
  * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
  * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
  *
- * MmiCms/Config/Abstract.php
+ * MmiCms/Registry.php
  * @category   MmiCms
- * @package    MmiCms_Config
+ * @package    MmiCms_Registry
  * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    $Id$
@@ -19,38 +19,41 @@
  */
 
 /**
- * Abstrakcyjna klasa konfiguracji Mmi
+ * Klasa rejestru CMS
  * @category   MmiCms
- * @package    MmiCms_Config
+ * @package    MmiCms_Registry
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
-abstract class MmiCms_Config_Abstract extends Mmi_Config_Abstract {
+abstract class MmiCms_Registry extends Mmi_Registry {
 
 	/**
-	 * Podstawowa konfiguracja CMS
-	 * @var MmiCms_Config
+	 * Acl
+	 * @var Mmi_Acl
 	 */
-	public $mmiCms;
+	public static $acl;
 
 	/**
-	 * Konfiguracja sesji
-	 * @var Mmi_Session_Config
+	 * Navigator
+	 * @var Mmi_Navigation
 	 */
-	public $session;
+	public static $navigation;
 
 	/**
-	 * Konfiguracji bazy danych
-	 * @var Mmi_Db_Config
+	 * Bufora
+	 * @var Mmi_Cache
 	 */
-	public $db;
+	public static $cache;
 
-	public function __construct() {
+	/**
+	 * Adapter bazy danych
+	 * @var Mmi_Db_Adapter_Pdo_Abstract
+	 */
+	public static $db;
 
-		parent::__construct();
-
-		$this->mmiCms = new MmiCms_Config();
-		$this->session = new Mmi_Session_Config();
-		$this->db = new Mmi_Db_Config();
-	}
+	/**
+	 * Translator
+	 * @var Mmi_Translate
+	 */
+	public static $translate;
 
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -23,41 +24,12 @@
  * @package    Mmi_Registry
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
-class Mmi_Registry {
+abstract class Mmi_Registry {
 
 	/**
-	 * Rejestr
-	 * @var array
+	 * Konfiguracja aplikacji
+	 * @var Mmi_Config
 	 */
-	private static $_data;
+	public static $config;
 
-	/**
-	 * Ustawia zmienną w rejestrze
-	 * @param string $key klucz
-	 * @param mixed $value obiekt
-	 */
-	public static function set($key, $value) {
-		return self::$_data[$key] = $value;
-	}
-
-	/**
-	 * Pobiera zmienną z rejestru
-	 * @param string $key klucz
-	 * @return mixed
-	 */
-	public static function get($key) {
-		return isset(self::$_data[$key]) ? self::$_data[$key] : null;
-	}
-
-	/**
-	 * Pobiera wszystkie klucze w rejestrze
-	 * @return array
-	 */
-	public static function getKeys() {
-		$keys = array();
-		foreach (self::$_data as $key => $value) {
-			$keys[$key] = $value;
-		}
-		return $keys;
-	}
 }

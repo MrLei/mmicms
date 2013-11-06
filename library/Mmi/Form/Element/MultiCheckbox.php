@@ -26,7 +26,7 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_MultiCheckbox extends Mmi_Form_Element_Abstract {
-	
+
 	/**
 	 * Buduje pole
 	 * @return string
@@ -36,7 +36,7 @@ class Mmi_Form_Element_MultiCheckbox extends Mmi_Form_Element_Abstract {
 		$multiOptions = isset($this->_options['multiOptions']) ? $this->_options['multiOptions'] : array();
 		$labelClass = isset($this->_options['labelClass']) ? $this->_options['labelClass'] : array();
 		$values = isset($this->_options['value']) ? $this->_options['value'] : null;
-		
+
 		unset($this->_options['value']);
 		$html = '<ul id="' . $this->id . '_list">';
 		$this->_options['name'] = $this->_options['name'] . '[]';
@@ -82,7 +82,7 @@ class Mmi_Form_Element_MultiCheckbox extends Mmi_Form_Element_Abstract {
 		$this->_options['id'] = $baseId;
 		return $html;
 	}
-		
+
 	/**
 	 * Buduje etykietę pola
 	 * @return string

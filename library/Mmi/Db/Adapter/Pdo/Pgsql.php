@@ -33,7 +33,7 @@ class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
 	 * @param string $schemaName nazwa schematu
 	 */
 	public function selectSchema($schemaName) {
-		$this->_options['schema'] = $schemaName;
+		$this->_config->schema = $schemaName;
 		$this->query('SET search_path TO "' . $schemaName . '"');
 	}
 
@@ -55,13 +55,13 @@ class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
 	 * Tworzy połączenie z bazą danych
 	 */
 	public function connect() {
-		$this->_options['host'] = isset($this->_options['host']) ? $this->_options['host'] : '127.0.0.1';
-		$this->_options['port'] = isset($this->_options['port']) ? $this->_options['port'] : '5432';
+		$this->_config->port = $this->_config->port ? $this->_config->port : 5432;
+		$this->_config->charset = $this->_config->charset ? $this->_config->charset : 'utf8';
 		parent::connect();
-		if (isset($this->_options['schema'])) {
-			$this->selectSchema($this->_options['schema']);
+		if ($this->_config->schema) {
+			$this->selectSchema($this->_config->schema);
 		}
-		$this->query('SET client_encoding = ' . $this->_options['charset']);
+		$this->query('SET client_encoding = ' . $this->_config->charset);
 	}
 
 	/**
@@ -125,7 +125,7 @@ class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
 	public function tableInfo($tableName, $schema = null) {
 		return $this->_associateTableMeta($this->fetchAll('SELECT "column_name" as "name", "data_type" AS "dataType", "character_maximum_length" AS "maxLength", "is_nullable" AS "null", "column_default" AS "default" FROM INFORMATION_SCHEMA.COLUMNS WHERE "table_name" = :name AND "table_schema" = :schema ORDER BY "ordinal_position"', array(
 			':name' => $tableName,
-			':schema' => ($schema) ? $schema : (isset($this->_options['schema']) ? $this->_options['schema'] : $this->_options['dbname'])
+			':schema' => ($schema) ? $schema : ($this->_config->schema ? $this->_config->schema : $this->_config->name)
 		)));
 	}
 

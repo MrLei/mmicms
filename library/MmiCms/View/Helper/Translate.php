@@ -42,7 +42,7 @@ class MmiCms_View_Helper_Translate extends Mmi_View_Helper_Abstract {
 	 * @return string
 	 */
 	public function _() {
-		$translate = Mmi_Registry::get('Mmi_Translate');
+		$translate = Default_Registry::$translate;
 		$args = func_get_args();
 		return call_user_func_array(array($translate, '_'), $args);
 	}

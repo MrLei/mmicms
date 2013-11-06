@@ -46,12 +46,18 @@ class Mmi_Profiler {
 	protected static $_elapsed = 0;
 
 	/**
+	 * Profiler włączony
+	 * @var boolean
+	 */
+	protected static $_enabled = true;
+
+	/**
 	 * Dodaje zdarzenie
 	 * @param string $name nazwa
 	 * @return null
 	 */
 	public static function event($name) {
-		if (!isset(Mmi_Config::$data['global']['debug']) || !Mmi_Config::$data['global']['debug']) {
+		if (!self::$_enabled) {
 			return;
 		}
 		$time = microtime(true);
@@ -67,6 +73,15 @@ class Mmi_Profiler {
 		);
 		self::$_elapsed += $elapsed;
 		self::$_counter++;
+	}
+
+	/**
+	 * Włącza profiler
+	 * @param boolean $enabled
+	 * @return boolean
+	 */
+	public static function setEnabled($enabled = true) {
+		return (self::$_enabled = $enabled);
 	}
 
 	/**

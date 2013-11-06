@@ -88,7 +88,7 @@ class Mmi_View_Helper_Url extends Mmi_View_Helper_Abstract {
 					$protocol = 'http://';
 				}
 			}
-			$url = $protocol . HOST . $url;
+			$url = $protocol . $this->view->domain . $url;
 		}
 		return $url ? $url : '/';
 	}

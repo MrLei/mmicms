@@ -41,10 +41,10 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	protected $_profiler;
 
 	/**
-	 * Opcje konfiguracyjne
-	 * @var array
+	 * Konfiguracja
+	 * @var Mmi_Db_Config
 	 */
-	protected $_options;
+	protected $_config;
 
 	/**
 	 * Przechowuje funkcje sortowania
@@ -112,11 +112,10 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 
 	/**
 	 * Konstruktor wczytujący konfigurację
-	 * @param array $options
+	 * @param Mmi_Db_Config $config
 	 */
-	public function __construct(array $options) {
-		$options['persistent'] = (isset($options['persistent']) && $options['persistent']) ? true : false;
-		$this->_options = $options;
+	public function __construct(Mmi_Db_Config $config) {
+		$this->_config = $config;
 		$this->_connected = false;
 	}
 
@@ -137,15 +136,15 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * Tworzy połączenie z bazą danych
 	 */
 	public function connect() {
-		if (isset($this->_options['profiler']) && $this->_options['profiler']) {
+		if ($this->_config->profiler) {
 			$this->_profiler = Mmi_Db_Profiler::getInstance();
 		}
 		if ($this->_profiler) {
 			$this->_profiler->event('CONNECT WITH: ' . get_class($this), 0);
 		}
 		$this->_pdo = new PDO(
-						$this->_options['driver'] . ':host=' . $this->_options['host'] . ';port=' . $this->_options['port'] . ';dbname=' . $this->_options['dbname'], $this->_options['username'], $this->_options['password'],
-						array(PDO::ATTR_PERSISTENT => $this->_options['persistent'])
+						$this->_config->driver . ':host=' . $this->_config->host . ';port=' . $this->_config->port . ';dbname=' . $this->_config->name, $this->_config->user, $this->_config->password,
+						array(PDO::ATTR_PERSISTENT => $this->_config->persistent)
 		);
 		$this->_connected = true;
 	}

@@ -40,6 +40,12 @@ class Mmi_Db_Config {
 	public $host;
 
 	/**
+	 * Port bazy danych
+	 * @var int
+	 */
+	public $port;
+
+	/**
 	 * Nazwa bazy
 	 * @var string
 	 */
@@ -74,5 +80,11 @@ class Mmi_Db_Config {
 	 * @var boolean
 	 */
 	public $persistent = false;
+
+	/**
+	 * Profiler włączony
+	 * @var boolean
+	 */
+	public $profiler = false;
 
 }

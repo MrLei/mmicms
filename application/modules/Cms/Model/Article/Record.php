@@ -8,8 +8,8 @@ class Cms_Model_Article_Record extends Mmi_Dao_Record {
 		$this->uri = $filter->filter(strip_tags($this->title));
 		$this->lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
 		$result = parent::save();
-		Mmi_Cache::remove('Cms_Article_' . $this->uri);
-		Mmi_Cache::remove('Cms_article_image' . $this->id);
+		Default_Registry::$cache->remove('Cms_Article_' . $this->uri);
+		Default_Registry::$cache->remove('Cms_article_image' . $this->id);
 		return $result;
 	}
 
@@ -28,12 +28,12 @@ class Cms_Model_Article_Record extends Mmi_Dao_Record {
 
 	public function getFirstImage() {
 		$cacheKey = 'Cms_article_image_' . $this->id;
-		$image = Mmi_Cache::load($cacheKey);
-		if (null !== ($image = Mmi_Cache::load($cacheKey))) {
+		$image = Default_Registry::$cache->load($cacheKey);
+		if (null !== ($image = Default_Registry::$cache->load($cacheKey))) {
 			return $image;
 		}
 		$image = Cms_Model_File_Dao::findFirstImage('cmsarticle', $this->id);
-		Mmi_Cache::save($image, $cacheKey, 3600);
+		Default_Registry::$cache->save($image, $cacheKey, 3600);
 		return $image;
 	}
 

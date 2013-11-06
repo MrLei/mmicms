@@ -11,51 +11,26 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 
 	public function routeStartup(Mmi_Controller_Request $request) {
 
-		ini_set('default_charset', Mmi_Config::$data['global']['charset']);
+		ini_set('default_charset', Default_Registry::$config->application->charset);
 		ini_set('include_path', LIB_PATH);
 
-		//statyczne ładowanie obowiązkowych plików
-		require LIB_PATH . '/Mmi/Controller/Action/Helper/Messenger.php';
-		require LIB_PATH . '/Mmi/Db.php';
-		require LIB_PATH . '/Mmi/Db/Adapter/Pdo/Abstract.php';
-		require LIB_PATH . '/Mmi/Db/Adapter/Pdo/Pgsql.php';
-		require LIB_PATH . '/Mmi/Http/Cookie.php';
-		require LIB_PATH . '/Mmi/View/Helper/Abstract.php';
-		require LIB_PATH . '/Mmi/View/Helper/HeadLink.php';
-		require LIB_PATH . '/Mmi/View/Helper/HeadScript.php';
-		require LIB_PATH . '/Mmi/View/Helper/Navigation.php';
-		require LIB_PATH . '/Mmi/View/Helper/Messenger.php';
-		require LIB_PATH . '/Mmi/View/Helper/Url.php';
-		require LIB_PATH . '/Mmi/Acl.php';
-		require LIB_PATH . '/Mmi/Auth.php';
-		require LIB_PATH . '/Mmi/Navigation.php';
-		require LIB_PATH . '/Mmi/Nested.php';
-		require LIB_PATH . '/Mmi/Registry.php';
-		require LIB_PATH . '/Mmi/Translate.php';
-
 		//database connection
-		if (Mmi_Config::$data['global']['debug']) {
-			Mmi_Config::$data['db']['profiler'] = true;
+		if (Default_Registry::$config->application->debug) {
+			Default_Registry::$config->db->profiler = true;
 		}
-		if (isset(Mmi_Config::$data['encryptDb'])) {
-			$db = unserialize(Mmi_Lib::decrypt(Mmi_Config::$data['encryptDb'], 'print_r'));
-		} else {
-			$db = Mmi_Config::$data['db'];
-		}
-		Mmi_Registry::set('Mmi_Db', Mmi_Db::factory($db));
+		Default_Registry::$db = Mmi_Db::factory(Default_Registry::$config->db);
 
 		//route z cms
-		if (null === ($routes = Mmi_Cache::load('Mmi_Route'))) {
+		if (null === ($routes = Default_Registry::$cache->load('Mmi_Route'))) {
 			$routes = Cms_Model_Route_Dao::findActive();
-			Mmi_Cache::save($routes, 'Mmi_Route', 86400);
+			Default_Registry::$cache->save($routes, 'Mmi_Route', 86400);
 		}
-		Mmi_Controller_Router::getInstance()->setRoutes(array_merge(Mmi_Config::$data['routes'], $routes));
 	}
 
 	public function preDispatch(Mmi_Controller_Request $request) {
 
 		//niepoprawny język
-		if (!in_array($request->__get('lang'), Mmi_Config::$data['global']['languages'])) {
+		if (!in_array($request->__get('lang'), Default_Registry::$config->application->languages)) {
 			Mmi_Controller_Front::getInstance()->getResponse()->setCode(404);
 			$request->__set('module', 'default');
 			$request->__set('controller', 'error');
@@ -71,13 +46,10 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 			$request->__set('action', 'index');
 		}
 
-		if (isset(Mmi_Config::$data['session'])) {
+		if (Default_Registry::$config->session->name) {
 			require LIB_PATH . '/Mmi/Session.php';
 			require LIB_PATH . '/Mmi/Session/Namespace.php';
-			if (isset($_REQUEST['_sessionId']) && $_REQUEST['_sessionId']) {
-				Mmi_Session::setId($_REQUEST['_sessionId']);
-			}
-			Mmi_Session::start(Mmi_Config::$data['session']);
+			Mmi_Session::start(Default_Registry::$config->session);
 		}
 
 		$lang = $request->getParam('lang');
@@ -85,7 +57,7 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		$skin = $request->getParam('skin');
 		$view = Mmi_View::getInstance();
 		$base = $request->getBaseUrl();
-		$view->domain = HOST;
+		$view->domain = Default_Registry::$config->application->host;
 		$view->baseUrl = $base;
 		$view->baseModule = $request->getParam('baseModule');
 		$view->baseSkin = $request->getParam('baseSkin');
@@ -108,13 +80,13 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		$view->headScript()->appendScript($jsRequest);
 
 		$auth = Mmi_Auth::getInstance();
-		$auth->setModelName(isset(Mmi_Config::$data['session']['model']) ? Mmi_Config::$data['session']['model'] : 'Cms_Model_Auth');
+		$auth->setModelName(Default_Registry::$config->session->authModel ? Default_Registry::$config->session->authModel : 'Cms_Model_Auth');
 		$cookie = new Mmi_Http_Cookie();
-		$remember = isset(Mmi_Config::$data['session']['remember_me_seconds']) ? Mmi_Config::$data['session']['remember_me_seconds'] : 0;
+		$remember = Default_Registry::$config->session->authRemember ? Default_Registry::$config->session->authRemember : 0;
 		if ($remember > 0 && !$auth->hasIdentity() && $cookie->match('remember')) {
 			$params = array();
 			parse_str($cookie->getValue(), $params);
-			if (isset($params['id']) && isset($params['key']) && $params['key'] == md5(Mmi_Config::get('global', 'salt') . $params['id'])) {
+			if (isset($params['id']) && isset($params['key']) && $params['key'] == md5(Default_Registry::$config->application->salt . $params['id'])) {
 				$auth->setIdentity($params['id']);
 				$auth->idAuthenticate();
 			}
@@ -124,12 +96,13 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		}
 
 		//acl
-		if (null === ($acl = Mmi_Cache::load('Mmi_Acl'))) {
+		if (null === ($acl = Default_Registry::$cache->load('Mmi_Acl'))) {
 			Mmi_Profiler::event('Init Acl');
 			$acl = Cms_Model_Acl_Dao::setupAcl();
-			Mmi_Cache::save($acl, 'Mmi_Acl', 86400);
+			Default_Registry::$cache->save($acl, 'Mmi_Acl', 86400);
 		}
-		Mmi_Registry::set('Mmi_Acl', $acl);
+
+		Default_Registry::$acl = $acl;
 
 		if (!$acl->isAllowed(Mmi_Auth::getInstance()->getRoles(), strtolower($request->getModuleName() . ':' . $request->getControllerName() . ':' . $request->getActionName()))) {
 			if ($auth->hasIdentity()) {
@@ -148,16 +121,13 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 			}
 		}
 		Mmi_Profiler::event('Init plugin');
-		if (null === ($navigation = Mmi_Cache::load('Mmi_Navigation_' . $request->__get('lang')))) {
+		if (null === ($navigation = Default_Registry::$cache->load('Mmi_Navigation_' . $request->__get('lang')))) {
 			$navigation = new Mmi_Navigation(Cms_Model_Navigation_Dao::getNested());
-			Mmi_Cache::save($navigation, 'Mmi_Navigation_' . $request->__get('lang'), 3600);
+			Default_Registry::$cache->save($navigation, 'Mmi_Navigation_' . $request->__get('lang'), 3600);
 		}
-		$view->mediaServer = '';
-		if (isset(Mmi_Config::$data['cms']['mediaServer'])) {
-			$view->mediaServer = Mmi_Config::$data['cms']['mediaServer'];
-		}
+		$view->mediaServer = Default_Registry::$config->media->mediaServer;
 		$navigation->setup($request);
-		Mmi_Registry::set('Mmi_Navigation', $navigation);
+		Default_Registry::$navigation = $navigation;
 		Mmi_Profiler::event('Init Navigation');
 	}
 
