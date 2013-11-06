@@ -89,7 +89,11 @@ abstract class MmiCms_Bootstrap extends Mmi_Bootstrap {
 		//tłumaczenia
 		$translate = new Mmi_Translate();
 		$translate->setDefaultLocale($config->application->languages[0]);
+		$translate->setLocale($config->application->languages[0]);
 		Default_Registry::$translate = $translate;
+		
+		$view = Mmi_View::getInstance();
+		$view->setTranslate(Default_Registry::$translate);
 	}
 
 }
