@@ -33,10 +33,10 @@ class Mmi_Controller_Router {
 	private static $_instance;
 
 	/**
-	 * Routy (trasy)
-	 * @var array
+	 * Konfiguracja
+	 * @var Mmi_Controller_Router_Config
 	 */
-	private $_routes = array();
+	private $_config;
 
 	/**
 	 * Ścieżka bazowa
@@ -63,11 +63,13 @@ class Mmi_Controller_Router {
 	}
 
 	/**
-	 * Ustaw routy (trasy)
-	 * @param array $routes tablica rout (tras)
+	 * Ustawia konfigurację
+	 * @param Mmi_Controller_Router_Config $config
+	 * @return \Mmi_Controller_Router
 	 */
-	public function setRoutes(array $routes = array()) {
-		$this->_routes = $routes;
+	public function setConfig(Mmi_Controller_Router_Config $config) {
+		$this->_config = $config;
+		return $this;
 	}
 
 	/**

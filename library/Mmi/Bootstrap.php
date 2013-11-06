@@ -31,68 +31,14 @@ abstract class Mmi_Bootstrap {
 	 * @param string $path ścieżka
 	 */
 	public function __construct($path) {
-		//ustawienie kodowań
-		$this->_setUtfEncoding();
 
-		//ustawianie ścieżek
-		$this->_definePaths($path);
+		$this->_initPaths($path)
+			->_initEncoding()
+			->_initPhpConfiguration()
+			->_initDefaultComponents()
+			->_initAutoloader()
+			->_initErrorHandler();
 
-		//ładowanie domyślnych komponentów
-		require LIB_PATH . '/Mmi/Cache/Backend/Interface.php';
-		require LIB_PATH . '/Mmi/Cache/Backend/Apc.php';
-		require LIB_PATH . '/Mmi/Cache/Slave.php';
-		require LIB_PATH . '/Mmi/Cache.php';
-		require LIB_PATH . '/Mmi/Config.php';
-		require LIB_PATH . '/Mmi/Profiler.php';
-		require LIB_PATH . '/Mmi/Controller/Action/Helper/Abstract.php';
-		require LIB_PATH . '/Mmi/Controller/Action/Helper/Action.php';
-		require LIB_PATH . '/Mmi/Controller/Action/HelperBroker.php';
-		require LIB_PATH . '/Mmi/Controller/Plugin/Abstract.php';
-		require LIB_PATH . '/Mmi/Controller/Action.php';
-		require LIB_PATH . '/Mmi/Controller/Front.php';
-		require LIB_PATH . '/Mmi/Controller/Request.php';
-		require LIB_PATH . '/Mmi/Controller/Response.php';
-		require LIB_PATH . '/Mmi/Controller/Router.php';
-		require LIB_PATH . '/Mmi/View.php';
-
-		//wczytanie konfiguracji
-		$_ = array();
-		require APPLICATION_PATH . '/configs/application.php';
-		require APPLICATION_PATH . '/configs/routes.php';
-		require APPLICATION_PATH . '/configs/local.php';
-		Mmi_Config::setConfig($_);
-		Mmi_Profiler::event('Configuration loaded');
-
-		//ustawianie hosta (jeśli brak - predefiniowany w configu)
-		define('HOST', isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : Mmi_Config::get('global', 'host'));
-
-		//ustawianie rout
-		Mmi_Controller_Router::getInstance()->setRoutes($_['routes']);
-
-		//konfiguracja php
-		if (isset($_['global']['php'])) {
-			foreach($_['global']['php'] as $key => $value) {
-				ini_set($key, $value);
-			}
-		}
-
-		//obsługa włączonych magic quotes
-		if (ini_get('magic_quotes_gpc')) {
-			array_walk_recursive($_GET, array($this, '_stripslashesGpc'));
-			array_walk_recursive($_POST, array($this, '_stripslashesGpc'));
-			array_walk_recursive($_COOKIE, array($this, '_stripslashesGpc'));
-			array_walk_recursive($_REQUEST, array($this, '_stripslashesGpc'));
-		}
-
-		//ustawienie lokalizacji
-		date_default_timezone_set(Mmi_Config::$data['global']['timeZone']);
-
-		//rejestrowanie autoloadera
-		spl_autoload_register(array($this, 'loader'));
-
-		//obsługa wyjątków i błędów
-		set_exception_handler(array($this, 'exceptionHandler'));
-		set_error_handler(array($this, 'errorHandler'));
 	}
 
 	/**
@@ -232,19 +178,10 @@ abstract class Mmi_Bootstrap {
 	}
 
 	/**
-	 * Modyfikuje podany w argumencie String usuwając cudzysłowia i podwójne backslash'e.
-	 * @param string $value string do modyfikacji
-	 * @return string
-	 */
-	protected function _stripslashesGpc(&$value) {
-		$value = stripslashes($value);
-	}
-
-	/**
 	 * Ustawia kodowanie na UTF-8
 	 * @return \Mmi_Bootstrap
 	 */
-	protected function _setUtfEncoding() {
+	protected function _initEncoding() {
 		mb_internal_encoding('utf-8');
 		ini_set('default_charset', 'utf-8');
 		setlocale(LC_ALL, 'en_US.utf-8');
@@ -255,7 +192,7 @@ abstract class Mmi_Bootstrap {
 	 * Definicja ścieżek
 	 * @return \Mmi_Bootstrap
 	 */
-	protected function _definePaths() {
+	protected function _initPaths($path) {
 		define('BASE_PATH', $path);
 		define('APPLICATION_PATH', BASE_PATH . '/application');
 		define('LIB_PATH', BASE_PATH . '/library');
@@ -263,6 +200,61 @@ abstract class Mmi_Bootstrap {
 		define('PUBLIC_PATH', BASE_PATH . '/public');
 		define('DATA_PATH', BASE_PATH . '/data');
 		set_include_path(LIB_PATH);
+		return $this;
+	}
+
+	/**
+	 * Ładowanie domyślnych komponentów
+	 * @return \Mmi_Bootstrap
+	 */
+	protected function _initDefaultComponents() {
+		//ładowanie domyślnych komponentów
+		require LIB_PATH . '/Mmi/Cache/Backend/Interface.php';
+		require LIB_PATH . '/Mmi/Cache/Backend/Apc.php';
+		require LIB_PATH . '/Mmi/Cache/Config.php';
+		require LIB_PATH . '/Mmi/Cache.php';
+		require LIB_PATH . '/Mmi/Config.php';
+		require LIB_PATH . '/Mmi/Profiler.php';
+		require LIB_PATH . '/Mmi/Controller/Action/Helper/Abstract.php';
+		require LIB_PATH . '/Mmi/Controller/Action/Helper/Action.php';
+		require LIB_PATH . '/Mmi/Controller/Action/HelperBroker.php';
+		require LIB_PATH . '/Mmi/Controller/Plugin/Abstract.php';
+		require LIB_PATH . '/Mmi/Controller/Action.php';
+		require LIB_PATH . '/Mmi/Controller/Front.php';
+		require LIB_PATH . '/Mmi/Controller/Request.php';
+		require LIB_PATH . '/Mmi/Controller/Response.php';
+		require LIB_PATH . '/Mmi/Controller/Router/Config.php';
+		require LIB_PATH . '/Mmi/Controller/Router.php';
+		require LIB_PATH . '/Mmi/View.php';
+		return $this;
+	}
+
+	/**
+	 *
+	 * @return \Mmi_Bootstrap
+	 */
+	protected function _initPhpConfiguration() {
+		function _stripslashesGpc(&$value) {
+			$value = stripslashes($value);
+		}
+		//obsługa włączonych magic quotes
+		if (ini_get('magic_quotes_gpc')) {
+			array_walk_recursive($_GET, array('_stripslashesGpc'));
+			array_walk_recursive($_POST, array('_stripslashesGpc'));
+			array_walk_recursive($_COOKIE, array('_stripslashesGpc'));
+			array_walk_recursive($_REQUEST, array('_stripslashesGpc'));
+		}
+		return $this;
+	}
+
+	protected function _initAutoloader() {
+		spl_autoload_register(array($this, 'loader'));
+		return $this;
+	}
+
+	protected function _initErrorHandler() {
+		set_exception_handler(array($this, 'exceptionHandler'));
+		set_error_handler(array($this, 'errorHandler'));
 		return $this;
 	}
 
