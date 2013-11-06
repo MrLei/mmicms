@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -24,17 +25,18 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Cache_Backend_Apc implements Mmi_Cache_Backend_Interface {
-	
+
 	/**
 	 * Cache namespace
 	 * @var string
 	 */
 	private $_namespace;
+
 	/**
 	 * Kostruktor
 	 * @param array $params parametry
 	 */
-	public function __construct(array $params = array()) {
+	public function __construct(Mmi_Cache_Config $config) {
 		$this->_namespace = crc32(BASE_PATH);
 	}
 
@@ -53,7 +55,7 @@ class Mmi_Cache_Backend_Apc implements Mmi_Cache_Backend_Interface {
 	 * @param int $lifeTime wygaśnięcie danych w buforze (informacja dla bufora)
 	 */
 	public function save($key, $data, $lifeTime) {
-        return apc_store($this->_namespace . '_' . $key, $data, $lifeTime);
+		return apc_store($this->_namespace . '_' . $key, $data, $lifeTime);
 	}
 
 	/**

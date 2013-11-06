@@ -26,25 +26,25 @@
 class Mmi_Cache_Slave {
 
 	/**
+	 * Konfiguracja bufora
+	 * @var Mmi_Cache_Config
+	 */
+	protected $_config;
+
+	/**
 	 * Backend bufora
 	 * @var Mmi_Cache_Backend_Interface
 	 */
 	protected $_backend;
 
 	/**
-	 * Czas życia danych w buforze
-	 * @var int
-	 */
-	protected $_lifeTime;
-
-	/**
 	 * Konstruktor, wczytuje konfigurację i ustawia backend
 	 */
-	public function __construct(array $params = array()) {
-		$this->_lifeTime = isset($params['lifetime']) ? $params['lifetime'] : 300;
-		$saveHandler = isset($params['save_handler']) ? $params['save_handler'] : 'apc';
+	public function __construct(Mmi_Cache_Config $config) {
+		$this->_config = $config;
+		$saveHandler = $this->_config->handler;
 		$backendClassName = 'Mmi_Cache_Backend_' . ucfirst($saveHandler);
-		$this->_backend = new $backendClassName($params);
+		$this->_backend = new $backendClassName($this->_config);
 		if (!($this->_backend instanceof Mmi_Cache_Backend_Interface)) {
 			throw new Exception('Cache backend invalid');
 		}
@@ -56,6 +56,9 @@ class Mmi_Cache_Slave {
 	 * @return mixed
 	 */
 	public function load($key) {
+		if (!$this->_active) {
+			return;
+		}
 		return $this->_getValidCacheData($this->_backend->load($key));
 	}
 
@@ -67,6 +70,9 @@ class Mmi_Cache_Slave {
 	 * @param int $lifeTime czas życia
 	 */
 	public function save($data, $key, $lifeTime = null) {
+		if (!$this->_active) {
+			return;
+		}
 		if ($lifeTime === 0) {
 			return;
 		}
@@ -82,6 +88,9 @@ class Mmi_Cache_Slave {
 	 * @param string $key klucz
 	 */
 	public function remove($key) {
+		if (!$this->_active) {
+			return;
+		}
 		return $this->_backend->delete($key);
 	}
 
@@ -89,6 +98,9 @@ class Mmi_Cache_Slave {
 	 * Usuwa wszystkie dane z bufora
 	 */
 	public function flush() {
+		if (!$this->_active) {
+			return;
+		}
 		return $this->_backend->deleteAll();
 	}
 

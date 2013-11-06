@@ -41,13 +41,14 @@ class Mmi_Cache_Backend_Memcache implements Mmi_Cache_Backend_Interface {
 	 * Ustawia obiekt Memcache
 	 * @param array $params parametry
 	 */
-	public function __construct(array $params = array()) {
+	public function __construct(Mmi_Cache_Config $config) {
+		//@TODO: przenieść namespace do konfiguracji
 		$this->_namespace = crc32(BASE_PATH);
 		$this->_server = new Memcache();
-		if (is_array($params['save_path'])) {
-			$this->_addServers($params['save_path']);
+		if (is_array($config->path)) {
+			$this->_addServers($config->path);
 		} else {
-			$this->_addServer($params['save_path']);
+			$this->_addServer($config->path);
 		}
 	}
 
@@ -135,16 +136,6 @@ class Mmi_Cache_Backend_Memcache implements Mmi_Cache_Backend_Interface {
 		foreach ($servers as $server) {
 			$this->_addServer($server);
 		}
-	}
-
-	/**
-	 * Magiczne wywołanie metod z Memcache
-	 * @param string $method nazwa metody
-	 * @param array $params tablica z parametrami
-	 * @return mixed
-	 */
-	public function __call($method, $params) {
-		return call_user_func_array(array($this->_server, $method), $params);
 	}
 
 }

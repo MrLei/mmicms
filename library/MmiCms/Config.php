@@ -1,4 +1,5 @@
 <?php
+
 /**
  * MmiCms
  *
@@ -18,17 +19,38 @@
  */
 
 /**
- * Konfiguracja bazy danych
+ * Abstrakcyjna klasa konfiguracji Mmi
  * @category   MmiCms
  * @package    MmiCms_Config
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
-
-class MmiCms_Config extends Mmi_Config_Abstract {
+abstract class MmiCms_Config extends Mmi_Config {
 
 	/**
-	 * Adres serwera mediów
+	 * Podstawowa konfiguracja CMS
+	 * @var MmiCms_Media_Config
 	 */
-	public $mediaServer = '';
+	public $media;
+
+	/**
+	 * Konfiguracja sesji
+	 * @var Mmi_Session_Config
+	 */
+	public $session;
+
+	/**
+	 * Konfiguracji bazy danych
+	 * @var Mmi_Db_Config
+	 */
+	public $db;
+
+	public function __construct() {
+
+		parent::__construct();
+
+		$this->media = new MmiCms_Media_Config();
+		$this->session = new Mmi_Session_Config();
+		$this->db = new Mmi_Db_Config();
+	}
 
 }

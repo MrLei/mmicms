@@ -18,13 +18,13 @@
  */
 
 /**
- * Klasa startu aplikacji
+ * Przykładowa klasa startująca aplikacji
  * ustawia ścieżki, ładuje ogólną konfigurację
  * @category   Mmi
  * @package    Mmi_Bootstrap
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
-class Mmi_Bootstrap {
+abstract class Mmi_Bootstrap {
 
 	/**
 	 * Konstruktor, ustawia ścieżki, ładuje domyślne klasy, ustawia autoloadera
@@ -32,20 +32,10 @@ class Mmi_Bootstrap {
 	 */
 	public function __construct($path) {
 		//ustawienie kodowań
-		mb_internal_encoding('utf-8');
-		ini_set('default_charset', 'utf-8');
-		setlocale(LC_ALL, 'en_US.utf-8');
+		$this->_setUtfEncoding();
 
 		//ustawianie ścieżek
-		define('BASE_PATH', $path);
-		define('APPLICATION_PATH', BASE_PATH . '/application');
-		define('LIB_PATH', BASE_PATH . '/library');
-		define('TMP_PATH', BASE_PATH . '/tmp');
-		define('PUBLIC_PATH', BASE_PATH . '/public');
-		define('DATA_PATH', BASE_PATH . '/data');
-
-		//ustawianie PHP
-		set_include_path(LIB_PATH);
+		$this->_definePaths($path);
 
 		//ładowanie domyślnych komponentów
 		require LIB_PATH . '/Mmi/Cache/Backend/Interface.php';
@@ -246,8 +236,34 @@ class Mmi_Bootstrap {
 	 * @param string $value string do modyfikacji
 	 * @return string
 	 */
-	private function _stripslashesGpc(&$value) {
+	protected function _stripslashesGpc(&$value) {
 		$value = stripslashes($value);
+	}
+
+	/**
+	 * Ustawia kodowanie na UTF-8
+	 * @return \Mmi_Bootstrap
+	 */
+	protected function _setUtfEncoding() {
+		mb_internal_encoding('utf-8');
+		ini_set('default_charset', 'utf-8');
+		setlocale(LC_ALL, 'en_US.utf-8');
+		return $this;
+	}
+
+	/**
+	 * Definicja ścieżek
+	 * @return \Mmi_Bootstrap
+	 */
+	protected function _definePaths() {
+		define('BASE_PATH', $path);
+		define('APPLICATION_PATH', BASE_PATH . '/application');
+		define('LIB_PATH', BASE_PATH . '/library');
+		define('TMP_PATH', BASE_PATH . '/tmp');
+		define('PUBLIC_PATH', BASE_PATH . '/public');
+		define('DATA_PATH', BASE_PATH . '/data');
+		set_include_path(LIB_PATH);
+		return $this;
 	}
 
 }

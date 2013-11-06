@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -18,69 +19,36 @@
  */
 
 /**
- * Klasa implementuje konfigurator aplikacji
+ * Abstrakcyjna klasa konfiguracji Mmi
  * @category   Mmi
  * @package    Mmi_Config
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
-class Mmi_Config {
+abstract class Mmi_Config {
 
 	/**
-	 * Zmienne konfiguracyjne
-	 * @var array
+	 * Podstawowa konfiguracja aplikacji
+	 * @var Mmi_Application_Config
 	 */
-	public static $data = array();
+	public $application;
 
 	/**
-	 * Łączy istniejące opcje z nowymi (nadpisuje istniejące)
-	 * @param array $options opcje
+	 * Konfiguracja postawowego cache
+	 * @var Mmi_Cache_Config
 	 */
-	public static function addConfig(array $options = array()) {
-		self::$data = array_merge(self::$data, $options);
-	}
-	
-	/**
-	 * Ustawia opcje na podane (czyści wszystkie stare opcje)
-	 * @param array $options
-	 */
-	public static function setConfig(array $options = array()) {
-		self::$data = $options;
-	}
+	public $cache;
 
 	/**
-	 * Funkcja pobierania zmiennej konfiguracyjnej w dowolnym zagnieżdżeniu
-	 * kolejne zagnieżdżenie to kolejny parametr
-	 * przykład: Mmi_Config::get('global', 'cache', 'active')
-	 * @return mixed
+	 * Konfiguracja routera
+	 * @var Mmi_Controller_Router_Config
 	 */
-	public static function get() {
-		$args = func_get_args();
-		$data = self::$data;
-		foreach ($args as $arg) {
-			if (!isset($data[$arg])) {
-				return null;
-			}
-			$data = $data[$arg];
-		}
-		return $data;
-	}
+	public $router;
 
-	/**
-	 * Funkcja ustawia wartość zmiennej konfiguracyjnej w dowolnym zagnieżdżeniu
-	 * kolejne zagnieżdżenie to kolejny parametr, wartość to ostatni parametr
-	 * przykład: Mmi_Config::set('global', 'cache', 'active', false)
-	 */
-	public static function set() {
-		$args = func_get_args();
-		if (!is_array($args) || count($args) < 2) {
-			return;
-		}
-		$value = $args[count($args) - 1];
-		array_pop($args);
-		$data = &self::$data;
-		foreach ($args as $arg) {
-			$data = &$data[$arg];
-		}
+	public function __construct() {
+
+		$this->application = new Mmi_Application_Config();
+		$this->cache = new Mmi_Cache_Config();
+		$this->router = new Mmi_Controller_Router_Config();
 	}
 
 }

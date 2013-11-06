@@ -179,6 +179,7 @@ class Mmi_Controller_Front {
 	 * Dispatcher
 	 */
 	public function dispatch() {
+		ob_start();
 		//ustawianie pustego żądania
 		$this->setRequest(new Mmi_Controller_Request());
 		//ustawianie pustej odpowiedzi
@@ -206,6 +207,7 @@ class Mmi_Controller_Front {
 		//wyświetlenie layoutu
 		Mmi_View::getInstance()->setPlaceholder('content', $content);
 		Mmi_View::getInstance()->displayLayout($this->_request->__get('skin'), $this->_request->__get('module'), $this->_request->__get('controller'));
+		ob_end_flush();
 	}
 
 }

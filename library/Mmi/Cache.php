@@ -18,19 +18,12 @@
  */
 
 /**
- * Prosta klasa buforowania (cache) z domyślnych wartości config
- * Automatycznie sprawdza aktywności bufora
+ * Klasa cache
  * @category   Mmi
  * @package    Mmi_Cache
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Cache {
-
-	/**
-	 * Slave
-	 * @var Mmi_Cache_Slave
-	 */
-	protected static $_slave;
 
 	/**
 	 * Określa aktywność cache
