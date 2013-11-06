@@ -317,7 +317,7 @@ class Mmi_View {
 		$this->render($this->_getLayout($skin, $module, $controller), false);
 
 		//opcjonalne uruchomienie panelu deweloperskiego
-		if (Mmi_Config::$data['global']['debug']) {
+		if (Default_Registry::$config->application->debug) {
 			Mmi_Profiler::event('Debugger started');
 			new Mmi_View_Helper_Panel();
 		}
@@ -340,7 +340,7 @@ class Mmi_View {
 		}
 		$compileName = $this->_locale . '_' . str_replace(array('/','\\'), '_', substr($fileName, strrpos($fileName, '/application') + 13, -4) . '.php');
 		$destFile = TMP_PATH . '/compile/' . $compileName;
-		$cacheActive = isset(Mmi_Config::$data['cache']['active']) ? Mmi_Config::$data['cache']['active'] : false;
+		$cacheActive = Default_Registry::$config->cache->active;
 		if ($cacheActive) {
 			try {
 				include $destFile;

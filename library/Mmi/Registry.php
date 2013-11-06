@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -26,9 +27,9 @@
 abstract class Mmi_Registry {
 
 	/**
-	 * Pobiera instancję rejestru
-	 * @return \Mmi_Registry
+	 * Konfiguracja aplikacji
+	 * @var Mmi_Config
 	 */
-	abstract public static function getInstance();
+	public static $config;
 
 }

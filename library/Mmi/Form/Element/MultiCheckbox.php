@@ -26,7 +26,7 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_MultiCheckbox extends Mmi_Form_Element_Abstract {
-	
+
 	/**
 	 * Buduje pole
 	 * @return string
@@ -35,7 +35,7 @@ class Mmi_Form_Element_MultiCheckbox extends Mmi_Form_Element_Abstract {
 		$baseId = $this->_options['id'];
 		$multiOptions = isset($this->_options['multiOptions']) ? $this->_options['multiOptions'] : array();
 		$values = isset($this->_options['value']) ? $this->_options['value'] : null;
-		
+
 		unset($this->_options['value']);
 		$html = '<ul id="' . $this->id . '_list">';
 		$this->_options['name'] = $this->_options['name'] . '[]';
@@ -50,7 +50,7 @@ class Mmi_Form_Element_MultiCheckbox extends Mmi_Form_Element_Abstract {
 			$f = new Mmi_Filter_Url();
 			$this->_options['id'] = $baseId . '_' . $f->filter($key);
 			$this->_options['value'] = $key;
-			
+
 			if (strpos($key, ':divide') !== false) {
 				if (isset($this->_options['divideClass'])) {
 					$html .= '<li class="' . $this->_options['divideClass'] . '"></li>';
@@ -74,7 +74,7 @@ class Mmi_Form_Element_MultiCheckbox extends Mmi_Form_Element_Abstract {
 		$this->_options['id'] = $baseId;
 		return $html;
 	}
-		
+
 	/**
 	 * Buduje etykietę pola
 	 * @return string
@@ -91,7 +91,7 @@ class Mmi_Form_Element_MultiCheckbox extends Mmi_Form_Element_Abstract {
 			$required = '';
 		}
 		if ($this->_translatorEnabled) {
-			$label = $this->getTranslator()->_($this->_options['label']);
+			$label = $this->getTranslate()->_($this->_options['label']);
 		} else {
 			$label = $this->_options['label'];
 		}

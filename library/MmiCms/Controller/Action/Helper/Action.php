@@ -53,7 +53,7 @@ class MmiCms_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helpe
 	 */
 	protected function _checkAcl($module, $controller, $action) {
 		$roles = Mmi_Auth::getInstance()->getRoles();
-		$acl = Mmi_Registry::get('Mmi_Acl');
+		$acl = Default_Registry::$acl;
 		if (null === $acl) {
 			return true;
 		}

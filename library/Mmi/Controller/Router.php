@@ -45,6 +45,18 @@ class Mmi_Controller_Router {
 	private $_baseUrl;
 
 	/**
+	 * Domyślny język
+	 * @var string
+	 */
+	private $_defaultLanguage;
+
+	/**
+	 * Domyślna skóra
+	 * @var string
+	 */
+	private $_defaultSkin;
+
+	/**
 	 * Pobiera instancję
 	 * @return Mmi_Controller_Router
 	 */
@@ -69,6 +81,26 @@ class Mmi_Controller_Router {
 	 */
 	public function setConfig(Mmi_Controller_Router_Config $config) {
 		$this->_config = $config;
+		return $this;
+	}
+
+	/**
+	 * Ustawia domyślny język
+	 * @param string $lang
+	 * @return \Mmi_Controller_Router
+	 */
+	public function setDefaultLanguage($lang) {
+		$this->_defaultLanguage = $lang;
+		return $this;
+	}
+
+	/**
+	 * Ustawia domyślną skórę
+	 * @param string $skin
+	 * @return \Mmi_Controller_Router
+	 */
+	public function setDefaultSkin($skin) {
+		$this->_defaultSkin = $skin;
 		return $this;
 	}
 
@@ -105,11 +137,12 @@ class Mmi_Controller_Router {
 		}
 		$url = trim($url, '/');
 		$params = array();
-		foreach ($this->_routes as $route) {
-			$default = isset($route['default']) ? $route['default'] : array();
-			$result = $this->_inputRouteApply($route['pattern'], $route['replace'], $default, $url);
+
+		foreach ($this->_config->getRoutes() as $route) {
+			/* @var $route Mmi_Controller_Router_Config_Route */
+			$result = $this->_inputRouteApply($route, $url);
 			if ($result['matched']) {
-				$params = isset($route['default']) ? $route['default'] : array();
+				$params = $route->default;
 				$params = array_merge($params, $result['params']);
 				$url = $result['url'];
 				break;
@@ -121,7 +154,7 @@ class Mmi_Controller_Router {
 				$params['lang'] = $vars[0];
 				array_shift($vars);
 			} else {
-				$params['lang'] = isset(Mmi_Config::$data['global']['languages'][0]) ? Mmi_Config::$data['global']['languages'][0] : null;
+				$params['lang'] = $this->_defaultLanguage;
 			}
 		}
 		if (isset($vars[0]) && $vars[0]) {
@@ -164,7 +197,7 @@ class Mmi_Controller_Router {
 			$i++;
 		}
 		if (!isset($params['skin'])) {
-			$params['skin'] = isset(Mmi_Config::$data['global']['skin']) ? Mmi_Config::$data['global']['skin'] : 'default';
+			$params['skin'] = $this->_defaultSkin ? $this->_defaultSkin : 'default';
 		}
 		return $params;
 	}
@@ -179,13 +212,14 @@ class Mmi_Controller_Router {
 		$lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
 		$urlParams = '';
 		$matched = array();
-		foreach ($this->_routes as $route) {
-			$currentParams = isset($route['default']) ? (array_merge($route['default'], $params)) : $params;
+		foreach ($this->_config as $route) {
+			/* @var $route Mmi_Controller_Router_Config_Route */
+			$currentParams = array_merge($route->default, $params);
 			unset($currentParams['skin']);
 			if (!isset($currentParams['lang'])) {
 				$currentParams['lang'] = $lang;
 			}
-			$result = $this->_outputRouteApply($route['pattern'], array_merge($route['default'], $route['replace']), $currentParams);
+			$result = $this->_outputRouteApply($route, $currentParams);
 			if ($result['applied']) {
 				$url .= '/' . $result['url'];
 				$matched = $result['matched'];
@@ -213,7 +247,7 @@ class Mmi_Controller_Router {
 		unset($params['action']);
 		unset($params['skin']);
 
-		if (isset($params['lang']) && $params['lang'] != Mmi_Config::$data['global']['languages'][0]) {
+		if (isset($params['lang']) && $params['lang'] != $this->_defaultLanguage) {
 			$url .= '/' . $params['lang'];
 		}
 		unset($params['lang']);
@@ -296,32 +330,30 @@ class Mmi_Controller_Router {
 
 	/**
 	 * Stosuje istniejące trasy dla danego url
-	 * @param string $pattern wzór
-	 * @param array $replace tablica zamian
-	 * @param array $default tablica domyślnych wartości
+	 * @param Mmi_Controller_Router_Config_Route $route
 	 * @param string $url URL
 	 * @return array
 	 */
-	private function _inputRouteApply($pattern, array $replace, $default, $url) {
+	private function _inputRouteApply(Mmi_Controller_Router_Config_Route $route, $url) {
 		$params = array();
 		$matches = array();
 		$matched = false;
 		//sprawdzenie statyczne
-		if ($pattern == $url) {
+		if ($route->pattern == $url) {
 			$matched = true;
-			$params = array_merge($default, $replace);
+			$params = array_merge($route->default, $route->replace);
 			return array(
 				'matched' => true,
-				'params' => array_merge($default, $replace),
-				'url' => trim(substr($url, strlen($pattern)), ' /')
+				'params' => $params,
+				'url' => trim(substr($url, strlen($route->pattern)), ' /')
 			);
 		}
 		//dopasowanie wyrażeniem regularnym
-		if ($this->_isPatternRegular($pattern) && @preg_match($pattern, $url, $matches)) {
+		if ($this->_isPatternRegular($route->pattern) && @preg_match($route->pattern, $url, $matches)) {
 			$this->_tmpMatches = $matches;
-			$this->_tmpDefault = $default;
+			$this->_tmpDefault = $route->default;
 			$matched = true;
-			foreach ($replace as $key => $value) {
+			foreach ($route->replace as $key => $value) {
 				$this->_tmpKey = $key;
 				$params[$key] = preg_replace_callback('/\$([0-9]+)/', array($this, '_routeMatch'), $value);
 				$params[$key] = preg_replace('/\|[a-z]+/', '', $params[$key]);
@@ -340,25 +372,24 @@ class Mmi_Controller_Router {
 
 	/**
 	 * Stosuje istniejące trasy dla tablicy parametrów (np. z żądania)
-	 * @param string $pattern wzór
-	 * @param array $replace tablica zamian
+	 * @param Mmi_Controller_Router_Config_Route $route
 	 * @param array $params parametry
 	 * @return array
 	 */
-	private function _outputRouteApply($pattern, array $replace, array $params) {
+	private function _outputRouteApply(Mmi_Controller_Router_Config_Route $route, array $params) {
 		$matches = array();
 		$matched = array();
 		$applied = true;
 		$url = '';
 		//routy statyczne tylko ze zgodną liczbą parametrów
-		if (!$this->_isPatternRegular($pattern) && count($replace) != count($params)) {
+		if (!$this->_isPatternRegular($route->pattern) && count($route->replace) != count($params)) {
 			return array(
 				'applied' => false,
 				'matched' => $matched,
 				'url' => $url
 			);
 		}
-		foreach ($replace as $key => $value) {
+		foreach ($route->replace as $key => $value) {
 			if (is_array($value) && isset($params[$key]) && $value == $params[$key]) {
 				$matched[$key] = true;
 				continue;

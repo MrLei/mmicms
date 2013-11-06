@@ -28,7 +28,7 @@ class Cms_Model_Auth_Record extends Mmi_Dao_Record {
 		$this->password = Cms_Model_Auth::getSaltedPasswordHash($this->changePassword);
 		return $this->save();
 	}
-	
+
 	public function changePasswordByUser() {
 		$auth = new Cms_Model_Auth();
 		$record = $auth->authenticate($this->identity, $this->password);
@@ -56,7 +56,7 @@ class Cms_Model_Auth_Record extends Mmi_Dao_Record {
 		$result = $auth->authenticate();
 		$this->id = $auth->getId();
 		if ($result && isset($this->remember) && $this->remember == 1) {
-			$auth->rememberMe(Mmi_Config::$data['session']['remember_me_seconds']);
+			$auth->rememberMe(Default_Registry::$config->session->authRemember);
 		}
 		return $result;
 	}

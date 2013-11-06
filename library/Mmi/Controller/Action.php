@@ -144,14 +144,14 @@ class Mmi_Controller_Action {
 		}
 
 		//język nie istnieje
-		$languages = Mmi_Config::$data['global']['languages'];
+		$languages = Default_Registry::$config->application->languages;
 		if (false === array_search($lang, $languages)) {
 			$translate->setLocale($languages[0]);
 			return;
 		}
 
 		//dodawanie tłumaczeń
-		if ($lang != $languages[0] && null === ($cachedTranslate = Mmi_Cache::load($key))) {
+		if ($lang != $languages[0] && null === ($cachedTranslate = Default_Registry::$cache->load($key))) {
 			if (file_exists(APPLICATION_PATH . '/skins/default/default/i18n/' . $lang . '.ini')) {
 				$translate->addTranslation(APPLICATION_PATH . '/skins/default/default/i18n/' . $lang . '.ini', $lang);
 			}
@@ -165,7 +165,7 @@ class Mmi_Controller_Action {
 				$translate->addTranslation(APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/i18n/' . $lang . '.ini', $lang);
 			}
 			$translate->setLocale($lang);
-			Mmi_Cache::save($translate, $key);
+			Default_Registry::$cache->save($translate, $key);
 			Mmi_Profiler::event('Init Translate setup');
 		}
 		if (isset($cachedTranslate)) {

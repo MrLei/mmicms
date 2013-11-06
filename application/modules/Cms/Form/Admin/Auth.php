@@ -36,7 +36,7 @@ class Cms_Form_Admin_Auth extends Mmi_Form {
 		));
 
 		$languages = array();
-		foreach (Mmi_Config::$data['global']['languages'] as $language) {
+		foreach (Default_Registry::$config->application->languages as $language) {
 			$languages[$language] = $language;
 		}
 

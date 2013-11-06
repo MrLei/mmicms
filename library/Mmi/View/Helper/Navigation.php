@@ -453,11 +453,11 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	 * @return string
 	 */
 	public function menu() {
-		if (null === Mmi_Registry::get('Mmi_Navigation')) {
+		if (null === Default_Registry::$navigation) {
 			return $this;
 		}
 		if ($this->_root) {
-			$tree = Mmi_Registry::get('Mmi_Navigation')->seek($this->_root);
+			$tree = Default_Registry::$navigation->seek($this->_root);
 		} else {
 			$tree = null;
 		}
@@ -469,11 +469,11 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	 * @return Mmi_View_Helper_Navigation
 	 */
 	private function _buildBreadcrumbs() {
-		if (null === Mmi_Registry::get('Mmi_Navigation')) {
+		if (null === Default_Registry::$navigation) {
 			return $this;
 		}
 		if (null == $this->_breadcrumbsData) {
-			$data = Mmi_Registry::get('Mmi_Navigation')->getBreadcrumbs();
+			$data = Default_Registry::$navigation->getBreadcrumbs();
 			$this->_breadcrumbsData = $data;
 		} else {
 			$data = $this->_breadcrumbsData;
@@ -525,8 +525,8 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 			if (!$leaf['module']) {
 				$leaf['module'] = 'default';
 			}
-			if ($this->_allowedOnly && $leaf['type'] != 'link' && Mmi_Registry::get('Mmi_Acl') instanceof Mmi_Acl) {
-				$allowed = Mmi_Registry::get('Mmi_Acl')->isAllowed(Mmi_Auth::getInstance()->getRoles(), strtolower($leaf['module'] . ':' . $leaf['controller'] . ':' . $leaf['action']));
+			if ($this->_allowedOnly && $leaf['type'] != 'link' && Default_Registry::$acl instanceof Mmi_Acl) {
+				$allowed = Default_Registry::$acl->isAllowed(Mmi_Auth::getInstance()->getRoles(), strtolower($leaf['module'] . ':' . $leaf['controller'] . ':' . $leaf['action']));
 			} else {
 				$allowed = true;
 			}

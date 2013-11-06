@@ -274,9 +274,9 @@ abstract class Mmi_Form {
 		$formName = $this->_formBaseName . 'Form';
 		$view->$formName = $this;
 		if ($this->_secured) {
-			$this->_hash = sha1(Mmi_Config::get('gloabal', 'salt') . $className . microtime(true));
+			$this->_hash = sha1(Default_Registry::$config->application->salt . $className . microtime(true));
 		} else {
-			$this->_hash = sha1(Mmi_Config::get('gloabal', 'salt') . $className);
+			$this->_hash = sha1(Default_Registry::$config->application->salt . $className);
 		}
 
 		$this->addElement('hidden', $this->_formBaseName . '__ctrl', array(
