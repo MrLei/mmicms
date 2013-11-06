@@ -32,7 +32,7 @@ class Cms_Model_File_Record extends Mmi_Dao_Record {
 		if ($this->id === null) {
 			return;
 		}
-		return substr(md5($this->name . Mmi_Config::get('global', 'salt')), 0, 8);
+		return substr(md5($this->name . Default_Registry::$config->application->salt), 0, 8);
 	}
 	
 	/**

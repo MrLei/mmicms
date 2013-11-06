@@ -18,7 +18,7 @@ class MmiCms_Controller_Admin Extends Mmi_Controller_Action {
 			exit;
 		}
 
-		$this->view->baseSkin = Mmi_Config::get('global', 'skin');
+		$this->view->baseSkin = Default_Registry::$config->application->skin;
 		$this->view->baseModule = 'admin';
 
 		$this->view->loggedUsername = Mmi_Auth::getInstance()->getUsername();
