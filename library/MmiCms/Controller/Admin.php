@@ -11,7 +11,7 @@ class MmiCms_Controller_Admin Extends Mmi_Controller_Action {
 
 	public function __construct(Mmi_Controller_Request $request) {
 		//acl dla admina
-		$acl = Mmi_Registry::get('Mmi_Acl');
+		$acl = Default_Registry::$acl;
 		$this->view = Mmi_View::getInstance();
 		if (!$acl->isAllowed(Mmi_Auth::getInstance()->getRoles(), 'admin:index:index')) {
 			header('Location: ' . $this->view->baseUrl . '/admin');

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -18,8 +19,7 @@
  */
 
 /**
- * Przykładowa klasa startująca aplikacji
- * ustawia ścieżki, ładuje ogólną konfigurację
+ * Bazowa startująca aplikacji, ustawia ścieżki, ładuje ogólną konfigurację
  * @category   Mmi
  * @package    Mmi_Bootstrap
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
@@ -38,7 +38,6 @@ abstract class Mmi_Bootstrap {
 			->_initDefaultComponents()
 			->_initAutoloader()
 			->_initErrorHandler();
-
 	}
 
 	/**
@@ -53,7 +52,7 @@ abstract class Mmi_Bootstrap {
 		}
 		$namespace = $name[0];
 		switch ($namespace) {
-			case ((substr($namespace, 0, 3) == 'Mmi') ? $namespace: !$namespace):
+			case ((substr($namespace, 0, 3) == 'Mmi') ? $namespace : !$namespace):
 			case 'PHPExcel':
 			case 'Zend':
 				$path = LIB_PATH . '/' . $namespace;
@@ -105,7 +104,7 @@ abstract class Mmi_Bootstrap {
 			if (!is_writable(TMP_PATH . '/log')) {
 				mkdir(TMP_PATH . '/log', 0777, true);
 			}
-			throw new Exception($code . ': ' . $errstr . '[' . $errfile . ' (' . $errline.')]');
+			throw new Exception($code . ': ' . $errstr . '[' . $errfile . ' (' . $errline . ')]');
 		}
 		return true;
 	}
@@ -141,7 +140,7 @@ abstract class Mmi_Bootstrap {
 		$info = '';
 		foreach ($exception->getTrace() as $position) {
 			if (isset($position['file'])) {
-				$info .= ' ' . $position['file'] . '(' . $position['line'] .'): '. $position['function']. "\n";
+				$info .= ' ' . $position['file'] . '(' . $position['line'] . '): ' . $position['function'] . "\n";
 			}
 		}
 		$info = trim($info, "\n");
@@ -153,28 +152,10 @@ abstract class Mmi_Bootstrap {
 	}
 
 	/**
-	 * Rejestracja pluginów, zwraca przygotowany front controller
-	 * @return Mmi_Controller_Front
-	 */
-	public function registerPlugins() {
-		$plugins = isset(Mmi_Config::$data['plugins']) ? Mmi_Config::$data['plugins'] : array();
-		$front = Mmi_Controller_Front::getInstance();
-		$front->setBootstrap($this);
-		//rejestracja pluginów
-		foreach ($plugins as $plugin) {
-			$front->registerPlugin(new $plugin());
-		}
-		return $front;
-	}
-
-	/**
 	 * Uruchamianie front-kontrolera
 	 */
 	public function run() {
-		ob_start();
-		$front = $this->registerPlugins();
-		$front->dispatch();
-		ob_end_flush();
+		Mmi_Controller_Front::getInstance()->dispatch();
 	}
 
 	/**
@@ -234,9 +215,11 @@ abstract class Mmi_Bootstrap {
 	 * @return \Mmi_Bootstrap
 	 */
 	protected function _initPhpConfiguration() {
+
 		function _stripslashesGpc(&$value) {
 			$value = stripslashes($value);
 		}
+
 		//obsługa włączonych magic quotes
 		if (ini_get('magic_quotes_gpc')) {
 			array_walk_recursive($_GET, array('_stripslashesGpc'));

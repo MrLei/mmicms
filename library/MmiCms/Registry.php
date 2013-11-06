@@ -27,15 +27,33 @@
 abstract class MmiCms_Registry extends Mmi_Registry {
 
 	/**
-	 * Obiekt bufora
-	 * @var Mmi_Cache
+	 * Acl
+	 * @var Mmi_Acl
 	 */
-	public $cache;
+	public static $acl;
 
 	/**
-	 * Obiekt translatora
+	 * Navigator
+	 * @var Mmi_Navigation
+	 */
+	public static $navigation;
+
+	/**
+	 * Bufora
+	 * @var Mmi_Cache
+	 */
+	public static $cache;
+
+	/**
+	 * Adapter bazy danych
+	 * @var Mmi_Db_Adapter_Pdo_Abstract
+	 */
+	public static $db;
+
+	/**
+	 * Translator
 	 * @var Mmi_Translate
 	 */
-	public $translate;
+	public static $translate;
 
 }

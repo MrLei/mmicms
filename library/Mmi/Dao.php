@@ -36,7 +36,7 @@ class Mmi_Dao {
 	 * Nazwa adaptera DB w rejestrze
 	 * @var string
 	 */
-	protected static $_adapterName = 'Mmi_Db';
+	protected static $_adapterName = 'db';
 
 	/**
 	 * Nazwa klasy kolekcji rekordów
@@ -166,7 +166,8 @@ class Mmi_Dao {
 		if (static::$_tableName === null) {
 			throw new Exception('Table name not specified');
 		}
-		$adapter = Mmi_Registry::get(static::$_adapterName);
+		$adapterName = static::$_adapterName;
+		$adapter = Default_Registry::${$adapterName};
 		if (!$adapter instanceof Mmi_Db_Adapter_Pdo_Abstract) {
 			throw new Exception('Adapter not specified or invalid');
 		}
@@ -179,11 +180,11 @@ class Mmi_Dao {
 	 */
 	public static final function getTableStructure() {
 		$cacheKey = 'Dao_structure_' . static::$_tableName . '_' . self::$_adapterName;
-		if (null !== ($structure = Mmi_Cache::load($cacheKey))) {
+		if (null !== ($structure = Default_Registry::$cache->load($cacheKey))) {
 			return $structure;
 		}
 		$structure = self::getAdapter()->tableInfo(static::$_tableName);
-		Mmi_Cache::save($structure, $cacheKey, 28800);
+		Default_Registry::$cache->save($structure, $cacheKey, 28800);
 		return $structure;
 	}
 

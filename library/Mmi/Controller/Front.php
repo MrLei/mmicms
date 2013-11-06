@@ -59,17 +59,12 @@ class Mmi_Controller_Front {
 	 * Struktura aplikacji
 	 * @var array
 	 */
-	private $_structure = array();
+	private $_structure;
 
 	/**
 	 * Zabezpieczony konstruktor
 	 */
 	protected function __construct() {
-		if (null !== ($this->_structure = Mmi_Cache::load('Mmi_Structure'))) {
-			return;
-		}
-		$this->_structure = Mmi_Structure::getStructure();
-		Mmi_Cache::save($this->_structure, 'Mmi_Structure', 86400);
 	}
 
 	/**
@@ -81,6 +76,11 @@ class Mmi_Controller_Front {
 			self::$_instance = new self();
 		}
 		return self::$_instance;
+	}
+
+	public function setStructure(array $structure = array()) {
+		$this->_structure = $structure;
+		return $this;
 	}
 
 	/**
@@ -145,6 +145,12 @@ class Mmi_Controller_Front {
 	 * @return array
 	 */
 	public function getStructure($part = null) {
+		if ($this->_structure === null) {
+			throw new Exception('Front structure not found.');
+		}
+		if ($part !== null && !isset($this->_structure[$part])) {
+			throw new Exception('Front structure invalid.');
+		}
 		return (null === $part) ? $this->_structure : $this->_structure[$part];
 	}
 
