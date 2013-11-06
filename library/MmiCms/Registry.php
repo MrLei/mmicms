@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Mmi
+ * MmiCms
  *
  * LICENSE
  *
@@ -8,9 +9,9 @@
  * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
  * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
  *
- * Mmi/Registry.php
- * @category   Mmi
- * @package    Mmi_Registry
+ * MmiCms/Registry.php
+ * @category   MmiCms
+ * @package    MmiCms_Registry
  * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    $Id$
@@ -18,17 +19,23 @@
  */
 
 /**
- * Klasa rejestru
- * @category   Mmi
- * @package    Mmi_Registry
+ * Klasa rejestru CMS
+ * @category   MmiCms
+ * @package    MmiCms_Registry
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
-abstract class Mmi_Registry {
+abstract class MmiCms_Registry extends Mmi_Registry {
 
 	/**
-	 * Pobiera instancję rejestru
-	 * @return \Mmi_Registry
+	 * Obiekt bufora
+	 * @var Mmi_Cache
 	 */
-	abstract public static function getInstance();
+	public $cache;
+
+	/**
+	 * Obiekt translatora
+	 * @var Mmi_Translate
+	 */
+	public $translate;
 
 }
