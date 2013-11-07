@@ -208,6 +208,15 @@ class Mmi_View {
 	}
 
 	/**
+	 * Ustawia tryb debugowania
+	 * @param boolean $debug
+	 */
+	public function setDebug($debug = true) {
+		$this->_debug = $debug;
+		return $this;
+	}
+
+	/**
 	 * Zwraca obiekt translatora
 	 * @return Mmi_Translate
 	 */

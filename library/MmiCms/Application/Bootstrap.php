@@ -93,6 +93,8 @@ class MmiCms_Application_Bootstrap extends Mmi_Application_Bootstrap {
 		$view = Mmi_View::getInstance();
 		$view->setTranslate($translate);
 		$view->setCache(Default_Registry::$cache);
+		$view->setAlwaysCompile($config->application->compile);
+		$view->setDebug($config->application->debug);
 
 		//database connection
 		if (Default_Registry::$config->application->debug) {
