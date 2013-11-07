@@ -63,6 +63,8 @@ class Mmi_Translate {
 		} elseif (null !== $locale) {
 			$this->setLocale($locale);
 		}
+		//przypinanie nowego translatora do widoku
+		Mmi_View_Helper_Translate::setTranslate($this);
 	}
 
 	/**
@@ -87,6 +89,14 @@ class Mmi_Translate {
 	 */
 	public function getLocale() {
 		return $this->_locale;
+	}
+
+	/**
+	 * Domyślny język
+	 * @return string
+	 */
+	public function getDefaultLocale() {
+		return $this->_defaultLocale;
 	}
 
 	/**

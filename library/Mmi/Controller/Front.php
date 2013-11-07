@@ -32,12 +32,6 @@ class Mmi_Controller_Front {
 	private static $_instance;
 
 	/**
-	 * Bootstrap
-	 * @var Mmi_Bootstrap
-	 */
-	private $_bootstrap;
-
-	/**
 	 * Request (żądanie)
 	 * @var Mmi_Controller_Request
 	 */
@@ -65,6 +59,8 @@ class Mmi_Controller_Front {
 	 * Zabezpieczony konstruktor
 	 */
 	protected function __construct() {
+		$this->_request = new Mmi_Controller_Request();
+		$this->_response = new Mmi_Controller_Response();
 	}
 
 	/**
@@ -108,14 +104,6 @@ class Mmi_Controller_Front {
 	}
 
 	/**
-	 * Ustawienie bootstrapa
-	 * @param Mmi_Bootstrap $bootstrap
-	 */
-	public function setBootstrap(Mmi_Bootstrap $bootstrap) {
-		$this->_bootstrap = $bootstrap;
-	}
-
-	/**
 	 * Pobranie żądania
 	 * @return Mmi_Controller_Request
 	 */
@@ -132,24 +120,16 @@ class Mmi_Controller_Front {
 	}
 
 	/**
-	 * Pobieranie bootstrapa
-	 * @return Mmi_Bootstrap $bootstrap
-	 */
-	public function getBootstrap() {
-		return $this->_bootstrap;
-	}
-
-	/**
 	 * Pobiera strukturę aplikacji
 	 * @param string $part opcjonalnie można pobrać jedynie 'module', lub 'skin'
 	 * @return array
 	 */
 	public function getStructure($part = null) {
 		if ($this->_structure === null) {
-			throw new Exception('Front structure not found.');
+			throw new Exception('Mmi_Controller_Front structure not found');
 		}
 		if ($part !== null && !isset($this->_structure[$part])) {
-			throw new Exception('Front structure invalid.');
+			throw new Exception('Mmi_Controller_Front structure invalid');
 		}
 		return (null === $part) ? $this->_structure : $this->_structure[$part];
 	}

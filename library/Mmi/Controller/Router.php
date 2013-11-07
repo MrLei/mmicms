@@ -68,7 +68,7 @@ class Mmi_Controller_Router {
 	}
 
 	/**
-	 * Konstruktor, wczytuje trasy z konfiguracji
+	 * Zabezpieczony konstruktor
 	 */
 	protected function __construct() {
 
@@ -102,6 +102,13 @@ class Mmi_Controller_Router {
 	public function setDefaultSkin($skin) {
 		$this->_defaultSkin = $skin;
 		return $this;
+	}
+
+	public function getRoutes() {
+		if ($this->_config === null) {
+			return array();
+		}
+		return $this->_config->getRoutes();
 	}
 
 	/**
@@ -138,7 +145,7 @@ class Mmi_Controller_Router {
 		$url = trim($url, '/');
 		$params = array();
 
-		foreach ($this->_config->getRoutes() as $route) {
+		foreach ($this->getRoutes() as $route) {
 			/* @var $route Mmi_Controller_Router_Config_Route */
 			$result = $this->_inputRouteApply($route, $url);
 			if ($result['matched']) {
@@ -212,7 +219,7 @@ class Mmi_Controller_Router {
 		$lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
 		$urlParams = '';
 		$matched = array();
-		foreach ($this->_config->getRoutes() as $route) {
+		foreach ($this->getRoutes() as $route) {
 			/* @var $route Mmi_Controller_Router_Config_Route */
 			$currentParams = array_merge($route->default, $params);
 			unset($currentParams['skin']);

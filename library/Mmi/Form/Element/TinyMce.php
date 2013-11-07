@@ -89,7 +89,7 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 		}
 		unset($this->_options['mode']);
 		$class = $this->__get('id');
-		$skin = Default_Registry::$config->application->skin;
+		$skin = Mmi_View::getInstance()->skin;
 		$this->__set('class', trim($this->__get('class') . ' ' . $class));
 		$object = '';
 		$objectId = '';

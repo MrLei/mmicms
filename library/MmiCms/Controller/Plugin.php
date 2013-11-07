@@ -10,16 +10,6 @@
 class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 
 	public function routeStartup(Mmi_Controller_Request $request) {
-
-		ini_set('default_charset', Default_Registry::$config->application->charset);
-		ini_set('include_path', LIB_PATH);
-
-		//database connection
-		if (Default_Registry::$config->application->debug) {
-			Default_Registry::$config->db->profiler = true;
-		}
-		Default_Registry::$db = Mmi_Db::factory(Default_Registry::$config->db);
-
 		//route z cms
 		if (null === ($routes = Default_Registry::$cache->load('Mmi_Route'))) {
 			$routes = Cms_Model_Route_Dao::findActive();
@@ -63,7 +53,7 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		$view->baseSkin = $request->getParam('baseSkin');
 
 		$jsReqestArray = array();
-		$jsReqestArray[] = "'baseUrl' : '".$base."'";
+		$jsReqestArray[] = "'baseUrl' : '" . $base . "'";
 		$filter = new Mmi_Filter_Urlencode();
 		foreach ($request->getParams() as $param => $value) {
 			if ($param == 'controller' || $param == 'action') {
@@ -74,9 +64,9 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 			} else {
 				$value = '\'' . $filter->filter($value) . '\'';
 			}
-			$jsReqestArray[] = "'".$filter->filter($param)."' : ".$value;
+			$jsReqestArray[] = "'" . $filter->filter($param) . "' : " . $value;
 		}
-		$jsRequest = "		var request = {\n		".implode(",\n		", $jsReqestArray)."\n		};";
+		$jsRequest = "		var request = {\n		" . implode(",\n		", $jsReqestArray) . "\n		};";
 		$view->headScript()->appendScript($jsRequest);
 
 		$auth = Mmi_Auth::getInstance();
@@ -102,6 +92,8 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 			Default_Registry::$cache->save($acl, 'Mmi_Acl', 86400);
 		}
 
+		Mmi_Controller_Action_Helper_Action::setAcl($acl);
+		Mmi_View_Helper_Navigation::setAcl($acl);
 		Default_Registry::$acl = $acl;
 
 		if (!$acl->isAllowed(Mmi_Auth::getInstance()->getRoles(), strtolower($request->getModuleName() . ':' . $request->getControllerName() . ':' . $request->getActionName()))) {
@@ -127,7 +119,6 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		}
 		$view->mediaServer = Default_Registry::$config->media->mediaServer;
 		$navigation->setup($request);
-		Default_Registry::$navigation = $navigation;
 		Mmi_Profiler::event('Init Navigation');
 	}
 

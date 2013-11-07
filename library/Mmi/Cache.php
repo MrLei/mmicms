@@ -106,6 +106,14 @@ class Mmi_Cache {
 	}
 
 	/**
+	 * Zwraca aktywność cache
+	 * @return boolean
+	 */
+	public function isActive() {
+		return $this->_config->active;
+	}
+
+	/**
 	 * Serializuje dane i stempluje datą wygaśnięcia
 	 * @param mixed $data dane
 	 * @param int $expire wygasa

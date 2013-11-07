@@ -109,6 +109,38 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	private $_description;
 
 	/**
+	 * Obiekt nawigatora
+	 * @var Mmi_Navigation
+	 */
+	private static $_navigation;
+
+	/**
+	 * Obiekt ACL
+	 * @var Mmi_Acl
+	 */
+	private static $_acl;
+
+	/**
+	 * Ustawia obiekt nawigatora
+	 * @param Mmi_Navigation $navigation
+	 * @return \Mmi_Navigation
+	 */
+	public static function setNavigation(Mmi_Navigation $navigation) {
+		self::$_navigation = $navigation;
+		return $navigation;
+	}
+
+	/**
+	 * Ustawia obiekt ACL
+	 * @param Mmi_Acl $acl
+	 * @return \Mmi_Acl
+	 */
+	public static function setAcl(Mmi_Acl $acl) {
+		self::$_acl = $acl;
+		return $acl;
+	}
+
+	/**
 	 * Metoda główna, zwraca swoją instancję
 	 * @return Mmi_View_Helper_Navigation
 	 */
@@ -453,11 +485,11 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	 * @return string
 	 */
 	public function menu() {
-		if (null === Default_Registry::$navigation) {
-			return $this;
+		if (null === self::$_navigation) {
+			return '';
 		}
 		if ($this->_root) {
-			$tree = Default_Registry::$navigation->seek($this->_root);
+			$tree = self::$_navigation->seek($this->_root);
 		} else {
 			$tree = null;
 		}
@@ -469,11 +501,11 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	 * @return Mmi_View_Helper_Navigation
 	 */
 	private function _buildBreadcrumbs() {
-		if (null === Default_Registry::$navigation) {
+		if (null === self::$_navigation) {
 			return $this;
 		}
 		if (null == $this->_breadcrumbsData) {
-			$data = Default_Registry::$navigation->getBreadcrumbs();
+			$data = self::$_navigation->getBreadcrumbs();
 			$this->_breadcrumbsData = $data;
 		} else {
 			$data = $this->_breadcrumbsData;
@@ -525,8 +557,8 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 			if (!$leaf['module']) {
 				$leaf['module'] = 'default';
 			}
-			if ($this->_allowedOnly && $leaf['type'] != 'link' && Default_Registry::$acl instanceof Mmi_Acl) {
-				$allowed = Default_Registry::$acl->isAllowed(Mmi_Auth::getInstance()->getRoles(), strtolower($leaf['module'] . ':' . $leaf['controller'] . ':' . $leaf['action']));
+			if ($this->_allowedOnly && $leaf['type'] != 'link' && self::$_acl instanceof Mmi_Acl) {
+				$allowed = self::$_acl->isAllowed(Mmi_Auth::getInstance()->getRoles(), strtolower($leaf['module'] . ':' . $leaf['controller'] . ':' . $leaf['action']));
 			} else {
 				$allowed = true;
 			}

@@ -9,9 +9,9 @@
  * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
  * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
  *
- * MmiCms/Bootstrap.php
+ * MmiCms/Application/Bootstrap.php
  * @category   MmiCms
- * @package    MmiCms_Bootstrap
+ * @package    MmiCms_Application
  * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    $Id$
@@ -21,18 +21,15 @@
 /**
  * Klasa startująca aplikację CMS
  * @category   MmiCms
- * @package    MmiCms_Bootstrap
+ * @package    MmiCms_Application
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
-abstract class MmiCms_Bootstrap extends Mmi_Bootstrap {
+class MmiCms_Application_Bootstrap extends Mmi_Application_Bootstrap {
 
 	/**
 	 * Konstruktor, ustawia ścieżki, ładuje domyślne klasy, ustawia autoloadera
-	 * @param string $path ścieżka
 	 */
-	public function __construct($path) {
-
-		parent::__construct($path);
+	public function __construct() {
 
 		require LIB_PATH . '/Mmi/Controller/Action/Helper/Messenger.php';
 		require LIB_PATH . '/Mmi/Db.php';
@@ -40,6 +37,7 @@ abstract class MmiCms_Bootstrap extends Mmi_Bootstrap {
 		require LIB_PATH . '/Mmi/Db/Adapter/Pdo/Pgsql.php';
 		require LIB_PATH . '/Mmi/Http/Cookie.php';
 		require LIB_PATH . '/Mmi/View/Helper/Abstract.php';
+		require LIB_PATH . '/Mmi/View/Helper/AbstractHead.php';
 		require LIB_PATH . '/Mmi/View/Helper/HeadLink.php';
 		require LIB_PATH . '/Mmi/View/Helper/HeadScript.php';
 		require LIB_PATH . '/Mmi/View/Helper/Navigation.php';
@@ -56,6 +54,7 @@ abstract class MmiCms_Bootstrap extends Mmi_Bootstrap {
 
 		//ustawienie lokalizacji
 		date_default_timezone_set($config->application->timeZone);
+		ini_set('default_charset', $config->application->charset);
 
 		//dodawanie buforów do rejestru
 		Default_Registry::$config = $config;
@@ -90,10 +89,19 @@ abstract class MmiCms_Bootstrap extends Mmi_Bootstrap {
 		$translate = new Mmi_Translate();
 		$translate->setDefaultLocale($config->application->languages[0]);
 		$translate->setLocale($config->application->languages[0]);
-		Default_Registry::$translate = $translate;
-		
+
 		$view = Mmi_View::getInstance();
-		$view->setTranslate(Default_Registry::$translate);
+		$view->setTranslate($translate);
+		$view->setCache(Default_Registry::$cache);
+
+		//database connection
+		if (Default_Registry::$config->application->debug) {
+			Default_Registry::$config->db->profiler = true;
+		}
+		Default_Registry::$db = Mmi_Db::factory(Default_Registry::$config->db);
+		Mmi_Dao::setAdapter(Default_Registry::$db);
+		Mmi_Dao::setCache(Default_Registry::$cache);
+
 	}
 
 }

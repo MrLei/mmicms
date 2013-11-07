@@ -9,9 +9,9 @@
  * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
  * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
  *
- * Mmi/Bootstrap.php
+ * Mmi/Application.php
  * @category   Mmi
- * @package    Mmi_Bootstrap
+ * @package    Mmi_Application
  * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    $Id$
@@ -21,23 +21,38 @@
 /**
  * Bazowa startująca aplikacji, ustawia ścieżki, ładuje ogólną konfigurację
  * @category   Mmi
- * @package    Mmi_Bootstrap
+ * @package    Mmi_Application
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
-abstract class Mmi_Bootstrap {
+class Mmi_Application {
 
 	/**
-	 * Konstruktor, ustawia ścieżki, ładuje domyślne klasy, ustawia autoloadera
-	 * @param string $path ścieżka
+	 * Klasa bootstrapa aplikacji
+	 * @var Mmi_Bootstrap
 	 */
-	public function __construct($path) {
+	protected $_bootstrap;
 
-		$this->_initPaths($path)
-			->_initEncoding()
-			->_initPhpConfiguration()
+	/**
+	 * Konstruktor
+	 * @param string $path
+	 */
+	public function __construct($path, $bootstrapName = 'Mmi_Application_Bootstrap') {
+		$this->_initEncoding()
+			->_initPaths($path)
 			->_initDefaultComponents()
+			->_initPhpConfiguration()
 			->_initAutoloader()
 			->_initErrorHandler();
+
+		$this->_bootstrap = new $bootstrapName($path);
+	}
+
+	/**
+	 * Uruchomienie aplikacji
+	 * @param Mmi_Bootstrap $bootstrap
+	 */
+	public function run() {
+		$this->_bootstrap->run();
 	}
 
 	/**
@@ -116,51 +131,29 @@ abstract class Mmi_Bootstrap {
 	 */
 	public function exceptionHandler(Exception $exception) {
 		@ob_clean();
-		$position = $this->logException($exception);
-		$view = Mmi_View::getInstance();
-		$view->_exceptionInfo = array(
-			'message' => $exception->getMessage(),
-			'file' => $position['file'],
-			'line' => $position['line'],
-			'info' => $position['info']
-		);
-		$actionHelper = new Mmi_Controller_Action_Helper_Action();
-		$view->setPlaceholder('content', $actionHelper->action('default', 'error', 'index', array(), true));
-		$view->displayLayout($view->skin, 'default', 'error');
+		$position = Mmi_Exception_Logger::log($exception);
+		try {
+			$view = Mmi_View::getInstance();
+			$view->_exceptionInfo = array(
+				'message' => $exception->getMessage(),
+				'file' => $position['file'],
+				'line' => $position['line'],
+				'info' => $position['info']
+			);
+			$actionHelper = new Mmi_Controller_Action_Helper_Action();
+			$view->setPlaceholder('content', $actionHelper->action('default', 'error', 'index', array(), true));
+			$view->displayLayout($view->skin, 'default', 'error');
+		} catch (Exception $e) {
+			echo '<html><body><h1>' . $e->getMessage() . '</h1>';
+			echo nl2br($e->getTraceAsString());
+			echo '</body></html>';
+		}
 		return true;
 	}
 
 	/**
-	 * Logowanie wyjątku
-	 * @param Exception $exception
-	 * @return array
-	 */
-	public function logException(Exception $exception) {
-		$log = fopen(TMP_PATH . '/log/error.execution.log', 'a');
-		$info = '';
-		foreach ($exception->getTrace() as $position) {
-			if (isset($position['file'])) {
-				$info .= ' ' . $position['file'] . '(' . $position['line'] . '): ' . $position['function'] . "\n";
-			}
-		}
-		$info = trim($info, "\n");
-		$position['info'] = $info;
-		$message = date('Y-m-d H:i:s') . ' ' . (isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] . "\n" : '') . strip_tags($exception->getMessage() . ': ' . $exception->getFile() . '(' . $exception->getLine() . ')' . $info);
-		fwrite($log, $message . "\n\n");
-		fclose($log);
-		return $position;
-	}
-
-	/**
-	 * Uruchamianie front-kontrolera
-	 */
-	public function run() {
-		Mmi_Controller_Front::getInstance()->dispatch();
-	}
-
-	/**
 	 * Ustawia kodowanie na UTF-8
-	 * @return \Mmi_Bootstrap
+	 * @return \Mmi_Application
 	 */
 	protected function _initEncoding() {
 		mb_internal_encoding('utf-8');
@@ -171,7 +164,7 @@ abstract class Mmi_Bootstrap {
 
 	/**
 	 * Definicja ścieżek
-	 * @return \Mmi_Bootstrap
+	 * @return \Mmi_Application
 	 */
 	protected function _initPaths($path) {
 		define('BASE_PATH', $path);
@@ -186,16 +179,15 @@ abstract class Mmi_Bootstrap {
 
 	/**
 	 * Ładowanie domyślnych komponentów
-	 * @return \Mmi_Bootstrap
+	 * @return \Mmi_Application
 	 */
 	protected function _initDefaultComponents() {
-		//ładowanie domyślnych komponentów
+		require LIB_PATH . '/Mmi/Application/Bootstrap.php';
+		require LIB_PATH . '/Mmi/Application/Config.php';
 		require LIB_PATH . '/Mmi/Cache/Backend/Interface.php';
 		require LIB_PATH . '/Mmi/Cache/Backend/Apc.php';
 		require LIB_PATH . '/Mmi/Cache/Config.php';
 		require LIB_PATH . '/Mmi/Cache.php';
-		require LIB_PATH . '/Mmi/Config.php';
-		require LIB_PATH . '/Mmi/Profiler.php';
 		require LIB_PATH . '/Mmi/Controller/Action/Helper/Abstract.php';
 		require LIB_PATH . '/Mmi/Controller/Action/Helper/Action.php';
 		require LIB_PATH . '/Mmi/Controller/Action/HelperBroker.php';
@@ -206,13 +198,16 @@ abstract class Mmi_Bootstrap {
 		require LIB_PATH . '/Mmi/Controller/Response.php';
 		require LIB_PATH . '/Mmi/Controller/Router/Config.php';
 		require LIB_PATH . '/Mmi/Controller/Router.php';
+		require LIB_PATH . '/Mmi/Exception/Logger.php';
+		require LIB_PATH . '/Mmi/Config.php';
+		require LIB_PATH . '/Mmi/Profiler.php';
 		require LIB_PATH . '/Mmi/View.php';
 		return $this;
 	}
 
 	/**
-	 *
-	 * @return \Mmi_Bootstrap
+	 * Inicjalizacja konfiguracji PHP
+	 * @return \Mmi_Application
 	 */
 	protected function _initPhpConfiguration() {
 
@@ -230,6 +225,10 @@ abstract class Mmi_Bootstrap {
 		return $this;
 	}
 
+	/**
+	 * Inicjuje autoloader
+	 * @return \Mmi_Application
+	 */
 	protected function _initAutoloader() {
 		spl_autoload_register(array($this, 'loader'));
 		return $this;

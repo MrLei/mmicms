@@ -26,11 +26,6 @@
 							<div id="menu">
 								{navigation()->setRoot(101)->menu()}
 							</div>
-							<ul>
-								<li>
-									{*widget('news', 'index', 'top', array(), 360)*}
-								</li>
-							</ul>
 						</div>
 						<div style="clear: both;"></div>
 					</div>
