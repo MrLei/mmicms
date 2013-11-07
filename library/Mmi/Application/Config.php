@@ -39,6 +39,12 @@ class Mmi_Application_Config {
 	public $debug = false;
 
 	/**
+	 * Bezwarunkowa kompilacja
+	 * @var boolean
+	 */
+	public $compile = true;
+
+	/**
 	 * Strefa czasowa
 	 * @var string
 	 */
