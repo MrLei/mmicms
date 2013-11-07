@@ -33,10 +33,16 @@ class Mmi_Dao {
 	protected static $_tableName;
 
 	/**
-	 * Nazwa adaptera DB w rejestrze
-	 * @var string
+	 * Adapter DB
+	 * @var Mmi_Db_Adapter_Pdo_Abstract
 	 */
-	protected static $_adapterName = 'db';
+	protected static $_adapter;
+
+	/**
+	 * Obiekt bufora
+	 * @var Mmi_Cache
+	 */
+	protected static $_cache;
 
 	/**
 	 * Nazwa klasy kolekcji rekordów
@@ -166,12 +172,38 @@ class Mmi_Dao {
 		if (static::$_tableName === null) {
 			throw new Exception('Table name not specified');
 		}
-		$adapterName = static::$_adapterName;
-		$adapter = Default_Registry::${$adapterName};
-		if (!$adapter instanceof Mmi_Db_Adapter_Pdo_Abstract) {
+		if (!(static::$_adapter instanceof Mmi_Db_Adapter_Pdo_Abstract)) {
 			throw new Exception('Adapter not specified or invalid');
 		}
+		return static::$_adapter;
+	}
+
+	/**
+	 * Ustawia adapter bazodanowy
+	 * @param Mmi_Db_Adapter_Pdo_Abstract $adapter
+	 * @return \Mmi_Db_Adapter_Pdo_Abstract
+	 */
+	public static final function setAdapter(Mmi_Db_Adapter_Pdo_Abstract $adapter) {
+		static::$_adapter = $adapter;
 		return $adapter;
+	}
+
+	/**
+	 * Zwraca obiekt cache
+	 * @return Mmi_Cache
+	 */
+	public static final function getCache() {
+		return static::$_cache;
+	}
+
+	/**
+	 * Ustawia obiekt cache
+	 * @param Mmi_Cache $cache
+	 * @return \Mmi_Cache
+	 */
+	public static final function setCache(Mmi_Cache $cache) {
+		static::$_cache = $cache;
+		return $cache;
 	}
 
 	/**
@@ -179,12 +211,15 @@ class Mmi_Dao {
 	 * @return array
 	 */
 	public static final function getTableStructure() {
-		$cacheKey = 'Dao_structure_' . static::$_tableName . '_' . self::$_adapterName;
-		if (null !== ($structure = Default_Registry::$cache->load($cacheKey))) {
+
+		$cacheKey = 'Dao_structure_' . static::$_tableName . '_' . get_class(self::getAdapter());
+		if (static::$_cache !== null && (null !== ($structure = static::$_cache->load($cacheKey)))) {
 			return $structure;
 		}
-		$structure = self::getAdapter()->tableInfo(static::$_tableName);
-		Default_Registry::$cache->save($structure, $cacheKey, 28800);
+		$structure = static::getAdapter()->tableInfo(static::$_tableName);
+		if (static::$_cache !== null) {
+			static::$_cache->save($structure, $cacheKey, 28800);
+		}
 		return $structure;
 	}
 

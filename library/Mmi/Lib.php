@@ -55,7 +55,7 @@ class Mmi_Lib {
 	 * @return string
 	 */
 	private static function _calculateTableHash(array $table) {
-		return md5(Default_Registry::$config->application->salt . print_r($table, true));
+		return md5(print_r($table, true));
 	}
 
 	/**
@@ -147,8 +147,8 @@ class Mmi_Lib {
 	 * @param string $data Ciąg wejściowy
 	 * @param string $key Dodatkowy klucz szyfrowania.
 	 */
-	public static function encrypt($data, $key = '') {
-		$key = substr(base64_encode(hash('sha512', sha1($key) . $key . Default_Registry::$config->application->salt, true)), 10, 26);
+	public static function encrypt($data, $key = '', $salt = '') {
+		$key = substr(base64_encode(hash('sha512', sha1($key) . $key . $salt, true)), 10, 26);
 		//AES - Advanced Encryption Standard
 		$algorithm = MCRYPT_RIJNDAEL_256;
 		$procedure = MCRYPT_MODE_ECB;
@@ -163,8 +163,8 @@ class Mmi_Lib {
 	 * @param string $data Ciąg zaszyfrowany
 	 * @param string $key Dodatkowy klucz deszyfrowania.
 	 */
-	public static function decrypt($data, $key = '') {
-		$key = substr(base64_encode(hash('sha512', sha1($key) . $key . Default_Registry::$config->application->salt, true)), 10, 26);
+	public static function decrypt($data, $key = '', $salt = '') {
+		$key = substr(base64_encode(hash('sha512', sha1($key) . $key . $salt, true)), 10, 26);
 		//AES - Advanced Encryption Standard
 		$algorithm = MCRYPT_RIJNDAEL_256;
 		$procedure = MCRYPT_MODE_ECB;

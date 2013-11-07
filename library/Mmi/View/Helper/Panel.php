@@ -37,7 +37,7 @@ class Mmi_View_Helper_Panel extends Mmi_View_Helper_Abstract {
 		$view = $this->view;
 		$elapsed = round(Mmi_Profiler::getElapsed(), 4) . 's';
 		$memory = round(memory_get_peak_usage() / (1024 * 1024), 2) . 'MB';
-		if (!Default_Registry::$config->cache->active) {
+		if ($this->view->getCache() === null || !$this->view->getCache()->isActive()) {
 			$cacheInfo = '<span style="color: #f22;">no cache</span>';
 		} else {
 			$cacheInfo = '<span style="color: #99ff99;">cache on</span>';
