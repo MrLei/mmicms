@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Mmi
+ * MmiCms
  *
  * LICENSE
  *
@@ -9,9 +9,9 @@
  * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
  * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
  *
- * Mmi/Bootstrap/Cmd.php
- * @category   Mmi
- * @package    Mmi_Bootstrap
+ * MmiCms/Bootstrap/Cmd.php
+ * @category   MmiCms
+ * @package    MmiCms_Bootstrap
  * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    $Id$
@@ -25,7 +25,7 @@
  * @package    Mmi_Bootstrap
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
-class Mmi_Bootstrap_Cmd extends Mmi_Bootstrap {
+class MmiCms_Bootstrap_Commandline extends MmiCms_Bootstrap {
 
 	/**
 	 * Konstruktor, ustawia ścieżki, ładuje domyślne klasy, ustawia autoloadera
