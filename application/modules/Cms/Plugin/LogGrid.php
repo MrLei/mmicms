@@ -17,9 +17,8 @@ class Cms_Plugin_LogGrid extends Mmi_Grid {
 			'label' => 'URL'
 		));
 
-		$this->addColumn('custom', 'data', array(
+		$this->addColumn('text', 'data', array(
 			'label' => 'dane',
-			'value' => '{$data = php_unserialize($rowData->data)}{$mes=php_print_r($data, true)}<pre class="logData">{$mes=$mes|replace:\'    \':\'\'}{$mes|replace:\'Array\':\'\'}</pre>'
 		));
 
 		$this->addColumn('text', 'ip', array(
