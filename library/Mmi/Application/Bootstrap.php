@@ -25,7 +25,7 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 
-final class Mmi_Application_Bootstrap {//implements Mmi_Application_Bootstrap_Interface {
+final class Mmi_Application_Bootstrap implements Mmi_Application_Bootstrap_Interface {
 
 	/**
 	 * Przykładowa konfiguracja o mizernej wydajności

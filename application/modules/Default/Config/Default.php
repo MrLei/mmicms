@@ -19,6 +19,7 @@ class Default_Config_Default extends MmiCms_Config {
 		$this->application->skin = 'default';
 		$this->application->timeZone = 'Europe/Warsaw';
 		$this->application->debug = false;
+		$this->application->compile = false;
 		$this->application->languages = array('pl');
 		$this->application->plugins = array('MmiCms_Controller_Plugin');
 

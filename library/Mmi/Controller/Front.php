@@ -173,12 +173,15 @@ class Mmi_Controller_Front {
 
 		//wpięcie dla pluginów przed routingiem
 		$this->routeStartup();
+		Mmi_Profiler::event('Plugins route startup');
 
 		//stosowanie routingu
 		Mmi_Controller_Router::getInstance()->processRequest($this->getRequest());
+		Mmi_Profiler::event('Routes applied');
 
 		//wpięcie dla pluginów przed dispatchem
 		$this->preDispatch();
+		Mmi_Profiler::event('Plugins pre-dispatch');
 
 		//wybór i uruchomienie kontrolera akcji (dispatch)
 		$actionHelper = new Mmi_Controller_Action_Helper_Action();
@@ -189,6 +192,7 @@ class Mmi_Controller_Front {
 
 		//wpięcie dla pluginów po dispatchu
 		$this->postDispatch();
+		Mmi_Profiler::event('Plugins post-dispatch');
 
 		//wyświetlenie layoutu
 		Mmi_View::getInstance()->setPlaceholder('content', $content);

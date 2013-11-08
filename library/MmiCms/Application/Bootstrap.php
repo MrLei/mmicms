@@ -24,30 +24,44 @@
  * @package    MmiCms_Application
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
-class MmiCms_Application_Bootstrap {
+class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interface {
 
 	/**
 	 * Konstruktor, ustawia ścieżki, ładuje domyślne klasy, ustawia autoloadera
 	 */
 	public function __construct() {
 
+		require LIB_PATH . '/Mmi/Cache/Config.php';
+		require LIB_PATH . '/Mmi/Cache/Backend/Interface.php';
+		require LIB_PATH . '/Mmi/Cache.php';
 		require LIB_PATH . '/Mmi/Controller/Action/Helper/Messenger.php';
+		require LIB_PATH . '/Mmi/Dao.php';
 		require LIB_PATH . '/Mmi/Db.php';
 		require LIB_PATH . '/Mmi/Db/Adapter/Pdo/Abstract.php';
 		require LIB_PATH . '/Mmi/Db/Adapter/Pdo/Pgsql.php';
+		require LIB_PATH . '/Mmi/Db/Config.php';
+		require LIB_PATH . '/Mmi/Acl.php';
+		require LIB_PATH . '/Mmi/Auth.php';
+		require LIB_PATH . '/Mmi/Filter/Abstract.php';
+		require LIB_PATH . '/Mmi/Filter/Urlencode.php';
 		require LIB_PATH . '/Mmi/Http/Cookie.php';
+		require LIB_PATH . '/Mmi/Navigation.php';
+		require LIB_PATH . '/Mmi/Nested.php';
+		require LIB_PATH . '/Mmi/Session/Config.php';
+		require LIB_PATH . '/Mmi/Translate.php';
 		require LIB_PATH . '/Mmi/View/Helper/Abstract.php';
 		require LIB_PATH . '/Mmi/View/Helper/AbstractHead.php';
 		require LIB_PATH . '/Mmi/View/Helper/HeadLink.php';
 		require LIB_PATH . '/Mmi/View/Helper/HeadScript.php';
 		require LIB_PATH . '/Mmi/View/Helper/Navigation.php';
 		require LIB_PATH . '/Mmi/View/Helper/Messenger.php';
+		require LIB_PATH . '/Mmi/View/Helper/Translate.php';
 		require LIB_PATH . '/Mmi/View/Helper/Url.php';
-		require LIB_PATH . '/Mmi/Acl.php';
-		require LIB_PATH . '/Mmi/Auth.php';
-		require LIB_PATH . '/Mmi/Navigation.php';
-		require LIB_PATH . '/Mmi/Nested.php';
-		require LIB_PATH . '/Mmi/Translate.php';
+		
+		require LIB_PATH . '/MmiCms/Config.php';
+		require LIB_PATH . '/MmiCms/Controller/Plugin.php';
+		require LIB_PATH . '/MmiCms/Media/Config.php';
+		require LIB_PATH . '/MmiCms/Registry.php';
 
 		//lokalna konfiguracja
 		try {
@@ -116,6 +130,7 @@ class MmiCms_Application_Bootstrap {
 		Default_Registry::$db = Mmi_Db::factory(Default_Registry::$config->db);
 		Mmi_Dao::setAdapter(Default_Registry::$db);
 		Mmi_Dao::setCache(Default_Registry::$cache);
+		Mmi_Profiler::event('Bootstrap setup done');
 	}
 
 	/**

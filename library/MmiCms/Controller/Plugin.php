@@ -8,7 +8,7 @@
  * Wtyczka FC
  */
 class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
-
+	
 	public function routeStartup(Mmi_Controller_Request $request) {
 		//route z cms
 		if (null === ($routes = Default_Registry::$cache->load('Mmi_Route'))) {
@@ -22,35 +22,33 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		//niepoprawny język
 		if (!in_array($request->__get('lang'), Default_Registry::$config->application->languages)) {
 			Mmi_Controller_Front::getInstance()->getResponse()->setCode(404);
-			$request->__set('module', 'default');
-			$request->__set('controller', 'error');
-			$request->__set('action', 'index');
+			$request->setModuleName('default');
+			$request->setControllerName('error');
+			$request->setActionName('index');
 		}
 
 		//brak komponentu (moduł + kontroler + akcja)
 		$components = Mmi_Controller_Front::getInstance()->getStructure('module');
-		if (!isset($components[$request->__get('module')][$request->__get('controller')][$request->__get('action')])) {
+		if (!isset($components[$request->getModuleName()][$request->getControllerName()][$request->getActionName()])) {
 			Mmi_Controller_Front::getInstance()->getResponse()->setCode(404);
-			$request->__set('module', 'default');
-			$request->__set('controller', 'error');
-			$request->__set('action', 'index');
+			$request->setModuleName('default');
+			$request->setControllerName('error');
+			$request->setActionName('index');
 		}
 
+		//ustawianie sesji
 		if (Default_Registry::$config->session->name) {
 			require LIB_PATH . '/Mmi/Session.php';
 			require LIB_PATH . '/Mmi/Session/Namespace.php';
 			Mmi_Session::start(Default_Registry::$config->session);
 		}
 
-		$lang = $request->getParam('lang');
-		$module = $request->getModuleName();
-		$skin = $request->getParam('skin');
+		//ustawienie widoku
 		$view = Mmi_View::getInstance();
 		$base = $request->getBaseUrl();
 		$view->domain = Default_Registry::$config->application->host;
 		$view->baseUrl = $base;
-		$view->baseModule = $request->getParam('baseModule');
-		$view->baseSkin = $request->getParam('baseSkin');
+		$view->mediaServer = Default_Registry::$config->media->mediaServer;
 
 		$jsReqestArray = array();
 		$jsReqestArray[] = "'baseUrl' : '" . $base . "'";
@@ -68,7 +66,6 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		}
 		$jsRequest = "		var request = {\n		" . implode(",\n		", $jsReqestArray) . "\n		};";
 		$view->headScript()->appendScript($jsRequest);
-
 		$auth = Mmi_Auth::getInstance();
 		$auth->setModelName(Default_Registry::$config->session->authModel ? Default_Registry::$config->session->authModel : 'Cms_Model_Auth');
 		$cookie = new Mmi_Http_Cookie();
@@ -85,7 +82,7 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 			$view->auth = $auth;
 		}
 
-		//acl
+		//ustawienie acl
 		if (null === ($acl = Default_Registry::$cache->load('Mmi_Acl'))) {
 			Mmi_Profiler::event('Init Acl');
 			$acl = Cms_Model_Acl_Dao::setupAcl();
@@ -93,36 +90,34 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		}
 
 		Mmi_Controller_Action_Helper_Action::setAcl($acl);
-		Mmi_View_Helper_Navigation::setAcl($acl);
 		Default_Registry::$acl = $acl;
 
+		//zablokowane na ACL
 		if (!$acl->isAllowed(Mmi_Auth::getInstance()->getRoles(), strtolower($request->getModuleName() . ':' . $request->getControllerName() . ':' . $request->getActionName()))) {
 			if ($auth->hasIdentity()) {
 				$request->setModuleName('default');
 				$request->setControllerName('error');
 				$request->setActionName('unauthorized');
+			} elseif (substr($request->getControllerName(), 0, 5) == 'admin' || $request->getModuleName() == 'admin') {
+				$request->setModuleName('admin');
+				$request->setControllerName('login');
+				$request->setActionName('index');
 			} else {
-				$module = $request->getModuleName();
-				$module = ($module == 'admin') ? 'admin' : 'user';
-				if (substr($request->getControllerName(), 0, 5) == 'admin') {
-					$module = 'admin';
-				}
-				$request->setModuleName($module);
+				$request->setModuleName('user');
 				$request->setControllerName('login');
 				$request->setActionName('index');
 			}
 		}
-		Mmi_Profiler::event('Init plugin');
+		
+		//ustawienie nawigatora
 		if (null === ($navigation = Default_Registry::$cache->load('Mmi_Navigation_' . $request->__get('lang')))) {
 			$navigation = new Mmi_Navigation(Cms_Model_Navigation_Dao::getNested());
 			Default_Registry::$cache->save($navigation, 'Mmi_Navigation_' . $request->__get('lang'), 3600);
 		}
-		$view->mediaServer = Default_Registry::$config->media->mediaServer;
 		$navigation->setup($request);
 		//przypinanie nawigatora do helpera widoku nawigacji
+		Mmi_View_Helper_Navigation::setAcl($acl);
 		Mmi_View_Helper_Navigation::setNavigation($navigation);
-
-		Mmi_Profiler::event('Init Navigation');
 	}
 
 }
