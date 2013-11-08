@@ -57,7 +57,7 @@
 						</select>
 					</td>
 					<td>
-						<a id="rule-remove-{$rule->id}" class="remove-rule confirm" title="{#Czy na pewno chcesz usunąć tę regułę#}" href="#"><img src="{file('ico16_remove.gif')}" /></a>
+						<a id="rule-remove-{$rule->id}" class="remove-rule confirm" title="{#Czy na pewno chcesz usunąć tę regułę#}" href="#"><img src="{$baseUrl}/default/cms/images/ico16_remove.gif" /></a>
 					</td>
 				</tr>
 				{/foreach}

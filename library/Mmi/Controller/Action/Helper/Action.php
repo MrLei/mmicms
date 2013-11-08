@@ -54,6 +54,7 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 	 * @return mixed
 	 */
 	public function action($moduleName = 'default', $controllerName = 'index', $actionName = 'index', array $params = array(), $fetch = false) {
+		Mmi_Profiler::event('Run: ' . $moduleName . '::' . $controllerName . '::' . $actionName);
 		if (!$this->_checkAcl($moduleName, $controllerName, $actionName)) {
 			return;
 		}
@@ -72,7 +73,6 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 		$controller = new $controllerClassName($controllerRequest);
 		//wywołanie akcji
 		$controller->$actionMethodName();
-		Mmi_Profiler::event('Run: ' . $controllerClassName . '::' . $actionMethodName);
 		//rendering szablonu
 		$skin = $controllerRequest->getParam('skin') ? $controllerRequest->getParam('skin') : 'default';
 		$content = Mmi_View::getInstance()->renderTemplate($skin, $moduleName, $controllerName, $actionName, $fetch);

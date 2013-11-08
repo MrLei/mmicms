@@ -37,16 +37,17 @@ class Mmi_Application {
 	 * @param string $path
 	 */
 	public function __construct($path, $bootstrapName = 'Mmi_Application_Bootstrap') {
-		$this->_initEncoding()
-			->_initPaths($path)
-			->_initDefaultComponents()
-			->_initPhpConfiguration()
-			->_initAutoloader()
-			->_initErrorHandler();
+		$this->_initPaths($path)
+				->_initDefaultComponents()
+				->_initEncoding()
+				->_initPhpConfiguration()
+				->_initAutoloader()
+				->_initErrorHandler();
+		Mmi_Profiler::event('Init bootstrap');
 		$this->_bootstrap = new $bootstrapName($path);
-		//if (!($this->_bootstrap instanceof Mmi_Application_Bootstrap_Interface)) {
-//			throw new Exception('Mmi_Application bootstrap should be implementing Mmi_Application_Bootstrap_Interface');
-//		}
+		if (!($this->_bootstrap instanceof Mmi_Application_Bootstrap_Interface)) {
+			throw new Exception('Mmi_Application bootstrap should be implementing Mmi_Application_Bootstrap_Interface');
+		}
 	}
 
 	/**
@@ -54,6 +55,7 @@ class Mmi_Application {
 	 * @param Mmi_Bootstrap $bootstrap
 	 */
 	public function run() {
+		Mmi_Profiler::event('Bootstrap run');
 		$this->_bootstrap->run();
 	}
 
@@ -183,12 +185,11 @@ class Mmi_Application {
 	 * @return \Mmi_Application
 	 */
 	protected function _initDefaultComponents() {
-		require LIB_PATH . '/Mmi/Application/Bootstrap.php';
+		require LIB_PATH . '/Mmi/Profiler.php';
+		Mmi_Profiler::event('Application init');
+		require LIB_PATH . '/Mmi/Application/Bootstrap/Interface.php';
 		require LIB_PATH . '/Mmi/Application/Config.php';
-		require LIB_PATH . '/Mmi/Cache/Backend/Interface.php';
-		require LIB_PATH . '/Mmi/Cache/Backend/Apc.php';
-		require LIB_PATH . '/Mmi/Cache/Config.php';
-		require LIB_PATH . '/Mmi/Cache.php';
+		require LIB_PATH . '/Mmi/Config.php';
 		require LIB_PATH . '/Mmi/Controller/Action/Helper/Abstract.php';
 		require LIB_PATH . '/Mmi/Controller/Action/Helper/Action.php';
 		require LIB_PATH . '/Mmi/Controller/Action/HelperBroker.php';
@@ -198,10 +199,10 @@ class Mmi_Application {
 		require LIB_PATH . '/Mmi/Controller/Request.php';
 		require LIB_PATH . '/Mmi/Controller/Response.php';
 		require LIB_PATH . '/Mmi/Controller/Router/Config.php';
+		require LIB_PATH . '/Mmi/Controller/Router/Config/Route.php';
 		require LIB_PATH . '/Mmi/Controller/Router.php';
 		require LIB_PATH . '/Mmi/Exception/Logger.php';
-		require LIB_PATH . '/Mmi/Config.php';
-		require LIB_PATH . '/Mmi/Profiler.php';
+		require LIB_PATH . '/Mmi/Registry.php';
 		require LIB_PATH . '/Mmi/View.php';
 		return $this;
 	}
