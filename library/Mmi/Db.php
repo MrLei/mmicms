@@ -32,7 +32,7 @@ class Mmi_Db {
 	 */
 	public static function factory(Mmi_Db_Config $config) {
 		if ($config->driver != 'mysql' && $config->driver != 'pgsql' && $config->driver != 'sqlite') {
-			throw new Exception('Driver not supplied');
+			throw new Exception('Mmi_Db driver not supplied');
 		}
 		$driver = 'Mmi_Db_Adapter_Pdo_' . ucfirst($config->driver);
 		return new $driver($config);

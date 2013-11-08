@@ -117,20 +117,22 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		$translate->setLocale($config->application->languages[0]);
 		//przypinanie translatora do helpera widoku
 		Mmi_View_Helper_Translate::setTranslate($translate);
-
+		
 		//konfiguracja widoku
 		$view = Mmi_View::getInstance();
-		$view->setTranslate($translate);
 		$view->setCache(Default_Registry::$cache);
 		$view->setAlwaysCompile($config->application->compile);
 		$view->setDebug($config->application->debug);
+		$view->setTranslate($translate);
 
 		//połączenie do bazy danych
-		Default_Registry::$config->db->profiler = $config->application->debug;
-		Default_Registry::$db = Mmi_Db::factory(Default_Registry::$config->db);
-		Mmi_Dao::setAdapter(Default_Registry::$db);
-		Mmi_Dao::setCache(Default_Registry::$cache);
-		Mmi_Profiler::event('Bootstrap setup done');
+		if (Default_Registry::$config->db->driver !== null) {
+			Default_Registry::$config->db->profiler = $config->application->debug;
+			Default_Registry::$db = Mmi_Db::factory(Default_Registry::$config->db);
+			Mmi_Dao::setAdapter(Default_Registry::$db);
+			Mmi_Dao::setCache(Default_Registry::$cache);
+			Mmi_Profiler::event('Bootstrap setup done');
+		}
 	}
 
 	/**
