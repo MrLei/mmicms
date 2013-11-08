@@ -50,15 +50,23 @@ class MmiCms_Application_Bootstrap extends Mmi_Application_Bootstrap {
 		require LIB_PATH . '/Mmi/Translate.php';
 
 		//lokalna konfiguracja
-		$config = new Default_Config_Local();
+		try {
+			$config = new Default_Config_Local();
+		} catch (Exception $e) {
+			throw new Exception('MmiCms_Application_Bootstrap requires application/modules/Default/Config/Local.php instance of MmiCms_Config');
+		}
 
 		//ustawienie lokalizacji
 		date_default_timezone_set($config->application->timeZone);
 		ini_set('default_charset', $config->application->charset);
 
 		//dodawanie buforów do rejestru
-		Default_Registry::$config = $config;
-		Default_Registry::$cache = new Mmi_Cache($config->cache);
+		try {
+			Default_Registry::$config = $config;
+			Default_Registry::$cache = new Mmi_Cache($config->cache);
+		} catch (Exception $e) {
+			throw new Exception('MmiCms_Application_Bootstrap requires application/modules/Default/Registry.php instance of MmiCms_Registry');
+		}
 
 		//wczytywanie struktury frontu z cache
 		if (null === ($frontStructure = Default_Registry::$cache->load('Mmi_Structure'))) {
@@ -103,7 +111,6 @@ class MmiCms_Application_Bootstrap extends Mmi_Application_Bootstrap {
 		Default_Registry::$db = Mmi_Db::factory(Default_Registry::$config->db);
 		Mmi_Dao::setAdapter(Default_Registry::$db);
 		Mmi_Dao::setCache(Default_Registry::$cache);
-
 	}
 
 }

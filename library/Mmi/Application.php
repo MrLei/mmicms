@@ -43,7 +43,6 @@ class Mmi_Application {
 			->_initPhpConfiguration()
 			->_initAutoloader()
 			->_initErrorHandler();
-
 		$this->_bootstrap = new $bootstrapName($path);
 	}
 
@@ -131,6 +130,7 @@ class Mmi_Application {
 	 */
 	public function exceptionHandler(Exception $exception) {
 		@ob_clean();
+		//@TODO: uzależnić od środowiska
 		$position = Mmi_Exception_Logger::log($exception);
 		try {
 			$view = Mmi_View::getInstance();
@@ -144,9 +144,7 @@ class Mmi_Application {
 			$view->setPlaceholder('content', $actionHelper->action('default', 'error', 'index', array(), true));
 			$view->displayLayout($view->skin, 'default', 'error');
 		} catch (Exception $e) {
-			echo '<html><body><h1>' . $e->getMessage() . '</h1>';
-			echo nl2br($e->getTraceAsString());
-			echo '</body></html>';
+			echo '<html><body><h1>' . $exception->getMessage() . '</h1>' . nl2br($exception->getTraceAsString()) . '</body></html>';
 		}
 		return true;
 	}
