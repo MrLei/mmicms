@@ -28,13 +28,9 @@
 class MmiCms_Application_Bootstrap_Commandline extends MmiCms_Application_Bootstrap {
 
 	/**
-	 * Uruchamianie front-kontrolera (brak front kontrolera)
+	 * Uruchamianie bootstrapa - brak front kontrolera
 	 */
 	public function run() {
-		$front = Mmi_Controller_Front::getInstance();
-		//$front->routeStartup();
-		//$front->preDispatch();
-		//$front->postDispatch();
 	}
 
 }
