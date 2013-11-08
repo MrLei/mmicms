@@ -44,8 +44,6 @@ class Mmi_Navigation {
 	 */
 	public function __construct(Mmi_Nested $nested) {
 		$this->_nested = $nested;
-		//przypinanie nowego nawigatora do helpera widoku
-		Mmi_View_Helper_Navigation::setNavigation($this);
 	}
 
 	/**

@@ -44,6 +44,9 @@ class Mmi_Application {
 			->_initAutoloader()
 			->_initErrorHandler();
 		$this->_bootstrap = new $bootstrapName($path);
+		//if (!($this->_bootstrap instanceof Mmi_Application_Bootstrap_Interface)) {
+//			throw new Exception('Mmi_Application bootstrap should be implementing Mmi_Application_Bootstrap_Interface');
+//		}
 	}
 
 	/**

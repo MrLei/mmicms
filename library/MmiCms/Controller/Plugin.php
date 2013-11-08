@@ -119,6 +119,9 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		}
 		$view->mediaServer = Default_Registry::$config->media->mediaServer;
 		$navigation->setup($request);
+		//przypinanie nawigatora do helpera widoku nawigacji
+		Mmi_View_Helper_Navigation::setNavigation($navigation);
+
 		Mmi_Profiler::event('Init Navigation');
 	}
 
