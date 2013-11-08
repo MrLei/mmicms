@@ -388,15 +388,16 @@ class Mmi_Controller_Router {
 		$matched = array();
 		$applied = true;
 		$url = '';
+		$replace = array_merge($route->default, $route->replace);
 		//routy statyczne tylko ze zgodną liczbą parametrów
-		if (!$this->_isPatternRegular($route->pattern) && count($route->replace) != count($params)) {
+		if (!$this->_isPatternRegular($route->pattern) && count($replace) != count($params)) {
 			return array(
 				'applied' => false,
 				'matched' => $matched,
 				'url' => $url
 			);
 		}
-		foreach ($route->replace as $key => $value) {
+		foreach ($replace as $key => $value) {
 			if (is_array($value) && isset($params[$key]) && $value == $params[$key]) {
 				$matched[$key] = true;
 				continue;
