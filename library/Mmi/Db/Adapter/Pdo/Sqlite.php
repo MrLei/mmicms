@@ -55,16 +55,16 @@ class Mmi_Db_Adapter_Pdo_Sqlite extends Mmi_Db_Adapter_Pdo_Abstract {
 	 * Tworzy połączenie z bazą danych
 	 */
 	public function connect() {
-		if (isset($this->_options['profiler']) && $this->_options['profiler']) {
+		if ($this->_config->profiler) {
 			$this->_profiler = Mmi_Db_Profiler::getInstance();
 		}
-		if ($this->_profiler) {
+		if ($this->_config->profiler) {
 			$this->_profiler->event('CONNECT WITH: ' . get_class($this), 0);
 		}
 		$this->_pdo = new PDO(
-						$this->_options['driver'] . ':' . $this->_options['host'],
+						$this->_config->driver . ':' . $this->_config->host,
 						null, null,
-						array(PDO::ATTR_PERSISTENT => $this->_options['persistent'])
+						array(PDO::ATTR_PERSISTENT => $this->_config->persistent)
 		);
 		$this->_connected = true;
 		$this->query('PRAGMA foreign_keys = ON');

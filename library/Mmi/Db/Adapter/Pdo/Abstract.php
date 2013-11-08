@@ -139,7 +139,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 		if ($this->_config->profiler) {
 			$this->_profiler = Mmi_Db_Profiler::getInstance();
 		}
-		if ($this->_profiler) {
+		if ($this->_config->profiler) {
 			$this->_profiler->event('CONNECT WITH: ' . get_class($this), 0);
 		}
 		$this->_pdo = new PDO(
@@ -213,7 +213,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 			$error = isset($error[2]) ? $error[2] : $error[0];
 			throw new Exception('DB exception: ' . $error . ' --- ' . $sql);
 		}
-		if ($this->_profiler) {
+		if ($this->_config->profiler) {
 			$qs = $statement->queryString;
 			if (!empty($bind)) {
 				$qs .= "\n" . print_r($bind, true);

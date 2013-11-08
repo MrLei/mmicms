@@ -126,7 +126,7 @@ class Mmi_Controller_Front {
 	 */
 	public function getStructure($part = null) {
 		if ($this->_structure === null) {
-			throw new Exception('Mmi_Controller_Front structure not found');
+			throw new Exception('Mmi_Contoller_Front structure not found');
 		}
 		if ($part !== null && !isset($this->_structure[$part])) {
 			throw new Exception('Mmi_Controller_Front structure invalid');
