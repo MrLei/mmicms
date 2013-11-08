@@ -24,7 +24,7 @@
  * @package    MmiCms_Application
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
-class MmiCms_Application_Bootstrap extends Mmi_Application_Bootstrap {
+class MmiCms_Application_Bootstrap {
 
 	/**
 	 * Konstruktor, ustawia ścieżki, ładuje domyślne klasy, ustawia autoloadera
@@ -56,6 +56,14 @@ class MmiCms_Application_Bootstrap extends Mmi_Application_Bootstrap {
 			throw new Exception('MmiCms_Application_Bootstrap requires application/modules/Default/Config/Local.php instance of MmiCms_Config');
 		}
 
+		//sprawdzenie czy zdefiniowano conajmniej jeden język
+		if (!isset($config->application->languages[0])) {
+			throw new Exception('No languages specified');
+		}
+
+		//konfiguracja profilera aplikacji
+		Mmi_Profiler::setEnabled($config->application->debug);
+
 		//ustawienie lokalizacji
 		date_default_timezone_set($config->application->timeZone);
 		ini_set('default_charset', $config->application->charset);
@@ -83,10 +91,6 @@ class MmiCms_Application_Bootstrap extends Mmi_Application_Bootstrap {
 			$front->registerPlugin(new $plugin());
 		}
 
-		if (!isset($config->application->languages[0])) {
-			throw new Exception('No languages specified');
-		}
-
 		//ustawianie rout
 		$router = Mmi_Controller_Router::getInstance();
 		$router->setConfig($config->router);
@@ -97,20 +101,28 @@ class MmiCms_Application_Bootstrap extends Mmi_Application_Bootstrap {
 		$translate = new Mmi_Translate();
 		$translate->setDefaultLocale($config->application->languages[0]);
 		$translate->setLocale($config->application->languages[0]);
+		//przypinanie translatora do helpera widoku
+		Mmi_View_Helper_Translate::setTranslate($translate);
 
+		//konfiguracja widoku
 		$view = Mmi_View::getInstance();
 		$view->setTranslate($translate);
 		$view->setCache(Default_Registry::$cache);
 		$view->setAlwaysCompile($config->application->compile);
 		$view->setDebug($config->application->debug);
 
-		//database connection
-		if (Default_Registry::$config->application->debug) {
-			Default_Registry::$config->db->profiler = true;
-		}
+		//połączenie do bazy danych
+		Default_Registry::$config->db->profiler = $config->application->debug;
 		Default_Registry::$db = Mmi_Db::factory(Default_Registry::$config->db);
 		Mmi_Dao::setAdapter(Default_Registry::$db);
 		Mmi_Dao::setCache(Default_Registry::$cache);
+	}
+
+	/**
+	 * Uruchomienie bootstrapa skutkuje uruchomieniem front kontrolera
+	 */
+	public function run() {
+		Mmi_Controller_Front::getInstance()->dispatch();
 	}
 
 }

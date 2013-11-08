@@ -63,8 +63,6 @@ class Mmi_Translate {
 		} elseif (null !== $locale) {
 			$this->setLocale($locale);
 		}
-		//przypinanie nowego translatora do widoku
-		Mmi_View_Helper_Translate::setTranslate($this);
 	}
 
 	/**

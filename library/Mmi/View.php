@@ -381,6 +381,7 @@ class Mmi_View {
 	 * @return string|null zwraca efekt renderowania lub brak przy renderowaniu bezpośrednim
 	 */
 	public function render($fileName, $fetch = false) {
+		Mmi_Profiler::event('View build: ' . basename($fileName));
 		//przechwycenie obecnego stanu bufora
 		if ($fetch) {
 			$prev = ob_get_contents();
@@ -409,10 +410,10 @@ class Mmi_View {
 			ob_clean();
 			//zwrot starego bufora
 			echo $prev;
-			Mmi_Profiler::event('Fetch: ' . $compileName);
+			Mmi_Profiler::event('View fetched: ' . $compileName);
 			return $data;
 		}
-		Mmi_Profiler::event('Render: ' . $compileName);
+		Mmi_Profiler::event('View rendered: ' . $compileName);
 	}
 
 	/**
