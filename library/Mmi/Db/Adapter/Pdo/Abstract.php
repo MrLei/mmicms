@@ -118,6 +118,14 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 		$this->_config = $config;
 		$this->_connected = false;
 	}
+	
+	/**
+	 * Zwraca konfigurację
+	 * @return Mmi_Db_Config
+	 */
+	public final function getConfig() {
+		return $this->_config;
+	}
 
 	/**
 	 * Magiczne wywołanie metod z PDO

@@ -211,8 +211,8 @@ class Mmi_Dao {
 	 * @return array
 	 */
 	public static final function getTableStructure() {
-
-		$cacheKey = 'Dao_structure_' . static::$_tableName . '_' . get_class(self::getAdapter());
+		
+		$cacheKey = 'Dao_structure_' . self::getAdapter()->getConfig()->name . '_' . static::$_tableName;
 		if (static::$_cache !== null && (null !== ($structure = static::$_cache->load($cacheKey)))) {
 			return $structure;
 		}
