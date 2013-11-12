@@ -146,6 +146,19 @@ p {
 	line-height: 1.6em;
 }
 
+em {
+	font-weight: bold;
+	color: #000;
+}
+
+em.success {
+	color: #009900;
+}
+
+em.warning {
+	color: #990000;
+}
+
 /********************************      General Classes      ********************************/
 
 .clear {
