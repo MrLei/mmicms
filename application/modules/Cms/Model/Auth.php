@@ -80,7 +80,7 @@ class Cms_Model_Auth implements Mmi_Auth_Model_Interface {
 	}
 
 	public static function getSaltedPasswordHash($password) {
-		return hash('sha512', Mmi_Config::get('global', 'salt') . md5($password) . $password . 'sltd');
+		return hash('sha512', Default_Registry::$config->application->salt . md5($password) . $password . 'sltd');
 	}
 
 }

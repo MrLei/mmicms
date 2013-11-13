@@ -35,7 +35,8 @@ class Mmi_View_Helper_AbstractHead extends Mmi_View_Helper_Abstract {
 	 */
 	protected function _getCrc($location) {
 		$cacheKey = 'Head_Crc_' . md5($location);
-		if (null !== ($crc = Mmi_Cache::load($cacheKey))) {
+		$cache = $this->view->getCache();
+		if ($cache !== null && (null !== ($crc = $cache->load($cacheKey)))) {
 			return $crc;
 		}
 		//internal
@@ -53,7 +54,9 @@ class Mmi_View_Helper_AbstractHead extends Mmi_View_Helper_Abstract {
 		} else {
 			$crc = crc32(file_get_contents($location));
 		}
-		Mmi_Cache::save($crc, $cacheKey);
+		if ($cache !== null) {
+			$cache->save($crc, $cacheKey);
+		}
 		return $crc;
 	}
 

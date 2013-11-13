@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -28,6 +29,22 @@
 class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_Abstract {
 
 	/**
+	 * Obiekt ACL
+	 * @var Mmi_Acl
+	 */
+	protected static $_acl;
+
+	/**
+	 * Ustawia obiekt ACL
+	 * @param Mmi_Acl $acl
+	 * @return \Mmi_Acl
+	 */
+	public static function setAcl(Mmi_Acl $acl) {
+		self::$_acl = $acl;
+		return $acl;
+	}
+
+	/**
 	 * Metoda główna
 	 * @param string $moduleName moduł
 	 * @param string $controllerName kontroler
@@ -37,6 +54,10 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 	 * @return mixed
 	 */
 	public function action($moduleName = 'default', $controllerName = 'index', $actionName = 'index', array $params = array(), $fetch = false) {
+		Mmi_Profiler::event('Run: ' . $moduleName . '::' . $controllerName . '::' . $actionName);
+		if (!$this->_checkAcl($moduleName, $controllerName, $actionName)) {
+			return;
+		}
 		$frontRequest = Mmi_Controller_Front::getInstance()->getRequest();
 		//budowanie parametrów kontrollera
 		$params['module'] = $moduleName;
@@ -52,13 +73,26 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 		$controller = new $controllerClassName($controllerRequest);
 		//wywołanie akcji
 		$controller->$actionMethodName();
-		Mmi_Profiler::event('Run: ' . $controllerClassName . '::' . $actionMethodName);
 		//rendering szablonu
 		$skin = $controllerRequest->getParam('skin') ? $controllerRequest->getParam('skin') : 'default';
 		$content = Mmi_View::getInstance()->renderTemplate($skin, $moduleName, $controllerName, $actionName, $fetch);
 		//przywrócenie do widoku request'a z front controllera
 		Mmi_View::getInstance()->setRequest($frontRequest);
 		return $content;
+	}
+
+	/**
+	 * Sprawdza uprawnienie do widgetu
+	 * @param string $module moduł
+	 * @param string $controller kontroler
+	 * @param string $action akcja
+	 * @return boolean
+	 */
+	protected function _checkAcl($module, $controller, $action) {
+		if (self::$_acl === null) {
+			return true;
+		}
+		return self::$_acl->isAllowed(Mmi_Auth::getInstance()->getRoles(), $module . ':' . $controller . ':' . $action);
 	}
 
 }

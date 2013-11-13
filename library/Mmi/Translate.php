@@ -63,7 +63,6 @@ class Mmi_Translate {
 		} elseif (null !== $locale) {
 			$this->setLocale($locale);
 		}
-		$this->setDefaultLocale(Mmi_Config::$data['global']['languages'][0]);
 	}
 
 	/**
@@ -88,6 +87,14 @@ class Mmi_Translate {
 	 */
 	public function getLocale() {
 		return $this->_locale;
+	}
+
+	/**
+	 * Domyślny język
+	 * @return string
+	 */
+	public function getDefaultLocale() {
+		return $this->_defaultLocale;
 	}
 
 	/**

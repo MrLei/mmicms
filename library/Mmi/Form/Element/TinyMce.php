@@ -26,7 +26,7 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
-	
+
 	/**
 	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora
 	 */
@@ -34,7 +34,7 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 		$this->addFilter('tinyMce');
 		return parent::init();
 	}
-	
+
 	/**
 	 * Buduje pole
 	 * @return string
@@ -89,7 +89,7 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 		}
 		unset($this->_options['mode']);
 		$class = $this->__get('id');
-		$skin = Mmi_Config::$data['global']['skin'];
+		$skin = Mmi_View::getInstance()->skin;
 		$this->__set('class', trim($this->__get('class') . ' ' . $class));
 		$object = '';
 		$objectId = '';
@@ -107,7 +107,7 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 		$hash = md5(Mmi_Session::getId() . '+' . $t . '+' . $objectId);
 		$view->headScript()->appendScript("
 			tinyMCE.init({
-				selector : '.".$class."',		
+				selector : '.".$class."',
 				language : 'pl',
 				" . $theme . "
 				" . $tskin . "
@@ -148,7 +148,7 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 				fontsize_formats: '1px 2px 3px 4px 6px 8px 9pc 10px 11px 12px 13px 14px 16px 18px 20px 22px 24px 26px 28px 36px 48px 50px 72px 100px'
 			});
 		");
-		
+
 		return parent::fetchField();
 	}
 }

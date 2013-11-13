@@ -201,8 +201,8 @@ CREATE TABLE cms_navigation (
 CREATE INDEX cms_navigation_order_idx ON cms_navigation ("order");
 CREATE INDEX cms_navigation_parent_id_idx ON cms_navigation (parent_id);
 CREATE INDEX cms_navigation_visible_idx ON cms_navigation (visible);
-CREATE INDEX "cms_contact_dateStart_idx" ON cms_contact ("dateStart");
-CREATE INDEX "cms_contact_dateEnd_idx" ON cms_contact ("dateEnd");
+CREATE INDEX "cms_navigation_dateStart_idx" ON cms_navigation ("dateStart");
+CREATE INDEX "cms_navigation_dateEnd_idx" ON cms_navigation ("dateEnd");
 CREATE INDEX cms_navigation_active_idx ON cms_navigation (active);
 
 CREATE TABLE cms_role (

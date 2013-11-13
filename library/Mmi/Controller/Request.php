@@ -219,27 +219,47 @@ class Mmi_Controller_Request {
 
 	/**
 	 * Ustawia moduł
+	 * @param string $value
+	 * @return \Mmi_Controller_Request
 	 */
 	public function setModuleName($value) {
 		$this->setParam('module', $value);
+		return $this;
 	}
 
 	/**
 	 * Ustawia kontroler
+	 * @param string $value
+	 * @return \Mmi_Controller_Request
 	 */
 	public function setControllerName($value) {
 		$this->setParam('controller', $value);
+		return $this;
 	}
 
 	/**
 	 * Ustawia akcję
+	 * @param string $value
+	 * @return \Mmi_Controller_Request
 	 */
 	public function setActionName($value) {
 		$this->setParam('action', $value);
+		return $this;
+	}
+	
+	/**
+	 * Ustawia nazwę skóry
+	 * @param string $value
+	 * @return \Mmi_Controller_Request
+	 */
+	public function setSkinName($value) {
+		$this->setParam('skin', $value);
+		return $this;
 	}
 
 	/**
 	 * Pobiera ścieżkę bazową
+	 * @return string
 	 */
 	public function getBaseUrl() {
 		return Mmi_Controller_Router::getInstance()->getBaseUrl();

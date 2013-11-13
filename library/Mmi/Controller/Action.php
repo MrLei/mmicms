@@ -134,43 +134,50 @@ class Mmi_Controller_Action {
 	 * @return mixed wartość
 	 */
 	private function _initTranslaction($module, $skin, $lang) {
-		//inicjalizacja translatora
-		$key = 'Mmi_Translate_' . $lang . '_' . $skin . '_' . $module;
 
 		$translate = $this->view->getTranslate();
-		if (!($translate instanceof Mmi_Translate)) {
-			$translate = new Mmi_Translate(null, $lang);
-			$this->view->setTranslate($translate);
-		}
 
-		//język nie istnieje
-		$languages = Mmi_Config::$data['global']['languages'];
-		if (false === array_search($lang, $languages)) {
-			$translate->setLocale($languages[0]);
+		//brak translatora
+		if ($translate === null) {
 			return;
 		}
 
+		$cache = $this->view->getCache();
+		$key = 'Mmi_Translate_' . $lang . '_' . $skin . '_' . $module;
+
 		//dodawanie tłumaczeń
-		if ($lang != $languages[0] && null === ($cachedTranslate = Mmi_Cache::load($key))) {
-			if (file_exists(APPLICATION_PATH . '/skins/default/default/i18n/' . $lang . '.ini')) {
-				$translate->addTranslation(APPLICATION_PATH . '/skins/default/default/i18n/' . $lang . '.ini', $lang);
-			}
-			if ($module != 'default' && file_exists(APPLICATION_PATH . '/skins/default/' . $module . '/i18n/' . $lang . '.ini')) {
-				$translate->addTranslation(APPLICATION_PATH . '/skins/default/' . $module . '/i18n/' . $lang . '.ini', $lang);
-			}
-			if ($skin != 'default' && file_exists(APPLICATION_PATH . '/skins/' . $skin . '/default/i18n/' . $lang . '.ini')) {
-				$translate->addTranslation(APPLICATION_PATH . '/skins/' . $skin . '/default/i18n/' . $lang . '.ini', $lang);
-			}
-			if ($skin != 'default' && $module != 'default' && file_exists(APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/i18n/' . $lang . '.ini')) {
-				$translate->addTranslation(APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/i18n/' . $lang . '.ini', $lang);
-			}
-			$translate->setLocale($lang);
-			Mmi_Cache::save($translate, $key);
-			Mmi_Profiler::event('Init Translate setup');
+		if ($lang == $translate->getDefaultLocale()) {
+			return;
 		}
-		if (isset($cachedTranslate)) {
+
+		//ładowanie zbuforowanego translatora
+		if ($cache !== null && (null !== ($cachedTranslate = $cache->load($key)))) {
 			$this->view->setTranslate($cachedTranslate);
+			$translate->setLocale($lang);
+			Mmi_Profiler::event('Init cached translate: [' . $lang . '] ' . $module);
+			return;
 		}
+
+		//dodawanie tłumaczeń do translatora
+		if (file_exists(APPLICATION_PATH . '/skins/default/default/i18n/' . $lang . '.ini')) {
+			$translate->addTranslation(APPLICATION_PATH . '/skins/default/default/i18n/' . $lang . '.ini', $lang);
+		}
+		if ($module != 'default' && file_exists(APPLICATION_PATH . '/skins/default/' . $module . '/i18n/' . $lang . '.ini')) {
+			$translate->addTranslation(APPLICATION_PATH . '/skins/default/' . $module . '/i18n/' . $lang . '.ini', $lang);
+		}
+		if ($skin != 'default' && file_exists(APPLICATION_PATH . '/skins/' . $skin . '/default/i18n/' . $lang . '.ini')) {
+			$translate->addTranslation(APPLICATION_PATH . '/skins/' . $skin . '/default/i18n/' . $lang . '.ini', $lang);
+		}
+		if ($skin != 'default' && $module != 'default' && file_exists(APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/i18n/' . $lang . '.ini')) {
+			$translate->addTranslation(APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/i18n/' . $lang . '.ini', $lang);
+		}
+		$translate->setLocale($lang);
+
+		//zapis do cache
+		if ($cache !== null) {
+			$cache->save($translate, $key);
+		}
+
 		Mmi_Profiler::event('Init Translate: [' . $lang . '] ' . $module);
 	}
 

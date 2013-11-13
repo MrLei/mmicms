@@ -32,12 +32,6 @@ class Mmi_Controller_Front {
 	private static $_instance;
 
 	/**
-	 * Bootstrap
-	 * @var Mmi_Bootstrap
-	 */
-	private $_bootstrap;
-
-	/**
 	 * Request (żądanie)
 	 * @var Mmi_Controller_Request
 	 */
@@ -59,17 +53,14 @@ class Mmi_Controller_Front {
 	 * Struktura aplikacji
 	 * @var array
 	 */
-	private $_structure = array();
+	private $_structure;
 
 	/**
 	 * Zabezpieczony konstruktor
 	 */
 	protected function __construct() {
-		if (null !== ($this->_structure = Mmi_Cache::load('Mmi_Structure'))) {
-			return;
-		}
-		$this->_structure = Mmi_Structure::getStructure();
-		Mmi_Cache::save($this->_structure, 'Mmi_Structure', 86400);
+		$this->_request = new Mmi_Controller_Request();
+		$this->_response = new Mmi_Controller_Response();
 	}
 
 	/**
@@ -81,6 +72,11 @@ class Mmi_Controller_Front {
 			self::$_instance = new self();
 		}
 		return self::$_instance;
+	}
+
+	public function setStructure(array $structure = array()) {
+		$this->_structure = $structure;
+		return $this;
 	}
 
 	/**
@@ -108,14 +104,6 @@ class Mmi_Controller_Front {
 	}
 
 	/**
-	 * Ustawienie bootstrapa
-	 * @param Mmi_Bootstrap $bootstrap
-	 */
-	public function setBootstrap(Mmi_Bootstrap $bootstrap) {
-		$this->_bootstrap = $bootstrap;
-	}
-
-	/**
 	 * Pobranie żądania
 	 * @return Mmi_Controller_Request
 	 */
@@ -132,19 +120,17 @@ class Mmi_Controller_Front {
 	}
 
 	/**
-	 * Pobieranie bootstrapa
-	 * @return Mmi_Bootstrap $bootstrap
-	 */
-	public function getBootstrap() {
-		return $this->_bootstrap;
-	}
-
-	/**
 	 * Pobiera strukturę aplikacji
 	 * @param string $part opcjonalnie można pobrać jedynie 'module', lub 'skin'
 	 * @return array
 	 */
 	public function getStructure($part = null) {
+		if ($this->_structure === null) {
+			throw new Exception('Mmi_Contoller_Front structure not found');
+		}
+		if ($part !== null && !isset($this->_structure[$part])) {
+			throw new Exception('Mmi_Controller_Front structure invalid');
+		}
 		return (null === $part) ? $this->_structure : $this->_structure[$part];
 	}
 
@@ -179,6 +165,7 @@ class Mmi_Controller_Front {
 	 * Dispatcher
 	 */
 	public function dispatch() {
+		ob_start();
 		//ustawianie pustego żądania
 		$this->setRequest(new Mmi_Controller_Request());
 		//ustawianie pustej odpowiedzi
@@ -186,12 +173,15 @@ class Mmi_Controller_Front {
 
 		//wpięcie dla pluginów przed routingiem
 		$this->routeStartup();
+		Mmi_Profiler::event('Plugins route startup');
 
 		//stosowanie routingu
 		Mmi_Controller_Router::getInstance()->processRequest($this->getRequest());
+		Mmi_Profiler::event('Routes applied');
 
 		//wpięcie dla pluginów przed dispatchem
 		$this->preDispatch();
+		Mmi_Profiler::event('Plugins pre-dispatch');
 
 		//wybór i uruchomienie kontrolera akcji (dispatch)
 		$actionHelper = new Mmi_Controller_Action_Helper_Action();
@@ -202,10 +192,12 @@ class Mmi_Controller_Front {
 
 		//wpięcie dla pluginów po dispatchu
 		$this->postDispatch();
+		Mmi_Profiler::event('Plugins post-dispatch');
 
 		//wyświetlenie layoutu
 		Mmi_View::getInstance()->setPlaceholder('content', $content);
 		Mmi_View::getInstance()->displayLayout($this->_request->__get('skin'), $this->_request->__get('module'), $this->_request->__get('controller'));
+		ob_end_flush();
 	}
 
 }

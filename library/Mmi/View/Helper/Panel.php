@@ -37,7 +37,7 @@ class Mmi_View_Helper_Panel extends Mmi_View_Helper_Abstract {
 		$view = $this->view;
 		$elapsed = round(Mmi_Profiler::getElapsed(), 4) . 's';
 		$memory = round(memory_get_peak_usage() / (1024 * 1024), 2) . 'MB';
-		if (!Mmi_Config::$data['cache']['active']) {
+		if ($this->view->getCache() === null || !$this->view->getCache()->isActive()) {
 			$cacheInfo = '<span style="color: #f22;">no cache</span>';
 		} else {
 			$cacheInfo = '<span style="color: #99ff99;">cache on</span>';
@@ -166,7 +166,7 @@ class Mmi_View_Helper_Panel extends Mmi_View_Helper_Abstract {
 		if (isset($_SESSION) && count($_SESSION) > 0) {
 			$html .= '<p style="margin: 0px;">Session Variables: </p><pre style="margin: 0px 0px 10px 0px; color: #ddd; background: #222; padding: 3px; border: 1px solid #666;">' . $this->colorify(print_r($_SESSION, true)) . '</pre>';
 		}
-		if (count(Mmi_Registry::getKeys()) > 0) {
+		/*if (count(Mmi_Registry::getKeys()) > 0) {
 			$html .= '<p style="margin: 0px;">Registry Variables: </p><pre style="margin: 0px 0px 10px 0px; color: #ddd; background: #222; padding: 3px; border: 1px solid #666;">';
 			foreach (Mmi_Registry::getKeys() as $registryKey => $varValue) {
 				if (is_object($varValue)) {
@@ -176,7 +176,7 @@ class Mmi_View_Helper_Panel extends Mmi_View_Helper_Abstract {
 				}
 			}
 			$html .= '</pre>';
-		}
+		}*/
 
 		$html .= '</td></tr><tr><td colspan="2">';
 

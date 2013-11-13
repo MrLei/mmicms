@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -8,9 +9,9 @@
  * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
  * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
  *
- * Mmi/Config/Abstract.php
+ * Mmi/Application/Bootstrap/Interface.php
  * @category   Mmi
- * @package    Mmi_Config
+ * @package    Mmi_Application
  * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    $Id$
@@ -18,38 +19,21 @@
  */
 
 /**
- * Abstrakcyjna klasa konfiguracji Mmi
+ * Interface bootstrapów aplikacji
  * @category   Mmi
- * @package    Mmi_Config
+ * @package    Mmi_Application
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
-
-abstract class Mmi_Config_Abstract {
-
-	/**
-	 * Podstawowa konfiguracja aplikacji
-	 * @var Mmi_Config2
-	 */
-	public $mmi;
+interface Mmi_Application_Bootstrap_Interface {
 
 	/**
-	 * Konfiguracja postawowego cache
-	 * @var Mmi_Cache_Config
+	 * Parametryzowanie bootstrapa
 	 */
-	public $cache;
+	public function __construct();
 
 	/**
-	 * Konfiguracja routera
-	 * @var Mmi_Controller_Router_Config
+	 * Uruchomienie bootstrapa
 	 */
-	public $router;
-
-	public function __construct() {
-
-		$this->mmi = new Mmi_Config2();
-		$this->cache = new Mmi_Cache_Config();
-		$this->router = new Mmi_Controller_Router_Config();
-
-	}
+	public function run();
 
 }

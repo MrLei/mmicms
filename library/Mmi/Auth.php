@@ -62,8 +62,14 @@ class Mmi_Auth {
 	private $_credential;
 
 	/**
+	 * Sól (unikalny dla każdej aplikacji)
+	 * @var string
+	 */
+	private $_salt;
+
+	/**
 	 * Pobiera instancję
-	 * @return Mmi_Auth
+	 * @return \Mmi_Auth
 	 */
 	public static function getInstance() {
 		if (null === self::$_instance) {
@@ -80,12 +86,34 @@ class Mmi_Auth {
 	}
 
 	/**
+	 * Ustawia sól
+	 * @param string $salt
+	 * @return \Mmi_Auth
+	 */
+	public function setSalt($salt) {
+		$this->_salt = $salt;
+		return $this;
+	}
+
+	/**
+	 * Zwraca sól
+	 * @return string
+	 * @throws Exception
+	 */
+	public function getSalt() {
+		if ($this->_salt === null) {
+			throw new Exception('Salt not set, set the proper salt.');
+		}
+		return $this->_salt;
+	}
+
+	/**
 	 * Pozwala automatycznie zalogować użytkownika przez dany czas
 	 * @param int $time
 	 */
 	public function rememberMe($time) {
 		if ($this->hasIdentity()) {
-			new Mmi_Http_Cookie('remember', 'id=' . $this->getId() . '&key='. md5(Mmi_Config::get('global', 'salt') . $this->getId()), null, time() + $time);
+			new Mmi_Http_Cookie('remember', 'id=' . $this->getId() . '&key='. md5($this->getSalt() . $this->getId()), null, time() + $time);
 		}
 	}
 
@@ -219,7 +247,7 @@ class Mmi_Auth {
 		$this->_session->ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null;
 		return true;
 	}
-	
+
 	/**
 	 * Zaufana autoryzacja
 	 * @return boolean
@@ -237,7 +265,7 @@ class Mmi_Auth {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Uwierzytelnienie przez http
 	 * @param string $realm identyfikator przestrzeni chronionej

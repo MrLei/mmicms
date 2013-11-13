@@ -37,38 +37,24 @@ class Mmi_Session {
 
 	/**
 	 * Rozpoczęcie sesji
-	 * @param array $config tabela z konfiguracją
+	 * @param Mmi_Session_Config $config
 	 */
-	public static function start($config) {
-		if (isset($config['name'])) {
-			session_name($config['name']);
-		}
-		if (isset($config['cookie_lifetime'])) {
-			session_set_cookie_params($config['cookie_lifetime']);
-		}
-		if (isset($config['cache_expire'])) {
-			session_cache_expire($config['cache_expire']);
-		}
-		if (isset($config['gc_divisor'])) {
-			ini_set('session.gc_divisor', $config['gc_divisor']);
-		}
-		if (isset($config['gc_maxlifetime'])) {
-			ini_set('session.gc_maxlifetime', $config['gc_maxlifetime']);
-		}
-		if (isset($config['gc_probability'])) {
-			ini_set('session.gc_probability', $config['gc_probability']);
-		}
-		if (isset($config['save_path'])) {
-			session_save_path($config['save_path']);
-		}
-		if (isset($config['save_handler'])) {
-			if ($config['save_handler'] == 'user') {
-				$customClassName = 'Mmi_Session_Handler_' . ucfirst($config['save_path']);
+	public static function start(Mmi_Session_Config $config) {
+		session_name($config->name);
+		session_set_cookie_params($config->cookieLifetime);
+		session_cache_expire($config->cacheExpire);
+		ini_set('session.gc_divisor', $config->gcDivisor);
+		ini_set('session.gc_maxlifetime', $config->gcMaxLifetime);
+		ini_set('session.gc_probability', $config->gcProbability);
+		session_save_path($config->path);
+		if ($config->handler) {
+			if ($config->handler == 'user') {
+				$customClassName = 'Mmi_Session_Handler_' . ucfirst($config->path);
 				$sha = new $customClassName();
 				session_set_save_handler(array($sha, 'open'), array($sha, 'close'), array($sha, 'read'), array($sha, 'write'), array($sha, 'destroy'), array($sha, 'gc'));
 				register_shutdown_function('session_write_close');
 			}
-			ini_set('session.save_handler', $config['save_handler']);
+			ini_set('session.save_handler', $config->handler);
 		}
 		session_start();
 	}
@@ -90,7 +76,7 @@ class Mmi_Session {
 	public static function getId() {
 		return session_id();
 	}
-	
+
 	/**
 	 * Pobiera przekształcony do integera identyfikator sesji
 	 * @return int

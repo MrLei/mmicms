@@ -8,7 +8,7 @@
  * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
  * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
  *
- * Mmi/Config2.php
+ * Mmi/Application_Config.php
  * @category   Mmi
  * @package    Mmi_Application
  * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
@@ -24,7 +24,7 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 
-class Mmi_Config2 {
+class Mmi_Application_Config {
 
 	/**
 	 * Charset
@@ -37,6 +37,12 @@ class Mmi_Config2 {
 	 * @var boolean
 	 */
 	public $debug = false;
+
+	/**
+	 * Bezwarunkowa kompilacja
+	 * @var boolean
+	 */
+	public $compile = true;
 
 	/**
 	 * Strefa czasowa

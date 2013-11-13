@@ -63,6 +63,14 @@ class Mmi_Controller_Router_Config {
 	}
 
 	/**
+	 * Zwraca wszystkie skonfigurowane routy
+	 * @return array
+	 */
+	public function getRoutes() {
+		return $this->_data;
+	}
+
+	/**
 	 * Sprawdza istnienie routy
 	 * @param string $name nazwa lub indeks
 	 * @return boolean

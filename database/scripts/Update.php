@@ -1,49 +1,20 @@
 <?php
 
-define('BASE_PATH', dirname(__FILE__) . '/../..');
-define('TMP_PATH', BASE_PATH . '/tmp');
-define('HOST', null);
+$path = realpath(dirname(__FILE__) . '/../../');
+require $path . '/library/Mmi/Application.php';
 
-//libraries
-include BASE_PATH . '/library/Mmi/Config.php';
-include BASE_PATH . '/library/Mmi/Registry.php';
-include BASE_PATH . '/library/Mmi/Dao.php';
-include BASE_PATH . '/library/Mmi/Dao/Record/Ro.php';
-include BASE_PATH . '/library/Mmi/Dao/Record.php';
-include BASE_PATH . '/library/Mmi/Db/Adapter/Pdo/Abstract.php';
-include BASE_PATH . '/library/MmiCms/Model/Changelog/Dao.php';
-include BASE_PATH . '/library/MmiCms/Model/Changelog/Record.php';
-
-//config
-include BASE_PATH . '/application/configs/application.php';
-include BASE_PATH . '/application/configs/local.php';
-
-//including proper driver
-$driver = $_['db']['driver'];
-include BASE_PATH . '/library/Mmi/Db/Adapter/Pdo/' . ucfirst($driver) . '.php';
-
-unset($_['db']['schema']);
-$_['cache']['active'] = false;
-Mmi_Config::setConfig($_);
-
-$adapter = 'Mmi_Db_Adapter_Pdo_' . ucfirst($driver);
-
-//database connection
-$db = new $adapter($_['db']);
-$db->setDefaultImportParams();
-
-//setting up the registry
-Mmi_Registry::set('Mmi_Db', $db);
+$application = new Mmi_Application($path, 'MmiCms_Application_Bootstrap_Commandline');
+$application->run();
 
 //incremental files check
-foreach (glob(BASE_PATH . '/database/' . $driver . '/incremental/*.sql') as $file) {
+foreach (glob(BASE_PATH . '/database/' . Default_Registry::$config->db->driver . '/incremental/*.sql') as $file) {
 	$md5file = md5_file($file);
 	$baseFileName = basename($file);
 	$schemaName = substr($baseFileName, strpos($baseFileName, '@') + 1, -4);
 
 	try {
 		//ustawianie schematu pliku importu
-		$db->selectSchema($schemaName);
+		Default_Registry::$db->selectSchema($schemaName);
 
 		//pobranie rekordu
 		$dc = MmiCms_Model_Changelog_Dao::findFirst(array('filename', basename($file)));
@@ -69,9 +40,9 @@ foreach (glob(BASE_PATH . '/database/' . $driver . '/incremental/*.sql') as $fil
 	}
 
 	//import danych
-	$result = $db->exec(file_get_contents($file));
+	$result = Default_Registry::$db->exec(file_get_contents($file));
 	if ($result === false) {
-		var_dump($db->getPdo()->errorInfo());
+		var_dump(Default_Registry::$db->getPdo()->errorInfo());
 		exit;
 	}
 	//tworzenie wpisu
