@@ -26,18 +26,17 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class MmiCms_Application_Bootstrap_Commandline extends MmiCms_Application_Bootstrap {
-	
+
 	public function __construct() {
-		
+
 		parent::__construct();
-		
+
 	}
 
 	/**
 	 * Uruchamianie bootstrapa - brak front kontrolera
 	 */
 	public function run() {
-		ob_start();
 		$front = Mmi_Controller_Front::getInstance();
 		$request = new Mmi_Controller_Request();
 		$request->setModuleName('default')
