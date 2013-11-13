@@ -35,7 +35,7 @@ class Mmi_View_Helper_Panel extends Mmi_View_Helper_Abstract {
 	public function __construct() {
 		parent::__construct();
 		$view = $this->view;
-		$elapsed = round(Mmi_Profiler::getElapsed(), 4) . 's';
+		$elapsed = round(Mmi_Profiler::elapsed(), 4) . 's';
 		$memory = round(memory_get_peak_usage() / (1024 * 1024), 2) . 'MB';
 		if ($this->view->getCache() === null || !$this->view->getCache()->isActive()) {
 			$cacheInfo = '<span style="color: #f22;">no cache</span>';
@@ -88,14 +88,17 @@ class Mmi_View_Helper_Panel extends Mmi_View_Helper_Abstract {
 		$html .= '<p style="margin: 0; padding: 0;">POST maximal size: <b>' . ini_get('post_max_size') . '</b></p>';
 		$html .= '</pre>';
 
-		$profiler = Mmi_Db_Profiler::getInstance();
-		$html .= '<p style="margin: 0px;">SQL queries: <b>' . $profiler->getTotalNumQueries() . '</b>, elapsed time: <b>' . round($profiler->getTotalElapsedSecs(), 4) . 's </b></p>';
+		$html .= '<p style="margin: 0px;">SQL queries: <b>' . Mmi_Db_Profiler::count() . '</b>, elapsed time: <b>' . round(Mmi_Db_Profiler::elapsed(), 4) . 's </b></p>';
 		$i = 0;
 		$html .= '<pre style="white-space: normal; word-wrap: break-word; margin: 0px 0px 10px 0px; color: #ddd; background: #222; padding: 3px; border: 1px solid #666;">';
-		if ($profiler->getTotalNumQueries() > 0) {
-			foreach ($profiler->getQueryProfiles() as $query) {
+		if (Mmi_Db_Profiler::count() > 0) {
+			foreach (Mmi_Db_Profiler::get() as $query) {
 				$i++;
-				$html .= $i . '. (<strong style="color: #ddd;">' . round($query['elapsed'], 4) . 's</strong>) - ' . $this->colorify($query['query']) . '<br />';
+				$color = $query['percent'] * 15;
+				$color = ($color + 80) > 255 ? 255 : $color + 80;
+				$color = dechex($color);
+				$color = $color . '9933';
+				$html .= $i . '. (<strong style="color: #' .$color. ';">' . round($query['elapsed'], 4) . 's</strong>) - ' . $this->colorify($query['name']) . '<br />';
 			}
 		} else {
 			$html .= 'No SQL queries.';
