@@ -137,7 +137,7 @@ class Mail_Model_Dao extends Mmi_Dao {
 				}
 				$result['success']++;
 			} catch (Exception $e) {
-				Mmi_Controller_Front::getInstance()->getBootstrap()->logException($e);
+				Mmi_Exception_Logger::log($e);
 				$result['error']++;
 			}
 		}
