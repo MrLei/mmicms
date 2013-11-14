@@ -35,12 +35,6 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	protected $_pdo;
 
 	/**
-	 * Profiler bazodanowy
-	 * @var Mmi_Db_Profiler
-	 */
-	protected $_profiler;
-
-	/**
 	 * Konfiguracja
 	 * @var Mmi_Db_Config
 	 */
@@ -118,7 +112,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 		$this->_config = $config;
 		$this->_connected = false;
 	}
-	
+
 	/**
 	 * Zwraca konfigurację
 	 * @return Mmi_Db_Config
@@ -145,10 +139,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 */
 	public function connect() {
 		if ($this->_config->profiler) {
-			$this->_profiler = Mmi_Db_Profiler::getInstance();
-		}
-		if ($this->_config->profiler) {
-			$this->_profiler->event('CONNECT WITH: ' . get_class($this), 0);
+			Mmi_Db_Profiler::event('CONNECT WITH: ' . get_class($this), 0);
 		}
 		$this->_pdo = new PDO(
 						$this->_config->driver . ':host=' . $this->_config->host . ';port=' . $this->_config->port . ';dbname=' . $this->_config->name, $this->_config->user, $this->_config->password,
@@ -224,9 +215,9 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 		if ($this->_config->profiler) {
 			$qs = $statement->queryString;
 			if (!empty($bind)) {
-				$qs .= "\n" . print_r($bind, true);
+				$qs .= "\n(" . http_build_query($bind) . ')';
 			}
-			$this->_profiler->event($qs, microtime(true) - $start);
+			Mmi_Db_Profiler::event($qs, microtime(true) - $start);
 		}
 		return $statement;
 	}

@@ -54,25 +54,25 @@ class Mmi_Profiler {
 	/**
 	 * Dodaje zdarzenie
 	 * @param string $name nazwa
-	 * @return null
+	 * @param string $elapsed opcjonalnie czas operacji
 	 */
-	public static function event($name) {
-		if (!self::$_enabled) {
+	public static function event($name, $elapsed = null) {
+		if (!static::$_enabled) {
 			return;
 		}
 		$time = microtime(true);
-		if (self::$_counter > 0) {
-			$elapsed = $time - self::$_data[self::$_counter-1]['time'];
-		} else {
+		if ($elapsed === null && static::$_counter > 0) {
+			$elapsed = $time - static::$_data[static::$_counter - 1]['time'];
+		} elseif ($elapsed === null) {
 			$elapsed = 0;
 		}
-		self::$_data[self::$_counter] = array(
+		static::$_data[self::$_counter] = array(
 			'name' => $name,
 			'time' => $time,
 			'elapsed' => $elapsed,
 		);
-		self::$_elapsed += $elapsed;
-		self::$_counter++;
+		static::$_elapsed += $elapsed;
+		static::$_counter++;
 	}
 
 	/**
@@ -80,27 +80,38 @@ class Mmi_Profiler {
 	 * @param boolean $enabled
 	 * @return boolean
 	 */
-	public static function setEnabled($enabled = true) {
-		return (self::$_enabled = $enabled);
+	public static final function setEnabled($enabled = true) {
+		return (static::$_enabled = $enabled);
 	}
 
 	/**
 	 * Pobiera dane z profilera
 	 * @return array
 	 */
-	public static function get() {
-		foreach (self::$_data as $key => $item) {
-			self::$_data[$key]['percent'] = 100 * $item['elapsed'] / self::$_elapsed;
+	public static final function get() {
+		if (static::$_elapsed == 0) {
+			return static::$_data;
 		}
-		return self::$_data;
+		foreach (static::$_data as $key => $item) {
+			static::$_data[$key]['percent'] = 100 * $item['elapsed'] / static::$_elapsed;
+		}
+		return static::$_data;
+	}
+
+	/**
+	 * Zwraca ilość zdarzeń w profilerze
+	 * @return int
+	 */
+	public static final function count() {
+		return static::$_counter;
 	}
 
 	/**
 	 * Pobiera sumaryczny czas wszystkich zdarzeń
 	 * @return int
 	 */
-	public static function getElapsed() {
-		return self::$_elapsed;
+	public static final function elapsed() {
+		return static::$_elapsed;
 	}
 
 }

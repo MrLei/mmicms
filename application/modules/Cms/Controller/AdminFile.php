@@ -12,20 +12,20 @@ class Cms_Controller_AdminFile extends MmiCms_Controller_Admin {
 		}
 		$file = new Cms_Model_File_Record($this->_getParam('id'));
 		if ($this->_getParam('hash') != substr($file->name, 0, 10)) {
-			die($this->view->_('Przypinanie nie powiodło się'));
+			die($this->view->getTranslate()->_('Przypinanie nie powiodło się'));
 		}
 		$file->setSticky();
 		die();
 	}
-	
+
 	public function editAction() {
 		if (!($this->_getParam('id') > 0)) {
-			die($this->view->_('Edycja nie powiodła się, brak pliku'));
+			die($this->view->getTranslate()->_('Edycja nie powiodła się, brak pliku'));
 		}
 		$file = new Cms_Model_File_Record($this->_getParam('id'));
 		if (!empty($_POST)) {
 			if ($this->_getParam('hash') != $file->getHashName()) {
-				die($this->view->_('Edycja nie powiodła się'));
+				die($this->view->getTranslate()->_('Edycja nie powiodła się'));
 			}
 			$file->setFromArray($_POST);
 			$file->save();
@@ -49,11 +49,11 @@ class Cms_Controller_AdminFile extends MmiCms_Controller_Admin {
 
 	public function deleteAction() {
 		if (!($this->_getParam('id') > 0)) {
-			die($this->view->_('Usuwanie nie powiodło się, brak pliku'));
+			die($this->view->getTranslate()->_('Usuwanie nie powiodło się, brak pliku'));
 		}
 		$file = new Cms_Model_File_Record($this->_getParam('id'));
 		if ($this->_getParam('hash') != $file->getHashName()) {
-			die($this->view->_('Usuwanie nie powiodło się'));
+			die($this->view->getTranslate()->_('Usuwanie nie powiodło się'));
 		}
 		$file->delete();
 		die();
@@ -61,11 +61,11 @@ class Cms_Controller_AdminFile extends MmiCms_Controller_Admin {
 
 	public function sortAction() {
 		if (!$this->_getParam('order')) {
-			die($this->view->_('Przenoszenie nie powiodło się'));
+			die($this->view->getTranslate()->_('Przenoszenie nie powiodło się'));
 		}
 		parse_str(str_replace('&amp;', '&', $this->_getParam('order')), $order);
 		if (!isset($order['item-file'])) {
-			die($this->view->_('Przenoszenie nie powiodło się'));
+			die($this->view->getTranslate()->_('Przenoszenie nie powiodło się'));
 		}
 		Cms_Model_File_Dao::sortBySerial($order['item-file']);
 		die();

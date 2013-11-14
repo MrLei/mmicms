@@ -24,76 +24,30 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 
-class Mmi_Db_Profiler {
+class Mmi_Db_Profiler extends Mmi_Profiler {
 
 	/**
-	 * Instancja
-	 * @var Mmi_Db_Profiler
-	 */
-	private static $_instance;
-
-	/**
-	 * Dane zapytań
+	 * Dane profilera
 	 * @var array
 	 */
-	private $_data = array();
+	protected static $_data = array();
 
 	/**
-	 * Ilość zapytan
+	 * Licznik
 	 * @var int
 	 */
-	private $_numQueries = 0;
+	protected static $_counter = 0;
 
 	/**
-	 * Sumaryczny czas
-	 * @var float
+	 * Licznik czasu
+	 * @var int
 	 */
-	private $_elapsed = 0;
+	protected static $_elapsed = 0;
 
 	/**
-	 * Pobiera instancję
-	 * @return Mmi_Db_Profiler
+	 * Profiler włączony
+	 * @var boolean
 	 */
-	public static function getInstance() {
-		if (null === self::$_instance) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
-
-	/**
-	 * Dodaje zdarzenie
-	 * @param string $query zapytanie
-	 * @param int $elapsed czas wykonania
-	 */
-	public function event($query, $elapsed) {
-		$this->_data[] = array('query' => $query, 'elapsed' => $elapsed);
-		$this->_elapsed += $elapsed;
-		$this->_numQueries++;
-	}
-
-	/**
-	 * Pobiera ilość zapytań
-	 * @return int
-	 */
-	public function getTotalNumQueries() {
-		return $this->_numQueries;
-	}
-
-	/**
-	 * Pobiera długość wszystkich zapytań
-	 * @return int
-	 */
-	public function getTotalElapsedSecs() {
-		return $this->_elapsed;
-	}
-
-	/**
-	 * Pobiera dane o zapytaniach
-	 * @return array
-	 */
-	public function getQueryProfiles() {
-		return $this->_data;
-	}
+	protected static $_enabled = true;
 
 }
