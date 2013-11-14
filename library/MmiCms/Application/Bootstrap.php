@@ -57,7 +57,7 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		require LIB_PATH . '/Mmi/View/Helper/Messenger.php';
 		require LIB_PATH . '/Mmi/View/Helper/Translate.php';
 		require LIB_PATH . '/Mmi/View/Helper/Url.php';
-		
+
 		require LIB_PATH . '/MmiCms/Config.php';
 		require LIB_PATH . '/MmiCms/Controller/Plugin.php';
 		require LIB_PATH . '/MmiCms/Media/Config.php';
@@ -117,7 +117,7 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		$translate->setLocale($config->application->languages[0]);
 		//przypinanie translatora do helpera widoku
 		Mmi_View_Helper_Translate::setTranslate($translate);
-		
+
 		//konfiguracja widoku
 		$view = Mmi_View::getInstance();
 		$view->setCache(Default_Registry::$cache);
