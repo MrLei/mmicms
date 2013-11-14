@@ -370,7 +370,7 @@ class Mmi_View {
 		//opcjonalne uruchomienie panelu deweloperskiego
 		if ($this->_debug) {
 			Mmi_Profiler::event('Debugger started');
-			new Mmi_View_Helper_Panel();
+			new Mmi_View_Helper_Debug();
 		}
 	}
 
