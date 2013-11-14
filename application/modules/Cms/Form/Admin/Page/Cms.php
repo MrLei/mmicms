@@ -46,8 +46,8 @@ class Cms_Form_Admin_Page_Cms extends Mmi_Form {
 
 		//system object
 		$this->addElement('select', 'object', array(
-			'label' => $this->getTranslator()->_('Obiekt CMS'),
-			'description' => $this->getTranslator()->_('Istniejące obiekty CMS'),
+			'label' => $this->getTranslate()->_('Obiekt CMS'),
+			'description' => $this->getTranslate()->_('Istniejące obiekty CMS'),
 			'required' => true,
 			'id' => 'objectId',
 		));
