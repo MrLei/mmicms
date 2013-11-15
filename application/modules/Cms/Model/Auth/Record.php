@@ -49,7 +49,7 @@ class Cms_Model_Auth_Record extends Mmi_Dao_Record {
 		if ($this->username == null || $this->password == null) {
 			return false;
 		}
-		$auth = Mmi_Auth::getInstance();
+		$auth = Default_Registry::$auth;
 		$auth->setModelName('Cms_Model_Auth');
 		$auth->setIdentity($this->username);
 		$auth->setCredential($this->password);

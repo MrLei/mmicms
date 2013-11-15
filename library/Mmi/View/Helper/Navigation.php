@@ -119,6 +119,12 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	 * @var Mmi_Acl
 	 */
 	private static $_acl;
+	
+	/**
+	 * Obiekt Auth
+	 * @var Mmi_Auth
+	 */
+	private static $_auth;
 
 	/**
 	 * Ustawia obiekt nawigatora
@@ -128,6 +134,16 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	public static function setNavigation(Mmi_Navigation $navigation) {
 		self::$_navigation = $navigation;
 		return $navigation;
+	}
+	
+	/**
+	 * Ustawia obiekt autoryzacji
+	 * @param Mmi_Auth $auth
+	 * @return \Mmi_Auth
+	 */
+	public static function setAuth(Mmi_Auth $auth) {
+		self::$_auth = $auth;
+		return $auth;
 	}
 
 	/**
@@ -551,14 +567,15 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 		if (empty($tree) || !isset($tree['children'])) {
 			return '';
 		}
+		$aclCheck = (self::$_auth instanceof Mmi_Auth && self::$_acl instanceof Mmi_Acl);
 		$menu = $tree['children'];
 		//przygotowanie menu do wyświetlenia: usunięcie niedozwolonych i nieaktywnych elementów
 		foreach ($menu as $key => $leaf) {
 			if (!$leaf['module']) {
 				$leaf['module'] = 'default';
 			}
-			if ($this->_allowedOnly && $leaf['type'] != 'link' && self::$_acl instanceof Mmi_Acl) {
-				$allowed = self::$_acl->isAllowed(Mmi_Auth::getInstance()->getRoles(), strtolower($leaf['module'] . ':' . $leaf['controller'] . ':' . $leaf['action']));
+			if ($this->_allowedOnly && $leaf['type'] != 'link' && $aclCheck) {
+				$allowed = self::$_acl->isAllowed(self::$_auth->getRoles(), strtolower($leaf['module'] . ':' . $leaf['controller'] . ':' . $leaf['action']));
 			} else {
 				$allowed = true;
 			}

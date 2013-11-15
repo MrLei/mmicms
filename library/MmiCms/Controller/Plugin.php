@@ -66,8 +66,13 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		}
 		$jsRequest = "		var request = {\n		" . implode(",\n		", $jsReqestArray) . "\n		};";
 		$view->headScript()->appendScript($jsRequest);
-		$auth = Mmi_Auth::getInstance();
+		
+		//konfiguracja autoryzacji
+		$auth = new Mmi_Auth();
+		$auth->setSalt(Default_Registry::$config->application->salt);
 		$auth->setModelName(Default_Registry::$config->session->authModel ? Default_Registry::$config->session->authModel : 'Cms_Model_Auth');
+		Default_Registry::$auth = $auth;
+
 		$cookie = new Mmi_Http_Cookie();
 		$remember = Default_Registry::$config->session->authRemember ? Default_Registry::$config->session->authRemember : 0;
 		if ($remember > 0 && !$auth->hasIdentity() && $cookie->match('remember')) {
@@ -90,10 +95,11 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		}
 
 		Mmi_Controller_Action_Helper_Action::setAcl($acl);
+		Mmi_Controller_Action_Helper_Action::setAuth($auth);
 		Default_Registry::$acl = $acl;
 
 		//zablokowane na ACL
-		if (!$acl->isAllowed(Mmi_Auth::getInstance()->getRoles(), strtolower($request->getModuleName() . ':' . $request->getControllerName() . ':' . $request->getActionName()))) {
+		if (!$acl->isAllowed($auth->getRoles(), strtolower($request->getModuleName() . ':' . $request->getControllerName() . ':' . $request->getActionName()))) {
 			if ($auth->hasIdentity()) {
 				$request->setModuleName('default');
 				$request->setControllerName('error');
@@ -117,6 +123,7 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		$navigation->setup($request);
 		//przypinanie nawigatora do helpera widoku nawigacji
 		Mmi_View_Helper_Navigation::setAcl($acl);
+		Mmi_View_Helper_Navigation::setAuth($auth);
 		Mmi_View_Helper_Navigation::setNavigation($navigation);
 	}
 

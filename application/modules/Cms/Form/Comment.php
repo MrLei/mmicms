@@ -26,7 +26,7 @@ class Cms_Form_Comment extends Mmi_Form {
 			));
 		}
 
-		if (!Mmi_Auth::getInstance()->hasIdentity()) {
+		if (!Default_Registry::$auth->hasIdentity()) {
 			$this->addElement('text', 'signature', array(
 				'label' => 'podpis'
 			));
