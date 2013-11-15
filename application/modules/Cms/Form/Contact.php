@@ -18,7 +18,7 @@ class Cms_Form_Contact extends Mmi_Form {
 			));
 		}
 
-		$auth = Mmi_Auth::getInstance();
+		$auth = Default_Registry::$auth;
 		$this->addElement('text', 'email', array(
 			'label' => 'Twój adres e-mail',
 			'value' => $auth->getEmail(),

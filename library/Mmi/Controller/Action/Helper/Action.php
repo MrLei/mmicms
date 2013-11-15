@@ -33,6 +33,12 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 	 * @var Mmi_Acl
 	 */
 	protected static $_acl;
+	
+	/**
+	 * Obiekt Auth
+	 * @var Mmi_Auth
+	 */
+	protected static $_auth;
 
 	/**
 	 * Ustawia obiekt ACL
@@ -42,6 +48,16 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 	public static function setAcl(Mmi_Acl $acl) {
 		self::$_acl = $acl;
 		return $acl;
+	}
+	
+	/**
+	 * Ustawia obiekt autoryzacji
+	 * @param Mmi_Auth $auth
+	 * @return \Mmi_Auth
+	 */
+	public static function setAuth(Mmi_Auth $auth) {
+		self::$_auth = $auth;
+		return $auth;
 	}
 
 	/**
@@ -89,10 +105,11 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 	 * @return boolean
 	 */
 	protected function _checkAcl($module, $controller, $action) {
-		if (self::$_acl === null) {
+		if (self::$_acl === null || self::$_auth === null) {
 			return true;
 		}
-		return self::$_acl->isAllowed(Mmi_Auth::getInstance()->getRoles(), $module . ':' . $controller . ':' . $action);
+		$roles = self::$_auth->getRoles();
+		return self::$_acl->isAllowed($roles, $module . ':' . $controller . ':' . $action);
 	}
 
 }

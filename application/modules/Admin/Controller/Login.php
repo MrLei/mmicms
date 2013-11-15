@@ -19,7 +19,7 @@ class Admin_Controller_Login extends Mmi_Controller_Action {
 	}
 	
 	public function logoutAction() {
-		Mmi_Auth::getInstance()->clearIdentity();
+		Default_Registry::$auth->clearIdentity();
 		Stat_Model_Dao::hit('admin_logout');
 		$this->_helper->messenger('Dziękujemy za skorzystanie z serwisu, wylogowanio poprawnie');
 		$this->_helper->redirector('index', 'index', 'admin', array(), true);

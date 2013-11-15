@@ -73,9 +73,9 @@ class Cms_Model_Auth implements Mmi_Auth_Model_Interface {
 	public static function deauthenticate() {
 		Cms_Model_Log_Dao::add('logout', array(
 			'object' => 'cms_auth',
-			'objectId' => Mmi_Auth::getInstance()->getId(),
+			'objectId' => Default_Registry::$auth->getId(),
 			'success' => true,
-			'message' => 'LOGGED OUT: ' . Mmi_Auth::getInstance()->getUsername()
+			'message' => 'LOGGED OUT: ' . Default_Registry::$auth->getUsername()
 		));
 	}
 

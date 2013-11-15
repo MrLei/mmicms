@@ -6,7 +6,7 @@ class Cms_Model_Contact_Record extends Mmi_Dao_Record {
 		$this->dateAdd = date('Y-m-d H:i:s');
 		$this->ip = $_SERVER['REMOTE_ADDR'];
 		$this->active = 1;
-		$auth = Mmi_Auth::getInstance();
+		$auth = Default_Registry::$auth;
 		if ($auth->hasIdentity()) {
 			$this->cms_auth_id = $auth->getId();
 		}
@@ -27,7 +27,7 @@ class Cms_Model_Contact_Record extends Mmi_Dao_Record {
 			'replyText' => $this->reply
 		));
 		$this->active = 0;
-		$this->cms_auth_id_reply = Mmi_Auth::getInstance()->getId();
+		$this->cms_auth_id_reply = Default_Registry::$auth->getId();
 		return $this->save();
 	}
 

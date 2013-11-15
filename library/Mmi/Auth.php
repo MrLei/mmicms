@@ -26,12 +26,6 @@
 class Mmi_Auth {
 
 	/**
-	 * Instancja
-	 * @var Mmi_Auth
-	 */
-	private static $_instance;
-
-	/**
 	 * Przestrzeń nazw w sesji przeznaczona dla autoryzacji
 	 * @var string
 	 */
@@ -68,20 +62,9 @@ class Mmi_Auth {
 	private $_salt;
 
 	/**
-	 * Pobiera instancję
-	 * @return \Mmi_Auth
-	 */
-	public static function getInstance() {
-		if (null === self::$_instance) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
-
-	/**
 	 * Kostruktor, tworzy przestrzeń w sesji
 	 */
-	protected function __construct() {
+	public function __construct() {
 		$this->_session = new Mmi_Session_Namespace($this->_namespace);
 	}
 
