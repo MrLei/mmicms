@@ -49,7 +49,7 @@ class Mmi_Filter_Ascii extends Mmi_Filter_Abstract {
 			'ъ' => '', 'ы' => 'y', 'ь' => '', 'э' => 'e', 'ю' => 'yu',
 			'я' => 'ya', '–' => '-');
 		$value = strtr($value, $ruMap);
-		$value = iconv('UTF-8', 'ASCII//TRANSLIT', $value);
+		$value = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $value);
 		$value = preg_replace("/[^a-zA-Z0-9\/\,_|+ -]/", '', $value);
 		return $value;
 	}
