@@ -548,9 +548,8 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 		$where .= ' ' . $table . $this->prepareField($rule[0]);
 
 		if (is_array($rule[1])) {
-			if ($rule[2] == '=') {
-				$rule[2] = 'IN';
-			} elseif ($rule[2] == '<>') {
+			$rule[2] = 'IN';
+			if ($rule[2] == '<>') {
 				$rule[2] = 'NOT IN';
 			}
 			$where .= ' ' . $rule[2] . ' (';
