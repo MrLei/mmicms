@@ -9,12 +9,12 @@ class Cms_Form_Admin_Container_Template_Placeholder_Container extends Mmi_Form {
 		if (!$this->getRecord()->cms_container_id) {
 			$this->getRecord()->cms_container_id = $this->getOption('containerId');
 		}
-		$container = Cms_Model_Container_Dao::findFirst(array('id', $this->getRecord()->cms_container_id));
+		$container = Cms_Model_Container_Dao::findPk($this->getRecord()->cms_container_id);
 
 		$this->addElement('select', 'cms_container_template_placeholder_id', array(
 			'label' => 'nazwa placeholdera',
 			'required' => true,
-			'multiOptions' => Cms_Model_Container_Template_Placeholder_Dao::findPairs('id', 'name', array('cms_container_template_id', $container->cms_container_template_id)),
+			'multiOptions' => Cms_Model_Container_Template_Placeholder_Dao::findPairs('id', 'name', $container->cms_container_template_id),
 			'validators' => array('NotEmpty'),
 		));
 

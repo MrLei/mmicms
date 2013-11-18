@@ -134,7 +134,7 @@ class Mmi_Application {
 	 * @return boolean
 	 */
 	public function exceptionHandler(Exception $exception) {
-		@ob_clean();
+		ob_clean();
 		//@TODO: uzależnić od środowiska
 		$position = Mmi_Exception_Logger::log($exception);
 		try {
@@ -149,7 +149,7 @@ class Mmi_Application {
 			$view->setPlaceholder('content', $actionHelper->action('default', 'error', 'index', array(), true));
 			$view->displayLayout($view->skin, 'default', 'error');
 		} catch (Exception $e) {
-			echo '<html><body><h1>' . $exception->getMessage() . '</h1>' . nl2br($exception->getTraceAsString()) . '</body></html>';
+			echo '<html><body><h1>' . $exception->getMessage() . '</h1>' . nl2br($exception->getTraceAsString()) . '<h2>'. $e->getMessage() . '</h2></body></html>';
 		}
 		return true;
 	}

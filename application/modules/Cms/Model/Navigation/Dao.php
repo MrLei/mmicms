@@ -10,11 +10,20 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 	 */
 	protected static $_nested;
 
+	public static function findArticleByUri($uri) {
+		$q = self::getNewQuery();
+		$q->andField('module')->eqals('cms')
+				->andField('controller')->eqals('article')
+				->andField('action')->eqals('index')
+				->andField('params')->eqals('uri=' . $this->url);
+		return Cms_Model_Navigation_Dao::findFirst($q);
+	}
+	
 	public static function seek($id) {
 		self::_initNested();
 		return self::$_nested->seek($id);
 	}
-
+	
 	public static function getMultiOptions() {
 		self::_initNested(true);
 		$multiOptions = array();

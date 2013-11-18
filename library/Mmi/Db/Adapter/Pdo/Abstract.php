@@ -371,8 +371,8 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 				$targetTable = isset($condition[2]) ? $condition[2] : $table;
 				$joinType = isset($condition[3]) ? $condition[3] : 'JOIN';
 				$sql .= ' ' . $joinType . ' ' . $this->prepareTable($joinTable) . ' ON ' .
-						$this->prepareTable($joinTable) . '.' . $condition[0] .
-						' = ' . $this->prepareTable($targetTable) . '.' . $condition[1];
+						$this->prepareTable($joinTable) . '.' . $this->prepareField($condition[0]) .
+						' = ' . $this->prepareTable($targetTable) . '.' . $this->prepareField($condition[1]);
 			}
 		}
 		$sql .= $where['sql'] . $this->_parseOrderBind($orderBind, $table) . $this->prepareLimit($limit, $offset);
