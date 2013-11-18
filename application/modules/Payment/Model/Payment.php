@@ -5,27 +5,27 @@ class Payment_Model_Payment extends Mmi_Model {
 	protected $_tableName = 'payment';
 
 	public function getMy($limit = 10, $offset = 0) {
-		$id = Mmi_Auth::getInstance()->getId();
+		$id = Default_Registry::$auth->getId();
 		if (!($id > 0)) {
 			return;
 		}
 		return parent::getAll(array('cms_auth_id', $id), array('dateAdd', 'DESC'), $limit, $offset);
 	}
-	
+
 	public function getAllAccepted() {
 		return $this->getAll(array(
 			array('status', 3)
 		));
 	}
-	
+
 	public function getCountMy() {
-		$id = Mmi_Auth::getInstance()->getId();
+		$id = Default_Registry::$auth->getId();
 		if (!($id > 0)) {
 			return;
 		}
 		return parent::getCount(array('cms_auth_id', $id));
-	}	
-	
+	}
+
 	public function addPayment($cmsAuthId, $configName, $value, $text) {
 		$this->cms_auth_id = $cmsAuthId;
 		$config = new Payment_Model_Config();
@@ -48,9 +48,9 @@ class Payment_Model_Payment extends Mmi_Model {
 		$id = $this->save();
 		$auth = new Cms_Model_Auth($cmsAuthId);
 		Mail_Model_Mail::pushEmail('payment_started', $auth->email, $this->toArray());
-		return $id; 
+		return $id;
 	}
-	
+
 	public function regenerateSessionId() {
 		if (!($this->getId() > 0)) {
 			return;
@@ -59,7 +59,7 @@ class Payment_Model_Payment extends Mmi_Model {
 		$this->sessionId = md5($this->ip . $this->text . $this->cms_auth_id . microtime(true));
 		return $this->save();
 	}
-	
+
 	public function verifyTransactions() {
 		$effect = array('accepted' => 0, 'rejected' => 0, 'errors' => 0);
 		$client = new SoapClient('https://www.platnosci.pl/paygw/webapi/Payments?wsdl');
@@ -71,7 +71,7 @@ class Payment_Model_Payment extends Mmi_Model {
 			$auth = new Cms_Model_Auth($payment->cms_auth_id);
 			$config = new Payment_Model_Config($payment->payment_config_id);
 			$result = $client->get($config->shopId, $payment->sessionId, $ts, md5($config->shopId . $payment->sessionId . (string)$ts . $config->key1));
-			$valueMatch = (100*$payment->value) == $result->transAmount; 
+			$valueMatch = (100*$payment->value) == $result->transAmount;
 			$signatureMatch = ($result->transSig == md5($config->shopId . $payment->sessionId . $payment->id . $result->transStatus . $result->transAmount . $result->transDesc . $result->transTs . $config->key2));
 			if (!$signatureMatch) {
 				$effect['errors']++;
@@ -98,11 +98,11 @@ class Payment_Model_Payment extends Mmi_Model {
 		}
 		return $effect;
 	}
-	
+
 	public function addMyPayment($configName, $value, $text) {
-		return $this->addPayment(Mmi_Auth::getInstance()->getId(), $configName, $value, $text);
+		return $this->addPayment(Default_Registry::$auth->getId(), $configName, $value, $text);
 	}
-	
+
 	public function updateStatus(array $params) {
 		if (!isset($params['pos_id']) || !isset($params['ts']) || !isset($params['session_id']) || !isset($params['sig'])) {
 			Mmi_Log::add('payU missing params', $params);
