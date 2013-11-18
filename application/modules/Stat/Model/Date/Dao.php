@@ -5,14 +5,16 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 	public static $_tableName = 'stat_date';
 
 	public static function getOne($object, $objectId, $year = null, $month = null, $day = null, $hour = null) {
-		$stat = self::findFirst(array(
-				self::_bindParam('year', $year),
-				self::_bindParam('month', $month),
-				self::_bindParam('day', $day),
-				self::_bindParam('hour', $hour),
-				array('object', $object),
-				array('objectId', $objectId)
-			));
+		$q = self::getNewQuery();
+		$q->andField('object')->eqals($object)
+				->andField('objectId')->eqals($objectId);
+
+		self::_bindParam($q, 'year', $year);
+		self::_bindParam($q, 'month', $month);
+		self::_bindParam($q, 'day', $day);
+		self::_bindParam($q, 'hour', $hour);
+		
+		$stat = self::findFirst($q);
 		if (!($stat->count > 0)) {
 			return 0;
 		}
@@ -20,20 +22,21 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 	}
 
 	public static function getRows($object, $objectId, $year = null, $month = null, $day = null, $hour = null) {
-		return self::find(array(
-				self::_bindParam('year', $year),
-				self::_bindParam('month', $month),
-				self::_bindParam('day', $day),
-				self::_bindParam('hour', $hour),
-				array('object', $object),
-				array('objectId', $objectId)
-				), array(
-				array('day'),
-				array('month'),
-				array('year'),
-				array('hour')
-				)
-		);
+		$q = self::getNewQuery();
+		$q->andField('object')->eqals($object)
+				->andField('objectId')->eqals($objectId);
+
+		self::_bindParam($q, 'year', $year);
+		self::_bindParam($q, 'month', $month);
+		self::_bindParam($q, 'day', $day);
+		self::_bindParam($q, 'hour', $hour);
+		
+		$q->orderAsc('day')
+				->orderAsc('month')
+				->orderAsc('year')
+				->orderAsc('hour');
+
+		return self::find($q);
 	}
 
 	public static function avgHourly($object, $objectId, $year, $month) {
@@ -235,12 +238,13 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 	}
 
 	public static function findUniqueObjects() {
-		$all = self::find(array(
-				array('hour', null),
-				array('day', null),
-				array('month', null),
-				array('objectId', null)
-				), array('object'));
+		$q = self::getNewQuery();
+		$q->andField('hour')->eqals(null)
+				->andField('day')->eqals(null)
+				->andField('month')->eqals(null)
+				->andField('objectId')->eqals(null)
+				->orderAsc('object');
+		$all = self::find($q);
 		$objects = array();
 		foreach ($all as $object) {
 			if (!isset($objects[$object->object])) {
@@ -250,11 +254,13 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 		return $objects;
 	}
 
-	protected static function _bindParam($name, $value) {
+	protected static function _bindParam(Mmi_Dao_Query $q, $name, $value) {
 		if ($value === true) {
-			return array($name, null, '!=');
+			$q->andField($name)->notEquals(null);
+			return;
 		}
-		return array($name, $value);
+		$q->andField($name)->$value;
+		return;
 	}
 
 }

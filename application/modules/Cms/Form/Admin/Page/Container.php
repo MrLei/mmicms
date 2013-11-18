@@ -45,7 +45,7 @@ class Cms_Form_Admin_Page_Container extends Mmi_Form {
 			'label' => 'Niezależne meta'
 		));
 
-		$options = array(null => '---') + Cms_Model_Container_Dao::findPairs('id', 'title', array(), array('title'));
+		$options = array(null => '---') + Cms_Model_Container_Dao::findPairs('id', 'title', Cms_Model_Container_Dao::getNewQuery()->orderAsc('title'));
 
 		$this->addElement('select', 'container_id', array(
 			'label' => 'Kontener',

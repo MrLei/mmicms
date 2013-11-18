@@ -15,7 +15,9 @@ class Stat_Model_Dao extends Mmi_Dao {
 	public static function agregate() {
 		$start = microtime(true);
 		$processed = 0;
-		foreach (self::find(array(), array(), 10000) as $item) {
+		$q = self::getNewQuery();
+		$q->limit(10000);
+		foreach (self::find($q) as $item) {
 			$processed++;
 			$dateTime = explode(' ', $item->dateTime);
 			$date = explode('-', $dateTime[0]);
@@ -60,14 +62,14 @@ class Stat_Model_Dao extends Mmi_Dao {
 	}
 
 	protected static function _push($object, $objectId, $hour, $day, $month, $year) {
-		$o = Stat_Model_Date_Dao::findFirst(array(
-				array('object', $object),
-				array('objectId', $objectId),
-				array('hour', $hour),
-				array('day', $day),
-				array('month', $month),
-				array('year', $year),
-			));
+		$q = self::getNewQuery();
+		$q->andField('object')->eqals($object)
+				->andField('objectId')->eqals($objectId)
+				->andField('hour')->eqals($hour)
+				->andField('day')->eqals($day)
+				->andField('month')->eqals($month)
+				->andField('year')->eqals($year);
+		$o = Stat_Model_Date_Dao::findFirst($q);
 		if ($o === null) {
 			$o = new Stat_Model_Date_Record();
 		}
