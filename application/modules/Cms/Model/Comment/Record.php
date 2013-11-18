@@ -4,7 +4,7 @@ class Cms_Model_Comment_Record extends Mmi_Dao_Record {
 
 	protected function _insert() {
 		$this->dateAdd = date('Y-m-d H:i:s');
-		$auth = Mmi_Auth::getInstance();
+		$auth = Default_Registry::$auth;
 		if ($auth->hasIdentity()) {
 			$this->signature = $auth->getUsername();
 			$this->cms_auth_id = $auth->getId();

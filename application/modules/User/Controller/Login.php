@@ -25,7 +25,7 @@ class User_Controller_Login extends Mmi_Controller_Action {
 
 
 	public function logoutAction() {
-		Mmi_Auth::getInstance()->clearIdentity();
+		Default_Registry::$auth->clearIdentity();
 		$this->_helper->messenger('Wylogowano poprawnie');
 		$this->_helper->redirector()->gotoUrl($this->getRequest()->getReferer());
 	}

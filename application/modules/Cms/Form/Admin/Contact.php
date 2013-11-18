@@ -20,7 +20,7 @@ class Cms_Form_Admin_Contact extends Mmi_Form {
 		$this->addElement('text', 'email', array(
 			'label' => 'e-mail',
 			'disabled' => true,
-			'value' => Mmi_Auth::getInstance()->getEmail(),
+			'value' => Default_Registry::$auth->getEmail(),
 			'validators' => array(
 				array('validator' => 'EmailAddress'),
 			)

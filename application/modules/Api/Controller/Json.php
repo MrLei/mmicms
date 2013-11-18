@@ -8,7 +8,7 @@ class Api_Controller_Json extends Mmi_Controller_Action {
 			//prywatny serwer
 			if (isset($_SERVER['PHP_AUTH_USER'])) {
 				$apiModel .= '_Private';
-				$auth = Mmi_Auth::getInstance();
+				$auth = Default_Registry::$auth;
 				$auth->setModel(new $apiModel);
 				$auth->httpAuth('Private API', 'Access denied!');
 			}

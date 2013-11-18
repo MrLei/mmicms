@@ -9,7 +9,7 @@ class Payment_Model_Config extends Mmi_Model {
 			return;
 		}
 		$this->amount = $payment->value*100;
-		$auth = Mmi_Auth::getInstance();
+		$auth = Default_Registry::$auth;
 		$this->email = $auth->getEmail();
 		$profile = new User_Model_Profile($auth->getId());
 		$name = explode(' ', $profile->name);
@@ -17,5 +17,5 @@ class Payment_Model_Config extends Mmi_Model {
 		$this->surname = (count($name > 1) && isset($name[count($name) - 1])) ? $name[count($name) - 1] : '';
 		$this->desc = substr($payment->text, 0, 50);
 	}
-	
+
 }

@@ -8,7 +8,7 @@ class Admin_Form_Password extends Mmi_Form {
 	public function init() {
 		
 		//ustawienie użytkownika w rekordzie
-		$this->getRecord()->identity = Mmi_Auth::getInstance()->getUsername();
+		$this->getRecord()->identity = Default_Registry::$auth->getUsername();
 
 		$this->addElement('password', 'password', array(
 			'label' => 'obecne hasło',
