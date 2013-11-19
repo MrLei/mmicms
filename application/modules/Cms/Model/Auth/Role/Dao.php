@@ -13,11 +13,15 @@ class Cms_Model_Auth_Role_Dao extends Mmi_Dao {
 	}
 
 	public static function findRolesIdByAuthId($authId) {
-		return self::findPairs('cms_role_id', 'cms_role_id', array('cms_auth_id', $authId));
+		$q = self::newQuery()
+			->where('cms_auth_id')->eqals($authId);
+		return self::findPairs('cms_role_id', 'cms_role_id', $q);
 	}
 
 	public static function grant($cmsAuthId, array $roles) {
-		self::find(array('cms_auth_id', $cmsAuthId))->delete();
+		$q = self::newQuery()
+			->where('cms_auth_id')->eqals($cmsAuthId);
+		self::find($q)->delete();
 		foreach ($roles as $roleId) {
 			$record = new Cms_Model_Auth_Role_Record();
 			$record->cms_auth_id = $cmsAuthId;
