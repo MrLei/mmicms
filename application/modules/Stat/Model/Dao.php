@@ -15,8 +15,8 @@ class Stat_Model_Dao extends Mmi_Dao {
 	public static function agregate() {
 		$start = microtime(true);
 		$processed = 0;
-		$q = self::getNewQuery();
-		$q->limit(10000);
+		$q = self::newQuery()
+			->limit(10000);
 		foreach (self::find($q) as $item) {
 			$processed++;
 			$dateTime = explode(' ', $item->dateTime);
@@ -62,8 +62,8 @@ class Stat_Model_Dao extends Mmi_Dao {
 	}
 
 	protected static function _push($object, $objectId, $hour, $day, $month, $year) {
-		$q = self::getNewQuery();
-		$q->andField('object')->eqals($object)
+		$q = self::newQuery()
+				->where('object')->eqals($object)
 				->andField('objectId')->eqals($objectId)
 				->andField('hour')->eqals($hour)
 				->andField('day')->eqals($day)

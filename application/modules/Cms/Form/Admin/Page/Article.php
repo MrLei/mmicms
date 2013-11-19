@@ -31,7 +31,7 @@ class Cms_Form_Admin_Page_Article extends Mmi_Form {
 				array('validator' => 'StringLength', 'options' => array(3, 64)),
 			)
 		));
-		$options = array(null => '---') + Cms_Model_Article_Dao::findPairs('id', 'title', Cms_Model_Article_Dao::getNewQuery()->orderAsc('title'));
+		$options = array(null => '---') + Cms_Model_Article_Dao::findPairs('id', 'title', Cms_Model_Article_Dao::newQuery()->orderAsc('title'));
 
 		$this->addElement('select', 'article_id', array(
 			'label' => 'Artykuł',

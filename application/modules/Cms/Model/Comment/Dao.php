@@ -5,11 +5,11 @@ class Cms_Model_Comment_Dao extends Mmi_Dao {
 	protected static $_tableName = 'cms_comment';
 
 	public static function findByObject($object, $objectId, $descending = false) {
-		$q = self::getNewQuery();
-		$q->andField('object')->eqals($object)
-				->andField('objectId')->eqals($objectId)
-				->limit(100);
-		
+		$q = self::newQuery()
+			->where('object')->eqals($object)
+			->andField('objectId')->eqals($objectId)
+			->limit(100);
+
 		if ($descending) {
 			$q->orderDesc('dateAdd');
 		} else {
@@ -19,8 +19,8 @@ class Cms_Model_Comment_Dao extends Mmi_Dao {
 	}
 
 	public static function countByObject($object, $objectId) {
-		$q = self::getNewQuery();
-		$q->andField('object')->eqals($object)
+		$q = self::newQuery()
+				->where('object')->eqals($object)
 				->andField('objectId')->eqals($objectId);
 		return self::count($q);
 	}

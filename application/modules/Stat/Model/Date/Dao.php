@@ -5,15 +5,15 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 	public static $_tableName = 'stat_date';
 
 	public static function getOne($object, $objectId, $year = null, $month = null, $day = null, $hour = null) {
-		$q = self::getNewQuery();
-		$q->andField('object')->eqals($object)
+		$q = self::newQuery()
+				->where('object')->eqals($object)
 				->andField('objectId')->eqals($objectId);
 
 		self::_bindParam($q, 'year', $year);
 		self::_bindParam($q, 'month', $month);
 		self::_bindParam($q, 'day', $day);
 		self::_bindParam($q, 'hour', $hour);
-		
+
 		$stat = self::findFirst($q);
 		if (!($stat->count > 0)) {
 			return 0;
@@ -22,19 +22,19 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 	}
 
 	public static function getRows($object, $objectId, $year = null, $month = null, $day = null, $hour = null) {
-		$q = self::getNewQuery();
-		$q->andField('object')->eqals($object)
+		$q = self::newQuery()
+				->where('object')->eqals($object)
 				->andField('objectId')->eqals($objectId);
 
 		self::_bindParam($q, 'year', $year);
 		self::_bindParam($q, 'month', $month);
 		self::_bindParam($q, 'day', $day);
 		self::_bindParam($q, 'hour', $hour);
-		
+
 		$q->orderAsc('day')
-				->orderAsc('month')
-				->orderAsc('year')
-				->orderAsc('hour');
+			->orderAsc('month')
+			->orderAsc('year')
+			->orderAsc('hour');
 
 		return self::find($q);
 	}
@@ -184,7 +184,7 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 				$html .= '\'' . $tick . '\',';
 			}
 			$html = trim($html, ',') . '];';
-			if($extendHandleTooltip){
+			if ($extendHandleTooltip) {
 				$html .= '$(\'#' . $chartName . '\').bind(\'plothover\', function (event, pos, item) {extendHandleTooltip(event, pos, item, ' . $chartName . '_ticks_' . $key . ', ' . $key . ');});';
 			} else {
 				$html .= '$(\'#' . $chartName . '\').bind(\'plothover\', function (event, pos, item) {handleTooltip(event, pos, item, ' . $chartName . '_ticks_' . $key . ', ' . $key . ');});';
@@ -210,7 +210,7 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 		if ($legendContainer == null) {
 			$html .= 'legend: { margin: [0, 0], backgroundOpacity: 0 },';
 		} else {
-			$html .= 'legend: { margin: [0, 0], backgroundOpacity: 0, container: $("#'.$legendContainer.'") },';
+			$html .= 'legend: { margin: [0, 0], backgroundOpacity: 0, container: $("#' . $legendContainer . '") },';
 		}
 		$html .= 'grid: { hoverable: true, clickable: true },
                yaxis: { min: ' . $min . ', max: ' . $max . ' },
@@ -238,12 +238,12 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 	}
 
 	public static function findUniqueObjects() {
-		$q = self::getNewQuery();
-		$q->andField('hour')->eqals(null)
-				->andField('day')->eqals(null)
-				->andField('month')->eqals(null)
-				->andField('objectId')->eqals(null)
-				->orderAsc('object');
+		$q = self::newQuery()
+			->where('hour')->eqals(null)
+			->andField('day')->eqals(null)
+			->andField('month')->eqals(null)
+			->andField('objectId')->eqals(null)
+			->orderAsc('object');
 		$all = self::find($q);
 		$objects = array();
 		foreach ($all as $object) {
