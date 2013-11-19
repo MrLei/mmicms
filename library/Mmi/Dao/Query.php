@@ -92,6 +92,15 @@ class Mmi_Dao_Query {
 	}
 
 	/**
+	 * Dodaje podsekcję WHERE (jak AND)
+	 * @param Mmi_Dao_Query $query
+	 * @return \Mmi_Dao_Query
+	 */
+	public function whereQuery(Mmi_Dao_Query $query) {
+		return $this->andQuery($query);
+	}
+
+	/**
 	 * Dodaje podsekcję OR
 	 * @param Mmi_Dao_Query $query
 	 * @return \Mmi_Dao_Query
@@ -109,6 +118,16 @@ class Mmi_Dao_Query {
 	 */
 	public function andField($fieldName, $tableName = null) {
 		return new Mmi_Dao_Query_Field($this, $fieldName, $tableName, 'AND');
+	}
+
+	/**
+	 * Pierwszy warunek w zapytaniu (domyślnie AND)
+	 * @param string $fieldName nazwa pola
+	 * @param string $tableName opcjonalna nazwa tabeli źródłowej
+	 * @return \Mmi_Dao_Query_Field
+	 */
+	public function where($fieldName, $tableName = null) {
+		return $this->andField($fieldName, $tableName);
 	}
 
 	/**
@@ -130,7 +149,7 @@ class Mmi_Dao_Query {
 	public function join($tableName, $targetTableName = null) {
 		return new Mmi_Dao_Query_Join($this, $tableName, 'JOIN', $targetTableName);
 	}
-	
+
 	/**
 	 * Łączy tabelę złączeniem lewym
 	 * @param string $tableName nazwa tabeli
@@ -140,7 +159,7 @@ class Mmi_Dao_Query {
 	public function joinLeft($tableName, $targetTableName = null) {
 		return new Mmi_Dao_Query_Join($this, $tableName, 'LEFT JOIN', $targetTableName);
 	}
-	
+
 	/**
 	 * Zwraca skompilowane zapytanie
 	 * @return Mmi_Dao_Query_Compile
