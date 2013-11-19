@@ -2,6 +2,7 @@
 
 class Cms_Controller_Container extends Mmi_Controller_Action {
 
+	//@TODO: do usunięcia
 	public function indexAction() {
 		//po uri
 		if (!$this->_getParam('uri')) {
@@ -35,7 +36,7 @@ class Cms_Controller_Container extends Mmi_Controller_Action {
 			Mmi_View::getInstance()->setPlaceholder($placeholder->placeholder, $content);
 		}
 		Mmi_View::getInstance()->render($container->template->path);
-		exit;
+		Mmi_View::getInstance()->setLayoutDisabled();
 	}
 
 }

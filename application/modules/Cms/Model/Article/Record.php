@@ -14,7 +14,7 @@ class Cms_Model_Article_Record extends Mmi_Dao_Record {
 	}
 
 	public function delete() {
-		$article = Cms_Model_Navigation_Dao::findArticleByUri($this->uri);
+		$article = Cms_Model_Navigation_Dao::findFirstByArticleUri($this->uri);
 		if ($article !== null) {
 			$article->delete();
 		}

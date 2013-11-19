@@ -6,7 +6,7 @@ class Stat_Form_Admin_Object extends Mmi_Form {
 		$this->addElement('select', 'object', array(
 			'value' => $this->getOption('object'),
 			'label' => 'statystyka',
-			'multiOptions' => array(null => '---') + Stat_Model_Label_Dao::findPairs('object', 'label', array(), array('label'))
+			'multiOptions' => array(null => '---') + Stat_Model_Label_Dao::findPairs('object', 'label', Stat_Model_Label_Dao::newQuery()->orderAsc('label'))
 		));
 
 		$years = array(date('Y') - 1 => date('Y') - 1, date('Y') => date('Y'));

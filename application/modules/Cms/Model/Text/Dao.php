@@ -6,10 +6,10 @@ class Cms_Model_Text_Dao extends Mmi_Dao {
 	protected static $_texts = array();
 
 	public static function findByKeyLang($key, $lang) {
-		return self::findFirst(array(
-			array('key', $key),
-			array('lang', $lang),
-		));
+		$q = self::newQuery()
+			->where('key')->eqals($key)
+			->andField('lang')->eqals($lang);
+		return self::findFirst($q);
 	}
 
 	public static function textByKeyLang($key, $lang) {
