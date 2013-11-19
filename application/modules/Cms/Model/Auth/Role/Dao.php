@@ -6,9 +6,9 @@ class Cms_Model_Auth_Role_Dao extends Mmi_Dao {
 	protected static $_roleJoinSchema = array('cms_role' => array('id', 'cms_role_id'));
 
 	public static function findPairsRolesByAuthId($authId) {
-		$q = self::getNewQuery();
-		$q->andField('cms_auth_id')->eqals($authId)
-			->join('cms_role')->on('cms_role_id');
+		$q = self::newQuery()
+				->where('cms_auth_id')->eqals($authId)
+				->join('cms_role')->on('cms_role_id');
 		return self::findPairs('cms_role_id', 'name', $q);
 	}
 

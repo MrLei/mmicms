@@ -297,7 +297,7 @@ class Mmi_Dao {
 	 * Zwraca nowy obiekt zapytania
 	 * @return \Mmi_Dao_Query
 	 */
-	public static final function getNewQuery() {
+	public static final function newQuery() {
 		return new Mmi_Dao_Query();
 	}
 
