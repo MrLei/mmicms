@@ -5,7 +5,9 @@ class Cms_Model_Container_Dao extends Mmi_Dao {
 	protected static $_tableName = 'cms_container';
 
 	public static function findFirstByUri($uri) {
-		$container = self::findFirst(array('uri', $uri));
+		$q = self::newQuery()
+				->where('uri')->eqals($uri);
+		$container = self::findFirst($q);
 		if ($container === null) {
 			return null;
 		}

@@ -32,4 +32,10 @@ class News_Model_Dao extends Mmi_Dao {
 		return self::findFirst($q);
 	}
 
+	public static function findFirstByUri($uri) {
+		$q = self::newQuery()
+				->where('uri')->eqals($uri);
+		return self::findFirst($q);
+	}
+
 }

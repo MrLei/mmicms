@@ -14,7 +14,7 @@ class Cms_Form_Admin_Container_Template_Placeholder_Container extends Mmi_Form {
 		$this->addElement('select', 'cms_container_template_placeholder_id', array(
 			'label' => 'nazwa placeholdera',
 			'required' => true,
-			'multiOptions' => Cms_Model_Container_Template_Placeholder_Dao::findPairs('id', 'name', $container->cms_container_template_id),
+			'multiOptions' => Cms_Model_Container_Template_Placeholder_Dao::findPairsByTemplateId('id', 'name', $container->cms_container_template_id),
 			'validators' => array('NotEmpty'),
 		));
 

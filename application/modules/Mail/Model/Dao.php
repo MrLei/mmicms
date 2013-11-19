@@ -3,20 +3,16 @@
 class Mail_Model_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'mail';
-	protected static $_definitionServerJoinSchema = array(
-		'mail_definition' => array('id', 'mail_definition_id'),
-		'mail_server' => array('id', 'mail_server_id', 'mail_definition')
-	);
 
 	/**
 	 * Czyści wysłane starsze niż tydzień
 	 * @return int ilość usuniętych
 	 */
 	public static function clean() {
-		return self::find(array(
-					array('active', 1),
-					array('dateAdd', date('Y-m-d H:i:s', strtotime('-1 week')), '<')
-				))->delete();
+		$q = self::newQuery()
+			->where('active')->eqals(1)
+			->andField('dateAdd')->less(date('Y-m-d H:i:s', strtotime('-1 week')));
+		return self::find($q)->delete();
 	}
 
 	/**
@@ -32,10 +28,10 @@ class Mail_Model_Dao extends Mmi_Dao {
 	 * @return int id zapisanego rekordu
 	 */
 	public static function pushEmail($name, $to, array $params = array(), $fromName = null, $replyTo = null, $subject = null, $sendAfter = null, array $attachments = array()) {
-		$def = Mail_Model_Definition_Dao::findFirst(array(
-					array('name', $name),
-					array('lang', Mmi_Controller_Front::getInstance()->getRequest()->lang)
-				));
+		$q = self::newQuery()
+			->where('name')->eqals($name)
+			->andField('lang')->eqals(Mmi_Controller_Front::getInstance()->getRequest()->lang);
+		$def = Mail_Model_Definition_Dao::findFirst($q);
 		if ($def === null) {
 			return false;
 		}
@@ -77,13 +73,15 @@ class Mail_Model_Dao extends Mmi_Dao {
 	 */
 	public static function send() {
 		$result = array('error' => 0, 'success' => 0);
-		$emails = Mail_Model_Dao::find(array(
-					array('active', 0),
-					array('dateSendAfter', date('Y-m-d H:i:s'), '<=')
-						), array(
-					'dateSendAfter'
-						), null, null, self::$_definitionServerJoinSchema
-		);
+
+		$q = self::newQuery()
+			->join('mail_definition')->on('mail_definition_id')
+			->join('mail_server', 'mail_definition')->on('mail_server_id')
+			->where('active')->eqals(0)
+			->andField('dateSendAfter')->lessOrEquals(date('Y-m-d H:i:s'))
+			->orderAsc('dateSendAfter');
+
+		$emails = Mail_Model_Dao::find($q);
 		if (count($emails) == 0) {
 			return $result;
 		}
