@@ -6,9 +6,11 @@ class Cms_Model_Acl_Dao extends Mmi_Dao {
 
 	public static function findPairsByRoleId($role) {
 		$rules = array();
+
 		$q = self::getNewQuery();
 		$q->andField('cms_role_id')->eqals($role)
 			->join('cms_role')->on('cms_role_id');
+
 		$data = Cms_Model_Acl_Dao::find($q);
 		foreach ($data as $item) {
 			if ($item->action) {

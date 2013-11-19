@@ -61,7 +61,7 @@ class Mmi_Dao {
 	 * Zabezpieczony konstruktor
 	 */
 	private final function __construct() {
-		
+
 	}
 
 	/**
@@ -292,7 +292,7 @@ class Mmi_Dao {
 		}
 		return substr(get_called_class(), 0, -3) . 'Record';
 	}
-	
+
 	/**
 	 * Zwraca nowy obiekt zapytania
 	 * @return \Mmi_Dao_Query
