@@ -16,11 +16,7 @@ class Cron_Model_Job {
 	 * Pobiera zadania crona
 	 */
 	public static function run() {
-		$records = Cron_Model_Dao::find(array(
-			array('active', 1, '=')), 
-			array('id', 'ASC'));
-		
-		foreach ($records as $cron) {
+		foreach (Cron_Model_Dao::findActive() as $cron) {
 			$logData = array();
 			$logData['name'] = $cron->name;
 			$logData['dateLastExecute'] = $cron->dateLastExecute;

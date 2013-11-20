@@ -106,10 +106,11 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		}
 
 		//ustawianie rout
-		$router = Mmi_Controller_Router::getInstance();
-		$router->setConfig($config->router);
-		$router->setDefaultLanguage($config->application->languages[0]);
-		$router->setDefaultSkin($config->application->skin);
+		$router = new Mmi_Controller_Router($config->router, $config->application->languages[0], $config->application->skin);
+		//przypinanie routera do helpera redirectora
+		Mmi_Controller_Action_Helper_Redirector::setRouter($router);
+		Mmi_View_Helper_Url::setRouter($router);
+		$front->setRouter($router);
 
 		//tłumaczenia
 		$translate = new Mmi_Translate();
@@ -124,6 +125,7 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		$view->setAlwaysCompile($config->application->compile);
 		$view->setDebug($config->application->debug);
 		$view->setTranslate($translate);
+		$view->setBaseUrl($router->getBaseUrl());
 
 		//połączenie do bazy danych
 		if (Default_Registry::$config->db->driver !== null) {

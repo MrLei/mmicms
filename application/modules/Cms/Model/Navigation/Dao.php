@@ -10,6 +10,28 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 	 */
 	protected static $_nested;
 
+	public static function findFirstByArticleUri($uri) {
+		$q = self::newQuery()
+				->where('module')->eqals('cms')
+				->andField('controller')->eqals('article')
+				->andField('action')->eqals('index')
+				->andField('params')->eqals('uri=' . $uri);
+		return Cms_Model_Navigation_Dao::findFirst($q);
+	}
+
+	public static function findLastByParentId($parentId) {
+		$q = self::newQuery()
+				->where('parent_id')->eqals($parentId)
+				->orderDesc('order');
+		return Cms_Model_Navigation_Dao::findFirst($q);
+	}
+
+	public static function findByParentId($parentId) {
+		$q = self::newQuery()
+				->where('parent_id')->eqals($parentId);
+		return Cms_Model_Navigation_Dao::find($q);
+	}
+
 	public static function seek($id) {
 		self::_initNested();
 		return self::$_nested->seek($id);
@@ -44,7 +66,11 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 
 	protected static function _getNestedData() {
 		$lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
-		$data = self::find(array('lang', $lang), array(array('parent_id'), array('order')))->toArray();
+		$q = self::newQuery()
+			->where('lang')->eqals($lang)
+			->orderAsc('parent_id')
+			->orderAsc('order');
+		$data = self::find($q)->toArray();
 		$view = Mmi_View::getInstance();
 		foreach ($data as $key => $item) {
 			$data[$key]['disabled'] = 0;

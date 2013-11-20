@@ -30,7 +30,7 @@ class Mmi_Validate_RecordUnique extends Mmi_Validate_Abstract {
 	 * Komunikat istnienia pola
 	 */
 	const EXISTS = 'Pole o takiej wartości już istnieje';
-	
+
 	/**
 	 * Walidacja unikalności rekordu w danym DAO
 	 * @param mixed $value wartość
@@ -48,11 +48,16 @@ class Mmi_Validate_RecordUnique extends Mmi_Validate_Abstract {
 			throw new Exception('No field name supplied.');
 		}
 		$field = $this->_options[1];
-		$bind = array(array($field, $value));
+		/* @var $q Mmi_Dao_Query */
+		$q = $dao::newQuery()
+				->where($field)->eqals($value);
 		if (isset($this->_options[2])) {
-			$bind[] = array('id', intval($this->_options[2]), '!=');
+			/* @var $qId Mmi_Dao_Query */
+			$qId = $dao::newQuery()
+					->where('id')->notEquals(intval($this->_options[2]));
+			$q->andQuery($qId);
 		}
-		if ($dao::count($bind) > 0) {
+		if ($dao::count($q) > 0) {
 			$this->_error(self::EXISTS);
 			return false;
 		}

@@ -24,7 +24,6 @@
  * @package    Mmi_Application
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
-
 final class Mmi_Application_Bootstrap implements Mmi_Application_Bootstrap_Interface {
 
 	/**
@@ -32,7 +31,26 @@ final class Mmi_Application_Bootstrap implements Mmi_Application_Bootstrap_Inter
 	 */
 	public function __construct() {
 		Mmi_Profiler::event('Bootstrap started');
-		Mmi_Controller_Front::getInstance()->setStructure(Mmi_Structure::getStructure());
+
+		//przykładowy pusty router
+		$routerConfig = new Mmi_Controller_Router_Config();
+		$router = new Mmi_Controller_Router($routerConfig);
+
+		//konfiguracja frontu
+		Mmi_Controller_Front::getInstance()
+			->setStructure(Mmi_Structure::getStructure())
+			->setRouter($router);
+
+		//konfiguracja widoku i helperów
+		Mmi_View::getInstance()
+			->setBaseUrl($router->getBaseUrl())
+			->setAlwaysCompile(true)
+			->setDebug(true);
+
+		//konfiguracja helperów
+		Mmi_View_Helper_Url::setRouter($router);
+		Mmi_Controller_Action_Helper_Redirector::setRouter($router);
+
 		Mmi_Profiler::event('Front structure loaded');
 	}
 

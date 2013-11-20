@@ -60,30 +60,52 @@ class Mmi_Dao {
 	/**
 	 * Zabezpieczony konstruktor
 	 */
-	private final function __construct() {}
+	private final function __construct() {
+
+	}
 
 	/**
 	 * Zwraca ilość rekordów o podanych parametrach
-	 * @param array $bind tabela w postaci: @see Mmi_Db_Adapter_Pdo_Abstract::parseWhereBind()
+	 * @param array $bind Mmi_Dao_Query lub tabela w postaci: @see Mmi_Db_Adapter_Pdo_Abstract::parseWhereBind()
 	 * @param array $joinSchema schemat połączeń
 	 * @return int
 	 */
-	public static final function count(array $bind = array(), array $joinSchema = array()) {
-		$result = self::getAdapter()->select(static::$_tableName, $bind, array(), null, null, array('COUNT(*)'), $joinSchema);
+	public static final function count($bind = array(), array $joinSchema = array()) {
+		//@TODO po refaktoryzacji przerobić by przyjmował tylko obiekt query
+		if ($bind instanceof Mmi_Dao_Query) {
+			$q = $bind->queryCompilation();
+			//@TODO usunąć tego if'a:
+			if (!empty($joinSchema)) {
+				throw new Exception('Mmi_Dao: query object supplied together with $limit, $offset etc.');
+			}
+			$result = self::getAdapter()->select(static::$_tableName, $q->bind, array(), null, null, array('COUNT(*)'), $q->joinSchema);
+		} else {
+			$result = self::getAdapter()->select(static::$_tableName, $bind, array(), null, null, array('COUNT(*)'), $joinSchema);
+		}
 		return isset($result[0]) ? current($result[0]) : 0;
 	}
 
 	/**
 	 * Pobiera wszystkie rekordy i zwraca ich kolekcję
-	 * @param array $bind tabela w postaci: @see Mmi_Db_Adapter_Pdo_Abstract::_parseWhereBind()
+	 * @param array $bind Mmi_Dao_Query lub tabela w postaci: @see Mmi_Db_Adapter_Pdo_Abstract::_parseWhereBind()
 	 * @param array $order tabela w postaci: @see Mmi_Db_Adapter_Pdo_Abstract::_parseOrderBind()
 	 * @param int $limit ilość rekordów
 	 * @param int $offset rekord startowy (domyślnie pierwszy)
 	 * @param array $joinSchema schemat połączeń
 	 * @return Mmi_Dao_Record_Collection
 	 */
-	public static final function find(array $bind = array(), array $order = array(), $limit = null, $offset = null, array $joinSchema = array()) {
-		$result = self::getAdapter()->select(static::$_tableName, $bind, $order, $limit, $offset, array('*'), $joinSchema);
+	public static final function find($bind = array(), array $order = array(), $limit = null, $offset = null, array $joinSchema = array()) {
+		//@TODO po refaktoryzacji przerobić by przyjmował tylko obiekt query
+		if ($bind instanceof Mmi_Dao_Query) {
+			$q = $bind->queryCompilation();
+			//@TODO usunąć tego if'a:
+			if ($limit !== null || $offset !== null || !empty($order) || !empty($joinSchema)) {
+				throw new Exception('Mmi_Dao: query object supplied together with $limit, $offset etc.');
+			}
+			$result = self::getAdapter()->select(static::$_tableName, $q->bind, $q->order, $q->limit, $q->offset, array('*'), $q->joinSchema);
+		} else {
+			$result = self::getAdapter()->select(static::$_tableName, $bind, $order, $limit, $offset, array('*'), $joinSchema);
+		}
 		$collection = new Mmi_Dao_Record_Collection();
 		$recordName = self::getRecordName();
 		foreach ($result as $row) {
@@ -102,8 +124,18 @@ class Mmi_Dao {
 	 * @param array $joinSchema schemat połączeń
 	 * @return Mmi_Dao_Record_Ro
 	 */
-	public static final function findFirst(array $bind = array(), array $order = array(), $offset = null, array $joinSchema = array()) {
-		$result = self::getAdapter()->select(static::$_tableName, $bind, $order, 1, $offset, array('*'), $joinSchema);
+	public static final function findFirst($bind = array(), array $order = array(), $offset = null, array $joinSchema = array()) {
+		//@TODO po refaktoryzacji przerobić by przyjmował tylko obiekt query
+		if ($bind instanceof Mmi_Dao_Query) {
+			$q = $bind->queryCompilation();
+			//@TODO usunąć tego if'a:
+			if ($offset !== null || !empty($order) || !empty($joinSchema)) {
+				throw new Exception('Mmi_Dao: query object supplied together with $limit, $offset etc.');
+			}
+			$result = self::getAdapter()->select(static::$_tableName, $q->bind, $q->order, 1, $q->offset, array('*'), $q->joinSchema);
+		} else {
+			$result = self::getAdapter()->select(static::$_tableName, $bind, $order, 1, $offset, array('*'), $joinSchema);
+		}
 		if (!is_array($result) || !isset($result[0])) {
 			return null;
 		}
@@ -135,8 +167,18 @@ class Mmi_Dao {
 	 * @param array $joinSchema schemat połączeń
 	 * @return array tablica klucz wartość
 	 */
-	public static final function findPairs($keyName, $valueName, array $bind = array(), array $order = array(), $limit = null, $offset = null, array $joinSchema = array()) {
-		$data = self::getAdapter()->select(static::$_tableName, $bind, $order, $limit, $offset, array($keyName, $valueName), $joinSchema);
+	public static final function findPairs($keyName, $valueName, $bind = array(), array $order = array(), $limit = null, $offset = null, array $joinSchema = array()) {
+		//@TODO po refaktoryzacji przerobić by przyjmował tylko obiekt query
+		if ($bind instanceof Mmi_Dao_Query) {
+			$q = $bind->queryCompilation();
+			//@TODO usunąć tego if'a:
+			if ($limit !== null || $offset !== null || !empty($order) || !empty($joinSchema)) {
+				throw new Exception('Mmi_Dao: query object supplied together with $limit, $offset etc.');
+			}
+			$data = self::getAdapter()->select(static::$_tableName, $q->bind, $q->order, $q->limit, $q->offset, array($keyName, $valueName), $q->joinSchema);
+		} else {
+			$data = self::getAdapter()->select(static::$_tableName, $bind, $order, $limit, $offset, array($keyName, $valueName), $joinSchema);
+		}
 		$kv = array();
 		foreach ($data as $line) {
 			if (count($line) == 1) {
@@ -160,7 +202,17 @@ class Mmi_Dao {
 	 * @return array mixed wartość maksymalna
 	 */
 	public static final function findMax($keyName, array $bind = array(), array $joinSchema = array()) {
-		$result = self::getAdapter()->select(static::$_tableName, $bind, array(), 1, 0, array('MAX(' . self::getAdapter()->prepareField($keyName) . ')'), $joinSchema);
+		//@TODO po refaktoryzacji przerobić by przyjmował tylko obiekt query
+		if ($bind instanceof Mmi_Dao_Query) {
+			$q = $bind->queryCompilation();
+			//@TODO usunąć tego if'a:
+			if (!empty($joinSchema)) {
+				throw new Exception('Mmi_Dao: query object supplied together with $limit, $offset etc.');
+			}
+			$result = self::getAdapter()->select(static::$_tableName, $q->bind, array(), 1, 0, array('MAX(' . self::getAdapter()->prepareField($keyName) . ')'), $q->joinSchema);
+		} else {
+			$result = self::getAdapter()->select(static::$_tableName, $bind, array(), 1, 0, array('MAX(' . self::getAdapter()->prepareField($keyName) . ')'), $joinSchema);
+		}
 		return isset($result[0]) ? current($result[0]) : 0;
 	}
 
@@ -211,7 +263,6 @@ class Mmi_Dao {
 	 * @return array
 	 */
 	public static final function getTableStructure() {
-		
 		$cacheKey = 'Dao_structure_' . self::getAdapter()->getConfig()->name . '_' . static::$_tableName;
 		if (static::$_cache !== null && (null !== ($structure = static::$_cache->load($cacheKey)))) {
 			return $structure;
@@ -240,6 +291,14 @@ class Mmi_Dao {
 			return static::$_recordName;
 		}
 		return substr(get_called_class(), 0, -3) . 'Record';
+	}
+
+	/**
+	 * Zwraca nowy obiekt zapytania
+	 * @return \Mmi_Dao_Query
+	 */
+	public static final function newQuery() {
+		return new Mmi_Dao_Query();
 	}
 
 }

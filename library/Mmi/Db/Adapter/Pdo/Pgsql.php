@@ -170,9 +170,10 @@ class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
 		}
 
 		if (is_array($rule[1])) {
-			$rule[2] = 'IN';
 			if ($rule[2] == '<>') {
 				$rule[2] = 'NOT IN';
+			} else {
+				$rule[2] = 'IN';
 			}
 			$where .= ' ' . $rule[2] . ' (';
 			foreach ($rule[1] as $arg) {

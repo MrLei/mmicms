@@ -11,7 +11,7 @@ class Cms_Form_Admin_Contact extends Mmi_Form {
 			$this->addElement('select', 'cms_contact_option_id', array(
 				'disabled' => true,
 				'value' => $this->getOption('subjectId'),
-				'multiOptions' => Cms_Model_Contact_Option_Dao::findPairs('id', 'name', array(), array('name')),
+				'multiOptions' => Cms_Model_Contact_Option_Dao::findPairs('id', 'name', Cms_Model_Contact_Option_Dao::newQuery()->orderAsc('name')),
 				'label' => 'temat zapytania',
 				'ignore' => true
 			));

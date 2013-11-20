@@ -7,11 +7,13 @@ class Cms_Model_Container_Template_Placeholder_Container_Dao extends Mmi_Dao {
 		'cms_container_template_placeholder' => array('id', 'cms_container_template_placeholder_id'),
 		'cms_container_template' => array('id', 'cms_container_template_id', 'cms_container_template_placeholder'),
 	);
-	
+
 	public static function findByContainerId($containerId) {
-		return self::find(array(
-			array('cms_container_id', $containerId)
-		), array(), null, null, self::$_templateJoinSchema);
+		$q = self::newQuery()
+			->join('cms_container_template_placeholder')->on('cms_container_template_placeholder_id')
+			->join('cms_container_template', 'cms_container_template_placeholder')->on('cms_container_template_id')
+			->where('cms_container_id')->eqals($containerId);
+		return self::find($q);
 	}
 
 }

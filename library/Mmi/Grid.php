@@ -475,8 +475,8 @@ abstract class Mmi_Grid {
 					case 'custom':
 						$GLOBALS['rowData'] = $rowData;
 						$column['value'] = preg_replace_callback('/%([a-zA-Z0-9_]+)%/', create_function(
-								'$matches', 'return $GLOBALS[\'rowData\']->$matches[1];'
-							), $column['value']);
+										'$matches', 'return $GLOBALS[\'rowData\']->$matches[1];'
+								), $column['value']);
 						$this->_view->rowData = $rowData;
 						$this->_view->column = $column;
 						$html .= $this->_view->renderDirectly($column['value']);
@@ -557,9 +557,9 @@ abstract class Mmi_Grid {
 	 * Ustawia dane dla grid'a
 	 */
 	protected function _setDefaultData() {
-		$bind = array();
-		$order = array();
+		$q = new Mmi_Dao_Query();
 		foreach ($this->_options['filter'] as $field => $value) {
+			$subQ = new Mmi_Dao_Query();
 			$type = 'text';
 			foreach ($this->_columns as $column) {
 				if ($column['name'] == $field) {
@@ -568,29 +568,31 @@ abstract class Mmi_Grid {
 				}
 			}
 			if ($type == 'select' || $type == 'checkbox') {
-				$bind = array($bind, array($field, '' . $value, '='));
+				$subQ->andField($field)->eqals($value);
+				$q->andQuery($subQ);
 			} else {
-				$bind = array($bind, array($field, '%' . $value . '%', 'LIKE'));
+				$subQ->andField($field)->like('%' . $value . '%');
+				$q->andQuery($subQ);
 			}
 		}
 		if (empty($this->_options['order'])) {
-			//@TODO: do zmiany po rozwinięciu DAO
-			$order = array('id', 'ASC');
+			$q->orderAsc('id');
 		}
 		foreach ($this->_options['order'] as $field => $value) {
-			$order = array($field, $value);
-		}
-		if (isset($this->_options['bind'])) {
-			foreach ($this->_options['bind'] as $field => $value) {
-				$bind = array($bind, array($value[0], $value[1], $value[2]));
+			if ($value == 'ASC') {
+				$q->orderAsc($field);
+			} else {
+				$q->orderDesc($field);
 			}
 		}
-
 		$dao = $this->_daoName;
 		$get = $this->_daoGetMethod;
 		$count = $this->_daoCountMethod;
-		$this->_dataCount = $dao::$count($bind);
-		$this->_data = $dao::$get($bind, $order, $this->_options['rows'], ($this->_options['page'] - 1) * $this->_options['rows']);
+		$q->limit($this->_options['rows'])
+				->offset(($this->_options['page'] - 1) * $this->_options['rows']);
+
+		$this->_dataCount = $dao::$count($q);
+		$this->_data = $dao::$get($q);
 	}
 
 	/**

@@ -29,6 +29,22 @@
 class Mmi_View_Helper_Url extends Mmi_View_Helper_Abstract {
 
 	/**
+	 * Obiekt router
+	 * @var Mmi_Controller_Router
+	 */
+	protected static $_router;
+
+	/**
+	 * Ustawia obiekt routera
+	 * @param Mmi_Controller_Router $router
+	 * @return \Mmi_Controller_Router
+	 */
+	public static function setRouter(Mmi_Controller_Router $router) {
+		self::$_router = $router;
+		return $router;
+	}
+
+	/**
 	 * Generuje link na podstawie parametrów (z użyciem routera)
 	 * @see Mmi_Controller_Router::encodeUrl()
 	 * @param array $params parametry
@@ -39,6 +55,9 @@ class Mmi_View_Helper_Url extends Mmi_View_Helper_Abstract {
 	 * @return string
 	 */
 	public function url(array $params = array(), $reset = false, $absolute = false, $https = null, array $unset = array()) {
+		if (self::$_router === null) {
+			throw new Exception('Mmi_View_Helper_Url: supply router object before use');
+		}
 		if (!$reset) {
 			$params = array_merge(Mmi_Controller_Front::getInstance()->getRequest()->toArray(), $params);
 		}
@@ -71,7 +90,7 @@ class Mmi_View_Helper_Url extends Mmi_View_Helper_Abstract {
 				unset($params[$key]);
 			}
 		}
-		$url = Mmi_Controller_Router::getInstance()->encodeUrl($params);
+		$url = self::$_router->encodeUrl($params);
 		$url = str_replace(array('&', ' '),	array('%26', '+'), $url);
 		if (!is_null($https)) {
 			$absolute = true;
