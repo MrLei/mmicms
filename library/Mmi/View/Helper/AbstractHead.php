@@ -45,7 +45,7 @@ class Mmi_View_Helper_AbstractHead extends Mmi_View_Helper_Abstract {
 			if (strrpos($location, '?') !== false) {
 				$location = substr($location, 0, strrpos($location, '?'));
 			}
-			$baseUrlLength = strlen(Mmi_Controller_Front::getInstance()->getRequest()->getBaseUrl());
+			$baseUrlLength = strlen($this->view->baseUrl);
 			$location = PUBLIC_PATH . substr($location, $baseUrlLength);
 			$online = false;
 		}

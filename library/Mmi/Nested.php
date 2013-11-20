@@ -119,7 +119,8 @@ class Mmi_Nested {
 				$array[$k]['description'] = '';
 			}
 			if (!isset($array[$k]['uri']) && (!isset($array[$k]['type']) || $array[$k]['type'] != 'folder')) {
-				$array[$k]['uri'] = Mmi_Controller_Router::getInstance()->encodeUrl($array[$k]['request']);
+				die();
+				$array[$k]['uri'] = Mmi_Controller_Front::getInstance()->getRouter()->encodeUrl($array[$k]['request']);
 			} else {
 				$array[$k]['uri'] = isset($v['uri']) ? $v['uri'] : '';
 			}
@@ -172,7 +173,7 @@ class Mmi_Nested {
 	}
 
 	/**
-	 * Rekurencyjnie spłaszcza drzewo kategorii 
+	 * Rekurencyjnie spłaszcza drzewo kategorii
 	 * do przekazanej tablicy
 	 * @param array $branch drzewo
 	 * @param array $result tablica wynikowa
@@ -192,9 +193,9 @@ class Mmi_Nested {
 	}
 
 	/**
-	 * Buduje strukturę kategorii w której 
+	 * Buduje strukturę kategorii w której
 	 * będą zagnieżdżane dzieci danej gąłęzi
-	 * @param array $flat płaskie dane (zawiera id rodzica) 
+	 * @param array $flat płaskie dane (zawiera id rodzica)
 	 */
 	protected function _buildStructure($flat) {
 		$this->structure = array(0 => array(
