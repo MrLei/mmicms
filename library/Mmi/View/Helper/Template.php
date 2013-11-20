@@ -63,9 +63,6 @@ class Mmi_View_Helper_Template extends Mmi_View_Helper_Abstract {
 		//keszowane tłumaczeń
 		$input = preg_replace_callback('/\{\#(.[^#]+)#\}/', array(&$this, '_translate'), $input);
 
-		//keszowane wstawień pliku
-		$input = preg_replace_callback('/\{\%(.[^%]+)\%\}/', array(&$this, '_file'), $input);
-
 		//keszowane wstawień tekstów statycznych
 		$input = preg_replace_callback('/\{\=(.[^=]+)\=\}/', array(&$this, '_text'), $input);
 
@@ -191,16 +188,6 @@ class Mmi_View_Helper_Template extends Mmi_View_Helper_Abstract {
 	}
 
 	/**
-	 * Konwertuje określone tagi {%nazwa_pliku%} na link do pliku
-	 * przykład: {%image.gif%} wygeneruje np. link /public/default/admin/images/image.gif
-	 * @param array $matches dopasowania
-	 * @return string
-	 */
-	private function _file(array $matches) {
-		return Mmi_View::getInstance()->getHelper('file')->file($matches[1]);
-	}
-
-	/**
 	 * Konwertuje określone tagi {{klucz_tekstu}} na tekst statyczny
 	 * @param array $matches dopasowania
 	 * @return string
@@ -229,10 +216,10 @@ class Mmi_View_Helper_Template extends Mmi_View_Helper_Abstract {
 	 * @return string
 	 */
 	private function _translate(array $matches) {
-		if (!Mmi_Registry::get('Mmi_Translate')) {
+		if ($this->view->getTranslate() === null) {
 			return $matches[1];
 		}
-		return Mmi_Registry::get('Mmi_Translate')->_($matches[1]);
+		return $this->view->getTranslate()->_($matches[1]);
 	}
 
 	/**

@@ -34,8 +34,8 @@ class Mmi_Cache_Backend_File implements Mmi_Cache_Backend_Interface {
 	 * Kostruktor
 	 * @param array $params parametry
 	 */
-	public function __construct(array $params = array()) {
-		$this->_savePath = $params['save_path'];
+	public function __construct(Mmi_Cache_Config $config) {
+		$this->_savePath = $config->path;
 	}
 
 	/**

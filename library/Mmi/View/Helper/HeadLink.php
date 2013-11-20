@@ -152,7 +152,7 @@ class Mmi_View_Helper_HeadLink extends Mmi_View_Helper_AbstractHead {
 	public function prependAlternate($href, $type, $title, $media = null, $conditional = '') {
 		return $this->setAlternate($href, $type, $title, $media = null, false, $conditional);
 	}
-	
+
 	/**
 	 * Dodaje alternate do stosu
 	 * @param string $href adres

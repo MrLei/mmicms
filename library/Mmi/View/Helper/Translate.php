@@ -8,7 +8,7 @@
  * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
  * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
  *
- * MmiCns/View/Helper/Translate.php
+ * Mmi/View/Helper/Translate.php
  * @category   Mmi
  * @package    Mmi_View
  * @subpackage Helper
@@ -21,13 +21,28 @@
 /**
  * Helper translatora, używa zmiennej 'Mmi_Translate' z rejestru
  * @see Mmi_Translate
- * @see Mmi_Registry
- * @category   MmiCms
- * @package    MmiCms_View
+ * @category   Mmi
+ * @package    Mmi_View
  * @subpackage Helper
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
-class MmiCms_View_Helper_Translate extends Mmi_View_Helper_Abstract {
+class Mmi_View_Helper_Translate extends Mmi_View_Helper_Abstract {
+
+	/**
+	 * Obiekt translatora
+	 * @var Mmi_Translate
+	 */
+	protected static $_translate;
+
+	/**
+	 * Ustawia obiekt translatora
+	 * @param Mmi_Translate $_translate
+	 * @return Mmi_Translate
+	 */
+	public static function setTranslate(Mmi_Translate $translate) {
+		self::$_translate = $translate;
+		return $translate;
+	}
 
 	/**
 	 * Metoda główna, zwraca swoją instancję
@@ -41,9 +56,10 @@ class MmiCms_View_Helper_Translate extends Mmi_View_Helper_Abstract {
 	 * Tłumaczy wejściowy ciąg znaków
 	 * @return string
 	 */
-	public function _() {
-		$translate = Mmi_Registry::get('Mmi_Translate');
-		$args = func_get_args();
-		return call_user_func_array(array($translate, '_'), $args);
+	public function _($key) {
+		if (self::$_translate === null) {
+			return $key;
+		}
+		return self::$_translate->_($key);
 	}
 }

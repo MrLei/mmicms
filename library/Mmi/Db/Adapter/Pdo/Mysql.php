@@ -51,10 +51,9 @@ class Mmi_Db_Adapter_Pdo_Mysql extends Mmi_Db_Adapter_Pdo_Abstract {
 	 * Tworzy połączenie z bazą danych
 	 */
 	public function connect() {
-		$this->_options['host'] = isset($this->_options['host']) ? $this->_options['host'] : '127.0.0.1';
-		$this->_options['port'] = isset($this->_options['port']) ? $this->_options['port'] : '3306';
+		$this->_config->port = $this->_config->port ? $this->_config->port : 3306;
 		parent::connect();
-		$this->query('SET NAMES ' . $this->_options['charset']);
+		$this->query('SET NAMES ' . $this->_config->charset);
 	}
 
 	/**
@@ -89,7 +88,7 @@ class Mmi_Db_Adapter_Pdo_Mysql extends Mmi_Db_Adapter_Pdo_Abstract {
 	public function tableInfo($tableName, $schema = null) {
 		return $this->_associateTableMeta($this->fetchAll('SELECT `column_name` as `name`, `data_type` AS `dataType`, `character_maximum_length` AS `maxLength`, `is_nullable` AS `null`, `column_default` AS `default`, `extra` AS `extra`, `column_key` AS `column_key` FROM INFORMATION_SCHEMA.COLUMNS WHERE `table_name` = :name AND `table_schema` = :schema ORDER BY `ordinal_position`', array(
 			':name' => $tableName,
-			':schema' => ($schema) ? $schema : $this->_options['dbname']
+			':schema' => ($schema) ? $schema : $this->_config->name
 		)));
 	}
 

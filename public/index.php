@@ -1,7 +1,7 @@
 <?php
 
 $path = realpath(dirname(__FILE__) . '/../');
-require $path . '/library/Mmi/Bootstrap.php';
+require $path . '/library/Mmi/Application.php';
 
-$bootstrap = new Mmi_Bootstrap($path);
-$bootstrap->run();
+$application = new Mmi_Application($path, 'MmiCms_Application_Bootstrap');
+$application->run();

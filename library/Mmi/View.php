@@ -69,10 +69,28 @@ class Mmi_View {
 	private $_layoutDisabled = false;
 
 	/**
-	 * Przechowuje strukturę szablonów
-	 * @var array
+	 * Obiekt tłumaczeń
+	 * @var Mmi_Translate
 	 */
-	private $_structure = array();
+	private $_translate;
+
+	/**
+	 * Obiekt buforujący
+	 * @var Mmi_Cache
+	 */
+	private $_cache;
+
+	/**
+	 * Włączone buforowanie
+	 * @var boolean
+	 */
+	private $_alwaysCompile = true;
+
+	/**
+	 * Tryb debugowania aplikacji
+	 * @var boolean
+	 */
+	private $_debug = true;
 
 	/**
 	 * Obiekt requestu
@@ -81,10 +99,16 @@ class Mmi_View {
 	public $request;
 
 	/**
+	 * Bazowa ścieżka
+	 * @var string
+	 */
+	public $baseUrl;
+
+	/**
 	 * Zabezpieczony konstruktor
 	 */
 	private function __construct() {
-		$this->_structure = Mmi_Controller_Front::getInstance()->getStructure();
+
 	}
 
 	/**
@@ -152,9 +176,77 @@ class Mmi_View {
 	/**
 	 * Ustawia obiekt request
 	 * @param Mmi_Controller_Request $request
+	 * @return \Mmi_View
 	 */
 	public function setRequest(Mmi_Controller_Request $request) {
 		$this->request = $request;
+		return $this;
+	}
+
+	/**
+	 * Ustawia translator
+	 * @param Mmi_Translate $translate
+	 * @return \Mmi_View
+	 */
+	public function setTranslate(Mmi_Translate $translate) {
+		$this->_translate = $translate;
+		return $this;
+	}
+
+	/**
+	 * Ustawia obiekt cache
+	 * @param Mmi_Cache $cache
+	 * @return \Mmi_View
+	 */
+	public function setCache(Mmi_Cache $cache) {
+		$this->_cache = $cache;
+		return $this;
+	}
+
+	/**
+	 * Ustawia opcję zawsze kompiluj szablony
+	 * @param boolean $compile
+	 * @return \Mmi_View
+	 */
+	public function setAlwaysCompile($compile = true) {
+		$this->_alwaysCompile = $compile;
+		return $this;
+	}
+
+	/**
+	 * Ustawia tryb debugowania
+	 * @param boolean $debug
+	 * @return \Mmi_View
+	 */
+	public function setDebug($debug = true) {
+		$this->_debug = $debug;
+		return $this;
+	}
+
+	/**
+	 * Ustawia bazowy url
+	 * @param string $baseUrl
+	 * @return \Mmi_View
+	 */
+	public function setBaseUrl($baseUrl) {
+		$this->baseUrl = $baseUrl;
+		return $this;
+	}
+
+	/**
+	 * Zwraca obiekt translatora
+	 * @return Mmi_Translate
+	 */
+	public function getTranslate() {
+		return $this->_translate;
+	}
+
+	/**
+	 * Zwraca obiekt cache
+	 * @return Mmi_Cache
+	 */
+	public function getCache() {
+		return $this->_cache;
 	}
 
 	/**
@@ -164,12 +256,13 @@ class Mmi_View {
 	 */
 	public function getHelper($name) {
 		$name = ucfirst($name);
-		foreach ($this->_structure['library'] as $libName => $lib) {
+		$structure = Mmi_Controller_Front::getInstance()->getStructure();
+		foreach ($structure['library'] as $libName => $lib) {
 			if (isset($lib['View']['Helper'][$name])) {
 				$className = $libName . '_View_Helper_' . $name;
 			}
 		}
-		if (isset($this->request) && isset($this->_structure['module'][$this->request->module]['View']['Helper'][$name])) {
+		if (isset($this->request) && isset($structure['module'][$this->request->module]['View']['Helper'][$name])) {
 			$className = ucfirst($this->request->module) . '_View_Helper_' . $name;
 		}
 		if (!isset($className)) {
@@ -189,12 +282,13 @@ class Mmi_View {
 	 */
 	public function getFilter($name) {
 		$name = ucfirst($name);
-		foreach ($this->_structure['library'] as $libName => $lib) {
+		$structure = Mmi_Controller_Front::getInstance()->getStructure();
+		foreach ($structure['library'] as $libName => $lib) {
 			if (isset($lib['Filter'][$name])) {
 				$className = $libName . '_Filter_' . $name;
 			}
 		}
-		if (isset($this->request) && isset($this->_structure['module'][$this->request->module]['Filter'][$name])) {
+		if (isset($this->request) && isset($structure['module'][$this->request->module]['Filter'][$name])) {
 			$className = ucfirst($this->request->module) . '_Filter_' . $name;
 		}
 		if (!isset($className)) {
@@ -211,9 +305,11 @@ class Mmi_View {
 	 * Ustawia placeholder
 	 * @param string $name nazwa
 	 * @param string $content zawartość
+	 * @return \Mmi_View
 	 */
 	public function setPlaceholder($name, $content) {
 		$this->_placeholders[$name] = $content;
+		return $this;
 	}
 
 	/**
@@ -266,9 +362,11 @@ class Mmi_View {
 	/**
 	 * Ustawia wyłączenie layoutu
 	 * @param boolean $disabled wyłączony
+	 * @return \Mmi_View
 	 */
 	public function setLayoutDisabled($disabled = true) {
 		$this->_layoutDisabled = $disabled;
+		return $this;
 	}
 
 	/**
@@ -287,19 +385,10 @@ class Mmi_View {
 		$this->render($this->_getLayout($skin, $module, $controller), false);
 
 		//opcjonalne uruchomienie panelu deweloperskiego
-		if (Mmi_Config::$data['global']['debug']) {
+		if ($this->_debug) {
 			Mmi_Profiler::event('Debugger started');
-			new Mmi_View_Helper_Panel();
+			new Mmi_View_Helper_Debug();
 		}
-	}
-
-	/**
-	 * Nakładka na translator
-	 * @return string
-	 */
-	public function _() {
-		$translator = Mmi_Registry::get('Mmi_Translate');
-		return call_user_func_array(array($translator, '_'), func_get_args());
 	}
 
 	/**
@@ -309,18 +398,22 @@ class Mmi_View {
 	 * @return string|null zwraca efekt renderowania lub brak przy renderowaniu bezpośrednim
 	 */
 	public function render($fileName, $fetch = false) {
+		Mmi_Profiler::event('View build: ' . basename($fileName));
 		//przechwycenie obecnego stanu bufora
 		if ($fetch) {
 			$prev = ob_get_contents();
 			ob_clean();
 		}
-		if (!$this->_locale && Mmi_Registry::get('Mmi_Translate')) {
-			$this->_locale = Mmi_Registry::get('Mmi_Translate')->getLocale();
+		if (!$this->_locale && $this->_translate !== null) {
+			$this->_locale = $this->_translate->getLocale();
 		}
 		$compileName = $this->_locale . '_' . str_replace(array('/','\\'), '_', substr($fileName, strrpos($fileName, '/application') + 13, -4) . '.php');
 		$destFile = TMP_PATH . '/compile/' . $compileName;
-		$cacheActive = isset(Mmi_Config::$data['cache']['active']) ? Mmi_Config::$data['cache']['active'] : false;
-		if ($cacheActive) {
+		if ($this->_alwaysCompile) {
+			$input = file_get_contents($fileName);
+			file_put_contents($destFile, $this->template($input, $destFile));
+			include $destFile;
+		} else {
 			try {
 				include $destFile;
 			} catch (Exception $e) {
@@ -328,20 +421,16 @@ class Mmi_View {
 				file_put_contents($destFile, $this->template($input, $destFile));
 				include $destFile;
 			}
-		} else {
-			$input = file_get_contents($fileName);
-			file_put_contents($destFile, $this->template($input, $destFile));
-			include $destFile;
 		}
 		if ($fetch) {
 			$data = ob_get_contents();
 			ob_clean();
 			//zwrot starego bufora
 			echo $prev;
-			Mmi_Profiler::event('Fetch: ' . $compileName);
+			Mmi_Profiler::event('View fetched: ' . $compileName);
 			return $data;
 		}
-		Mmi_Profiler::event('Render: ' . $compileName);
+		Mmi_Profiler::event('View rendered: ' . $compileName);
 	}
 
 	/**
@@ -353,28 +442,29 @@ class Mmi_View {
 	 * @throws Exception brak layoutów
 	 */
 	private function _getLayout($skin, $module, $controller) {
+		$structure = Mmi_Controller_Front::getInstance()->getStructure();
 		//skóra / moduł / kontroler
-		if (isset($this->_structure['skin'][$skin][$module][$controller]['layout'])) {
+		if (isset($structure['skin'][$skin][$module][$controller]['layout'])) {
 			return APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/scripts/' . $controller . '/layout.tpl';
 		}
 		//skóra / moduł
-		if (isset($this->_structure['skin'][$skin][$module]['layout'])) {
+		if (isset($structure['skin'][$skin][$module]['layout'])) {
 			return APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/scripts/layout.tpl';
 		}
 		//default / moduł / kontroler
-		if (isset($this->_structure['skin']['default'][$module][$controller]['layout'])) {
+		if (isset($structure['skin']['default'][$module][$controller]['layout'])) {
 			return APPLICATION_PATH . '/skins/default/' . $module . '/scripts/' . $controller .  '/layout.tpl';
 		}
 		//default / moduł
-		if (isset($this->_structure['skin']['default'][$module]['layout'])) {
+		if (isset($structure['skin']['default'][$module]['layout'])) {
 			return APPLICATION_PATH . '/skins/default/' . $module . '/scripts/layout.tpl';
 		}
 		//skóra / default
-		if (isset($this->_structure['skin'][$skin]['default']['layout'])) {
+		if (isset($structure['skin'][$skin]['default']['layout'])) {
 			return APPLICATION_PATH . '/skins/' . $skin . '/default/scripts/layout.tpl';
 		}
 		//default / default
-		if (isset($this->_structure['skin']['default']['default']['layout'])) {
+		if (isset($structure['skin']['default']['default']['layout'])) {
 			return APPLICATION_PATH . '/skins/default/default/scripts/layout.tpl';
 		}
 		throw new Exception('Layout not found.');
@@ -390,10 +480,11 @@ class Mmi_View {
 	 * @throws Exception brak templatów
 	 */
 	private function _getTemplate($skin, $module, $controller, $action) {
-		if (isset($this->_structure['skin'][$skin][$module][$controller][$action])) {
+		$structure = Mmi_Controller_Front::getInstance()->getStructure();
+		if (isset($structure['skin'][$skin][$module][$controller][$action])) {
 			return APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/scripts/' . $controller . '/' . $action . '.tpl';
 		}
-		if (isset($this->_structure['skin']['default'][$module][$controller][$action])) {
+		if (isset($structure['skin']['default'][$module][$controller][$action])) {
 			return APPLICATION_PATH . '/skins/default/' . $module . '/scripts/' . $controller . '/' . $action . '.tpl';
 		}
 		throw new Exception('Template not found.');

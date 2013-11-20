@@ -31,7 +31,7 @@ class Mmi_View_Helper_Abstract {
 	 * Referencja do widoku
 	 * @var Mmi_View
 	 */
-	protected $_view;
+	public $view;
 
 	/**
 	 * Metoda programisty końcowego, wykonuje się na końcu konstruktora
@@ -45,5 +45,5 @@ class Mmi_View_Helper_Abstract {
 		$this->view = Mmi_View::getInstance();
 		$this->init();
 	}
-	
+
 }

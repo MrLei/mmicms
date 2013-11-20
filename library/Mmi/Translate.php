@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -27,10 +28,10 @@
  */
 class Mmi_Translate {
 
-/**
- * Dane językowe
- * @var array
- */
+	/**
+	 * Dane językowe
+	 * @var array
+	 */
 	private $_data = array();
 
 	/**
@@ -62,7 +63,6 @@ class Mmi_Translate {
 		} elseif (null !== $locale) {
 			$this->setLocale($locale);
 		}
-		$this->setDefaultLocale(Mmi_Config::$data['global']['languages'][0]);
 	}
 
 	/**
@@ -90,8 +90,17 @@ class Mmi_Translate {
 	}
 
 	/**
+	 * Domyślny język
+	 * @return string
+	 */
+	public function getDefaultLocale() {
+		return $this->_defaultLocale;
+	}
+
+	/**
 	 * Ustawia bieżącą wersję językową
 	 * @param string $locale wersja językowa
+	 * @return Mmi_Translate
 	 */
 	public function setLocale($locale) {
 		$this->_locale = $locale;
@@ -101,9 +110,11 @@ class Mmi_Translate {
 	/**
 	 * Ustawia domyślną wersję językową
 	 * @param string $locale wersja językowa
+	 * @return Mmi_Translate
 	 */
 	public function setDefaultLocale($locale) {
 		$this->_defaultLocale = $locale;
+		return $this;
 	}
 
 	/**

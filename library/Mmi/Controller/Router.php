@@ -27,47 +27,64 @@
 class Mmi_Controller_Router {
 
 	/**
-	 * Instancja
-	 * @var Mmi_Controller_Router
+	 * Konfiguracja
+	 * @var Mmi_Controller_Router_Config
 	 */
-	private static $_instance;
+	private $_config;
 
 	/**
-	 * Routy (trasy)
-	 * @var array
-	 */
-	private $_routes = array();
-
-	/**
-	 * Ścieżka bazowa
+	 * Ścieżka bazowa zapytania
 	 * @var string
 	 */
 	private $_baseUrl;
 
 	/**
-	 * Pobiera instancję
-	 * @return Mmi_Controller_Router
+	 * Url zapytania
+	 * @var string
 	 */
-	public static function getInstance() {
-		if (null === self::$_instance) {
-			self::$_instance = new self();
+	private $_url;
+
+	/**
+	 * Domyślny język
+	 * @var string
+	 */
+	private $_defaultLanguage;
+
+	/**
+	 * Domyślna skóra
+	 * @var string
+	 */
+	private $_defaultSkin;
+
+	/**
+	 *
+	 * @param Mmi_Controller_Router_Config $config
+	 * @param string $defaultLang domyślny język
+	 * @param string $defaultSkin domyślna skóra
+	 */
+	public function __construct(Mmi_Controller_Router_Config $config, $defaultLang = 'en', $defaultSkin = 'default') {
+		$this->_config = $config;
+		$this->_defaultLanguage = $defaultLang;
+		$this->_defaultSkin = $defaultSkin;
+
+		$this->_url = urldecode(trim(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '', '/ '));
+		if (!(false === strpos($this->_url, '?'))) {
+			$this->_url = substr($this->_url, 0, strpos($this->_url, '?'));
 		}
-		return self::$_instance;
+		$position = strpos($this->_url, '/public');
+		if ($position !== false && (substr($this->_url, -7) == '/public' || substr($this->_url, $position, 8) == '/public/')) {
+			$this->_baseUrl = substr($this->_url, 0, $position + 7);
+			$this->_url = substr($this->_url, $position + 8);
+		}
+		$this->_baseUrl = isset($this->_baseUrl) ? '/' . trim($this->_baseUrl, '/') . '/' : '/';
+		$this->_url = trim($this->_url, '/');
 	}
 
-	/**
-	 * Konstruktor, wczytuje trasy z konfiguracji
-	 */
-	protected function __construct() {
-
-	}
-
-	/**
-	 * Ustaw routy (trasy)
-	 * @param array $routes tablica rout (tras)
-	 */
-	public function setRoutes(array $routes = array()) {
-		$this->_routes = $routes;
+	public function getRoutes() {
+		if ($this->_config === null) {
+			return array();
+		}
+		return $this->_config->getRoutes();
 	}
 
 	/**
@@ -76,38 +93,22 @@ class Mmi_Controller_Router {
 	 */
 	public function processRequest(Mmi_Controller_Request $request) {
 		$request->setParams($this->_decodeGet());
-		$request->setParams($this->decodeUrl(trim(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '', '/'), true));
+		$request->setParams($this->decodeUrl($this->_url));
 		return $request;
 	}
 
 	/**
 	 * Dekoduje URL na parametry żądania zgodnie z wczytanymi trasami
 	 * @param string $url URL
-	 * @param boolean $setBaseUrl jeśli prawdziwe, ustawi ścieżkę bazową w obiekcie
 	 * @return array
 	 */
-	public function decodeUrl($url, $setBaseUrl = false) {
-		$url = urldecode($url);
-
-		if (!(false === strpos($url, '?'))) {
-			$url = substr($url, 0, strpos($url, '?'));
-		}
-		$position = strpos($url, '/public');
-		if ($position !== false && (substr($url, -7) == '/public' || substr($url, $position, 8) == '/public/')) {
-			$baseUrl = substr($url, 0, $position + 7);
-			$url = substr($url, $position + 8);
-		}
-		$baseUrl = isset($baseUrl) ? '/' . trim($baseUrl, '/') . '/' : '/';
-		if ($setBaseUrl) {
-			$this->setBaseUrl($baseUrl);
-		}
-		$url = trim($url, '/');
+	public function decodeUrl($url) {
 		$params = array();
-		foreach ($this->_routes as $route) {
-			$default = isset($route['default']) ? $route['default'] : array();
-			$result = $this->_inputRouteApply($route['pattern'], $route['replace'], $default, $url);
+		foreach ($this->getRoutes() as $route) {
+			/* @var $route Mmi_Controller_Router_Config_Route */
+			$result = $this->_inputRouteApply($route, $url);
 			if ($result['matched']) {
-				$params = isset($route['default']) ? $route['default'] : array();
+				$params = $route->default;
 				$params = array_merge($params, $result['params']);
 				$url = $result['url'];
 				break;
@@ -119,7 +120,7 @@ class Mmi_Controller_Router {
 				$params['lang'] = $vars[0];
 				array_shift($vars);
 			} else {
-				$params['lang'] = isset(Mmi_Config::$data['global']['languages'][0]) ? Mmi_Config::$data['global']['languages'][0] : null;
+				$params['lang'] = $this->_defaultLanguage;
 			}
 		}
 		if (isset($vars[0]) && $vars[0]) {
@@ -162,7 +163,7 @@ class Mmi_Controller_Router {
 			$i++;
 		}
 		if (!isset($params['skin'])) {
-			$params['skin'] = isset(Mmi_Config::$data['global']['skin']) ? Mmi_Config::$data['global']['skin'] : 'default';
+			$params['skin'] = $this->_defaultSkin;
 		}
 		return $params;
 	}
@@ -177,13 +178,14 @@ class Mmi_Controller_Router {
 		$lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
 		$urlParams = '';
 		$matched = array();
-		foreach ($this->_routes as $route) {
-			$currentParams = isset($route['default']) ? (array_merge($route['default'], $params)) : $params;
+		foreach ($this->getRoutes() as $route) {
+			/* @var $route Mmi_Controller_Router_Config_Route */
+			$currentParams = array_merge($route->default, $params);
 			unset($currentParams['skin']);
 			if (!isset($currentParams['lang'])) {
 				$currentParams['lang'] = $lang;
 			}
-			$result = $this->_outputRouteApply($route['pattern'], array_merge($route['default'], $route['replace']), $currentParams);
+			$result = $this->_outputRouteApply($route, $currentParams);
 			if ($result['applied']) {
 				$url .= '/' . $result['url'];
 				$matched = $result['matched'];
@@ -211,7 +213,7 @@ class Mmi_Controller_Router {
 		unset($params['action']);
 		unset($params['skin']);
 
-		if (isset($params['lang']) && $params['lang'] != Mmi_Config::$data['global']['languages'][0]) {
+		if (isset($params['lang']) && $params['lang'] != $this->_defaultLanguage) {
 			$url .= '/' . $params['lang'];
 		}
 		unset($params['lang']);
@@ -264,14 +266,6 @@ class Mmi_Controller_Router {
 	}
 
 	/**
-	 * Ustawia ścieżkę bazową
-	 * @param string $baseUrl
-	 */
-	public function setBaseUrl($baseUrl) {
-		$this->_baseUrl = $baseUrl;
-	}
-
-	/**
 	 * Filtruje string, lub tablicę (w sposób rekurencyjny)
 	 * @param mixed $input zmienna wejściowa
 	 * @return mixed
@@ -294,32 +288,30 @@ class Mmi_Controller_Router {
 
 	/**
 	 * Stosuje istniejące trasy dla danego url
-	 * @param string $pattern wzór
-	 * @param array $replace tablica zamian
-	 * @param array $default tablica domyślnych wartości
+	 * @param Mmi_Controller_Router_Config_Route $route
 	 * @param string $url URL
 	 * @return array
 	 */
-	private function _inputRouteApply($pattern, array $replace, $default, $url) {
+	private function _inputRouteApply(Mmi_Controller_Router_Config_Route $route, $url) {
 		$params = array();
 		$matches = array();
 		$matched = false;
 		//sprawdzenie statyczne
-		if ($pattern == $url) {
+		if ($route->pattern == $url) {
 			$matched = true;
-			$params = array_merge($default, $replace);
+			$params = array_merge($route->default, $route->replace);
 			return array(
 				'matched' => true,
-				'params' => array_merge($default, $replace),
-				'url' => trim(substr($url, strlen($pattern)), ' /')
+				'params' => $params,
+				'url' => trim(substr($url, strlen($route->pattern)), ' /')
 			);
 		}
 		//dopasowanie wyrażeniem regularnym
-		if ($this->_isPatternRegular($pattern) && @preg_match($pattern, $url, $matches)) {
+		if ($this->_isPatternRegular($route->pattern) && @preg_match($route->pattern, $url, $matches)) {
 			$this->_tmpMatches = $matches;
-			$this->_tmpDefault = $default;
+			$this->_tmpDefault = $route->default;
 			$matched = true;
-			foreach ($replace as $key => $value) {
+			foreach ($route->replace as $key => $value) {
 				$this->_tmpKey = $key;
 				$params[$key] = preg_replace_callback('/\$([0-9]+)/', array($this, '_routeMatch'), $value);
 				$params[$key] = preg_replace('/\|[a-z]+/', '', $params[$key]);
@@ -338,18 +330,18 @@ class Mmi_Controller_Router {
 
 	/**
 	 * Stosuje istniejące trasy dla tablicy parametrów (np. z żądania)
-	 * @param string $pattern wzór
-	 * @param array $replace tablica zamian
+	 * @param Mmi_Controller_Router_Config_Route $route
 	 * @param array $params parametry
 	 * @return array
 	 */
-	private function _outputRouteApply($pattern, array $replace, array $params) {
+	private function _outputRouteApply(Mmi_Controller_Router_Config_Route $route, array $params) {
 		$matches = array();
 		$matched = array();
 		$applied = true;
 		$url = '';
+		$replace = array_merge($route->default, $route->replace);
 		//routy statyczne tylko ze zgodną liczbą parametrów
-		if (!$this->_isPatternRegular($pattern) && count($replace) != count($params)) {
+		if (!$this->_isPatternRegular($route->pattern) && count($replace) != count($params)) {
 			return array(
 				'applied' => false,
 				'matched' => $matched,
@@ -379,7 +371,7 @@ class Mmi_Controller_Router {
 			$matched[$key] = true;
 		}
 		if ($applied) {
-			$pattern = str_replace(array('\\', '?'), '', trim($pattern, '/^$'));
+			$pattern = str_replace(array('\\', '?'), '', trim($route->pattern, '/^$'));
 			foreach ($matches as $match) {
 				if (is_array($match)) {
 					$match = trim(implode(';', $match), ';');

@@ -1,6 +1,6 @@
 <?php
 /**
- * Mmi
+ * MmiCms
  *
  * LICENSE
  *
@@ -9,8 +9,8 @@
  * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
  *
  * MmiCms/View/Helper/Thumb.php
- * @category   Mmi
- * @package    Mmi_View
+ * @category   MmiCms
+ * @package    MmiCms_View
  * @subpackage Helper
  * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -26,7 +26,7 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class MmiCms_View_Helper_Thumb extends Mmi_View_Helper_Abstract {
-	
+
 	/**
 	 * Metoda główna, generuje miniaturę
 	 * @param Cms_Model_File_Record $file instancja pliku
@@ -41,5 +41,5 @@ class MmiCms_View_Helper_Thumb extends Mmi_View_Helper_Abstract {
 		}
 		return null;
 	}
-	
+
 }

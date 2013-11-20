@@ -259,8 +259,8 @@
 	 * Pobiera translator
 	 * @return Mmi_Translate
 	 */
-	public final function getTranslator() {
-		return Mmi_Registry::get('Mmi_Translate');
+	public final function getTranslate() {
+		return Mmi_View::getInstance()->getTranslate();
 	}
 
 	/**
@@ -426,6 +426,7 @@
 		unset($options['labelPostfix']);
 		unset($options['markRequired']);
 		unset($options['multiOptions']);
+		unset($options['labelClass']);
 		unset($options['options']);
 		unset($options['required']);
 		unset($options['translatorDisabled']);
@@ -488,7 +489,7 @@
 			$required = '';
 		}
 		if ($this->_translatorEnabled) {
-			$label = $this->getTranslator()->_($this->_options['label']);
+			$label = $this->getTranslate()->_($this->_options['label']);
 		} else {
 			$label = $this->_options['label'];
 		}
@@ -515,7 +516,7 @@
 			$id = '';
 		}
 		if ($this->_translatorEnabled) {
-			$description = $this->getTranslator()->_($this->_options['description']);
+			$description = $this->getTranslate()->_($this->_options['description']);
 		} else {
 			$description = $this->_options['description'];
 		}
@@ -537,7 +538,7 @@
 			$html .= '<ul>';
 			foreach($this->_errors as $error) {
 				if ($this->_translatorEnabled) {
-					$err = $this->getTranslator()->_($error);
+					$err = $this->getTranslate()->_($error);
 				} else {
 					$err = $error;
 				}

@@ -10,7 +10,7 @@ class Cms_Form_Contact extends Mmi_Form {
 
 		if (!$this->getOption('subjectId')) {
 			$this->addElement('select', 'cms_contact_option_id', array(
-				'multiOptions' => Cms_Model_Contact_Option_Dao::findPairs('id', 'name', array(), array('name')),
+				'multiOptions' => Cms_Model_Contact_Option_Dao::findPairs('id', 'name', Cms_Model_Contact_Option_Dao::newQuery()->orderAsc('name')),
 				'label' => 'Wybierz temat',
 				'validators' => array(
 					array('validator' => 'Integer'),
@@ -18,7 +18,7 @@ class Cms_Form_Contact extends Mmi_Form {
 			));
 		}
 
-		$auth = Mmi_Auth::getInstance();
+		$auth = Default_Registry::$auth;
 		$this->addElement('text', 'email', array(
 			'label' => 'Twój adres e-mail',
 			'value' => $auth->getEmail(),

@@ -9,7 +9,7 @@
  * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
  * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
  *
- * Mmi/View/Helper/Panel.php
+ * Mmi/View/Helper/Debug.php
  * @category   Mmi
  * @package    Mmi_View
  * @subpackage Helper
@@ -26,18 +26,14 @@
  * @subpackage Helper
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
-class Mmi_View_Helper_Panel extends Mmi_View_Helper_Abstract {
+class Mmi_View_Helper_Debug extends Mmi_View_Helper_Abstract {
 
-	/**
-	 * Renderuje panel
-	 * @return string
-	 */
 	public function __construct() {
 		parent::__construct();
 		$view = $this->view;
-		$elapsed = round(Mmi_Profiler::getElapsed(), 4) . 's';
+		$elapsed = round(Mmi_Profiler::elapsed(), 4) . 's';
 		$memory = round(memory_get_peak_usage() / (1024 * 1024), 2) . 'MB';
-		if (!Mmi_Config::$data['cache']['active']) {
+		if ($this->view->getCache() === null || !$this->view->getCache()->isActive()) {
 			$cacheInfo = '<span style="color: #f22;">no cache</span>';
 		} else {
 			$cacheInfo = '<span style="color: #99ff99;">cache on</span>';
@@ -88,14 +84,17 @@ class Mmi_View_Helper_Panel extends Mmi_View_Helper_Abstract {
 		$html .= '<p style="margin: 0; padding: 0;">POST maximal size: <b>' . ini_get('post_max_size') . '</b></p>';
 		$html .= '</pre>';
 
-		$profiler = Mmi_Db_Profiler::getInstance();
-		$html .= '<p style="margin: 0px;">SQL queries: <b>' . $profiler->getTotalNumQueries() . '</b>, elapsed time: <b>' . round($profiler->getTotalElapsedSecs(), 4) . 's </b></p>';
+		$html .= '<p style="margin: 0px;">SQL queries: <b>' . Mmi_Db_Profiler::count() . '</b>, elapsed time: <b>' . round(Mmi_Db_Profiler::elapsed(), 4) . 's </b></p>';
 		$i = 0;
 		$html .= '<pre style="white-space: normal; word-wrap: break-word; margin: 0px 0px 10px 0px; color: #ddd; background: #222; padding: 3px; border: 1px solid #666;">';
-		if ($profiler->getTotalNumQueries() > 0) {
-			foreach ($profiler->getQueryProfiles() as $query) {
+		if (Mmi_Db_Profiler::count() > 0) {
+			foreach (Mmi_Db_Profiler::get() as $query) {
 				$i++;
-				$html .= $i . '. (<strong style="color: #ddd;">' . round($query['elapsed'], 4) . 's</strong>) - ' . $this->colorify($query['query']) . '<br />';
+				$color = $query['percent'] * 15;
+				$color = ($color + 80) > 255 ? 255 : $color + 80;
+				$color = dechex($color);
+				$color = $color . '9933';
+				$html .= $i . '. (<strong style="color: #' . $color . ';">' . round($query['elapsed'], 4) . 's</strong>) - ' . $this->_colorify($query['name']) . '<br />';
 			}
 		} else {
 			$html .= 'No SQL queries.';
@@ -157,26 +156,24 @@ class Mmi_View_Helper_Panel extends Mmi_View_Helper_Abstract {
 					}
 				}
 			}
-			$html .= '<p style="margin: 0px;">Request Variables: </p><pre style="margin: 0px 0px 10px 0px; color: #ddd; background: #222; padding: 3px; border: 1px solid #666;">' . $this->colorify(print_r(Mmi_Controller_Front::getInstance()->getRequest()->toArray(), true)) . '</pre>';
-			$html .= '<p style="margin: 0px;">View Variables: </p><pre style="overflow-x: auto; max-width: 1000px; margin: 0px 0px 10px 0px; color: #ddd; background: #222; padding: 3px; border: 1px solid #666; ">' . $this->colorify(print_r($viewVars, true)) . '</pre>';
+			$html .= '<p style="margin: 0px;">Request Variables: </p><pre style="margin: 0px 0px 10px 0px; color: #ddd; background: #222; padding: 3px; border: 1px solid #666;">' . $this->_colorify(print_r(Mmi_Controller_Front::getInstance()->getRequest()->toArray(), true)) . '</pre>';
+			$html .= '<p style="margin: 0px;">View Variables: </p><pre style="overflow-x: auto; max-width: 1000px; margin: 0px 0px 10px 0px; color: #ddd; background: #222; padding: 3px; border: 1px solid #666; ">' . $this->_colorify(print_r($viewVars, true)) . '</pre>';
 		}
 		if (isset($_COOKIE) && count($_COOKIE) > 0) {
-			$html .= '<p style="margin: 0px;">Cookie Variables: </p><pre style="margin: 0px 0px 10px 0px; color: #ddd; background: #222; padding: 3px; border: 1px solid #666;">' . $this->colorify(print_r($_COOKIE, true)) . '</pre>';
+			$html .= '<p style="margin: 0px;">Cookie Variables: </p><pre style="margin: 0px 0px 10px 0px; color: #ddd; background: #222; padding: 3px; border: 1px solid #666;">' . $this->_colorify(print_r($_COOKIE, true)) . '</pre>';
 		}
 		if (isset($_SESSION) && count($_SESSION) > 0) {
-			$html .= '<p style="margin: 0px;">Session Variables: </p><pre style="margin: 0px 0px 10px 0px; color: #ddd; background: #222; padding: 3px; border: 1px solid #666;">' . $this->colorify(print_r($_SESSION, true)) . '</pre>';
+			$html .= '<p style="margin: 0px;">Session Variables: </p><pre style="margin: 0px 0px 10px 0px; color: #ddd; background: #222; padding: 3px; border: 1px solid #666;">' . $this->_colorify(print_r($_SESSION, true)) . '</pre>';
 		}
-		if (count(Mmi_Registry::getKeys()) > 0) {
-			$html .= '<p style="margin: 0px;">Registry Variables: </p><pre style="margin: 0px 0px 10px 0px; color: #ddd; background: #222; padding: 3px; border: 1px solid #666;">';
-			foreach (Mmi_Registry::getKeys() as $registryKey => $varValue) {
-				if (is_object($varValue)) {
-					$html .= $this->colorify('[' . $registryKey . '] => Object { ' . get_class($varValue) . ' }') . '<br />';
-				} else {
-					$html .= $this->colorify(print_r(Mmi_Registry::get($registryKey), true));
-				}
-			}
-			$html .= '</pre>';
-		}
+		//$html .= '<p style="margin: 0px;">Registry Variables: </p><pre style="margin: 0px 0px 10px 0px; color: #ddd; background: #222; padding: 3px; border: 1px solid #666;">';
+		//foreach (Default_Registry::getAll() as $registryKey => $varValue) {
+		//	if (is_object($varValue)) {
+		//		$html .= $this->_colorify('[' . $registryKey . '] => Object { ' . get_class($varValue) . ' }') . '<br />';
+		//	} else {
+		//		$html .= $this->_colorify(print_r(Mmi_Registry::get($registryKey), true));
+		//	}
+		//}
+		$html .= '</pre>';
 
 		$html .= '</td></tr><tr><td colspan="2">';
 
@@ -213,7 +210,7 @@ class Mmi_View_Helper_Panel extends Mmi_View_Helper_Abstract {
 	 * @param string $text kod
 	 * @return string html
 	 */
-	public function colorify($text) {
+	protected function _colorify($text) {
 		$text = preg_replace('/\[([a-zA-Z]+)\]/', '[<span style="color: #fff; font-weight: bold;">${1}</span>]', $text);
 		$text = preg_replace('/\{([a-zA-Z_ ]+)\}/', '{<span style="color: #fff; font-weight: bold;">${1}</span>}', $text);
 		$search = array(
@@ -262,8 +259,7 @@ class Mmi_View_Helper_Panel extends Mmi_View_Helper_Abstract {
 			'<span style="color: #fff; font-weight: bold;">DESC</span>',
 			'<span style="color: #fff; font-weight: bold;">AS</span>',
 		);
-		$text = str_replace($search, $replace, $text);
-		return $text;
+		return str_replace($search, $replace, $text);
 	}
 
 }

@@ -31,7 +31,7 @@ class Cms_Controller_AdminAcl extends MmiCms_Controller_Admin {
 	}
 
 	public function updateAction() {
-		$msg = Mmi_Registry::get('Mmi_Translate')->_('Zmiana właściwości nie powiodła się') . '.';
+		$msg = Mmi_View::getInstance()->getTranslate()->_('Zmiana właściwości nie powiodła się.');
 		if (!($this->_getParam('id'))) {
 			die($msg);
 		}

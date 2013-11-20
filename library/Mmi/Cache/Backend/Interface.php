@@ -29,7 +29,7 @@ interface Mmi_Cache_Backend_Interface {
 	 * Konstruktor
 	 * @param array $params opcje
 	 */
-	public function __construct(array $params = array());
+	public function __construct(Mmi_Cache_Config $config);
 
 	/**
 	 * Ładuje dane o podanym kluczu

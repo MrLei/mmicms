@@ -32,12 +32,6 @@ class Mmi_Controller_Front {
 	private static $_instance;
 
 	/**
-	 * Bootstrap
-	 * @var Mmi_Bootstrap
-	 */
-	private $_bootstrap;
-
-	/**
 	 * Request (żądanie)
 	 * @var Mmi_Controller_Request
 	 */
@@ -50,6 +44,18 @@ class Mmi_Controller_Front {
 	private $_response;
 
 	/**
+	 * Router
+	 * @var Mmi_Controller_Router
+	 */
+	private $_router;
+
+	/**
+	 * Widok
+	 * @var Mmi_View
+	 */
+	private $_view;
+
+	/**
 	 * Lista pluginów
 	 * @var array
 	 */
@@ -59,17 +65,14 @@ class Mmi_Controller_Front {
 	 * Struktura aplikacji
 	 * @var array
 	 */
-	private $_structure = array();
+	private $_structure;
 
 	/**
 	 * Zabezpieczony konstruktor
 	 */
 	protected function __construct() {
-		if (null !== ($this->_structure = Mmi_Cache::load('Mmi_Structure'))) {
-			return;
-		}
-		$this->_structure = Mmi_Structure::getStructure();
-		Mmi_Cache::save($this->_structure, 'Mmi_Structure', 86400);
+		$this->_request = new Mmi_Controller_Request();
+		$this->_response = new Mmi_Controller_Response();
 	}
 
 	/**
@@ -84,35 +87,63 @@ class Mmi_Controller_Front {
 	}
 
 	/**
+	 * Ustawia strukturę frontu
+	 * @param array $structure
+	 * @return \Mmi_Controller_Front
+	 */
+	public function setStructure(array $structure = array()) {
+		$this->_structure = $structure;
+		return $this;
+	}
+
+	/**
 	 * Dodanie pluginu
 	 * @param Mmi_Controller_Plugin_Abstract $plugin
+	 * @return \Mmi_Controller_Front
 	 */
 	public function registerPlugin(Mmi_Controller_Plugin_Abstract $plugin) {
 		$this->_plugins[] = $plugin;
+		return $this;
 	}
 
 	/**
 	 * Ustawienie żądania
 	 * @param Mmi_Controller_Request $request
+	 * @return \Mmi_Controller_Front
 	 */
 	public function setRequest(Mmi_Controller_Request $request) {
 		$this->_request = $request;
+		return $this;
 	}
 
 	/**
 	 * Ustawienie odpowiedzi
 	 * @param Mmi_Controller_Response $response
+	 * @return \Mmi_Controller_Front
 	 */
 	public function setResponse(Mmi_Controller_Response $response) {
 		$this->_response = $response;
+		return $this;
 	}
 
 	/**
-	 * Ustawienie bootstrapa
-	 * @param Mmi_Bootstrap $bootstrap
+	 * Ustawia router
+	 * @param Mmi_Controller_Router $router
+	 * @return \Mmi_Controller_Front
 	 */
-	public function setBootstrap(Mmi_Bootstrap $bootstrap) {
-		$this->_bootstrap = $bootstrap;
+	public function setRouter(Mmi_Controller_Router $router) {
+		$this->_router = $router;
+		return $this;
+	}
+
+	/**
+	 * Ustawia widok
+	 * @param Mmi_View $view
+	 * @return \Mmi_Controller_Front
+	 */
+	public function setView(Mmi_View $view) {
+		$this->_view = $view;
+		return $this;
 	}
 
 	/**
@@ -132,11 +163,25 @@ class Mmi_Controller_Front {
 	}
 
 	/**
-	 * Pobieranie bootstrapa
-	 * @return Mmi_Bootstrap $bootstrap
+	 * Pobranie routera
+	 * @return Mmi_Controller_Router
 	 */
-	public function getBootstrap() {
-		return $this->_bootstrap;
+	public function getRouter() {
+		if ($this->_router === null) {
+			throw new Exception('Mmi_Controller_Front: no router specified');
+		}
+		return $this->_router;
+	}
+
+	/**
+	 * Pobranie widoku
+	 * @return Mmi_View
+	 */
+	public function getView() {
+		if ($this->_view === null) {
+			throw new Exception('Mmi_Controller_Front: no view specified');
+		}
+		return $this->_view;
 	}
 
 	/**
@@ -145,6 +190,12 @@ class Mmi_Controller_Front {
 	 * @return array
 	 */
 	public function getStructure($part = null) {
+		if ($this->_structure === null) {
+			throw new Exception('Mmi_Contoller_Front structure not found');
+		}
+		if ($part !== null && !isset($this->_structure[$part])) {
+			throw new Exception('Mmi_Controller_Front structure invalid');
+		}
 		return (null === $part) ? $this->_structure : $this->_structure[$part];
 	}
 
@@ -186,12 +237,15 @@ class Mmi_Controller_Front {
 
 		//wpięcie dla pluginów przed routingiem
 		$this->routeStartup();
+		Mmi_Profiler::event('Plugins route startup');
 
 		//stosowanie routingu
-		Mmi_Controller_Router::getInstance()->processRequest($this->getRequest());
+		$this->getRouter()->processRequest($this->getRequest());
+		Mmi_Profiler::event('Routes applied');
 
 		//wpięcie dla pluginów przed dispatchem
 		$this->preDispatch();
+		Mmi_Profiler::event('Plugins pre-dispatch');
 
 		//wybór i uruchomienie kontrolera akcji (dispatch)
 		$actionHelper = new Mmi_Controller_Action_Helper_Action();
@@ -202,6 +256,7 @@ class Mmi_Controller_Front {
 
 		//wpięcie dla pluginów po dispatchu
 		$this->postDispatch();
+		Mmi_Profiler::event('Plugins post-dispatch');
 
 		//wyświetlenie layoutu
 		Mmi_View::getInstance()->setPlaceholder('content', $content);

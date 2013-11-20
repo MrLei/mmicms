@@ -34,6 +34,7 @@ class Mmi_Form_Element_Radio extends Mmi_Form_Element_Abstract {
 	public function fetchField() {
 		$baseId = $this->_options['id'];
 		$multiOptions = isset($this->_options['multiOptions']) ? $this->_options['multiOptions'] : array();
+		$labelClass = isset($this->_options['labelClass']) ? $this->_options['labelClass'] : array();
 		$value = isset($this->_options['value']) ? $this->_options['value'] : null;
 
 		unset($this->_options['value']);
@@ -55,9 +56,15 @@ class Mmi_Form_Element_Radio extends Mmi_Form_Element_Abstract {
 			}
 			$f = new Mmi_Filter_Url();
 			$this->_options['id'] = $baseId . '_' . $f->filter($key);
+			$classTag = "";
+			foreach ($labelClass as $labelId => $className) {
+				if($labelId == $key) {
+					$classTag .= 'class="' . $className . '" ';
+				}
+			}
 			$html .= '<li id="' . $this->_options['id'] . '_item" class="'. $liClass .'">
 				<input type="radio" ' . $this->_getHtmlOptions() . '/>
-				<label for="' . $this->_options['id'] . '">'. $caption .'</label>
+				<label ' . $classTag . 'for="' . $this->_options['id'] . '">'. $caption .'</label>
 			</li>';
 		}
 		$html .= '</ul>';
@@ -81,7 +88,7 @@ class Mmi_Form_Element_Radio extends Mmi_Form_Element_Abstract {
 			$required = '';
 		}
 		if ($this->_translatorEnabled) {
-			$label = $this->getTranslator()->_($this->_options['label']);
+			$label = $this->getTranslate()->_($this->_options['label']);
 		} else {
 			$label = $this->_options['label'];
 		}

@@ -24,7 +24,7 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 
-class Mmi_Db_Config extends Mmi_Config_Abstract {
+class Mmi_Db_Config {
 
 	/**
 	 * Silnik bazy danych
@@ -38,6 +38,12 @@ class Mmi_Db_Config extends Mmi_Config_Abstract {
 	 * @var string
 	 */
 	public $host;
+
+	/**
+	 * Port bazy danych
+	 * @var int
+	 */
+	public $port;
 
 	/**
 	 * Nazwa bazy
@@ -74,5 +80,11 @@ class Mmi_Db_Config extends Mmi_Config_Abstract {
 	 * @var boolean
 	 */
 	public $persistent = false;
+
+	/**
+	 * Profiler włączony
+	 * @var boolean
+	 */
+	public $profiler = false;
 
 }

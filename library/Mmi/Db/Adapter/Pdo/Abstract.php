@@ -35,16 +35,10 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	protected $_pdo;
 
 	/**
-	 * Profiler bazodanowy
-	 * @var Mmi_Db_Profiler
+	 * Konfiguracja
+	 * @var Mmi_Db_Config
 	 */
-	protected $_profiler;
-
-	/**
-	 * Opcje konfiguracyjne
-	 * @var array
-	 */
-	protected $_options;
+	protected $_config;
 
 	/**
 	 * Przechowuje funkcje sortowania
@@ -112,12 +106,19 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 
 	/**
 	 * Konstruktor wczytujący konfigurację
-	 * @param array $options
+	 * @param Mmi_Db_Config $config
 	 */
-	public function __construct(array $options) {
-		$options['persistent'] = (isset($options['persistent']) && $options['persistent']) ? true : false;
-		$this->_options = $options;
+	public function __construct(Mmi_Db_Config $config) {
+		$this->_config = $config;
 		$this->_connected = false;
+	}
+
+	/**
+	 * Zwraca konfigurację
+	 * @return Mmi_Db_Config
+	 */
+	public final function getConfig() {
+		return $this->_config;
 	}
 
 	/**
@@ -137,15 +138,12 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * Tworzy połączenie z bazą danych
 	 */
 	public function connect() {
-		if (isset($this->_options['profiler']) && $this->_options['profiler']) {
-			$this->_profiler = Mmi_Db_Profiler::getInstance();
-		}
-		if ($this->_profiler) {
-			$this->_profiler->event('CONNECT WITH: ' . get_class($this), 0);
+		if ($this->_config->profiler) {
+			Mmi_Db_Profiler::event('CONNECT WITH: ' . get_class($this), 0);
 		}
 		$this->_pdo = new PDO(
-						$this->_options['driver'] . ':host=' . $this->_options['host'] . ';port=' . $this->_options['port'] . ';dbname=' . $this->_options['dbname'], $this->_options['username'], $this->_options['password'],
-						array(PDO::ATTR_PERSISTENT => $this->_options['persistent'])
+						$this->_config->driver . ':host=' . $this->_config->host . ';port=' . $this->_config->port . ';dbname=' . $this->_config->name, $this->_config->user, $this->_config->password,
+						array(PDO::ATTR_PERSISTENT => $this->_config->persistent)
 		);
 		$this->_connected = true;
 	}
@@ -214,12 +212,12 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 			$error = isset($error[2]) ? $error[2] : $error[0];
 			throw new Exception('DB exception: ' . $error . ' --- ' . $sql);
 		}
-		if ($this->_profiler) {
+		if ($this->_config->profiler) {
 			$qs = $statement->queryString;
 			if (!empty($bind)) {
-				$qs .= "\n" . print_r($bind, true);
+				$qs .= "\n(" . http_build_query($bind) . ')';
 			}
-			$this->_profiler->event($qs, microtime(true) - $start);
+			Mmi_Db_Profiler::event($qs, microtime(true) - $start);
 		}
 		return $statement;
 	}
@@ -373,8 +371,8 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 				$targetTable = isset($condition[2]) ? $condition[2] : $table;
 				$joinType = isset($condition[3]) ? $condition[3] : 'JOIN';
 				$sql .= ' ' . $joinType . ' ' . $this->prepareTable($joinTable) . ' ON ' .
-						$this->prepareTable($joinTable) . '.' . $condition[0] .
-						' = ' . $this->prepareTable($targetTable) . '.' . $condition[1];
+						$this->prepareTable($joinTable) . '.' . $this->prepareField($condition[0]) .
+						' = ' . $this->prepareTable($targetTable) . '.' . $this->prepareField($condition[1]);
 			}
 		}
 		$sql .= $where['sql'] . $this->_parseOrderBind($orderBind, $table) . $this->prepareLimit($limit, $offset);
@@ -539,31 +537,33 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 		if ($rule[2] == '!=') {
 			$rule[2] = '<>';
 		}
-		if (array_key_exists('1', $rule)) {
-			if (isset($rule[1])) {
-				$where .= ' ' . $rule[3];
-				$where .= ' ' . $table . $this->prepareField($rule[0]);
-				$where .= ' ' . $rule[2];
-				if ($rule[2] == 'IN' || $rule[2] == 'NOT IN') {
-					$args = explode(',', $rule[1]);
-					$where .= ' (';
-					foreach ($args as $arg) {
-						$where .= '?, ';
-						$params[] = $arg;
-					}
-					$where = rtrim($where, ', ') . ')';
-				} else {
-					$where .= ' ?';
-					$params[] = $rule[1];
-				}
-			} else {
-				if (isset($rule[2]) && $rule[2] == '<>') {
-					$where .= ' ' . $rule[3] . ' ' . $this->prepareNullCheck($table . $this->prepareField($rule[0]), false) . ' ';
-				} else {
-					$where .= ' ' . $rule[3] . ' ' . $this->prepareNullCheck($table . $this->prepareField($rule[0])) . ' ';
-				}
-			}
+		if (!array_key_exists('1', $rule)) {
+			return $where;
 		}
+		if ($rule[1] === null) {
+			$negation = !(isset($rule[2]) && $rule[2] == '<>');
+			return ' ' . $rule[3] . ' ' . $this->prepareNullCheck($table . $this->prepareField($rule[0]), $negation) . ' ';
+		}
+		$where .= ' ' . $rule[3];
+		$where .= ' ' . $table . $this->prepareField($rule[0]);
+
+		if (is_array($rule[1])) {
+			$rule[2] = 'IN';
+			if ($rule[2] == '<>') {
+				$rule[2] = 'NOT IN';
+			}
+			$where .= ' ' . $rule[2] . ' (';
+			foreach ($rule[1] as $arg) {
+				$where .= '?, ';
+				$params[] = $arg;
+			}
+			$where = rtrim($where, ' ),');
+			$where .= ')';
+			return $where;
+		}
+
+		$where .= ' ' . $rule[2] . ' ?';
+		$params[] = $rule[1];
 		return $where;
 	}
 

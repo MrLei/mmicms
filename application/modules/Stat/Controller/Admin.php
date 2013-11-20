@@ -26,7 +26,7 @@ class Stat_Controller_Admin extends MmiCms_Controller_Admin {
 		$object = $this->_getParam('object');
 		$year = intval($year);
 		$month = intval($month);
-		$label = Stat_Model_Label_Dao::findFirst(array('object', $object));
+		$label = Stat_Model_Label_Dao::findFirstByObject($object);
 		if ($label === null) {
 			return;
 		}

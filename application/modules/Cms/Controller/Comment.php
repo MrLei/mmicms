@@ -9,10 +9,9 @@ class Cms_Controller_Comment extends Mmi_Controller_Action {
 		if (!$this->_getParam('objectId')) {
 			return;
 		}
-		$order = ($this->_getParam('descending')) ? 'DESC' : 'ASC';
-		$this->view->comments = Cms_Model_Comment_Dao::findByObject($this->_getParam('object'), $this->_getParam('objectId'), 100, 0, $order);
+		$this->view->comments = Cms_Model_Comment_Dao::findByObject($this->_getParam('object'), $this->_getParam('objectId'), $this->_getParam('descending'));
 		
-		if (!($this->_getParam('allowGuests') || Mmi_Auth::getInstance()->hasIdentity())) {
+		if (!($this->_getParam('allowGuests') || Default_Registry::$auth->hasIdentity())) {
 			return;
 		}
 		$form = new Cms_Form_Comment(null, array(

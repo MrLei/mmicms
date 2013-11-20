@@ -12,16 +12,16 @@ class Cms_Controller_Article extends Mmi_Controller_Action {
 			$id = intval($this->_getParam('id'));
 			$cacheKey = 'Cms_Article_' . $id;
 		}
-		if (null === ($article = Mmi_Cache::load($cacheKey))) {
+		if (null === ($article = Default_Registry::$cache->load($cacheKey))) {
 			if (isset($uri)) {
-				$article = Cms_Model_Article_Dao::findFirst(array('uri', $uri));
+				$article = Cms_Model_Article_Dao::findFirstByUri($uri);
 			} else {
 				$article = Cms_Model_Article_Dao::findPk($id);
 			}
 			if ($article === null) {
 				$this->_helper->redirector('index', 'index', 'default', array(), true);
 			}
-			Mmi_Cache::save($article, $cacheKey, 28800);
+			Default_Registry::$cache->save($article, $cacheKey, 28800);
 		}
 		if ($article->noindex) {
 			$this->view->headMeta(array('name' => 'robots', 'content' => 'noindex,nofollow'));
@@ -33,9 +33,9 @@ class Cms_Controller_Article extends Mmi_Controller_Action {
 	public function widgetAction() {
 		$uri = $this->_getParam('uri');
 		$cacheKey = 'Cms_Article_' . $uri;
-		if (null === ($article = Mmi_Cache::load($cacheKey))) {
-			$article = Cms_Model_Article_Dao::findFirst(array('uri', $uri));
-			Mmi_Cache::save($article, $cacheKey, 28800);
+		if (null === ($article = Default_Registry::$cache->load($cacheKey))) {
+			$article = Cms_Model_Article_Dao::findFirstByUri($uri);
+			Default_Registry::$cache->save($article, $cacheKey, 28800);
 		}
 		$this->view->article = $article;
 	}

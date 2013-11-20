@@ -6,10 +6,9 @@ class Cms_Plugin_ContainerTemplatePlaceholderContainerGrid extends Mmi_Grid {
 
 	public function init() {
 		$container = Cms_Model_Container_Dao::findPk($this->_request->containerId);
-		$options = Cms_Model_Container_Template_Placeholder_Dao::findPairs('id', 'name', array('cms_container_template_id', $container->cms_container_template_id));
 
 		$this->addColumn('select', 'cms_container_template_placeholder_id', array(
-			'multiOptions' => $options,
+			'multiOptions' => Cms_Model_Container_Template_Placeholder_Dao::findPairsByTemplateId('id', 'name', $container->cms_container_template_id),
 			'label' => 'placeholder',
 		));
 

@@ -27,15 +27,15 @@ class Mmi_Db {
 
 	/**
 	 * Tworzy obiekty adaptera na podstawie opcji
-	 * @param array $options
-	 * @return driver
+	 * @param Mmi_Db_Config $config
+	 * @return Mmi_Db_Adapter_Pdo_Abstract
 	 */
-	public static function factory(array $options = array()) {
-		if (!isset($options['driver'])) {
-			throw new Exception('Driver not supplied');
+	public static function factory(Mmi_Db_Config $config) {
+		if ($config->driver != 'mysql' && $config->driver != 'pgsql' && $config->driver != 'sqlite') {
+			throw new Exception('Mmi_Db driver not supplied');
 		}
-		$driver = 'Mmi_Db_Adapter_Pdo_' . ucfirst($options['driver']);
-		return new $driver($options);
+		$driver = 'Mmi_Db_Adapter_Pdo_' . ucfirst($config->driver);
+		return new $driver($config);
 	}
 
 }

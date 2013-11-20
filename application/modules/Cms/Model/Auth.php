@@ -5,25 +5,28 @@ class Cms_Model_Auth implements Mmi_Auth_Model_Interface {
 	public static function authenticate($identity, $credential) {
 		$credentialLegacy = sha1($credential);
 		$credential = self::getSaltedPasswordHash($credential);
-		$record = Cms_Model_Auth_Dao::findFirst(array(
-				array('active', 1),
-				array(
-					array('username', $identity),
-					array('email', $identity, '=', 'OR'),
-				),
-				array(
-					array('password', $credential),
-					array('password', $credentialLegacy, '=', 'OR'),
-					array('password', substr($credential, 0, 40), '=', 'OR')
-				)
-			));
+
+		$qUser = Cms_Model_Auth_Dao::newQuery()
+			->where('username')->eqals($identity)
+			->orField('email')->eqals($identity);
+
+		$qPassword = Cms_Model_Auth_Dao::newQuery()
+			->where('password')->eqals($credential)
+			->orField('password')->eqals($credentialLegacy)
+			->orField('password')->eqals(substr($credential, 0, 40));
+
+		$q = Cms_Model_Auth_Dao::newQuery()
+			->where('active')->eqals(1)
+			->andQuery($qUser)
+			->andQuery($qPassword);
+
+		$record = Cms_Model_Auth_Dao::findFirst($q);
+
 		if ($record === null) {
-			$record = Cms_Model_Auth_Dao::findFirst(array(
-					array('active', 1),
-					array(
-						array('username', $identity),
-						array('email', $identity, '=', 'OR'),
-					)));
+			$q = Cms_Model_Auth_Dao::newQuery()
+				->where('active')->eqals(1)
+				->andQuery($qUser);
+			$record = Cms_Model_Auth_Dao::findFirst($q);
 			if ($record !== null) {
 				$record->lastFailIp = (isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null);
 				$record->lastFailLog = date('Y-m-d H:i:s');
@@ -49,11 +52,11 @@ class Cms_Model_Auth implements Mmi_Auth_Model_Interface {
 	}
 
 	public static function idAuthenticate($id) {
-		$record = Cms_Model_Auth_Dao::findFirst(array(
-			array('id', $id, '=', 'OR'),
-			array('username', $id, '=', 'OR'),
-			array('email', $id, '=', 'OR')
-		));
+		$q = Cms_Model_Auth_Dao::newQuery()
+			->where('id')->eqals($id)
+			->orField('username')->eqals($id)
+			->orField('email')->eqals($id);
+		$record = Cms_Model_Auth_Dao::findFirst($q);
 		if ($record === null) {
 			return false;
 		}
@@ -73,14 +76,14 @@ class Cms_Model_Auth implements Mmi_Auth_Model_Interface {
 	public static function deauthenticate() {
 		Cms_Model_Log_Dao::add('logout', array(
 			'object' => 'cms_auth',
-			'objectId' => Mmi_Auth::getInstance()->getId(),
+			'objectId' => Default_Registry::$auth->getId(),
 			'success' => true,
-			'message' => 'LOGGED OUT: ' . Mmi_Auth::getInstance()->getUsername()
+			'message' => 'LOGGED OUT: ' . Default_Registry::$auth->getUsername()
 		));
 	}
 
 	public static function getSaltedPasswordHash($password) {
-		return hash('sha512', Mmi_Config::get('global', 'salt') . md5($password) . $password . 'sltd');
+		return hash('sha512', Default_Registry::$config->application->salt . md5($password) . $password . 'sltd');
 	}
 
 }

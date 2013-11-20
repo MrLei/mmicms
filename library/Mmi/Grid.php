@@ -267,7 +267,7 @@ abstract class Mmi_Grid {
 			$html .= $this->_buildColumns($rowData, $counter++);
 		}
 		if (count($this->_data) < 1) {
-			$html .= '<tr><td class="empty" colspan="' . count($this->_columns) . '">' . Mmi_Registry::get('Mmi_Translate')->_('Nie odnaleziono wyników') . '</td></tr>';
+			$html .= '<tr><td class="empty" colspan="' . count($this->_columns) . '">' . $this->_view->getTranslate()->_('Nie odnaleziono wyników') . '</td></tr>';
 		}
 		$html .= $this->renderPaging();
 		$html .= '<tr style="display: none;"><td><input type="hidden" id="' . $this->_id . '__ctrl" value="' . Mmi_Lib::hashTable($this->_options) . '" />';
@@ -282,13 +282,13 @@ abstract class Mmi_Grid {
 	public function renderPaging() {
 		$html = '<tr><th class="footer" colspan="' . count($this->_columns) . '">';
 
-		$html .= Mmi_Registry::get('Mmi_Translate')->_('Strona') . ': ';
+		$html .= $this->_view->getTranslate()->_('Strona') . ': ';
 		$html .= '<select id="' . $this->_id . '-filter-counter" class="grid-spot" style="width: 65px;">';
 		foreach ($this->_getPagesCount() as $page => $label) {
 			$html .= '<option value="' . $page . '"' . (($this->_options['page'] == $page) ? ' selected="selected"' : '') . '>' . $label . '</option>';
 		}
 		$html .= '</select>';
-		$html .= ' ' . Mmi_Registry::get('Mmi_Translate')->_('ilość wierszy na stronie') . ': ';
+		$html .= ' ' . $this->_view->getTranslate()->_('ilość wierszy na stronie') . ': ';
 		$html .= '<select id="' . $this->_id . '-filter-setRowsPerPage" class="grid-spot" style="width: 65px;">';
 		$html .= '<option value="10"' . (($this->_options['rows'] == 10) ? ' selected="selected"' : '') . '>10</option>';
 		$html .= '<option value="20"' . (($this->_options['rows'] == 20) ? ' selected="selected"' : '') . '>20</option>';
@@ -316,9 +316,9 @@ abstract class Mmi_Grid {
 			if (isset($this->_options['order'][$column['name']])) {
 				$sort = ' ' . strtolower($this->_options['order'][$column['name']]);
 			}
-			if (Mmi_Registry::get('Mmi_Translate') !== null && $column['translate']) {
+			if ($this->_view->getTranslate() !== null && $column['translate']) {
 				if ($column['translate'] && $column['label'] != '' && $column['label'] != '#') {
-					$column['label'] = Mmi_Registry::get('Mmi_Translate')->_($column['label']);
+					$column['label'] = $this->_view->getTranslate()->_($column['label']);
 				}
 			}
 			if (isset($column['sort']) && $column['sort']) {
@@ -376,9 +376,9 @@ abstract class Mmi_Grid {
 			case 'checkbox':
 				$on = self::ON;
 				$off = self::OFF;
-				if (Mmi_Registry::get('Mmi_Translate') !== null) {
-					$on = Mmi_Registry::get('Mmi_Translate')->_($on);
-					$off = Mmi_Registry::get('Mmi_Translate')->_($off);
+				if ($this->_view->getTranslate() !== null) {
+					$on = $this->_view->getTranslate()->_($on);
+					$off = $this->_view->getTranslate()->_($off);
 				}
 				$html = '<select class="grid-spot" ' . $id . '>';
 				$html .= '<option value="">---</option>';
@@ -475,8 +475,8 @@ abstract class Mmi_Grid {
 					case 'custom':
 						$GLOBALS['rowData'] = $rowData;
 						$column['value'] = preg_replace_callback('/%([a-zA-Z0-9_]+)%/', create_function(
-								'$matches', 'return $GLOBALS[\'rowData\']->$matches[1];'
-							), $column['value']);
+										'$matches', 'return $GLOBALS[\'rowData\']->$matches[1];'
+								), $column['value']);
 						$this->_view->rowData = $rowData;
 						$this->_view->column = $column;
 						$html .= $this->_view->renderDirectly($column['value']);
@@ -490,7 +490,7 @@ abstract class Mmi_Grid {
 					$linkEdit = $this->_options['links']['edit'];
 				}
 				if (null !== $linkEdit) {
-					$value .= '<a href="' . $linkEdit . '"><img src="' . $this->_view->file('ico16_edit.gif') . '" /></a>';
+					$value .= '<a href="' . $linkEdit . '"><img src="' . Mmi_View::getInstance()->baseUrl . '/default/cms/images/ico16_edit.gif" /></a>';
 				}
 				if (isset($column['links']) && is_array($column['links']) && array_key_exists('delete', $column['links'])) {
 					$linkDelete = $column['links']['delete'];
@@ -500,10 +500,10 @@ abstract class Mmi_Grid {
 
 				if (null !== $linkDelete) {
 					$confirmDelete = self::DELETE;
-					if (Mmi_Registry::get('Mmi_Translate') !== null) {
-						$confirmDelete = Mmi_Registry::get('Mmi_Translate')->_(self::DELETE);
+					if ($this->_view->getTranslate() !== null) {
+						$confirmDelete = $this->_view->getTranslate()->_(self::DELETE);
 					}
-					$value .= '<a title="' . $confirmDelete . '" class="confirm" href="' . $linkDelete . '"><img src="' . $this->_view->file('ico16_remove.gif') . '" /></a>';
+					$value .= '<a title="' . $confirmDelete . '" class="confirm" href="' . $linkDelete . '"><img src="' . Mmi_View::getInstance()->baseUrl . '/default/cms/images/ico16_remove.gif" /></a>';
 				}
 				foreach ($rowData->toArray() as $fieldName => $fieldValue) {
 					if (is_string($fieldValue) || is_int($fieldValue)) {
@@ -557,9 +557,9 @@ abstract class Mmi_Grid {
 	 * Ustawia dane dla grid'a
 	 */
 	protected function _setDefaultData() {
-		$bind = array();
-		$order = array();
+		$q = new Mmi_Dao_Query();
 		foreach ($this->_options['filter'] as $field => $value) {
+			$subQ = new Mmi_Dao_Query();
 			$type = 'text';
 			foreach ($this->_columns as $column) {
 				if ($column['name'] == $field) {
@@ -568,29 +568,31 @@ abstract class Mmi_Grid {
 				}
 			}
 			if ($type == 'select' || $type == 'checkbox') {
-				$bind = array($bind, array($field, '' . $value, '='));
+				$subQ->andField($field)->eqals($value);
+				$q->andQuery($subQ);
 			} else {
-				$bind = array($bind, array($field, '%' . $value . '%', 'LIKE'));
+				$subQ->andField($field)->like('%' . $value . '%');
+				$q->andQuery($subQ);
 			}
 		}
 		if (empty($this->_options['order'])) {
-			//@TODO: do zmiany po rozwinięciu DAO
-			$order = array('id', 'ASC');
+			$q->orderAsc('id');
 		}
 		foreach ($this->_options['order'] as $field => $value) {
-			$order = array($field, $value);
-		}
-		if (isset($this->_options['bind'])) {
-			foreach ($this->_options['bind'] as $field => $value) {
-				$bind = array($bind, array($value[0], $value[1], $value[2]));
+			if ($value == 'ASC') {
+				$q->orderAsc($field);
+			} else {
+				$q->orderDesc($field);
 			}
 		}
-
 		$dao = $this->_daoName;
 		$get = $this->_daoGetMethod;
 		$count = $this->_daoCountMethod;
-		$this->_dataCount = $dao::$count($bind);
-		$this->_data = $dao::$get($bind, $order, $this->_options['rows'], ($this->_options['page'] - 1) * $this->_options['rows']);
+		$q->limit($this->_options['rows'])
+				->offset(($this->_options['page'] - 1) * $this->_options['rows']);
+
+		$this->_dataCount = $dao::$count($q);
+		$this->_data = $dao::$get($q);
 	}
 
 	/**

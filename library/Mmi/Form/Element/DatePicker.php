@@ -74,12 +74,12 @@ class Mmi_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
 		$view->headScript()->appendScript('$(document).ready(function() {
 			Date.format = "' . $this->_options['format'] . '";
 			$.dpText = {
-				TEXT_PREV_YEAR		:	"' . $view->_('Poprzedni rok') . '",
-				TEXT_PREV_MONTH		:	"' . $view->_('Poprzedni miesiąc') . '",
-				TEXT_NEXT_YEAR		:	"' . $view->_('Następny rok') . '",
-				TEXT_NEXT_MONTH		:	"' . $view->_('Następny miesiąc') . '",
-				TEXT_CLOSE			:	"' . $view->_('Zamknij') . '",
-				TEXT_CHOOSE_DATE	:	"' . $view->_('Wybierz datę') . '"
+				TEXT_PREV_YEAR		:	"' . $this->getTranslate()->_('Poprzedni rok') . '",
+				TEXT_PREV_MONTH		:	"' . $this->getTranslate()->_('Poprzedni miesiąc') . '",
+				TEXT_NEXT_YEAR		:	"' . $this->getTranslate()->_('Następny rok') . '",
+				TEXT_NEXT_MONTH		:	"' . $this->getTranslate()->_('Następny miesiąc') . '",
+				TEXT_CLOSE			:	"' . $this->getTranslate()->_('Zamknij') . '",
+				TEXT_CHOOSE_DATE	:	"' . $this->getTranslate()->_('Wybierz datę') . '"
 			}
 			$("#' . $this->id . '").datePicker({
 				startDate: "' . $this->_options['startDate'] . '",

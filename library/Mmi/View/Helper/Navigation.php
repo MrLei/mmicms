@@ -109,6 +109,54 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	private $_description;
 
 	/**
+	 * Obiekt nawigatora
+	 * @var Mmi_Navigation
+	 */
+	private static $_navigation;
+
+	/**
+	 * Obiekt ACL
+	 * @var Mmi_Acl
+	 */
+	private static $_acl;
+	
+	/**
+	 * Obiekt Auth
+	 * @var Mmi_Auth
+	 */
+	private static $_auth;
+
+	/**
+	 * Ustawia obiekt nawigatora
+	 * @param Mmi_Navigation $navigation
+	 * @return \Mmi_Navigation
+	 */
+	public static function setNavigation(Mmi_Navigation $navigation) {
+		self::$_navigation = $navigation;
+		return $navigation;
+	}
+	
+	/**
+	 * Ustawia obiekt autoryzacji
+	 * @param Mmi_Auth $auth
+	 * @return \Mmi_Auth
+	 */
+	public static function setAuth(Mmi_Auth $auth) {
+		self::$_auth = $auth;
+		return $auth;
+	}
+
+	/**
+	 * Ustawia obiekt ACL
+	 * @param Mmi_Acl $acl
+	 * @return \Mmi_Acl
+	 */
+	public static function setAcl(Mmi_Acl $acl) {
+		self::$_acl = $acl;
+		return $acl;
+	}
+
+	/**
 	 * Metoda główna, zwraca swoją instancję
 	 * @return Mmi_View_Helper_Navigation
 	 */
@@ -453,11 +501,11 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	 * @return string
 	 */
 	public function menu() {
-		if (null === Mmi_Registry::get('Mmi_Navigation')) {
-			return $this;
+		if (null === self::$_navigation) {
+			return '';
 		}
 		if ($this->_root) {
-			$tree = Mmi_Registry::get('Mmi_Navigation')->seek($this->_root);
+			$tree = self::$_navigation->seek($this->_root);
 		} else {
 			$tree = null;
 		}
@@ -469,11 +517,11 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	 * @return Mmi_View_Helper_Navigation
 	 */
 	private function _buildBreadcrumbs() {
-		if (null === Mmi_Registry::get('Mmi_Navigation')) {
+		if (null === self::$_navigation) {
 			return $this;
 		}
 		if (null == $this->_breadcrumbsData) {
-			$data = Mmi_Registry::get('Mmi_Navigation')->getBreadcrumbs();
+			$data = self::$_navigation->getBreadcrumbs();
 			$this->_breadcrumbsData = $data;
 		} else {
 			$data = $this->_breadcrumbsData;
@@ -519,14 +567,15 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 		if (empty($tree) || !isset($tree['children'])) {
 			return '';
 		}
+		$aclCheck = (self::$_auth instanceof Mmi_Auth && self::$_acl instanceof Mmi_Acl);
 		$menu = $tree['children'];
 		//przygotowanie menu do wyświetlenia: usunięcie niedozwolonych i nieaktywnych elementów
 		foreach ($menu as $key => $leaf) {
 			if (!$leaf['module']) {
 				$leaf['module'] = 'default';
 			}
-			if ($this->_allowedOnly && $leaf['type'] != 'link' && Mmi_Registry::get('Mmi_Acl') instanceof Mmi_Acl) {
-				$allowed = Mmi_Registry::get('Mmi_Acl')->isAllowed(Mmi_Auth::getInstance()->getRoles(), strtolower($leaf['module'] . ':' . $leaf['controller'] . ':' . $leaf['action']));
+			if ($this->_allowedOnly && $leaf['type'] != 'link' && $aclCheck) {
+				$allowed = self::$_acl->isAllowed(self::$_auth->getRoles(), strtolower($leaf['module'] . ':' . $leaf['controller'] . ':' . $leaf['action']));
 			} else {
 				$allowed = true;
 			}

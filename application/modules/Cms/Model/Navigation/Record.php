@@ -12,7 +12,8 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 			if (!isset($params['uri']) || !$params['uri']) {
 				return $this;
 			}
-			$article = Cms_Model_Article_Dao::findFirst(array('uri', $params['uri']));
+
+			$article = Cms_Model_Article_Dao::findFirstByUri($params['uri']);
 			if ($article !== null) {
 				$this->article_id = $article->id;
 			}
@@ -22,7 +23,7 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 			if (!isset($params['uri']) || !$params['uri']) {
 				return $this;
 			}
-			$container = Cms_Model_Container_Dao::findFirst(array('uri', $params['uri']));
+			$container = Cms_Model_Container_Dao::findFirstByUri($params['uri']);
 			if ($container !== null) {
 				$this->container_id = $container->id;
 			}
@@ -83,7 +84,7 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 	public function _insert() {
 		//dodawanie na końcu listy
 		if ($this->parent_id) {
-			$lastElement = Cms_Model_Navigation_Dao::findFirst(array('parent_id', $this->parent_id), array('order', 'DESC'));
+			$lastElement = Cms_Model_Navigation_Dao::findLastByParentId($this->parent_id);
 			$this->order = 0;
 			if ($lastElement !== null) {
 				$this->order = $lastElement->order + 1;
@@ -93,14 +94,14 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 	}
 
 	public function delete() {
-		Cms_Model_Navigation_Dao::find(array('parent_id', $this->id))->delete();
+		Cms_Model_Navigation_Dao::findByParentId($this->id)->delete();
 		$this->_clearCache();
 		return parent::delete();
 	}
 
 	protected function _clearCache() {
-		Mmi_Cache::remove('Mmi_Navigation_' . Mmi_Controller_Front::getInstance()->getRequest()->lang);
-		Mmi_Cache::remove('Mmi_Acl');
+		Default_Registry::$cache->remove('Mmi_Navigation_' . Mmi_Controller_Front::getInstance()->getRequest()->lang);
+		Default_Registry::$cache->remove('Mmi_Acl');
 	}
 
 }

@@ -27,7 +27,7 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Db_Adapter_Pdo_Sqlite extends Mmi_Db_Adapter_Pdo_Abstract {
-	
+
 	/**
 	 * Przechowuje funkcje sortowania
 	 * @var array
@@ -35,13 +35,13 @@ class Mmi_Db_Adapter_Pdo_Sqlite extends Mmi_Db_Adapter_Pdo_Abstract {
 	protected static $_orderFunctions = array(
 		'RAND()' => 'RANDOM()'
 	);
-	
+
 	/**
 	 * Ustawia schemat
 	 * @param string $schemaName nazwa schematu
 	 */
 	public function selectSchema($schemaName) {
-		
+
 	}
 
 	/**
@@ -55,16 +55,13 @@ class Mmi_Db_Adapter_Pdo_Sqlite extends Mmi_Db_Adapter_Pdo_Abstract {
 	 * Tworzy połączenie z bazą danych
 	 */
 	public function connect() {
-		if (isset($this->_options['profiler']) && $this->_options['profiler']) {
-			$this->_profiler = Mmi_Db_Profiler::getInstance();
-		}
-		if ($this->_profiler) {
-			$this->_profiler->event('CONNECT WITH: ' . get_class($this), 0);
+		if ($this->_config->profiler) {
+			Mmi_Db_Profiler::event('CONNECT WITH: ' . get_class($this), 0);
 		}
 		$this->_pdo = new PDO(
-						$this->_options['driver'] . ':' . $this->_options['host'],
+						$this->_config->driver . ':' . $this->_config->host,
 						null, null,
-						array(PDO::ATTR_PERSISTENT => $this->_options['persistent'])
+						array(PDO::ATTR_PERSISTENT => $this->_config->persistent)
 		);
 		$this->_connected = true;
 		$this->query('PRAGMA foreign_keys = ON');
@@ -143,7 +140,7 @@ class Mmi_Db_Adapter_Pdo_Sqlite extends Mmi_Db_Adapter_Pdo_Abstract {
 	 * Tworzy konstrukcję sprawdzającą null w silniku bazy danych
 	 * @param string $fieldName nazwa pola
 	 * @param boolean $positive sprawdza czy null, lub czy nie null
-	 * @return string 
+	 * @return string
 	 */
 	public function prepareNullCheck($fieldName, $positive = true) {
 		if ($positive) {
@@ -151,7 +148,7 @@ class Mmi_Db_Adapter_Pdo_Sqlite extends Mmi_Db_Adapter_Pdo_Abstract {
 		}
 		return $fieldName . ' is not null';
 	}
-	
+
 	/**
 	 * Konwertuje do tabeli asocjacyjnej meta dane tabel
 	 * @param array $meta meta data
