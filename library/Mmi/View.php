@@ -99,10 +99,16 @@ class Mmi_View {
 	public $request;
 
 	/**
+	 * Bazowa ścieżka
+	 * @var string
+	 */
+	public $baseUrl;
+
+	/**
 	 * Zabezpieczony konstruktor
 	 */
 	private function __construct() {
-		$this->baseUrl = Mmi_Controller_Router::getInstance()->getBaseUrl();
+
 	}
 
 	/**
@@ -210,9 +216,20 @@ class Mmi_View {
 	/**
 	 * Ustawia tryb debugowania
 	 * @param boolean $debug
+	 * @return \Mmi_View
 	 */
 	public function setDebug($debug = true) {
 		$this->_debug = $debug;
+		return $this;
+	}
+
+	/**
+	 * Ustawia bazowy url
+	 * @param string $baseUrl
+	 * @return \Mmi_View
+	 */
+	public function setBaseUrl($baseUrl) {
+		$this->baseUrl = $baseUrl;
 		return $this;
 	}
 

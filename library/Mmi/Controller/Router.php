@@ -27,22 +27,22 @@
 class Mmi_Controller_Router {
 
 	/**
-	 * Instancja
-	 * @var Mmi_Controller_Router
-	 */
-	private static $_instance;
-
-	/**
 	 * Konfiguracja
 	 * @var Mmi_Controller_Router_Config
 	 */
 	private $_config;
 
 	/**
-	 * Ścieżka bazowa
+	 * Ścieżka bazowa zapytania
 	 * @var string
 	 */
 	private $_baseUrl;
+
+	/**
+	 * Url zapytania
+	 * @var string
+	 */
+	private $_url;
 
 	/**
 	 * Domyślny język
@@ -57,51 +57,27 @@ class Mmi_Controller_Router {
 	private $_defaultSkin;
 
 	/**
-	 * Pobiera instancję
-	 * @return Mmi_Controller_Router
-	 */
-	public static function getInstance() {
-		if (null === self::$_instance) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
-
-	/**
-	 * Zabezpieczony konstruktor
-	 */
-	protected function __construct() {
-
-	}
-
-	/**
-	 * Ustawia konfigurację
+	 *
 	 * @param Mmi_Controller_Router_Config $config
-	 * @return \Mmi_Controller_Router
+	 * @param string $defaultLang domyślny język
+	 * @param string $defaultSkin domyślna skóra
 	 */
-	public function setConfig(Mmi_Controller_Router_Config $config) {
+	public function __construct(Mmi_Controller_Router_Config $config, $defaultLang = 'en', $defaultSkin = 'default') {
 		$this->_config = $config;
-		return $this;
-	}
+		$this->_defaultLanguage = $defaultLang;
+		$this->_defaultSkin = $defaultSkin;
 
-	/**
-	 * Ustawia domyślny język
-	 * @param string $lang
-	 * @return \Mmi_Controller_Router
-	 */
-	public function setDefaultLanguage($lang) {
-		$this->_defaultLanguage = $lang;
-		return $this;
-	}
-
-	/**
-	 * Ustawia domyślną skórę
-	 * @param string $skin
-	 * @return \Mmi_Controller_Router
-	 */
-	public function setDefaultSkin($skin) {
-		$this->_defaultSkin = $skin;
-		return $this;
+		$this->_url = urldecode(trim(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '', '/ '));
+		if (!(false === strpos($this->_url, '?'))) {
+			$this->_url = substr($this->_url, 0, strpos($this->_url, '?'));
+		}
+		$position = strpos($this->_url, '/public');
+		if ($position !== false && (substr($this->_url, -7) == '/public' || substr($this->_url, $position, 8) == '/public/')) {
+			$this->_baseUrl = substr($this->_url, 0, $position + 7);
+			$this->_url = substr($this->_url, $position + 8);
+		}
+		$this->_baseUrl = isset($this->_baseUrl) ? '/' . trim($this->_baseUrl, '/') . '/' : '/';
+		$this->_url = trim($this->_url, '/');
 	}
 
 	public function getRoutes() {
@@ -117,34 +93,17 @@ class Mmi_Controller_Router {
 	 */
 	public function processRequest(Mmi_Controller_Request $request) {
 		$request->setParams($this->_decodeGet());
-		$request->setParams($this->decodeUrl(trim(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '', '/'), true));
+		$request->setParams($this->decodeUrl($this->_url));
 		return $request;
 	}
 
 	/**
 	 * Dekoduje URL na parametry żądania zgodnie z wczytanymi trasami
 	 * @param string $url URL
-	 * @param boolean $setBaseUrl jeśli prawdziwe, ustawi ścieżkę bazową w obiekcie
 	 * @return array
 	 */
-	public function decodeUrl($url, $setBaseUrl = false) {
-		$url = urldecode($url);
-
-		if (!(false === strpos($url, '?'))) {
-			$url = substr($url, 0, strpos($url, '?'));
-		}
-		$position = strpos($url, '/public');
-		if ($position !== false && (substr($url, -7) == '/public' || substr($url, $position, 8) == '/public/')) {
-			$baseUrl = substr($url, 0, $position + 7);
-			$url = substr($url, $position + 8);
-		}
-		$baseUrl = isset($baseUrl) ? '/' . trim($baseUrl, '/') . '/' : '/';
-		if ($setBaseUrl) {
-			$this->setBaseUrl($baseUrl);
-		}
-		$url = trim($url, '/');
+	public function decodeUrl($url) {
 		$params = array();
-
 		foreach ($this->getRoutes() as $route) {
 			/* @var $route Mmi_Controller_Router_Config_Route */
 			$result = $this->_inputRouteApply($route, $url);
@@ -204,7 +163,7 @@ class Mmi_Controller_Router {
 			$i++;
 		}
 		if (!isset($params['skin'])) {
-			$params['skin'] = $this->_defaultSkin ? $this->_defaultSkin : 'default';
+			$params['skin'] = $this->_defaultSkin;
 		}
 		return $params;
 	}
@@ -304,14 +263,6 @@ class Mmi_Controller_Router {
 	 */
 	public function getBaseUrl() {
 		return rtrim($this->_baseUrl, '/');
-	}
-
-	/**
-	 * Ustawia ścieżkę bazową
-	 * @param string $baseUrl
-	 */
-	public function setBaseUrl($baseUrl) {
-		$this->_baseUrl = $baseUrl;
 	}
 
 	/**

@@ -8,7 +8,7 @@
  * Wtyczka FC
  */
 class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
-	
+
 	public function routeStartup(Mmi_Controller_Request $request) {
 		//route z cms
 		if (null === ($routes = Default_Registry::$cache->load('Mmi_Route'))) {
@@ -45,9 +45,8 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 
 		//ustawienie widoku
 		$view = Mmi_View::getInstance();
-		$base = $request->getBaseUrl();
+		$base = $view->baseUrl;
 		$view->domain = Default_Registry::$config->application->host;
-		$view->baseUrl = $base;
 		$view->mediaServer = Default_Registry::$config->media->mediaServer;
 
 		$jsReqestArray = array();
@@ -66,7 +65,7 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		}
 		$jsRequest = "		var request = {\n		" . implode(",\n		", $jsReqestArray) . "\n		};";
 		$view->headScript()->appendScript($jsRequest);
-		
+
 		//konfiguracja autoryzacji
 		$auth = new Mmi_Auth();
 		$auth->setSalt(Default_Registry::$config->application->salt);
@@ -114,7 +113,7 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 				$request->setActionName('index');
 			}
 		}
-		
+
 		//ustawienie nawigatora
 		if (null === ($navigation = Default_Registry::$cache->load('Mmi_Navigation_' . $request->__get('lang')))) {
 			$navigation = new Mmi_Navigation(Cms_Model_Navigation_Dao::getNested());

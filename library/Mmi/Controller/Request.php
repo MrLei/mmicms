@@ -99,7 +99,7 @@ class Mmi_Controller_Request {
 	public function setParam($key, $value = null) {
 		$this->_data[$key] = $value;
 	}
-	
+
 	/**
 	 * Ustawia wszystkie zmienne żądania
 	 * @param array $data parametry
@@ -113,7 +113,7 @@ class Mmi_Controller_Request {
 			$this->_data[$key] = $value;
 		}
 	}
-	
+
 	/**
 	 * Pobiera wszystkie zmienne w postaci tabeli
 	 * @return array
@@ -137,7 +137,7 @@ class Mmi_Controller_Request {
 	public function getPost() {
 		return $_POST;
 	}
-	
+
 	/**
 	 * Pobiera informacje o zuploadowanych plikach FILES
 	 * @return array
@@ -170,7 +170,7 @@ class Mmi_Controller_Request {
 		}
 		return $files;
 	}
-	
+
 	/**
 	 * Zwraca referer, lub stronę główną jeśli brak
 	 * @return string
@@ -246,7 +246,7 @@ class Mmi_Controller_Request {
 		$this->setParam('action', $value);
 		return $this;
 	}
-	
+
 	/**
 	 * Ustawia nazwę skóry
 	 * @param string $value
@@ -255,14 +255,6 @@ class Mmi_Controller_Request {
 	public function setSkinName($value) {
 		$this->setParam('skin', $value);
 		return $this;
-	}
-
-	/**
-	 * Pobiera ścieżkę bazową
-	 * @return string
-	 */
-	public function getBaseUrl() {
-		return Mmi_Controller_Router::getInstance()->getBaseUrl();
 	}
 
 }
