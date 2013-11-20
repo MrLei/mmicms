@@ -17,7 +17,7 @@ foreach (glob(BASE_PATH . '/database/' . Default_Registry::$config->db->driver .
 		Default_Registry::$db->selectSchema($schemaName);
 
 		//pobranie rekordu
-		$dc = MmiCms_Model_Changelog_Dao::findFirst(array('filename', basename($file)));
+		$dc = MmiCms_Model_Changelog_Dao::findFirstByFilename(basename($file));
 
 		if ($dc === null) {
 			//brak restore

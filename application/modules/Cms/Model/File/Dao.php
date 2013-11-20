@@ -11,12 +11,14 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 * @return array
 	 */
 	public static function findClassified($object, $objectId) {
-		$files = self::find(array(
-				array('objectId', $objectId),
-				array('object', $object),
-				array('active', 1)
-				), array('order')
-		);
+		$q = self::newQuery()
+			->where('objectId')->eqals($objectId)
+			->andField('object')->eqals($object)
+			->andField('active')->eqals(1)
+			->orderAsc('order');
+
+		$files = self::find($q);
+
 		$classes = array('image' => array(), 'other' => array());
 		foreach ($files AS $file) {
 			$file->hash = $file->getHashName();
@@ -43,31 +45,30 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 * @return Cms_Model_File_Record
 	 */
 	public static function findFirstSticky($object, $id, $class = null) {
-		$params = array(
-			array('sticky', '1'),
-			array('objectId', $id),
-			array('object', $object)
-		);
+		$q = self::newQuery()
+			->where('sticky')->eqals(1)
+			->andField('object')->eqals($object)
+			->andField('objectId')->eqals($id);
+
 		if (null !== $class) {
-			$params[] = array('class', $class);
+			$q->andField('class')->eqals($class);
 		}
-		return self::findFirst($params);
+		return self::findFirst($q);
 	}
 
 	/**
 	 * Zwraca pierwszy obraz
 	 * @param string $object
 	 * @param integer $id
-	 * @param string $class
 	 * @return Cms_Model_File_Record
 	 */
-	public static function findFirstImage($object, $id, $class = null) {
-		return self::findFirst(array(
-				array('class', 'image'),
-				array('object', $object),
-				array('objectId', $id)
-				), array('order')
-		);
+	public static function findFirstImage($object, $id) {
+		$q = self::newQuery()
+			->where('object')->eqals($object)
+			->andField('objectId')->eqals($id)
+			->andField('class')->eqals('image')
+			->orderAsc('order');
+		return self::findFirst($q);
 	}
 
 	/**
@@ -77,12 +78,12 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 * @return Mmi_Dao_Collection
 	 */
 	public static function findImages($object = null, $id = null) {
-		return self::find(array(
-				array('class', 'image'),
-				array('object', $object),
-				array('objectId', $id)
-				), array('order')
-		);
+		$q = self::newQuery()
+			->where('object')->eqals($object)
+			->andField('objectId')->eqals($id)
+			->andField('class')->eqals('image')
+			->orderAsc('order');
+		return self::find($q);
 	}
 
 	/**
@@ -92,12 +93,12 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 * @return Mmi_Dao_Collection
 	 */
 	public static function findNotImages($object = null, $id = null) {
-		return self::find(array(
-				array('class', 'image', '!='),
-				array('object', $object),
-				array('objectId', $id)
-				), array('order')
-		);
+		$q = self::newQuery()
+			->where('object')->eqals($object)
+			->andField('objectId')->eqals($id)
+			->andField('class')->notEquals('image')
+			->orderAsc('order');
+		return self::find($q);
 	}
 
 	/**
@@ -142,7 +143,7 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Dołącza pliki dla danego object i id bezpośrednio z serwera
 	 * @param string $object obiekt
@@ -187,10 +188,10 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 */
 	public static function move($srcObject, $srcId, $destObject, $destId) {
 		$i = 0;
-		foreach (self::find(array(
-			array('object', $srcObject),
-			array('objectId', $srcId)
-		)) as $file) {
+		$q = self::newQuery()
+			->where('object')->eqals($srcObject)
+			->andField('objectId')->eqals($srcId);
+		foreach (self::find($q) as $file) {
 			$file->object = $destObject;
 			$file->objectId = $destId;
 			$file->save();

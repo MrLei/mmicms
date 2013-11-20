@@ -14,7 +14,7 @@ class Cms_Controller_Article extends Mmi_Controller_Action {
 		}
 		if (null === ($article = Default_Registry::$cache->load($cacheKey))) {
 			if (isset($uri)) {
-				$article = Cms_Model_Article_Dao::findFirst(array('uri', $uri));
+				$article = Cms_Model_Article_Dao::findFirstByUri($uri);
 			} else {
 				$article = Cms_Model_Article_Dao::findPk($id);
 			}
@@ -34,7 +34,7 @@ class Cms_Controller_Article extends Mmi_Controller_Action {
 		$uri = $this->_getParam('uri');
 		$cacheKey = 'Cms_Article_' . $uri;
 		if (null === ($article = Default_Registry::$cache->load($cacheKey))) {
-			$article = Cms_Model_Article_Dao::findFirst(array('uri', $uri));
+			$article = Cms_Model_Article_Dao::findFirstByUri($uri);
 			Default_Registry::$cache->save($article, $cacheKey, 28800);
 		}
 		$this->view->article = $article;

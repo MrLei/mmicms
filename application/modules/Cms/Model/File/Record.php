@@ -11,11 +11,11 @@ class Cms_Model_File_Record extends Mmi_Dao_Record {
 			return false;
 		}
 		//wyłącza sticky na innych plikach dla tego object+objectId
-		foreach (Cms_Model_File_Dao::find(array(
-			array('sticky', 1),
-			array('object', $this->object),
-			array('objectId', $this->objectId)
-		)) as $related) {
+		$q = Cms_Model_File_Dao::newQuery()
+			->where('sticky')->eqals(1)
+			->andField('object')->eqals($this->object)
+			->andField('objectId')->eqals($this->objectId);
+		foreach (Cms_Model_File_Dao::find($q) as $related) {
 			$related->sticky = 0;
 			$related->save();
 		}
@@ -34,10 +34,10 @@ class Cms_Model_File_Record extends Mmi_Dao_Record {
 		}
 		return substr(md5($this->name . Default_Registry::$config->application->salt), 0, 8);
 	}
-	
+
 	/**
 	 * Pobiera fizyczną ścieżkę do pliku
-	 * @return type 
+	 * @return type
 	 */
 	public function getRealPath() {
 		if (strlen($this->name) < 3) {
@@ -45,7 +45,7 @@ class Cms_Model_File_Record extends Mmi_Dao_Record {
 		}
 		return DATA_PATH . '/' . $this->name[0] . $this->name[1] . $this->name[2] . '/' . $this->name;
 	}
-	
+
 	/**
 	 * Pobiera adres pliku
 	 * @param string $scaleType: scale, scalex, scaley, scalecrop
@@ -57,7 +57,7 @@ class Cms_Model_File_Record extends Mmi_Dao_Record {
 			return;
 		}
 		$inputFile = $this->getRealPath();
-		$baseUrl = Mmi_Controller_Front::getInstance()->getRequest()->getBaseUrl() . '/data';
+		$baseUrl = Mmi_View::getInstance()->baseUrl . '/data';
 		$fileName = '/' . $this->name[0] . $this->name[1] . $this->name[2] . '/' . $scaleType . '/' . $scale . '/' . $this->name;
 		if (file_exists(PUBLIC_PATH . '/data' . $fileName)) {
 			return $baseUrl . $fileName;
