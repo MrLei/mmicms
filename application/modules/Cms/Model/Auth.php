@@ -20,6 +20,8 @@ class Cms_Model_Auth implements Mmi_Auth_Model_Interface {
 			->andQuery($qUser)
 			->andQuery($qPassword);
 
+		$record = Cms_Model_Auth_Dao::findFirst($q);
+
 		if ($record === null) {
 			$q = Cms_Model_Auth_Dao::newQuery()
 				->where('active')->eqals(1)
