@@ -87,18 +87,18 @@ class Mail_Model_Dao extends Mmi_Dao {
 		}
 		$transport = array();
 		foreach ($emails as $email) {
-			$config = array('port' => $email->port);
-			if ($email->username && $email->password) {
+			$config = array('port' => $email->mail_server->port);
+			if ($email->mail_server->username && $email->mail_server->password) {
 				$config['auth'] = 'login';
-				$config['username'] = $email->username;
-				$config['password'] = $email->password;
+				$config['username'] = $email->mail_server->username;
+				$config['password'] = $email->mail_server->password;
 			}
-			if ($email->ssl != 'plain') {
-				$config['ssl'] = $email->ssl;
+			if ($email->mail_server->ssl != 'plain') {
+				$config['ssl'] = $email->mail_server->ssl;
 			}
 			if (!isset($transport[$email->mail_server_id])) {
 				//@TODO: przepisać do ZF2
-				$transport[$email->mail_server_id] = new Zend_Mail_Transport_Smtp($email->address, $config);
+				$transport[$email->mail_server_id] = new Zend_Mail_Transport_Smtp($email->mail_server->address, $config);
 			}
 			//@TODO: przepisać do ZF2
 			$mail = new Zend_Mail('utf-8');
@@ -106,12 +106,10 @@ class Mail_Model_Dao extends Mmi_Dao {
 			if ($email->html) {
 				$mail->setBodyHtml($email->message);
 			}
-			$mail->setFrom($email->from, $email->fromName);
+			$mail->setFrom($email->mail_definition->from, $email->fromName);
 			$mail->addTo($email->to);
 			if ($email->replyTo) {
 				$mail->setReplyTo($email->replyTo);
-			} else {
-				$mail->setReplyTo($email->from);
 			}
 			$mail->setSubject($email->subject);
 			$attachments = unserialize($email->attachments);
