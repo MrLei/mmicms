@@ -110,6 +110,7 @@ class Mmi_Dao {
 		$recordName = self::getRecordName();
 		foreach ($result as $row) {
 			$record = new $recordName();
+			/* @var $record Mmi_Dao_Record */
 			$record->setFromArray($row)->clearModified()->setNew(false);
 			$collection->append($record);
 		}
