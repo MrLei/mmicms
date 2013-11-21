@@ -3,7 +3,7 @@
 class Cms_Controller_Grid extends Mmi_Controller_Action {
 
 	public function init() {
-		Mmi_View::getInstance()->setLayoutDisabled();
+		Mmi_Controller_Front::getInstance()->getView()->setLayoutDisabled();
 	}
 
 	public function filterAction() {

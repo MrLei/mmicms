@@ -139,7 +139,7 @@ class Mmi_Application {
 		//@TODO: uzależnić od środowiska
 		$position = Mmi_Exception_Logger::log($exception);
 		try {
-			$view = Mmi_View::getInstance();
+			$view = Mmi_Controller_Front::getInstance()->getView();
 			$view->_exceptionInfo = array(
 				'message' => $exception->getMessage(),
 				'file' => $position['file'],

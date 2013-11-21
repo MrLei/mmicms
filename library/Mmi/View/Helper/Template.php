@@ -184,7 +184,7 @@ class Mmi_View_Helper_Template extends Mmi_View_Helper_Abstract {
 				$absolute = false;
 				break;
 		}
-		return Mmi_View::getInstance()->getHelper('url')->url($params, true, $absolute, $https);
+		return Mmi_Controller_Front::getInstance()->getView()->getHelper('url')->url($params, true, $absolute, $https);
 	}
 
 	/**
@@ -193,7 +193,7 @@ class Mmi_View_Helper_Template extends Mmi_View_Helper_Abstract {
 	 * @return string
 	 */
 	private function _text(array $matches) {
-		return Mmi_View::getInstance()->getHelper('text')->text($matches[1]);
+		return Mmi_Controller_Front::getInstance()->getView()->getHelper('text')->text($matches[1]);
 	}
 
 	/**

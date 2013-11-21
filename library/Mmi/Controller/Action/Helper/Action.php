@@ -82,7 +82,7 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 		$params = array_merge($frontRequest->toArray(), $params);
 		$controllerRequest = new Mmi_Controller_Request($params);
 		//ustawienie requestu w widoku
-		Mmi_View::getInstance()->setRequest($controllerRequest);
+		Mmi_Controller_Front::getInstance()->getView()->setRequest($controllerRequest);
 		//powołanie kontrolera
 		$controllerClassName = ucfirst($controllerRequest->getModuleName()) . '_Controller_' . ucfirst($controllerRequest->getControllerName());
 		$actionMethodName = $controllerRequest->getActionName() . 'Action';
@@ -91,9 +91,9 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 		$controller->$actionMethodName();
 		//rendering szablonu
 		$skin = $controllerRequest->getParam('skin') ? $controllerRequest->getParam('skin') : 'default';
-		$content = Mmi_View::getInstance()->renderTemplate($skin, $moduleName, $controllerName, $actionName, $fetch);
+		$content = Mmi_Controller_Front::getInstance()->getView()->renderTemplate($skin, $moduleName, $controllerName, $actionName, $fetch);
 		//przywrócenie do widoku request'a z front controllera
-		Mmi_View::getInstance()->setRequest($frontRequest);
+		Mmi_Controller_Front::getInstance()->getView()->setRequest($frontRequest);
 		return $content;
 	}
 

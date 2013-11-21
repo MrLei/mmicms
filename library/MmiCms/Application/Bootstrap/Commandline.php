@@ -45,7 +45,7 @@ class MmiCms_Application_Bootstrap_Commandline extends MmiCms_Application_Bootst
 				->setSkinName(Default_Registry::$config->application->skin);
 		//ustawianie żądania
 		$front->setRequest($request);
-		Mmi_View::getInstance()->setRequest($request);
+		Mmi_Controller_Front::getInstance()->getView()->setRequest($request);
 	}
 
 }

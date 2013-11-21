@@ -33,7 +33,7 @@ class MmiCms_View_Helper_Text extends Mmi_View_Helper_Abstract {
 	 * @return string
 	 */
 	public function text($key) {
-		return nl2br(Cms_Model_Text_Dao::textByKeyLang($key, Mmi_View::getInstance()->request->lang));
+		return nl2br(Cms_Model_Text_Dao::textByKeyLang($key, Mmi_Controller_Front::getInstance()->getView()->request->lang));
 	}
 
 }

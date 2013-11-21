@@ -176,7 +176,7 @@ class Mmi_Controller_Request {
 	 * @return string
 	 */
 	public function getReferer() {
-		return isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : Mmi_View::getInstance()->url();
+		return isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : Mmi_Controller_Front::getInstance()->getView()->url();
 	}
 
 	/**

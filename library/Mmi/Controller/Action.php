@@ -108,7 +108,7 @@ class Mmi_Controller_Action {
 	 */
 	private function _init() {
 		//widok
-		$this->view = Mmi_View::getInstance();
+		$this->view = Mmi_Controller_Front::getInstance()->getView();
 		$lang = $this->_request->__get('lang');
 		$skin = $this->_request->__get('skin');
 		$module = $this->_request->__get('module');

@@ -20,7 +20,7 @@ class Embed_Model_Html {
 		$params['_widget'] = true;
 		//osadzenie w iframe
 		if ($embed->iframe) {
-			$view = Mmi_View::getInstance();
+			$view = Mmi_Controller_Front::getInstance()->getView();
 			$params['module'] = $embed->module;
 			$params['controller'] = $embed->controller;
 			$params['action'] = $embed->action;

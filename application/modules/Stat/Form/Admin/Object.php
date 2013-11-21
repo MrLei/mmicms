@@ -17,7 +17,7 @@ class Stat_Form_Admin_Object extends Mmi_Form {
 			'multiOptions' => $years
 		));
 
-		$view = Mmi_View::getInstance();
+		$view = Mmi_Controller_Front::getInstance()->getView();
 
 		$this->addElement('select', 'month', array(
 			'value' => $this->getOption('month'),

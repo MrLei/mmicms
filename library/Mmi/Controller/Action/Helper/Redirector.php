@@ -28,22 +28,6 @@
 class Mmi_Controller_Action_Helper_Redirector extends Mmi_Controller_Action_Helper_Abstract {
 
 	/**
-	 * Obiekt router
-	 * @var Mmi_Controller_Router
-	 */
-	protected static $_router;
-
-	/**
-	 * Ustawia obiekt routera
-	 * @param Mmi_Controller_Router $router
-	 * @return \Mmi_Controller_Router
-	 */
-	public static function setRouter(Mmi_Controller_Router $router) {
-		self::$_router = $router;
-		return $router;
-	}
-
-	/**
 	 * Metoda główna, wykonuje gotoSimple
 	 * @see Mmi_Controller_Action_Helper_Redirector::gotoSimple()
 	 * @param string $action akcja
@@ -77,10 +61,7 @@ class Mmi_Controller_Action_Helper_Redirector extends Mmi_Controller_Action_Help
 	 * @param array $params parametry dla routy
 	 */
 	public function gotoRoute(array $params = array()) {
-		if (self::$_router === null) {
-			throw new Exception('Mmi_Controller_Action_Helper_Redirector: supply router object before use');
-		}
-		$this->gotoUrl(self::$_router->encodeUrl($params));
+		$this->gotoUrl(Mmi_Controller_Front::getInstance()->getRouter()->encodeUrl($params));
 	}
 
 	/**
