@@ -102,7 +102,22 @@ class Mmi_Dao {
 			if ($limit !== null || $offset !== null || !empty($order) || !empty($joinSchema)) {
 				throw new Exception('Mmi_Dao: query object supplied together with $limit, $offset etc.');
 			}
-			$result = self::getAdapter()->select(static::$_tableName, $q->bind, $q->order, $q->limit, $q->offset, array('*'), $q->joinSchema);
+			$fields = array('*');
+			//zapytanie explicit jeśli jest joinSchema
+			if (!empty($q->joinSchema)) {
+				$fields = array();
+				$mainStructure = self::getTableStructure();
+				foreach ($mainStructure as $field => $info) {
+					$fields[] = self::getTableName() . '.' . $field;
+				}
+				foreach ($q->joinSchema as $tableName => $joinSchema) {
+					$structure = self::getTableStructure($tableName);
+					foreach ($structure as $field => $info) {
+						$fields[] = $tableName . '.' . $field . ' AS ' . $tableName . '__' . $field;
+					}
+				}
+			}
+			$result = self::getAdapter()->select(static::$_tableName, $q->bind, $q->order, $q->limit, $q->offset, $fields, $q->joinSchema);
 		} else {
 			$result = self::getAdapter()->select(static::$_tableName, $bind, $order, $limit, $offset, array('*'), $joinSchema);
 		}
@@ -261,14 +276,18 @@ class Mmi_Dao {
 
 	/**
 	 * Pobiera strukturę tabeli
+	 * @param string $tableName opcjonalna nazwa tabeli
 	 * @return array
 	 */
-	public static final function getTableStructure() {
-		$cacheKey = 'Dao_structure_' . self::getAdapter()->getConfig()->name . '_' . static::$_tableName;
+	public static final function getTableStructure($tableName = null) {
+		if ($tableName === null) {
+			$tableName = static::$_tableName;
+		}
+		$cacheKey = 'Dao_structure_' . self::getAdapter()->getConfig()->name . '_' . $tableName;
 		if (static::$_cache !== null && (null !== ($structure = static::$_cache->load($cacheKey)))) {
 			return $structure;
 		}
-		$structure = static::getAdapter()->tableInfo(static::$_tableName);
+		$structure = static::getAdapter()->tableInfo($tableName);
 		if (static::$_cache !== null) {
 			static::$_cache->save($structure, $cacheKey, 28800);
 		}

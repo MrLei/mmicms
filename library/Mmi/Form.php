@@ -983,7 +983,7 @@ abstract class Mmi_Form {
 		if (!empty($this->_recordValues)) {
 			$data = array_merge($data, $this->_recordValues);
 		}
-		$this->_record->setFromArray($data, false);
+		$this->_record->setFromArray($data);
 		if (method_exists(($this->_record), $this->_recordSaveMethod)) {
 			return $this->_record->{$this->_recordSaveMethod}();
 		}
