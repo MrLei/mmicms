@@ -164,13 +164,10 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 		switch (gettype($value)) {
 			case 'NULL':
 				return 'NULL';
-				break;
 			case 'integer':
 				return intval($value);
-				break;
 			case 'boolean':
 				return $value ? 'true' : 'false';
-				break;
 		}
 		return $this->_pdo->quote($value, $paramType);
 	}

@@ -82,7 +82,7 @@ class Mmi_Dao_Record_Ro {
 	 * Metoda programisty wykonywana na końcu konstruktora
 	 */
 	public function init() {
-		
+
 	}
 
 	/**
@@ -100,7 +100,7 @@ class Mmi_Dao_Record_Ro {
 
 	/**
 	 * Pobiera klucz główny (tabela jeśli wielokrotny)
-	 * @return mixed klucz główny 
+	 * @return mixed klucz główny
 	 */
 	public final function getPk() {
 		if (count($this->_pk) == 1) {
@@ -174,7 +174,7 @@ class Mmi_Dao_Record_Ro {
 	/**
 	 * Usuwa flagę modyfikacji na polu, lub wszyskich polach
 	 * @param string $field nazwa pola, jeśli null czyści wszystkie
-	 * @return Mmi_Dao_Record_Ro 
+	 * @return Mmi_Dao_Record_Ro
 	 */
 	public final function clearModified($field = null) {
 		if ($field === null) {
@@ -205,7 +205,7 @@ class Mmi_Dao_Record_Ro {
 	 * Zwraca bind do klucza głównego dla podanej tabeli wartości
 	 * @param array $values
 	 * @return array tablica bind
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	protected final function _pkBind($values) {
 		if (!is_array($values)) {
