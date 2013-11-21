@@ -57,7 +57,7 @@ class Mail_Model_Dao extends Mmi_Dao {
 			);
 		}
 		$mail->attachments = serialize($tmpFiles);
-		$view = Mmi_View::getInstance();
+		$view = Mmi_Controller_Front::getInstance()->getView();
 		foreach ($params as $key => $value) {
 			$view->$key = $value;
 		}

@@ -259,8 +259,8 @@ class Mmi_Controller_Front {
 		Mmi_Profiler::event('Plugins post-dispatch');
 
 		//wyświetlenie layoutu
-		Mmi_View::getInstance()->setPlaceholder('content', $content);
-		Mmi_View::getInstance()->displayLayout($this->_request->__get('skin'), $this->_request->__get('module'), $this->_request->__get('controller'));
+		$this->getView()->setPlaceholder('content', $content);
+		$this->getView()->displayLayout($this->_request->__get('skin'), $this->_request->__get('module'), $this->_request->__get('controller'));
 	}
 
 }

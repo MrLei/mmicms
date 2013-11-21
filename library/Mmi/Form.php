@@ -218,7 +218,7 @@ abstract class Mmi_Form {
 			$this->_subFormPrefix = $this->_formBaseName . '_';
 		}
 
-		$view = Mmi_View::getInstance();
+		$view = Mmi_Controller_Front::getInstance()->getView();
 
 		if ($this->_isSubForm) {
 			//dla podformularzy nie wolno edytować ustawionej nazwy, bo jest ona

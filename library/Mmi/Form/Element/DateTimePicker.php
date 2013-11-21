@@ -32,7 +32,7 @@ class Mmi_Form_Element_DateTimePicker extends Mmi_Form_Element_Text {
 	 * @return string
 	 */
 	public function fetchField() {
-		$view = Mmi_View::getInstance();
+		$view = Mmi_Controller_Front::getInstance()->getView();
 		if (isset($this->_options['format'])) {
 			$format = $this->_options['format'];
 			unset($this->_options['format']);
