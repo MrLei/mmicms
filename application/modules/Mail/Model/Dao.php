@@ -106,7 +106,7 @@ class Mail_Model_Dao extends Mmi_Dao {
 			if ($email->html) {
 				$mail->setBodyHtml($email->message);
 			}
-			$mail->setFrom($email->mail_definition->from, $email->fromName);
+			$mail->setFrom($email->mail_server->from, $email->fromName);
 			$mail->addTo($email->to);
 			if ($email->replyTo) {
 				$mail->setReplyTo($email->replyTo);
