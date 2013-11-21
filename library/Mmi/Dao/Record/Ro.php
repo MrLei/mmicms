@@ -108,7 +108,7 @@ class Mmi_Dao_Record_Ro {
 		}
 		//klucz wielokrotny
 		$pk = array();
-		foreach ($this->_pk as $column) {
+		foreach ($this->_pk as $name) {
 			$pk[] = $this->__get($name);
 		}
 		return $pk;
@@ -157,16 +157,20 @@ class Mmi_Dao_Record_Ro {
 	 * @param bool $fromDb czy z bazy danych
 	 * @return Mmi_Dao_Record_Ro
 	 */
-	public function setFromArray(array $row = array(), $fromDb = true) {
+	public function setFromArray(array $row = array()) {
+		$joinedRows = array();
 		foreach ($row as $key => $value) {
-			if (is_array($value) && $fromDb) {
-				foreach ($value as $scalar) {
-					$this->__set($key, $scalar);
-					$key = '_' . $key;
-				}
+			$underline = strpos($key, '__');
+			if (false !== $underline) {
+				$joinedRows[substr($key, 0, $underline)][substr($key, $underline + 2)] = $value;
 				continue;
 			}
 			$this->__set($key, $value);
+		}
+		foreach ($joinedRows as $table => $rows) {
+			$ro = new Mmi_Dao_Record_Ro();
+			$ro->setFromArray($rows);
+			$this->__set($table, $ro);
 		}
 		return $this;
 	}
