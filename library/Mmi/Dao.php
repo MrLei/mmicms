@@ -61,7 +61,7 @@ class Mmi_Dao {
 	 * Zabezpieczony konstruktor
 	 */
 	private final function __construct() {
-
+		
 	}
 
 	/**
@@ -96,28 +96,14 @@ class Mmi_Dao {
 	 */
 	public static final function find($bind = array(), array $order = array(), $limit = null, $offset = null, array $joinSchema = array()) {
 		//@TODO po refaktoryzacji przerobić by przyjmował tylko obiekt query
+		/* @var $q Mmi_Dao_Query_Compilation */
 		if ($bind instanceof Mmi_Dao_Query) {
 			$q = $bind->queryCompilation();
 			//@TODO usunąć tego if'a:
-			if ($limit !== null || $offset !== null || !empty($order) || !empty($joinSchema)) {
+			if ($offset !== null || !empty($order) || !empty($joinSchema)) {
 				throw new Exception('Mmi_Dao: query object supplied together with $limit, $offset etc.');
 			}
-			$fields = array('*');
-			//zapytanie explicit jeśli jest joinSchema
-			if (!empty($q->joinSchema)) {
-				$fields = array();
-				$mainStructure = self::getTableStructure();
-				foreach ($mainStructure as $field => $info) {
-					$fields[] = self::getTableName() . '.' . $field;
-				}
-				foreach ($q->joinSchema as $tableName => $joinSchema) {
-					$structure = self::getTableStructure($tableName);
-					foreach ($structure as $field => $info) {
-						$fields[] = $tableName . '.' . $field . ' AS ' . $tableName . '__' . $field;
-					}
-				}
-			}
-			$result = self::getAdapter()->select(static::$_tableName, $q->bind, $q->order, $q->limit, $q->offset, $fields, $q->joinSchema);
+			$result = self::getAdapter()->select(static::$_tableName, $q->bind, $q->order, $q->limit, $q->offset, self::_getFields($q->joinSchema), $q->joinSchema);
 		} else {
 			$result = self::getAdapter()->select(static::$_tableName, $bind, $order, $limit, $offset, array('*'), $joinSchema);
 		}
@@ -148,7 +134,7 @@ class Mmi_Dao {
 			if ($offset !== null || !empty($order) || !empty($joinSchema)) {
 				throw new Exception('Mmi_Dao: query object supplied together with $limit, $offset etc.');
 			}
-			$result = self::getAdapter()->select(static::$_tableName, $q->bind, $q->order, 1, $q->offset, array('*'), $q->joinSchema);
+			$result = self::getAdapter()->select(static::$_tableName, $q->bind, $q->order, 1, $q->offset, self::_getFields($q->joinSchema), $q->joinSchema);
 		} else {
 			$result = self::getAdapter()->select(static::$_tableName, $bind, $order, 1, $offset, array('*'), $joinSchema);
 		}
@@ -319,6 +305,30 @@ class Mmi_Dao {
 	 */
 	public static final function newQuery() {
 		return new Mmi_Dao_Query();
+	}
+
+	/**
+	 * Zwraca pola do selecta
+	 * @param array $joinSchema
+	 * @return string
+	 */
+	protected static function _getFields($joinSchema) {
+		if (empty($joinSchema)) {
+			return array('*');
+		}
+		$fields = array();
+		$mainStructure = self::getTableStructure();
+		foreach ($mainStructure as $field => $info) {
+			$fields[] = self::getTableName() . '.' . $field;
+		}
+		foreach ($joinSchema as $tableName => $schema) {
+			unset($schema);
+			$structure = self::getTableStructure($tableName);
+			foreach ($structure as $field => $info) {
+				$fields[] = $tableName . '.' . $field . ' AS ' . $tableName . '__' . $field;
+			}
+		}
+		return $fields;
 	}
 
 }
