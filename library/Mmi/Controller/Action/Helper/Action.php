@@ -109,7 +109,7 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 			return true;
 		}
 		$roles = self::$_auth->getRoles();
-		return self::$_acl->isAllowed($roles, $module . ':' . $controller . ':' . $action);
+		return self::$_acl->isAllowed($roles, strtolower($module . ':' . $controller . ':' . $action));
 	}
 
 }
