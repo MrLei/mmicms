@@ -5,7 +5,8 @@ class Cms_Plugin_RouteGrid extends Mmi_Grid {
 
 	public function init() {
 
-		$this->setOption('order', array('order' => 'ASC'));
+		$q = new Mmi_Dao_Query();
+		$this->setOption('query', $q->orderAsc('order'));
 		$this->setOption('rows', 100);
 		
 		$this->addColumn('text', 'pattern', array(
