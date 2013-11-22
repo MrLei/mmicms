@@ -142,6 +142,7 @@ class Mmi_Dao {
 			return null;
 		}
 		$recordName = self::getRecordName();
+		/* @var $record Mmi_Dao_Record_Ro */
 		$record = new $recordName;
 		$record->setFromArray($result[0])->clearModified()->setNew(false);
 		return $record;
