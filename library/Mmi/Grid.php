@@ -557,7 +557,11 @@ abstract class Mmi_Grid {
 	 * Ustawia dane dla grid'a
 	 */
 	protected function _setDefaultData() {
-		$q = new Mmi_Dao_Query();
+		if (isset($this->_options['query']) && $this->_options['query'] instanceof Mmi_Dao_Query) {
+			$q = $this->_options['query'];
+		} else {
+			$q = new Mmi_Dao_Query();
+		}
 		foreach ($this->_options['filter'] as $field => $value) {
 			$subQ = new Mmi_Dao_Query();
 			$type = 'text';
@@ -575,16 +579,7 @@ abstract class Mmi_Grid {
 				$q->andQuery($subQ);
 			}
 		}
-		if (empty($this->_options['order'])) {
-			$q->orderAsc('id');
-		}
-		foreach ($this->_options['order'] as $field => $value) {
-			if ($value == 'ASC') {
-				$q->orderAsc($field);
-			} else {
-				$q->orderDesc($field);
-			}
-		}
+		$q->orderAsc('id');
 		$dao = $this->_daoName;
 		$get = $this->_daoGetMethod;
 		$count = $this->_daoCountMethod;
