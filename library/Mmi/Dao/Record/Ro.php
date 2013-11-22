@@ -169,7 +169,7 @@ class Mmi_Dao_Record_Ro {
 		}
 		foreach ($joinedRows as $table => $rows) {
 			$ro = new Mmi_Dao_Record_Ro();
-			$ro->setFromArray($rows);
+			$ro->setFromArray($rows)->clearModified();
 			$this->__set($table, $ro);
 		}
 		return $this;
