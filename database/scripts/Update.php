@@ -6,7 +6,10 @@ require $path . '/library/Mmi/Application.php';
 $application = new Mmi_Application($path, 'MmiCms_Application_Bootstrap_Commandline');
 $application->run();
 
-//incremental files check
+//wyłączenie bufora
+ob_end_flush();
+
+//pliki incremental
 foreach (glob(BASE_PATH . '/database/' . Default_Registry::$config->db->driver . '/incremental/*.sql') as $file) {
 	$md5file = md5_file($file);
 	$baseFileName = basename($file);
