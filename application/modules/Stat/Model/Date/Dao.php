@@ -4,43 +4,25 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 
 	public static $_tableName = 'stat_date';
 
-	public static function getOne($object, $objectId, $year = null, $month = null, $day = null, $hour = null) {
+	public static function findUniqueObjects() {
 		$q = self::newQuery()
-				->where('object')->eqals($object)
-				->andField('objectId')->eqals($objectId);
-
-		self::_bindParam($q, 'year', $year);
-		self::_bindParam($q, 'month', $month);
-		self::_bindParam($q, 'day', $day);
-		self::_bindParam($q, 'hour', $hour);
-
-		$stat = self::findFirst($q);
-		if (!($stat->count > 0)) {
-			return 0;
+			->where('hour')->eqals(null)
+			->andField('day')->eqals(null)
+			->andField('month')->eqals(null)
+			->andField('objectId')->eqals(null)
+			->orderAsc('object');
+		$all = self::find($q);
+		$objects = array();
+		foreach ($all as $object) {
+			if (!isset($objects[$object->object])) {
+				$objects[$object->object] = $object->object;
+			}
 		}
-		return $stat->count;
-	}
-
-	public static function getRows($object, $objectId, $year = null, $month = null, $day = null, $hour = null) {
-		$q = self::newQuery()
-				->where('object')->eqals($object)
-				->andField('objectId')->eqals($objectId);
-
-		self::_bindParam($q, 'year', $year);
-		self::_bindParam($q, 'month', $month);
-		self::_bindParam($q, 'day', $day);
-		self::_bindParam($q, 'hour', $hour);
-
-		$q->orderAsc('day')
-			->orderAsc('month')
-			->orderAsc('year')
-			->orderAsc('hour');
-
-		return self::find($q);
+		return $objects;
 	}
 
 	public static function avgHourly($object, $objectId, $year, $month) {
-		$stats = self::getRows($object, $objectId, $year, $month, null, true);
+		$stats = self::_getRows($object, $objectId, $year, $month, null, true);
 		$statArray = array();
 		foreach ($stats as $stat) {
 			$statArray[$stat->hour] = $stat->count;
@@ -58,7 +40,7 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 	}
 
 	public static function daily($object, $objectId, $year, $month) {
-		$stats = self::getRows($object, $objectId, $year, $month, true, null);
+		$stats = self::_getRows($object, $objectId, $year, $month, true, null);
 		$time = strtotime($year . '-' . $month . '01 00:00:00');
 		$days = date('t', $time);
 		$statArray = array();
@@ -91,8 +73,8 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 		$now = strtotime($year . '-' . $month . '-' . $day);
 		$prev = strtotime('-1 month', $now);
 
-		$statsPrev = self::getRows($object, $objectId, date('Y', $prev), date('m', $prev), true, null);
-		$stats = self::getRows($object, $objectId, date('Y', $now), date('m', $now), true, null);
+		$statsPrev = self::_getRows($object, $objectId, date('Y', $prev), date('m', $prev), true, null);
+		$stats = self::_getRows($object, $objectId, date('Y', $now), date('m', $now), true, null);
 
 		$raw = array();
 		foreach ($statsPrev as $stat) {
@@ -115,7 +97,7 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 	}
 
 	public static function monthly($object, $objectId, $year) {
-		$stats = self::getRows($object, $objectId, $year, true, null, null);
+		$stats = self::_getRows($object, $objectId, $year, true, null, null);
 		$statArray = array();
 		foreach ($stats as $stat) {
 			if ($stat->month < 10) {
@@ -139,7 +121,7 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 	}
 
 	public static function yearly($object, $objectId) {
-		$stats = self::getRows($object, $objectId, true, null, null, null);
+		$stats = self::_getRows($object, $objectId, true, null, null, null);
 		$statArray = array();
 		foreach ($stats as $stat) {
 			$statArray[$stat->year] = $stat->count;
@@ -237,21 +219,22 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 		return $html . '});';
 	}
 
-	public static function findUniqueObjects() {
+	protected static function _getRows($object, $objectId, $year = null, $month = null, $day = null, $hour = null) {
 		$q = self::newQuery()
-			->where('hour')->eqals(null)
-			->andField('day')->eqals(null)
-			->andField('month')->eqals(null)
-			->andField('objectId')->eqals(null)
-			->orderAsc('object');
-		$all = self::find($q);
-		$objects = array();
-		foreach ($all as $object) {
-			if (!isset($objects[$object->object])) {
-				$objects[$object->object] = $object->object;
-			}
-		}
-		return $objects;
+				->where('object')->eqals($object)
+				->andField('objectId')->eqals($objectId);
+
+		self::_bindParam($q, 'year', $year);
+		self::_bindParam($q, 'month', $month);
+		self::_bindParam($q, 'day', $day);
+		self::_bindParam($q, 'hour', $hour);
+
+		$q->orderAsc('day')
+			->orderAsc('month')
+			->orderAsc('year')
+			->orderAsc('hour');
+
+		return self::find($q);
 	}
 
 	protected static function _bindParam(Mmi_Dao_Query $q, $name, $value) {

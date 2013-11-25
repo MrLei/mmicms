@@ -102,6 +102,20 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	}
 
 	/**
+	 * Znajduje po obiekcie i id obiektu
+	 * @param string $object
+	 * @param int $objectId
+	 * @return Mmi_Dao_Collection
+	 */
+	public static function findByObjectId($object, $objectId) {
+		$q = self::newQuery()
+			->where('object')->eqals($object)
+			->andField('objectId')->eqals($objectId)
+			->orderAsc('order');
+		return self::find($q);
+	}
+
+	/**
 	 * Dołącza pliki dla danego object i id
 	 * @param string $object obiekt
 	 * @param int $id id obiektu
