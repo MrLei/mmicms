@@ -259,7 +259,7 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 			$q->andField($name)->notEquals(null);
 			return;
 		}
-		$q->andField($name)->$value;
+		$q->andField($name)->eqals($value);
 		return;
 	}
 
