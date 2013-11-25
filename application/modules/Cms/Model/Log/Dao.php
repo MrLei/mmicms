@@ -1,9 +1,9 @@
 <?php
 
 class Cms_Model_Log_Dao extends Mmi_Dao {
-	
+
 	protected static $_tableName = 'cms_log';
-	
+
 	/**
 	 * Dodaje zdarzenie do logu
 	 * @param string $operation operacja
@@ -49,9 +49,11 @@ class Cms_Model_Log_Dao extends Mmi_Dao {
 		}
 		return $record->save();
 	}
-	
+
 	public static function clean() {
-		return self::find(array('dateTime', date('Y-m-d H:i:s', strtotime('-2 year')), '<'))->delete();
+		$q = self::newQuery()
+			->where('dateTime')->less(date('Y-m-d H:i:s', strtotime('-2 year')));
+		return self::find($q)->delete();
 	}
 
 }
