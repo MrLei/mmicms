@@ -4,39 +4,42 @@ class Api_Controller_Soap extends Mmi_Controller_Action {
 
 	public function serverAction() {
 		try {
+			$apiModel = $this->_filterApiName($this->_getParam('obj')) . '_Model_Api';
+			//prywatny serwer
+			if (isset($_SERVER['PHP_AUTH_USER'])) {
+				$apiModel .= '_Private';
+				$auth = new Mmi_Auth();
+				$auth->setModelName($apiModel);
+				$auth->httpAuth('Private API', 'Access denied!');
+			}
 			$url = $this->view->url(array(
 				'module' => 'api',
 				'controller' => 'soap',
 				'action' => 'wsdl',
 				'obj' => $this->_getParam('obj'),
-				'identity' => $this->_getParam('identity'),
-				'credential' => $this->_getParam('credential')
-				), true, true, $this->_ssl());
-			$apiModel = $this->_filterApiName($this->_getParam('obj')) . '_Model_Api';
-			if ($this->_getParam('identity')) {
-				$apiModel .= '_Private';
-				$this->_auth($apiModel);
-			}
+				'type' => $this->_getParam('type')
+				), true, true, $this->_isSsl());
 			$soap = new SoapServer($url);
 			$soap->setClass($apiModel);
 			$soap->handle();
 		} catch (Exception $e) {
-			die('SOAP server failed!');
+			Mmi_Exception_Logger::log($e);
+			header('HTTP/1.1 500 Internal Server Error');
+			die('<html><body><h1>Soap service failed</h1></body></html>');
 		}
 		exit;
 	}
 
 	public function clientAction() {
-		//dla typu prywatnego ustawienie loginu i hasła
-		$url = $this->view->url(array(
+		$wsdl = $this->view->url(array(
 			'module' => 'api',
 			'controller' => 'soap',
 			'action' => 'wsdl',
 			'obj' => $this->_getParam('obj'),
-			'identity' => $this->_getParam('identity'),
-			'credential' => $this->_getParam('credential')
-			), true, true, $this->_ssl());
-		$client = new SoapClient($url);
+			'type' => $this->_getParam('type')
+			), true, true, $this->_isSsl());
+		$client = new SoapClient($wsdl, array('user' => $this->_getParam('identity'), 'password' => $this->_getParam('credential')));
+		$params = array();
 		parse_str($this->_getParam('params'), $params);
 		var_dump($client->__soapCall($this->_getParam('method'), $params));
 		exit;
@@ -50,12 +53,10 @@ class Api_Controller_Soap extends Mmi_Controller_Action {
 				'controller' => 'soap',
 				'action' => 'server',
 				'obj' => $this->_getParam('obj'),
-				'identity' => $this->_getParam('identity'),
-				'credential' => $this->_getParam('credential')
-				), true, true, $this->_ssl());
-			if ($this->_getParam('identity')) {
+				'type' => $this->_getParam('type')
+				), true, true, $this->_isSsl());
+			if ($this->_getParam('type') === 'private') {
 				$apiModel .= '_Private';
-				$this->_auth($apiModel);
 			}
 			//@TODO: przepisać do ZF2
 			$autodiscover = new Zend_Soap_AutoDiscover();
@@ -64,6 +65,7 @@ class Api_Controller_Soap extends Mmi_Controller_Action {
 			$autodiscover->handle();
 		} catch (Exception $e) {
 			header('HTTP/1.1 500 Internal Server Error');
+			die('<html><body><h1>WSDL not found</h1></body></html>');
 		}
 		exit;
 	}
@@ -72,15 +74,8 @@ class Api_Controller_Soap extends Mmi_Controller_Action {
 		return ucfirst(preg_replace('/[^\p{L}\p{N}-_]/u', '', $name));
 	}
 
-	protected function _ssl() {
+	protected function _isSsl() {
 		return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || $_SERVER['SERVER_PORT'] == 443;
-	}
-
-	protected function _auth($apiModel) {
-		$auth = new $apiModel;
-		if (!$auth->authenticate($this->_getParam('identity'), $this->_getParam('credential'))) {
-			die('SOAP server authorization failed!');
-		}
 	}
 
 }
