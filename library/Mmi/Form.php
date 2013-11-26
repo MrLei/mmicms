@@ -218,7 +218,7 @@ abstract class Mmi_Form {
 			$this->_subFormPrefix = $this->_formBaseName . '_';
 		}
 
-		$view = Mmi_View::getInstance();
+		$view = Mmi_Controller_Front::getInstance()->getView();
 
 		if ($this->_isSubForm) {
 			//dla podformularzy nie wolno edytować ustawionej nazwy, bo jest ona
@@ -983,7 +983,7 @@ abstract class Mmi_Form {
 		if (!empty($this->_recordValues)) {
 			$data = array_merge($data, $this->_recordValues);
 		}
-		$this->_record->setFromArray($data, false);
+		$this->_record->setFromArray($data);
 		if (method_exists(($this->_record), $this->_recordSaveMethod)) {
 			return $this->_record->{$this->_recordSaveMethod}();
 		}

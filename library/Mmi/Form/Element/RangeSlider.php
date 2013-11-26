@@ -46,7 +46,7 @@ class Mmi_Form_Element_RangeSlider extends Mmi_Form_Element_Abstract {
 		unset($this->_options['min']);
 		unset($this->_options['max']);
 		unset($this->_options['step']);
-		$view = Mmi_View::getInstance();
+		$view = Mmi_Controller_Front::getInstance()->getView();
 		$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
 		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/ui.js');
 		$view->headScript()->appendScript('

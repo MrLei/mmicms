@@ -260,8 +260,9 @@ class Mmi_Auth {
 
 		$this->setIdentity($identity);
 		$this->setCredential($credential);
-		$result = $this->authenticate();
-		if ($identity == '' || $credential == '' || !$result) {
+		$model = $this->_modelName;
+		$result = $model::authenticate($identity, $credential);
+		if ($result === false) {
 			header('WWW-Authenticate: Basic realm="' . $realm . '"');
 			header('HTTP/1.0 401 Unauthorized');
 			die($errorMessage);

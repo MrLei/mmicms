@@ -31,37 +31,8 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 	 */
 	public function __construct() {
 
-		require LIB_PATH . '/Mmi/Cache/Config.php';
-		require LIB_PATH . '/Mmi/Cache/Backend/Interface.php';
-		require LIB_PATH . '/Mmi/Cache.php';
-		require LIB_PATH . '/Mmi/Controller/Action/Helper/Messenger.php';
-		require LIB_PATH . '/Mmi/Dao.php';
-		require LIB_PATH . '/Mmi/Db.php';
-		require LIB_PATH . '/Mmi/Db/Adapter/Pdo/Abstract.php';
-		require LIB_PATH . '/Mmi/Db/Adapter/Pdo/Pgsql.php';
-		require LIB_PATH . '/Mmi/Db/Config.php';
-		require LIB_PATH . '/Mmi/Acl.php';
-		require LIB_PATH . '/Mmi/Auth.php';
-		require LIB_PATH . '/Mmi/Filter/Abstract.php';
-		require LIB_PATH . '/Mmi/Filter/Urlencode.php';
-		require LIB_PATH . '/Mmi/Http/Cookie.php';
-		require LIB_PATH . '/Mmi/Navigation.php';
-		require LIB_PATH . '/Mmi/Nested.php';
-		require LIB_PATH . '/Mmi/Session/Config.php';
-		require LIB_PATH . '/Mmi/Translate.php';
-		require LIB_PATH . '/Mmi/View/Helper/Abstract.php';
-		require LIB_PATH . '/Mmi/View/Helper/AbstractHead.php';
-		require LIB_PATH . '/Mmi/View/Helper/HeadLink.php';
-		require LIB_PATH . '/Mmi/View/Helper/HeadScript.php';
-		require LIB_PATH . '/Mmi/View/Helper/Navigation.php';
-		require LIB_PATH . '/Mmi/View/Helper/Messenger.php';
-		require LIB_PATH . '/Mmi/View/Helper/Translate.php';
-		require LIB_PATH . '/Mmi/View/Helper/Url.php';
-
-		require LIB_PATH . '/MmiCms/Config.php';
-		require LIB_PATH . '/MmiCms/Controller/Plugin.php';
-		require LIB_PATH . '/MmiCms/Media/Config.php';
-		require LIB_PATH . '/MmiCms/Registry.php';
+		//statyczne ładowanie obowiązkowych komponentów
+		$this->_loadRequiredComponents();
 
 		//lokalna konfiguracja
 		try {
@@ -96,21 +67,8 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 			Default_Registry::$cache->save($frontStructure, 'Mmi_Structure', 86400);
 		}
 
-		//inicjalizacja frontu
-		$front = Mmi_Controller_Front::getInstance();
-		$front->setStructure($frontStructure);
-
-		//ładowanie pluginów frontu
-		foreach ($config->application->plugins as $plugin) {
-			$front->registerPlugin(new $plugin());
-		}
-
 		//ustawianie rout
 		$router = new Mmi_Controller_Router($config->router, $config->application->languages[0], $config->application->skin);
-		//przypinanie routera do helpera redirectora
-		Mmi_Controller_Action_Helper_Redirector::setRouter($router);
-		Mmi_View_Helper_Url::setRouter($router);
-		$front->setRouter($router);
 
 		//tłumaczenia
 		$translate = new Mmi_Translate();
@@ -120,14 +78,25 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		Mmi_View_Helper_Translate::setTranslate($translate);
 
 		//konfiguracja widoku
-		$view = Mmi_View::getInstance();
-		$view->setCache(Default_Registry::$cache);
-		$view->setAlwaysCompile($config->application->compile);
-		$view->setDebug($config->application->debug);
-		$view->setTranslate($translate);
-		$view->setBaseUrl($router->getBaseUrl());
+		$view = new Mmi_View();
+		$view->setCache(Default_Registry::$cache)
+			->setAlwaysCompile($config->application->compile)
+			->setDebug($config->application->debug)
+			->setTranslate($translate)
+			->setBaseUrl($router->getBaseUrl());
 
-		//połączenie do bazy danych
+		//inicjalizacja frontu
+		$front = Mmi_Controller_Front::getInstance()
+			->setStructure($frontStructure)
+			->setRouter($router)
+			->setView($view);
+
+		//ładowanie pluginów frontu
+		foreach ($config->application->plugins as $plugin) {
+			$front->registerPlugin(new $plugin());
+		}
+
+		//połączenie do bazy danych i konfiguracja DAO
 		if (Default_Registry::$config->db->driver !== null) {
 			Default_Registry::$config->db->profiler = $config->application->debug;
 			Default_Registry::$db = Mmi_Db::factory(Default_Registry::$config->db);
@@ -142,6 +111,43 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 	 */
 	public function run() {
 		Mmi_Controller_Front::getInstance()->dispatch();
+	}
+
+	/**
+	 * Ładowanie komponentów statycznie, bez potrzeby użycia autoloadera
+	 */
+	protected function _loadRequiredComponents() {
+		require LIB_PATH . '/Mmi/Cache/Config.php';
+		require LIB_PATH . '/Mmi/Cache/Backend/Interface.php';
+		require LIB_PATH . '/Mmi/Cache.php';
+		require LIB_PATH . '/Mmi/Controller/Action/Helper/Messenger.php';
+		require LIB_PATH . '/Mmi/Dao.php';
+		require LIB_PATH . '/Mmi/Db.php';
+		require LIB_PATH . '/Mmi/Db/Adapter/Pdo/Abstract.php';
+		require LIB_PATH . '/Mmi/Db/Adapter/Pdo/Pgsql.php';
+		require LIB_PATH . '/Mmi/Db/Config.php';
+		require LIB_PATH . '/Mmi/Acl.php';
+		require LIB_PATH . '/Mmi/Auth.php';
+		require LIB_PATH . '/Mmi/Filter/Abstract.php';
+		require LIB_PATH . '/Mmi/Filter/Urlencode.php';
+		require LIB_PATH . '/Mmi/Http/Cookie.php';
+		require LIB_PATH . '/Mmi/Navigation.php';
+		require LIB_PATH . '/Mmi/Nested.php';
+		require LIB_PATH . '/Mmi/Session/Config.php';
+		require LIB_PATH . '/Mmi/Translate.php';
+		require LIB_PATH . '/Mmi/View/Helper/Abstract.php';
+		require LIB_PATH . '/Mmi/View/Helper/AbstractHead.php';
+		require LIB_PATH . '/Mmi/View/Helper/HeadLink.php';
+		require LIB_PATH . '/Mmi/View/Helper/HeadScript.php';
+		require LIB_PATH . '/Mmi/View/Helper/Navigation.php';
+		require LIB_PATH . '/Mmi/View/Helper/Messenger.php';
+		require LIB_PATH . '/Mmi/View/Helper/Translate.php';
+		require LIB_PATH . '/Mmi/View/Helper/Url.php';
+
+		require LIB_PATH . '/MmiCms/Config.php';
+		require LIB_PATH . '/MmiCms/Controller/Plugin.php';
+		require LIB_PATH . '/MmiCms/Media/Config.php';
+		require LIB_PATH . '/MmiCms/Registry.php';
 	}
 
 }

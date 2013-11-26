@@ -6,7 +6,7 @@ class MmiCms_Model_Changelog_Dao extends Mmi_Dao {
 
 	public static function findFirstByFilename($filename) {
 		$q = self::newQuery()
-			->where('filename', $filename);
+			->where('filename')->eqals($filename);
 		return self::findFirst($q);
 	}
 

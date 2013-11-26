@@ -8,9 +8,7 @@ class Cms_Model_Acl_Dao extends Mmi_Dao {
 		$rules = array();
 
 		$q = self::newQuery()
-				->where('cms_role_id')->eqals($role)
-				->join('cms_role')->on('cms_role_id')
-		;
+				->where('cms_role_id')->eqals($role);
 
 		$data = Cms_Model_Acl_Dao::find($q);
 		foreach ($data as $item) {
@@ -41,10 +39,9 @@ class Cms_Model_Acl_Dao extends Mmi_Dao {
 			if ($aclRule->action) {
 				$resource .= $aclRule->action . ':';
 			}
-			$resource = trim($resource, ':');
 			$access = $aclRule->access;
 			if ($access == 'allow' || $access == 'deny') {
-				$acl->$access($aclRule->name, $resource);
+				$acl->$access($aclRule->cms_role->name, trim($resource, ':'));
 			}
 		}
 		return $acl;

@@ -142,8 +142,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 			Mmi_Db_Profiler::event('CONNECT WITH: ' . get_class($this), 0);
 		}
 		$this->_pdo = new PDO(
-						$this->_config->driver . ':host=' . $this->_config->host . ';port=' . $this->_config->port . ';dbname=' . $this->_config->name, $this->_config->user, $this->_config->password,
-						array(PDO::ATTR_PERSISTENT => $this->_config->persistent)
+			$this->_config->driver . ':host=' . $this->_config->host . ';port=' . $this->_config->port . ';dbname=' . $this->_config->name, $this->_config->user, $this->_config->password, array(PDO::ATTR_PERSISTENT => $this->_config->persistent)
 		);
 		$this->_connected = true;
 	}
@@ -164,13 +163,10 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 		switch (gettype($value)) {
 			case 'NULL':
 				return 'NULL';
-				break;
 			case 'integer':
 				return intval($value);
-				break;
 			case 'boolean':
 				return $value ? 'true' : 'false';
-				break;
 		}
 		return $this->_pdo->quote($value, $paramType);
 	}
@@ -356,23 +352,15 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @return array
 	 */
 	public function select($table, array $whereBind = array(), array $orderBind = array(), $limit = null, $offset = null, array $fields = array('*'), array $joinSchema = array()) {
-		$selectFields = '';
-		foreach ($fields as $field) {
-			if ($field == '*' || (strpos($field, '(') !== false && strpos($field, ')'))) {
-				$selectFields = $field;
-				break;
-			}
-			$selectFields .= $this->prepareField($field) . ', ';
-		}
 		$where = $this->_parseWhereBind($whereBind, $table);
-		$sql = 'SELECT ' . rtrim($selectFields, ', ') . ' FROM ' . $this->prepareTable($table);
+		$sql = 'SELECT ' . $this->_prepareSelectFields($fields) . ' FROM ' . $this->prepareTable($table);
 		if (!empty($joinSchema)) {
 			foreach ($joinSchema as $joinTable => $condition) {
 				$targetTable = isset($condition[2]) ? $condition[2] : $table;
 				$joinType = isset($condition[3]) ? $condition[3] : 'JOIN';
 				$sql .= ' ' . $joinType . ' ' . $this->prepareTable($joinTable) . ' ON ' .
-						$this->prepareTable($joinTable) . '.' . $this->prepareField($condition[0]) .
-						' = ' . $this->prepareTable($targetTable) . '.' . $this->prepareField($condition[1]);
+					$this->prepareTable($joinTable) . '.' . $this->prepareField($condition[0]) .
+					' = ' . $this->prepareTable($targetTable) . '.' . $this->prepareField($condition[1]);
 			}
 		}
 		$sql .= $where['sql'] . $this->_parseOrderBind($orderBind, $table) . $this->prepareLimit($limit, $offset);
@@ -429,6 +417,34 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 			return ' LIMIT ' . intval($offset) . ', ' . intval($limit);
 		}
 		return ' LIMIT ' . intval($limit);
+	}
+
+	/**
+	 * Przygotowuje pola do metody select (quotowanie)
+	 * @param array $selectedFields pola
+	 * @return string
+	 */
+	protected function _prepareSelectFields(array $fields = array('*')) {
+		$fieldString = '';
+		foreach ($fields as $field) {
+			if (false !== ($asPosition = strpos($field, 'AS'))) {
+				$originalField = $field;
+				$field = substr($field, 0, $asPosition - 1);
+			}
+			if ($field == '*' || (strpos($field, '(') !== false && strpos($field, ')'))) {
+				$fieldString = $field;
+				break;
+			} elseif (false !== ($dotPosition = strpos($field, '.'))) {
+				$fieldString .= $this->prepareTable(substr($field, 0, $dotPosition)) . '.' . $this->prepareField(substr($field, $dotPosition + 1));
+			} else {
+				$fieldString .= $this->prepareField($field);
+			}
+			if (false !== $asPosition) {
+				$fieldString .= ' AS ' . $this->prepareField(substr($originalField, $asPosition + 3));
+			}
+			$fieldString .= ', ';
+		}
+		return rtrim($fieldString, ', ');
 	}
 
 	/**

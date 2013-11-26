@@ -104,7 +104,7 @@ abstract class Mmi_Grid {
 	 * Konstruktor, ustawia wartości domyślne, referencje do obiektów i tworzy model
 	 */
 	public function __construct() {
-		$this->_view = Mmi_View::getInstance();
+		$this->_view = Mmi_Controller_Front::getInstance()->getView();
 		$this->_request = $this->_view->request;
 		$this->_setDefaultOptions();
 		$this->_view->headScript()->prependFile($this->_view->baseUrl . '/library/js/jquery/jquery.js');
@@ -490,7 +490,7 @@ abstract class Mmi_Grid {
 					$linkEdit = $this->_options['links']['edit'];
 				}
 				if (null !== $linkEdit) {
-					$value .= '<a href="' . $linkEdit . '"><img src="' . Mmi_View::getInstance()->baseUrl . '/default/cms/images/ico16_edit.gif" /></a>';
+					$value .= '<a href="' . $linkEdit . '"><img src="' . Mmi_Controller_Front::getInstance()->getView()->baseUrl . '/default/cms/images/ico16_edit.gif" /></a>';
 				}
 				if (isset($column['links']) && is_array($column['links']) && array_key_exists('delete', $column['links'])) {
 					$linkDelete = $column['links']['delete'];
@@ -503,7 +503,7 @@ abstract class Mmi_Grid {
 					if ($this->_view->getTranslate() !== null) {
 						$confirmDelete = $this->_view->getTranslate()->_(self::DELETE);
 					}
-					$value .= '<a title="' . $confirmDelete . '" class="confirm" href="' . $linkDelete . '"><img src="' . Mmi_View::getInstance()->baseUrl . '/default/cms/images/ico16_remove.gif" /></a>';
+					$value .= '<a title="' . $confirmDelete . '" class="confirm" href="' . $linkDelete . '"><img src="' . Mmi_Controller_Front::getInstance()->getView()->baseUrl . '/default/cms/images/ico16_remove.gif" /></a>';
 				}
 				foreach ($rowData->toArray() as $fieldName => $fieldValue) {
 					if (is_string($fieldValue) || is_int($fieldValue)) {
@@ -557,7 +557,11 @@ abstract class Mmi_Grid {
 	 * Ustawia dane dla grid'a
 	 */
 	protected function _setDefaultData() {
-		$q = new Mmi_Dao_Query();
+		if (isset($this->_options['query']) && $this->_options['query'] instanceof Mmi_Dao_Query) {
+			$q = $this->_options['query'];
+		} else {
+			$q = new Mmi_Dao_Query();
+		}
 		foreach ($this->_options['filter'] as $field => $value) {
 			$subQ = new Mmi_Dao_Query();
 			$type = 'text';
@@ -575,16 +579,7 @@ abstract class Mmi_Grid {
 				$q->andQuery($subQ);
 			}
 		}
-		if (empty($this->_options['order'])) {
-			$q->orderAsc('id');
-		}
-		foreach ($this->_options['order'] as $field => $value) {
-			if ($value == 'ASC') {
-				$q->orderAsc($field);
-			} else {
-				$q->orderDesc($field);
-			}
-		}
+		$q->orderAsc('id');
 		$dao = $this->_daoName;
 		$get = $this->_daoGetMethod;
 		$count = $this->_daoCountMethod;
