@@ -40,7 +40,7 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 	 * @return string
 	 */
 	public function fetchField() {
-		$view = Mmi_View::getInstance();
+		$view = Mmi_Controller_Front::getInstance()->getView();
 		$view->headScript()->appendFile($view->baseUrl . '/library/js/tiny/tinymce.min.js');
 
 		switch (isset($this->_options['mode']) ? $this->_options['mode'] : null) {
@@ -89,7 +89,7 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 		}
 		unset($this->_options['mode']);
 		$class = $this->__get('id');
-		$skin = Mmi_View::getInstance()->skin;
+		$skin = Mmi_Controller_Front::getInstance()->getView()->skin;
 		$this->__set('class', trim($this->__get('class') . ' ' . $class));
 		$object = '';
 		$objectId = '';

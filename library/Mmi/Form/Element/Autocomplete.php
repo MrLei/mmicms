@@ -32,7 +32,7 @@ class Mmi_Form_Element_Autocomplete extends Mmi_Form_Element_Text {
 	 * @return string
 	 */
 	public function fetchField() {
-		$view = Mmi_View::getInstance();
+		$view = Mmi_Controller_Front::getInstance()->getView();
 		$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
 		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/ui.js');
 		$view->headLink()->appendStylesheet($view->baseUrl . '/library/css/autocomplete.css');

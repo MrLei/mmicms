@@ -6,8 +6,9 @@ class Mail_Plugin_Grid extends Mmi_Grid {
 
     public function init() {
 
+		$q = new Mmi_Dao_Query();
+		$this->setOption('query', $q->orderDesc('id'));
 		$this->setOption('locked', true);
-		$this->setOption('order', array('id' => 'DESC'));
 
         $this->addColumn('checkbox', 'active', array(
                 'label' => 'Wysłany',

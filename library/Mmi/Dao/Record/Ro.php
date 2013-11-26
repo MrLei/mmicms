@@ -82,7 +82,7 @@ class Mmi_Dao_Record_Ro {
 	 * Metoda programisty wykonywana na końcu konstruktora
 	 */
 	public function init() {
-		
+
 	}
 
 	/**
@@ -100,7 +100,7 @@ class Mmi_Dao_Record_Ro {
 
 	/**
 	 * Pobiera klucz główny (tabela jeśli wielokrotny)
-	 * @return mixed klucz główny 
+	 * @return mixed klucz główny
 	 */
 	public final function getPk() {
 		if (count($this->_pk) == 1) {
@@ -108,7 +108,7 @@ class Mmi_Dao_Record_Ro {
 		}
 		//klucz wielokrotny
 		$pk = array();
-		foreach ($this->_pk as $column) {
+		foreach ($this->_pk as $name) {
 			$pk[] = $this->__get($name);
 		}
 		return $pk;
@@ -157,16 +157,20 @@ class Mmi_Dao_Record_Ro {
 	 * @param bool $fromDb czy z bazy danych
 	 * @return Mmi_Dao_Record_Ro
 	 */
-	public function setFromArray(array $row = array(), $fromDb = true) {
+	public function setFromArray(array $row = array()) {
+		$joinedRows = array();
 		foreach ($row as $key => $value) {
-			if (is_array($value) && $fromDb) {
-				foreach ($value as $scalar) {
-					$this->__set($key, $scalar);
-					$key = '_' . $key;
-				}
+			$underline = strpos($key, '__');
+			if (false !== $underline) {
+				$joinedRows[substr($key, 0, $underline)][substr($key, $underline + 2)] = $value;
 				continue;
 			}
 			$this->__set($key, $value);
+		}
+		foreach ($joinedRows as $table => $rows) {
+			$ro = new Mmi_Dao_Record_Ro();
+			$ro->setFromArray($rows)->clearModified();
+			$this->__set($table, $ro);
 		}
 		return $this;
 	}
@@ -174,7 +178,7 @@ class Mmi_Dao_Record_Ro {
 	/**
 	 * Usuwa flagę modyfikacji na polu, lub wszyskich polach
 	 * @param string $field nazwa pola, jeśli null czyści wszystkie
-	 * @return Mmi_Dao_Record_Ro 
+	 * @return Mmi_Dao_Record_Ro
 	 */
 	public final function clearModified($field = null) {
 		if ($field === null) {
@@ -205,7 +209,7 @@ class Mmi_Dao_Record_Ro {
 	 * Zwraca bind do klucza głównego dla podanej tabeli wartości
 	 * @param array $values
 	 * @return array tablica bind
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	protected final function _pkBind($values) {
 		if (!is_array($values)) {

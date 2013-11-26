@@ -41,7 +41,7 @@ class Payment_Controller_Index extends Mmi_Controller_Action {
 	}
 
 	public function verifyAction() {
-		Mmi_View::getInstance()->setLayoutDisabled();
+		Mmi_Controller_Front::getInstance()->getView()->setLayoutDisabled();
 		$payment = new Payment_Model_Payment();
 		$payment->updateStatus($_POST);
 	}

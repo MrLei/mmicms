@@ -87,7 +87,11 @@ class Mmi_Dao_Query {
 	 * @return \Mmi_Dao_Query
 	 */
 	public function andQuery(Mmi_Dao_Query $query) {
-		$this->_compile->bind[] = array($query->queryCompilation()->bind, 'AND');
+		$bind = $query->queryCompilation()->bind;
+		if (empty($bind)) {
+			return $this;
+		}
+		$this->_compile->bind[] = array($bind, 'AND');
 		return $this;
 	}
 
@@ -106,7 +110,10 @@ class Mmi_Dao_Query {
 	 * @return \Mmi_Dao_Query
 	 */
 	public function orQuery(Mmi_Dao_Query $query) {
-		$this->_compile->bind[] = array($query->queryCompilation()->bind, 'OR');
+		$bind = $query->queryCompilation()->bind;
+		if (empty($bind)) {
+			return $this;
+		}
 		return $this;
 	}
 

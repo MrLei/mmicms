@@ -42,7 +42,7 @@ class Mmi_View_Helper_Abstract {
 	 * Konstruktor, ustawia widok
 	 */
 	public function __construct() {
-		$this->view = Mmi_View::getInstance();
+		$this->view = Mmi_Controller_Front::getInstance()->getView();
 		$this->init();
 	}
 

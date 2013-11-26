@@ -39,7 +39,7 @@ class Cms_Controller_File extends Mmi_Controller_Action {
 		foreach ($files as $currentFile) {
 			Cms_Model_File_Dao::appendFiles($object, $objectId, $currentFile);
 		}
-		die(Mmi_View::getInstance()->widget('cms', 'file', 'uploader', array(
+		die(Mmi_Controller_Front::getInstance()->getView()->widget('cms', 'file', 'uploader', array(
 				'object' => $object,
 				'objectId' => $objectId
 			)));

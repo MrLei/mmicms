@@ -359,7 +359,7 @@ class Mmi_Controller_Router {
 			}
 			if ((preg_match('/\$([0-9]+)(\|[a-z]+)?/', $value, $mt) && isset($params[$key]))) {
 				if (!empty($mt) && count($mt) > 2) {
-					$filter = Mmi_View::getInstance()->getFilter(ucfirst(ltrim($mt[2], '|')));
+					$filter = Mmi_Controller_Front::getInstance()->getView()->getFilter(ucfirst(ltrim($mt[2], '|')));
 					$params[$key] = $filter->filter($params[$key]);
 				}
 				$matches[$value] = $params[$key];

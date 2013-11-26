@@ -71,7 +71,7 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 			->orderAsc('parent_id')
 			->orderAsc('order');
 		$data = self::find($q)->toArray();
-		$view = Mmi_View::getInstance();
+		$view = Mmi_Controller_Front::getInstance()->getView();
 		foreach ($data as $key => $item) {
 			$data[$key]['disabled'] = 0;
 			if (isset($item['active']) && ($item['active'] == 0 || ($item['dateStart'] !== null && $item['dateStart'] > date('Y-m-d H:i:s')) || ($item['dateEnd'] !== null && $item['dateEnd'] < date('Y-m-d H:i:s')))) {

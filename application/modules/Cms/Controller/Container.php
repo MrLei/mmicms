@@ -33,10 +33,10 @@ class Cms_Controller_Container extends Mmi_Controller_Action {
 			$params = array();
 			parse_str($placeholder->params, $params);
 			$content = $action->action($placeholder->module, $placeholder->controller, $placeholder->action, $params, true);
-			Mmi_View::getInstance()->setPlaceholder($placeholder->placeholder, $content);
+			Mmi_Controller_Front::getInstance()->getView()->setPlaceholder($placeholder->placeholder, $content);
 		}
-		Mmi_View::getInstance()->render($container->template->path);
-		Mmi_View::getInstance()->setLayoutDisabled();
+		Mmi_Controller_Front::getInstance()->getView()->render($container->template->path);
+		Mmi_Controller_Front::getInstance()->getView()->setLayoutDisabled();
 	}
 
 }
