@@ -66,7 +66,7 @@ class Mmi_Profiler {
 		} elseif ($elapsed === null) {
 			$elapsed = 0;
 		}
-		static::$_data[self::$_counter] = array(
+		static::$_data[static::$_counter] = array(
 			'name' => $name,
 			'time' => $time,
 			'elapsed' => $elapsed,

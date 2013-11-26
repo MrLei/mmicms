@@ -118,12 +118,15 @@ class Mmi_View_Helper_Debug extends Mmi_View_Helper_Abstract {
 		if (function_exists('apc_cache_info') && function_exists('apc_sma_info')) {
 			$apcCache = apc_cache_info();
 			$apcSma = apc_sma_info();
+
 			if (is_array($apcCache) && !empty($apcCache)) {
-				$html .= '<p style="margin: 0; padding: 0;">Uptime / ratio: <b>' . round((microtime(true) - $apcCache['start_time']) / 3600 / 24, 2) . ' days / ' . round(100 * ($apcCache['num_hits'] / ($apcCache['num_hits'] + $apcCache['num_misses'])), 2) . ' %</b></p>';
-				$html .= '<p style="margin: 0; padding: 0;">Hits / misses: <b>' . $apcCache['num_hits'] . ' / ' . $apcCache['num_misses'] . '</b></p>';
-				$html .= '<p style="margin: 0; padding: 0;">Present entries / inserts: <b>' . $apcCache['num_entries'] . ' / ' . $apcCache['num_inserts'] . '</b></p>';
-				$html .= '<p style="margin: 0; padding: 0;">Memory used / available: <b>' . round(($apcCache['mem_size'] / 1048576), 2) . ' MB / ' . round(($apcSma['avail_mem'] / 1048576), 2) . ' MB</b></p>';
-				$html .= '<p style="margin: 0; padding: 0;">Storage type / segments: <b>' . $apcCache['memory_type'] . '(' . $apcCache['locking_type'] . ')' . ' / ' . $apcSma['num_seg'] . '</b></p>';
+				if (isset($apcCache['start_time'])) {
+					$html .= '<p style="margin: 0; padding: 0;">Uptime / ratio: <b>' . round((microtime(true) - $apcCache['start_time']) / 3600 / 24, 2) . ' days / ' . round(100 * ($apcCache['num_hits'] / ($apcCache['num_hits'] + $apcCache['num_misses'])), 2) . ' %</b></p>';
+					$html .= '<p style="margin: 0; padding: 0;">Hits / misses: <b>' . $apcCache['num_hits'] . ' / ' . $apcCache['num_misses'] . '</b></p>';
+					$html .= '<p style="margin: 0; padding: 0;">Present entries / inserts: <b>' . $apcCache['num_entries'] . ' / ' . $apcCache['num_inserts'] . '</b></p>';
+					$html .= '<p style="margin: 0; padding: 0;">Memory used / available: <b>' . round(($apcCache['mem_size'] / 1048576), 2) . ' MB / ' . round(($apcSma['avail_mem'] / 1048576), 2) . ' MB</b></p>';
+					$html .= '<p style="margin: 0; padding: 0;">Storage type / segments: <b>' . $apcCache['memory_type'] . '(' . $apcCache['locking_type'] . ')' . ' / ' . $apcSma['num_seg'] . '</b></p>';
+				}
 			} else {
 				$html .= '<span style="color: #ff0000; font-weight: bold; font-size: 14px;">APC installed, but not enabled. <br />Execution not optimal.</span>';
 			}
