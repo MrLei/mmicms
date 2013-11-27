@@ -20,7 +20,7 @@ class Cms_Plugin_ContainerTemplatePlaceholderContainerGrid extends Mmi_Grid {
 			'label' => 'nazwa kontrolera',
 		));
 
-		$this->addColumn('text', 'controller', array(
+		$this->addColumn('text', 'action', array(
 			'label' => 'nazwa akcji',
 		));
 
