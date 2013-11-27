@@ -25,7 +25,7 @@ class News_Controller_Index extends Mmi_Controller_Action {
 	public function topAction() {
 		$limit = $this->_getParam('limit') ? intval($this->_getParam('limit')) : 5;
 		if ($this->_getParam('widget') == 1) {
-			Mmi_View::getInstance()->setLayoutDisabled();
+			Mmi_Controller_Front::getInstance()->getView()->setLayoutDisabled();
 		}
 		$this->view->news = News_Model_Dao::findActiveWithFile($paginator->getLimit(), $paginator->getOffset());
 	}

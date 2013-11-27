@@ -44,7 +44,7 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		}
 
 		//ustawienie widoku
-		$view = Mmi_View::getInstance();
+		$view = Mmi_Controller_Front::getInstance()->getView();
 		$base = $view->baseUrl;
 		$view->domain = Default_Registry::$config->application->host;
 		$view->mediaServer = Default_Registry::$config->media->mediaServer;

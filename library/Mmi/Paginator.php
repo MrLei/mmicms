@@ -73,7 +73,7 @@ class Mmi_Paginator {
 		if (isset($this->_options['page'])) {
 			return $this->_options['page'];
 		}
-		$page = Mmi_View::getInstance()->request->__get($this->_options['pageVariable']);
+		$page = Mmi_Controller_Front::getInstance()->getView()->request->__get($this->_options['pageVariable']);
 		$page = ($page > 0) ? $page : 1;
 		$this->_options['page'] = $page;
 		return $page;
@@ -202,7 +202,7 @@ class Mmi_Paginator {
 		if ($pagesCount < 2) {
 			return '';
 		}
-		$view = Mmi_View::getInstance();
+		$view = Mmi_Controller_Front::getInstance()->getView();
 		$showPages = (($this->_options['showPages'] > 2) ? $this->_options['showPages'] : 2) - 2;
 		$halfPages = floor($showPages / 2);
 		if (!isset($this->_options['page'])) {

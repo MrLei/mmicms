@@ -36,20 +36,17 @@ final class Mmi_Application_Bootstrap implements Mmi_Application_Bootstrap_Inter
 		$routerConfig = new Mmi_Controller_Router_Config();
 		$router = new Mmi_Controller_Router($routerConfig);
 
-		//konfiguracja frontu
-		Mmi_Controller_Front::getInstance()
-			->setStructure(Mmi_Structure::getStructure())
-			->setRouter($router);
-
-		//konfiguracja widoku i helperów
-		Mmi_View::getInstance()
-			->setBaseUrl($router->getBaseUrl())
+		//konfiguracja widoku
+		$view = new Mmi_View();
+		$view->setBaseUrl($router->getBaseUrl())
 			->setAlwaysCompile(true)
 			->setDebug(true);
 
-		//konfiguracja helperów
-		Mmi_View_Helper_Url::setRouter($router);
-		Mmi_Controller_Action_Helper_Redirector::setRouter($router);
+		//konfiguracja frontu
+		$front = Mmi_Controller_Front::getInstance()
+			->setStructure(Mmi_Structure::getStructure())
+			->setRouter($router)
+			->setView($view);
 
 		Mmi_Profiler::event('Front structure loaded');
 	}

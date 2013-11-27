@@ -42,7 +42,7 @@ class Mmi_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
 	 * @return string
 	 */
 	public function fetchField() {
-		$view = Mmi_View::getInstance();
+		$view = Mmi_Controller_Front::getInstance()->getView();
 		if (!isset($this->_options['startDate'])) {
 			$this->_options['startDate'] = date('Y-m-d', time() - 100 * 365 * 86400);
 		}

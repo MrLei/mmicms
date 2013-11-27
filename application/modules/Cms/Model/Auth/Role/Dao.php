@@ -3,7 +3,6 @@
 class Cms_Model_Auth_Role_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_auth_role';
-	protected static $_roleJoinSchema = array('cms_role' => array('id', 'cms_role_id'));
 
 	public static function findPairsRolesByAuthId($authId) {
 		$q = self::newQuery()

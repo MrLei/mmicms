@@ -48,7 +48,7 @@ class Mmi_Form_Element_Captcha extends Mmi_Form_Element_Abstract {
 		if (isset($this->_options['value'])) {
 			$this->_options['value'] = str_replace('"', '&quot;', $this->_options['value']);
 		}
-		$view = Mmi_View::getInstance();
+		$view = Mmi_Controller_Front::getInstance()->getView();
 		$html = '<div class="image"><img src="' . $view->url(array('module' => 'cms', 'controller' => 'captcha', 'action' => 'index', 'name' => $this->_options['name'])) . '" alt="" /></div>';
 		$html .= '<div class="input"><input ';
 		$html .= 'type="text" ' . $this->_getHtmlOptions() . '/></div>';

@@ -32,7 +32,7 @@ class Mmi_Form_Element_Ratings extends Mmi_Form_Element_Abstract {
 	 * @return string
 	 */
 	public function fetchField() {
-		$view = Mmi_View::getInstance();
+		$view = Mmi_Controller_Front::getInstance()->getView();
 		$view->headScript()->appendScript("
 			$(document).ready(function() {
 				$('#voteStars').mousemove(function (e) {

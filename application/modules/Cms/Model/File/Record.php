@@ -57,7 +57,7 @@ class Cms_Model_File_Record extends Mmi_Dao_Record {
 			return;
 		}
 		$inputFile = $this->getRealPath();
-		$baseUrl = Mmi_View::getInstance()->baseUrl . '/data';
+		$baseUrl = Mmi_Controller_Front::getInstance()->getView()->baseUrl . '/data';
 		$fileName = '/' . $this->name[0] . $this->name[1] . $this->name[2] . '/' . $scaleType . '/' . $scale . '/' . $this->name;
 		if (file_exists(PUBLIC_PATH . '/data' . $fileName)) {
 			return $baseUrl . $fileName;

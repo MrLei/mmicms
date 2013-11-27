@@ -5,7 +5,8 @@ class Cms_Plugin_LogGrid extends Mmi_Grid {
 
 	public function init() {
 
-		$this->setOption('order', array('dateTime' => 'DESC'));
+		$q = new Mmi_Dao_Query();
+		$this->setOption('query', $q->orderDesc('dateTime'));
 
 		$this->addColumn('text', 'dateTime', array(
 			'label' => 'data i czas'

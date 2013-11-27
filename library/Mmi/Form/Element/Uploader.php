@@ -43,7 +43,7 @@ class Mmi_Form_Element_Uploader extends Mmi_Form_Element_File {
 			$object = 'tmp-' . $object;
 			$objectId = Mmi_Session::getNumericId();
 		}
-		return '<iframe frameborder="0" src="' . Mmi_View::getInstance()->url(array(
+		return '<iframe frameborder="0" src="' . Mmi_Controller_Front::getInstance()->getView()->url(array(
 			'module' => 'cms',
 			'controller' => 'file',
 			'action' => 'uploader',

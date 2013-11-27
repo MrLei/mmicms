@@ -260,7 +260,7 @@
 	 * @return Mmi_Translate
 	 */
 	public final function getTranslate() {
-		return Mmi_View::getInstance()->getTranslate();
+		return Mmi_Controller_Front::getInstance()->getView()->getTranslate();
 	}
 
 	/**

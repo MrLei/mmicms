@@ -27,12 +27,6 @@
 class Mmi_View {
 
 	/**
-	 * Instancja
-	 * @var Mmi_View
-	 */
-	private static $_instance;
-
-	/**
 	 * Bieżąca wersja językowa
 	 * @var string
 	 */
@@ -107,19 +101,8 @@ class Mmi_View {
 	/**
 	 * Zabezpieczony konstruktor
 	 */
-	private function __construct() {
+	public function __construct() {
 
-	}
-
-	/**
-	 * Pobiera instancję
-	 * @return Mmi_View
-	 */
-	public static function getInstance() {
-		if (null === self::$_instance) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
 	}
 
 	/**
