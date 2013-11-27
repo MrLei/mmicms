@@ -103,7 +103,7 @@ class Mail_Model_Dao extends Mmi_Dao {
 			//@TODO: przepisać do ZF2
 			$mail = new Zend_Mail('utf-8');
 			$mail->setBodyText(strip_tags($email->message));
-			if ($email->html) {
+			if ($email->mail_definition->html) {
 				$mail->setBodyHtml($email->message);
 			}
 			$mail->setFrom($email->mail_server->from, $email->fromName);
