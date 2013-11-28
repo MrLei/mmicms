@@ -1,5 +1,25 @@
 <?php
 
+/**
+ * @property integer $id
+ * @property string $class
+ * @property string $mimeType
+ * @property string $name
+ * @property string $original
+ * @property string $title
+ * @property string $author
+ * @property string $source
+ * @property integer $size
+ * @property string $dateAdd
+ * @property string $dateModify
+ * @property integer $order
+ * @property integer $sticky
+ * @property string $object
+ * @property integer $objectId
+ * @property integer $cms_auth_id
+ * @property integer $active
+ * @property string $description
+ */
 class Cms_Model_File_Record extends Mmi_Dao_Record {
 
 	/**

@@ -1,5 +1,19 @@
 <?php
 
+/**
+ * @property integer $id
+ * @property string $lang
+ * @property string $username
+ * @property string $email
+ * @property string $password
+ * @property string $lastIp
+ * @property string $lastLog
+ * @property string $lastFailIp
+ * @property string $lastFailLog
+ * @property integer $failLogCount
+ * @property integer $logged
+ * @property integer $active
+ */
 class Cms_Model_Auth_Record extends Mmi_Dao_Record {
 
 	public function save() {
