@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * @property integer $id
+ * @property integer $cms_container_id
+ * @property integer $cms_container_template_placeholder_id
+ * @property string $module
+ * @property string $controller
+ * @property string $action
+ * @property string $params
+ * @property boolean $active
+ */
 class Cms_Model_Container_Template_Placeholder_Container_Record extends Mmi_Dao_Record {
 
 	public function save() {

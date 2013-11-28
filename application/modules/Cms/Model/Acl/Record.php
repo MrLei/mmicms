@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * @property integer $id
+ * @property integer $cms_role_id
+ * @property string $module
+ * @property string $controller
+ * @property string $action
+ * @property string $access
+ */
 class Cms_Model_Acl_Record extends Mmi_Dao_Record {
 
 	public function save() {

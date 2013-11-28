@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @property integer $id
+ * @property string $name
+ * @property string $path
+ * @property string $text
+ */
 class Cms_Model_Container_Template_Record extends Mmi_Dao_Record {
 	
 	public function save() {

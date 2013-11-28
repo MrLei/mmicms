@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * @property integer $id
+ * @property string $pattern
+ * @property string $replace
+ * @property string $default
+ * @property integer $order
+ * @property integer $active
+ */
 class Cms_Model_Route_Record extends Mmi_Dao_Record {
 
 	public function save() {

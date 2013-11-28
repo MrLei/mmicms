@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * @property integer $id
+ * @property string $lang
+ * @property string $title
+ * @property string $uri
+ * @property string $dateAdd
+ * @property string $dateModify
+ * @property string $text
+ * @property integer $noindex
+ */
 class Cms_Model_Article_Record extends Mmi_Dao_Record {
 
 	public function save() {
