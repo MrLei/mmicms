@@ -115,6 +115,14 @@ class Mmi_Dao_Record_Ro {
 	}
 
 	/**
+	 * Zwraca nazwę klasy DAO
+	 * @return string
+	 */
+	public final function getDaoClassName() {
+		return $this->_daoClass;
+	}
+
+	/**
 	 * Magicznie pobiera dane z rekordu
 	 * @param string $name nazwa
 	 * @return mixed

@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * @property integer $id
+ * @property integer $cms_contact_option_id
+ * @property string $dateAdd
+ * @property string $text
+ * @property string $reply
+ * @property integer $cms_auth_id_reply
+ * @property string $uri
+ * @property string $email
+ * @property string $ip
+ * @property integer $cms_auth_id
+ * @property integer $active
+ * @property string $name
+ * @property string $phone
+ */
 class Cms_Model_Contact_Record extends Mmi_Dao_Record {
 
 	public function _insert() {

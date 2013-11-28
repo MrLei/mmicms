@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * @property integer $id
+ * @property string $address
+ * @property integer $port
+ * @property string $username
+ * @property string $password
+ * @property string $from
+ * @property string $dateAdd
+ * @property string $dateModify
+ * @property integer $active
+ * @property string $ssl
+ */
 class Mail_Model_Server_Record extends Mmi_Dao_Record {
 
 	protected function _update() {

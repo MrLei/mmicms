@@ -1,5 +1,29 @@
 <?php
 
+/**
+ * @property integer $id
+ * @property string $lang
+ * @property integer $parent_id
+ * @property integer $order
+ * @property string $module
+ * @property string $controller
+ * @property string $action
+ * @property string $params
+ * @property string $label
+ * @property string $title
+ * @property string $keywords
+ * @property string $description
+ * @property string $uri
+ * @property integer $visible
+ * @property integer $https
+ * @property integer $absolute
+ * @property integer $independent
+ * @property integer $nofollow
+ * @property integer $blank
+ * @property string $dateStart
+ * @property string $dateEnd
+ * @property integer $active
+ */
 class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 
 	public function init() {
