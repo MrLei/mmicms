@@ -1,5 +1,22 @@
 <?php
 
+/**
+ * @property integer $id
+ * @property integer $active
+ * @property string $minute
+ * @property string $hour
+ * @property string $dayOfMonth
+ * @property string $month
+ * @property string $dayOfWeek
+ * @property string $name
+ * @property string $description
+ * @property string $module
+ * @property string $controller
+ * @property string $action
+ * @property string $dateAdd
+ * @property string $dateModified
+ * @property string $dateLastExecute
+ */
 class Cron_Model_Record extends Mmi_Dao_Record {
 
 	public function save() {
