@@ -4,10 +4,10 @@ class Api_Controller_Json extends Mmi_Controller_Action {
 
 	public function serverAction() {
 		try {
-			$apiModel = $this->_filterApiName($this->_getParam('obj')) . '_Model_Api';
+			$apiModel = $this->_getModelName($this->_getParam('obj'));
 			//prywatny serwer
-			if (isset($_SERVER['PHP_AUTH_USER'])) {
-				$apiModel .= '_Private';
+			if ($this->_getParam('type') === 'private') {
+				$apiModel .= '_Private';				
 				$auth = new Mmi_Auth();
 				$auth->setModelName($apiModel);
 				$auth->httpAuth('Private API', 'Access denied!');
@@ -21,25 +21,15 @@ class Api_Controller_Json extends Mmi_Controller_Action {
 		exit;
 	}
 
-	public function clientAction() {
-		$url = $this->view->url(array(
-			'module' => 'api',
-			'controller' => 'json',
-			'action' => 'server',
-			'obj' => $this->_getParam('obj'),
-		), true, true);
-		//dla typu prywatnego ustawienie loginu i hasła
-		if ($this->_getParam('identity')) {
-			$url = str_replace('http://', 'http://' . $this->_getParam('identity') . ':' . $this->_getParam('credential') . '@', $url);
+	protected function _getModelName($object) {
+		$object = preg_replace('/[^\p{L}\p{N}-_]/u', '', $object);
+		$obj = explode('_', $object);
+		foreach ($obj as $k => $v) {
+			$obj[$k] = ucfirst($v);
 		}
-		$client = new Mmi_Json_Rpc_Client($url);
-		parse_str($this->_getParam('params'), $params);
-		var_dump($client->__call($this->_getParam('method'), $params));
-		exit;
-	}
-
-	protected function _filterApiName($name) {
-		return ucfirst(preg_replace('/[^\p{L}\p{N}-_]/u', '', $name));
+		$class = $obj[0] . '_Model_';
+		unset($obj[0]);
+		return rtrim($class . implode('_', $obj), '_') . '_Api';
 	}
 
 }
