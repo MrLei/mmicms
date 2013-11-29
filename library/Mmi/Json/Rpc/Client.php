@@ -72,7 +72,7 @@ class Mmi_Json_Rpc_Client {
 				'content' => json_encode($request)
 			)))));
 		} catch (Exception $e) {
-			throw new Exception('Service unavailable');
+			throw new Exception('Service unavailable or access denied');
 		}
 		if (!is_object($response) || !property_exists($response, 'result') || !isset($response->id)) {
 			throw new Exception('Service error');
