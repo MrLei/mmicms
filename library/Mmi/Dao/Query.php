@@ -175,4 +175,12 @@ class Mmi_Dao_Query {
 		return $this->_compile;
 	}
 
+	/**
+	 * Zwraca skrót MD5 zapytania
+	 * @return string
+	 */
+	public function queryCompilationMd5() {
+		return md5(print_r($this->_compile, true));
+	}
+
 }
