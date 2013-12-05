@@ -224,6 +224,9 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @return mixed
 	 */
 	public final function lastInsertId($name = null) {
+		if (!$this->_connected) {
+			$this->connect();
+		}
 		return $this->_pdo->lastInsertId($name);
 	}
 
@@ -371,6 +374,9 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * Rozpoczyna transakcję
 	 */
 	public final function beginTransaction() {
+		if (!$this->_connected) {
+			$this->connect();
+		}
 		return $this->_pdo->beginTransaction();
 	}
 
@@ -378,6 +384,9 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * Zatwierdza transakcję
 	 */
 	public final function commit() {
+		if (!$this->_connected) {
+			$this->connect();
+		}
 		return $this->_pdo->commit();
 	}
 
@@ -385,6 +394,9 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * Odrzuca transakcję
 	 */
 	public final function rollBack() {
+		if (!$this->_connected) {
+			$this->connect();
+		}
 		return $this->_pdo->rollBack();
 	}
 
@@ -400,6 +412,9 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @return PDO
 	 */
 	public final function getPdo() {
+		if (!$this->_connected) {
+			$this->connect();
+		}
 		return $this->_pdo;
 	}
 
