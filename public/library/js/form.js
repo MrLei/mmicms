@@ -47,6 +47,16 @@ function fieldValidationOnBlur(element) {
 		});
 }
 
+function timeDecode(intTime) {
+	var hours = Math.floor(intTime / 60),
+		minutes = intTime - (hours * 60);
+
+	if(hours.toString().length === 1) hours = "0" + hours.toString();
+	if(minutes.toString().length === 1) minutes = "0" + minutes.toString();
+
+	return hours+':'+minutes;
+}
+
 $(document).ready(function () {
 	"use strict";
 	$('.validate').blur(function () {
