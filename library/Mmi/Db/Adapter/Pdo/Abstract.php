@@ -290,7 +290,6 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 		$values = '';
 		$bind = array();
 		foreach ($data as $row) {
-			$i++;
 			if (empty($row)) {
 				continue;
 			}
