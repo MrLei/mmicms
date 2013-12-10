@@ -39,6 +39,12 @@ class Mmi_Cache {
 	protected $_backend;
 
 	/**
+	 * Przestrzeń nazw dla rejestru
+	 * @var string
+	 */
+	protected $_registryNamespace;
+
+	/**
 	 * Konstruktor, wczytuje konfigurację i ustawia backend
 	 */
 	public function __construct(Mmi_Cache_Config $config) {
@@ -46,6 +52,7 @@ class Mmi_Cache {
 		$saveHandler = $config->handler;
 		$backendClassName = 'Mmi_Cache_Backend_' . ucfirst($saveHandler);
 		$this->_backend = new $backendClassName($config);
+		$this->_registryNamespace = 'Cache_' . crc32($config->path . $config->handler) . '_';
 		if (!($this->_backend instanceof Mmi_Cache_Backend_Interface)) {
 			throw new Exception('Cache backend invalid');
 		}
@@ -60,7 +67,10 @@ class Mmi_Cache {
 		if (!$this->_config->active) {
 			return;
 		}
-		return $this->_getValidCacheData($this->_backend->load($key));
+		if (Mmi_Registry::issetUserVariable($this->_registryNamespace . $key)) {
+			return Mmi_Registry::getUserVariable($this->_registryNamespace . $key);
+		}
+		return Mmi_Registry::setUserVariable($this->_registryNamespace . $key, $this->_getValidCacheData($this->_backend->load($key)));
 	}
 
 	/**
@@ -81,6 +91,7 @@ class Mmi_Cache {
 			$lifetime = $this->_config->lifetime;
 		}
 		$expire = time() + $lifetime;
+		Mmi_Registry::setUserVariable($this->_registryNamespace . $key, $data);
 		$this->_backend->save($key, $this->_setCacheData($data, $expire), $lifetime);
 	}
 
@@ -92,6 +103,7 @@ class Mmi_Cache {
 		if (!$this->_config->active) {
 			return;
 		}
+		Mmi_Registry::unsetUserVariable($key);
 		return $this->_backend->delete($key);
 	}
 

@@ -32,33 +32,27 @@ class Mmi_Form_Element_RangeTimeSlider extends Mmi_Form_Element_Abstract {
 	 * @return string
 	 */
 	public function fetchField() {
-		$min = isset($this->_options['min']) ? $this->_options['min'] : 0;
-		$max = isset($this->_options['max']) ? $this->_options['max'] : 100;
-		$step = isset($this->_options['step']) ? $this->_options['step'] : 1;
+		$min = 0;
+		$max = 1440;
+		$step = isset($this->_options['step']) ? $this->_options['step'] : 15;
 		$value = array($min, $max);
-		if (is_array($this->value)) {
-			if (count($this->value) == 1) {
-				$value = array($this->value[0], $max);
-			} elseif (count($this->value) >= 2) {
-				$value = $this->value;
-			}
-		}
 		unset($this->_options['min']);
 		unset($this->_options['max']);
 		unset($this->_options['step']);
 		$view = Mmi_Controller_Front::getInstance()->getView();
 		$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
 		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/ui.js');
+		$view->headScript()->appendFile($view->baseUrl . '/library/js/form.js');
 		$view->headScript()->appendScript('
 			$(document).ready(function() {
-				$(\'#' . $this->id . '_label span.min\').text(\''.$value[0].'\');
-				$(\'#' . $this->id . '_label span.max\').text(\''.$value[1].'\');
+				$(\'#' . $this->id . '_container span.min\').text(timeDecode(\''.$value[0].'\'));
+				$(\'#' . $this->id . '_container span.max\').text(timeDecode(\''.$value[1].'\'));
 				$(\'#' . $this->id . 'Slider\').slider({range: true, \'values\': ' . json_encode($value) . ', \'min\': ' . $min . ',\'max\': ' . $max . ', '.(($step)? '\'step\' : '.$step.' ,' : '').'
 					slide: function(event, ui) {
 						$(\'#' . $this->id . '_min\').val(ui.values[0]); $(\'#' . $this->id . '_min\').trigger(\'change\');
 						$(\'#' . $this->id . '_max\').val(ui.values[1]); $(\'#' . $this->id . '_max\').trigger(\'change\');
-						$(\'#' . $this->id . '_label span.min\').text(ui.values[0]);
-						$(\'#' . $this->id . '_label span.max\').text(ui.values[1]);
+						$(\'#' . $this->id . '_container span.min\').text(timeDecode(ui.values[0]));
+						$(\'#' . $this->id . '_container span.max\').text(timeDecode(ui.values[1]));
 					}
 				});
 				$(\'#' . $this->id . 'Slider > a:first\').addClass(\'ui-slider-handle-min\');
@@ -75,10 +69,48 @@ class Mmi_Form_Element_RangeTimeSlider extends Mmi_Form_Element_Abstract {
 
 		$html = '<input class="sliderField" type="hidden" id="'.$this->id.'_min" name="'.$this->getName().'[]" value="'.$value[0].'" />';
 		$html .= '<input class="sliderField" type="hidden" id="'.$this->id.'_max" name="'.$this->getName().'[]" value="'.$value[1].'" />';
-		$html .= '<p class="slider range-slider"><span class="slider" id="' . $this->id . 'Slider"></span><span class="sliderFrom">' . number_format($min, 0, ',', ' ') . '</span><span class="sliderTo">' . number_format($max, 0, ',', ' ') . '</span></p>';
+		$html .= '<p class="slider range-slider"><span class="slider" id="' . $this->id . 'Slider"></span><span class="sliderFrom min">' . number_format($min, 0, ',', ' ') . '</span><span class="sliderTo max">' . number_format($max, 0, ',', ' ') . '</span></p>';
 		return $html;
 	}
-
+// <![CDATA[
+//$(document).ready(function() {
+//	$('#faset_originFlightTime2_label span.min').text('0');
+//	$('#faset_originFlightTime2_label span.max').text('96');
+//	$('#faset_originFlightTime2Slider').slider({range: true, 'values': [0,96], 'min': 0,'max': 96, 'step' : 1 ,
+//		slide: function(event, ui) {
+//			$('#faset_originFlightTime2_min').val(ui.values[0]); $('#faset_originFlightTime2_min').trigger('change');
+//			$('#faset_originFlightTime2_max').val(ui.values[1]); $('#faset_originFlightTime2_max').trigger('change');
+//			$('#faset_originFlightTime2_container span.min').text(ui.values[0]);
+//			$('#faset_originFlightTime2_container span.max').text(ui.values[1]);
+//		}
+//	});
+//	$('#faset_originFlightTime2Slider > a:first').addClass('ui-slider-handle-min');
+//	$('#faset_originFlightTime2Slider > a:last').mousedown(function () {
+//		var vMin = $('#faset_originFlightTime2Slider').slider("values", 0);
+//		var vMax = $('#faset_originFlightTime2Slider').slider("values", 1);
+//		var vStep = 1;
+//		if (vMin == vMax && vStep > 0) {
+//			$('#faset_originFlightTime2Slider').slider("values", 1, vMax + vStep);
+//		}
+//	});
+//});
+// ]]>
+	
+//	$(".slider-range").slider({
+//        range: true,
+//        min: 0,
+//        max: 1440,
+//        step: 15,
+//        slide: function(e, ui) {
+//            var hours = Math.floor(ui.value / 60);
+//            var minutes = ui.value - (hours * 60);
+//
+//            if(hours.length == 1) hours = '0' + hours;
+//            if(minutes.length == 1) minutes = '0' + minutes;
+//
+//            $('#something').html(hours+':'+minutes);
+//        }
+//    });
 	/**
 	 * Buduje etykietę pola
 	 * @return string
