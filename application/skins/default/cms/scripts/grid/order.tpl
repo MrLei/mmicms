@@ -1,1 +1,1 @@
-{$grid->renderBody()}
+{if $grid}{$grid->renderBody()}{/if}
