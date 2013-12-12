@@ -202,7 +202,14 @@ class Mmi_Dao_Record_Ro {
 	 * @return array
 	 */
 	public function toArray() {
-		return $this->_data;
+		$array = array();
+		foreach ($this->_data as $name => $value) {
+			if ($value instanceof Mmi_Dao_Record_Ro) {
+				$value = $value->toArray();
+			}
+			$array[$name] = $value;
+		}
+		return $array;
 	}
 
 	/**
