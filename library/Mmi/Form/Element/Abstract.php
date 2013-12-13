@@ -260,7 +260,8 @@
 	 * @return Mmi_Translate
 	 */
 	public final function getTranslate() {
-		return Mmi_Controller_Front::getInstance()->getView()->getTranslate();
+		$translate = Mmi_Controller_Front::getInstance()->getView()->getTranslate();
+		return (null === $translate) ? new Mmi_Translate() : $translate;
 	}
 
 	/**
@@ -488,7 +489,7 @@
 			$requiredClass = '';
 			$required = '';
 		}
-		if ($this->_translatorEnabled) {
+		if ($this->_translatorEnabled && ($this->getTranslate() !== null)) {
 			$label = $this->getTranslate()->_($this->_options['label']);
 		} else {
 			$label = $this->_options['label'];
@@ -515,7 +516,7 @@
 		} else {
 			$id = '';
 		}
-		if ($this->_translatorEnabled) {
+		if ($this->_translatorEnabled && ($this->getTranslate() !== null)) {
 			$description = $this->getTranslate()->_($this->_options['description']);
 		} else {
 			$description = $this->_options['description'];
@@ -537,7 +538,7 @@
 		if ($this->hasErrors()) {
 			$html .= '<ul>';
 			foreach($this->_errors as $error) {
-				if ($this->_translatorEnabled) {
+				if ($this->_translatorEnabled && ($this->getTranslate() !== null)) {
 					$err = $this->getTranslate()->_($error);
 				} else {
 					$err = $error;
