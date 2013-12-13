@@ -71,13 +71,15 @@ class Mmi_Controller_Router {
 		if (!(false === strpos($this->_url, '?'))) {
 			$this->_url = substr($this->_url, 0, strpos($this->_url, '?'));
 		}
-		$position = strpos($this->_url, '/public');
-		if ($position !== false && (substr($this->_url, -7) == '/public' || substr($this->_url, $position, 8) == '/public/')) {
-			$this->_baseUrl = substr($this->_url, 0, $position + 7);
-			$this->_url = substr($this->_url, $position + 8);
+		//obsługa serwisu w podkatalogu
+		$subFolderPath = substr(BASE_PATH, strrpos(BASE_PATH, '/') + 1) . '/public';
+		$position = strpos($this->_url, $subFolderPath);
+		if ($position !== false) {
+			$this->_baseUrl = substr($this->_url, 0, strlen($subFolderPath));
+			$this->_url = substr($this->_url, strlen($subFolderPath) + 1);
 		}
-		$this->_baseUrl = isset($this->_baseUrl) ? '/' . trim($this->_baseUrl, '/') . '/' : '/';
-		$this->_url = trim($this->_url, '/');
+		$this->_baseUrl = isset($this->_baseUrl) ? '/' . trim($this->_baseUrl, '/') : '';
+		$this->_url = rtrim($this->_url, '/');
 	}
 
 	public function getRoutes() {
@@ -174,7 +176,7 @@ class Mmi_Controller_Router {
 	 * @return string
 	 */
 	public function encodeUrl(array $params = array()) {
-		$url = rtrim($this->_baseUrl, '/');
+		$url = $this->_baseUrl;
 		$lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
 		$urlParams = '';
 		$matched = array();
@@ -262,7 +264,7 @@ class Mmi_Controller_Router {
 	 * @return string
 	 */
 	public function getBaseUrl() {
-		return rtrim($this->_baseUrl, '/');
+		return $this->_baseUrl;
 	}
 
 	/**
