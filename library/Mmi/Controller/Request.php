@@ -192,6 +192,19 @@ class Mmi_Controller_Request {
 		unset($data['skin']);
 		return $data;
 	}
+	
+	/**
+	 * Zwraca parametry w postaci tabeli, poza modułem, kontrolerem i akcją
+	 * połączone z parametrami z POST.
+	 * @return array
+	 */
+	public function getUserAndPostParams() {
+		$data = $this->getUserParams();
+		if ($this->isPost()) {
+			$data = array_merge($data, $this->getPost());
+		}
+		return $data;
+	}
 
 	/**
 	 * Zwraca moduł
