@@ -43,7 +43,7 @@ final class Mmi_Application_Bootstrap implements Mmi_Application_Bootstrap_Inter
 			->setDebug(true);
 
 		//konfiguracja frontu
-		$front = Mmi_Controller_Front::getInstance()
+		Mmi_Controller_Front::getInstance()
 			->setStructure(Mmi_Structure::getStructure())
 			->setRouter($router)
 			->setView($view);
