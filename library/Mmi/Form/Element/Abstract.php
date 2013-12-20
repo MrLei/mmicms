@@ -271,6 +271,22 @@
 	public final function isIgnored() {
 		return (isset($this->_options['ignore']) && $this->_options['ignore']) ? true : false;
 	}
+	
+	/**
+	 * Zwraca czy pole jest wymagane
+	 * @return boolean
+	 */
+	public final function isRequired() {
+		return (isset($this->_options['required']) && $this->_options['required']) ? true : false;
+	}
+	
+	/**
+	 * Ustawia czy pole jest wymagane
+	 * @param bool $value
+	 */
+	public final function setRequired($value) {
+		$this->_options['required'] = $value;
+	}
 
 	/**
 	 * Waliduje pole i zwraca czy wpis w polu jest poprawny
