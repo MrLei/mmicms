@@ -36,6 +36,7 @@ class Mmi_Exception_Logger {
 		}
 		$info = trim($info, "\n");
 		$position['info'] = $info;
+		date_default_timezone_set('Europe/Warsaw');
 		$message = date('Y-m-d H:i:s') . ' ' . (isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] . "\n" : '') . strip_tags($exception->getMessage() . ': ' . $exception->getFile() . '(' . $exception->getLine() . ')' . $info);
 		fwrite($log, $message . "\n\n");
 		fclose($log);
