@@ -113,25 +113,37 @@ class Mmi_View_Helper_Debug extends Mmi_View_Helper_Abstract {
 			$html .= '<div style="color: #' . $color . '"><div style="float: left; width: 500px;">' . $event['name'] . '</div><div style="float: left; width: 60px;"><b>' . round($event['elapsed'], 4) . 's</b></div><div style="float: left; width: 60px;"><b>' . round($event['percent'], 2) . '%</b></div><div style="float: left;"><b>' . round($percentSum, 2) . '%</b></div></div><div style="clear: both"></div>';
 		}
 		$html .= '</pre>';
-		$html .= '<p style="margin: 0px;">Alternative PHP Cache:</p>';
+		$html .= '<p style="margin: 0px;">PHP precompiler</p>';
 		$html .= '<pre style="margin:  0px 0px 10px 0px; color: #ddd; background: #222; padding: 3px; border: 1px solid #666;">';
-		if (function_exists('apc_cache_info') && function_exists('apc_sma_info')) {
+		if (function_exists('opcache_get_configuration') && function_exists('opcache_get_status')) {
+			$html .= '<p style="margin: 0; padding: 0;">Engine: <b>OPcache</b></p>';
+			if (!ini_get('opcache.restrict_api')) {
+				$opCache = opcache_get_status();
+				if ($opCache['opcache_enabled']) {
+					$html .= '<p style="margin: 0; padding: 0;">Uptime / ratio: <b>' . round((microtime(true) - $opCache['opcache_statistics']['start_time']) / 3600 / 24, 2) . '</b> days / <b>' . round($opCache['opcache_statistics']['opcache_hit_rate'], 2) . '%</b></p>';
+					$html .= '<p style="margin: 0; padding: 0;">Hits / misses: <b>' . $opCache['opcache_statistics']['hits'] . '</b> / <b>' . $opCache['opcache_statistics']['misses'] . '</b></p>';
+					$html .= '<p style="margin: 0; padding: 0;">Present entries / inserts: <b>' . $opCache['opcache_statistics']['num_cached_keys'] . '</b> / <b>' . $opCache['opcache_statistics']['max_cached_keys'] . '</b></p>';
+					$html .= '<p style="margin: 0; padding: 0;">Memory used / available: <b>' . round($opCache['memory_usage']['used_memory'] / 1048576, 2) . '</b> / <b>' . round($opCache['memory_usage']['free_memory'] / 1048576, 2) . ' MB</b></p>';
+				} else {
+					$html .= '<span style="color: #ff0000; font-weight: bold; font-size: 14px;">OPcache installed, but not enabled <br />Execution not optimal.</span>';
+				}
+			} else {
+				$html .= '<span style="color: #666; font-weight: bold; font-size: 14px;">OPcache API restricted by directive opcache.restrict_api</span>';
+			}
+		} elseif (function_exists('apc_cache_info') && function_exists('apc_sma_info')) {
 			$apcCache = apc_cache_info();
 			$apcSma = apc_sma_info();
-
-			if (is_array($apcCache) && !empty($apcCache)) {
-				if (isset($apcCache['start_time'])) {
-					$html .= '<p style="margin: 0; padding: 0;">Uptime / ratio: <b>' . round((microtime(true) - $apcCache['start_time']) / 3600 / 24, 2) . ' days / ' . round(100 * ($apcCache['num_hits'] / ($apcCache['num_hits'] + $apcCache['num_misses'])), 2) . ' %</b></p>';
-					$html .= '<p style="margin: 0; padding: 0;">Hits / misses: <b>' . $apcCache['num_hits'] . ' / ' . $apcCache['num_misses'] . '</b></p>';
-					$html .= '<p style="margin: 0; padding: 0;">Present entries / inserts: <b>' . $apcCache['num_entries'] . ' / ' . $apcCache['num_inserts'] . '</b></p>';
-					$html .= '<p style="margin: 0; padding: 0;">Memory used / available: <b>' . round(($apcCache['mem_size'] / 1048576), 2) . ' MB / ' . round(($apcSma['avail_mem'] / 1048576), 2) . ' MB</b></p>';
-					$html .= '<p style="margin: 0; padding: 0;">Storage type / segments: <b>' . $apcCache['memory_type'] . '(' . $apcCache['locking_type'] . ')' . ' / ' . $apcSma['num_seg'] . '</b></p>';
-				}
+			$html .= '<p style="margin: 0; padding: 0;">Engine: <b>APC</b></p>';
+			if (is_array($apcCache) && !empty($apcCache) && isset($apcCache['start_time'])) {
+				$html .= '<p style="margin: 0; padding: 0;">Uptime / ratio: <b>' . round((microtime(true) - $apcCache['start_time']) / 3600 / 24, 2) . ' days / ' . round(100 * ($apcCache['num_hits'] / ($apcCache['num_hits'] + $apcCache['num_misses'])), 2) . ' %</b></p>';
+				$html .= '<p style="margin: 0; padding: 0;">Hits / misses: <b>' . $apcCache['num_hits'] . ' / ' . $apcCache['num_misses'] . '</b></p>';
+				$html .= '<p style="margin: 0; padding: 0;">Present entries / inserts: <b>' . $apcCache['num_entries'] . ' / ' . $apcCache['num_inserts'] . '</b></p>';
+				$html .= '<p style="margin: 0; padding: 0;">Memory used / available: <b>' . round(($apcCache['mem_size'] / 1048576), 2) . ' MB / ' . round(($apcSma['avail_mem'] / 1048576), 2) . ' MB</b></p>';
 			} else {
 				$html .= '<span style="color: #ff0000; font-weight: bold; font-size: 14px;">APC installed, but not enabled. <br />Execution not optimal.</span>';
 			}
 		} else {
-			$html .= '<span style="color: #ff0000; font-weight: bold; font-size: 14px;">No APC installed, or not in current version. <br />Execution not optimal.</span>';
+			$html .= '<span style="color: #ff0000; font-weight: bold; font-size: 14px;">PHP precompiler (such as OPcache or APC) not found. <br />Execution not optimal.</span>';
 		}
 		$html .= '</pre>';
 
