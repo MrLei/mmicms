@@ -118,7 +118,6 @@ class Mmi_Controller_Action {
 		$this->view->module = $module;
 		$this->view->lang = $lang;
 		$this->view->skin = $skin;
-
 		//inicjalizacja tłumaczeń
 		$this->_initTranslaction($module, $skin, $lang);
 
