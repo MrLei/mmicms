@@ -38,7 +38,7 @@ function fieldValidationOnBlur(element) {
 				$('#' + errorsId).parent().addClass('error');
 				// Ukrycie dymka po kliknięciu
 				$('#' + errorsId).show().click(function () {
-					$(this).hide();
+					$(this).hide().parent().removeClass('error');
 				});
 			} else {
 				$('#' + errorsId).parent().removeClass('error');
@@ -64,7 +64,7 @@ $(document).ready(function () {
 	});
 	$('div.errors').each(function () {
 		$(this).click(function () {
-			$(this).hide();
+			$(this).hide().parent().removeClass('error');
 		});
 	});
 	$('div.antirobot > input').val('js-' + $('div.antirobot > input').val() + '-js');
