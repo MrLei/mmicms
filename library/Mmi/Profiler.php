@@ -89,10 +89,11 @@ class Mmi_Profiler {
 	 * @return array
 	 */
 	public static final function get() {
-		if (static::$_elapsed == 0) {
-			return static::$_data;
-		}
 		foreach (static::$_data as $key => $item) {
+			if (static::$_elapsed == 0) {
+				static::$_data[$key]['percent'] = 0;
+				continue;
+			}
 			static::$_data[$key]['percent'] = 100 * $item['elapsed'] / static::$_elapsed;
 		}
 		return static::$_data;

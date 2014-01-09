@@ -41,18 +41,24 @@ class Mmi_Form_Element_Select extends Mmi_Form_Element_Abstract {
 		unset($this->_options['value']);
 		$html = '<select ' . $this->_getHtmlOptions() . '>';
 		foreach ($multiOptions as $key => $caption) {
-			if (strpos($key, ':divide')) {
+			$disabled = '';
+			if (strpos($key, ':disabled') !== false && !is_array($caption)) {
+				$key = '';
+				$disabled = ' disabled="disabled"';
+			}
+			if (strpos($key, ':divide') !== false && !is_array($caption)) {
+				$html .= '<option disabled="disabled" class="divide">' . $caption . '</option>';
 				continue;
 			}
 			if (is_array($caption)) {
 				$html .= '<optgroup label="' . $key . '">';
 				foreach ($caption as $k => $c) {
-					$html .= '<option value="' . $k . '" ' . $this->_calculateSelected($k, $value) . '>' . $c . '</option>';
+					$html .= '<option value="' . $k . '" ' . $this->_calculateSelected($k, $value) . $disabled . '>' . $c . '</option>';
 				}
 				$html .= '</optgroup>';
 				continue;
 			}
-			$html .= '<option value="' . $key . '"' . $this->_calculateSelected($key, $value) . '>' . $caption . '</option>';
+			$html .= '<option value="' . $key . '"' . $this->_calculateSelected($key, $value) . $disabled . '>' . $caption . '</option>';
 		}
 		$html .= '</select>';
 		return $html;
@@ -70,10 +76,6 @@ class Mmi_Form_Element_Select extends Mmi_Form_Element_Abstract {
 			$selected = ' selected="selected"';
 		} elseif ($value == $key && !is_null($value)) {
 			$selected = ' selected="selected"';
-		}
-		if (strpos($key, ':disabled')) {
-			$key = '';
-			$selected .= ' disabled="disabled"';
 		}
 		return $selected;
 	}

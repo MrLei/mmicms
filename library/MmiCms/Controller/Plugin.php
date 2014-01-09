@@ -22,6 +22,7 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		//niepoprawny język
 		if (!in_array($request->__get('lang'), Default_Registry::$config->application->languages)) {
 			Mmi_Controller_Front::getInstance()->getResponse()->setCode(404);
+			$request->__set('lang', Default_Registry::$config->application->languages[0]);
 			$request->setModuleName('default');
 			$request->setControllerName('error');
 			$request->setActionName('index');
@@ -99,18 +100,18 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 
 		//zablokowane na ACL
 		if (!$acl->isAllowed($auth->getRoles(), strtolower($request->getModuleName() . ':' . $request->getControllerName() . ':' . $request->getActionName()))) {
-			if ($auth->hasIdentity()) {
-				$request->setModuleName('default');
-				$request->setControllerName('error');
-				$request->setActionName('unauthorized');
-			} elseif (substr($request->getControllerName(), 0, 5) == 'admin' || $request->getModuleName() == 'admin') {
+			if (!$auth->hasIdentity() && (substr($request->getControllerName(), 0, 5) == 'admin' || $request->getModuleName() == 'admin')) {
 				$request->setModuleName('admin');
 				$request->setControllerName('login');
 				$request->setActionName('index');
-			} else {
+			} elseif (isset($components['user']['login']['index']) && !$auth->hasIdentity()) {
 				$request->setModuleName('user');
 				$request->setControllerName('login');
 				$request->setActionName('index');
+			} else {
+				$request->setModuleName('default');
+				$request->setControllerName('error');
+				$request->setActionName('unauthorized');
 			}
 		}
 

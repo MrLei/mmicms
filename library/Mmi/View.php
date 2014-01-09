@@ -221,7 +221,7 @@ class Mmi_View {
 	 * @return Mmi_Translate
 	 */
 	public function getTranslate() {
-		return $this->_translate;
+		return ($this->_translate) ? new Mmi_Translate() : $this->_translate;
 	}
 
 	/**

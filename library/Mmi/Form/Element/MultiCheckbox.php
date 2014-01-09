@@ -51,18 +51,16 @@ class Mmi_Form_Element_MultiCheckbox extends Mmi_Form_Element_Abstract {
 			$f = new Mmi_Filter_Url();
 			$this->_options['id'] = $baseId . '_' . $f->filter($key);
 			$this->_options['value'] = $key;
-			
+
 			$classTag = "";
 			foreach ($labelClass as $labelId => $className) {
 				if($labelId == $key) {
 					$classTag .= 'class="' . $className . '" ';
 				}
 			}
-			
+
 			if (strpos($key, ':divide') !== false) {
-				if (isset($this->_options['divideClass'])) {
-					$html .= '<li class="' . $this->_options['divideClass'] . '"></li>';
-				}
+				$html .= '<li class="divide"></li>';
 			} elseif (strpos($key, ':disabled') !== false) {
 				$this->_options['value'] = '';
 				$this->_options['disabled'] = 'disabled';
