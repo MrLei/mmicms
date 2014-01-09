@@ -98,6 +98,7 @@ class Mmi_Controller_Request {
 	 */
 	public function setParam($key, $value = null) {
 		$this->_data[$key] = $value;
+		return $this;
 	}
 
 	/**
@@ -112,6 +113,7 @@ class Mmi_Controller_Request {
 		foreach ($data as $key => $value) {
 			$this->_data[$key] = $value;
 		}
+		return $this;
 	}
 
 	/**
@@ -192,7 +194,7 @@ class Mmi_Controller_Request {
 		unset($data['skin']);
 		return $data;
 	}
-	
+
 	/**
 	 * Zwraca parametry w postaci tabeli, poza modułem, kontrolerem i akcją
 	 * połączone z parametrami z POST.
