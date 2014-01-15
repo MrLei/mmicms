@@ -92,6 +92,25 @@ $(document).ready(function () {
 				$(this).parent().find('.sliderFrom.min').text(timeDecode(parseInt(inputMin.val(), 10)));
 				$(this).parent().find('.sliderTo.max').text(timeDecode(parseInt(inputMax.val(), 10)));
 			}
+		},
+		calcRangeSlider = function (event, ui) {
+			var inputMin = $(this).parents('div:first').find('input[id$="_min"]:first'),
+				inputMax = $(this).parents('div:first').find('input[id$="_max"]:first'),
+				elementId = $(this).attr('id'),
+				labelId = elementId.substring(0, (elementId.length - 6)) + '_label';
+			if (ui && ui.hasOwnProperty('value')) {
+				$(this).parent().find('.sliderFrom.min').text(ui.values[0]);
+				$(this).parent().find('.sliderTo.max').text(ui.values[1]);
+				$('#' + labelId + ' > .min').text(ui.values[0]);
+				$('#' + labelId + ' > .max').text(ui.values[1]);
+				inputMin.val(ui.values[0]).trigger('change');
+				inputMax.val(ui.values[1]).trigger('change');
+			} else {
+				$(this).parent().find('.sliderFrom.min').text(parseInt(inputMin.val(), 10));
+				$(this).parent().find('.sliderTo.max').text(parseInt(inputMax.val(), 10));
+				$('#' + labelId + ' > .min').text(parseInt(inputMin.val(), 10));
+				$('#' + labelId + ' > .max').text(parseInt(inputMax.val(), 10));
+			}
 		};
 
 	$('.validate').blur(function () {
@@ -146,5 +165,18 @@ $(document).ready(function () {
 		calcRangeTimeSlider.apply(element);
 	});
 
+	// RangeSlider
+	$('.js-range-slider').each(function () {
+		var element = $(this);
+		element.slider({
+			range:	true,
+			values:	$.parseJSON(element.attr('data-values')),
+			min:	parseInt(element.attr('data-min'), 10),
+			max:	parseInt(element.attr('data-max'), 10),
+			step:	parseInt(element.attr('data-step'), 10),
+			slide:	calcRangeSlider
+		});
+		calcRangeSlider.apply(element);
+	});
 
 });

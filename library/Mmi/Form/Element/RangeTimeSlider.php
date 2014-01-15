@@ -46,8 +46,8 @@ class Mmi_Form_Element_RangeTimeSlider extends Mmi_Form_Element_Abstract {
 
 		$html = '<input class="sliderField" type="hidden" id="'.$this->id.'_min" name="'.$this->getName().'[]" value="'.$value[0].'" />';
 		$html .= '<input class="sliderField" type="hidden" id="'.$this->id.'_max" name="'.$this->getName().'[]" value="'.$value[1].'" />';
-		$html .= '<p class="slider range-slider"><span class="slider js-rangetime-slider" id="' . $this->id . 'Slider"'
-				.'data-values="' . json_encode($value) . '" data-min="' . $min . '" data-max="' . $max . '" '
+		$html .= '<p class="slider range-slider"><span class="slider js-rangetime-slider" id="' . $this->id . 'Slider" '
+				.'data-values="[' . $min . ',' . $max . ']" data-min="' . $min . '" data-max="' . $max . '" '
 				.'data-step="' . (($step)? $step : '') . '"></span><span class="sliderFrom min">';
 		$html .= number_format($min, 0, ',', ' ') . '</span><span class="sliderTo max">' . number_format($max, 0, ',', ' ') . '</span></p>';
 		return $html;
