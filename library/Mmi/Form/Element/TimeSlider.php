@@ -44,37 +44,13 @@ class Mmi_Form_Element_TimeSlider extends Mmi_Form_Element_Text {
 		$view = Mmi_Controller_Front::getInstance()->getView();
 		$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
 		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/ui.js');
-		$view->headScript()->appendScript('
-			$(document).ready(function() {
-				$(\'#' . $this->id . 'Slider\').slider({range: "min", \'value\': ' . $this->value . ', \'min\': ' . $min . ',\'max\': ' . $max . ', '.(($step)? '\'step\' : '.$step.' ,' : '').' slide: function(event, ui) {
-						$(\'#' . $this->id . '_container .sliderTo\').css(\'display\', \'none\');
-						$(\'#' . $this->id . '\').val(ui.value); $(\'#' . $this->id . '\').trigger(\'change\');
-						var fl = $(\'#' . $this->id . '_container .float-label\'),
-							diff =	parseInt($(fl).attr(\'data-info\')) + (10 - Math.round(parseFloat($(fl).parent()[0].style.width)/10))*-1;
-						$(fl).text(ui.value+\' h\').css(\'right\', diff+\'px\');
-					}
-				})
-				$(\'#' . $this->id . '_container div.ui-slider-range\').html(\'<div class="float-label"></div>\');
-				$(\'#' . $this->id . '_container .float-label\').attr(\'data-info\', $(\'#' . $this->id . '_container .float-label\').css(\'right\'));
-				var isDown = false,
-					recalc = function() {
-						var fl = $(\'#' . $this->id . '_container .float-label\'),
-							diff =	parseInt($(fl).attr(\'data-info\')) + (10 - Math.round(parseFloat($(fl).parent()[0].style.width)/10))*-1;
-						$(fl).css(\'right\', diff+\'px\');
-					}
-				$(\'#' . $this->id . '_container .ui-slider-handle\').mousedown(function(){
-					isDown = true;
-				});
-				$(document).mouseup(function(){
-					if(isDown){
-						setTimeout(recalc, 1);
-						isDown = false;
-					}
-				}); 
-			});
-		');
-		$html = '<input class="sliderField" ';
-		$html .= 'type="hidden" ' . $this->_getHtmlOptions() . '/><p class="slider"><span class="slider" id="' . $this->id . 'Slider"></span><span class="sliderTo">' . number_format($max, 0, ',', ' ') . ' h</span></p>';
+		$view->headScript()->appendFile($view->baseUrl . '/library/js/form.js');
+
+		$html = '<input class="sliderField" type="hidden" ' . $this->_getHtmlOptions() . '/>'
+			.'<p class="slider"><span class="slider js-time-slider" id="' . $this->id . 'Slider" '
+			.'data-value="' . $this->value . '" data-min="' . $min . '" data-max="' . $max . '" '
+			.'data-step="' . (($step)? $step : '') . '"></span><span class="sliderTo">'
+			.number_format($max, 0, ',', ' ') . ' h</span></p>';
 		return $html;
 	}
 }
