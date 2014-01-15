@@ -81,7 +81,17 @@ $(document).ready(function () {
 			label.css('right', position + 'px');
 		},
 		calcRangeTimeSlider = function (event, ui) {
-
+			var inputMin = $(this).parents('div:first').find('input[id$="_min"]:first'),
+				inputMax = $(this).parents('div:first').find('input[id$="_max"]:first');
+			if (ui && ui.hasOwnProperty('value')) {
+				$(this).parent().find('.sliderFrom.min').text(timeDecode(ui.values[0]));
+				$(this).parent().find('.sliderTo.max').text(timeDecode(ui.values[1]));
+				inputMin.val(ui.values[0]).trigger('change');
+				inputMax.val(ui.values[1]).trigger('change');
+			} else {
+				$(this).parent().find('.sliderFrom.min').text(timeDecode(parseInt(inputMin.val(), 10)));
+				$(this).parent().find('.sliderTo.max').text(timeDecode(parseInt(inputMax.val(), 10)));
+			}
 		};
 
 	$('.validate').blur(function () {
@@ -118,12 +128,23 @@ $(document).ready(function () {
 			max:	parseInt(element.attr('data-max'), 10),
 			step:	parseInt(element.attr('data-step'), 10),
 			slide:	calcTimeSlider
-		}).
-			find('div.ui-slider-range').
-			html('<div class="float-label"></div>');
+		}).find('div.ui-slider-range').html('<div class="float-label"></div>');
 		calcTimeSlider.apply(element);
 	});
 
 	// RangeTimeSlider
+	$('.js-rangetime-slider').each(function () {
+		var element = $(this);
+		element.slider({
+			range:	true,
+			values:	$.parseJSON(element.attr('data-values')),
+			min:	parseInt(element.attr('data-min'), 10),
+			max:	parseInt(element.attr('data-max'), 10),
+			step:	parseInt(element.attr('data-step'), 10),
+			slide:	calcRangeTimeSlider
+		});
+		calcRangeTimeSlider.apply(element);
+	});
+
 
 });
