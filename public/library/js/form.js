@@ -18,21 +18,20 @@ function urlencode(str) {
 
 function fieldValidationOnBlur(element) {
 	"use strict";
-	var param = '',
-		fid = $(element).attr('id'),
-		formId = fid.substr(0, fid.indexOf('_', 0)),
-		name = fid.substr(fid.indexOf('_', 0) + 1),
-		errorsId = formId + '_' + name + '_errors';
-	if (typeof (id) !== 'undefined') {
+	var param		= '',
+		fieldValue	= $(element).val(),
+		fid			= $(element).attr('id'),
+		formId		= fid.substr(0, fid.indexOf('_', 0)),
+		name		= fid.substr(fid.indexOf('_', 0) + 1),
+		errorsId	= formId + '_' + name + '_errors';
+	if ('undefined' !== typeof id) {
 		param = '/id/' + id;
 	}
-	$.post(
-		request.baseUrl + '/' + request.lang + '/cms/form/validate' + param,
-		{
-			'ctrl': $('#' + formId + '__ctrl').val(),
-			'field': name,
-			'value': urlencode($(element).val())
-		},
+	if ('checkbox' === $(element).attr('type') && !$(element).prop('checked')) {
+		fieldValue = '0';
+	}
+	$.post(request.baseUrl + '/' + request.lang + '/cms/form/validate' + param,
+		{ctrl: $('#' + formId + '__ctrl').val(), field: name, value: urlencode(fieldValue)},
 		function (result) {
 			if (result) {
 				$('#' + errorsId).parent().addClass('error');
