@@ -112,9 +112,13 @@ $(document).ready(function () {
 			}
 		};
 
-	$('.validate').blur(function () {
+	$('.validate').on('blur', function () {
 		fieldValidationOnBlur(jQuery(this));
 	});
+	$('input[type="checkbox"].validate').on('change', function () {
+		$(this).trigger('blur');
+	});
+
 	$('div.errors').each(function () {
 		$(this).click(function () {
 			$(this).hide().parent().removeClass('error');
