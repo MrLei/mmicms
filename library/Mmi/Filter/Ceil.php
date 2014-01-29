@@ -8,7 +8,7 @@
  * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
  * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
  *
- * Mmi/Filter/Round.php
+ * Mmi/Filter/Ceil.php
  * @category   Mmi
  * @package    Mmi_Filter
  * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
@@ -18,12 +18,12 @@
  */
 
 /**
- * Filtr zaokrąglający liczby
+ * Filtr zaokrąglający do góry
  * @category   Mmi
  * @package    Mmi_Filter
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
-class Mmi_Filter_Round extends Mmi_Filter_Abstract {
+class Mmi_Filter_Ceil extends Mmi_Filter_Abstract {
 
 	/**
 	 * Zaokrągla liczby
@@ -32,8 +32,7 @@ class Mmi_Filter_Round extends Mmi_Filter_Abstract {
 	 * @return mixed
 	 */
 	public function filter($value) {
-		$precision = (int)(isset($this->_options[0]) ? $this->_options[0] : 0);
-		return round($value, $precision);
+		return ceil($value);
 	}
 
 }
