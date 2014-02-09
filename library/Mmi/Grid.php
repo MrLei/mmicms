@@ -57,6 +57,12 @@ abstract class Mmi_Grid {
 	 * @var string
 	 */
 	protected $_daoCountMethod = 'count';
+	
+	/**
+	 * Filtracja startowa
+	 * @var Mmi_Dao_Query
+	 */
+	protected $_initialQuery;
 
 	/**
 	 * Przechowuje kolumny
@@ -175,6 +181,16 @@ abstract class Mmi_Grid {
 		$this->_options[$name] = $value;
 		$options = new Mmi_Session_Namespace(get_class($this));
 		$options->options = $this->_options;
+		return $this;
+	}
+	
+	/**
+	 * Ustawia startowe zapytanie filtrujące
+	 * @param Mmi_Dao_Query $query
+	 * @return Mmi_Grid
+	 */
+	public function setInitialQuery(Mmi_Dao_Query $query) {
+		$this->_initialQuery = $query;
 		return $this;
 	}
 
@@ -557,11 +573,7 @@ abstract class Mmi_Grid {
 	 * Ustawia dane dla grid'a
 	 */
 	protected function _setDefaultData() {
-		if (isset($this->_options['query']) && $this->_options['query'] instanceof Mmi_Dao_Query) {
-			$q = $this->_options['query'];
-		} else {
-			$q = new Mmi_Dao_Query();
-		}
+		$q = ($this->_initialQuery instanceof Mmi_Dao_Query) ? $this->_initialQuery : new Mmi_Dao_Query();
 		foreach ($this->_options['filter'] as $field => $value) {
 			$subQ = new Mmi_Dao_Query();
 			$type = 'text';
