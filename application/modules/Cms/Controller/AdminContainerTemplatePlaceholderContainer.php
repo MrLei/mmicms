@@ -8,7 +8,7 @@ class Cms_Controller_AdminContainerTemplatePlaceholderContainer extends MmiCms_C
 		if ($this->_getParam('containerId')) {
 			$q = new Mmi_Dao_Query();
 			$q->where('cms_container_id')->eqals($this->_getParam('containerId'));
-			$this->view->grid->setOption('query', $q);
+			$this->view->grid->setInitialQuery($q);
 		}
 	}
 

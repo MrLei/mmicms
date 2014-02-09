@@ -6,7 +6,7 @@ class Cms_Plugin_TextGrid extends Mmi_Grid {
 	public function init() {
 
 		$q = new Mmi_Dao_Query();
-		$this->setOption('query', $q->orderAsc('key'));
+		$this->setInitialQuery($q->orderAsc('key'));
 		$this->setOption('rows', 100);
 		
 		$this->addColumn('text', 'key', array(
