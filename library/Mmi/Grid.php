@@ -108,8 +108,11 @@ abstract class Mmi_Grid {
 
 	/**
 	 * Konstruktor, ustawia wartości domyślne, referencje do obiektów i tworzy model
+	 *
+	 * @param array $options opcje
+	 * @throws exception
 	 */
-	public function __construct() {
+	public function __construct(array $options = array()) {
 		$this->_view = Mmi_Controller_Front::getInstance()->getView();
 		$this->_request = $this->_view->request;
 		$this->_setDefaultOptions();
@@ -117,7 +120,7 @@ abstract class Mmi_Grid {
 		$this->_view->headScript()->appendFile($this->_view->baseUrl . '/library/js/grid.js');
 		$class = get_class($this);
 		$this->_id = strtolower(substr($class, strrpos($class, '_') + 1));
-
+		$this->setOptions($options);
 		if ($this->_daoName === null) {
 			throw new exception('Dao name for grid not specified');
 		}
@@ -576,7 +579,10 @@ abstract class Mmi_Grid {
 		if (isset($this->_options['query']) && $this->_options['query'] instanceof Mmi_Dao_Query) {
 			$q = $this->_options['query'];
 		} else {
-			$q = ($this->_initialQuery instanceof Mmi_Dao_Query) ? $this->_initialQuery : new Mmi_Dao_Query();
+			$q = new Mmi_Dao_Query();
+		}
+		if ($this->_initialQuery instanceof Mmi_Dao_Query) {
+			$q->andQuery($this->_initialQuery);
 		}
 		foreach ($this->_options['filter'] as $field => $value) {
 			$subQ = new Mmi_Dao_Query();
