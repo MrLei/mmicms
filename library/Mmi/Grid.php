@@ -556,8 +556,10 @@ abstract class Mmi_Grid {
 			);
 		}
 		$options = new Mmi_Session_Namespace(get_class($this));
-		if (!empty($options->options)) {
-			$this->_options = $options->options;
+		$sessionOptions = $options->options;
+		unset($sessionOptions['query']);
+		if (!empty($sessionOptions)) {
+			$this->_options = $sessionOptions;
 		} else {
 			$this->_options = array(
 				'className' => get_class($this),
