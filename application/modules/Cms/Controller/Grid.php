@@ -48,17 +48,16 @@ class Cms_Controller_Grid extends Mmi_Controller_Action {
 		}
 		$class = $options['className'];
 		$grid = new $class(); /* @var $grid Mmi_Grid */
-		$q = new Mmi_Dao_Query();
 		if ($value) {
 			if ($value == 'DESC') {
-				$q->orderDesc($field);
+				$options['order'][$field] = 'DESC';
 			} else {
-				$q->orderAsc($field);
+				$options['order'][$field] = 'ASC';
 			}
 		} elseif (isset($options['order'][$field])) {
-			$q->orderAsc('id');
+			unset($options['order'][$field]);
 		}
-		$grid->setOptions(array('query' => $q));
+		$grid->setOptions($options);
 		$this->view->grid = $grid;
 	}
 
