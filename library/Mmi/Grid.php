@@ -136,7 +136,7 @@ abstract class Mmi_Grid {
 		try {
 			$data = $this->render();
 		} catch (exception $e) {
-			$data = 'Grid failed: ' . print_r($e, true);
+			$data = 'Grid failed: ' . Mmi_Lib::dump($e, true);
 		}
 		return $data;
 	}
@@ -544,20 +544,12 @@ abstract class Mmi_Grid {
 	 */
 	protected function _setDefaultOptions() {
 		$this->_columns = array();
-		if ($this->_request->run != '') {
-			$links = array(
-				'edit' => $this->_view->url(array('id' => '%id%', 'run' => 'edit')),
-				'delete' => $this->_view->url(array('id' => '%id%', 'run' => 'delete')),
-			);
-		} else {
-			$links = array(
-				'edit' => $this->_view->url(array('id' => '%id%', 'action' => 'edit')),
-				'delete' => $this->_view->url(array('id' => '%id%', 'action' => 'delete')),
-			);
-		}
+		$links = array(
+			'edit' => $this->_view->url(array('id' => '%id%', 'action' => 'edit')),
+			'delete' => $this->_view->url(array('id' => '%id%', 'action' => 'delete')),
+		);
 		$options = new Mmi_Session_Namespace(get_class($this));
 		$sessionOptions = $options->options;
-		unset($sessionOptions['query']);
 		if (!empty($sessionOptions)) {
 			$this->_options = $sessionOptions;
 		} else {
@@ -578,14 +570,13 @@ abstract class Mmi_Grid {
 	 * Ustawia dane dla grid'a
 	 */
 	protected function _setDefaultData() {
-		if (isset($this->_options['query']) && $this->_options['query'] instanceof Mmi_Dao_Query) {
-			$q = $this->_options['query'];
+		//ustawianie query inicjującej
+		if ($this->_initialQuery instanceof Mmi_Dao_Query) {
+			$q->andQuery($this->_initialQuery);
 		} else {
 			$q = new Mmi_Dao_Query();
 		}
-		if ($this->_initialQuery instanceof Mmi_Dao_Query) {
-			$q->andQuery($this->_initialQuery);
-		}
+		//nakładanie filtrów na query
 		foreach ($this->_options['filter'] as $field => $value) {
 			$subQ = new Mmi_Dao_Query();
 			$type = 'text';
@@ -596,19 +587,28 @@ abstract class Mmi_Grid {
 				}
 			}
 			if ($type == 'select' || $type == 'checkbox') {
-				$subQ->andField($field)->eqals($value);
-				$q->andQuery($subQ);
+				$q->andField($field)->eqals($value);
 			} else {
-				$subQ->andField($field)->like('%' . $value . '%');
-				$q->andQuery($subQ);
+				$q->andField($field)->like('%' . $value . '%');
 			}
 		}
-		$q->orderAsc('id');
+		//nakładanie sortów
+		foreach ($this->_options['order'] as $field => $value) {
+			if ($value == 'ASC') {
+				$q->orderAsc($field);
+			} else {
+				$q->orderDesc($field);
+			}
+		}
+
+		//nakładanie limitu
+		$q->limit($this->_options['rows']);
+		//nakładanie offsetu
+		$q->offset(($this->_options['page'] - 1) * $this->_options['rows']);
+
 		$dao = $this->_daoName;
 		$get = $this->_daoGetMethod;
 		$count = $this->_daoCountMethod;
-		$q->limit($this->_options['rows'])
-				->offset(($this->_options['page'] - 1) * $this->_options['rows']);
 
 		$this->_dataCount = $dao::$count($q);
 		$this->_data = $dao::$get($q);
