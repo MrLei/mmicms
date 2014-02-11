@@ -21,11 +21,6 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	outline: 0;
 }
 
-@font-face{
-	font-family: 'empikr';
-	src: local('EmpikRTT'), url('../../bikini/default/ttf/empikRTT.ttf') format("truetype");
-}
-
 body {
 	line-height: 1;
 	color: black;
@@ -485,16 +480,20 @@ a.remove-link:hover {
 	padding-right: 3px;
 }
 
-table.grid a.desc
+#main-content table.grid a.desc
 {
 	background: url(images/ico16_sortdesc.gif) no-repeat top right;
 	padding-right: 16px;
 }
 
-table.grid a.asc
+#main-content table.grid a.asc
 {
 	background: url(images/ico16_sortasc.gif) no-repeat top right;
 	padding-right: 16px;
+}
+
+#main-content table.grid select, #main-content table.grid input {
+	width: 90%;
 }
 
 /************ Shortcut Buttons ************/
@@ -876,7 +875,7 @@ ul.mdlist .field.checkbox label {
 	position: initial;
 	float: left;
 	margin-top: 5px
-	
+
 }
 
 ul.mdlist .hide-active {
