@@ -572,7 +572,7 @@ abstract class Mmi_Grid {
 	protected function _setDefaultData() {
 		//ustawianie query inicjującej
 		if ($this->_initialQuery instanceof Mmi_Dao_Query) {
-			$q->andQuery($this->_initialQuery);
+			$q = $this->_initialQuery;
 		} else {
 			$q = new Mmi_Dao_Query();
 		}
