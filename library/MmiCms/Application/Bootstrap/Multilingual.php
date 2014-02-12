@@ -9,7 +9,7 @@
  * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
  * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
  *
- * MmiCms/Application/Bootstrap.php
+ * MmiCms/Application/Bootstrap/Multilingual.php
  * @category   MmiCms
  * @package    MmiCms_Application
  * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
@@ -19,12 +19,12 @@
  */
 
 /**
- * Klasa startująca aplikację CMS
+ * Klasa startująca wielojęzykową aplikację CMS
  * @category   MmiCms
  * @package    MmiCms_Application
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
-class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interface {
+class MmiCms_Application_Bootstrap_Multilingual implements Mmi_Application_Bootstrap_Interface {
 
 	/**
 	 * Konstruktor, ustawia ścieżki, ładuje domyślne klasy, ustawia autoloadera
@@ -40,7 +40,7 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		} catch (Exception $e) {
 			throw new Exception('MmiCms_Application_Bootstrap requires application/modules/Default/Config/Local.php instance of MmiCms_Config');
 		}
-		
+
 		//sprawdzenie czy zdefiniowano conajmniej jeden język
 		if (!isset($config->application->languages[0])) {
 			throw new Exception('No languages specified');
@@ -66,6 +66,9 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 			$frontStructure = Mmi_Structure::getStructure();
 			Default_Registry::$cache->save($frontStructure, 'Mmi_Structure', 86400);
 		}
+		
+		//ustawianie locale
+		//@TODO
 
 		//ustawianie rout
 		$router = new Mmi_Controller_Router($config->router, $config->application->languages[0], $config->application->skin);

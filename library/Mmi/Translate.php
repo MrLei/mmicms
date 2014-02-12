@@ -134,7 +134,8 @@ class Mmi_Translate {
 	public function _($key) {
 		if ($this->_locale == $this->_defaultLocale) {
 			return $key;
-		} elseif (isset($this->_data[$this->_locale][$key])) {
+		} 
+		if (isset($this->_data[$this->_locale][$key])) {
 			return $this->_data[$this->_locale][$key];
 		}
 		$this->_logUntranslated($key);
