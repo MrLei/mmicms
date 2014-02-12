@@ -49,8 +49,8 @@ class Mmi_Form_Element_RangeSlider extends Mmi_Form_Element_Abstract {
 		$view = Mmi_Controller_Front::getInstance()->getView();
 		$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
 		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/ui.js');
-		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/form.js');
-		
+		$view->headScript()->appendFile($view->baseUrl . '/library/js/form.js');
+
 		$html = '<input class="sliderField" type="hidden" id="'.$this->id.'_min" name="'.$this->getName().'[]" value="'.$value[0].'" />';
 		$html .= '<input class="sliderField" type="hidden" id="'.$this->id.'_max" name="'.$this->getName().'[]" value="'.$value[1].'" />';
 		$html .= '<p class="slider range-slider"><span class="slider js-range-slider" id="' . $this->id . 'Slider" '
