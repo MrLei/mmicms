@@ -46,7 +46,7 @@ CMS.grid = function () {
 				}
 			}
 			ctrl = $('#' + formId + '__ctrl').val();
-			url = request.baseUrl + "/" + request.lang + "/cms/grid/" + type +
+			url = request.baseUrl + "/cms/grid/" + type +
 				"/baseModule/" + request.module + "/baseSkin/" + request.skin;
 			$.post(url, {ctrl: ctrl, identifier: identifier, field: field, value: value});
 			if (fieldType === 'text') {
@@ -100,7 +100,7 @@ CMS.grid = function () {
 				}
 			}
 			ctrl = $('#' + formId + '__ctrl').val();
-			url = request.baseUrl + "/" + request.lang + "/cms/grid/" + type +
+			url = request.baseUrl + "/cms/grid/" + type +
 				"/baseModule/" + request.module + "/baseSkin/" + request.skin;
 			$.post(url, {ctrl: ctrl, field: field, value: value}, function (result) {
 				var rowsCount,

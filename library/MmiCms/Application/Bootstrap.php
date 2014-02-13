@@ -34,13 +34,9 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		//statyczne ładowanie obowiązkowych komponentów
 		$this->_loadRequiredComponents();
 
-		//lokalna konfiguracja
-		try {
-			$config = new Default_Config_Local();
-		} catch (Exception $e) {
-			throw new Exception('MmiCms_Application_Bootstrap requires application/modules/Default/Config/Local.php instance of MmiCms_Config');
-		}
-		
+		//ładowanie konfiguracji
+		$config = $this->_loadConfig();
+
 		//sprawdzenie czy zdefiniowano conajmniej jeden język
 		if (!isset($config->application->languages[0])) {
 			throw new Exception('No languages specified');
@@ -84,24 +80,16 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 			->setBaseUrl($router->getBaseUrl());
 
 		//inicjalizacja frontu
-		$front = Mmi_Controller_Front::getInstance()
+		Mmi_Controller_Front::getInstance()
 			->setStructure($frontStructure)
 			->setRouter($router)
 			->setView($view);
 
-		//ładowanie pluginów frontu
-		foreach ($config->application->plugins as $plugin) {
-			$front->registerPlugin(new $plugin());
-		}
+		//rejestracja pluginów
+		$this->_registerPlugins($config);
 
-		//połączenie do bazy danych i konfiguracja DAO
-		if (Default_Registry::$config->db->driver !== null) {
-			Default_Registry::$config->db->profiler = $config->application->debug;
-			Default_Registry::$db = Mmi_Db::factory(Default_Registry::$config->db);
-			Mmi_Dao::setAdapter(Default_Registry::$db);
-			Mmi_Dao::setCache(Default_Registry::$cache);
-			Mmi_Profiler::event('Bootstrap setup done');
-		}
+		//rejestracja bazy danych
+		$this->_initDatabase($config);
 	}
 
 	/**
@@ -109,6 +97,46 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 	 */
 	public function run() {
 		Mmi_Controller_Front::getInstance()->dispatch();
+	}
+
+	/**
+	 * Ładowanie konfiguracji
+	 * @return MmiCms_Config
+	 * @throws Exception
+	 */
+	protected function _loadConfig() {
+		//lokalna konfiguracja
+		try {
+			return new Default_Config_Local();
+		} catch (Exception $e) {
+			throw new Exception('MmiCms_Application_Bootstrap requires application/modules/Default/Config/Local.php instance of MmiCms_Config');
+		}
+	}
+
+	/**
+	 * Inicjacja bazy danych
+	 * @param MmiCms_Config $config
+	 */
+	protected function _initDatabase(MmiCms_Config $config) {
+		//połączenie do bazy danych i konfiguracja DAO
+		if (Default_Registry::$config->db->driver === null) {
+			return;
+		}
+		Default_Registry::$config->db->profiler = $config->application->debug;
+		Default_Registry::$db = Mmi_Db::factory(Default_Registry::$config->db);
+		Mmi_Dao::setAdapter(Default_Registry::$db);
+		Mmi_Dao::setCache(Default_Registry::$cache);
+		Mmi_Profiler::event('Bootstrap: database setup');
+	}
+
+	/**
+	 * Rejstruje pluginy front-kontrolera
+	 * @param MmiCms_Config $config
+	 */
+	protected function _registerPlugins(MmiCms_Config $config) {
+		foreach ($config->application->plugins as $plugin) {
+			Mmi_Controller_Front::getInstance()->registerPlugin(new $plugin());
+		}
 	}
 
 	/**
