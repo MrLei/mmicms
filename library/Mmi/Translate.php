@@ -72,6 +72,9 @@ class Mmi_Translate {
 	 * @return Mmi_Translate
 	 */
 	public function addTranslation($sourceFile, $locale) {
+		if ($locale === null) {
+			return $this;
+		}
 		$data = $this->_parseTranslationFile($sourceFile, $locale == $this->_defaultLocale);
 		$this->_languages[$locale] = $sourceFile;
 		if (isset($this->_data[$locale])) {
@@ -134,7 +137,7 @@ class Mmi_Translate {
 	public function _($key) {
 		if ($this->_locale === null || $this->_locale == $this->_defaultLocale) {
 			return $key;
-		} 
+		}
 		if (isset($this->_data[$this->_locale][$key])) {
 			return $this->_data[$this->_locale][$key];
 		}
