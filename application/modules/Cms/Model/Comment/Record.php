@@ -23,7 +23,7 @@ class Cms_Model_Comment_Record extends Mmi_Dao_Record {
 			$this->cms_auth_id = $auth->getId();
 		} else {
 			$this->signature = '~' . $this->signature;
-			$this->ip = $_SERVER['REMOTE_ADDR'];
+			$this->ip = Mmi_Controller_Front::getInstance()->getEnvironment()->remoteAddress;
 		}
 		return parent::_insert();
 	}

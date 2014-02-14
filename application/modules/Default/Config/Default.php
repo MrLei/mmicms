@@ -13,8 +13,8 @@ class Default_Config_Default extends MmiCms_Config {
 		parent::__construct();
 
 		$this->router = new Default_Config_Router();
-
-		$this->application->host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
+		
+		$this->application->host = 'example.com';
 		$this->application->salt = 'salt-should-be-changed';
 		$this->application->skin = 'default';
 		$this->application->timeZone = 'Europe/Warsaw';

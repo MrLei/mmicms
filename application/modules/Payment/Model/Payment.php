@@ -38,7 +38,7 @@ class Payment_Model_Payment extends Mmi_Model {
 		$this->value = $value;
 		$this->payment_config_id = $config->getId();
 		$this->dateAdd = date('Y-m-d H:i:s');
-		$this->ip = $_SERVER['REMOTE_ADDR'];
+		$this->ip = Mmi_Controller_Front::getInstance()->getEnvironment()->remoteAddress;
 		$this->text = $text;
 		$this->sessionId = md5($this->ip . $this->text . $this->cms_auth_id . microtime(true));
 		$this->status = 0;

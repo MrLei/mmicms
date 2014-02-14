@@ -31,6 +31,7 @@ class Mmi_View_Helper_Debug extends Mmi_View_Helper_Abstract {
 	public function __construct() {
 		parent::__construct();
 		$view = $this->view;
+		$env = Mmi_Controller_Front::getInstance()->getEnvironment();
 		$elapsed = round(Mmi_Profiler::elapsed(), 4) . 's';
 		$memory = round(memory_get_peak_usage() / (1024 * 1024), 2) . 'MB';
 		if ($this->view->getCache() === null || !$this->view->getCache()->isActive()) {
@@ -65,10 +66,10 @@ class Mmi_View_Helper_Debug extends Mmi_View_Helper_Abstract {
 		$html .= '<p style="margin: 0px;">Transfer:</p>';
 		$html .= '<pre style="margin:  0px 0px 10px 0px; color: #ddd; background: #222; padding: 3px; border: 1px solid #666;">';
 		$html .= '<p style="margin: 0; padding: 0;">Time: <b>' . $elapsed . ' (' . $memory . ', ' . $cacheInfo . ')</b></p>';
-		$html .= '<p style="margin: 0; padding: 0;">Connection: <b>' . $_SERVER['SERVER_ADDR'] . ':' . $_SERVER['SERVER_PORT'] . '</b> <---> <b>' . $_SERVER['REMOTE_ADDR'] . ':' . $_SERVER['REMOTE_PORT'] . '</b></p>';
-		$html .= '<p style="margin: 0; padding: 0;">Browser: <b>' . substr((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 0, 93) . '</b></p>';
-		$html .= '<p style="margin: 0; padding: 0;">Server: <b>' . $_SERVER['SERVER_SOFTWARE'] . ' + PHP ' . phpversion() . ' (' . php_sapi_name() . ', ' . php_uname('s') . ' ' . php_uname('m') . ': ' . php_uname('n') . ')</b></p>';
-		$html .= '<p style="margin: 0; padding: 0;">Path: <b>' . $_SERVER['SCRIPT_FILENAME'] . '</b></p>';
+		$html .= '<p style="margin: 0; padding: 0;">Connection: <b>' . $env->serverAddress . ':' . $env->serverPort . '</b> <---> <b>' . $env->remoteAddress . ':' . $env->remotePort . '</b></p>';
+		$html .= '<p style="margin: 0; padding: 0;">Browser: <b>' . substr($env->httpUserAgent, 0, 93) . '</b></p>';
+		$html .= '<p style="margin: 0; padding: 0;">Server: <b>' . $env->serverSoftware . ' + PHP ' . phpversion() . ' (' . php_sapi_name() . ', ' . php_uname('s') . ' ' . php_uname('m') . ': ' . php_uname('n') . ')</b></p>';
+		$html .= '<p style="margin: 0; padding: 0;">Path: <b>' . $env->scriptFilename . '</b></p>';
 		$html .= '</pre>';
 
 		$html .= '<p style="margin: 0px;">Configuration:</p>';

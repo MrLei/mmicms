@@ -67,7 +67,7 @@ class Api_Controller_Soap extends Mmi_Controller_Action {
 	}
 
 	protected function _isSsl() {
-		return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || $_SERVER['SERVER_PORT'] == 443;
+		return Mmi_Controller_Front::getInstance()->getEnvironment()->httpSecure;
 	}
 
 }

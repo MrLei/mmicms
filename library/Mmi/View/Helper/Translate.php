@@ -29,22 +29,6 @@
 class Mmi_View_Helper_Translate extends Mmi_View_Helper_Abstract {
 
 	/**
-	 * Obiekt translatora
-	 * @var Mmi_Translate
-	 */
-	protected static $_translate;
-
-	/**
-	 * Ustawia obiekt translatora
-	 * @param Mmi_Translate $_translate
-	 * @return Mmi_Translate
-	 */
-	public static function setTranslate(Mmi_Translate $translate) {
-		self::$_translate = $translate;
-		return $translate;
-	}
-
-	/**
 	 * Metoda główna, zwraca swoją instancję
 	 * @return Mmi_View_Helper_Translate
 	 */
@@ -57,9 +41,6 @@ class Mmi_View_Helper_Translate extends Mmi_View_Helper_Abstract {
 	 * @return string
 	 */
 	public function _($key) {
-		if (self::$_translate === null) {
-			return $key;
-		}
-		return self::$_translate->_($key);
+		return $this->view->getTranslate()->_($key);
 	}
 }
