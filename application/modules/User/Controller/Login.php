@@ -3,11 +3,11 @@ class User_Controller_Login extends Mmi_Controller_Action {
 
 	public function indexAction() {
 		new User_Form_Login();
-		if (empty($_POST)) {
+		if (empty($this->getRequest()->getPost())) {
 			return;
 		}
 		$auth = new Cms_Model_Auth();
-		if (false === $auth->login($_POST)) {
+		if (false === $auth->login($this->getRequest()->getPost())) {
 			$this->_helper->messenger('Logowanie niepoprawne', false);
 			return $this->_helper->redirector('index', 'login', 'user', array(), true);
 		} else {

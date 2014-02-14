@@ -30,7 +30,7 @@ class Mmi_Application {
 	 * Klasa bootstrapa aplikacji
 	 * @var Mmi_Bootstrap
 	 */
-	protected $_bootstrap;
+	private $_bootstrap;
 
 	/**
 	 * Konstruktor
@@ -73,7 +73,6 @@ class Mmi_Application {
 		$namespace = $name[0];
 		switch ($namespace) {
 			case ((substr($namespace, 0, 3) == 'Mmi') ? $namespace : !$namespace):
-			case 'PHPExcel':
 			case 'Zend':
 				$path = LIB_PATH . '/' . $namespace;
 				array_shift($name);
@@ -157,7 +156,7 @@ class Mmi_Application {
 
 	/**
 	 * Ustawia kodowanie na UTF-8
-	 * @return \Mmi_Application
+	 * @return Mmi_Application
 	 */
 	protected function _initEncoding() {
 		mb_internal_encoding('utf-8');
@@ -168,7 +167,7 @@ class Mmi_Application {
 
 	/**
 	 * Definicja ścieżek
-	 * @return \Mmi_Application
+	 * @return Mmi_Application
 	 */
 	protected function _initPaths($path) {
 		define('BASE_PATH', $path);
@@ -183,7 +182,7 @@ class Mmi_Application {
 
 	/**
 	 * Ładowanie domyślnych komponentów
-	 * @return \Mmi_Application
+	 * @return Mmi_Application
 	 */
 	protected function _initDefaultComponents() {
 		require LIB_PATH . '/Mmi/Profiler.php';
@@ -196,6 +195,7 @@ class Mmi_Application {
 		require LIB_PATH . '/Mmi/Controller/Action/HelperBroker.php';
 		require LIB_PATH . '/Mmi/Controller/Plugin/Abstract.php';
 		require LIB_PATH . '/Mmi/Controller/Action.php';
+		require LIB_PATH . '/Mmi/Controller/Environment.php';
 		require LIB_PATH . '/Mmi/Controller/Front.php';
 		require LIB_PATH . '/Mmi/Controller/Request.php';
 		require LIB_PATH . '/Mmi/Controller/Response.php';
@@ -210,33 +210,36 @@ class Mmi_Application {
 
 	/**
 	 * Inicjalizacja konfiguracji PHP
-	 * @return \Mmi_Application
+	 * @return Mmi_Application
 	 */
 	protected function _initPhpConfiguration() {
-
+		//obsługa włączonych magic quotes
+		if (!ini_get('magic_quotes_gpc')) {
+			return $this;
+		}
 		function _stripslashesGpc(&$value) {
 			$value = stripslashes($value);
 		}
-
-		//obsługa włączonych magic quotes
-		if (ini_get('magic_quotes_gpc')) {
-			array_walk_recursive($_GET, array('_stripslashesGpc'));
-			array_walk_recursive($_POST, array('_stripslashesGpc'));
-			array_walk_recursive($_COOKIE, array('_stripslashesGpc'));
-			array_walk_recursive($_REQUEST, array('_stripslashesGpc'));
-		}
+		array_walk_recursive($_GET, array('_stripslashesGpc'));
+		array_walk_recursive($_POST, array('_stripslashesGpc'));
+		array_walk_recursive($_COOKIE, array('_stripslashesGpc'));
+		array_walk_recursive($_REQUEST, array('_stripslashesGpc'));
 		return $this;
 	}
 
 	/**
 	 * Inicjuje autoloader
-	 * @return \Mmi_Application
+	 * @return Mmi_Application
 	 */
 	protected function _initAutoloader() {
 		spl_autoload_register(array($this, 'loader'));
 		return $this;
 	}
 
+	/**
+	 * Ustawia handler błędów
+	 * @return Mmi_Application
+	 */
 	protected function _initErrorHandler() {
 		set_exception_handler(array($this, 'exceptionHandler'));
 		set_error_handler(array($this, 'errorHandler'));

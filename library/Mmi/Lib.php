@@ -27,14 +27,6 @@
 class Mmi_Lib {
 
 	/**
-	 * Zwraca referer lub null (jeśli brak)
-	 * @return mixed
-	 */
-	public static function ref() {
-		return isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
-	}
-
-	/**
 	 * Kasuje pliki rekurencyjnie
 	 * @param string $fileName nazwa pliku
 	 * @param string $rootName katalog główny

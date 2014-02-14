@@ -31,19 +31,49 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 	 */
 	public function __construct() {
 
-		//statyczne ładowanie obowiązkowych komponentów
-		$this->_loadRequiredComponents();
+		//ładowanie komponentów
+		$this->_setupComponents();
 
+		//inicjalizacja konfiguracji aplikacji
+		$config = $this->_initConfiguration();
+
+		//ustawienie cache
+		$this->_setupCache($config);
+
+		//inicjalizacja tłumaczeń
+		$translate = $this->_initTranslate($config);
+
+		//inicjalizacja routera
+		$router = $this->_initRouter($config, $translate->getLocale());
+
+		//inicjalizacja widoku
+		$view = $this->_initView($config, $translate, $router);
+
+		//ustawienie front controllera
+		$this->_setupFrontController($config, $router, $view);
+
+		//ustawienie bazy danych
+		$this->_setupDatabase($config);
+	}
+
+	/**
+	 * Uruchomienie bootstrapa skutkuje uruchomieniem front controllera
+	 */
+	public function run() {
+		Mmi_Controller_Front::getInstance()->dispatch();
+	}
+
+	/**
+	 * Ładowanie konfiguracji
+	 * @return MmiCms_Config
+	 * @throws Exception
+	 */
+	protected function _initConfiguration() {
 		//lokalna konfiguracja
 		try {
 			$config = new Default_Config_Local();
 		} catch (Exception $e) {
 			throw new Exception('MmiCms_Application_Bootstrap requires application/modules/Default/Config/Local.php instance of MmiCms_Config');
-		}
-
-		//sprawdzenie czy zdefiniowano conajmniej jeden język
-		if (!isset($config->application->languages[0])) {
-			throw new Exception('No languages specified');
 		}
 
 		//konfiguracja profilera aplikacji
@@ -52,7 +82,14 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		//ustawienie lokalizacji
 		date_default_timezone_set($config->application->timeZone);
 		ini_set('default_charset', $config->application->charset);
+		return $config;
+	}
 
+	/**
+	 * Ustawianie bufora
+	 * @throws Exception
+	 */
+	protected function _setupCache(MmiCms_Config $config) {
 		//dodawanie buforów do rejestru
 		try {
 			Default_Registry::$config = $config;
@@ -60,23 +97,85 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		} catch (Exception $e) {
 			throw new Exception('MmiCms_Application_Bootstrap requires application/modules/Default/Registry.php instance of MmiCms_Registry');
 		}
+	}
+	
+	/**
+	 * Inicjalizacja routera
+	 * @param MmiCms_Config $config
+	 * @param string $language
+	 * @return Mmi_Controller_Router
+	 */
+	protected function _initRouter(MmiCms_Config $config, $language) {
+		return new Mmi_Controller_Router($config->router, $language, $config->application->skin);
+	}
+	
+	/**
+	 * Inicjalizacja tłumaczeń
+	 * @param string $defaultLanguage domyślny język
+	 * @param string $language bieżący język
+	 * @return Mmi_Translate
+	 */
+	protected function _initTranslate(MmiCms_Config $config) {
+		$defaultLanguage = isset($config->application->languages[0]) ? $config->application->languages[0] : null;
+		$translate = new Mmi_Translate();
+		$translate->setDefaultLocale($defaultLanguage);
+		$envLang = Mmi_Controller_Front::getInstance()->getEnvironment()->applicationLanguage;
+		if (null === $envLang) {
+			return $translate;
+		}
+		if (!in_array($envLang, $config->application->languages)) {
+			return $translate;
+		}
+		$translate->setLocale($envLang);
+		return $translate;
+	}
 
+	/**
+	 * Ustawianie bazy danych
+	 * @param MmiCms_Config $config
+	 */
+	protected function _setupDatabase(MmiCms_Config $config) {
+		//połączenie do bazy danych i konfiguracja DAO
+		if (Default_Registry::$config->db->driver === null) {
+			return;
+		}
+		Default_Registry::$config->db->profiler = $config->application->debug;
+		Default_Registry::$db = Mmi_Db::factory(Default_Registry::$config->db);
+		Mmi_Dao::setAdapter(Default_Registry::$db);
+		Mmi_Dao::setCache(Default_Registry::$cache);
+		Mmi_Profiler::event('Bootstrap: database setup');
+	}
+
+	/**
+	 * Ustawianie front controllera
+	 * @param Mmi_Controller_Router $router
+	 * @param Mmi_View $view
+	 */
+	protected function _setupFrontController(MmiCms_Config $config, Mmi_Controller_Router $router, Mmi_View $view) {
 		//wczytywanie struktury frontu z cache
 		if (null === ($frontStructure = Default_Registry::$cache->load('Mmi_Structure'))) {
 			$frontStructure = Mmi_Structure::getStructure();
 			Default_Registry::$cache->save($frontStructure, 'Mmi_Structure', 86400);
 		}
+		//inicjalizacja frontu
+		$frontController = Mmi_Controller_Front::getInstance();
+		$frontController->setStructure($frontStructure)
+			->setRouter($router)
+			->setView($view);
+		//rejestracja pluginów
+		foreach ($config->application->plugins as $plugin) {
+			$frontController->registerPlugin(new $plugin());
+		}
+	}
 
-		//ustawianie rout
-		$router = new Mmi_Controller_Router($config->router, $config->application->languages[0], $config->application->skin);
-
-		//tłumaczenia
-		$translate = new Mmi_Translate();
-		$translate->setDefaultLocale($config->application->languages[0]);
-		$translate->setLocale($config->application->languages[0]);
-		//przypinanie translatora do helpera widoku
-		Mmi_View_Helper_Translate::setTranslate($translate);
-
+	/**
+	 * Inicjalizacja widoku
+	 * @param MmiCms_Config $config
+	 * @param Mmi_Translate $translate
+	 * @param Mmi_Controller_Router $router
+	 * @return Mmi_View
+	 */
+	protected function _initView(MmiCms_Config $config, Mmi_Translate $translate, Mmi_Controller_Router $router) {
 		//konfiguracja widoku
 		$view = new Mmi_View();
 		$view->setCache(Default_Registry::$cache)
@@ -84,39 +183,13 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 			->setDebug($config->application->debug)
 			->setTranslate($translate)
 			->setBaseUrl($router->getBaseUrl());
-
-		//inicjalizacja frontu
-		$front = Mmi_Controller_Front::getInstance()
-			->setStructure($frontStructure)
-			->setRouter($router)
-			->setView($view);
-
-		//ładowanie pluginów frontu
-		foreach ($config->application->plugins as $plugin) {
-			$front->registerPlugin(new $plugin());
-		}
-
-		//połączenie do bazy danych i konfiguracja DAO
-		if (Default_Registry::$config->db->driver !== null) {
-			Default_Registry::$config->db->profiler = $config->application->debug;
-			Default_Registry::$db = Mmi_Db::factory(Default_Registry::$config->db);
-			Mmi_Dao::setAdapter(Default_Registry::$db);
-			Mmi_Dao::setCache(Default_Registry::$cache);
-			Mmi_Profiler::event('Bootstrap setup done');
-		}
-	}
-
-	/**
-	 * Uruchomienie bootstrapa skutkuje uruchomieniem front kontrolera
-	 */
-	public function run() {
-		Mmi_Controller_Front::getInstance()->dispatch();
+		return $view;
 	}
 
 	/**
 	 * Ładowanie komponentów statycznie, bez potrzeby użycia autoloadera
 	 */
-	protected function _loadRequiredComponents() {
+	protected function _setupComponents() {
 		require LIB_PATH . '/Mmi/Cache/Config.php';
 		require LIB_PATH . '/Mmi/Cache/Backend/Interface.php';
 		require LIB_PATH . '/Mmi/Cache.php';

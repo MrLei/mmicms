@@ -12,17 +12,14 @@ class Cms_Model_Log_Dao extends Mmi_Dao {
 	 */
 	public static function add($operation = null, array $data = array()) {
 		$record = new Cms_Model_Log_Record();
+		$env = Mmi_Controller_Front::getInstance()->getEnvironment();
 		if (Mmi_Session::namespaceIsset('Auth')) {
 			$authNamespace = new Mmi_Session_Namespace('Auth');
 			$record->cms_auth_id = $authNamespace->id;
 		}
-		$record->url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
-		if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-			$record->ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-		} else {
-			$record->ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
-		}
-		$record->browser = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'unknown';
+		$record->url = $env->requestUri;
+		$record->ip = $env->remoteAddress;
+		$record->browser = $env->httpUserAgent;
 		$record->dateTime = date('Y-m-d H:i:s');
 		$record->operation = $operation;
 		$record->success = 1;

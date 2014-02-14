@@ -14,7 +14,8 @@ class Admin_Controller_Login extends Mmi_Controller_Action {
 			$this->_helper->messenger('Logowanie niepoprawne', false);
 		}
 		$baseUri = $this->view->url(array('module' => 'admin', 'controller' => 'login', 'action' => 'index'));
-		$uri = (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] != $baseUri) ? $_SERVER['REQUEST_URI'] : $this->view->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'index'));
+		$requestUri = Mmi_Controller_Front::getInstance()->getEnvironment()->requestUri;
+		$uri = ($requestUri != $baseUri) ? $requestUri : $this->view->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'index'));
 		$this->_helper->redirector()->gotoUrl($uri);
 	}
 	

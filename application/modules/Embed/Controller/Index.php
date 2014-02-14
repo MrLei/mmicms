@@ -3,7 +3,10 @@
 class Embed_Controller_Index extends Mmi_Controller_Action {
 
 	public function indexAction() {
-		$origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '*';
+		$origin = '*';
+		if (Mmi_Controller_Front::getInstance()->getEnvironment()->httpOrigin) {
+			$origin = Mmi_Controller_Front::getInstance()->getEnvironment()->httpOrigin;
+		}
 		header('Access-Control-Allow-Origin: ' . $origin);
 		header('Access-Control-Allow-Credentials: true');
 

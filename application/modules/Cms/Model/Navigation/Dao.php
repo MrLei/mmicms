@@ -65,11 +65,13 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 	}
 
 	protected static function _getNestedData() {
-		$lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
 		$q = self::newQuery()
-			->where('lang')->eqals($lang)
 			->orderAsc('parent_id')
 			->orderAsc('order');
+		$lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
+		if ($lang !== null) {
+			$q->where('lang')->eqals($lang);
+		}
 		$data = self::find($q)->toArray();
 		$view = Mmi_Controller_Front::getInstance()->getView();
 		foreach ($data as $key => $item) {
@@ -81,7 +83,9 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 			if (!$item['uri']) {
 				$params = array();
 				parse_str($item['params'], $params);
-				$params['lang'] = $item['lang'];
+				if ($lang !== null) {
+					$params['lang'] = $item['lang'];
+				}
 				if ($item['module'] != '') {
 					$data[$key]['type'] = 'cms';
 				} else {

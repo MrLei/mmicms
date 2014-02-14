@@ -19,7 +19,7 @@ class Cms_Model_Contact_Record extends Mmi_Dao_Record {
 
 	public function _insert() {
 		$this->dateAdd = date('Y-m-d H:i:s');
-		$this->ip = $_SERVER['REMOTE_ADDR'];
+		$this->ip = Mmi_Controller_Front::getInstance()->getEnvironment()->remoteAddress;
 		$this->active = 1;
 		$auth = Default_Registry::$auth;
 		if ($auth->hasIdentity()) {
