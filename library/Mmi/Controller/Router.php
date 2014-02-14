@@ -328,12 +328,6 @@ class Mmi_Controller_Router {
 		$applied = true;
 		$url = '';
 		$replace = array_merge($route->default, $route->replace);
-		if (!isset($params['skin'])) {
-			$params['skin'] = $this->_defaultSkin;
-		}
-		if (!isset($params['lang']) && $this->_defaultLanguage !== null) {
-			$params['lang'] = $this->_defaultLanguage;
-		}
 		//routy statyczne tylko ze zgodną liczbą parametrów
 		if (!$this->_isPatternRegular($route->pattern) && count($replace) != count($params)) {
 			return array(
