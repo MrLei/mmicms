@@ -66,8 +66,8 @@ class Mmi_Controller_Router {
 		$this->_config = $config;
 		$this->_defaultLanguage = $defaultLanguage;
 		$this->_defaultSkin = $defaultSkin;
-
-		$this->_url = urldecode(trim(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '', '/ '));
+		$requestUri = Mmi_Controller_Front::getInstance()->getEnvironment()->requestUri;
+		$this->_url = urldecode(trim($requestUri, '/ '));
 		if (!(false === strpos($this->_url, '?'))) {
 			$this->_url = substr($this->_url, 0, strpos($this->_url, '?'));
 		}

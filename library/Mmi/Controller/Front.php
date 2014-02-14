@@ -48,6 +48,12 @@ class Mmi_Controller_Front {
 	 * @var Mmi_Controller_Router
 	 */
 	private $_router;
+	
+	/**
+	 * Środowisko uruchomieniowe
+	 * @var Mmi_Controller_Environment
+	 */
+	private $_environment;
 
 	/**
 	 * Widok
@@ -73,6 +79,7 @@ class Mmi_Controller_Front {
 	protected function __construct() {
 		$this->_request = new Mmi_Controller_Request();
 		$this->_response = new Mmi_Controller_Response();
+		$this->_environment = new Mmi_Controller_Environment();
 	}
 
 	/**
@@ -89,7 +96,7 @@ class Mmi_Controller_Front {
 	/**
 	 * Ustawia strukturę frontu
 	 * @param array $structure
-	 * @return \Mmi_Controller_Front
+	 * @return Mmi_Controller_Front
 	 */
 	public function setStructure(array $structure = array()) {
 		$this->_structure = $structure;
@@ -99,7 +106,7 @@ class Mmi_Controller_Front {
 	/**
 	 * Dodanie pluginu
 	 * @param Mmi_Controller_Plugin_Abstract $plugin
-	 * @return \Mmi_Controller_Front
+	 * @return Mmi_Controller_Front
 	 */
 	public function registerPlugin(Mmi_Controller_Plugin_Abstract $plugin) {
 		$this->_plugins[] = $plugin;
@@ -109,7 +116,7 @@ class Mmi_Controller_Front {
 	/**
 	 * Ustawienie żądania
 	 * @param Mmi_Controller_Request $request
-	 * @return \Mmi_Controller_Front
+	 * @return Mmi_Controller_Front
 	 */
 	public function setRequest(Mmi_Controller_Request $request) {
 		$this->_request = $request;
@@ -119,7 +126,7 @@ class Mmi_Controller_Front {
 	/**
 	 * Ustawienie odpowiedzi
 	 * @param Mmi_Controller_Response $response
-	 * @return \Mmi_Controller_Front
+	 * @return Mmi_Controller_Front
 	 */
 	public function setResponse(Mmi_Controller_Response $response) {
 		$this->_response = $response;
@@ -129,7 +136,7 @@ class Mmi_Controller_Front {
 	/**
 	 * Ustawia router
 	 * @param Mmi_Controller_Router $router
-	 * @return \Mmi_Controller_Front
+	 * @return Mmi_Controller_Front
 	 */
 	public function setRouter(Mmi_Controller_Router $router) {
 		$this->_router = $router;
@@ -139,7 +146,7 @@ class Mmi_Controller_Front {
 	/**
 	 * Ustawia widok
 	 * @param Mmi_View $view
-	 * @return \Mmi_Controller_Front
+	 * @return Mmi_Controller_Front
 	 */
 	public function setView(Mmi_View $view) {
 		$this->_view = $view;
@@ -171,6 +178,14 @@ class Mmi_Controller_Front {
 			throw new Exception('Mmi_Controller_Front: no router specified');
 		}
 		return $this->_router;
+	}
+	
+	/**
+	 * Pobiera środowisko uruchomieniowe
+	 * @return Mmi_Controller_Environment
+	 */
+	public function getEnvironment() {
+		return $this->_environment;
 	}
 
 	/**

@@ -178,7 +178,8 @@ class Mmi_Translate {
 	 */
 	private function _logUntranslated($key) {
 		$log = fopen(TMP_PATH . '/log/error.translation.log', 'a');
-		fwrite($log, date('Y-m-d H:i:s') . ' ' . $_SERVER['REQUEST_URI'] . ' [' . $this->_locale . '] {#' . $key . "#}\n");
+		$requestUri = Mmi_Controller_Front::getInstance()->getEnvironment()->requestUri;
+		fwrite($log, date('Y-m-d H:i:s') . ' ' . $requestUri . ' [' . $this->_locale . '] {#' . $key . "#}\n");
 		fclose($log);
 	}
 

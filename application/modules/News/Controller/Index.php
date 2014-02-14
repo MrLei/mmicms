@@ -35,7 +35,7 @@ class News_Controller_Index extends Mmi_Controller_Action {
 		if ($this->view->entry === null) {
 			$this->_helper->redirector('index', 'index', 'news', array(), true);
 		}
-		$this->view->navigation()->modifyLastBreadcrumb($this->view->entry->title, $_SERVER['REQUEST_URI']);
+		$this->view->navigation()->modifyLastBreadcrumb($this->view->entry->title, $this->view->url());
 	}
 
 }
