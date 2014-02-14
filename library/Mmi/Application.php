@@ -195,6 +195,7 @@ class Mmi_Application {
 		require LIB_PATH . '/Mmi/Controller/Action/HelperBroker.php';
 		require LIB_PATH . '/Mmi/Controller/Plugin/Abstract.php';
 		require LIB_PATH . '/Mmi/Controller/Action.php';
+		require LIB_PATH . '/Mmi/Controller/Environment.php';
 		require LIB_PATH . '/Mmi/Controller/Front.php';
 		require LIB_PATH . '/Mmi/Controller/Request.php';
 		require LIB_PATH . '/Mmi/Controller/Response.php';

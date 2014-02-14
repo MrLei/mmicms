@@ -40,11 +40,11 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		//ustawienie cache
 		$this->_setupCache($config);
 
-		//inicjalizacja routera
-		$router = $this->_initRouter($config, $config->application->languages[0]);
-
 		//inicjalizacja tłumaczeń
-		$translate = $this->_initTranslate($config->application->languages[0], $config->application->languages[0]);
+		$translate = $this->_initTranslate($config);
+
+		//inicjalizacja routera
+		$router = $this->_initRouter($config, $translate->getLocale());
 
 		//inicjalizacja widoku
 		$view = $this->_initView($config, $translate, $router);
@@ -74,10 +74,6 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 			$config = new Default_Config_Local();
 		} catch (Exception $e) {
 			throw new Exception('MmiCms_Application_Bootstrap requires application/modules/Default/Config/Local.php instance of MmiCms_Config');
-		}
-		//sprawdzenie czy zdefiniowano conajmniej jeden język
-		if (!isset($config->application->languages[0])) {
-			throw new Exception('No languages specified');
 		}
 
 		//konfiguracja profilera aplikacji
@@ -119,10 +115,18 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 	 * @param string $language bieżący język
 	 * @return Mmi_Translate
 	 */
-	protected function _initTranslate($defaultLanguage, $language) {
+	protected function _initTranslate(MmiCms_Config $config) {
+		$defaultLanguage = isset($config->application->languages[0]) ? $config->application->languages[0] : null;
 		$translate = new Mmi_Translate();
 		$translate->setDefaultLocale($defaultLanguage);
-		$translate->setLocale($language);
+		$envLang = Mmi_Controller_Front::getInstance()->getEnvironment()->applicationLanguage;
+		if (null === $envLang) {
+			return $translate;
+		}
+		if (!in_array($envLang, $config->application->languages)) {
+			return $translate;
+		}
+		$translate->setLocale($envLang);
 		return $translate;
 	}
 
