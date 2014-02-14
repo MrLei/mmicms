@@ -132,7 +132,7 @@ class Mmi_Translate {
 	 * @return string
 	 */
 	public function _($key) {
-		if ($this->_locale == $this->_defaultLocale) {
+		if ($this->_locale === null || $this->_locale == $this->_defaultLocale) {
 			return $key;
 		} 
 		if (isset($this->_data[$this->_locale][$key])) {

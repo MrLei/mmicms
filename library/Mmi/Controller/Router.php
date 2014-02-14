@@ -62,7 +62,7 @@ class Mmi_Controller_Router {
 	 * @param string $defaultLang domyślny język
 	 * @param string $defaultSkin domyślna skóra
 	 */
-	public function __construct(Mmi_Controller_Router_Config $config, $defaultLanguage = 'en', $defaultSkin = 'default') {
+	public function __construct(Mmi_Controller_Router_Config $config, $defaultLanguage = null, $defaultSkin = 'default') {
 		$this->_config = $config;
 		$this->_defaultLanguage = $defaultLanguage;
 		$this->_defaultSkin = $defaultSkin;
@@ -159,7 +159,7 @@ class Mmi_Controller_Router {
 		if (!isset($params['skin'])) {
 			$params['skin'] = $this->_defaultSkin;
 		}
-		if (!isset($params['lang'])) {
+		if (!isset($params['lang']) && $this->_defaultLanguage !== null) {
 			$params['lang'] = $this->_defaultLanguage;
 		}
 		return $params;
@@ -184,7 +184,7 @@ class Mmi_Controller_Router {
 				break;
 			}
 		}
-		if (!isset($params['lang'])) {
+		if (!isset($params['lang']) && $this->_defaultLanguage !== null) {
 			$params['lang'] = $this->_defaultLanguage;
 		}
 		$params['module'] = isset($params['module']) ? $params['module'] : 'default';
@@ -328,6 +328,12 @@ class Mmi_Controller_Router {
 		$applied = true;
 		$url = '';
 		$replace = array_merge($route->default, $route->replace);
+		if (!isset($params['skin'])) {
+			$params['skin'] = $this->_defaultSkin;
+		}
+		if (!isset($params['lang']) && $this->_defaultLanguage !== null) {
+			$params['lang'] = $this->_defaultLanguage;
+		}
 		//routy statyczne tylko ze zgodną liczbą parametrów
 		if (!$this->_isPatternRegular($route->pattern) && count($replace) != count($params)) {
 			return array(

@@ -20,9 +20,9 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 	public function preDispatch(Mmi_Controller_Request $request) {
 
 		//niepoprawny język
-		if (!in_array($request->__get('lang'), Default_Registry::$config->application->languages)) {
+		if ($request->__get('lang') && !in_array($request->__get('lang'), Default_Registry::$config->application->languages)) {
 			Mmi_Controller_Front::getInstance()->getResponse()->setCode(404);
-			$request->__set('lang', Default_Registry::$config->application->languages[0]);
+			$request->lang = Default_Registry::$config->application->languages[0];
 			$request->setModuleName('default');
 			$request->setControllerName('error');
 			$request->setActionName('index');
