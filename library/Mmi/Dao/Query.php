@@ -42,7 +42,7 @@ class Mmi_Dao_Query {
 	/**
 	 * Ustawia limit
 	 * @param int $limit
-	 * @return \Mmi_Dao_Query
+	 * @return Mmi_Dao_Query
 	 */
 	public function limit($limit = null) {
 		$this->_compile->limit = $limit;
@@ -52,7 +52,7 @@ class Mmi_Dao_Query {
 	/**
 	 * Ustawia ofset
 	 * @param int $offset
-	 * @return \Mmi_Dao_Query
+	 * @return Mmi_Dao_Query
 	 */
 	public function offset($offset = null) {
 		$this->_compile->offset = $offset;
@@ -63,7 +63,7 @@ class Mmi_Dao_Query {
 	 * Sortowanie rosnące
 	 * @param string $fieldName nazwa pola
 	 * @param string $tableName opcjonalna nazwa tabeli źródłowej
-	 * @return \Mmi_Dao_Query
+	 * @return Mmi_Dao_Query
 	 */
 	public function orderAsc($fieldName, $tableName = null) {
 		$this->_compile->order[] = array($fieldName, 'ASC', $tableName);
@@ -74,7 +74,7 @@ class Mmi_Dao_Query {
 	 * Sortowanie malejące
 	 * @param string $fieldName nazwa pola
 	 * @param string $tableName opcjonalna nazwa tabeli źródłowej
-	 * @return \Mmi_Dao_Query
+	 * @return Mmi_Dao_Query
 	 */
 	public function orderDesc($fieldName, $tableName = null) {
 		$this->_compile->order[] = array($fieldName, 'DESC', $tableName);
@@ -84,7 +84,7 @@ class Mmi_Dao_Query {
 	/**
 	 * Dodaje podsekcję AND
 	 * @param Mmi_Dao_Query $query
-	 * @return \Mmi_Dao_Query
+	 * @return Mmi_Dao_Query
 	 */
 	public function andQuery(Mmi_Dao_Query $query) {
 		$bind = $query->queryCompilation()->bind;
@@ -98,7 +98,7 @@ class Mmi_Dao_Query {
 	/**
 	 * Dodaje podsekcję WHERE (jak AND)
 	 * @param Mmi_Dao_Query $query
-	 * @return \Mmi_Dao_Query
+	 * @return Mmi_Dao_Query
 	 */
 	public function whereQuery(Mmi_Dao_Query $query) {
 		return $this->andQuery($query);
@@ -107,13 +107,14 @@ class Mmi_Dao_Query {
 	/**
 	 * Dodaje podsekcję OR
 	 * @param Mmi_Dao_Query $query
-	 * @return \Mmi_Dao_Query
+	 * @return Mmi_Dao_Query
 	 */
 	public function orQuery(Mmi_Dao_Query $query) {
 		$bind = $query->queryCompilation()->bind;
 		if (empty($bind)) {
 			return $this;
 		}
+		$this->_compile->bind[] = array($bind, 'OR');
 		return $this;
 	}
 
@@ -121,7 +122,7 @@ class Mmi_Dao_Query {
 	 * Dodaje warunek na pole AND
 	 * @param string $fieldName nazwa pola
 	 * @param string $tableName opcjonalna nazwa tabeli źródłowej
-	 * @return \Mmi_Dao_Query_Field
+	 * @return Mmi_Dao_Query_Field
 	 */
 	public function andField($fieldName, $tableName = null) {
 		return new Mmi_Dao_Query_Field($this, $fieldName, $tableName, 'AND');
@@ -131,7 +132,7 @@ class Mmi_Dao_Query {
 	 * Pierwszy warunek w zapytaniu (domyślnie AND)
 	 * @param string $fieldName nazwa pola
 	 * @param string $tableName opcjonalna nazwa tabeli źródłowej
-	 * @return \Mmi_Dao_Query_Field
+	 * @return Mmi_Dao_Query_Field
 	 */
 	public function where($fieldName, $tableName = null) {
 		return $this->andField($fieldName, $tableName);
@@ -141,7 +142,7 @@ class Mmi_Dao_Query {
 	 * Dodaje warunek na pole OR
 	 * @param string $fieldName nazwa pola
 	 * @param string $tableName opcjonalna nazwa tabeli źródłowej
-	 * @return \Mmi_Dao_Query_Field
+	 * @return Mmi_Dao_Query_Field
 	 */
 	public function orField($fieldName, $tableName = null) {
 		return new Mmi_Dao_Query_Field($this, $fieldName, $tableName, 'OR');
@@ -151,7 +152,7 @@ class Mmi_Dao_Query {
 	 * Łączy tabelę
 	 * @param string $tableName nazwa tabeli
 	 * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć
-	 * @return \Mmi_Dao_Query_Join
+	 * @return Mmi_Dao_Query_Join
 	 */
 	public function join($tableName, $targetTableName = null) {
 		return new Mmi_Dao_Query_Join($this, $tableName, 'JOIN', $targetTableName);
@@ -161,7 +162,7 @@ class Mmi_Dao_Query {
 	 * Łączy tabelę złączeniem lewym
 	 * @param string $tableName nazwa tabeli
 	 * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć
-	 * @return \Mmi_Dao_Query_Join
+	 * @return Mmi_Dao_Query_Join
 	 */
 	public function joinLeft($tableName, $targetTableName = null) {
 		return new Mmi_Dao_Query_Join($this, $tableName, 'LEFT JOIN', $targetTableName);
