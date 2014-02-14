@@ -46,13 +46,13 @@ class Mmi_Dao_Query_Field {
 
 	/**
 	 * Referencja do nadrzędnego zapytania
-	 * @var \Mmi_Dao_Query
+	 * @var Mmi_Dao_Query
 	 */
 	protected $_query;
 
 	/**
 	 * Ustawia parametry pola
-	 * @param \Mmi_Dao_Query $query zapytanie nadrzędne
+	 * @param Mmi_Dao_Query $query zapytanie nadrzędne
 	 * @param string $fieldName nazwa pola
 	 * @param string $tableName nazwa tabeli
 	 * @param string $logic kwantyfikator łączenia AND lub OR
@@ -67,7 +67,7 @@ class Mmi_Dao_Query_Field {
 	/**
 	 * Równość
 	 * @param mixed $value
-	 * @return \Mmi_Dao_Query
+	 * @return Mmi_Dao_Query
 	 */
 	public function eqals($value) {
 		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, '=', $this->_logic, $this->_tableName);
@@ -77,7 +77,7 @@ class Mmi_Dao_Query_Field {
 	/**
 	 * Negacja równości
 	 * @param mixed $value
-	 * @return \Mmi_Dao_Query
+	 * @return Mmi_Dao_Query
 	 */
 	public function notEquals($value) {
 		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, '<>', $this->_logic, $this->_tableName);
@@ -87,7 +87,7 @@ class Mmi_Dao_Query_Field {
 	/**
 	 * Relacja większości
 	 * @param mixed $value
-	 * @return \Mmi_Dao_Query
+	 * @return Mmi_Dao_Query
 	 */
 	public function greater($value) {
 		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, '>', $this->_logic, $this->_tableName);
@@ -97,7 +97,7 @@ class Mmi_Dao_Query_Field {
 	/**
 	 * Relacja mniejszości
 	 * @param mixed $value
-	 * @return \Mmi_Dao_Query
+	 * @return Mmi_Dao_Query
 	 */
 	public function less($value) {
 		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, '<', $this->_logic, $this->_tableName);
@@ -107,7 +107,7 @@ class Mmi_Dao_Query_Field {
 	/**
 	 * Relacja większe-równe
 	 * @param mixed $value
-	 * @return \Mmi_Dao_Query
+	 * @return Mmi_Dao_Query
 	 */
 	public function greaterOrEquals($value) {
 		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, '>=', $this->_logic, $this->_tableName);
@@ -117,7 +117,7 @@ class Mmi_Dao_Query_Field {
 	/**
 	 * Relacja mniejsze-równe
 	 * @param type $value
-	 * @return \Mmi_Dao_Query
+	 * @return Mmi_Dao_Query
 	 */
 	public function lessOrEquals($value) {
 		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, '<=', $this->_logic, $this->_tableName);
@@ -127,7 +127,7 @@ class Mmi_Dao_Query_Field {
 	/**
 	 * Porównanie podobieństwa
 	 * @param string $value
-	 * @return \Mmi_Dao_Query
+	 * @return Mmi_Dao_Query
 	 */
 	public function like($value) {
 		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, 'LIKE', $this->_logic, $this->_tableName);
