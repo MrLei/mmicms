@@ -34,7 +34,8 @@ class Mmi_Json_Rpc_Server {
 	public function handle($className) {
 
 		//sprawdzanie czy dane które przyszły to json
-		if (!isset($_SERVER['CONTENT_TYPE']) || $_SERVER['CONTENT_TYPE'] != 'application/json') {
+		$contentType = Mmi_Controller_Front::getInstance()->getEnvironment()->contentType;
+		if ($contentType != 'application/json') {
 			die(json_encode(array(
 				'id' => null,
 				'result' => null,
