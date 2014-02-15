@@ -184,8 +184,20 @@ class Mmi_Controller_Router {
 				break;
 			}
 		}
-		if (!isset($params['lang']) && $this->_defaultLanguage !== null) {
-			$params['lang'] = $this->_defaultLanguage;
+		//dopasowanie bez lang i skin
+		if ((isset($params['skin']) || isset($params['lang'])) && empty($matched)) {
+			unset($params['skin']);
+			unset($params['lang']);
+			foreach ($this->getRoutes() as $route) {
+				/* @var $route Mmi_Controller_Router_Config_Route */
+				$currentParams = array_merge($route->default, $params);
+				$result = $this->_outputRouteApply($route, $currentParams);
+				if ($result['applied']) {
+					$url .= '/' . $result['url'];
+					$matched = $result['matched'];
+					break;
+				}
+			}
 		}
 		$params['module'] = isset($params['module']) ? $params['module'] : 'default';
 		$params['controller'] = isset($params['controller']) ? $params['controller'] : 'index';

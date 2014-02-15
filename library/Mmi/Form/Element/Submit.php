@@ -46,7 +46,11 @@ class Mmi_Form_Element_Submit extends Mmi_Form_Element_Abstract {
 	public function fetchField() {
 		$html = '<input ';
 		if (isset($this->_options['label'])) {
-			$this->_options['value'] = $this->_options['label'];
+			if ($this->_translatorEnabled) {
+				$this->_options['value'] = $this->getTranslate()->_($this->_options['label']);
+			} else {
+				$this->_options['value'] = $this->_options['label'];				
+			}
 		}
 		$html .= 'type="submit" ' . $this->_getHtmlOptions() . '/>';
 		return $html;
