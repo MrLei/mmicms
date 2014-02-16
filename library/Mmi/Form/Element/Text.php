@@ -43,6 +43,9 @@ class Mmi_Form_Element_Text extends Mmi_Form_Element_Abstract {
 			$filter = $this->_getFilter('Input');
 			$this->_options['value'] = $filter->filter($this->_options['value']);
 		}
+		if (isset($this->_options['placeholder']) && $this->_translatorEnabled && ($this->getTranslate() !== null)) {
+			$this->_options['placeholder'] = $this->getTranslate()->_($this->_options['placeholder']);
+		}
 		$html = '<input ';
 		$html .= 'type="text" ' . $this->_getHtmlOptions() . '/>';
 		return $html;
