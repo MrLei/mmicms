@@ -94,8 +94,9 @@ class Mmi_Controller_Router {
 	 * @return Mmi_Controller_Request
 	 */
 	public function processRequest(Mmi_Controller_Request $request) {
-		$request->setParams($this->_decodeGet());
+
 		$request->setParams($this->decodeUrl($this->_url));
+		$request->setParams($this->_decodeGet());
 		return $request;
 	}
 
