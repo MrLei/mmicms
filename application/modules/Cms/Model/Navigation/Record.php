@@ -124,6 +124,7 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 	}
 
 	protected function _clearCache() {
+		Default_Registry::$cache->remove('Mmi_Navigation_');
 		Default_Registry::$cache->remove('Mmi_Navigation_' . Mmi_Controller_Front::getInstance()->getRequest()->lang);
 		Default_Registry::$cache->remove('Mmi_Acl');
 	}
