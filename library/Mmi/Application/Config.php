@@ -67,7 +67,7 @@ class Mmi_Application_Config {
 	 * np. pl, en, fr
 	 * @var array
 	 */
-	public $languages = array('pl');
+	public $languages = array();
 
 	/**
 	 * Pluginy włączone w aplikacji

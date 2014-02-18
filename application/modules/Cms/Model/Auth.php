@@ -28,7 +28,7 @@ class Cms_Model_Auth implements Mmi_Auth_Model_Interface {
 				->andQuery($qUser);
 			$record = Cms_Model_Auth_Dao::findFirst($q);
 			if ($record !== null) {
-				$record->lastFailIp = (isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null);
+				$record->lastFailIp = Mmi_Controller_Front::getInstance()->getEnvironment()->remoteAddress;
 				$record->lastFailLog = date('Y-m-d H:i:s');
 				$record->failLogCount = $record->failLogCount + 1;
 				$record->save();
@@ -39,7 +39,7 @@ class Cms_Model_Auth implements Mmi_Auth_Model_Interface {
 			return false;
 		}
 		$record->roles = Cms_Model_Auth_Role_Dao::findPairsRolesByAuthId($record->id);
-		$record->lastIp = (isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null);
+		$record->lastIp = Mmi_Controller_Front::getInstance()->getEnvironment()->remoteAddress;
 		$record->lastLog = date('Y-m-d H:i:s');
 		Cms_Model_Log_Dao::add('login', array(
 			'object' => 'cms_auth',
@@ -61,7 +61,7 @@ class Cms_Model_Auth implements Mmi_Auth_Model_Interface {
 			return false;
 		}
 		$record->roles = Cms_Model_Auth_Role_Dao::findPairsRolesByAuthId($record->id);
-		$record->lastIp = (isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null);
+		$record->lastIp = Mmi_Controller_Front::getInstance()->getEnvironment()->remoteAddress;
 		$record->lastLog = date('Y-m-d H:i:s');
 		Cms_Model_Log_Dao::add('login', array(
 			'object' => 'cms_auth',
