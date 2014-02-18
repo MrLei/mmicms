@@ -7,8 +7,10 @@ class Cms_Model_Text_Dao extends Mmi_Dao {
 
 	public static function findByKeyLang($key, $lang) {
 		$q = self::newQuery()
-			->where('key')->eqals($key)
-			->andField('lang')->eqals($lang);
+			->where('key')->eqals($key);
+		if ($lang !== null) {
+			$q->andField('lang')->eqals($lang);
+		}
 		return self::findFirst($q);
 	}
 
@@ -16,7 +18,10 @@ class Cms_Model_Text_Dao extends Mmi_Dao {
 		if (empty(self::$_texts)) {
 			self::_initDictionary();
 		}
-		return isset(self::$_texts[$lang][$key]) ? self::$_texts[$lang][$key] : null;
+		if ($lang === null) {
+			$lang = 'none';
+		}
+		return (isset(self::$_texts[$lang][$key])) ? self::$_texts[$lang][$key] : null;
 	}
 
 	protected static function _initDictionary() {
@@ -24,6 +29,7 @@ class Cms_Model_Text_Dao extends Mmi_Dao {
 			self::$_texts = array();
 			foreach (self::find() as $text) {
 				self::$_texts[$text->lang][$text->key] = $text->content;
+				self::$_texts['none'][$text->key] = $text->content;
 			}
 			Default_Registry::$cache->save(self::$_texts, 'Cms_Text', 86400);
 		}
