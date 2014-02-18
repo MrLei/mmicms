@@ -1,0 +1,45 @@
+.chart {
+	height: 150px;
+	width: 950px;
+}
+
+h1.charts {
+	padding: 0px;
+	margin-bottom: 10px;
+}
+
+h2.charts {
+	padding: 0px;
+	margin-bottom: 10px;
+	font-size: 16px;
+}
+
+h4 {
+	padding: 10px 0px 0px 0px!important;
+	margin: 0px!important;
+}
+
+#monthlyChart {
+	width: 550px;
+	float: left;
+}
+
+#yearlyChart {
+	width: 400px;
+	float: left;
+}
+
+#avgHourlyChart {
+	width: 475px;
+	float: left;
+}
+
+#avgHourlyAllChart {
+	width: 475px;
+	float: left;
+}
+
+form div {
+	float: left;
+	margin: 0px 10px 0px 0px;
+}
