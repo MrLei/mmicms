@@ -29,8 +29,10 @@ class Mail_Model_Dao extends Mmi_Dao {
 	 */
 	public static function pushEmail($name, $to, array $params = array(), $fromName = null, $replyTo = null, $subject = null, $sendAfter = null, array $attachments = array()) {
 		$q = self::newQuery()
-			->where('name')->eqals($name)
-			->andField('lang')->eqals(Mmi_Controller_Front::getInstance()->getRequest()->lang);
+			->where('name')->eqals($name);
+		if (Mmi_Controller_Front::getInstance()->getRequest()->lang !== null) {
+			$q->andField('lang')->eqals(Mmi_Controller_Front::getInstance()->getRequest()->lang);
+		}
 		$def = Mail_Model_Definition_Dao::findFirst($q);
 		if ($def === null) {
 			return false;

@@ -227,7 +227,7 @@ class Mmi_Auth {
 		$this->_session->email = $result->email;
 		$this->_session->lang = $result->lang;
 		$this->_session->roles = $result->roles;
-		$this->_session->ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null;
+		$this->_session->ip = Mmi_Controller_Front::getInstance()->getEnvironment()->remoteAddress;
 		return true;
 	}
 
@@ -244,7 +244,7 @@ class Mmi_Auth {
 			$this->_session->email = $result->email;
 			$this->_session->lang = $result->lang;
 			$this->_session->roles = $result->roles;
-			$this->_session->ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null;
+			$this->_session->ip = Mmi_Controller_Front::getInstance()->getEnvironment()->remoteAddress;
 		}
 		return true;
 	}
@@ -255,8 +255,8 @@ class Mmi_Auth {
 	 * @param string $errorMessage treść komunikatu zwrotnego - błędnego
 	 */
 	public function httpAuth($realm = '', $errorMessage = '') {
-		$identity = isset($_SERVER['PHP_AUTH_USER']) ? $_SERVER['PHP_AUTH_USER'] : '';
-		$credential = isset($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : '';
+		$identity = Mmi_Controller_Front::getInstance()->getEnvironment()->authUser;
+		$credential = Mmi_Controller_Front::getInstance()->getEnvironment()->authPassword;
 
 		$this->setIdentity($identity);
 		$this->setCredential($credential);

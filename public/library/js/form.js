@@ -30,7 +30,7 @@ function fieldValidationOnBlur(element) {
 	if ('checkbox' === $(element).attr('type') && !$(element).prop('checked')) {
 		fieldValue = '0';
 	}
-	$.post(request.baseUrl + '/' + request.lang + '/cms/form/validate' + param,
+	$.post(request.baseUrl + '/cms/form/validate' + param,
 		{ctrl: $('#' + formId + '__ctrl').val(), field: name, value: urlencode(fieldValue)},
 		function (result) {
 			if (result) {

@@ -72,6 +72,9 @@ class Mmi_Translate {
 	 * @return Mmi_Translate
 	 */
 	public function addTranslation($sourceFile, $locale) {
+		if ($locale === null) {
+			return $this;
+		}
 		$data = $this->_parseTranslationFile($sourceFile, $locale == $this->_defaultLocale);
 		$this->_languages[$locale] = $sourceFile;
 		if (isset($this->_data[$locale])) {
@@ -132,9 +135,10 @@ class Mmi_Translate {
 	 * @return string
 	 */
 	public function _($key) {
-		if ($this->_locale == $this->_defaultLocale) {
+		if ($this->_locale === null || $this->_locale == $this->_defaultLocale) {
 			return $key;
-		} elseif (isset($this->_data[$this->_locale][$key])) {
+		}
+		if (isset($this->_data[$this->_locale][$key])) {
 			return $this->_data[$this->_locale][$key];
 		}
 		$this->_logUntranslated($key);
@@ -177,7 +181,8 @@ class Mmi_Translate {
 	 */
 	private function _logUntranslated($key) {
 		$log = fopen(TMP_PATH . '/log/error.translation.log', 'a');
-		fwrite($log, date('Y-m-d H:i:s') . ' ' . $_SERVER['REQUEST_URI'] . ' [' . $this->_locale . '] {#' . $key . "#}\n");
+		$requestUri = Mmi_Controller_Front::getInstance()->getEnvironment()->requestUri;
+		fwrite($log, date('Y-m-d H:i:s') . ' ' . $requestUri . ' [' . $this->_locale . '] {#' . $key . "#}\n");
 		fclose($log);
 	}
 

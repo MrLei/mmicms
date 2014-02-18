@@ -78,7 +78,7 @@ class Mmi_View_Helper_Url extends Mmi_View_Helper_Abstract {
 		}
 		if ($absolute) {
 			$protocol = 'http://';
-			if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
+			if (Mmi_Controller_Front::getInstance()->getEnvironment()->httpSecure) {
 				$protocol = 'https://';
 			}
 			if (!is_null($https)) {
