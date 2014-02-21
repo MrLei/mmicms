@@ -22,7 +22,7 @@ CREATE INDEX fki_cms_acl_cms_role_id_fkey ON cms_acl (cms_role_id);
 
 CREATE TABLE cms_article (
     id INTEGER PRIMARY KEY,
-    lang character varying(2) NOT NULL,
+    lang character varying(2),
     title character varying(160) NOT NULL,
     uri character varying(160) NOT NULL,
     "dateAdd" DATETIME,

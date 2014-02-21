@@ -10,5 +10,4 @@ CREATE TABLE tutorial_form_test
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE tutorial_form_test
-  OWNER TO mmi;
+
