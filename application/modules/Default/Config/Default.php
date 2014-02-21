@@ -14,7 +14,7 @@ class Default_Config_Default extends MmiCms_Config {
 
 		$this->router = new Default_Config_Router();
 		
-		$this->application->host = 'example.com';
+		$this->application->host = 'localhost';
 		$this->application->salt = 'salt-should-be-changed';
 		$this->application->skin = 'default';
 		$this->application->timeZone = 'Europe/Warsaw';
@@ -34,8 +34,14 @@ class Default_Config_Default extends MmiCms_Config {
 		$this->cache->path = TMP_PATH . '/cache';
 		$this->cache->lifetime = 300;
 
-		$this->db->driver = 'sqlite';
-		$this->db->host = BASE_PATH . '/database/sample.sqlite';
+		//$this->db->driver = 'sqlite';
+		//$this->db->host = BASE_PATH . '/database/sample.sqlite';
+		$this->db->driver = 'mysql';
+		$this->db->host = 'localhost';
+		$this->db->user = 'mmi';
+		$this->db->password = 'mmi';
+		$this->db->name = 'mmi';
+		$this->db->schema = 'mmi';
 		$this->db->charset = 'utf8';
 	}
 
