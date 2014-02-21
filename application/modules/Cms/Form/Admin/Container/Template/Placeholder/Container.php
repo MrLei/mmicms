@@ -41,6 +41,26 @@ class Cms_Form_Admin_Container_Template_Placeholder_Container extends Mmi_Form {
 		$this->addElement('text', 'params', array(
 			'label' => 'parametry'
 		));
+		
+		$this->addElement('text', 'marginTop', array(
+			'label' => 'margines górny',
+			'validators' => array('Integer'),
+		));
+
+		$this->addElement('text', 'marginRight', array(
+			'label' => 'margines prawy',
+			'validators' => array('Integer'),
+		));
+		
+		$this->addElement('text', 'marginBottom', array(
+			'label' => 'margines dolny',
+			'validators' => array('Integer'),
+		));
+		
+		$this->addElement('text', 'marginLeft', array(
+			'label' => 'margines lewy',
+			'validators' => array('Integer'),
+		));
 
 		$this->addElement('submit', 'submit', array(
 			'label' => 'zapisz placeholder'
