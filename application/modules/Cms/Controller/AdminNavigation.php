@@ -50,7 +50,7 @@ class Cms_Controller_AdminNavigation extends MmiCms_Controller_Admin {
 		if (!$this->_getParam('order')) {
 			die($this->view->getTranslate()->_('Przenoszenie nie powiodło się'));
 		}
-		parse_str(str_replace('&amp;', '&', $this->_getParam('order')), $order);
+		parse_str(str_replace(array('&amp;', '&#38;'), '&', $this->_getParam('order')), $order);
 		if (!isset($order['navigation-item'])) {
 			die($this->view->getTranslate()->_('Przenoszenie nie powiodło się'));
 		}
