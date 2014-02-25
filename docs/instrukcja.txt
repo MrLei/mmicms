@@ -1,0 +1,7 @@
+Instrukcja generowania dokumentacji:
+1. Pobieramy i instalujemy binarki:
+ - Graphviz (testowane na wersji 2.30) - http://graphviz.org/Download..php
+ - Doxygen (testowane na wersji 1.8.4) - http://www.stack.nl/~dimitri/doxygen/download.html
+
+2. Otwieramy doxygena i wczytujemy doxygen.mmi.conf
+3. Przechodzimy do zakładki Run i wciskamu Run doxygen
