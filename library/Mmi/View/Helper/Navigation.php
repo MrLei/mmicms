@@ -119,7 +119,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	 * @var Mmi_Acl
 	 */
 	private static $_acl;
-	
+
 	/**
 	 * Obiekt Auth
 	 * @var Mmi_Auth
@@ -135,7 +135,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 		self::$_navigation = $navigation;
 		return $navigation;
 	}
-	
+
 	/**
 	 * Ustawia obiekt autoryzacji
 	 * @param Mmi_Auth $auth

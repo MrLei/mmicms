@@ -115,16 +115,14 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 				" . $toolbarOptions . "
 				" . $themeOptions . "
 				" . $onInit . "
-				autoresize_min_height: 100,
-				image_list : [
-					{title: 'Image', value: request.baseUrl + '/cms/file/list/object/$object/objectId/$objectId/t/$t/hash/$hash'}
-				],
+				autoresize_min_height: 200,
+				image_list: request.baseUrl + '/cms/file/list/object/$object/objectId/$objectId/t/$t/hash/$hash',
 				document_base_url: request.baseUrl,
 				content_css : request.baseUrl + '/$skin/default/css/default.css',
 				convert_urls: false,
 				entity_encoding: 'raw',
 				relative_urls: false,
-				paste_data_images: true,
+				paste_data_images: false,
 				font_formats: 'Andale Mono=andale mono,times;'+
 					'Arial=arial,helvetica,sans-serif;'+
 					'Arial Black=arial black,avant garde;'+
