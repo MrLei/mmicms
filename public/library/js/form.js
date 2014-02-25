@@ -90,6 +90,7 @@ $(document).ready(function () {
 			} else {
 				$(this).parent().find('.sliderFrom.min').text(timeDecode(parseInt(inputMin.val(), 10)));
 				$(this).parent().find('.sliderTo.max').text(timeDecode(parseInt(inputMax.val(), 10)));
+				$(this).slider('option', 'values', [parseInt(inputMin.val(), 10), parseInt(inputMax.val(), 10)]);
 			}
 		},
 		calcRangeSlider = function (event, ui) {
@@ -109,6 +110,7 @@ $(document).ready(function () {
 				$(this).parent().find('.sliderTo.max').text(parseInt(inputMax.val(), 10));
 				$('#' + labelId + ' > .min').text(parseInt(inputMin.val(), 10));
 				$('#' + labelId + ' > .max').text(parseInt(inputMax.val(), 10));
+				$(this).slider('option', 'values', [parseInt(inputMin.val(), 10), parseInt(inputMax.val(), 10)]);
 			}
 		};
 
