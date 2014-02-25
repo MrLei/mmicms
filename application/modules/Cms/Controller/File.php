@@ -7,20 +7,18 @@ class Cms_Controller_File extends Mmi_Controller_Action {
 	}
 
 	public function listAction() {
-		header('Content-type: text/javascript');
+		Mmi_Controller_Front::getInstance()->getResponse()->setHeader('Content-type', 'application/json');
 		if (!$this->_getParam('object') || !$this->_getParam('objectId') || !$this->_getParam('hash') || !$this->_getParam('t')) {
 			die();
 		}
 		if ($this->_getParam('hash') != md5(Mmi_Session::getId() . '+' . $this->_getParam('t') . '+' . $this->_getParam('objectId'))) {
 			die();
 		}
-		$code = 'var tinyMCEImageList = new Array(';
+		$files = array();
 		foreach (Cms_Model_File_Dao::findImages($this->_getParam('object'), $this->_getParam('objectId')) as $file) {
-			$code .= '["' . $file->original . '", "' . $file->getUrl('scale', '320') . '"],';
+			$files[] = array('title' => $file->original, 'value' => $file->getUrl('scale', '600'));
 		}
-		$code = trim($code, ',');
-		$code .= ');';
-		die($code);
+		die(json_encode($files));
 	}
 
 	public function uploadAction() {
