@@ -140,9 +140,9 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 					'Verdana=verdana,geneva;'+
 					'Webdings=webdings;'+
 					'Wingdings=wingdings,zapf dingbats;'+
-					'EmpikBTT=empikb;'+
-					'EmpikLTT=empikl;'+
-					'EmpikRTT=empikr',
+					'EmpikBTT=EmpikBold;'+
+					'EmpikLTT=EmpikLight;'+
+					'EmpikRTT=EmpikRegular',
 				fontsize_formats: '1px 2px 3px 4px 6px 8px 9pc 10px 11px 12px 13px 14px 16px 18px 20px 22px 24px 26px 28px 36px 48px 50px 72px 100px'
 			});
 		");
