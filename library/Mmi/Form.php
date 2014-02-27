@@ -363,6 +363,7 @@ abstract class Mmi_Form {
 	 * @param string $type nazwa typu
 	 * @param string $name nazwa pola
 	 * @param array $options opcje
+	 * @return Mmi_Form_Element_Abstract
 	 */
 	public function addElement($type, $name, array $options = array()) {
 		//automatyczne dodawanie prefiksów do pól subformów
@@ -374,6 +375,7 @@ abstract class Mmi_Form {
 		$className = 'Mmi_Form_Element_' . ucfirst($type);
 		$this->_elements[$name] = new $className($name, $options);
 		$this->_elements[$name]->setForm($this);
+		return $this->_elements[$name];
 	}
 
 	/**

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -25,7 +26,7 @@
  * @subpackage Element
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
- abstract class Mmi_Form_Element_Abstract {
+abstract class Mmi_Form_Element_Abstract {
 
 	/**
 	 * Opcje pola
@@ -68,7 +69,7 @@
 	 * @var array
 	 */
 	protected $_renderingOrder = array(
-		'fetchErrors', 'fetchLabel', 'fetchField', 'fetchDescription'
+		'fetchErrors', 'fetchLabel', 'fetchField', 'fetchDescription', 'fetchCustomHtml'
 	);
 
 	/**
@@ -117,9 +118,11 @@
 	/**
 	 * Ustawia form macierzysty
 	 * @param Mmi_Form $form
+	 * @return Mmi_Form_Element_Abstract
 	 */
 	public function setForm(Mmi_Form $form) {
 		$this->_form = $form;
+		return $this;
 	}
 
 	/**
@@ -133,6 +136,7 @@
 	/**
 	 * Ustaw kolejność realizacji
 	 * @param array $renderingOrder
+	 * @return Mmi_Form_Element_Abstract
 	 */
 	public function setRenderingOrder(array $renderingOrder = array()) {
 		foreach ($renderingOrder as $method) {
@@ -141,6 +145,7 @@
 			}
 		}
 		$this->_renderingOrder = $renderingOrder;
+		return $this;
 	}
 
 	/**
@@ -157,12 +162,16 @@
 	/**
 	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora
 	 */
-	public function init() {}
+	public function init() {
+
+	}
 
 	/**
 	 * Funkcja użytkownika, jest wykonywana przed renderingiem
 	 */
-	public function preRender() {}
+	public function preRender() {
+
+	}
 
 	/**
 	 * Magicznie pobiera wartość z opcji
@@ -218,9 +227,11 @@
 	/**
 	 * Wyłącza translator
 	 * @param boolean $disable
+	 * @return Mmi_Form_Element_Abstract
 	 */
 	public final function setDisableTranslator($disable = true) {
 		$this->_translatorEnabled = !$disable;
+		return $this;
 	}
 
 	/**
@@ -271,7 +282,7 @@
 	public final function isIgnored() {
 		return (isset($this->_options['ignore']) && $this->_options['ignore']) ? true : false;
 	}
-	
+
 	/**
 	 * Zwraca czy pole jest wymagane
 	 * @return boolean
@@ -279,13 +290,57 @@
 	public final function isRequired() {
 		return (isset($this->_options['required']) && $this->_options['required']) ? true : false;
 	}
-	
+
 	/**
 	 * Ustawia czy pole jest wymagane
 	 * @param bool $value
+	 * @return Mmi_Form_Element_Abstract
 	 */
 	public final function setRequired($value) {
 		$this->_options['required'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Ustawia html użytkownika
+	 * @param string $html
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public final function setCustomHtml($html) {
+		$this->_options['customHtml'] = $html;
+		return $this;
+	}
+
+	/**
+	 * Ustawia wszystkie opcje wyboru na podstawie tabeli
+	 * @param array $multiOptions opcje
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public function setMultiOptions(array $multiOptions = array()) {
+		$this->_options['multiOptions'] = $multiOptions;
+		return $this;
+	}
+
+	/**
+	 * Zwraca multi opcje pola
+	 * @return array
+	 */
+	public function getMultiOptions() {
+		return isset($this->_options['multiOptions']) ? $this->_options['multiOptions'] : array();
+	}
+
+	/**
+	 * Dodaje opcję wyboru
+	 * @param string $value wartość
+	 * @param string $caption nazwa
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public function addMultiOption($value, $caption) {
+		if (!isset($this->_options['multiOptions']) || !is_array($this->_options['multiOptions'])) {
+			$this->_options['multiOptions'] = array();
+		}
+		$this->_options['multiOptions'][$value] = $caption;
+		return $this;
 	}
 
 	/**
@@ -298,7 +353,7 @@
 			if (!is_array($this->getValidators())) {
 				return true;
 			}
-			foreach($this->getValidators() as $validator) {
+			foreach ($this->getValidators() as $validator) {
 				$options = array();
 				$message = null;
 				if (is_array($validator)) {
@@ -347,6 +402,7 @@
 	/**
 	 * Dodaje klasę do elementu
 	 * @param string $className nazwa klasy
+	 * @return Mmi_Form_Element_Abstract
 	 */
 	public final function addClass($className) {
 		$this->_options['class'] = trim($this->_options['class'] .= ' ' . $className);
@@ -386,77 +442,6 @@
 			$value = $filter->filter($value);
 		}
 		return $value;
-	}
-
-	/**
-	 * Pobiera obiekt filtra
-	 * @param string $name nazwa filtra
-	 * @return Mmi_Filter_Interface
-	 */
-	protected final function _getFilter($name) {
-		$name = ucfirst($name);
-		$structure = Mmi_Controller_Front::getInstance()->getStructure('library');
-		foreach ($structure as $libName => $lib) {
-			if (isset($lib['Filter'][$name])) {
-				$className = $libName . '_Filter_' . $name;
-			}
-		}
-		if (!isset($className)) {
-			throw new Exception('Unknown filter: ' . $name);
-		}
-		return new $className();
-	}
-
-	/**
-	 * Pobiera nazwę walidatora
-	 * @param string $name nazwa walidatora
-	 * @return Mmi_Validate_Abstract
-	 */
-	protected final function _getValidator($name) {
-		$name = ucfirst($name);
-		$structure = Mmi_Controller_Front::getInstance()->getStructure('library');
-		foreach ($structure as $libName => $lib) {
-			if (isset($lib['Validate'][$name])) {
-				$className = $libName . '_Validate_' . $name;
-			}
-		}
-		if (!isset($className)) {
-			throw new Exception('Unknown validator: ' . $name);
-		}
-		return new $className();
-	}
-
-	/**
-	 * Buduje opcje HTML
-	 * @return string
-	 */
-	protected final function _getHtmlOptions() {
-		$options = $this->_options;
-		if (isset($options['validators']) && !isset($options['noAjax'])) {
-			$options['class'] = trim((isset($options['class']) ? $options['class'] . ' validate' : 'validate'));
-		}
-		unset($options['decorators']);
-		unset($options['description']);
-		unset($options['filters']);
-		unset($options['ignore']);
-		unset($options['label']);
-		unset($options['labelPostfix']);
-		unset($options['markRequired']);
-		unset($options['multiOptions']);
-		unset($options['labelClass']);
-		unset($options['options']);
-		unset($options['required']);
-		unset($options['translatorDisabled']);
-		unset($options['validators']);
-		unset($options['divideClass']);
-		if (isset($options['disabled']) && empty($options['disabled'])) {
-			unset($options['disabled']);
-		}
-		$html = '';
-		foreach ($options as $key => $value) {
-			$html .= $key . '="' . str_replace('"', '&quot;', $value) . '" ';
-		}
-		return $html;
 	}
 
 	/**
@@ -537,7 +522,7 @@
 		} else {
 			$description = $this->_options['description'];
 		}
-		return '<div'. $id . ' class="description">' . $description . '</div>';
+		return '<div' . $id . ' class="description">' . $description . '</div>';
 	}
 
 	/**
@@ -553,7 +538,7 @@
 		$html = '<div class="errors"' . $idHtml . '>';
 		if ($this->hasErrors()) {
 			$html .= '<ul>';
-			foreach($this->_errors as $error) {
+			foreach ($this->_errors as $error) {
 				if ($this->_translatorEnabled && ($this->getTranslate() !== null)) {
 					$err = $this->getTranslate()->_($error);
 				} else {
@@ -568,35 +553,86 @@
 	}
 
 	/**
-	 * Ustawia wszystkie opcje wyboru na podstawie tabeli
-	 * @param array $multiOptions opcje
-	 * @return Mmi_Form_Element_Select
+	 * Buduje wstrzyknięty kod użytkownika
+	 * @return string
 	 */
-	public function setMultiOptions(array $multiOptions = array()) {
-		$this->_options['multiOptions'] = $multiOptions;
-		return $this;
-	}
-
-	/**
-	 * Zwraca multi opcje pola
-	 * @return array
-	 */
-	public function getMultiOptions() {
-		return isset($this->_options['multiOptions']) ? $this->_options['multiOptions'] : array();
-	}
-
-	/**
-	 * Dodaje opcję wyboru
-	 * @param string $value wartość
-	 * @param string $caption nazwa
-	 * @return Mmi_Form_Element_Select
-	 */
-	public function addMultiOption($value, $caption) {
-		if (!isset($this->_options['multiOptions']) || !is_array($this->_options['multiOptions'])) {
-			$this->_options['multiOptions'] = array();
+	public final function fetchCustomHtml() {
+		if (!isset($this->_options['customHtml'])) {
+			return;
 		}
-		$this->_options['multiOptions'][$value] = $caption;
-		return $this;
+		return $this->_options['customHtml'];
+	}
+
+	/**
+	 * Pobiera obiekt filtra
+	 * @param string $name nazwa filtra
+	 * @return Mmi_Filter_Interface
+	 */
+	protected final function _getFilter($name) {
+		$name = ucfirst($name);
+		$structure = Mmi_Controller_Front::getInstance()->getStructure('library');
+		foreach ($structure as $libName => $lib) {
+			if (isset($lib['Filter'][$name])) {
+				$className = $libName . '_Filter_' . $name;
+			}
+		}
+		if (!isset($className)) {
+			throw new Exception('Unknown filter: ' . $name);
+		}
+		return new $className();
+	}
+
+	/**
+	 * Pobiera nazwę walidatora
+	 * @param string $name nazwa walidatora
+	 * @return Mmi_Validate_Abstract
+	 */
+	protected final function _getValidator($name) {
+		$name = ucfirst($name);
+		$structure = Mmi_Controller_Front::getInstance()->getStructure('library');
+		foreach ($structure as $libName => $lib) {
+			if (isset($lib['Validate'][$name])) {
+				$className = $libName . '_Validate_' . $name;
+			}
+		}
+		if (!isset($className)) {
+			throw new Exception('Unknown validator: ' . $name);
+		}
+		return new $className();
+	}
+
+	/**
+	 * Buduje opcje HTML
+	 * @return string
+	 */
+	protected final function _getHtmlOptions() {
+		$options = $this->_options;
+		if (isset($options['validators']) && !isset($options['noAjax'])) {
+			$options['class'] = trim((isset($options['class']) ? $options['class'] . ' validate' : 'validate'));
+		}
+		unset($options['decorators']);
+		unset($options['description']);
+		unset($options['filters']);
+		unset($options['ignore']);
+		unset($options['label']);
+		unset($options['labelPostfix']);
+		unset($options['markRequired']);
+		unset($options['multiOptions']);
+		unset($options['labelClass']);
+		unset($options['options']);
+		unset($options['required']);
+		unset($options['translatorDisabled']);
+		unset($options['validators']);
+		unset($options['divideClass']);
+		unset($options['customHtml']);
+		if (isset($options['disabled']) && empty($options['disabled'])) {
+			unset($options['disabled']);
+		}
+		$html = '';
+		foreach ($options as $key => $value) {
+			$html .= $key . '="' . str_replace('"', '&quot;', $value) . '" ';
+		}
+		return $html;
 	}
 
 }
