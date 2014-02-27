@@ -239,11 +239,11 @@ abstract class Mmi_Form_Element_Abstract {
 	 * @param string $name nazwa
 	 * @return Mmi_Form_Element_Abstract
 	 */
-	public final function addFilter($name) {
+	public final function addFilter($name, array $options = array()) {
 		if (!isset($this->_options['filters']) || !is_array($this->_options['filters'])) {
 			$this->_options['filters'] = array();
 		}
-		$this->_options['filters'][] = $name;
+		$this->_options['filters'][] = array('filter' => $name, 'options' => $options);
 		return $this;
 	}
 
@@ -436,30 +436,56 @@ abstract class Mmi_Form_Element_Abstract {
 	}
 
 	/**
+	 * Filtruje daną wartość za pomocą filtrów pola
+	 * @param mixed $value wartość
+	 * @return mixed wynik filtracji
+	 */
+	public final function applyFilters($value) {
+		if (!isset($this->_options['filters'])) {
+			return $value;
+		}
+		if (!is_array($this->_options['filters'])) {
+			return $value;
+		}
+		foreach ($this->_options['filters'] as $filter) {
+			$options = array();
+			if (is_array($filter)) {
+				$options = isset($filter['options']) ? $filter['options'] : array();
+				$filter = $filter['filter'];
+			}
+			$f = $this->_getFilter($filter);
+			$f->setOptions($options);
+			$value = $f->filter($value);
+		}
+		return $value;
+	}
+
+	/**
 	 * Waliduje pole i zwraca czy wpis w polu jest poprawny
 	 * @return boolean
 	 */
 	public final function isValid() {
 		$result = true;
-		if ($this->_options['required'] || $this->value != '') {
-			if (!is_array($this->getValidators())) {
-				return true;
+		//waliduje poprawnie jeśli niewymagane, ale tylko gdy niepuste
+		if (!($this->_options['required'] || $this->value != '')) {
+			return true;
+		}
+		if (!is_array($this->getValidators())) {
+			return true;
+		}
+		foreach ($this->getValidators() as $validator) {
+			$options = array();
+			$message = null;
+			if (is_array($validator)) {
+				$options = isset($validator['options']) ? $validator['options'] : array();
+				$message = isset($validator['message']) ? $validator['message'] : null;
+				$validator = $validator['validator'];
 			}
-			foreach ($this->getValidators() as $validator) {
-				$options = array();
-				$message = null;
-				if (is_array($validator)) {
-					$options = isset($validator['options']) ? $validator['options'] : array();
-					$message = isset($validator['message']) ? $validator['message'] : null;
-					$validator = $validator['validator'];
-				}
-				$validator = $this->_getValidator($validator);
-
-				$validator->setOptions($options);
-				if (!$validator->isValid($this->value)) {
-					$result = false;
-					$this->_errors[] = ($message !== null) ? $message : $validator->getError();
-				}
+			$v = $this->_getValidator($validator);
+			$v->setOptions($options);
+			if (!$v->isValid($this->value)) {
+				$result = false;
+				$this->_errors[] = ($message !== null) ? $message : $v->getError();
 			}
 		}
 		return $result;
@@ -502,28 +528,6 @@ abstract class Mmi_Form_Element_Abstract {
 		}
 		$this->_options['class'] = trim($this->_options['class'] .= ' ' . $className);
 		return $this;
-	}
-
-	/**
-	 * Filtruje daną wartość za pomocą filtrów pola
-	 * @param mixed $value wartość
-	 * @return mixed wynik filtracji
-	 */
-	public final function applyFilters($value) {
-		if (!isset($this->_options['filters']) || !is_array($this->_options['filters'])) {
-			return $value;
-		}
-		foreach ($this->_options['filters'] as $filter) {
-			$params = explode(':', $filter);
-			$filterName = $params[0];
-			array_shift($params);
-			$filter = $this->_getFilter($filterName);
-			if (!empty($params)) {
-				$filter->setOptions($params);
-			}
-			$value = $filter->filter($value);
-		}
-		return $value;
 	}
 
 	/**
