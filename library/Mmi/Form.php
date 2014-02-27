@@ -379,6 +379,231 @@ abstract class Mmi_Form {
 	}
 
 	/**
+	 * Zabezpieczenie spamowe
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_Antirobot
+	 */
+	public function addElementAntirobot($name) {
+		return $this->addElement('antirobot', $name);
+	}
+
+	/**
+	 * Autocomplete
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_Autocomplete
+	 */
+	public function addElementAutocomplete($name) {
+		return $this->addElement('autocomplete', $name);
+	}
+
+	/**
+	 * Button
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_Button
+	 */
+	public function addElementButton($name) {
+		return $this->addElement('button', $name);
+	}
+
+	/**
+	 * Captcha
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_Captcha
+	 */
+	public function addElementCaptcha($name) {
+		return $this->addElement('captcha', $name);
+	}
+
+	/**
+	 * Checkbox
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_Checkbox
+	 */
+	public function addElementCheckbox($name) {
+		return $this->addElement('checkbox', $name);
+	}
+
+	/**
+	 * Wybór koloru
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_ColorPicker
+	 */
+	public function addElementColorPicker($name) {
+		return $this->addElement('colorPicker', $name);
+	}
+
+	/**
+	 * Date picker
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_DatePicker
+	 */
+	public function addElementDatePicker($name) {
+		return $this->addElement('datePicker', $name);
+	}
+
+	/**
+	 * Date-time picker
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_DateTimePicker
+	 */
+	public function addElementDateTimePicker($name) {
+		return $this->addElement('dateTimePicker', $name);
+	}
+
+	/**
+	 * File
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_File
+	 */
+	public function addElementFile($name) {
+		return $this->addElement('file', $name);
+	}
+
+	/**
+	 * Hidden
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_Hidden
+	 */
+	public function addElementHidden($name) {
+		return $this->addElement('hidden', $name);
+	}
+
+	/**
+	 * Label
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_Label
+	 */
+	public function addElementLabel($name) {
+		return $this->addElement('label', $name);
+	}
+
+	/**
+	 * Multi-checkbox
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_MultiCheckbox
+	 */
+	public function addElementMultiCheckbox($name) {
+		return $this->addElement('multiCheckbox', $name);
+	}
+
+	/**
+	 * Password
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_Password
+	 */
+	public function addElementPassword($name) {
+		return $this->addElement('password', $name);
+	}
+
+	/**
+	 * Radio
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_Radio
+	 */
+	public function addElementRadio($name) {
+		return $this->addElement('radio', $name);
+	}
+
+	/**
+	 * Range slider
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_RangeSlider
+	 */
+	public function addElementRangeSlider($name) {
+		return $this->addElement('rangeSlider', $name);
+	}
+
+	/**
+	 * Range-time slider
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_RangeTimeSlider
+	 */
+	public function addElementRangeTimeSlider($name) {
+		return $this->addElement('rangeTimeSlider', $name);
+	}
+
+	/**
+	 * Ratings
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_Ratings
+	 */
+	public function addElementRatings($name) {
+		return $this->addElement('ratings', $name);
+	}
+
+	/**
+	 * Select
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_Select
+	 */
+	public function addElementSelect($name) {
+		return $this->addElement('select', $name);
+	}
+
+	/**
+	 * Slider
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_Slider
+	 */
+	public function addElementSlider($name) {
+		return $this->addElement('slider', $name);
+	}
+
+	/**
+	 * Submit
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_Submit
+	 */
+	public function addElementSubmit($name) {
+		return $this->addElement('submit', $name);
+	}
+
+	/**
+	 * Text
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_Text
+	 */
+	public function addElementText($name) {
+		return $this->addElement('text', $name);
+	}
+
+	/**
+	 * Textarea
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_Textarea
+	 */
+	public function addElementTextarea($name) {
+		return $this->addElement('textarea', $name);
+	}
+
+	/**
+	 * Time slider
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_TimeSlider
+	 */
+	public function addElementTimeSlider($name) {
+		return $this->addElement('timeSlider', $name);
+	}
+
+	/**
+	 * TinyMce
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_TinyMce
+	 */
+	public function addElementTinyMce($name) {
+		return $this->addElement('tinyMce', $name);
+	}
+
+	/**
+	 * Uploader
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_Uploader
+	 */
+	public function addElementUploader($name) {
+		return $this->addElement('uploader', $name);
+	}
+
+	/**
 	 * Dodawanie elementu formularza z gotowego obiektu
 	 * @param Mmi_Form_Element_Abstract $element obiekt elementu formularza
 	 */
