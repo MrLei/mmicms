@@ -47,18 +47,6 @@ abstract class Mmi_Form_Element_Abstract {
 	protected $_errors = array();
 
 	/**
-	 * Znacznik wymagania
-	 * @var string
-	 */
-	protected $_requiredAsterisk = '*';
-
-	/**
-	 * Postfix labelki
-	 * @var string
-	 */
-	protected $_labelPostfix = ':';
-
-	/**
 	 * Formularz macierzysty
 	 * @var Mmi_Form
 	 */
@@ -77,15 +65,19 @@ abstract class Mmi_Form_Element_Abstract {
 	 * @return string
 	 */
 	public function __toString() {
-		$this->preRender();
-		$html = $this->fetchBegin();
-		foreach ($this->_renderingOrder as $method) {
-			if (!method_exists($this, $method)) {
-				continue;
+		try {
+			$this->preRender();
+			$html = $this->fetchBegin();
+			foreach ($this->_renderingOrder as $method) {
+				if (!method_exists($this, $method)) {
+					continue;
+				}
+				$html .= $this->{$method}();
 			}
-			$html .= $this->{$method}();
+			$html .= $this->fetchEnd();
+		} catch (Exception $e) {
+			$html = $e->getMessage();
 		}
-		$html .= $this->fetchEnd();
 		return $html;
 	}
 
@@ -99,11 +91,14 @@ abstract class Mmi_Form_Element_Abstract {
 		if (!isset($this->_options['required'])) {
 			$this->_options['required'] = false;
 		}
+		if (!isset($this->_options['requiredAsterisk'])) {
+			$this->_options['requiredAsterisk'] = '*';
+		}
 		if (!isset($this->_options['markRequired'])) {
 			$this->_options['markRequired'] = true;
 		}
-		if (isset($this->_options['labelPostfix'])) {
-			$this->_labelPostfix = $this->_options['labelPostfix'];
+		if (!isset($this->_options['labelPostfix'])) {
+			$this->_options['labelPostfix'] = ':';
 		}
 		if (!isset($this->_options['ignore'])) {
 			$this->_options['ignore'] = false;
@@ -113,64 +108,6 @@ abstract class Mmi_Form_Element_Abstract {
 		}
 		$this->_options['name'] = $name;
 		$this->init();
-	}
-
-	/**
-	 * Ustawia form macierzysty
-	 * @param Mmi_Form $form
-	 * @return Mmi_Form_Element_Abstract
-	 */
-	public function setForm(Mmi_Form $form) {
-		$this->_form = $form;
-		return $this;
-	}
-
-	/**
-	 * Pobranie formularza macierzystego
-	 * @return Mmi_Form
-	 */
-	public function getForm() {
-		return $this->_form;
-	}
-
-	/**
-	 * Ustaw kolejność realizacji
-	 * @param array $renderingOrder
-	 * @return Mmi_Form_Element_Abstract
-	 */
-	public function setRenderingOrder(array $renderingOrder = array()) {
-		foreach ($renderingOrder as $method) {
-			if (!method_exists($this, $method)) {
-				throw new Exception('Unknown rendering method');
-			}
-		}
-		$this->_renderingOrder = $renderingOrder;
-		return $this;
-	}
-
-	/**
-	 * Ustawia postfix labela
-	 * @param string $labelPostfix
-	 * @return Mmi_Form_Element_Abstract
-	 */
-	public function setLabelPostfix($labelPostfix) {
-		$this->_labelPostfix = $labelPostfix;
-		$this->__set('labelPostfix', $labelPostfix);
-		return $this;
-	}
-
-	/**
-	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora
-	 */
-	public function init() {
-
-	}
-
-	/**
-	 * Funkcja użytkownika, jest wykonywana przed renderingiem
-	 */
-	public function preRender() {
-
 	}
 
 	/**
@@ -192,14 +129,6 @@ abstract class Mmi_Form_Element_Abstract {
 	}
 
 	/**
-	 * Magicznie usuwa opcję o danym kluczu
-	 * @param string $key klucz
-	 */
-	public final function __unset($key) {
-		unset($this->_options[$key]);
-	}
-
-	/**
 	 * Magicznie sprawdza istnienie opcji o danym kluczu
 	 * @param klucz $key string
 	 * @return boolean
@@ -209,19 +138,226 @@ abstract class Mmi_Form_Element_Abstract {
 	}
 
 	/**
-	 * Ustawia wartość pola formularza
-	 * @param mixed $value wartość
+	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora
 	 */
-	public final function setValue($value) {
-		$this->_options['value'] = $value;
+	public function init() {
+
+	}
+
+	/**
+	 * Funkcja użytkownika, jest wykonywana przed renderingiem
+	 */
+	public function preRender() {
+
 	}
 
 	/**
 	 * Ustawia nazwę pola formularza
 	 * @param mixed $name wartość
+	 * @return Mmi_Form_Element_Abstract
 	 */
 	public final function setName($name) {
 		$this->_options['name'] = $name;
+		return $this;
+	}
+
+	/**
+	 * Ustawia wartość pola formularza
+	 * @param mixed $value wartość
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public final function setValue($value) {
+		$this->_options['value'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Ustawia form macierzysty
+	 * @param Mmi_Form $form
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public final function setForm(Mmi_Form $form) {
+		$this->_form = $form;
+		return $this;
+	}
+
+	/**
+	 * Pobranie formularza macierzystego
+	 * @return Mmi_Form
+	 */
+	public final function getForm() {
+		return $this->_form;
+	}
+
+	/**
+	 * Ustaw kolejność realizacji
+	 * @param array $renderingOrder
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public final function setRenderingOrder(array $renderingOrder = array()) {
+		foreach ($renderingOrder as $method) {
+			if (!method_exists($this, $method)) {
+				throw new Exception('Unknown rendering method');
+			}
+		}
+		$this->_renderingOrder = $renderingOrder;
+		return $this;
+	}
+
+	/**
+	 * Wyłącza ajax dla formularza
+	 * @param bool $disable default: true
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public final function setAjaxDisable($disable = true) {
+		$this->_options['noAjax'] = $disable;
+		return $this;
+	}
+
+	/**
+	 * Ustawia opis
+	 * @param string $description
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public final function setDescription($description) {
+		$this->_options['description'] = $description;
+		return $this;
+	}
+
+	/**
+	 * Ustawia placeholder (HTML5)
+	 * @param string $placeholder
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public final function setPlaceholder($placeholder) {
+		$this->_options['placeholder'] = $placeholder;
+		return $this;
+	}
+
+	/**
+	 * Dodaje filtr
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public final function addFilter($name) {
+		if (!isset($this->_options['filters']) || !is_array($this->_options['filters'])) {
+			$this->_options['filters'] = array();
+		}
+		$this->_options['filters'][] = $name;
+		return $this;
+	}
+
+	/**
+	 * Ustawia ignorowanie pola
+	 * @param array $filters
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public final function setIgnore($ignore = true) {
+		$this->_options['ignore'] = ($ignore ? true : false);
+		return $this;
+	}
+
+	/**
+	 * Ustawia label pola
+	 * @param string $label
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public final function setLabel($label) {
+		$this->_options['label'] = $label;
+		return $this;
+	}
+
+	/**
+	 * Ustawia postfix labela
+	 * @param string $labelPostfix
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public final function setLabelPostfix($labelPostfix) {
+		$this->_options['labelPostfix'] = $labelPostfix;
+		return $this;
+	}
+
+	/**
+	 * Ustawia wymagalność pola
+	 * @param bool $markRequired
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public final function setMarkRequired($markRequired = true) {
+		$this->_options['markRequired'] = ($markRequired ? true : false);
+		return $this;
+	}
+
+	/**
+	 * Ustawia czy pole jest wymagane
+	 * @param bool $value
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public final function setRequired($required = true) {
+		$this->_options['required'] = $required;
+		return $this;
+	}
+
+	/**
+	 * Ustawia symbol gwiazdki pól wymaganych
+	 * @param string $symbol
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public final function setRequiredAsterisk($symbol) {
+		$this->_options['requiredAsterisk'] = $symbol;
+		return $this;
+	}
+
+	/**
+	 * Ustawia wszystkie opcje wyboru na podstawie tabeli
+	 * @param array $multiOptions opcje
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public function setMultiOptions(array $multiOptions = array()) {
+		$this->_options['multiOptions'] = $multiOptions;
+		return $this;
+	}
+
+	/**
+	 * Dodaje opcję wyboru
+	 * @param string $value wartość
+	 * @param string $caption nazwa
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public function addMultiOption($value, $caption) {
+		if (!isset($this->_options['multiOptions']) || !is_array($this->_options['multiOptions'])) {
+			$this->_options['multiOptions'] = array();
+		}
+		$this->_options['multiOptions'][$value] = $caption;
+		return $this;
+	}
+
+	/**
+	 * Dodaje walidator
+	 * @param string $value nazwa
+	 * @param string $options opcje
+	 * @param string $message wiadomość
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public function addValidator($name, array $options = array(), $message = null) {
+		if (!isset($this->_options['validators']) || !is_array($this->_options['validators'])) {
+			$this->_options['validators'] = array();
+		}
+		$validator = array('validator' => $name, 'options' => $options);
+		if ($message !== null) {
+			$validator['message'] = $message;
+		}
+		$this->_options['validators'][] = $validator;
+		return $this;
+	}
+
+	/**
+	 * Ustawia html użytkownika
+	 * @param string $html
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public final function setCustomHtml($html) {
+		$this->_options['customHtml'] = $html;
+		return $this;
 	}
 
 	/**
@@ -292,55 +428,11 @@ abstract class Mmi_Form_Element_Abstract {
 	}
 
 	/**
-	 * Ustawia czy pole jest wymagane
-	 * @param bool $value
-	 * @return Mmi_Form_Element_Abstract
-	 */
-	public final function setRequired($value) {
-		$this->_options['required'] = $value;
-		return $this;
-	}
-
-	/**
-	 * Ustawia html użytkownika
-	 * @param string $html
-	 * @return Mmi_Form_Element_Abstract
-	 */
-	public final function setCustomHtml($html) {
-		$this->_options['customHtml'] = $html;
-		return $this;
-	}
-
-	/**
-	 * Ustawia wszystkie opcje wyboru na podstawie tabeli
-	 * @param array $multiOptions opcje
-	 * @return Mmi_Form_Element_Abstract
-	 */
-	public function setMultiOptions(array $multiOptions = array()) {
-		$this->_options['multiOptions'] = $multiOptions;
-		return $this;
-	}
-
-	/**
 	 * Zwraca multi opcje pola
 	 * @return array
 	 */
 	public function getMultiOptions() {
 		return isset($this->_options['multiOptions']) ? $this->_options['multiOptions'] : array();
-	}
-
-	/**
-	 * Dodaje opcję wyboru
-	 * @param string $value wartość
-	 * @param string $caption nazwa
-	 * @return Mmi_Form_Element_Abstract
-	 */
-	public function addMultiOption($value, $caption) {
-		if (!isset($this->_options['multiOptions']) || !is_array($this->_options['multiOptions'])) {
-			$this->_options['multiOptions'] = array();
-		}
-		$this->_options['multiOptions'][$value] = $caption;
-		return $this;
 	}
 
 	/**
@@ -405,20 +497,10 @@ abstract class Mmi_Form_Element_Abstract {
 	 * @return Mmi_Form_Element_Abstract
 	 */
 	public final function addClass($className) {
-		$this->_options['class'] = trim($this->_options['class'] .= ' ' . $className);
-		return $this;
-	}
-
-	/**
-	 * Dodaje filtr
-	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_Abstract
-	 */
-	public final function addFilter($name) {
-		if (!isset($this->_options['filters']) || !is_array($this->_options['filters'])) {
-			$this->_options['filters'] = array();
+		if (!isset($this->_options['class'])) {
+			$this->_options['class'] = '';
 		}
-		$this->_options['filters'][] = $name;
+		$this->_options['class'] = trim($this->_options['class'] .= ' ' . $className);
 		return $this;
 	}
 
@@ -485,7 +567,7 @@ abstract class Mmi_Form_Element_Abstract {
 		}
 		if (isset($this->_options['required']) && $this->_options['required'] && isset($this->_options['markRequired']) && $this->_options['markRequired']) {
 			$requiredClass = ' class="required"';
-			$required = '<span class="required">' . $this->_requiredAsterisk . '</span>';
+			$required = '<span class="required">' . $this->_options['requiredAsterisk'] . '</span>';
 		} else {
 			$requiredClass = '';
 			$required = '';
@@ -495,7 +577,7 @@ abstract class Mmi_Form_Element_Abstract {
 		} else {
 			$label = $this->_options['label'];
 		}
-		return '<label' . $forHtml . $requiredClass . '>' . $label . $this->_labelPostfix . $required . '</label>';
+		return '<label' . $forHtml . $requiredClass . '>' . $label . $this->_options['labelPostfix'] . $required . '</label>';
 	}
 
 	/**
@@ -610,20 +692,19 @@ abstract class Mmi_Form_Element_Abstract {
 		if (isset($options['validators']) && !isset($options['noAjax'])) {
 			$options['class'] = trim((isset($options['class']) ? $options['class'] . ' validate' : 'validate'));
 		}
-		unset($options['decorators']);
 		unset($options['description']);
 		unset($options['filters']);
 		unset($options['ignore']);
 		unset($options['label']);
 		unset($options['labelPostfix']);
+		unset($options['labelAsterisk']);
 		unset($options['markRequired']);
 		unset($options['multiOptions']);
 		unset($options['labelClass']);
-		unset($options['options']);
 		unset($options['required']);
+		unset($options['requiredAsterisk']);
 		unset($options['translatorDisabled']);
 		unset($options['validators']);
-		unset($options['divideClass']);
 		unset($options['customHtml']);
 		if (isset($options['disabled']) && empty($options['disabled'])) {
 			unset($options['disabled']);
