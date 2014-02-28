@@ -6,27 +6,22 @@ class Cms_Form_Admin_Article extends Mmi_Form {
 
 	public function init() {
 
-		$this->addElement('text', 'title', array(
-			'label' => 'tytuł'
-		));
+		$this->addElementText('title')
+			->setLabel('tytuł');
 
-		$this->addElement('tinyMce', 'text', array(
-			'label' => 'treść artykułu',
-			'mode' => 'advanced'
-		));
+		$this->addElementTinyMce('text')
+			->setLabel('treść artykułu')
+			->setModeAdvanced();
 
-		$this->addElement('checkbox', 'noindex', array(
-			'label' => 'Bez indeksowania w google'
-		));
+		$this->addElementCheckbox('noindex')
+			->setLabel('Bez indeksowania w google');
 
 		//uploader
-		$this->addElement('uploader', 'uploader', array(
-			'label' => 'Załaduj pliki'
-		));
+		$this->addElementUploader('uploader')
+			->setLabel('Załaduj pliki');
 
-		$this->addElement('submit', 'submit', array(
-			'label' => 'zapisz stronę'
-		));
+		$this->addElementSubmit('submit')
+			->setLabel('zapisz stronę');
 	}
 
 }

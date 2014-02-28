@@ -6,19 +6,16 @@ class Cms_Form_Admin_Container_Template extends Mmi_Form {
 
 	public function init() {
 
-		$this->addElement('text', 'name', array(
-			'label' => 'nazwa szablonu',
-			'required' => true,
-			'validators' => array('NotEmpty'),
-		));
-		
-		$this->addElement('textarea', 'text', array(
-			'label' => 'kod szablonu',
-		));
+		$this->addElementText('name')
+			->setRequired()
+			->setLabel('nazwa szablonu')
+			->addValidatorNotEmpty();
 
-		$this->addElement('submit', 'submit', array(
-			'label' => 'zapisz szablon'
-		));
+		$this->addElementTextarea('test')
+			->setLabel('kod szablonu');
+
+		$this->addElementSubmit('submit')
+			->setLabel('zapisz szablon');
 	}
 
 }

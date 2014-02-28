@@ -27,6 +27,12 @@ class Cms_Form_Contact extends Mmi_Form {
 				array('validator' => 'EmailAddress'),
 			)
 		));
+		
+		$this->addElementText('email')
+			->setLabel('Twój adres email')
+			->setValue($auth->getEmail())
+			->setRequired()
+			->addValidatorEmailAddress();
 
 		$this->addElement('textarea', 'text', array(
 			'required' => true,
