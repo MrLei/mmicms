@@ -14,7 +14,7 @@ class Admin_Form_Login extends Mmi_Form {
 
 		$this->addElementPassword('password')
 			->setLabel('hasło')
-			->addValidator('stringLength', array(4, 128));
+			->addValidatorStringLength(4, 128);
 
 		$this->addElementSubmit('login')
 			->setLabel('Zaloguj się');

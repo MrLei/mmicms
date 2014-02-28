@@ -141,14 +141,14 @@ abstract class Mmi_Form_Element_Abstract {
 	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora
 	 */
 	public function init() {
-
+		
 	}
 
 	/**
 	 * Funkcja użytkownika, jest wykonywana przed renderingiem
 	 */
 	public function preRender() {
-
+		
 	}
 
 	/**
@@ -350,6 +350,147 @@ abstract class Mmi_Form_Element_Abstract {
 		return $this;
 	}
 
+	/**
+	 * Dodaje walidator alfanumeryczny
+	 * @param string $message opcjonalny komunikat błędu
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public function addValidatorAlnum($message = null) {
+		return $this->addValidator('alnum', array(), $message);
+	}
+
+	/**
+	 * Dodaje walidator dat
+	 * @param string $message opcjonalny komunikat błędu
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public function addValidatorDate($message = null) {
+		return $this->addValidator('date', array(), $message);
+	}
+
+	/**
+	 * Dodaje walidator e-maili
+	 * @param string $message opcjonalny komunikat błędu
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public function addValidatorEmailAddress($message = null) {
+		return $this->addValidator('emailAddress', array(), $message);
+	}
+
+	/**
+	 * Dodaje walidator równości z wartością
+	 * @param mixed $value wartość porównania
+	 * @param bool $isCheckbox czy checkbox
+	 * @param string $message opcjonalny komunikat błędu
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public function addValidatorEqual($value, $isCheckbox = false, $message = null) {
+		$isCheckbox = ($isCheckbox === true) ? true : false;
+		return $this->addValidator('equal', array('value' => $value, 'checkbox' => $isCheckbox), $message);
+	}
+
+	/**
+	 * Dodaje walidator numerów IBAN
+	 * @param string $countryPrefix kod kraju np. GB, PL
+	 * @param array $allowedCountries lista dozwolonych prefixów
+	 * @param $message opcjonalny komunikat błędu
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public function addValidatorIban($countryPrefix = 'PL', array $allowedCountries = array(), $message = null) {
+		return $this->addValidator('iban', array($countryPrefix, $allowedCountries), $message);
+	}
+
+	/**
+	 * Walidacja całkowitych
+	 * @param bool $positive czy tylko naturalne
+	 * @param string $message opcjonalny komunikat błędu
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public function addValidatorInteger($positive = false, $message = null) {
+		return $this->addValidator('integer', array('positive' => $positive), $message);
+	}
+
+	/**
+	 * Walidacja udziału wielkich liter
+	 * @param int $percent maksymalny udział
+	 * @param string $message opcjonalny komunikat błędu
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public function addValidatorLargeSmall($percent = 40, $message = null) {
+		return $this->addValidator('largeSmall', array($percent), $message);
+	}
+
+	/**
+	 * Walidacja wypełnienia pola
+	 * @param string $message opcjonalny komunikat błędu
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public function addValidatorNotEmpty($message = null) {
+		return $this->addValidator('notEmpty', array(), $message);
+	}
+
+	/**
+	 * Walidacja od/do
+	 * @param mixed $from większa od
+	 * @param mixed $to mniejsza od
+	 * @param string $message opcjonalny komunikat błędu
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public function addValidatorValueBetween($from, $to, $message = null) {
+		return $this->addValidator('numberBetween', array($from, $to), $message);
+	}
+
+	/**
+	 * Walidacja numeryczna
+	 * @param string $message opcjonalny komunikat błędu
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public function addValidatorNumeric($message = null) {
+		return $this->addValidator('numeric', array(), $message);
+	}
+
+	/**
+	 * Walidacja numeryczna
+	 * @param string $message opcjonalny komunikat błędu
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public function addValidatorPostal($message = null) {
+		return $this->addValidator('postal', array(), $message);
+	}
+	
+	/**
+	 * Walidacja unikalności rekordu
+	 * @param Mmi_Dao $dao DAO
+	 * @param string $fieldName nazwa pola
+	 * @param int $id identyfikator istniejącego pola (domyślnie null)
+	 * @param string $message opcjonalny komunikat błędu
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public function addValidatorRecordUnique(Mmi_Dao $dao, $fieldName, $id = null, $message = null) {
+		return $this->addValidator('recordUnique', array($dao, $fieldName, $id), $message);
+	}
+	
+	/**
+	 * Walidacja regex
+	 * @param string $pattern wzorzec
+	 * @param string $message opcjonalny komunikat błędu
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public function addValidatorRegex($pattern, $message = null) {
+		return $this->addValidator('regex', array($pattern), $message);
+	}
+
+	/**
+	 * Walidacja długości ciągu znaków
+	 * @param int $from długość od
+	 * @param int $to długość do
+	 * @param string $message opcjonalny komunikat błędu
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public function addValidatorStringLength($from, $to, $message = null) {
+		return $this->addValidator('stringLength', array(intval($from), intval($to)), $message);
+	}
+	
 	/**
 	 * Ustawia html użytkownika
 	 * @param string $html

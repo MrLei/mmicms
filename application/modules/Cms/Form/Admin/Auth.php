@@ -6,17 +6,12 @@ class Cms_Form_Admin_Auth extends Mmi_Form {
 
 	public function init() {
 
-		$this->addElement('text', 'username', array(
-			'label' => 'nazwa użytkownika',
-			'required' => true,
-			'filters' => array(
-				'StringTrim'
-			),
-			'validators' => array(
-				'NotEmpty',
-			),
-		));
-
+		$this->addElementText('username')
+			->setLabel('nazwa użytkownika')
+			->setRequired()
+			->addFilter('stringTrim')
+			->addValidatorNotEmpty();
+		
 		$this->addElement('text', 'email', array(
 			'label' => 'adres e-mail',
 			'required' => true,

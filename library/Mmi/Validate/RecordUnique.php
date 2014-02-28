@@ -52,10 +52,7 @@ class Mmi_Validate_RecordUnique extends Mmi_Validate_Abstract {
 		$q = $dao::newQuery()
 				->where($field)->eqals($value);
 		if (isset($this->_options[2])) {
-			/* @var $qId Mmi_Dao_Query */
-			$qId = $dao::newQuery()
-					->where('id')->notEquals(intval($this->_options[2]));
-			$q->andQuery($qId);
+			$q->andField('id')->notEquals(intval($this->_options[2]));
 		}
 		if ($dao::count($q) > 0) {
 			$this->_error(self::EXISTS);
