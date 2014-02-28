@@ -76,9 +76,10 @@ class Mmi_View_Helper_HeadStyle extends Mmi_View_Helper_Abstract {
 			foreach ($style as $key => $value) {
 				$html .= $key. '="' . $value . '" ';
 			}
-			$html .= '/>';
+			$html = rtrim($html);
+			$html .= '>';
 			if (isset($styleContent)) {
-				$html .= PHP_EOL . '/* <![CDATA[ */' . PHP_EOL . $styleContent . PHP_EOL . '/* // ]]> */';
+				$html .= PHP_EOL . '/* <![CDATA[ */' . PHP_EOL . $styleContent . PHP_EOL . '/* ]]> */';
 				unset($styleContent);
 			}
 			$html .= '</style>';
@@ -157,6 +158,9 @@ class Mmi_View_Helper_HeadStyle extends Mmi_View_Helper_Abstract {
 		$cacheKey = 'Head_Style_Css_' . md5($fileName);
 		if (!$cache || (null === ($content = $cache->load($cacheKey)))) {
 			$content = file_get_contents(PUBLIC_PATH . '/' . $fileName);
+			$location = $this->view->baseUrl . '/' . dirname($fileName) . '/';
+			$content = str_replace(array('url(\'', 'url("'), 
+				array('url(\'' . $location, 'url("' . $location), $content);
 			$cache->save($content, $cacheKey, 864000);
 		}
 		return $content;
