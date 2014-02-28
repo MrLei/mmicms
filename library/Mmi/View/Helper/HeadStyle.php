@@ -91,7 +91,7 @@ class Mmi_View_Helper_HeadStyle extends Mmi_View_Helper_Abstract {
 	}
 	
 	/**
-	 * Dodaje na koniec stosu treść skryptu
+	 * Dodaje na koniec stosu treść css
 	 * @param string $style treść skryptu
 	 * @param array $params parametry dodatkowe
 	 * @param boolean $conditional warunek np. ie6
@@ -100,9 +100,31 @@ class Mmi_View_Helper_HeadStyle extends Mmi_View_Helper_Abstract {
 	public function appendStyle($style, array $params = array(), $conditional = '') {
 		return $this->setStyle($style, $params, false, $conditional);
 	}
+	
+	/**
+	 * Dodaje na koniec stosu treść pliku css
+	 * @param string $fileName nazwa pliku ze skryptem
+	 * @param array $params parametry dodatkowe
+	 * @param boolean $conditional warunek np. ie6
+	 * @return Mmi_View_Helper_HeadStyle
+	 */
+	public function appendStyleFile($fileName, array $params = array(), $conditional = '') {
+		return $this->appendStyle($this->_getStyleContent($fileName), $params, $conditional);
+	}
 
 	/**
-	 * Dodaje na początek stosu treść skryptu
+	 * Dodaje na początek stosu treść pliku css
+	 * @param string $fileName nazwa pliku ze skryptem
+	 * @param array $params parametry dodatkowe
+	 * @param boolean $conditional warunek np. ie6
+	 * @return Mmi_View_Helper_HeadStyle
+	 */
+	public function prependStyleFile($fileName, array $params = array(), $conditional = '') {
+		return $this->appendStyle($this->_getStyleContent($fileName), $params, $conditional);
+	}
+
+	/**
+	 * Dodaje na początek stosu treść css
 	 * @param string $style treść skryptu
 	 * @param array $params parametry dodatkowe
 	 * @param boolean $conditional warunek np. ie6
@@ -123,6 +145,21 @@ class Mmi_View_Helper_HeadStyle extends Mmi_View_Helper_Abstract {
 	public function setstyle($style, array $params = array(), $prepend = false, $conditional = '') {
 		$params = array_merge($params, array('type' => 'text/css', 'style' => $style));
 		return $this->headStyle($params, $prepend, $conditional);
+	}
+	
+	/**
+	 * Pobiera zawartość CSS
+	 * @param string $fileName
+	 * @return string
+	 */
+	protected function _getStyleContent($fileName) {
+		$cache = $this->view->getCache();
+		$cacheKey = 'Head_Style_Css_' . md5($fileName);
+		if (!$cache || (null === ($content = $cache->load($cacheKey)))) {
+			$content = file_get_contents(PUBLIC_PATH . '/' . $fileName);
+			$cache->save($content, $cacheKey, 864000);
+		}
+		return $content;
 	}
 
 }
