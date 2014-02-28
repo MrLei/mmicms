@@ -13,18 +13,18 @@ class Admin_Form_Password extends Mmi_Form {
 		$this->addElementPassword('password')
 			->setLabel('obecne hasło')
 			->setRequired()
-			->addValidator('notEmpty');
+			->addValidatorNotEmpty();
 
 		$this->addElementPassword('changePassword')
 			->setLabel('nowe hasło')
 			->setDescription('wpisz nowe hasło, co najmniej 4 znaki')
 			->setRequired()
-			->addValidator('stringLength', array(4, 128));
+			->addValidatorStringLength(4, 128);
 
 		$this->addElementPassword('confirmPassword')
 			->setLabel('powtórz nowe hasło')
 			->setRequired()
-			->addValidator('stringLength', array(4, 128));
+			->addValidatorStringLength(4, 128);
 
 		$this->addElementSubmit('change')
 			->setLabel('Zmień hasło');

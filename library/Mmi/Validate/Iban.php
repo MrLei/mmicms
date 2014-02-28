@@ -43,7 +43,7 @@ class Mmi_Validate_Iban extends Mmi_Validate_Abstract {
 	 */
 	public function isValid($value) {
 		$country = isset($this->_options[0]) ? $this->_options[0] : 'PL';
-		$limitCountries = isset($this->_options[1]) ? $this->_options[1] : false;
+		$limitCountries = isset($this->_options[1]) ? $this->_options[1] : array();
 		$trims = array(' ', '-', '_', '.', ',', '/', '|'); //znaki do usuniącia
 		$tmp = strtoupper(str_replace($trims, '', $value));
 		if (!isset($tmp[0])) {
@@ -54,7 +54,7 @@ class Mmi_Validate_Iban extends Mmi_Validate_Abstract {
 			$tmp = $country . $tmp;
 		}
 		$country = $tmp[0] . $tmp[1];
-		if ($limitCountries) {
+		if (is_array($limitCountries) && !empty($limitCountries)) {
 			if (is_string($limitCountries) && strlen($limitCountries) == 2 && $country != strtoupper($limitCountries)) {
 				$this->_error(self::INVALID_COUNTRY);
 				return false;
