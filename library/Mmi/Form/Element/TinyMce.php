@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -33,6 +34,51 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 	public function init() {
 		$this->addFilter('tinyMce');
 		return parent::init();
+	}
+	
+	/**
+	 * Ustawia tryb zaawansowany
+	 * @return Mmi_Form_Element_TinyMce
+	 */
+	public function setModeAdvanced() {
+		$this->_options['mode'] = 'advanced';
+		return $this;
+	}
+	
+	/**
+	 * Ustawia tryb domyślny
+	 * @return Mmi_Form_Element_TinyMce
+	 */
+	public function setModeDefault() {
+		$this->_options['mode'] = null;
+		return $this;
+	}
+	
+	/**
+	 * Ustawia tryb prosty
+	 * @return Mmi_Form_Element_TinyMce
+	 */
+	public function setModeSimple() {
+		$this->_options['mode'] = 'simple';
+		return $this;
+	}
+	
+	/**
+	 * Ustawia szerokość w px
+	 * @return Mmi_Form_Element_TinyMce
+	 */
+	public function setWidth($width) {
+		$this->_options['width'] = intval($width);
+		return $this;
+	}
+
+	/**
+	 * Ustawia wysokość w px
+	 * @return Mmi_Form_Element_TinyMce
+	 */
+	public function setHeight($height) {
+		$this->_options['heigth'] = intval($height);
+		return $this;
 	}
 
 	/**
@@ -95,9 +141,8 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 		$objectId = '';
 		/** opcjonalna funkcja wywoływana po załadowaniu edytorów */
 		$onInit = "";
-		if (isset($this->_options['oninit']) && $this->_options['oninit'])
-		{
-			$onInit = "oninit : '".$this->_options['oninit']."',";
+		if (isset($this->_options['oninit']) && $this->_options['oninit']) {
+			$onInit = "oninit : '" . $this->_options['oninit'] . "',";
 		}
 		if ($this->getForm()->hasRecord()) {
 			$object = $this->getForm()->getFileObjectName();
@@ -107,7 +152,7 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 		$hash = md5(Mmi_Session::getId() . '+' . $t . '+' . $objectId);
 		$view->headScript()->appendScript("
 			tinyMCE.init({
-				selector : '.".$class."',
+				selector : '." . $class . "',
 				language : 'pl',
 				" . $theme . "
 				" . $tskin . "
@@ -149,4 +194,5 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 
 		return parent::fetchField();
 	}
+
 }

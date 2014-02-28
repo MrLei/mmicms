@@ -27,6 +27,15 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_Select extends Mmi_Form_Element_Abstract {
+	
+	/**
+	 * Ustawia multiselect
+	 * @return Mmi_Form_Element_Select
+	 */
+	public function setMultiple() {
+		$this->_options['multiple'] = 'multiple';
+		return $this;
+	}
 
 	/**
 	 * Buduje pole

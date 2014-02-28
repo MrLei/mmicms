@@ -8,37 +8,30 @@ class Cms_Form_Admin_Contact extends Mmi_Form {
 	public function init() {
 
 		if (!$this->getOption('subjectId')) {
-			$this->addElement('select', 'cms_contact_option_id', array(
-				'disabled' => true,
-				'value' => $this->getOption('subjectId'),
-				'multiOptions' => Cms_Model_Contact_Option_Dao::findPairs('id', 'name', Cms_Model_Contact_Option_Dao::newQuery()->orderAsc('name')),
-				'label' => 'temat zapytania',
-				'ignore' => true
-			));
+			$this->addElementSelect('cms_contact_option_id')
+				->setDisabled()
+				->setIgnore()
+				->setValue($this->getOption('subjectId'))
+				->setMultiOptions(Cms_Model_Contact_Option_Dao::findPairs('id', 'name', Cms_Model_Contact_Option_Dao::newQuery()->orderAsc('name')))
+				->setLabel('temat zapytania');
 		}
 
-		$this->addElement('text', 'email', array(
-			'label' => 'e-mail',
-			'disabled' => true,
-			'value' => Default_Registry::$auth->getEmail(),
-			'validators' => array(
-				array('validator' => 'EmailAddress'),
-			)
-		));
+		$this->addElementText('email')
+			->setDisabled()
+			->setLabel('email')
+			->setValue(Default_Registry::$auth->getEmail())
+			->addValidatorEmailAddress();
 
-		$this->addElement('textarea', 'text', array(
-			'disabled' => true,
-			'label' => 'treść zapytania'
-		));
+		$this->addElementTextarea('text')
+			->setDisabled()
+			->setLabel('treść zapytania');
 
-		$this->addElement('textarea', 'reply', array(
-			'required' => true,
-			'label' => 'odpowiedź'
-		));
+		$this->addElementTextarea('reply')
+			->setRequired()
+			->setLabel('odpowiedź');
 
-		$this->addElement('submit', 'submit', array(
-			'label' => 'odpowiedz'
-		));
+		$this->addElementSubmit('submit')
+			->setLabel('odpowiedz');
 	}
 
 }

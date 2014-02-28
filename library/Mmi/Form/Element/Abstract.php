@@ -249,11 +249,35 @@ abstract class Mmi_Form_Element_Abstract {
 
 	/**
 	 * Ustawia ignorowanie pola
-	 * @param array $filters
+	 * @param bool $ignore
 	 * @return Mmi_Form_Element_Abstract
 	 */
 	public final function setIgnore($ignore = true) {
 		$this->_options['ignore'] = ($ignore ? true : false);
+		return $this;
+	}
+
+	/**
+	 * Ustawia wyłączenie pola
+	 * @param bool $disabled
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public final function setDisabled($disabled = true) {
+		if ($disabled) {
+			$this->_options['disabled'] = '';
+		}
+		return $this;
+	}
+	
+	/**
+	 * Ustawia pole do odczytu
+	 * @param readOnly $disable
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public final function setReadOnly($readOnly = true) {
+		if ($readOnly) {
+			$this->_options['readonly'] = '';
+		}
 		return $this;
 	}
 
@@ -851,7 +875,7 @@ abstract class Mmi_Form_Element_Abstract {
 		unset($options['translatorDisabled']);
 		unset($options['validators']);
 		unset($options['customHtml']);
-		if (isset($options['disabled']) && empty($options['disabled'])) {
+		if (isset($options['disabled']) && is_array($options['disabled']) && empty($options['disabled'])) {
 			unset($options['disabled']);
 		}
 		$html = '';
