@@ -78,7 +78,7 @@ class Mmi_Form_Element_RangeTimeSlider extends Mmi_Form_Element_Abstract {
 		} else {
 			$label = $this->_options['label'];
 		}
-		return '<label' . $forHtml . $requiredClass . '>' . $label . $this->_labelPostfix . $required . '</label>';
+		return '<label' . $forHtml . $requiredClass . '>' . $label . $this->_options['labelPostfix'] . $required . '</label>';
 	}
 
 }

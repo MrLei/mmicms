@@ -354,6 +354,17 @@ abstract class Mmi_Form_Element_Abstract {
 		$this->_options['multiOptions'][$value] = $caption;
 		return $this;
 	}
+	
+	/**
+	 * Ustawia dowolną opcję
+	 * @param string $key klucz
+	 * @param string $value wartość
+	 * @return Mmi_Form_Element_Abstract
+	 */
+	public final function setOption($key, $value) {
+		$this->_options[$key] = $value;
+		return $this;
+	}
 
 	/**
 	 * Dodaje walidator
@@ -875,7 +886,7 @@ abstract class Mmi_Form_Element_Abstract {
 		unset($options['translatorDisabled']);
 		unset($options['validators']);
 		unset($options['customHtml']);
-		if (isset($options['disabled']) && is_array($options['disabled']) && empty($options['disabled'])) {
+		if (isset($options['disabled']) && empty($options['disabled'])) {
 			unset($options['disabled']);
 		}
 		$html = '';

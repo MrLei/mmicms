@@ -31,7 +31,7 @@ class Mmi_Form_Element_Label extends Mmi_Form_Element_Abstract {
 	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora
 	 */
 	public function init() {
-		$this->_labelPostfix = '';
+		$this->_options['labelPostfix'] = '';
 	}
 	
 	/**
