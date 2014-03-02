@@ -39,7 +39,7 @@ class Mmi_Form_Element_Checkbox extends Mmi_Form_Element_Abstract {
 	 * Funkcja użytkownika, jest wykonywana przed renderingiem
 	 */
 	public function preRender() {
-		$this->_labelPostfix = '';
+		$this->_options['labelPostfix'] = '';
 		if (isset($this->_options['value']) && $this->_options['value'] == 1) {
 			$this->_options['checked'] = 'checked';
 		} else {
