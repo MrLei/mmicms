@@ -501,7 +501,7 @@ abstract class Mmi_Form_Element_Abstract {
 	 * @param string $message opcjonalny komunikat błędu
 	 * @return Mmi_Form_Element_Abstract
 	 */
-	public function addValidatorRecordUnique(Mmi_Dao $dao, $fieldName, $id = null, $message = null) {
+	public function addValidatorRecordUnique($dao, $fieldName, $id = null, $message = null) {
 		return $this->addValidator('recordUnique', array($dao, $fieldName, $id), $message);
 	}
 	
@@ -799,7 +799,9 @@ abstract class Mmi_Form_Element_Abstract {
 		}
 		$html = '<div class="errors"' . $idHtml . '>';
 		if ($this->hasErrors()) {
-			$html .= '<ul>';
+			$html .= '<span class="marker"></span>'
+				  .  '<ul>'
+				  .		'<span class="point"></span>';
 			foreach ($this->_errors as $error) {
 				if ($this->_translatorEnabled && ($this->getTranslate() !== null)) {
 					$err = $this->getTranslate()->_($error);
@@ -808,7 +810,8 @@ abstract class Mmi_Form_Element_Abstract {
 				}
 				$html .= '<li>' . $err . '</li>';
 			}
-			$html .= '</ul>';
+			$html .=	'<span class="close"></span>'
+				  .  '</ul>';
 		}
 		$html .= '<div class="clear"></div></div>';
 		return $html;

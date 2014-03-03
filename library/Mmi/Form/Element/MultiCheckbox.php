@@ -28,6 +28,16 @@
 class Mmi_Form_Element_MultiCheckbox extends Mmi_Form_Element_Abstract {
 
 	/**
+	 * Ustawia klasy dla poszczególnych labelek
+	 * @param array $class - tablica $key => $class
+	 * @return Mmi_Form_Element_MultiCheckbox
+	 */
+	public function setLabelClass(array $class) {
+		$this->_options['labelClass'] = $class;
+		return $this;
+	}
+
+	/**
 	 * Buduje pole
 	 * @return string
 	 */
