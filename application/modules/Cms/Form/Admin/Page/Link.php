@@ -10,14 +10,14 @@ class Cms_Form_Admin_Page_Link extends Mmi_Form {
 		$this->addElementText('label')
 				->setLabel('Tekst linku (href-text)')
 				->setRequired()
-				->setValidatorStringLength(3, 64);
+				->addValidatorStringLength(3, 64);
 
 		//optional url
 		$this->addElementText('uri')
 				->setLabel('Adres strony')
 				->setDescription('w formacie http://...')
 				->setRequired()
-				->setValidatorStringLength(6, 255);
+				->addValidatorStringLength(6, 255);
 
 		//menu label
 		$this->addElementText('title')
