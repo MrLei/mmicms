@@ -1,0 +1,14 @@
+<?php
+
+class Default_Config_Local extends Default_Config_Default {
+
+	public function __construct() {
+
+		parent::__construct();
+
+		$this->application->debug = true;
+		$this->cache->compile = true;
+		$this->cache->active = false;
+	}
+
+}

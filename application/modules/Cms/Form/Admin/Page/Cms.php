@@ -1,0 +1,99 @@
+<?php
+
+class Cms_Form_Admin_Page_Cms extends Mmi_Form {
+
+	protected $_recordName = 'Cms_Model_Navigation_Record';
+	protected $_recordSaveMethod = 'saveForm';
+
+	public function init() {
+		//menu label
+		$this->addElementText('label')
+				->setLabel('Nazwa w menu')
+				->setRequired()
+				->setValidatorStringLength(3, 64);
+
+		//opcjonalny tytuł
+		$this->addElementText('title')
+				->setLabel('Tytuł strony (meta/title)')
+				->setDescription('Jeśli nie wypełniony, zostanie użyta nazwa w menu')
+				->setValidatorStringLength(3, 128);
+
+		//opcjonalny opis
+		$this->addElementTextarea('description')
+				->setLabel('Opis strony (meta/description)')
+				->setValidatorStringLength(3, 1024);
+
+		//opcjonalne keywords
+		$this->addElementText('keywords')
+				->setLabel('Słowa kluczowe (meta/keywords)')
+				->setValidatorStringLength(3, 512);
+
+		$this->addElementCheckbox('independent')
+				->setLabel('Niezależne meta');
+
+		//system object
+		$this->addElementSelect('object')
+				->setLabel(Mmi_Controller_Front::getInstance()->getView()->getTranslate()->_('Obiekt CMS'))
+				->setDescription(Mmi_Controller_Front::getInstance()->getView()->getTranslate()->_('Istniejące obiekty CMS'))
+				->setRequired()
+				->setOption('id', 'objectId');
+
+		$reflection = new Admin_Model_Reflection();
+		$object = $this->getElement('object');
+		$object->setDisableTranslator(true);
+		$object->addMultiOption(null, null);
+		foreach ($reflection->getActions() as $action) {
+			$object->addMultiOption($action['path'], $action['module'] . ': ' . $action['controller'] . ' - ' . $action['action']);
+		}
+		//optional params
+		$this->addElementText('params')
+				->setLabel('Parametry obiektu')
+				->setDescription('Dodatkowe parametry adresu w obiekcie');
+
+		$this->addElementCheckbox('absolute')
+				->setLabel('Link bezwzględny');
+
+		$this->addElementSelect('https')
+				->setLabel('Połączenie HTTPS')
+				->setMultiOptions(array(
+				null => 'bez zmian',
+				'0' => 'wymuś http',
+				'1' => 'wymuś https',
+				));
+
+		//optional url
+		$this->addElementSelect('visible')
+				->setLabel('Pokazuj w menu')
+				->setMultiOptions(array(
+				1 => 'widoczny',
+				0 => 'ukryty',
+				));
+
+		$this->addElementCheckbox('nofollow')
+				->setLabel('Atrybut rel="nofollow"');
+
+		$this->addElementCheckbox('blank')
+				->setLabel('W nowym oknie');
+
+		//pozycja w drzewie
+		$this->addElementSelect('parent_id')
+				->setLabel('Element nadrzędny')
+				->setValue(Mmi_Controller_Front::getInstance()->getRequest()->parent)
+				->setMultiOptions(Cms_Model_Navigation_Dao::getMultiOptions());
+
+		$this->addElementDateTimePicker('dateStart')
+				->setLabel('Data i czas włączenia');
+
+		$this->addElementDateTimePicker('dateEnd')
+				->setLabel('Data i czas wyłączenia');
+
+		$this->addElementCheckbox('active')
+				->setLabel('Włączony');
+
+		//submit
+		$this->addElementSubmit('submit')
+				->setLabel('Zapisz')
+				->setIgnore();
+
+	}
+}
