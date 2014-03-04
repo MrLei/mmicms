@@ -8,91 +8,69 @@ class Cms_Form_Admin_Page_Article extends Mmi_Form {
 	public function init() {
 
 		//menu label
-		$this->addElement('text', 'label', array(
-			'label' => 'Nazwa w menu',
-			'required' => true,
-			'validators' => array(
-				array('validator' => 'StringLength', 'options' => array(3, 64)),
-			)
-		));
+		$this->addElementText('label')
+				->setLabel('Nazwa w menu')
+				->setRequired()
+				->setValidatorStringLength(3, 64);
 
 		//opcjonalny opis
-		$this->addElement('textarea', 'description', array(
-			'label' => 'Opis strony (meta/description)',
-			'validators' => array(
-				array('validator' => 'StringLength', 'options' => array(3, 1024)),
-			)
-		));
+		$this->addElementTextarea('description')
+				->setLabel('Opis strony (meta/description)')
+				->setValidatorStringLength(3, 1024);
 
 		//opcjonalne keywords
-		$this->addElement('text', 'keywords', array(
-			'label' => 'Słowa kluczowe (meta/keywords)',
-			'validators' => array(
-				array('validator' => 'StringLength', 'options' => array(3, 64)),
-			)
-		));
-		$options = array(null => '---') + Cms_Model_Article_Dao::findPairs('id', 'title', Cms_Model_Article_Dao::newQuery()->orderAsc('title'));
+		$this->addElementText('keywords')
+				->setLabel('Słowa kluczowe (meta/keywords)')
+				->setValidatorStringLength(3, 64);
 
-		$this->addElement('select', 'article_id', array(
-			'label' => 'Artykuł',
-			'multiOptions' => $options
-			)
-		);
+		$this->addElementSelect('article_id')
+				->setLabel('Artykuł')
+				->setMultiOptions(array(null => '---') + Cms_Model_Article_Dao::findPairs('id', 'title', Cms_Model_Article_Dao::newQuery()->orderAsc('title')));
 
-		$this->addElement('checkbox', 'absolute', array(
-			'label' => 'Link bezwzględny'
-		));
+		$this->addElementCheckbox('absolute')
+				->setLabel('Link bezwzględny');
 
-		$this->addElement('select', 'https', array(
-			'label' => 'Połączenie HTTPS',
-			'multiOptions' => array(
+		$this->addElementSelect('https')
+				->setLabel('Połączenie HTTPS')
+				->setMultiOptions(array(
 				null => 'bez zmian',
 				'0' => 'wymuś http',
 				'1' => 'wymuś https',
-			)
-		));
+				));
 
 		//optional url
-		$this->addElement('select', 'visible', array(
-			'label' => 'Pokazuj w menu',
-			'multiOptions' => array(
+		$this->addElementSelect('visible')
+				->setLabel('Pokazuj w menu')
+				->setMultiOptions(array(
 				1 => 'widoczny',
 				0 => 'ukryty',
-			),
-		));
+				));
 
-		$this->addElement('checkbox', 'nofollow', array(
-			'label' => 'Atrybut rel="nofollow"'
-		));
+		$this->addElementCheckbox('nofollow')
+				->setLabel('Atrybut rel="nofollow"');
 
-		$this->addElement('checkbox', 'blank', array(
-			'label' => 'W nowym oknie'
-		));
+		$this->addElementCheckbox('blank')
+				->setLabel('W nowym oknie');
 
 		//pozycja w drzewie
-		$this->addElement('select', 'parent_id', array(
-			'label' => 'Element nadrzędny',
-			'value' => Mmi_Controller_Front::getInstance()->getRequest()->parent,
-			'multiOptions' => Cms_Model_Navigation_Dao::getMultiOptions()
-		));
+		$this->addElementSelect('parent_id')
+				->setLabel('Element nadrzędny')
+				->setValue(Mmi_Controller_Front::getInstance()->getRequest()->parent)
+				->setMultiOptions(Cms_Model_Navigation_Dao::getMultiOptions());
 
-		$this->addElement('dateTimePicker', 'dateStart', array(
-			'label' => 'Data i czas włączenia',
-		));
+		$this->addElementDateTimePicker('dateStart')
+				->setLabel('Data i czas włączenia');
 
-		$this->addElement('dateTimePicker', 'dateEnd', array(
-			'label' => 'Data i czas wyłączenia',
-		));
+		$this->addElementDateTimePicker('dateEnd')
+				->setLabel('Data i czas wyłączenia');
 
-		$this->addElement('checkbox', 'active', array(
-			'label' => 'Włączony'
-		));
+		$this->addElementCheckbox('active')
+				->setLabel('Włączony');
 
 		//submit
-		$this->addElement('submit', 'submit', array(
-			'label' => 'Zapisz',
-			'ignore' => true,
-		));
-	}
+		$this->addElementSubmit('submit')
+				->setLabel('Zapisz')
+				->setIgnore();
 
+	}
 }
