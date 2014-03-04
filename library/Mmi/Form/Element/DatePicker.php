@@ -26,7 +26,7 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
-
+	
 	/**
 	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora
 	 */
@@ -35,6 +35,46 @@ class Mmi_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
 		array(
 			'validator' => 'Date'
 		));
+	}
+	
+	/**
+	 * Ustawia datę startową
+	 * @param string $date - sformatowany string czasu
+	 * @return Mmi_Form_Element_DatePicker
+	 */
+	public function setStartDate($date) {
+		$this->_options['startDate'] = $date;
+		return $this;
+	}
+	
+	/**
+	 * Ustawia datę końcową
+	 * @param string $date - sformatowany string czasu
+	 * @return Mmi_Form_Element_DatePicker
+	 */
+	public function setEndDate($date) {
+		$this->_options['endDate'] = $date;
+		return $this;
+	}
+	
+	/**
+	 * Ustawia format daty
+	 * @param string $format
+	 * @return Mmi_Form_Element_DatePicker
+	 */
+	public function setFormat($format) {
+		$this->_options['format'] = $format;
+		return $this;
+	}
+	
+	/**
+	 * Dopuszcza wstawiania pustej wartości
+	 * @param bool $empty
+	 * @return Mmi_Form_Element_DatePicker
+	 */
+	public function setEmptyValue($empty = true) {
+		$this->_options['emptyValue'] = $empty;
+		return $this;
 	}
 
 	/**

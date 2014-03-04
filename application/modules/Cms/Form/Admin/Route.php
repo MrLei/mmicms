@@ -6,40 +6,33 @@ class Cms_Form_Admin_Route extends Mmi_Form {
 	
 	public function init() {
 		
-		$this->addElement('text', 'pattern', array(
-			'label' => 'Wzorzec',
-			'required' => true,
-			'validators' => array('NotEmpty')
-		));
+		$this->addElementText('pattern')
+				->setLabel('Wzorzec')
+				->setRequired()
+				->addValidatorsNotEmpty();
 		
-		$this->addElement('text', 'replace', array(
-			'label' => 'Tabela zastąpień',
-			'required' => true,
-			'description' => 'zmienna1=foo&zmienna2=bar',
-			'validators' => array('NotEmpty')
-		));
+		$this->addElementText('replace')
+				->setLabel('Tabela zastąpień')
+				->setRequired()
+				->setDescription('zmienna1=foo&zmienna2=bar')
+				->addValidatorsNotEmpty();
 
-		$this->addElement('text', 'default', array(
-			'label' => 'Tabela wartości domyślnych',
-			'description' => 'zmienna1=foo&zmienna2=bar',
-		));
+		$this->addElementText('default')
+				->setLabel('Tabela wartości domyślnych')
+				->setDescription('zmienna1=foo&zmienna2=bar');
 		
-		$this->addElement('text', 'order', array(
-			'label' => 'Indeks kolejności',
-			'required' => true,
-			'validators' => array('Integer')
-		));
-		
-		$this->addElement('select', 'active', array(
-			'label' => 'Aktywna',
-			'multiOptions' => array(0 => 'nie', '1' => 'tak'),
-			'validators' => array('Integer')
-		));
-		
-		$this->addElement('submit', 'submit', array(
-			'label' => 'Zapisz trasę',
-		));
+		$this->addElementText('order')
+				->setLabel('Indeks kolejności')
+				->setRequired()
+				->addValidatorInteger();
+
+		$this->addElementSelect('active')
+				->setLabel('Aktywna')
+				->setMultiOptions(array(0 => 'nie', '1' => 'tak'))
+				->addValidatorInteger();
+
+		$this->addElementSubmit('submit')
+			->setLabel('Zapisz trasę');
 
 	}
-	
 }

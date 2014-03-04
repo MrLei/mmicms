@@ -6,22 +6,16 @@ class Cms_Form_Admin_Contact_Option extends Mmi_Form {
 
 	public function init() {
 
-		$this->addElement('text', 'name', array(
-			'label' => 'nazwa'
-		));
+		$this->addElementText('name')
+			->setLabel('nazwa');
 
-		$this->addElement('text', 'sendTo', array(
-			'label' => 'prześlij na email',
-			'validators' => array(
-				array('validator' => 'EmailAddress'),
-			),
-			'description' => 'Wysyła kopię wiadomości od użytkownika bezpośrednio na podany adres e-mail'
-		));
+		$this->addElementText('sendTo')
+			->setLabel('prześlij na email')
+			->setDescription('Wysyła kopię wiadomości od użytkownika bezpośrednio na podany adres e-mail')
+			->addValidatorEmailAddress();
 
-		$this->addElement('submit', 'submit' , array(
-				'label' => 'dodaj temat'
-		));
-
+		$this->addElementSubmit('submit')
+			->setLabel('dodaj temat');
 	}
 
 }

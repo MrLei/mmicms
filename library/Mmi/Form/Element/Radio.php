@@ -26,6 +26,16 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_Radio extends Mmi_Form_Element_Abstract {
+	
+	/**
+	 * Ustawia klasy dla poszczególnych labelek
+	 * @param array $class - tablica $key => $class
+	 * @return Mmi_Form_Element_Radio
+	 */
+	public function setLabelClass(array $class) {
+		$this->_options['labelClass'] = $class;
+		return $this;
+	}
 
 	/**
 	 * Buduje pole
@@ -92,7 +102,7 @@ class Mmi_Form_Element_Radio extends Mmi_Form_Element_Abstract {
 		} else {
 			$label = $this->_options['label'];
 		}
-		return '<label' . $requiredClass . '>' . $label . $this->_labelPostfix . $required . '</label>';
+		return '<label' . $requiredClass . '>' . $label . $this->_options['labelPostfix'] . $required . '</label>';
 	}
 
 }

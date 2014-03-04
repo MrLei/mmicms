@@ -8,33 +8,27 @@ class Cms_Form_Comment extends Mmi_Form {
 		$this->getRecord()->object = $this->getAttrib('object');
 		$this->getRecord()->objectId = $this->getAttrib('objectId');
 
-		$this->addElement('text', 'title', array(
-			'label' => 'tytuł'
-		));
+		$this->addElementText('title')
+			->setLabel('tytuł');
 
-		$this->addElement('textarea', 'text', array(
-			'required' => true,
-			'label' => 'komentarz',
-			'validators' => array(
-				'NotEmpty'
-			)
-		));
+		$this->addElementTextarea('text')
+			->setRequired()
+			->setLabel('komentarz')
+			->addValidatorNotEmpty();
+
 
 		if ($this->getAttrib('withRatings') === true) {
-			$this->addElement('ratings', 'stars', array(
-				'label' => 'Oceń artykuł'
-			));
+			$this->addElementRatings('stars')
+				->setLabel('Oceń artykuł');
 		}
 
 		if (!Default_Registry::$auth->hasIdentity()) {
-			$this->addElement('text', 'signature', array(
-				'label' => 'podpis'
-			));
+			$this->addElementText('signature')
+				->setLabel('podpis');
 		}
 
-		$this->addElement('submit', 'submit', array(
-			'label' => 'dodaj komentarz'
-		));
+		$this->addElementSubmit('submit')
+			->setLabel('dodaj komentarz');
 	}
 
 }

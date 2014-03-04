@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -33,6 +34,63 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 	public function init() {
 		$this->addFilter('tinyMce');
 		return parent::init();
+	}
+
+	/**
+	 * Ustawia tryb zaawansowany
+	 * @return Mmi_Form_Element_TinyMce
+	 */
+	public function setModeAdvanced() {
+		$this->_options['mode'] = 'advanced';
+		return $this;
+	}
+
+	/**
+	 * Ustawia tryb domyślny
+	 * @return Mmi_Form_Element_TinyMce
+	 */
+	public function setModeDefault() {
+		$this->_options['mode'] = null;
+		return $this;
+	}
+
+	/**
+	 * Ustawia tryb prosty
+	 * @return Mmi_Form_Element_TinyMce
+	 */
+	public function setModeSimple() {
+		$this->_options['mode'] = 'simple';
+		return $this;
+	}
+
+	/**
+	 * Ustawia szerokość w px
+	 * @param int $width
+	 * @return Mmi_Form_Element_TinyMce
+	 */
+	public function setWidth($width) {
+		$this->_options['width'] = intval($width);
+		return $this;
+	}
+
+	/**
+	 * Ustawia wysokość w px
+	 * @param int $height
+	 * @return Mmi_Form_Element_TinyMce
+	 */
+	public function setHeight($height) {
+		$this->_options['heigth'] = intval($height);
+		return $this;
+	}
+
+	/**
+	 * Ustawia parametr oninit
+	 * @param string $oninit
+	 * @return Mmi_Form_Element_TinyMce
+	 */
+	public function setOnInit($oninit) {
+		$this->_options['oninit'] = $oninit;
+		return $this;
 	}
 
 	/**
@@ -95,9 +153,8 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 		$objectId = '';
 		/** opcjonalna funkcja wywoływana po załadowaniu edytorów */
 		$onInit = "";
-		if (isset($this->_options['oninit']) && $this->_options['oninit'])
-		{
-			$onInit = "oninit : '".$this->_options['oninit']."',";
+		if (isset($this->_options['oninit']) && $this->_options['oninit']) {
+			$onInit = "oninit : '" . $this->_options['oninit'] . "',";
 		}
 		if ($this->getForm()->hasRecord()) {
 			$object = $this->getForm()->getFileObjectName();
@@ -107,7 +164,7 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 		$hash = md5(Mmi_Session::getId() . '+' . $t . '+' . $objectId);
 		$view->headScript()->appendScript("
 			tinyMCE.init({
-				selector : '.".$class."',
+				selector : '." . $class . "',
 				language : 'pl',
 				" . $theme . "
 				" . $tskin . "
@@ -140,13 +197,14 @@ class Mmi_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 					'Verdana=verdana,geneva;'+
 					'Webdings=webdings;'+
 					'Wingdings=wingdings,zapf dingbats;'+
-					'EmpikBTT=empikb;'+
-					'EmpikLTT=empikl;'+
-					'EmpikRTT=empikr',
+					'EmpikBTT=EmpikBold;'+
+					'EmpikLTT=EmpikLight;'+
+					'EmpikRTT=EmpikRegular',
 				fontsize_formats: '1px 2px 3px 4px 6px 8px 9pc 10px 11px 12px 13px 14px 16px 18px 20px 22px 24px 26px 28px 36px 48px 50px 72px 100px'
 			});
 		");
 
 		return parent::fetchField();
 	}
+
 }
