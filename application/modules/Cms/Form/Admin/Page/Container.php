@@ -11,23 +11,23 @@ class Cms_Form_Admin_Page_Container extends Mmi_Form {
 		$this->addElementText('label')
 				->setLabel('Nazwa w menu')
 				->setRequired()
-				->setValidatorStringLength(3, 64);
+				->addValidatorStringLength(3, 64);
 
 		//opcjonalny tytuł
 		$this->addElementText('title')
 				->setLabel('Tytuł strony (meta/title)')
 				->setDescription('Jeśli nie wypełniony, zostanie użyta nazwa w menu')
-				->setValidatorStringLength(3, 128);
+				->addValidatorStringLength(3, 128);
 
 		//opcjonalny opis
 		$this->addElementTextarea('description')
 				->setLabel('Opis strony (meta/description)')
-				->setValidatorStringLength(3, 1024);
+				->addValidatorStringLength(3, 1024);
 
 		//opcjonalne keywords
 		$this->addElementText('keywords')
 				->setLabel('Słowa kluczowe (meta/keywords)')
-				->setValidatorStringLength(3, 512);
+				->addValidatorStringLength(3, 512);
 
 		$this->addElementCheckbox('independent')
 				->setLabel('Niezależne meta');

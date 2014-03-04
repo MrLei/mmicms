@@ -11,23 +11,23 @@ class Cms_Form_Admin_Page_Folder extends Mmi_Form {
 				->setLabel('Nazwa folderu')
 				->setDescription('Nazwa będzie jednocześnie składową tytułu strony')
 				->setRequired()
-				->setValidatorStringLength(3, 64);
+				->addValidatorStringLength(3, 64);
 
 		//opcjonalny tytuł
 		$this->addElementText('title')
 				->setLabel('Tytuł strony (meta/title)')
 				->setDescription('Jeśli nie wypełniony, zostanie użyta nazwa w menu')
-				->setValidatorStringLength(3, 128);
+				->addValidatorStringLength(3, 128);
 
 		//opcjonalny opis
 		$this->addElementTextarea('description')
 				->setLabel('Opis strony (meta/description)')
-				->setValidatorStringLength(3, 1024);
+				->addValidatorStringLength(3, 1024);
 
 		//opcjonalne keywords
 		$this->addElementText('keywords')
 				->setLabel('Słowa kluczowe (meta/keywords)')
-				->setValidatorStringLength(3, 512);
+				->addValidatorStringLength(3, 512);
 
 		//pozycja w drzewie
 		$this->addElementSelect('parent_id')
