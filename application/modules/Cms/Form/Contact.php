@@ -9,45 +9,33 @@ class Cms_Form_Contact extends Mmi_Form {
 		$this->setSecured();
 
 		if (!$this->getOption('subjectId')) {
-			$this->addElement('select', 'cms_contact_option_id', array(
-				'multiOptions' => Cms_Model_Contact_Option_Dao::findPairs('id', 'name', Cms_Model_Contact_Option_Dao::newQuery()->orderAsc('name')),
-				'label' => 'Wybierz temat',
-				'validators' => array(
-					array('validator' => 'Integer'),
-				)
-			));
+			$this->addElementSelect('cms_contact_option_id')
+					->setLabel('Wybierz temat')
+					->setMultiOptions(Cms_Model_Contact_Option_Dao::findPairs('id', 'name', Cms_Model_Contact_Option_Dao::newQuery()->orderAsc('name')))
+					->addValidatorInteger();
 		}
 
 		$auth = Default_Registry::$auth;
-		$this->addElement('text', 'email', array(
-			'label' => 'Twój adres e-mail',
-			'value' => $auth->getEmail(),
-			'required' => true,
-			'validators' => array(
-				array('validator' => 'EmailAddress'),
-			)
-		));
-		
 		$this->addElementText('email')
-			->setLabel('Twój adres email')
-			->setValue($auth->getEmail())
-			->setRequired()
-			->addValidatorEmailAddress();
+				->setLabel('Twój adres email')
+				->setValue($auth->getEmail())
+				->setRequired()
+				->addValidatorEmailAddress();
 
-		$this->addElement('textarea', 'text', array(
-			'required' => true,
-			'label' => 'Wiadomość',
-			'filters' => array('StripTags'),
-		));
+		$this->addElementTextarea('text')
+				->setLabel('Wiadomość')
+				->setRequired()
+				->addFilter('StripTags');
 
 		if (!($auth->getId() > 0)) {
 			//captcha dla niezalogowanych
-			$this->addElement('captcha', 'regCaptcha', array('label' => 'Przepisz kod'));
+			$this->addElementCaptcha('regCaptcha')
+					->setLabel('Przepisz kod');
 		}
 
-		$this->addElement('submit', 'submit', array(
-			'label' => 'Wyślij'
-		));
+		$this->addElementSubmit('submit')
+				->setLabel('Wyślij');
+
 	}
 
 	public function prepareSaveData(array $data = array()) {

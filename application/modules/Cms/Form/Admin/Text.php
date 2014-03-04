@@ -6,17 +6,14 @@ class Cms_Form_Admin_Text extends Mmi_Form {
 
 	public function init() {
 
-		$this->addElement('text', 'key', array(
-			'label' => 'klucz'
-		));
+		$this->addElementText('key')
+			->setLabel('klucz');
 
-		$this->addElement('textarea', 'content', array(
-			'label' => 'zawartość'
-		));
+		$this->addElementTextarea('content')
+			->setLabel('zawartość');
 
-		$this->addElement('submit', 'submit', array(
-			'label' => 'zapisz tekst'
-		));
+		$this->addElementSubmit('submit')
+			->setLabel('zapisz tekst');
+
 	}
-
 }
