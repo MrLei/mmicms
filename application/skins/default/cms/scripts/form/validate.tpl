@@ -1,10 +1,12 @@
 {if !php_empty($errors)}
+<div>
 	<span class="marker"></span>
 	<ul>
-		<span class="point"></span>
+		<li class="point"></li>
 	{foreach $errors as $error}
 		<li>{$error}</li>
 	{/foreach}
-		<span class="close"></span>
+		<li class="close"></li>
 	</ul>
+</div>
 {/if}

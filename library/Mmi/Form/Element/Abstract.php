@@ -801,7 +801,7 @@ abstract class Mmi_Form_Element_Abstract {
 		if ($this->hasErrors()) {
 			$html .= '<span class="marker"></span>'
 				  .  '<ul>'
-				  .		'<span class="point"></span>';
+				  .		'<li class="point"></li>';
 			foreach ($this->_errors as $error) {
 				if ($this->_translatorEnabled && ($this->getTranslate() !== null)) {
 					$err = $this->getTranslate()->_($error);
@@ -810,7 +810,7 @@ abstract class Mmi_Form_Element_Abstract {
 				}
 				$html .= '<li>' . $err . '</li>';
 			}
-			$html .=	'<span class="close"></span>'
+			$html .=	'<li class="close"></li>'
 				  .  '</ul>';
 		}
 		$html .= '<div class="clear"></div></div>';
