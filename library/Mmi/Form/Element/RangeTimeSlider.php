@@ -62,9 +62,9 @@ class Mmi_Form_Element_RangeTimeSlider extends Mmi_Form_Element_Abstract {
 	 * @return string
 	 */
 	public function fetchField() {
-		$min = 0;
-		$max = 1440;
-		$step = isset($this->_options['step']) ? $this->_options['step'] : 15;
+		$min = (int) (isset($this->_options['min']) ? $this->_options['min'] : 0);
+		$max = (int) (isset($this->_options['max']) ? $this->_options['max'] : 1440);
+		$step = (int) (isset($this->_options['step']) ? $this->_options['step'] : 15);
 		$value = array($min, $max);
 		unset($this->_options['min']);
 		unset($this->_options['max']);
