@@ -26,7 +26,7 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_TimeSlider extends Mmi_Form_Element_Text {
-	
+
 	/**
 	 * Buduje pole
 	 * @return string
@@ -53,4 +53,35 @@ class Mmi_Form_Element_TimeSlider extends Mmi_Form_Element_Text {
 			.number_format($max, 0, ',', ' ') . ' h</span></p>';
 		return $html;
 	}
+
+	/**
+	 * Ustawia minimum
+	 * @param int $min
+	 * @return Mmi_Form_Element_TimeSlider
+	 */
+	public function setMinimal($min) {
+		$this->_options['min'] = intval($min);
+		return $this;
+	}
+
+	/**
+	 * Ustawia maksimum
+	 * @param int $max
+	 * @return Mmi_Form_Element_TimeSlider
+	 */
+	public function setMaximal($max) {
+		$this->_options['max'] = intval($max);
+		return $this;
+	}
+
+	/**
+	 * Ustawia krok
+	 * @param int $step
+	 * @return Mmi_Form_Element_TimeSlider
+	 */
+	public function setStep($step) {
+		$this->_options['step'] = intval($step);
+		return $this;
+	}
+
 }
