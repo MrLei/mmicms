@@ -1,23 +1,21 @@
 <?php
+
 class User_Form_Login extends Mmi_Form {
-	
+
 	public function init() {
-		$this->addElement('text', 'username', array(
-				'label' => 'Nazwa użytkownika',
-				'filters' => array('StringTrim')
-		));
+		$this->addElementText('username')
+			->setLabel('Nazwa użytkownika')
+			->addFilter('stringTrim');
 
-		$this->addElement('password', 'password', array(
-				'label' => 'Hasło',
-				'filters' => array('StringTrim')
-		));
+		$this->addElementPassword('password')
+			->setLabel('Hasło')
+			->addFilter('stringTrim');
 
-		$this->addElement('checkbox', 'remember', array(
-				'label' => 'Pamiętaj mnie'
-		));
+		$this->addElementCheckbox('remember')
+			->setLabel('Pamiętaj mnie');
 
-		$this->addElement('submit', 'submit', array(
-				'label' => 'Zaloguj się'
-		));
+		$this->addElementSubmit('submit')
+			->setLabel('Zaloguj się');
 	}
+
 }
