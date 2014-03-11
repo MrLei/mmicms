@@ -2,56 +2,43 @@
 
 class User_Form_Registration extends Mmi_Form {
 
-	protected $_modelName = 'User_Model_Registration';
+	protected $_recordName = 'User_Model_Registration_Record';
 
 	public function init() {
 
-		$this->addElement('text', 'username', array(
-			'label' => 'nazwa użytkownika (nick)',
-			'required' => true,
-			'validators' => array(
-				array('validator' => 'Alnum'),
-				array('validator' => 'RecordUnique', 'options' => array('Cms_Model_Auth_Dao', 'username')),
-				array('validator' => 'StringLength', 'options' => array(4, 25))
-			),
-			'filters' => array('filter' => 'Lowercase')
-		));
+		$this->addElementText('username')
+			->setLabel('nazwa użytkownika (nick)')
+			->setRequired()
+			->addValidatorAlnum()
+			->addValidatorRecordUnique('Cms_Model_Auth_Dao', 'username')
+			->addValidatorStringLength(4, 25)
+			->addFilter('lowercase');
 
-
-		$this->addElement('text', 'email', array(
-			'label' => 'e-mail',
-			'required' => true,
-			'validators' => array(
-				array('validator' => 'EmailAddress'),
-				array('validator' => 'RecordUnique', 'options' => array('Cms_Model_Auth_Dao', 'email')),
-				array('validator' => 'StringLength', 'options' => array(4, 150))
-			),
-			'filters' => array('filter' => 'Lowercase')
-		));
+		$this->addElementText('email')
+			->setLabel('e-mail')
+			->setRequired()
+			->addValidatorEmailAddress()
+			->addValidatorRecordUnique('Cms_Model_Auth_Dao', 'email')
+			->addValidatorStringLength(4, 150)
+			->addFilter('lowercase');
 
 		// Create and configure password element:
-		$this->addElement('password', 'password', array(
-			'label' => 'hasło',
-			'required' => true,
-			'validators' => array(
-				array('validator' => 'StringLength', 'options' => array(4, 64))
-			)
-		));
+		$this->addElementPassword('password')
+			->setLabel('hasło')
+			->setRequired()
+			->addValidatorStringLength(4, 64);
 
-		$this->addElement('password', 'confirmPassword', array(
-			'label' => 'potwierdź hasło',
-		));
+		$this->addElementPassword('confirmPassword')
+			->setLabel('potwierdź hasło');
 
-		$this->addElement('captcha', 'regCaptcha', array('label' => 'Przepisz kod'));
+//		$this->addElementAntirobot('robots');
 
-		$this->addElement('checkbox', 'regulations', array(
-			'label' => 'Akceptuję regulamin',
-			'required' => true
-		));
+		$this->addElementCheckbox('regulations')
+			->setLabel('Akceptuję regulamin')
+			->setRequired();
 
-		$this->addElement('submit', 'submit', array(
-			'label' => 'Zarejestruj'
-		));
+		$this->addElementSubmit('submit')
+			->setLabel('Zarejestruj');
 	}
 
 }

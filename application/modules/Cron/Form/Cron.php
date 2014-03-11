@@ -5,48 +5,39 @@ class Cron_Form_Cron extends Mmi_Form {
 	protected $_recordName = 'Cron_Model_Record';
 
 	public function init() {
-		$this->addElement('text', 'name', array(
-			'label' => 'Nazwa zadania',
-			'required' => true,
-			'validators' => array(
-				array('validator' => 'StringLength', 'options' => array(2, 50)),
-			)
-		));
+		$this->addElementText('name')
+			->setLabel('Nazwa zadania')
+			->setRequired()
+			->addValidatorStringLength(2, 50);
 
-		$this->addElement('textarea', 'description', array(
-			'label' => 'Opis',
-			'required' => true
-		));
+		$this->addElementTextarea('description')
+			->setLabel('Opis')
+			->setRequired();
 
-		$this->addElement('text', 'minute', array(
-			'label' => 'Minuta',
-			'description' => 'minuta (0 - 59) lub np ( */5 wykonaj co 5 minut), (10,20 w dziesiątej i dwudziestej minucie godziny) , ( * w każdej minucie)',
-			'required' => true,
-		));
+		$this->addElementText('minute')
+			->setLabel('Minuta')
+			->setDescription('minuta (0 - 59) lub np ( */5 wykonaj co 5 minut), (10,20 w dziesiątej i dwudziestej minucie godziny) , ( * w każdej minucie)')
+			->setRequired();
 
-		$this->addElement('text', 'hour', array(
-			'label' => 'Godzina',
-			'description' => 'godzina (0 - 23)',
-			'required' => true,
-		));
+		$this->addElementText('hour')
+			->setLabel('Godzina')
+			->setDescription('godzina (0 - 23)')
+			->setRequired();
 
-		$this->addElement('text', 'dayOfMonth', array(
-			'label' => 'Dzień miesiąca',
-			'description' => 'dzień miesiąca (1 - 31)',
-			'required' => true,
-		));
+		$this->addElementText('dayOfMonth')
+			->setLabel('Dzień miesiąca')
+			->setDescription('dzień miesiąca (1 - 31)')
+			->setRequired();
 
-		$this->addElement('text', 'month', array(
-			'label' => 'Miesiąc',
-			'description' => 'miesiąc (1 - 12)',
-			'required' => true,
-		));
+		$this->addElementText('month')
+			->setLabel('Miesiąc')
+			->setDescription('miesiąc (1 - 12)')
+			->setRequired();
 
-		$this->addElement('text', 'dayOfWeek', array(
-			'label' => 'Dzień tygodnia',
-			'description' => 'dzień tygodnia (1 - 7) (Poniedziałek=1, Wtorek=2,..., Niedziela=7)',
-			'required' => true,
-		));
+		$this->addElementText('dayOfWeek')
+			->setLabel('Dzień tygodnia')
+			->setDescription('dzień tygodnia (1 - 7) (Poniedziałek=1, Wtorek=2,..., Niedziela=7)')
+			->setRequired();
 
 		$value = null;
 		if ($this->getRecord()) {
@@ -54,13 +45,12 @@ class Cron_Form_Cron extends Mmi_Form {
 		}
 
 		//system object
-		$this->addElement('select', 'object', array(
-			'label' => 'Obiekt CMS',
-			'description' => 'Istniejące obiekty CMS',
-			'required' => true,
-			'id' => 'objectId',
-			'value' => $value
-		));
+		$this->addElementSelect('object')
+			->setLabel('Obiekt CMS')
+			->setDescription('Istniejące obiekty CMS')
+			->setRequired()
+			->setOption('id', 'objectId')
+			->setValue($value);
 
 		$reflection = new Admin_Model_Reflection();
 		$object = $this->getElement('object');
@@ -72,16 +62,12 @@ class Cron_Form_Cron extends Mmi_Form {
 			}
 		}
 
-		$this->addElement('checkbox', 'active', array(
-			'label' => 'Aktywny',
-			'value' => 1,
-			'required' => true
-		));
+		$this->addElementCheckbox('active')
+			->setLabel('Aktywny')
+			->setValue(1)
+			->setRequired();
 
-
-		$this->addElement('submit', 'btn_save', array(
-			'label' => 'zapisz zadanie'
-		));
+		$this->addElementSubmit('btn_save')->setLabel('zapisz zadanie');
 	}
 
 }

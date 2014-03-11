@@ -6,31 +6,24 @@ class Payment_Form_Admin_Config extends Mmi_Form {
 
 	public function init() {
 
-		$this->addElement('text', 'name', array(
-			'label' => 'nazwa',
-			'description' => 'unikalna nazwa punktu płatności'
-		));
+		$this->addElementText('name')
+			->setLabel('nazwa')
+			->setDescription('unikalna nazwa punktu płatności');
 
-		$this->addElement('text', 'shopId', array(
-			'label' => 'identyfikator sklepu'
-		));
+		$this->addElementText('shopId')
+			->setLabel('identyfikator sklepu');
 
-		$this->addElement('text', 'transactionKey', array(
-			'label' => 'klucz transakcyjny'
-		));
+		$this->addElementText('transactionKey')
+			->setLabel('klucz transakcyjny');
 
-		$this->addElement('text', 'key1', array(
-			'label' => 'klucz 1'
-		));
+		$this->addElementText('key1')
+			->setLabel('klucz 1');
 
-		$this->addElement('text', 'key2', array(
-			'label' => 'klucz 2'
-		));
-		
-		$this->addElement('submit', 'submit', array(
-			'label' => 'zapisz'
-		));
+		$this->addElementText('key2')
+			->setLabel('klucz 2');
 
+		$this->addElementSubmit('submit')
+			->setLabel('zapisz');
 	}
 
 }
