@@ -6,14 +6,12 @@ class Embed_Form_Admin_Domain extends Mmi_Form {
 
 	public function init() {
 
-		$this->addElement('text', 'name', array(
-			'label' => 'Nazwa domeny',
-			'required' => true
-		));
+		$this->addElementText('name')
+			->setLabel('Nazwa domeny')
+			->setRequired();
 
-		$this->addElement('submit', 'submit', array(
-			'label' => 'Zapisz'
-		));
+		$this->addElementSubmit('submit')
+			->setLabel('Zapisz');
 	}
 
 }
