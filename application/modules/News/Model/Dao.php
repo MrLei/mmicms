@@ -6,14 +6,14 @@ class News_Model_Dao extends Mmi_Dao {
 
 	public static function countActive() {
 		$q = self::newQuery()
-				->where('visible')->eqals(1);
+				->where('visible')->equals(1);
 		return self::count($q);
 	}
 
 	public static function findActiveWithFile($limit, $offset) {
 
 		$q = self::newQuery()
-			->where('visible')->eqals(1)
+			->where('visible')->equals(1)
 			->orderDesc('dateAdd')
 			->limit($limit)
 			->offset($offset);
@@ -27,14 +27,14 @@ class News_Model_Dao extends Mmi_Dao {
 
 	public static function findFirstActiveByUri($uri) {
 		$q = self::newQuery()
-				->where('visible')->eqals(1)
-				->andField('uri')->eqals($uri);
+				->where('visible')->equals(1)
+				->andField('uri')->equals($uri);
 		return self::findFirst($q);
 	}
 
 	public static function findFirstByUri($uri) {
 		$q = self::newQuery()
-				->where('uri')->eqals($uri);
+				->where('uri')->equals($uri);
 		return self::findFirst($q);
 	}
 

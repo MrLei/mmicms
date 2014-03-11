@@ -69,7 +69,7 @@ class Mmi_Dao_Query_Field {
 	 * @param mixed $value
 	 * @return Mmi_Dao_Query
 	 */
-	public function eqals($value) {
+	public function equals($value) {
 		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, '=', $this->_logic, $this->_tableName);
 		return $this->_query;
 	}

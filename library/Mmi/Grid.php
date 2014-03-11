@@ -587,7 +587,7 @@ abstract class Mmi_Grid {
 				}
 			}
 			if ($type == 'select' || $type == 'checkbox') {
-				$q->andField($field)->eqals($value);
+				$q->andField($field)->equals($value);
 			} else {
 				$q->andField($field)->like('%' . $value . '%');
 			}

@@ -66,12 +66,12 @@ class Stat_Model_Dao extends Mmi_Dao {
 
 	protected static function _push($object, $objectId, $hour, $day, $month, $year) {
 		$q = self::newQuery()
-				->where('object')->eqals($object)
-				->andField('objectId')->eqals($objectId)
-				->andField('hour')->eqals($hour)
-				->andField('day')->eqals($day)
-				->andField('month')->eqals($month)
-				->andField('year')->eqals($year);
+				->where('object')->equals($object)
+				->andField('objectId')->equals($objectId)
+				->andField('hour')->equals($hour)
+				->andField('day')->equals($day)
+				->andField('month')->equals($month)
+				->andField('year')->equals($year);
 		$o = Stat_Model_Date_Dao::findFirst($q);
 		if ($o === null) {
 			$o = new Stat_Model_Date_Record();

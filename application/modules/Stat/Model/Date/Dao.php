@@ -6,10 +6,10 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 
 	public static function findUniqueObjects() {
 		$q = self::newQuery()
-			->where('hour')->eqals(null)
-			->andField('day')->eqals(null)
-			->andField('month')->eqals(null)
-			->andField('objectId')->eqals(null)
+			->where('hour')->equals(null)
+			->andField('day')->equals(null)
+			->andField('month')->equals(null)
+			->andField('objectId')->equals(null)
 			->orderAsc('object');
 		$all = self::find($q);
 		$objects = array();
@@ -221,8 +221,8 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 
 	protected static function _getRows($object, $objectId, $year = null, $month = null, $day = null, $hour = null) {
 		$q = self::newQuery()
-				->where('object')->eqals($object)
-				->andField('objectId')->eqals($objectId);
+				->where('object')->equals($object)
+				->andField('objectId')->equals($objectId);
 
 		self::_bindParam($q, 'year', $year);
 		self::_bindParam($q, 'month', $month);
@@ -242,7 +242,7 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 			$q->andField($name)->notEquals(null);
 			return;
 		}
-		$q->andField($name)->eqals($value);
+		$q->andField($name)->equals($value);
 		return;
 	}
 
