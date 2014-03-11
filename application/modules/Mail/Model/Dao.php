@@ -10,7 +10,7 @@ class Mail_Model_Dao extends Mmi_Dao {
 	 */
 	public static function clean() {
 		$q = self::newQuery()
-			->where('active')->eqals(1)
+			->where('active')->equals(1)
 			->andField('dateAdd')->less(date('Y-m-d H:i:s', strtotime('-1 week')));
 		return self::find($q)->delete();
 	}
@@ -29,9 +29,9 @@ class Mail_Model_Dao extends Mmi_Dao {
 	 */
 	public static function pushEmail($name, $to, array $params = array(), $fromName = null, $replyTo = null, $subject = null, $sendAfter = null, array $attachments = array()) {
 		$q = self::newQuery()
-			->where('name')->eqals($name);
+			->where('name')->equals($name);
 		if (Mmi_Controller_Front::getInstance()->getRequest()->lang !== null) {
-			$q->andField('lang')->eqals(Mmi_Controller_Front::getInstance()->getRequest()->lang);
+			$q->andField('lang')->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang);
 		}
 		$def = Mail_Model_Definition_Dao::findFirst($q);
 		if ($def === null) {
@@ -79,7 +79,7 @@ class Mail_Model_Dao extends Mmi_Dao {
 		$q = self::newQuery()
 			->join('mail_definition')->on('mail_definition_id')
 			->join('mail_server', 'mail_definition')->on('mail_server_id')
-			->where('active')->eqals(0)
+			->where('active')->equals(0)
 			->andField('dateSendAfter')->lessOrEquals(date('Y-m-d H:i:s'))
 			->orderAsc('dateSendAfter');
 

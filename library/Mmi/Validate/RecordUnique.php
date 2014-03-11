@@ -50,7 +50,7 @@ class Mmi_Validate_RecordUnique extends Mmi_Validate_Abstract {
 		$field = $this->_options[1];
 		/* @var $q Mmi_Dao_Query */
 		$q = $dao::newQuery()
-				->where($field)->eqals($value);
+				->where($field)->equals($value);
 		if (isset($this->_options[2])) {
 			$q->andField('id')->notEquals(intval($this->_options[2]));
 		}

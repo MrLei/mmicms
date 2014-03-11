@@ -6,8 +6,8 @@ class Cms_Model_Comment_Dao extends Mmi_Dao {
 
 	public static function findByObject($object, $objectId, $descending = false) {
 		$q = self::newQuery()
-			->where('object')->eqals($object)
-			->andField('objectId')->eqals($objectId)
+			->where('object')->equals($object)
+			->andField('objectId')->equals($objectId)
 			->limit(100);
 
 		if ($descending) {
@@ -20,8 +20,8 @@ class Cms_Model_Comment_Dao extends Mmi_Dao {
 
 	public static function countByObject($object, $objectId) {
 		$q = self::newQuery()
-				->where('object')->eqals($object)
-				->andField('objectId')->eqals($objectId);
+				->where('object')->equals($object)
+				->andField('objectId')->equals($objectId);
 		return self::count($q);
 	}
 

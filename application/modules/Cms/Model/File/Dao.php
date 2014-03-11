@@ -12,9 +12,9 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 */
 	public static function findClassified($object, $objectId) {
 		$q = self::newQuery()
-			->where('objectId')->eqals($objectId)
-			->andField('object')->eqals($object)
-			->andField('active')->eqals(1)
+			->where('objectId')->equals($objectId)
+			->andField('object')->equals($object)
+			->andField('active')->equals(1)
 			->orderAsc('order');
 
 		$files = self::find($q);
@@ -46,12 +46,12 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 */
 	public static function findFirstSticky($object, $id, $class = null) {
 		$q = self::newQuery()
-			->where('sticky')->eqals(1)
-			->andField('object')->eqals($object)
-			->andField('objectId')->eqals($id);
+			->where('sticky')->equals(1)
+			->andField('object')->equals($object)
+			->andField('objectId')->equals($id);
 
 		if (null !== $class) {
-			$q->andField('class')->eqals($class);
+			$q->andField('class')->equals($class);
 		}
 		return self::findFirst($q);
 	}
@@ -64,9 +64,9 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 */
 	public static function findFirstImage($object, $id) {
 		$q = self::newQuery()
-			->where('object')->eqals($object)
-			->andField('objectId')->eqals($id)
-			->andField('class')->eqals('image')
+			->where('object')->equals($object)
+			->andField('objectId')->equals($id)
+			->andField('class')->equals('image')
 			->orderAsc('order');
 		return self::findFirst($q);
 	}
@@ -79,9 +79,9 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 */
 	public static function findImages($object = null, $id = null) {
 		$q = self::newQuery()
-			->where('object')->eqals($object)
-			->andField('objectId')->eqals($id)
-			->andField('class')->eqals('image')
+			->where('object')->equals($object)
+			->andField('objectId')->equals($id)
+			->andField('class')->equals('image')
 			->orderAsc('order');
 		return self::find($q);
 	}
@@ -94,8 +94,8 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 */
 	public static function findNotImages($object = null, $id = null) {
 		$q = self::newQuery()
-			->where('object')->eqals($object)
-			->andField('objectId')->eqals($id)
+			->where('object')->equals($object)
+			->andField('objectId')->equals($id)
 			->andField('class')->notEquals('image')
 			->orderAsc('order');
 		return self::find($q);
@@ -109,8 +109,8 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 */
 	public static function findByObjectId($object, $objectId) {
 		$q = self::newQuery()
-			->where('object')->eqals($object)
-			->andField('objectId')->eqals($objectId)
+			->where('object')->equals($object)
+			->andField('objectId')->equals($objectId)
 			->orderAsc('order');
 		return self::find($q);
 	}
@@ -203,8 +203,8 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	public static function move($srcObject, $srcId, $destObject, $destId) {
 		$i = 0;
 		$q = self::newQuery()
-			->where('object')->eqals($srcObject)
-			->andField('objectId')->eqals($srcId);
+			->where('object')->equals($srcObject)
+			->andField('objectId')->equals($srcId);
 		foreach (self::find($q) as $file) {
 			$file->object = $destObject;
 			$file->objectId = $destId;
