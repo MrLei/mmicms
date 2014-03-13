@@ -31,7 +31,8 @@ class Mmi_Form_Element_Button extends Mmi_Form_Element_Abstract {
 	 * Ignorowanie tego pola
 	 */
 	public function init() {
-		$this->_options['ignore'] = true;
+		$this->setIgnore();
+		$this->setRenderingOrder(array('fetchField', 'fetchErrors', 'fetchCustomHtml'));
 	}
 
 	/**
@@ -47,17 +48,4 @@ class Mmi_Form_Element_Button extends Mmi_Form_Element_Abstract {
 		return $html;
 	}
 
-	/**
-	 * Zwraca string'ową reprezentację obiektu
-	 * @return string
-	 */
-	public function __toString() {
-		$this->preRender();
-		$html = $this->fetchBegin();
-		$html .= $this->fetchField();
-		$html .= $this->fetchErrors();
-		$html .= $this->fetchEnd();
-		return $html;
-	}
-	
 }

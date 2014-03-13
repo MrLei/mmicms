@@ -2,24 +2,6 @@
 
 class Cms_Controller_Container extends Mmi_Controller_Action {
 
-	//@TODO: do usunięcia
-	public function indexAction() {
-		//po uri
-		if (!$this->_getParam('uri')) {
-			$this->_helper->redirector('index', 'index', 'default', array(), true);
-		}
-		$cacheKey = 'Cms_Container_' . $this->_getParam('uri');
-		if (null === ($container = Default_Registry::$cache->load($cacheKey))) {
-			$container = Cms_Model_Container_Dao::findFirstByUri($this->_getParam('uri'));
-			if ($container === null) {
-				$this->_helper->redirector('index', 'index', 'default', array(), true);
-			}
-			Default_Registry::$cache->save($container, $cacheKey, 28800);
-		}
-		$this->view->container = $container;
-		//$this->view->navigation()->modifyLastBreadcrumb($container->title, $this->view->url());
-	}
-
 	public function displayAction() {
 		if (!$this->_getParam('uri')) {
 			$this->_helper->redirector('index', 'index', 'default', array(), true);

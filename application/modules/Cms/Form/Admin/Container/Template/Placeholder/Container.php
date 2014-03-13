@@ -11,22 +11,20 @@ class Cms_Form_Admin_Container_Template_Placeholder_Container extends Mmi_Form {
 		}
 		$container = Cms_Model_Container_Dao::findPk($this->getRecord()->cms_container_id);
 
-		$this->addElement('select', 'cms_container_template_placeholder_id', array(
-			'label' => 'nazwa placeholdera',
-			'required' => true,
-			'multiOptions' => Cms_Model_Container_Template_Placeholder_Dao::findPairsByTemplateId('id', 'name', $container->cms_container_template_id),
-			'validators' => array('NotEmpty'),
-		));
+		$this->addElementSelect('cms_container_template_placeholder_id')
+			->setLabel('nazwa placeholdera')
+			->setRequired()
+			->setMultiOptions(Cms_Model_Container_Template_Placeholder_Dao::findPairsByTemplateId('id', 'name', $container->cms_container_template_id))
+			->addValidatorNotEmpty();
 
 		$value = null;
 		if ($this->getRecord()) {
 			$value = $this->getRecord()->module . '_' . $this->getRecord()->controller . '_' . $this->getRecord()->action;
 		}
 
-		$this->addElement('select', 'object', array(
-			'label' => 'obiekt CMS',
-			'value' => $value
-		));
+		$this->addElementSelect('object')
+			->setLabel('obiekt CMS')
+			->setValue($value);
 
 		$reflection = new Admin_Model_Reflection();
 		$object = $this->getElement('object');
@@ -34,37 +32,30 @@ class Cms_Form_Admin_Container_Template_Placeholder_Container extends Mmi_Form {
 		foreach ($reflection->getActions() as $action) {
 			if ($action['module'] != 'admin' && substr($action['controller'], 0, 5) != 'admin') {
 				$object->addMultiOption($action['path'], $action['module'] . ': ' . $action['controller'] . ' - ' . $action['action']);
-
 			}
 		}
 
-		$this->addElement('text', 'params', array(
-			'label' => 'parametry'
-		));
-		
-		$this->addElement('text', 'marginTop', array(
-			'label' => 'margines górny',
-			'validators' => array('Integer'),
-		));
+		$this->addElementText('params')
+			->setLabel('parametry');
 
-		$this->addElement('text', 'marginRight', array(
-			'label' => 'margines prawy',
-			'validators' => array('Integer'),
-		));
-		
-		$this->addElement('text', 'marginBottom', array(
-			'label' => 'margines dolny',
-			'validators' => array('Integer'),
-		));
-		
-		$this->addElement('text', 'marginLeft', array(
-			'label' => 'margines lewy',
-			'validators' => array('Integer'),
-		));
+		$this->addElementText('marginTop')
+			->setLabel('margines górny')
+			->addValidatorInteger();
 
-		$this->addElement('submit', 'submit', array(
-			'label' => 'zapisz placeholder'
-		));
+		$this->addElementText('marginRight')
+			->setLabel('margines prawy')
+			->addValidatorInteger();
+
+		$this->addElementText('marginBottom')
+			->setLabel('margines dolny')
+			->addValidatorInteger();
+
+		$this->addElementText('marginLeft')
+			->setLabel('margines left')
+			->addValidatorInteger();
+
+		$this->addElementSubmit('submit')
+			->setLabel('zapisz placeholder');
 	}
 
 }

@@ -12,23 +12,23 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 
 	public static function findFirstByArticleUri($uri) {
 		$q = self::newQuery()
-				->where('module')->eqals('cms')
-				->andField('controller')->eqals('article')
-				->andField('action')->eqals('index')
-				->andField('params')->eqals('uri=' . $uri);
+				->where('module')->equals('cms')
+				->andField('controller')->equals('article')
+				->andField('action')->equals('index')
+				->andField('params')->equals('uri=' . $uri);
 		return Cms_Model_Navigation_Dao::findFirst($q);
 	}
 
 	public static function findLastByParentId($parentId) {
 		$q = self::newQuery()
-				->where('parent_id')->eqals($parentId)
+				->where('parent_id')->equals($parentId)
 				->orderDesc('order');
 		return Cms_Model_Navigation_Dao::findFirst($q);
 	}
 
 	public static function findByParentId($parentId) {
 		$q = self::newQuery()
-				->where('parent_id')->eqals($parentId);
+				->where('parent_id')->equals($parentId);
 		return Cms_Model_Navigation_Dao::find($q);
 	}
 
@@ -70,7 +70,7 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 			->orderAsc('order');
 		$lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
 		if ($lang !== null) {
-			$q->where('lang')->eqals($lang);
+			$q->where('lang')->equals($lang);
 		}
 		$data = self::find($q)->toArray();
 		$view = Mmi_Controller_Front::getInstance()->getView();

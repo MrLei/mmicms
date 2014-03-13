@@ -26,6 +26,36 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_RangeSlider extends Mmi_Form_Element_Abstract {
+	
+	/**
+	 * Ustawia minimalną wartość
+	 * @param string $min
+	 * @return Mmi_Form_Element_RangeSlider
+	 */
+	public function setMinimal($min) {
+		$this->_options['min'] = $min;
+		return $this;
+	}
+	
+	/**
+	 * Ustawia maksymalną wartość
+	 * @param string $max
+	 * @return Mmi_Form_Element_RangeSlider
+	 */
+	public function setMaximal($max) {
+		$this->_options['max'] = $max;
+		return $this;
+	}
+	
+	/**
+	 * Ustawia krok slidera
+	 * @param string $step
+	 * @return Mmi_Form_Element_RangeSlider
+	 */
+	public function setStep($step) {
+		$this->_options['step'] = $step;
+		return $this;
+	}
 
 	/**
 	 * Buduje pole
@@ -85,7 +115,7 @@ class Mmi_Form_Element_RangeSlider extends Mmi_Form_Element_Abstract {
 		} else {
 			$label = $this->_options['label'];
 		}
-		return '<label' . $forHtml . $requiredClass . '>' . $label . $this->_labelPostfix . $required . '</label>';
+		return '<label' . $forHtml . $requiredClass . '>' . $label . $this->_options['labelPostfix'] . $required . '</label>';
 	}
 
 }

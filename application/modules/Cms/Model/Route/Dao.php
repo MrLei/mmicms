@@ -7,7 +7,7 @@ class Cms_Model_Route_Dao extends Mmi_Dao {
 	public static function findActive() {
 		$texts = array();
 		$q = self::newQuery()
-			->where('active')->eqals(1)
+			->where('active')->equals(1)
 			->orderAsc('order');
 		foreach (self::find($q) as $text) {
 			$texts[] = $text->toRouteArray();

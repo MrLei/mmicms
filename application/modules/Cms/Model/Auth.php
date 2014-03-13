@@ -7,16 +7,16 @@ class Cms_Model_Auth implements Mmi_Auth_Model_Interface {
 		$credential = self::getSaltedPasswordHash($credential);
 
 		$qUser = Cms_Model_Auth_Dao::newQuery()
-			->where('username')->eqals($identity)
-			->orField('email')->eqals($identity);
+			->where('username')->equals($identity)
+			->orField('email')->equals($identity);
 
 		$qPassword = Cms_Model_Auth_Dao::newQuery()
-			->where('password')->eqals($credential)
-			->orField('password')->eqals($credentialLegacy)
-			->orField('password')->eqals(substr($credential, 0, 40));
+			->where('password')->equals($credential)
+			->orField('password')->equals($credentialLegacy)
+			->orField('password')->equals(substr($credential, 0, 40));
 
 		$q = Cms_Model_Auth_Dao::newQuery()
-			->where('active')->eqals(1)
+			->where('active')->equals(1)
 			->andQuery($qUser)
 			->andQuery($qPassword);
 
@@ -24,7 +24,7 @@ class Cms_Model_Auth implements Mmi_Auth_Model_Interface {
 
 		if ($record === null) {
 			$q = Cms_Model_Auth_Dao::newQuery()
-				->where('active')->eqals(1)
+				->where('active')->equals(1)
 				->andQuery($qUser);
 			$record = Cms_Model_Auth_Dao::findFirst($q);
 			if ($record !== null) {
@@ -53,9 +53,9 @@ class Cms_Model_Auth implements Mmi_Auth_Model_Interface {
 
 	public static function idAuthenticate($id) {
 		$q = Cms_Model_Auth_Dao::newQuery()
-			->where('id')->eqals($id)
-			->orField('username')->eqals($id)
-			->orField('email')->eqals($id);
+			->where('id')->equals($id)
+			->orField('username')->equals($id)
+			->orField('email')->equals($id);
 		$record = Cms_Model_Auth_Dao::findFirst($q);
 		if ($record === null) {
 			return false;

@@ -6,39 +6,32 @@ class Mail_Form_Admin_Server extends Mmi_Form {
 
 	public function init() {
 
-		$this->addElement('text', 'address', array(
-			'label' => 'Adres serwera SMTP'
-		));
+		$this->addElementText('address')
+				->setLabel('Adres serwera SMTP');
 
-		$this->addElement('select', 'ssl', array(
-			'label' => 'Rodzaj połączenia',
-			'required' => true,
-			'multiOptions' => array('plain' => 'plain', 'tls' => 'tls', 'ssl' => 'ssl')
-		));
+		$this->addElementSelect('ssl')
+				->setLabel('Rodzaj połączenia')
+				->setRequired()
+				->setMultiOptions(array('plain' => 'plain', 'tls' => 'tls', 'ssl' => 'ssl'));
 
-		$this->addElement('text', 'port', array(
-			'label' => 'Port',
-			'value' => 25,
-			'required' => true,
-			'description' => 'Plain: 25, SSL: 465'
-		));
+		$this->addElementText('port')
+				->setLabel('Port')
+				->setRequired()
+				->setValue(25)
+				->setDescription('Plain: 25, SSL: 465');
 
-		$this->addElement('text', 'username', array(
-			'label' => 'Nazwa użytkownika'
-		));
+		$this->addElementText('username')
+				->setLabel('Nazwa użytkownika');
 
-		$this->addElement('text', 'password', array(
-			'label' => 'Hasło użytkownika'
-		));
+		$this->addElementText('password')
+				->setLabel('Hasło użytkownika');
 
-		$this->addElement('text', 'from', array(
-			'label' => 'Domyślny adres od'
-		));
+		$this->addElementText('from')
+				->setLabel('Domyślny adres od');
 
 		//submit
-		$this->addElement('submit', 'submit', array(
-			'label' => 'Zapisz'
-		));
-	}
+		$this->addElementSubmit('submit')
+				->setLabel('Zapisz');
 
+	}
 }

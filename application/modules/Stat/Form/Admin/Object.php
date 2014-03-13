@@ -3,26 +3,23 @@
 class Stat_Form_Admin_Object extends Mmi_Form {
 
 	public function init() {
-		$this->addElement('select', 'object', array(
-			'value' => $this->getOption('object'),
-			'label' => 'statystyka',
-			'multiOptions' => array(null => '---') + Stat_Model_Label_Dao::findPairs('object', 'label', Stat_Model_Label_Dao::newQuery()->orderAsc('label'))
-		));
 
-		$years = array(date('Y') - 1 => date('Y') - 1, date('Y') => date('Y'));
+		$this->addElementSelect('object')
+				->setLabel('statystyka')
+				->setValue($this->getOption('object'))
+				->setMultiOptions(array(null => '---') + Stat_Model_Label_Dao::findPairs('object', 'label', Stat_Model_Label_Dao::newQuery()->orderAsc('label')));
 
-		$this->addElement('select', 'year', array(
-			'value' => $this->getOption('year'),
-			'label' => 'rok',
-			'multiOptions' => $years
-		));
+		$this->addElementSelect('year')
+				->setLabel('rok')
+				->setValue($this->getOption('year'))
+				->setMultiOptions(array(date('Y') - 1 => date('Y') - 1, date('Y') => date('Y')));
 
 		$view = Mmi_Controller_Front::getInstance()->getView();
 
-		$this->addElement('select', 'month', array(
-			'value' => $this->getOption('month'),
-			'label' => 'miesiąc',
-			'multiOptions' => array(1 => $view->getTranslate()->_('styczeń'),
+		$this->addElementSelect('month')
+				->setLabel('miesiąc')
+				->setValue($this->getOption('month'))
+				->setMultiOptions(array(1 => $view->getTranslate()->_('styczeń'),
 				2 => $view->getTranslate()->_('luty'),
 				3 => $view->getTranslate()->_('marzec'),
 				4 => $view->getTranslate()->_('kwiecień'),
@@ -34,8 +31,7 @@ class Stat_Form_Admin_Object extends Mmi_Form {
 				10 => $view->getTranslate()->_('październik'),
 				11 => $view->getTranslate()->_('listopad'),
 				12 => $view->getTranslate()->_('grudzień'),
-			)
-		));
-	}
+				));
 
+	}
 }

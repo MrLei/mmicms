@@ -8,7 +8,7 @@ class Cms_Model_Acl_Dao extends Mmi_Dao {
 		$rules = array();
 
 		$q = self::newQuery()
-				->where('cms_role_id')->eqals($role);
+				->where('cms_role_id')->equals($role);
 
 		$data = Cms_Model_Acl_Dao::find($q);
 		foreach ($data as $item) {
