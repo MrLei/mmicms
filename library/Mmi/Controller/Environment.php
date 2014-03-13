@@ -31,31 +31,31 @@ class Mmi_Controller_Environment {
 	 * @var string
 	 */
 	public $applicationLanguage;
-	
+
 	/**
 	 * Nazwa użytkownika Basic-Auth
 	 * @var string
 	 */
 	public $authUser;
-	
+
 	/**
 	 * Hasło użytkownika Basic-Auth
 	 * @var string
 	 */
 	public $authPassword;
-	
+
 	/**
 	 * Kodowanie strumienia, np. text/xml
 	 * @var string
 	 */
 	public $contentType;
-	
+
 	/**
 	 *
 	 * @var string
 	 */
 	public $documentRoot;
-	
+
 	/**
 	 * Nagłówek Http-Accept-Language
 	 * @var string
@@ -67,79 +67,79 @@ class Mmi_Controller_Environment {
 	 * @var string
 	 */
 	public $httpAcceptEncoding;
-	
+
 	/**
 	 * Host
 	 * @var string
 	 */
 	public $httpHost;
-	
+
 	/**
-	 * 
+	 *
 	 * @var string
 	 */
 	public $httpOrigin;
-	
+
 	/**
 	 * Referer
-	 * @var string 
+	 * @var string
 	 */
 	public $httpReferer;
-	
+
 	/**
 	 * Czy połączenie po HTTPS
 	 * @var bool
 	 */
 	public $httpSecure;
-	
+
 	/**
 	 * Przeglądarka użytkownika
 	 * @var string
 	 */
 	public $httpUserAgent;
-	
+
 	/**
 	 * IP klienta
 	 * @var string
 	 */
 	public $remoteAddress;
-	
+
 	/**
 	 * Port klienta
 	 * @var int
 	 */
 	public $remotePort;
-	
+
 	/**
 	 * Metoda zapytania GET, POST, PUT, DELETE
 	 * @var string
 	 */
 	public $requestMethod;
-	
+
 	/**
 	 * Adres uri
 	 * @var string
 	 */
 	public $requestUri;
-	
+
 	/**
 	 * Nazwa wykonywanego skryptu
 	 * @var string
 	 */
 	public $scriptFilename;
-	
+
 	/**
 	 * IP serwera
 	 * @var string
 	 */
 	public $serverAddress;
-	
+
 	/**
 	 * Port serwera
 	 * @var int
 	 */
 	public $serverPort;
-	
+
 	/**
 	 * Oprogramowanie serwera
 	 * @var string
@@ -150,8 +150,8 @@ class Mmi_Controller_Environment {
 
 		$this->applicationLanguage = filter_input(INPUT_SERVER, 'APPLICATION_LANGUAGE');
 
-		$this->authUser = filter_input(INPUT_SERVER, 'PHP_AUTH_USER');
-		$this->authPassword = filter_input(INPUT_SERVER, 'PHP_AUTH_PW');
+		$this->authUser = isset($_SERVER['PHP_AUTH_USER']) ? filter_var($_SERVER['PHP_AUTH_USER']) : null;
+		$this->authPassword = isset($_SERVER['PHP_AUTH_PW']) ? filter_var($_SERVER['PHP_AUTH_PW']) : null;
 
 		$this->contentType = filter_input(INPUT_SERVER, 'CONTENT_TYPE', FILTER_SANITIZE_SPECIAL_CHARS);
 
