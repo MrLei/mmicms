@@ -47,9 +47,9 @@ class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
 	 */
 	public static function unTag($tagId, $object, $objectId = null) {
 		$q = self::newQuery()
-				->where('cms_tag_id')->eqals($tagId)
-				->andField('object')->eqals($object)
-				->andField('objectId')->eqals($objectId);
+				->where('cms_tag_id')->equals($tagId)
+				->andField('object')->equals($object)
+				->andField('objectId')->equals($objectId);
 		return self::find($q)->delete();
 	}
 
@@ -76,8 +76,8 @@ class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
 	 */
 	public static function clearTags($object, $objectId = null) {
 		$q = self::newQuery()
-				->where('object')->eqals($object)
-				->andField('objectId')->eqals($objectId);
+				->where('object')->equals($object)
+				->andField('objectId')->equals($objectId);
 		return self::find($q)->delete();
 	}
 
@@ -128,8 +128,8 @@ class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
 	public static function findTags($object, $objectId = null) {
 		$q = self::newQuery()
 			->join('cms_tag')->on('cms_tag_id')
-			->where('object')->eqals($object)
-			->andField('objectId')->eqals($objectId)
+			->where('object')->equals($object)
+			->andField('objectId')->equals($objectId)
 			->orderAsc('tag', 'cms_tag');
 		return self::find($q);
 	}
@@ -151,9 +151,9 @@ class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
 		$q = self::newQuery()
 			->join('cms_tag')->on('cms_tag_id')
 			->join('mds_country')->on('objectId')
-			->where('object', 'cms_tag_link')->eqals('mdsCountry')
-			->andField('tag', 'cms_tag')->eqals(trim($tag))
-			->andField('active', 'mds_country')->eqals(true)
+			->where('object', 'cms_tag_link')->equals('mdsCountry')
+			->andField('tag', 'cms_tag')->equals(trim($tag))
+			->andField('active', 'mds_country')->equals(true)
 			->orderAsc('name', 'mds_country');
 
 		return self::find($q);
@@ -168,10 +168,10 @@ class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
 		$q = self::newQuery()
 			->join('cms_tag')->on('cms_tag_id')
 			->join('mds_region')->on('objectId')
-			->where('object', 'cms_tag_link')->eqals('mdsRegion')
-			->andField('tag', 'cms_tag')->eqals(trim($tag))
-			->andField('active', 'mds_region')->eqals(true)
-			->andField('mds_country_id', 'mds_region')->eqals($mdsCountryId)
+			->where('object', 'cms_tag_link')->equals('mdsRegion')
+			->andField('tag', 'cms_tag')->equals(trim($tag))
+			->andField('active', 'mds_region')->equals(true)
+			->andField('mds_country_id', 'mds_region')->equals($mdsCountryId)
 			->orderAsc('name', 'mds_region');
 
 		return self::find($q);

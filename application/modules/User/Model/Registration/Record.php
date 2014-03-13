@@ -1,18 +1,14 @@
 <?php
 
-class User_Model_Registration extends Cms_Model_Auth {
+class User_Model_Registration_Record extends Cms_Model_Auth_Record {
 
 	public function save() {
 		if ($this->password != $this->confirmPassword) {
-			return -1;
-		}
-		if ($this->regulations == 0) {
-			return -1;
+			return false;
 		}
 		$this->changePassword = $this->password;
 		unset($this->password);
 		$this->lang = 'pl';
-		$this->roles = array('member');
 		unset($this->regulations);
 		unset($this->confirmPassword);
 		return parent::save();

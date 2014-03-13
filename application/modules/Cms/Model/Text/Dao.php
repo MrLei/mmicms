@@ -7,9 +7,9 @@ class Cms_Model_Text_Dao extends Mmi_Dao {
 
 	public static function findByKeyLang($key, $lang) {
 		$q = self::newQuery()
-			->where('key')->eqals($key);
+			->where('key')->equals($key);
 		if ($lang !== null) {
-			$q->andField('lang')->eqals($lang);
+			$q->andField('lang')->equals($lang);
 		}
 		return self::findFirst($q);
 	}
