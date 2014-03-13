@@ -7,7 +7,7 @@ class Cms_Controller_AdminContainerTemplatePlaceholder extends MmiCms_Controller
 		//placeholdery tylko dla danego szablonu
 		if ($this->_getParam('templateId')) {
 			$q = new Mmi_Dao_Query();
-			$q->where('cms_container_template_id')->eqals($this->_getParam('templateId'));
+			$q->where('cms_container_template_id')->equals($this->_getParam('templateId'));
 			$this->view->grid->setInitialQuery($q);
 		}
 	}

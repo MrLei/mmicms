@@ -6,7 +6,7 @@ class Cms_Model_Container_Dao extends Mmi_Dao {
 
 	public static function findFirstByUri($uri) {
 		$q = self::newQuery()
-				->where('uri')->eqals($uri);
+				->where('uri')->equals($uri);
 		$container = self::findFirst($q);
 		if ($container === null) {
 			return null;

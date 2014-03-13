@@ -9,51 +9,41 @@ class News_Form_Admin_Edit extends Mmi_Form {
 		//ustawia zabezpieczenie CSRF
 		$this->setSecured();
 
-		$this->addElement('text', 'title', array(
-			'label' => 'Tytuł artykułu',
-			'required' => true,
-			'filters' => array('StringTrim'),
-			'validators' => array(
-				'NotEmpty',
-			)
-		));
+		$this->addElementText('title')
+			->setLabel('Tytuł artykułu')
+			->setRequired()
+			->addFilter('stringTrim')
+			->addValidatorNotEmpty();
 
-		$this->addElement('checkbox', 'internal', array(
-			'label' => 'Artykuł wewnętrzny',
-			'value' => 1
-		));
+		$this->addElementCheckbox('internal')
+			->setLabel('Artykuł wewnętrzny')
+			->setValue(1);
 
-		$this->addElement('text', 'uri', array(
-			'label' => 'Link do treści zewnętrznej',
-		));
-		
-		$this->addElement('tinyMce', 'lead', array(
-			'label' => 'Podsumowanie (zajawka)',
-		));
+		$this->addElementText('uri')
+			->setLabel('Link do treści zewnętrznej');
 
-		$this->addElement('tinyMce', 'text', array(
-			'label' => 'Treść',
-			'mode' => 'advanced',
-			'img' => 'news:' . $this->getRecord()->id,
-			'required' => true
-		));
+		$this->addElementTinyMce('lead')
+			->setLabel('Podsumowanie (zajawka)');
 
-		$this->addElement('select', 'visible', array(
-			'label' => 'Publikacja',
-			'multiOptions' => array(
+		$this->addElementTinyMce('text')
+			->setLabel('Treść')
+			->setOption('img', 'news:' . $this->getRecord()->id)
+			->setRequired()
+			->setModeAdvanced();
+
+		$this->addElementSelect('visible')
+			->setLabel('Publikacja')
+			->setMultiOptions(array(
 				1 => 'włączony',
 				0 => 'wyłączony',
-			),
-		));
+			));
 
-		$this->addElement('uploader', 'uploader', array(
-			'label' => 'Dołącz pliki',
-		));
+		$this->addElementUploader('uploader')
+			->setLabel('Dołącz pliki');
 
-		$this->addElement('submit', 'submit', array(
-			'ignore' => true,
-			'label' => 'Zapisz',
-		));
+		$this->addElementSubmit('submit')
+			->setIgnore()
+			->setLabel('Zapisz');
 	}
 
 }
