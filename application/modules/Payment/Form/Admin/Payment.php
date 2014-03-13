@@ -6,14 +6,11 @@ class Payment_Form_Admin_Payment extends Mmi_Form {
 
 	public function init() {
 
-		$this->addElement('text', 'text', array(
-			'label' => 'opis płatności'
-		));
+		$this->addElementText('text')
+			->setLabel('opis płatności');
 
-		$this->addElement('text', 'value', array(
-			'label' => 'wartość'
-		));
-
+		$this->addElementText('value')
+			->setLabel('wartość');
 	}
-	
+
 }

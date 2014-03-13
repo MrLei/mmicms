@@ -151,7 +151,8 @@ $(document).ready(function () {
 			min:	parseInt(element.attr('data-min'), 10),
 			max:	parseInt(element.attr('data-max'), 10),
 			step:	parseInt(element.attr('data-step'), 10),
-			slide:	calcTimeSlider
+			slide:	calcTimeSlider,
+			change:	calcTimeSlider
 		}).find('div.ui-slider-range').html('<div class="float-label"></div>');
 		calcTimeSlider.apply(element);
 	});
@@ -165,7 +166,8 @@ $(document).ready(function () {
 			min:	parseInt(element.attr('data-min'), 10),
 			max:	parseInt(element.attr('data-max'), 10),
 			step:	parseInt(element.attr('data-step'), 10),
-			slide:	calcRangeTimeSlider
+			slide:	calcRangeTimeSlider,
+			change:	calcRangeTimeSlider
 		});
 		calcRangeTimeSlider.apply(element);
 	});
@@ -179,7 +181,8 @@ $(document).ready(function () {
 			min:	parseInt(element.attr('data-min'), 10),
 			max:	parseInt(element.attr('data-max'), 10),
 			step:	parseInt(element.attr('data-step'), 10),
-			slide:	calcRangeSlider
+			slide:	calcRangeSlider,
+			change:	calcRangeSlider
 		});
 		calcRangeSlider.apply(element);
 	});

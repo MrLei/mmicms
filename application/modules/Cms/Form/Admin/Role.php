@@ -6,16 +6,11 @@ class Cms_Form_Admin_Role extends Mmi_Form {
 
 	public function init() {
 
-		$this->addElement('text', 'role', array(
-			'validators' => array(
-				array('validator' => 'StringLength', 'options' => array(3, 64)),
-			)
-		));
+		$this->addElementText('role')
+				->addValidatorStringLength(3, 64);
 
-		$this->addElement('submit', 'submit', array(
-			'label' => 'utwórz rolę'
-		));
+		$this->addElementSubmit('submit')
+				->setLabel('utwórz rolę');
 
 	}
-
 }

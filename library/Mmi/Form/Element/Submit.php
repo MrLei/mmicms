@@ -26,7 +26,7 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_Submit extends Mmi_Form_Element_Abstract {
-	
+
 	/**
 	 * Konstruktor, ustawia nazwę pola i opcje
 	 * @param string $name nazwa
@@ -34,8 +34,9 @@ class Mmi_Form_Element_Submit extends Mmi_Form_Element_Abstract {
 	 */
 	public function __construct($name, array $options = array()) {
 		if (!isset($options['ignore'])) {
-			$options['ignore'] = true;
+			$this->setIgnore();
 		}
+		$this->setRenderingOrder(array('fetchField', 'fetchErrors', 'fetchCustomHtml'));
 		parent::__construct($name, $options);
 	}
 
@@ -49,24 +50,11 @@ class Mmi_Form_Element_Submit extends Mmi_Form_Element_Abstract {
 			if ($this->_translatorEnabled) {
 				$this->_options['value'] = $this->getTranslate()->_($this->_options['label']);
 			} else {
-				$this->_options['value'] = $this->_options['label'];				
+				$this->_options['value'] = $this->_options['label'];
 			}
 		}
 		$html .= 'type="submit" ' . $this->_getHtmlOptions() . '/>';
 		return $html;
 	}
 
-	/**
-	 * Zwraca string'ową reprezentację obiektu
-	 * @return string
-	 */
-	public function __toString() {
-		$this->preRender();
-		$html = $this->fetchBegin();
-		$html .= $this->fetchField();
-		$html .= $this->fetchErrors();
-		$html .= $this->fetchEnd();
-		return $html;
-	}
-	
 }

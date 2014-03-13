@@ -9,20 +9,17 @@ class Cms_Form_Admin_Acl extends Mmi_Form {
 		$this->_record->cms_role_id = Mmi_Controller_Front::getInstance()->getRequest()->roleId;
 		$reflection = new Admin_Model_Reflection();
 
-		$this->addElement('select', 'object', array(
-			'multiOptions' => array_merge(array('' => ''), $reflection->getOptionsWildcard())
-		));
+		$this->addElementSelect('object')
+			->setMultiOptions(array_merge(array('' => ''), $reflection->getOptionsWildcard()));
 
-		$this->addElement('select', 'access', array(
-			'multiOptions' => array(
+		$this->addElementSelect('access')
+			->setMultiOptions(array(
 				'allow' => 'dozwolone',
 				'deny' => 'zabronione'
-			)
-		));
+			));
 
-		$this->addElement('submit', 'submit', array(
-			'label' => 'dodaj regułę'
-		));
+		$this->addElementSubmit('submit')
+			->setLabel('dodaj regułę');
 
 	}
 

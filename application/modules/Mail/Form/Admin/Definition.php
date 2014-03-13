@@ -5,70 +5,52 @@ class Mail_Form_Admin_Definition extends Mmi_Form {
 	protected $_recordName = 'Mail_Model_Definition_Record';
 
 	public function init() {
-		$this->addElement('text', 'name', array(
-			'label' => 'Unikalna nazwa',
-			'required' => true,
-			'validators' => array(
-				array('validator' => 'RecordUnique', 'options' => array('Mail_Model_Definition_Dao', 'name', $this->getRecord()->id)),
-				array('validator' => 'StringLength', 'options' => array(6, 25)),
-			)
-		));
 
-		$this->addElement('select', 'mail_server_id', array(
-			'label' => 'Połącznie',
-			'required' => true,
-			'multiOptions' => Mail_Model_Server_Dao::findPairsActive()
-		));
+		$this->addElementText('name')
+				->setLabel('Unikalna nazwa')
+				->setRequired()
+				->addValidatorStringLength(6, 25)
+				->addValidatorRecordUnique('Mail_Model_Definition_Dao', 'name', $this->getRecord()->id);
 
-		$this->addElement('text', 'subject', array(
-			'label' => 'Tytuł',
-			'required' => true,
-			'validators' => array(
-				array('validator' => 'StringLength', 'options' => array(2, 240)),
-			)
-		));
+		$this->addElementSelect('mail_server_id')
+				->setLabel('Połącznie')
+				->setRequired()
+				->setMultiOptions(Mail_Model_Server_Dao::findPairsActive());
 
-		$this->addElement('textarea', 'message', array(
-			'label' => 'Treść',
-			'required' => true
-		));
+		$this->addElementText('subject')
+				->setLabel('Tytuł')
+				->setRequired()
+				->addValidatorStringLength(2, 240);
 
-		$this->addElement('checkbox', 'html', array(
-			'label' => 'Wiadomość HTML',
-			'required' => true
-		));
+		$this->addElementTextarea('message')
+				->setLabel('Treść')
+				->setRequired();
 
+		$this->addElementCheckbox('html')
+				->setLabel('Wiadomość HTML')
+				->setRequired();
 
+		$this->addElementText('fromName')
+				->setLabel('Wyświetlana nazwa (Od kogo)')
+				->setDescription('np. Pomoc serwisu xyz.pl')
+				->setRequired()
+				->addValidatorStringLength(2, 240);
 
-		$this->addElement('text', 'fromName', array(
-			'label' => 'Wyświetlana nazwa (Od kogo)',
-			'description' => 'np. Pomoc serwisu xyz.pl',
-			'required' => true,
-			'validators' => array(
-				array('validator' => 'StringLength', 'options' => array(2, 240)),
-			)
-		));
+		$this->addElementText('replyTo')
+				->setLabel('Odpowiedz na')
+				->setDescription('Jeśli inny niż z którego wysłano wiadomość')
+				->setRequired(false)
+				->addValidatorStringLength(2, 240);
 
-		$this->addElement('text', 'replyTo', array(
-			'label' => 'Odpowiedz na',
-			'description' => 'Jeśli inny niż z którego wysłano wiadomość',
-			'required' => false,
-			'validators' => array(
-				array('validator' => 'StringLength', 'options' => array(2, 240)),
-			)
-		));
-
-		$this->addElement('checkbox', 'active', array(
-			'value' => 1,
-			'label' => 'aktywny',
-			'required' => true
-		));
+		$this->addElementCheckbox('active')
+				->setLabel('aktywny')
+				->setValue(1)
+				->setRequired();
 
 		//submit
-		$this->addElement('submit', 'submit', array(
-			'label' => 'zapisz mail',
-			'ignore' => true,
-		));
-	}
+		$this->addElementSubmit('submit')
+				->setLabel('zapisz mail')
+				->setIgnore();
 
+	}
 }

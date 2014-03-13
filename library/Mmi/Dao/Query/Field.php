@@ -31,13 +31,13 @@ class Mmi_Dao_Query_Field {
 	 * @var string
 	 */
 	protected $_fieldName;
-	
+
 	/**
 	 * Nazwa tabeli
 	 * @var string
 	 */
 	protected $_tableName;
-	
+
 	/**
 	 * Kwantyfikator łączenia AND lub OR
 	 * @var string
@@ -69,7 +69,7 @@ class Mmi_Dao_Query_Field {
 	 * @param mixed $value
 	 * @return Mmi_Dao_Query
 	 */
-	public function eqals($value) {
+	public function equals($value) {
 		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, '=', $this->_logic, $this->_tableName);
 		return $this->_query;
 	}
@@ -131,6 +131,16 @@ class Mmi_Dao_Query_Field {
 	 */
 	public function like($value) {
 		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, 'LIKE', $this->_logic, $this->_tableName);
+		return $this->_query;
+	}
+
+	/**
+	 * Porównanie podobieństwa bez wielkości liter
+	 * @param string $value
+	 * @return Mmi_Dao_Query
+	 */
+	public function ilike($value) {
+		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, 'ILIKE', $this->_logic, $this->_tableName);
 		return $this->_query;
 	}
 
