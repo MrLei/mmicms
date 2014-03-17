@@ -55,7 +55,10 @@ class Mmi_Cache_Backend_File implements Mmi_Cache_Backend_Interface {
 	 * @param int $lifeTime wygaśnięcie danych w buforze (informacja dla bufora)
 	 */
 	public function save($key, $data, $lifeTime) {
-		file_put_contents($this->_savePath . '/' . $key, $data);
+		if (file_put_contents($this->_savePath . '/' . $key, $data) === false) {
+			return false;
+		}
+		return true;
 	}
 
 	/**

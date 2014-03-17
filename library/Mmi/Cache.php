@@ -92,7 +92,7 @@ class Mmi_Cache {
 		}
 		$expire = time() + $lifetime;
 		Mmi_Registry::setUserVariable($this->_registryNamespace . $key, $data);
-		$this->_backend->save($key, $this->_setCacheData($data, $expire), $lifetime);
+		return $this->_backend->save($key, $this->_setCacheData($data, $expire), $lifetime);
 	}
 
 	/**
