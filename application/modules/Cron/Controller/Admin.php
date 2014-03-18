@@ -16,10 +16,11 @@ class Cron_Controller_Admin extends MmiCms_Controller_Admin {
 
 	public function deleteAction() {
 		if ($this->_getParam('id')) {
-			$model = new Cron_Model_Cron($this->_getParam('id'));
-			$model->delete();
+			$record = Cron_Model_Dao::findPk($this->_getParam('id'));
 		}
-		$this->_helper->messenger('Zadanie CRON poprawnie usunięte', true);
+		if ($record && $record->delete()) {
+			$this->_helper->messenger('Zadanie CRON poprawnie usunięte', true);
+		}
 		return $this->_helper->redirector('index', 'admin', 'cron', array(), true);
 	}
 

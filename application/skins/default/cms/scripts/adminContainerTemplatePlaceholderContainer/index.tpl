@@ -5,6 +5,6 @@
 	</div>
 	<div class="content-box-content">
 		{$grid}
-		<a class="button" href="{@module=cms&controller=adminContainerTemplatePlaceholderContainer&action=edit&containerId={$request->containerId}@}">dodaj placeholder</a>
+		<a class="button" href="{@module=cms&controller=adminContainerTemplatePlaceholderContainer&action=edit&containerId={$request->containerId}@}">ustaw placeholder</a>
 	</div>
 </div>

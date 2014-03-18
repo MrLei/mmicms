@@ -40,6 +40,7 @@ class Cms_Form_Admin_Container_Template_Placeholder_Container extends Mmi_Form {
 
 		$this->addElementText('marginTop')
 			->setLabel('margines górny')
+			->setDescription('wartość liczbowa (piksele) np. 20')
 			->addValidatorInteger();
 
 		$this->addElementText('marginRight')
@@ -51,7 +52,7 @@ class Cms_Form_Admin_Container_Template_Placeholder_Container extends Mmi_Form {
 			->addValidatorInteger();
 
 		$this->addElementText('marginLeft')
-			->setLabel('margines left')
+			->setLabel('margines lewy')
 			->addValidatorInteger();
 
 		$this->addElementSubmit('submit')
