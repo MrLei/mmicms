@@ -119,6 +119,60 @@ CREATE TABLE cms_contact_option (
     name character varying(64) NOT NULL
 );
 
+CREATE TABLE cms_container_template
+(
+  id INTEGER PRIMARY KEY,
+  name character varying(32),
+  path character varying(128),
+  text text
+);
+
+CREATE TABLE cms_container
+(
+  id INTEGER PRIMARY KEY,
+  title character varying(160),
+  serial text,
+  uri character varying(160),
+  cms_container_template_id integer,
+  FOREIGN KEY (cms_container_template_id) REFERENCES cms_container_template (id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE INDEX cms_container_uri_idx ON cms_container(uri);
+CREATE INDEX fki_cms_container_cms_container_template ON cms_container(cms_container_template_id);
+
+CREATE TABLE cms_container_template_placeholder
+(
+  id INTEGER PRIMARY KEY,
+  cms_container_template_id integer NOT NULL,
+  placeholder character varying(32) NOT NULL,
+  name text,
+  FOREIGN KEY (cms_container_template_id) REFERENCES cms_container_template (id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE UNIQUE INDEX cms_container_template_placeholder_template_id_placeholder ON cms_container_template_placeholder (cms_container_template_id, placeholder);
+CREATE INDEX cms_container_template_placeholde_cms_container_template_id_idx ON cms_container_template_placeholder (cms_container_template_id);
+
+CREATE TABLE cms_container_template_placeholder_container
+(
+  id INTEGER PRIMARY KEY,
+  cms_container_id integer NOT NULL,
+  cms_container_template_placeholder_id integer NOT NULL,
+  module character varying(32) NOT NULL,
+  controller character varying(32) NOT NULL,
+  action character varying(32) NOT NULL,
+  params text,
+  active boolean NOT NULL DEFAULT true,
+  "marginTop" integer,
+  "marginRight" integer,
+  "marginBottom" integer,
+  "marginLeft" integer,
+  FOREIGN KEY (cms_container_template_placeholder_id) REFERENCES cms_container_template_placeholder (id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (cms_container_id) REFERENCES cms_container (id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE INDEX cms_container_template_placeh_cms_container_template_placeh_idx ON cms_container_template_placeholder_container (cms_container_template_placeholder_id);
+CREATE INDEX cms_container_template_placeholder_contain_cms_container_id_idx ON cms_container_template_placeholder_container (cms_container_id);
+
 CREATE TABLE cms_file (
     id INTEGER PRIMARY KEY,
     class character varying(32),
