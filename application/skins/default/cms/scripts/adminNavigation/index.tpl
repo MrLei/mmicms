@@ -6,7 +6,7 @@
 		<h3>{#Struktura serwisu#}</h3>
 		<div class="clear"></div>
 	</div>
-	<div class="content-box-content">
+	<div class="content-box-content tab-content clearfix">
 		{if $navigation}
 		<div class="list-path">
 			{#Jesteś tutaj#}:

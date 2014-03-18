@@ -125,10 +125,12 @@ CMS.grid = function () {
 
 		// Grid interiors
 		$('body').on('mouseenter', '.grid tr', function () {
-			$(this).attr('class', 'hover');
+			$(this).addClass('hover');
+			$(this).removeClass('unhover');
 		}).on('mouseleave', '.grid tr', function () {
-			$(this).attr('class', 'unhover');
-		}).on('click', '.grid a.confirm', function () {
+			$(this).addClass('unhover');
+			$(this).removeClass('hover');
+		}).on('click', 'a.confirm', function () {
 			return window.confirm($(this).attr('title') + '?');
 		});
 

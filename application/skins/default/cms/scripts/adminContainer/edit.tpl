@@ -6,7 +6,7 @@
 		<h3>{#Dodawanie / edycja kontenera#}</h3>
 		<div class="clear"></div>
 	</div>
-	<div class="content-box-content">
+	<div class="content-box-content tab-content clearfix">
 		{$containerForm}
 	</div>
 </div>

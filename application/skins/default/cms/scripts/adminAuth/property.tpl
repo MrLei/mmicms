@@ -7,7 +7,7 @@
 		{navigation()->setRoot(4)->setMinDepth(3)->setMaxDepth(3)->setActiveBranchOnly()->menu()}
 		<div class="clear"></div>
 	</div>
-	<div class="content-box-content">
+	<div class="content-box-content tab-content clearfix">
 		{if php_count($properties) > 0}
 		<ul class="list" id="property-list">
 			{foreach $properties as $property}

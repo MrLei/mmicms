@@ -3,7 +3,7 @@
 		<h3>{#Dodawanie / edycja użytkownika CMS#}</h3>
 		<div class="clear"></div>
 	</div>
-	<div class="content-box-content">
+	<div class="content-box-content tab-content clearfix">
 		{$authForm}
 	</div>
 </div>

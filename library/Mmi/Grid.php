@@ -261,7 +261,7 @@ abstract class Mmi_Grid {
 	 * @return string
 	 */
 	public function render() {
-		$html = '<form id="' . $this->_id . '"><table class="' . $this->_options['class'] . '">';
+		$html = '<form id="' . $this->_id . '"><table class="striped ' . $this->_options['class'] . '">';
 		$html .= $this->renderHead();
 		$html .= '<tbody id="' . $this->_id . '_body">';
 		$html .= $this->renderBody();

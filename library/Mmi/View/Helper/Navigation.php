@@ -599,7 +599,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 				$subHtml = $this->_getHtml($leaf, $depth + 1);
 				$childHtml .= $subHtml;
 			}
-			$class = (isset($leaf['active']) && $leaf['active']) ? 'active ' : '';
+			$class = (isset($leaf['active']) && $leaf['active']) ? 'active current ' : '';
 			$class .= ($index == 0) ? 'first ' : '';
 			$class .= ($index == ($count - 1)) ? 'last ' : '';
 			if ($class) {
@@ -618,7 +618,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 		if ($this->_minDepth > $depth) {
 			return $childHtml;
 		} elseif ($html) {
-			return '<ul class="depth-' . $depth . '" id="menu-' . $tree['id'] . '">' . $html . '</ul>' . PHP_EOL;
+			return '<ul class="menu depth-' . $depth . '" id="menu-' . $tree['id'] . '">' . $html . '</ul>' . PHP_EOL;
 		} else {
 			return '';
 		}
