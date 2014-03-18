@@ -11,7 +11,7 @@ class Cms_Form_Admin_Container_Template extends Mmi_Form {
 			->setLabel('nazwa szablonu')
 			->addValidatorNotEmpty();
 
-		$this->addElementTextarea('test')
+		$this->addElementTextarea('text')
 			->setLabel('kod szablonu');
 
 		$this->addElementSubmit('submit')

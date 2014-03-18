@@ -27,7 +27,7 @@ class Default_Config_Default extends MmiCms_Config {
 
 		$this->session->handler = 'files';
 		$this->session->path = TMP_PATH . '/session';
-		$this->session->name = 'MmiCMS';
+		$this->session->name = 'MmiDemo';
 
 		$this->cache->active = true;
 		$this->cache->handler = 'file';
@@ -35,14 +35,7 @@ class Default_Config_Default extends MmiCms_Config {
 		$this->cache->lifetime = 300;
 
 		$this->db->driver = 'sqlite';
-		$this->db->host = BASE_PATH . '/database/sample.sqlite';
-		//$this->db->driver = 'mysql';
-		//$this->db->host = 'localhost';
-		$this->db->user = 'mmi';
-		$this->db->password = 'mmi';
-		$this->db->name = 'mmi';
-		$this->db->schema = 'mmi';
-		$this->db->charset = 'utf8';
+		$this->db->host = TMP_PATH . '/demo.sqlite';
 	}
 
 }
