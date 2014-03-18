@@ -5,7 +5,7 @@
 		<h3>{#Wybór roli do edycji#}</h3>
 		<div class="clear"></div>
 	</div>
-	<div class="content-box-content">
+	<div class="content-box-content tab-content clearfix">
 		<ul id="roles-list">
 			{foreach $roles as $role}
 			<li>
@@ -27,7 +27,7 @@
 		<h3>{#Wybór roli do edycji#}</h3>
 		<div class="clear"></div>
 	</div>
-	<div class="content-box-content">
+	<div class="content-box-content tab-content clearfix">
 		<div id="rules">
 			{if $request->roleId}
 			<table class="grid">

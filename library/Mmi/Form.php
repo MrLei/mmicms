@@ -1128,7 +1128,7 @@ abstract class Mmi_Form {
 			'" action="' . ($this->getAttrib('action') ? $this->getAttrib('action') : '#') .
 			'" method="' . $this->getAttrib('method') .
 			'" enctype="' . $this->getAttrib('enctype') .
-			'" class="' . $this->getAttrib('class') .
+			'" class="vertical ' . $this->getAttrib('class') .
 			'" accept-charset="' . $this->getAttrib('accept-charset') .
 			'">';
 	}

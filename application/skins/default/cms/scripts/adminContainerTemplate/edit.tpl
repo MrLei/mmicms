@@ -6,7 +6,7 @@
 		<h3>{#Dodawanie / edycja szablonu#}</h3>
 		<div class="clear"></div>
 	</div>
-	<div class="content-box-content">
+	<div class="content-box-content tab-content clearfix">
 		{$templateForm}
 	</div>
 </div>

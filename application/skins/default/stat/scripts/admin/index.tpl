@@ -14,7 +14,7 @@
 		<h3 class="charts">{if $label}{$label->label} - {#statystyki#}{else}{#Statystyki#}{/if}{if $label} ({$label->description}){/if}</h3>
 		<div class="clear"></div>
 	</div>
-	<div class="content-box-content">
+	<div class="content-box-content tab-content clearfix">
 		{$objectForm}
 		<div class="clear"></div>
 		{if $label}
