@@ -18,11 +18,11 @@ class Admin_Controller_Login extends Mmi_Controller_Action {
 		$uri = ($requestUri != $baseUri) ? $requestUri : $this->view->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'index'));
 		$this->_helper->redirector()->gotoUrl($uri);
 	}
-	
+
 	public function logoutAction() {
 		Default_Registry::$auth->clearIdentity();
 		Stat_Model_Dao::hit('admin_logout');
-		$this->_helper->messenger('Dziękujemy za skorzystanie z serwisu, wylogowanio poprawnie');
+		$this->_helper->messenger('Dziękujemy za skorzystanie z serwisu, wylogowanio poprawnie', true);
 		$this->_helper->redirector('index', 'index', 'admin', array(), true);
 	}
 
