@@ -1,4 +1,4 @@
-<h2>Aktualności</h2>
+<h2 class="top-space">Top aktualności</h2>
 <ul>
 	{foreach $news as $entry}
 	<li>

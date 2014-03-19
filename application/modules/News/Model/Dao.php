@@ -10,18 +10,14 @@ class News_Model_Dao extends Mmi_Dao {
 		return self::count($q);
 	}
 
-	public static function findActiveWithFile($limit, $offset = null) {
+	public static function findActive($limit, $offset = null) {
 		$q = self::newQuery()
 			->where('visible')->equals(1)
 			->orderDesc('dateAdd')
 			->limit($limit)
 			->offset($offset);
 
-		$data = self::find($q);
-		foreach ($data as $key => $row) {
-			$data[$key]->file = Cms_Model_File_Dao::findFirstImage('news', $row->id);
-		}
-		return $data;
+		return self::find($q);
 	}
 
 	public static function findFirstActiveByUri($uri) {

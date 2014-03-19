@@ -1,4 +1,4 @@
-<h2>{#Komentarz#}</h2>
+<h3>{#Komentarze#}</h3>
 {if $commentForm}
 	{$commentForm}
 {else}
@@ -8,7 +8,7 @@
 {foreach $comments as $entry}
 	<li>
 		{if $entry->title}
-		<h2>{$entry->title}</h2>
+		<h4>{$entry->title}</h4>
 		{/if}
 		{if $entry->stars}
 			<div class="stars-display">

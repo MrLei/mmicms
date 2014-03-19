@@ -16,8 +16,11 @@
 		<header id="masterhead" class="top-level">
 			<a href="{@module=default@}"><h2><strong>Demo</strong>CMS</h2></a>
 			<div class="cl"></div>
-			<h1>{navigation()->title()}</h1>
+			<nav class="breadcrumbs">
+				{navigation()->breadcrumbs()}
+			</nav>
 			<nav class="top-level">
 				{navigation()->setRoot(101)->menu()}
 			</nav>
 		</header>
+		{messenger()}
