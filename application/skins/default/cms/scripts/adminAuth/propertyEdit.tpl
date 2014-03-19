@@ -4,7 +4,7 @@
 		{navigation()->setRoot(4)->setMinDepth(3)->setMaxDepth(3)->setActiveBranchOnly()->menu()}
 		<div class="clear"></div>
 	</div>
-	<div class="content-box-content tab-content clearfix">
+	<div class="content-box-content clearfix">
 		{$propertyForm}
 	</div>
 </div>

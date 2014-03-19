@@ -3,7 +3,7 @@
 		<h3>{#Routy aplikacji#}</h3>
 		<div class="clear"></div>
 	</div>
-	<div class="content-box-content tab-content clearfix">
+	<div class="content-box-content clearfix">
 		{$grid}
 	</div>
 </div>
