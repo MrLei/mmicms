@@ -7,7 +7,7 @@ class News_Model_Record extends Mmi_Dao_Record {
 		//identyfikatory dla linków wewnętrznych
 		if ($this->internal == 1) {
 			$exists = News_Model_Dao::findFirstByUri($uri);
-			if ($exists !== null && $exists->getId() != $this->getId()) {
+			if ($exists !== null && $exists->getPk() != $this->getPk()) {
 				$uri = $uri . '_' . date('Y-m-d');
 			}
 			$this->uri = $uri;

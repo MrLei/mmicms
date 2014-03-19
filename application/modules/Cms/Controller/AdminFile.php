@@ -43,7 +43,7 @@ class Cms_Controller_AdminFile extends MmiCms_Controller_Admin {
 		}
 		$file = new Cms_Model_File_Record($this->_getParam('id'));
 		$file->delete();
-		$this->_helper->messenger('Poprawnie usunięto plik');
+		$this->_helper->messenger('Poprawnie usunięto plik', true);
 		$this->_helper->redirector('index');
 	}
 
