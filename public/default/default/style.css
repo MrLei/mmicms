@@ -407,6 +407,7 @@ article h1, article h2 {
 	padding: 0 0 10px 0;
 	border-bottom: 2px dashed #ddd;
 	text-shadow: #ddd 1px 1px 0;
+	margin-bottom: 40px;
 }
 
 article h1.top-space, article h2.top-space {

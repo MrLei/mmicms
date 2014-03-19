@@ -36,7 +36,7 @@
 		{/if}
 		<a class="button add" href="{@module=cms&controller=adminNavigation&action=edit&type=cms&parent={$navigation.id}@}">{#dodaj obiekt cms#}</a>
 		<a class="button add" href="{@module=cms&controller=adminNavigation&action=edit&type=simple&parent={$navigation.id}@}">{#dodaj artykuł#}</a>
-		<a class="button add" href="{@module=cms&controller=adminNavigation&action=edit&type=container&parent={$navigation.id}@}">{#dodaj kontener#}</a>
+		<a class="button add" href="{@module=cms&controller=adminNavigation&action=edit&type=container&parent={$navigation.id}@}">{#dodaj stronę CMS#}</a>
 		<a class="button add" href="{@module=cms&controller=adminNavigation&action=edit&type=link&parent={$navigation.id}@}">{#dodaj link#}</a>
 		<a class="button add" href="{@module=cms&controller=adminNavigation&action=edit&type=folder&parent={$navigation.id}@}">{#dodaj folder#}</a>
 		{else}
