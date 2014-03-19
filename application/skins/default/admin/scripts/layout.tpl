@@ -18,6 +18,9 @@
 					<a href="{@module=admin@}"><span>{$domain|replace:'www.':''}</span></a>
 				</li>
 				<li>
+					<a href="{@module=default@}">{#Podgląd frontu#}</a>
+				</li>
+				<li>
 					<a href="{@module=admin&controller=index&action=password@}">{#Zmiana hasła#}</a>
 				</li>
 				<li>

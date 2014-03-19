@@ -1,39 +1,32 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html lang="{$request->lang}">
 	<head>
-		<title>{navigation()->title()}</title>
-		<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
-		<meta name="keywords" content="{navigation()->keywords()}" />
-		<meta name="description" content="{navigation()->description()}" />
+		<title>{$title}</title>
+		<link rel="shortcut icon" type="image/x-icon" href="{$baseUrl}/favicon.ico" />
 		{headLink()->appendStyleSheet($baseUrl . '/default/default/style.css')}
 		{headLink()}
 		{headScript()}
+		<meta charset="utf-8" />
+		<meta name="description" content="{$description}" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+		<!--[if lte IE 8]><script type="text/javascript" src="{$baseUrl}/color/default/js/html5.js"></script><![endif]-->
 	</head>
 	<body>
-		<div id="wrapper">
-			<div id="page">
-				<div id="page-bgtop">
-					<div id="page-bgbtm">
-						<div id="content">
-							{messenger()}
-							{content()}
-						</div>
-						<div id="sidebar">
-							<div id="logo">
-								<h1><a href="{@module=default@}">{#MmiCMS#}</a></h1>
-								<p><a href="{@module=default@}">{#simply create#}</a></p>
-							</div>
-							<div id="menu">
-								{navigation()->setRoot(101)->menu()}
-							</div>
-						</div>
-						<div style="clear: both;"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div id="footer">
-			<p>©2009-{php_date('Y')} Mariusz Miłejko, Powered by <a href="http://www.hqsoft.pl">MmiFramework</a>.</p>
-		</div>
+		<div class="line"></div>
+		<header id="masterhead" class="top-level">
+			<a href="{@module=default@}"><h2><strong>Demo</strong>CMS</h2></a>
+			<div class="cl"></div>
+			<h1>{navigation()->title()}</h1>
+			<nav class="top-level">
+				{navigation()->setRoot(101)->menu()}
+			</nav>
+		</header>
+		<article role="main" class="top-level">
+			{messenger()}
+			{content()}
+		</article>
+		<footer class="top-level">
+			&copy; 2011-{php_date('Y')} Powered by MMi CMS
+		</footer>
 	</body>
 </html>

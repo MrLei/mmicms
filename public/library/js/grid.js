@@ -88,15 +88,18 @@ CMS.grid = function () {
 			if (type === 'filter') {
 				value = $(this).val();
 			} else if (type === 'order') {
-				if ($(this).attr('class') === 'grid-spot asc') {
+				$(this).next('i').remove();
+				if ($(this).hasClass('asc')) {
 					value = 'DESC';
-					$(this).attr('class', 'grid-spot desc');
-				} else if ($(this).attr('class') === 'grid-spot') {
-					value = 'ASC';
-					$(this).attr('class', 'grid-spot asc');
-				} else {
+					$(this).removeClass('asc').addClass('desc');
+					$(this).parent('div').append(' <i class="icon-download"></i>');
+				} else if ($(this).hasClass('desc')) {
 					value = '';
-					$(this).attr('class', 'grid-spot');
+					$(this).removeClass('desc').removeClass('asc');
+				} else {
+					value = 'ASC';
+					$(this).removeClass('desc').addClass('asc');
+					$(this).parent('div').append(' <i class="icon-upload"></i>');
 				}
 			}
 			ctrl = $('#' + formId + '__ctrl').val();
