@@ -1,9 +1,10 @@
 <h1>{#Aktualności#}</h1>
 {foreach $news as $item}
 <div class="post">
-	{if $item->file}
+	{$image = $item->getFirstImage()}
+	{if $image}
 	<a href="{if $item->internal}{@module=news&controller=index&action=display&uri={$item->uri}@}{else}{$item->uri}{/if}">
-		<img src="{thumb($item->file, 'scalecrop', '160x120')}" alt="{$item->title}" />
+		<img src="{thumb($image, 'scalecrop', '160x120')}" alt="{$item->title}" />
 	</a>
 	{/if}
 	<h3>

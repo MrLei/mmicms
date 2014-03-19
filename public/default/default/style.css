@@ -43,6 +43,32 @@ table {
 
 /* COMMON */
 
+ul#messenger {
+	margin: 10px auto;
+	width: 992px;
+}
+
+ul#messenger li {
+	border-radius: 10px;
+	display: block;
+	padding: 10px;
+	background: lightyellow;
+	border: 1px solid gold;
+	color: #DEAE00;
+}
+
+ul#messenger li.success {
+	background: lightgreen;
+	border: 1px solid green;
+	color: green;
+}
+
+ul#messenger li.error {
+	background: pink;
+	border: 1px solid red;
+	color: red;
+}
+
 #policy-window {
 	width: 100%;
 	background: #666;
@@ -121,7 +147,7 @@ div.field {
 }
 
 div.field label {
-	margin-bottom: 10px;
+	margin: 20px 0 5px 0;
 	display: block;
 }
 
@@ -161,16 +187,13 @@ form div.field.submit input {
 	max-width: 300px;
 }
 
-form div.field.checkbox {
-	margin: 20px 0;
-}
-
 form div.field.checkbox label {
 	display: inline-block;
+	margin-top: 0;
 }
 
 form div.field.checkbox input {
-	margin-right: 10px;
+	margin: 0 5px 0 0;
 }
 
 a.button, button, div.field.submit input.field {
@@ -238,6 +261,17 @@ textarea.code.long {
 pre.long textarea {
 	line-height: 15px;
 	width: 580px;
+}
+
+div.post {
+	overflow: hidden;
+	margin: 20px 0;
+}
+
+div.post img {
+	border-radius: 10px;
+	margin-right: 20px;
+	float: left;
 }
 
 header#masterhead {
@@ -326,6 +360,15 @@ header#masterhead nav ul li.active a {
 	color: #000;
 }
 
+header#masterhead nav.breadcrumbs, header#masterhead nav.breadcrumbs a {
+	font-size: 16px;
+	margin-bottom: 30px;
+}
+
+header#masterhead nav.breadcrumbs a {
+	color: #09f;
+}
+
 div.toggle {
 	color: #444;
 	background: #f9f8f5;
@@ -407,11 +450,15 @@ article h1, article h2 {
 	padding: 0 0 10px 0;
 	border-bottom: 2px dashed #ddd;
 	text-shadow: #ddd 1px 1px 0;
-	margin-bottom: 40px;
 }
 
 article h1.top-space, article h2.top-space {
 	margin-top: 40px;
+}
+
+article h3, h4 {
+	font-size: 14px;
+	font-weight: bold;
 }
 
 article div.color {

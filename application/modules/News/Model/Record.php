@@ -17,6 +17,10 @@ class News_Model_Record extends Mmi_Dao_Record {
 		return parent::save();
 	}
 
+	public function getFirstImage() {
+		 return Cms_Model_File_Dao::findFirstImage('news', $this->id);
+	}
+
 	protected function _insert() {
 		$this->dateAdd = date('Y-m-d H:i:s');
 		return parent::_insert();
