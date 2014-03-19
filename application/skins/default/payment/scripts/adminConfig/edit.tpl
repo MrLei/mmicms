@@ -3,7 +3,7 @@
 		<h3>{if $configForm->getRecord()->id > 0}{#Edycja#}{else}{#Dodawanie#}{/if} {#punktu płatności#}</h3>
 		<div class="clear"></div>
 	</div>
-	<div class="content-box-content tab-content clearfix">
+	<div class="content-box-content clearfix">
 		{$configForm}
 	</div>
 </div>

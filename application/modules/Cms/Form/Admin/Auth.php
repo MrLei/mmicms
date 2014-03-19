@@ -29,10 +29,13 @@ class Cms_Form_Admin_Auth extends Mmi_Form {
 			$languages[$language] = $language;
 		}
 
-		$this->addElementSelect('lang')
-			->setLabel('język')
-			->setMultiOptions($languages)
-			->setDescription('Preferowany przez użytkownika język interfejsu');
+
+		if (!empty($languages)) {
+			$this->addElementSelect('lang')
+				->setLabel('język')
+				->setMultiOptions($languages)
+				->setDescription('Preferowany przez użytkownika język interfejsu');
+		}
 
 		$this->addElementCheckbox('active')
 			->setLabel('Aktywny');

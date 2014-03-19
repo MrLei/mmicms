@@ -3,7 +3,7 @@
 		<h3>{#Witaj w systemie MMi CMS#}</h3>
 		<div class="clear"></div>
 	</div>
-	<div class="content-box-content tab-content clearfix">
+	<div class="content-box-content clearfix">
 		{#Poniżej Twój administrator może umieścić przydatne widgety z całego serwisu, tj#}.
 		<ul>
 			<li>{#Statystyki#}</li>

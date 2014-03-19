@@ -175,10 +175,51 @@ form div.field.checkbox {
 	margin: 20px 0;
 }
 
-form div.field.checkbox label {
+form div.field.checkbox label, form div.field.multicheckbox label {
 	display: inline-block;
 }
 
-form div.field.checkbox input {
-	margin-right: 10px;
+form div.field.checkbox input, form div.field.multicheckbox input {
+	margin-right: 5px;
+}
+
+div.field.multicheckbox ul {
+	list-style-type: none;
+	margin: 0;
+}
+
+div.field.multicheckbox ul li {
+	margin: 0;
+}
+
+
+div.field div.description {
+	opacity: 0.5;
+	font-style: italic;
+}
+
+ul.list {
+	list-style-type: none;
+	margin: 0; padding: 0;
+}
+
+ul.list li {
+	background: #eee;
+	border: 1px dotted #ccc;
+	margin: 20px 0;
+	cursor: move;
+}
+
+ul.list li div {
+	padding: 10px;
+	width: 200px;
+	display: inline-block;
+}
+
+.content-box-content {
+	border: 1px solid #e5e5e5;
+	background: #fff;
+	clear: both;
+	padding: 20px;
+	margin: 0 0 40px 0;
 }

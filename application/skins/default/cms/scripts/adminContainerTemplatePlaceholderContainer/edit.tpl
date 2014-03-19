@@ -3,7 +3,7 @@
 		<h3>{#Dodawanie / edycja placeholdera#}</h3>
 		<div class="clear"></div>
 	</div>
-	<div class="content-box-content tab-content clearfix">
+	<div class="content-box-content clearfix">
 		{$containerForm}
 	</div>
 </div>
