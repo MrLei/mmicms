@@ -18,7 +18,7 @@
 					<a href="{@module=admin@}"><span>{$domain|replace:'www.':''}</span></a>
 				</li>
 				<li>
-					<a href="{@module=default@}">{#Podgląd frontu#}</a>
+					<a href="{@module=default@}" target="_blank">{#Podgląd frontu#}</a>
 				</li>
 				<li>
 					<a href="{@module=admin&controller=index&action=password@}">{#Zmiana hasła#}</a>
@@ -39,7 +39,7 @@
 			{content()}
 		</div>
 		<div id="footer">
-			<small>{$domain} &copy; {php_date('Y')}. Powered by MMi CMS</small>
+			{$domain} &copy; {php_date('Y')}. Powered by MMi CMS
 		</div>
 	</body>
 </html>

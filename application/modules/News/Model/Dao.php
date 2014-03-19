@@ -10,8 +10,7 @@ class News_Model_Dao extends Mmi_Dao {
 		return self::count($q);
 	}
 
-	public static function findActiveWithFile($limit, $offset) {
-
+	public static function findActiveWithFile($limit, $offset = null) {
 		$q = self::newQuery()
 			->where('visible')->equals(1)
 			->orderDesc('dateAdd')
