@@ -150,9 +150,16 @@ table.grid {
 	max-width: 100%;
 }
 
+div.field.error {
+	margin-bottom: 70px;
+}
+
 div.errors ul {
+	position: absolute;
 	list-style: none;
 	margin: 0;
+	overflow: hidden;
+	margin-top: 50px;
 }
 
 div.errors ul li.first, div.errors li.last {
@@ -227,4 +234,8 @@ ul.list li div {
 .mce-btn button:focus, .mce-btn button:hover {
 	border: none;
 	background: rgb(252,252,252); /* Old browsers */
+}
+
+label.mce-wordcount {
+	left: auto;
 }

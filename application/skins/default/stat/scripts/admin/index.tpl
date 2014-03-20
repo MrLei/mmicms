@@ -12,18 +12,19 @@
 <div class="content-box">
 	<div class="content-box-header">
 		<h3 class="charts">{if $label}{$label->label}{else}{#Statystyki#}{/if}{if $label}{/if}</h3>
-		{if $label}<p>{$label->description}</p>{/if}
 		<div class="clear"></div>
 	</div>
 	<div class="content-box-content clearfix">
 		{$objectForm}
 		<div class="clear"></div>
-		{if !$label}
-			<p>{#Ustaw parametry by przeglądać statystyki#}...</p>
+		{if $label}
+			<p>{$label->description}</p>
+		{else}
+			<p>{#Ustaw parametry by przeglądać statystyki#}.</p>
 		{/if}
 	</div>
 </div>
-
+{if $label}
 <div class="content-box">
 	<div class="content-box-header">
 		<h3>{#Statystyki dzienne#}</h3>
@@ -55,3 +56,4 @@
 		<div id="avgHourlyAllChart" class="chart"></div>
 	</div>
 </div>
+{/if}

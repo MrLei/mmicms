@@ -27,11 +27,7 @@ class News_Model_Record extends Mmi_Dao_Record {
 	}
 
 	public function delete() {
-		$files = new Cms_Model_File();
-		$files->deleteAll(array(
-			array('object', 'news'),
-			array('objectId', $this->getId())
-		));
+		Cms_Model_File_Dao::findByObjectId('news', $this->getPk())->delete();
 		return parent::delete();
 	}
 
