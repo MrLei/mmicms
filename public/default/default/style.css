@@ -48,7 +48,7 @@ ul#messenger {
 	width: 992px;
 }
 
-ul#messenger li {
+ul#messenger li, div.errors ul li {
 	border-radius: 10px;
 	display: block;
 	padding: 10px;
@@ -63,9 +63,29 @@ ul#messenger li.success {
 	color: green;
 }
 
-ul#messenger li.error {
+ul#messenger li.error, div.errors ul li {
 	background: pink;
 	border: 1px solid red;
+	color: red;
+}
+
+div.errors ul {
+	max-width: 320px;
+}
+
+div.errors ul li {
+	margin: 10px 0;
+}
+
+div.errors ul li.first div.errors ul li.last {
+	display: none;
+}
+
+div.field.error.text input, div.field.error.password input, div.field.error.captcha input, div.field.error.textarea textarea, div.field.error.select select {
+	border-color: red;
+}
+
+div.field.error label {
 	color: red;
 }
 
@@ -158,12 +178,15 @@ div.field span.required {
 	margin-left: 3px;
 }
 
-div.field.text input, div.field.password input, div.field.textarea textarea, div.field.select select {
+div.field.text input, div.field.password input, div.field.captcha input, div.field.textarea textarea, div.field.select select {
 	background: #fcfcfc;
 	border: 1px solid #ddd;
 	border-radius: 5px;
 	padding: 9px;
-	width: 98%;
+}
+
+div.field.textarea textarea {
+	min-width: 278px;
 }
 
 div.field input {
@@ -179,12 +202,21 @@ div.errors ul li.first, div.errors li.last {
 	display: none;
 }
 
-form div.field input, form div.field select {
-	max-width: 300px;
+form div.field input {
+	width: 278px;
+}
+
+form div.field select {
+	width: 298px;
+}
+
+form div.field.checkbox input {
+	width: auto;
 }
 
 form div.field.submit input {
-	max-width: 300px;
+	width: auto;
+	min-width: 100px;
 }
 
 form div.field.checkbox label {
