@@ -142,6 +142,10 @@ table tr th input {
 	width: 100%;
 }
 
+table.grid.striped tbody th {
+	text-align: left;
+}
+
 div.grid {
 	max-width: 1680px;
 }
@@ -150,16 +154,10 @@ table.grid {
 	max-width: 100%;
 }
 
-div.field.error {
-	margin-bottom: 70px;
-}
-
 div.errors ul {
-	position: absolute;
 	list-style: none;
-	margin: 0;
+	margin: -10px 0 0 0;
 	overflow: hidden;
-	margin-top: 50px;
 }
 
 div.errors ul li.first, div.errors li.last {
@@ -170,7 +168,7 @@ form div.field {
 	margin-bottom: 20px;
 }
 
-form div.field input, form div.field select {
+form div.field input, form div.field select, form div.field div.errors {
 	max-width: 360px;
 }
 
