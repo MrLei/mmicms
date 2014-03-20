@@ -1,6 +1,6 @@
 .chart {
 	height: 150px;
-	width: 950px;
+	width: 100%;
 }
 
 h1.charts {
@@ -20,26 +20,34 @@ h4 {
 }
 
 #monthlyChart {
-	width: 550px;
+	width: 60%;
 	float: left;
 }
 
 #yearlyChart {
-	width: 400px;
+	width: 40%;
 	float: left;
 }
 
 #avgHourlyChart {
-	width: 475px;
+	width: 50%;
 	float: left;
 }
 
 #avgHourlyAllChart {
-	width: 475px;
+	width: 50%;
 	float: left;
 }
 
 form div {
 	float: left;
 	margin: 0px 10px 0px 0px;
+}
+
+div.legend table {
+	width: auto;
+}
+
+div.legend table td {
+	padding: 0 2px;
 }
