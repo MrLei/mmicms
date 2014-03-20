@@ -24,10 +24,7 @@
 					<a href="{@module=admin&controller=index&action=password@}">{#Zmiana hasła#}</a>
 				</li>
 				<li>
-					<a href="{@module=admin&controller=login&action=logout@}">{#Wyloguj się#}</a>
-				</li>
-				<li class="right">
-					{#Zalogowany#}: <span>{if $auth} {$auth->getUsername()}</span> ({foreach name=role $auth->getRoles() as $role}{$role}{if !$_roleLast}, {/if}{/foreach}){/if}
+					<a href="{@module=admin&controller=login&action=logout@}">{#Wyloguj się#}<span>{if $auth} {$auth->getUsername()}</span> ({foreach name=role $auth->getRoles() as $role}{$role}{if !$_roleLast}, {/if}{/foreach}){/if}</a>
 				</li>
 			</ul>
 		</nav>
