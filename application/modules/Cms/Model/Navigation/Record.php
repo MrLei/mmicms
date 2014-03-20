@@ -42,7 +42,7 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 				$this->article_id = $article->id;
 			}
 		}
-		if ($this->module == 'cms' && $this->controller == 'container' && $this->action == 'index') {
+		if ($this->module == 'cms' && $this->controller == 'container' && $this->action == 'display') {
 			parse_str($this->params, $params);
 			if (!isset($params['uri']) || !$params['uri']) {
 				return $this;
@@ -88,7 +88,7 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 			$container = new Cms_Model_Container_Record($this->container_id);
 			$this->module = 'cms';
 			$this->controller = 'container';
-			$this->action = 'index';
+			$this->action = 'display';
 			$this->params = 'uri=' . $container->uri;
 			$this->uri = null;
 		}

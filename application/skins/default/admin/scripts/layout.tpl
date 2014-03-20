@@ -26,6 +26,9 @@
 				<li>
 					<a href="{@module=admin&controller=login&action=logout@}">{#Wyloguj się#}</a>
 				</li>
+				<li class="right">
+					{#Zalogowany#}: <span>{if $auth} {$auth->getUsername()}</span> ({foreach name=role $auth->getRoles() as $role}{$role}{if !$_roleLast}, {/if}{/foreach}){/if}
+				</li>
 			</ul>
 		</nav>
 		<div class="breadcrumbs">
