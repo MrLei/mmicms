@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>{navigation()->title()}</title>
+		<link rel="shortcut icon" type="image/x-icon" href="{$baseUrl}/default/cms/favicon.ico" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		{headLink()->appendStyleSheet($baseUrl . '/default/cms/css/kickstart.css')}
 		{headLink()->appendStyleSheet($baseUrl . '/default/cms/css/style.css')}
@@ -29,6 +30,13 @@
 			</ul>
 		</nav>
 		<div class="breadcrumbs">
+			{if $languages}
+				<div class="languages">
+				{foreach $languages as $language}
+					<a title="{$language}" href="{@module=admin&controller=index&action=language&locale={$language}@}"><img{if $request->lang == $language} class="active"{/if} src="{$baseUrl}/default/geo/image/country/{$language}-ico-16.gif" alt="{$language}" /></a>
+				{/foreach}
+				</div>
+			{/if}
 			{navigation()->breadcrumbs()}
 		</div>
 		<nav id="main-menu">

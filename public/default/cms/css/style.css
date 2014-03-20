@@ -118,11 +118,30 @@ ul#messenger {
 	color: #fff;
 }
 .breadcrumbs {
+	overflow: hidden;
 	margin: 0;
 	padding: 1.2em;
 	display: block;
 	background: #4598ef url(img/gplaypattern.png) repeat;
 	color: #fff;
+}
+
+.languages {
+	float: right;
+}
+
+.languages img {
+	border-radius: 2px;
+	opacity: 0.3;
+	border: 1px solid #666;
+}
+
+.languages img:hover {
+	opacity: 0.6;
+}
+
+.languages img.active {
+	opacity: 1;
 }
 
 #ui-preview{
@@ -159,6 +178,10 @@ div.grid nav.local {
 
 table.grid {
 	max-width: 100%;
+}
+
+table.grid tr th {
+	vertical-align: bottom;
 }
 
 div.errors ul {

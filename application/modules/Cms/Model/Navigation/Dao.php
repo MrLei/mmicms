@@ -70,7 +70,10 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 			->orderAsc('order');
 		$lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
 		if ($lang !== null) {
-			$q->where('lang')->equals($lang);
+			$subQ = self::newQuery()
+				->where('lang')->equals($lang)
+				->orField('lang')->equals(null);
+			$q->andQuery($subQ);
 		}
 		$data = self::find($q)->toArray();
 		$view = Mmi_Controller_Front::getInstance()->getView();
@@ -83,7 +86,7 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 			if (!$item['uri']) {
 				$params = array();
 				parse_str($item['params'], $params);
-				if ($lang !== null) {
+				if ($lang !== null && $item['lang'] !== null) {
 					$params['lang'] = $item['lang'];
 				}
 				if ($item['module'] != '') {

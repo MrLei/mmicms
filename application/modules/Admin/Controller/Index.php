@@ -5,6 +5,17 @@ class Admin_Controller_Index extends MmiCms_Controller_Admin {
 	public function indexAction() {
 		
 	}
+	
+	public function languageAction() {
+		$session = new Mmi_Session_Namespace('cms-language');
+		$lang = in_array($this->locale, Default_Registry::$config->application->languages) ? $this->locale : null;
+		$session->lang = $lang;
+		$referer = Mmi_Controller_Front::getInstance()->getRequest()->getReferer();
+		if ($referer) {
+			$this->_helper->redirector()->gotoUrl($referer);
+		}
+		$this->_helper->redirector('index', 'index', 'admin', array(), true);
+	}
 
 	public function passwordAction() {
 		if (!Default_Registry::$auth->hasIdentity()) {

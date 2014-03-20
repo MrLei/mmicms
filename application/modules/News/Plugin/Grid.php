@@ -3,6 +3,8 @@
 class News_Plugin_Grid extends Mmi_Grid {
 
 	protected $_daoName = 'News_Model_Dao';
+	protected $_daoGetMethod = 'findLang';
+	protected $_daoCountMethod = 'countLang';
 
 	public function init() {
 
