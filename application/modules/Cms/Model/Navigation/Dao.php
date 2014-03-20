@@ -120,8 +120,8 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 			} elseif ($item['uri'] != null) {
 				$data[$key]['type'] = 'link';
 			} elseif ($item['module'] == 'cms' && $item['controller'] == 'article' && $item['action'] == 'index') {
-				$data[$key]['type'] = 'static';
-			} elseif ($item['module'] == 'cms' && $item['controller'] == 'container' && $item['action'] == 'index') {
+				$data[$key]['type'] = 'simple';
+			} elseif ($item['module'] == 'cms' && $item['controller'] == 'container' && $item['action'] == 'display') {
 				$data[$key]['type'] = 'container';
 			} else {
 				$data[$key]['type'] = 'cms';
