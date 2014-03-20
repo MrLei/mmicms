@@ -135,6 +135,11 @@ nav#main-menu {
 	margin-bottom: 1.5em;
 }
 
+nav#main-menu ul.menu {
+	margin-bottom: 1.5em;
+	z-index: 601;
+}
+
 table tr th input {
 	width: 100%;
 }
@@ -145,6 +150,11 @@ table.grid.striped tbody th {
 
 div.grid {
 	max-width: 1680px;
+}
+
+div.grid nav.local {
+	float: right;
+	margin-bottom: 10px;
 }
 
 table.grid {
