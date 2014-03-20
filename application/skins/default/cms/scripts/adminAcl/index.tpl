@@ -2,7 +2,7 @@
 {headScript()->appendFile($baseUrl . '/default/cms/js/acl.js')}
 <div class="content-box column-left">
 	<div class="content-box-header">
-		<h3>{#Wybór roli do edycji#}</h3>
+		<h3>{#Role użytkowników#}</h3>
 		<div class="clear"></div>
 	</div>
 	<div class="content-box-content clearfix">
@@ -22,15 +22,15 @@
 	</div>
 </div>
 
+{if $request->roleId}
 <div class="content-box column-right">
 	<div class="content-box-header">
-		<h3>{#Wybór roli do edycji#}</h3>
+		<h3>{#Uprawnienia roli#} {$roleName}</h3>
 		<div class="clear"></div>
 	</div>
 	<div class="content-box-content clearfix">
 		<div id="rules">
-			{if $request->roleId}
-			<table class="grid">
+			<table class="grid striped">
 				<tr>
 					<th>{#Lp#}.</th>
 					<th>{#zasób#}</th>
@@ -57,18 +57,16 @@
 						</select>
 					</td>
 					<td>
-						<a id="rule-remove-{$rule->id}" class="remove-rule confirm" title="{#Czy na pewno chcesz usunąć tę regułę#}" href="#"><img src="{$baseUrl}/default/cms/images/ico16_remove.gif" /></a>
+						<a id="rule-remove-{$rule->id}" class="remove-rule confirm" title="{#Czy na pewno chcesz usunąć tę regułę#}" href="#"><i class="icon-remove-circle"></i></a>
 					</td>
 				</tr>
 				{/foreach}
 			</table>
 			<br /> <br />
-			<h3>{#Nowa reguła dla roli#}: "{$roleName}"</h3>
+			<h5>{#Nowa reguła#}:</h5>
 			{$aclForm}
-			{else}
-			<h3>{#Wybierz rolę do edycji uprawnień z menu po lewej stronie#}.</h3>
-			{/if}
 		</div>
 	</div>
 </div>
+{/if}
 <div class="clear"></div>

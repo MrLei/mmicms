@@ -57,7 +57,7 @@ abstract class Mmi_Form_Element_Abstract {
 	 * @var array
 	 */
 	protected $_renderingOrder = array(
-		'fetchErrors', 'fetchLabel', 'fetchField', 'fetchDescription', 'fetchCustomHtml'
+		'fetchLabel', 'fetchField', 'fetchDescription', 'fetchErrors', 'fetchCustomHtml'
 	);
 
 	/**
