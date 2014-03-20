@@ -1,4 +1,5 @@
 <?php
+
 class User_Controller_Login extends Mmi_Controller_Action {
 
 	public function indexAction() {
@@ -11,13 +12,14 @@ class User_Controller_Login extends Mmi_Controller_Action {
 			return;
 		}
 		$this->_helper->messenger('Zalogowano poprawnie', true);
+		Stat_Model_Dao::hit('user-login');
 		$this->_helper->redirector()->gotoUrl($this->getRequest()->getReferer());
 	}
-
 
 	public function logoutAction() {
 		Default_Registry::$auth->clearIdentity();
 		$this->_helper->messenger('Wylogowano poprawnie', true);
+		Stat_Model_Dao::hit('user-logout');
 		$this->_helper->redirector()->gotoUrl($this->getRequest()->getReferer());
 	}
 

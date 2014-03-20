@@ -3,7 +3,7 @@
 {headScript()->appendFile($baseUrl . '/default/cms/js/navigation.js')}
 <div class="content-box">
 	<div class="content-box-header">
-		<h3>{#Struktura serwisu#}</h3>
+		<h3>{#Menu serwisu#}</h3>
 		<div class="clear"></div>
 	</div>
 	<div class="content-box-content clearfix">
@@ -11,7 +11,7 @@
 		<div class="list-path">
 			{#Jesteś tutaj#}:
 			{foreach $navigation.parents as $parent}
-			<a href="{url(array('id' => $parent['id']))}">{if !$parent.label}{#Katalog główny#}{else}{$parent.label}{/if}</a>
+			<a href="{url(array('id' => $parent['id']))}">{if !$parent.label}{#Katalog główny#}{else}{$parent.label}{/if}</a> &raquo;
 			{/foreach}
 			{if !php_isset($navigation.label)}
 			{#Katalog główny#}

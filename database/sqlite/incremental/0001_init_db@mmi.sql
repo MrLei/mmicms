@@ -459,7 +459,7 @@ CREATE INDEX "stat_date_object_objectId_idx" ON stat_date ("object");
 CREATE TABLE stat_label
 (
   id INTEGER PRIMARY KEY,
-  lang character varying(2) NOT NULL,
+  lang character varying(2),
   object character varying(32) NOT NULL,
   label character varying(48) NOT NULL,
   description text

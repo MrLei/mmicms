@@ -223,3 +223,8 @@ ul.list li div {
 	padding: 20px;
 	margin: 0 0 40px 0;
 }
+
+.mce-btn button:focus, .mce-btn button:hover {
+	border: none;
+	background: rgb(252,252,252); /* Old browsers */
+}
