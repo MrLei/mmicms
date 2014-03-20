@@ -471,7 +471,7 @@ CREATE TABLE `stat_date` (
 DROP TABLE IF EXISTS `stat_label`;
 CREATE TABLE `stat_label` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `lang` varchar(2) COLLATE utf8_polish_ci NOT NULL,
+  `lang` varchar(2) COLLATE utf8_polish_ci,
   `object` varchar(32) COLLATE utf8_polish_ci NOT NULL,
   `label` varchar(48) COLLATE utf8_polish_ci NOT NULL,
   `description` text COLLATE utf8_polish_ci,

@@ -8,8 +8,8 @@ class Admin_Controller_Login extends Mmi_Controller_Action {
 			return;
 		}
 		if ($form->isSaved()) {
-			Stat_Model_Dao::hit('admin_login', $form->getRecord()->id);
 			$this->_helper->messenger('Zalogowano poprawnie', true);
+			Stat_Model_Dao::hit('admin-login', $form->getRecord()->id);
 		} else {
 			$this->_helper->messenger('Logowanie niepoprawne', false);
 		}
@@ -21,8 +21,8 @@ class Admin_Controller_Login extends Mmi_Controller_Action {
 
 	public function logoutAction() {
 		Default_Registry::$auth->clearIdentity();
-		Stat_Model_Dao::hit('admin_logout');
 		$this->_helper->messenger('Dziękujemy za skorzystanie z serwisu, wylogowanio poprawnie', true);
+		Stat_Model_Dao::hit('admin-logout');
 		$this->_helper->redirector('index', 'index', 'admin', array(), true);
 	}
 

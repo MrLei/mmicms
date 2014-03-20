@@ -538,7 +538,7 @@ SELECT pg_catalog.setval('stat_id_seq', 2, true);
 
 CREATE TABLE stat_label (
     id integer NOT NULL,
-    lang character varying(2) NOT NULL,
+    lang character varying(2),
     object character varying(32) NOT NULL,
     label character varying(48) NOT NULL,
     description text

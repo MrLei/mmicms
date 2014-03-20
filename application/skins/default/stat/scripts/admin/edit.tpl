@@ -1,6 +1,6 @@
 <div class="content-box">
 	<div class="content-box-header">
-		<h3>{if $labelForm->getRecord()->id > 0}{#Edycja statystyki#} {$labelForm->getRecord()->label}{else}{#Dodawanie statystyki#}{/if}</h3>
+		<h3>{if !$request->id}{#Dodawanie#}{else}{#Edycja#}{/if} {#nazwy statystyki#}</h3>
 		<div class="clear"></div>
 	</div>
 	<div class="content-box-content clearfix">

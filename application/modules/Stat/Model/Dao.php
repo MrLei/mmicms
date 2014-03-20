@@ -7,10 +7,7 @@ class Stat_Model_Dao extends Mmi_Dao {
 	public static function hit($object, $objectId = null) {
 		$stat = new Stat_Model_Record();
 		$stat->object = $object;
-		if (!is_numeric($objectId) || !(intval($objectId) >= 0)) {
-			return false;
-		}
-		$stat->objectId = $objectId;
+		$stat->objectId = is_numeric($objectId) ? intval($objectId) : null;
 		$stat->dateTime = date('Y-m-d H:i:s');
 		return $stat->save();
 	}

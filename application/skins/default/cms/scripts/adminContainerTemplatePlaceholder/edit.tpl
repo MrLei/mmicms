@@ -1,6 +1,6 @@
 <div class="content-box">
 	<div class="content-box-header">
-		<h3>{#Dodawanie / edycja placeholdera#}</h3>
+		<h3>{if !$request->id}{#Dodawanie#}{else}{#Edycja#}{/if} {#placeholdera#}</h3>
 		<div class="clear"></div>
 	</div>
 	<div class="content-box-content clearfix">
