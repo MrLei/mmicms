@@ -35,8 +35,13 @@
 			{navigation()->setRoot(4)->menu()}
 		</nav>
 		<div class="grid">
+			<nav class="local">
+				{$dpt = navigation()->getCurrentDepth()}
+				{navigation()->setRoot(4)->setActiveBranchOnly()->setMinDepth($dpt)->setMaxDepth($dpt)->menu()}
+			</nav>
 			{messenger()}
 			{content()}
+			<div class="clear"></div>
 		</div>
 		<div id="footer">
 			{$domain} &copy; {php_date('Y')}. Powered by MMi CMS

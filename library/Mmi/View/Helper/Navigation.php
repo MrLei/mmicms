@@ -317,6 +317,15 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	}
 
 	/**
+	 * Zwraca bieżącą głębokość w menu
+	 * @return int
+	 */
+	public function getCurrentDepth() {
+		$depth = count($this->_breadcrumbsData) - 1;
+		return ($depth > 0) ? $depth : 0;
+	}
+
+	/**
 	 * Zwraca breadcrumbs
 	 * @return string
 	 */
