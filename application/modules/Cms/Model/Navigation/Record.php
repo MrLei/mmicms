@@ -56,10 +56,7 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 
 	public function saveForm() {
 		//ustawianie domyślnego języka
-		if (!$this->lang) {
-			$lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
-			$this->lang = $lang;
-		}
+		$this->lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
 
 		//konwersja obiektu na moduł/kontroler/akcja
 		if ($this->object) {

@@ -9,6 +9,10 @@ class News_Plugin_Grid extends Mmi_Grid {
 	public function init() {
 
 		$this->setOption('locked', true);
+		
+		$this->addColumn('text', 'lang', array(
+			'label' => 'język'
+		));
 
 		$this->addColumn('text', 'dateAdd', array(
 			'label' => 'data dodania'

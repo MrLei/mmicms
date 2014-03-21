@@ -28,12 +28,7 @@ class Mail_Model_Dao extends Mmi_Dao {
 	 * @return int id zapisanego rekordu
 	 */
 	public static function pushEmail($name, $to, array $params = array(), $fromName = null, $replyTo = null, $subject = null, $sendAfter = null, array $attachments = array()) {
-		$q = self::newQuery()
-			->where('name')->equals($name);
-		if (Mmi_Controller_Front::getInstance()->getRequest()->lang !== null) {
-			$q->andField('lang')->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang);
-		}
-		$def = Mail_Model_Definition_Dao::findFirst($q);
+		$def = Mail_Model_Definition_Dao::findFirstLangByName($name);
 		if ($def === null) {
 			return false;
 		}

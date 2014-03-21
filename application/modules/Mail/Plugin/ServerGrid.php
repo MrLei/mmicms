@@ -6,8 +6,6 @@ class Mail_Plugin_ServerGrid extends Mmi_Grid {
 
     public function init() {
 
-		$this->setOption('locked', true);
-
         $this->addColumn('text', 'address', array(
             'label' => 'Adres serwera',
         ));
