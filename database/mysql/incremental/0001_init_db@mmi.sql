@@ -1,11 +1,9 @@
-DROP TABLE IF EXISTS `DB_CHANGELOG`;
 CREATE TABLE `DB_CHANGELOG` (
   `filename` varchar(64) COLLATE utf8_polish_ci NOT NULL,
   `md5` varchar(32) COLLATE utf8_polish_ci NOT NULL,
   PRIMARY KEY (`filename`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-DROP TABLE IF EXISTS `cms_role`;
 CREATE TABLE `cms_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) COLLATE utf8_polish_ci NOT NULL,
@@ -13,12 +11,6 @@ CREATE TABLE `cms_role` (
   KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-INSERT INTO `cms_role` (`id`, `name`) VALUES
-(3,	'admin'),
-(1,	'guest'),
-(2,	'member');
-
-DROP TABLE IF EXISTS `cms_acl`;
 CREATE TABLE `cms_acl` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cms_role_id` int(11) NOT NULL,
@@ -35,37 +27,15 @@ CREATE TABLE `cms_acl` (
   CONSTRAINT `cms_acl_ibfk_1` FOREIGN KEY (`cms_role_id`) REFERENCES `cms_role` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-insert into cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('1', '3', NULL, NULL, NULL, 'allow');
-insert into cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('2', '1', 'default', NULL, NULL, 'allow');
-insert into cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('3', '1', 'admin', 'login', NULL, 'allow');
-insert into cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('4', '1', 'cms', 'form', NULL, 'allow');
-insert into cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('5', '1', 'artist', 'index', NULL, 'allow');
-insert into cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('6', '1', 'user', 'login', NULL, 'allow');
-insert into cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('7', '1', 'user', 'registration', NULL, 'allow');
-insert into cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('8', '1', 'song', 'index', NULL, 'allow');
-insert into cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('9', '2', 'default', NULL, NULL, 'allow');
-insert into cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('10', '2', 'cms', NULL, NULL, 'allow');
-insert into cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('11', '2', 'artist', 'index', NULL, 'allow');
-insert into cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('12', '2', 'song', 'index', NULL, 'allow');
-insert into cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('13', '2', 'user', NULL, NULL, 'allow');
-insert into cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('14', '1', 'cms', 'captcha', NULL, 'allow');
-insert into cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('15', '1', 'cms', 'contact', NULL, 'allow');
-insert into cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('16', '1', 'cms', 'comment', NULL, 'allow');
-insert into cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('17', '1', 'cms', 'file', 'index', 'allow');
-insert into cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('18', '2', 'cms', 'article', NULL, 'allow');
-insert into cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('19', '1', 'cms', 'article', NULL, 'allow');
-insert into cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('20', '1', 'user', 'index', NULL, 'allow');
-insert into cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('21', '2', 'user', 'index', NULL, 'allow');
-
-DROP TABLE IF EXISTS `cms_article`;
 CREATE TABLE `cms_article` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `lang` varchar(2) COLLATE utf8_polish_ci,
+  `lang` varchar(2) COLLATE utf8_polish_ci DEFAULT NULL,
   `title` varchar(160) COLLATE utf8_polish_ci NOT NULL,
   `uri` varchar(160) COLLATE utf8_polish_ci NOT NULL,
   `dateAdd` datetime DEFAULT NULL,
   `dateModify` datetime DEFAULT NULL,
   `text` text COLLATE utf8_polish_ci,
+  `noindex` TINYINT DEFAULT 0 NOT NULL,
   PRIMARY KEY (`id`),
   KEY `dateAdd` (`dateAdd`),
   KEY `dateModify` (`dateModify`),
@@ -74,13 +44,6 @@ CREATE TABLE `cms_article` (
   KEY `uri` (`uri`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-insert into cms_article (`id`, `lang`, `title`, `uri`, `dateAdd`, `dateModify`, `text`) values ('1', 'en', 'Regulamin', 'regulamin', '2013-03-12 19:18:12', '2013-03-12 19:18:12', '<p>1). pkt 1</p>
-<p>2). pkt 2</p>');
-insert into cms_article (`id`, `lang`, `title`, `uri`, `dateAdd`, `dateModify`, `text`) values ('2', 'en', 'FAQ', 'faq', '2013-03-12 19:19:18', '2013-03-12 19:19:18', '<p>Q: ble</p>
-<p>A: bla</p>');
-insert into cms_article (`id`, `lang`, `title`, `uri`, `dateAdd`, `dateModify`, `text`) values ('3', 'en', 'Reklama', 'reklama', '2013-03-12 19:33:38', '2013-03-12 19:33:38', '<p>Kontakt reklamowy</p>');
-
-DROP TABLE IF EXISTS `cms_auth`;
 CREATE TABLE `cms_auth` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `lang` varchar(2) COLLATE utf8_polish_ci DEFAULT NULL,
@@ -101,11 +64,6 @@ CREATE TABLE `cms_auth` (
   KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-INSERT INTO `cms_auth` (`id`, `lang`, `username`, `email`, `password`, `lastIp`, `lastLog`, `lastFailIp`, `lastFailLog`, `failLogCount`, `logged`, `active`) VALUES
-(1,	'en',	'admin',	'admin@hqsoft.pl',	'd033e22ae348aeb5660fc2140aec35850c4da997',	'127.0.0.1',	'2012-02-23 15:41:12',	'89.231.108.27',	'2011-12-20 19:42:01',	8,	0,	1),
-(2,	'en',	'mariusz',	'mariusz@milejko.pl',	'7a48d2fe2f6f86430acee5b86a093c3352b9f780',	'127.0.0.1',	'2012-03-20 15:54:01',	'127.0.0.1',	'2012-03-16 13:41:49',	9,	0,	1);
-
-DROP TABLE IF EXISTS `cms_auth_role`;
 CREATE TABLE `cms_auth_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cms_auth_id` int(11) NOT NULL,
@@ -117,11 +75,74 @@ CREATE TABLE `cms_auth_role` (
   CONSTRAINT `cms_auth_role_ibfk_2` FOREIGN KEY (`cms_role_id`) REFERENCES `cms_role` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-INSERT INTO `cms_auth_role` (`id`, `cms_auth_id`, `cms_role_id`) VALUES
-(1,	2,	3),
-(2,	1,	3);
+CREATE TABLE `cms_container_template`
+(
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32),
+  `path` varchar(128),
+  `text` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-DROP TABLE IF EXISTS `cms_comment`;
+CREATE TABLE cms_container
+(
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` character varying(160),
+  `serial` text,
+  `uri` character varying(160),
+  `cms_container_template_id` int(11),
+  PRIMARY KEY (`id`),
+  CONSTRAINT `cms_container_ibfk_1` FOREIGN KEY (cms_container_template_id) REFERENCES cms_container_template (id) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+CREATE TABLE cms_container_template_placeholder
+(
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cms_container_template_id` int(11) NOT NULL,
+  `placeholder` varchar(32) NOT NULL,
+  `name` text,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `cms_container_template_placeholder_ibfk_1` FOREIGN KEY (cms_container_template_id) REFERENCES cms_container_template (id) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+CREATE TABLE cms_container_template_placeholder_container
+(
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cms_container_id` int(11) NOT NULL,
+  `cms_container_template_placeholder_id` int(11) NOT NULL,
+  `module` varchar(32) NOT NULL,
+  `controller` varchar(32) NOT NULL,
+  `action` varchar(32) NOT NULL,
+  `params` text,
+  `active` boolean NOT NULL DEFAULT true,
+  `marginTop` integer,
+  `marginRight` integer,
+  `marginBottom` integer,
+  `marginLeft` integer,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `cms_container_template_placeholder_container_ibfk_1` FOREIGN KEY (cms_container_template_placeholder_id) REFERENCES cms_container_template_placeholder (id) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT `cms_container_template_placeholder_container_ibfk_2` FOREIGN KEY (cms_container_id) REFERENCES cms_container (id) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+CREATE TABLE cms_tag
+(
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  tag varchar(64) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tag` (`tag`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+CREATE TABLE cms_tag_link
+(
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  cms_tag_id int(11) NOT NULL,
+  `object` varchar(32) NOT NULL,
+  `objectId` integer NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `cms_tag_link_ibfk_1` FOREIGN KEY (cms_tag_id) REFERENCES cms_tag(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  KEY `object_object_id` (`object`,	`objectId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
 CREATE TABLE `cms_comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cms_auth_id` int(11) DEFAULT NULL,
@@ -143,8 +164,6 @@ CREATE TABLE `cms_comment` (
   CONSTRAINT `cms_comment_ibfk_1` FOREIGN KEY (`cms_auth_id`) REFERENCES `cms_auth` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-
-DROP TABLE IF EXISTS `cms_contact`;
 CREATE TABLE `cms_contact` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cms_contact_option_id` int(11) NOT NULL,
@@ -167,8 +186,6 @@ CREATE TABLE `cms_contact` (
   KEY `cms_contact_option_id` (`cms_contact_option_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-
-DROP TABLE IF EXISTS `cms_contact_option`;
 CREATE TABLE `cms_contact_option` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) COLLATE utf8_polish_ci NOT NULL,
@@ -176,11 +193,6 @@ CREATE TABLE `cms_contact_option` (
   KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-INSERT INTO `cms_contact_option` (`id`, `name`) VALUES
-(1,	'Inne'),
-(2,	'Propozycje zmian');
-
-DROP TABLE IF EXISTS `cms_file`;
 CREATE TABLE `cms_file` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `class` varchar(32) COLLATE utf8_polish_ci DEFAULT NULL,
@@ -213,8 +225,6 @@ CREATE TABLE `cms_file` (
   KEY `cms_auth_id` (`cms_auth_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-
-DROP TABLE IF EXISTS `cms_log`;
 CREATE TABLE `cms_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `url` varchar(255) COLLATE utf8_polish_ci DEFAULT NULL,
@@ -237,8 +247,6 @@ CREATE TABLE `cms_log` (
   KEY `cms_auth_id` (`cms_auth_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-
-DROP TABLE IF EXISTS `cms_navigation`;
 CREATE TABLE `cms_navigation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `lang` varchar(2) COLLATE utf8_polish_ci DEFAULT NULL,
@@ -259,61 +267,15 @@ CREATE TABLE `cms_navigation` (
   `independent` tinyint NOT NULL DEFAULT 0,
   `nofollow` tinyint NOT NULL DEFAULT 0,
   `blank` tinyint NOT NULL DEFAULT 0,
+  `dateStart` DATETIME,
+  `dateEnd` DATETIME,
+  `active` tinyint NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `order` (`order`),
   KEY `parent_id` (`parent_id`),
   KEY `visible` (`visible`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('4', 'en', '0', '3', 'admin', 'index', 'index', '', 'Panel administracyjny', NULL, '', '', NULL, '0');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('12', 'en', '4', '0', 'admin', 'index', 'index', '', 'CMS', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('13', 'en', '12', '0', 'cms', 'adminNavigation', 'index', '', 'Struktura serwisu', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('14', 'en', '12', '8', 'cms', 'adminLog', 'index', '', 'Log systemowy', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('15', 'en', '13', '3', 'cms', 'adminNavigation', 'edit', 'type=simple', 'Dodaj stronę statyczną', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('17', 'en', '13', '7', 'cms', 'adminNavigation', 'edit', 'type=cms', 'Dodaj obiekt CMS', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('18', 'en', '13', '8', 'cms', 'adminNavigation', 'edit', 'type=link', 'Dodaj odnośnik', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('21', 'en', '13', '5', 'cms', 'adminNavigation', 'edit', 'type=folder', 'Dodaj folder', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('22', 'en', '12', '2', 'cms', 'adminFile', 'index', '', 'Pliki', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('24', 'en', '12', '9', 'admin', 'errorLog', 'index', '', 'Log błędów', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('26', 'en', '12', '6', 'cms', 'adminAcl', 'index', '', 'Uprawnienia', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('31', 'en', '12', '4', 'cms', 'adminComment', 'index', '', 'Komentarze', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('48', 'en', '12', '5', 'cms', 'adminAuth', 'index', '', 'Użytkownicy', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('49', 'en', '48', '0', 'cms', 'adminAuth', 'edit', '', 'Dodaj użytkownika', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('70', 'en', '12', '1', 'cms', 'adminArticle', 'index', '', 'Artykuły', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('71', 'en', '70', '0', 'cms', 'adminArticle', 'edit', '', 'Dodaj artykuł', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('74', 'en', '48', '1', 'cms', 'adminAuth', 'property', '', 'Właściwości użytkownika', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('75', 'en', '74', '0', 'cms', 'adminAuth', 'propertyEdit', '', 'Dodaj właściwości użytkownika', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('99', 'en', '4', '2', 'news', 'admin', 'index', '', 'Aktualności', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('100', 'en', '99', '0', 'news', 'admin', 'edit', '', 'Dodaj artykuł', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('101', 'en', '0', '0', 'default', 'index', 'index', '', 'Weather Archive', 'Climatevo.com', '', '', NULL, '0');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('110', 'en', '12', '3', 'cms', 'adminContact', 'index', '', 'Kontakt', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('111', 'en', '110', '3', 'cms', 'adminContact', 'subject', '', 'Tematy kontaktu', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('112', 'en', '110', '2', 'cms', 'adminContact', 'editSubject', '', 'Dodaj temat', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('113', 'en', '110', '1', 'cms', 'adminContact', 'edit', '', 'Odpowiedz', NULL, '', '', NULL, '0');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('114', 'en', '110', '0', 'cms', 'adminContact', 'index', '', 'Lista zgłoszeń', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('119', 'en', '4', '0', 'mail', 'admin', 'index', '', 'Maile', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('120', 'en', '119', '0', 'mail', 'admin', 'send', '', 'Wyślij z kolejki', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('121', 'en', '119', '2', 'mail', 'adminServer', 'index', '', 'Serwery', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('122', 'en', '119', '1', 'mail', 'adminDefinition', 'index', '', 'Definicje maili', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('123', 'en', '121', '0', 'mail', 'adminServer', 'edit', '', 'Dodaj serwer', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('124', 'en', '122', '0', 'mail', 'adminDefinition', 'edit', '', 'Dodaj definicję', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('125', 'en', '12', '7', 'cron', 'admin', 'index', '', 'Cron', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('126', 'en', '125', '0', 'cron', 'admin', 'edit', '', 'Dodaj zadanie', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('127', 'en', '0', '0', NULL, NULL, NULL, NULL, 'Dolne menu', '', '', '', NULL, '0');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('128', 'en', '127', '1', 'cms', 'article', 'index', 'uri=regulamin', 'Regulamin', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('129', 'en', '127', '0', 'cms', 'article', 'index', 'uri=faq', 'FAQ', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('130', 'en', '127', '3', 'cms', 'contact', 'index', '', 'Kontakt', '', '', 'Skontaktuj się z nami, jeśli masz uwagi dotyczące działania serwisu Karaok.pl', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('131', 'en', '127', '2', 'cms', 'article', 'index', 'uri=reklama', 'Reklama', NULL, '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('134', 'en', '133', '0', 'song', 'index', 'display', '', 'Tekst piosenki', '', '', '', NULL, '0');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('135', 'en', '133', '1', 'artist', 'index', 'display', '', 'Piosenki artysty', '', '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('136', 'en', '4', '3', 'stat', 'admin', 'index', '', 'Statystyki', '', '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('137', 'en', '136', '0', 'stat', 'admin', 'label', '', 'Nazwy statystyk', '', '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('138', 'en', '137', '0', 'stat', 'admin', 'edit', '', 'Dodaj statystykę', '', '', '', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('139', 'en', '101', '4', 'user', 'login', 'index', '', 'Logowanie', '', '', 'Zaloguj się do swojego konta w serwisie Karaok.pl', NULL, '1');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('141', 'en', '139', '0', 'user', 'login', 'remind', '', 'Przypomnij hasło', '', '', '', NULL, '0');
-insert into cms_navigation (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `visible`) values ('142', 'en', '141', '0', 'user', 'login', 'reset', '', 'Zmiana hasła', '', '', '', NULL, '0');
-
-DROP TABLE IF EXISTS `cms_route`;
 CREATE TABLE `cms_route` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pattern` varchar(255) COLLATE utf8_polish_ci DEFAULT NULL,
@@ -324,8 +286,6 @@ CREATE TABLE `cms_route` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-
-DROP TABLE IF EXISTS `cms_text`;
 CREATE TABLE `cms_text` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `lang` varchar(2) COLLATE utf8_polish_ci DEFAULT NULL,
@@ -335,8 +295,6 @@ CREATE TABLE `cms_text` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-
-DROP TABLE IF EXISTS `cron`;
 CREATE TABLE `cron` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `active` tinyint NOT NULL DEFAULT '0',
@@ -357,10 +315,6 @@ CREATE TABLE `cron` (
   KEY `active` (`active`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-INSERT INTO `cron` (`id`, `active`, `minute`, `hour`, `dayOfMonth`, `month`, `dayOfWeek`, `name`, `description`, `module`, `controller`, `action`, `dateAdd`, `dateModified`, `dateLastExecute`) VALUES
-(1,	1,	'*',	'*',	'*',	'*',	'*',	'Wysyłka maili',	'Wysyłanie kolejki mailowej',	'mail',	'cron',	'send',	'2012-03-14 10:35:57',	'2012-03-14 10:36:16',	NULL);
-
-DROP TABLE IF EXISTS `mail`;
 CREATE TABLE `mail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `mail_definition_id` int(11) NOT NULL,
@@ -381,11 +335,9 @@ CREATE TABLE `mail` (
   KEY `type` (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-
-DROP TABLE IF EXISTS `mail_definition`;
 CREATE TABLE `mail_definition` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `lang` varchar(2) COLLATE utf8_polish_ci DEFAULT 'pl',
+  `lang` varchar(2) COLLATE utf8_polish_ci DEFAULT NULL,
   `mail_server_id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_polish_ci DEFAULT NULL,
   `replyTo` varchar(64) COLLATE utf8_polish_ci DEFAULT NULL,
@@ -401,11 +353,6 @@ CREATE TABLE `mail_definition` (
   KEY `lang` (`lang`,`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-INSERT INTO `mail_definition` (`id`, `lang`, `mail_server_id`, `name`, `replyTo`, `fromName`, `subject`, `message`, `html`, `dateAdd`, `dateModify`, `active`) VALUES
-(1,	'pl',	1,	'reservation',	'',	'dsadasdadad',	'asdadasdasd',	'adasdasdasda',	0,	'2012-03-14 14:38:31',	'2012-03-14 14:49:18',	1),
-(3,	'pl',	1,	'asasasda',	'',	'dsadasd',	'sdasdsa',	'dasdas',	0,	'2012-03-14 14:59:43',	'2012-03-14 15:04:35',	1);
-
-DROP TABLE IF EXISTS `mail_server`;
 CREATE TABLE `mail_server` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `address` varchar(64) COLLATE utf8_polish_ci NOT NULL,
@@ -420,10 +367,6 @@ CREATE TABLE `mail_server` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-INSERT INTO `mail_server` (`id`, `address`, `port`, `username`, `password`, `from`, `dateAdd`, `dateModify`, `active`, `ssl`) VALUES
-(1,	'localhost',	25,	'local',	'',	'',	'2012-03-14 14:31:43',	'2012-03-14 14:47:01',	1,	'plain');
-
-DROP TABLE IF EXISTS `news`;
 CREATE TABLE `news` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `lang` varchar(2) COLLATE utf8_polish_ci DEFAULT NULL,
@@ -438,8 +381,6 @@ CREATE TABLE `news` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-
-DROP TABLE IF EXISTS `stat`;
 CREATE TABLE `stat` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `object` varchar(50) COLLATE utf8_polish_ci NOT NULL,
@@ -448,11 +389,6 @@ CREATE TABLE `stat` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-INSERT INTO `stat` (`id`, `object`, `objectId`, `dateTime`) VALUES
-(1,	'user_login',	NULL,	'2012-03-15 11:06:12'),
-(2,	'user_login',	NULL,	'2012-03-15 11:06:52');
-
-DROP TABLE IF EXISTS `stat_date`;
 CREATE TABLE `stat_date` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `hour` smallint(6) DEFAULT NULL,
@@ -467,13 +403,145 @@ CREATE TABLE `stat_date` (
   KEY `object` (`object`,`objectId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-
-DROP TABLE IF EXISTS `stat_label`;
 CREATE TABLE `stat_label` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `lang` varchar(2) COLLATE utf8_polish_ci,
+  `lang` varchar(2) COLLATE utf8_polish_ci DEFAULT NULL,
   `object` varchar(32) COLLATE utf8_polish_ci NOT NULL,
   `label` varchar(48) COLLATE utf8_polish_ci NOT NULL,
   `description` text COLLATE utf8_polish_ci,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+INSERT INTO `cms_role` (`id`, `name`) VALUES
+(1,	'guest'),
+(2,	'member'),
+(3,	'admin');
+
+INSERT INTO cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('1', '3', NULL, NULL, NULL, 'allow');
+INSERT INTO cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('2', '1', 'default', NULL, NULL, 'allow');
+INSERT INTO cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('3', '1', 'admin', 'login', NULL, 'allow');
+INSERT INTO cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('4', '1', 'cms', 'form', NULL, 'allow');
+INSERT INTO cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('5', '1', 'artist', 'index', NULL, 'allow');
+INSERT INTO cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('6', '1', 'user', 'login', NULL, 'allow');
+INSERT INTO cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('7', '1', 'user', 'registration', NULL, 'allow');
+INSERT INTO cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('8', '1', 'song', 'index', NULL, 'allow');
+INSERT INTO cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('9', '2', 'default', NULL, NULL, 'allow');
+INSERT INTO cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('10', '2', 'cms', NULL, NULL, 'allow');
+INSERT INTO cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('11', '2', 'artist', 'index', NULL, 'allow');
+INSERT INTO cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('12', '2', 'song', 'index', NULL, 'allow');
+INSERT INTO cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('13', '2', 'user', NULL, NULL, 'allow');
+INSERT INTO cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('14', '1', 'cms', 'captcha', NULL, 'allow');
+INSERT INTO cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('15', '1', 'cms', 'contact', NULL, 'allow');
+INSERT INTO cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('16', '1', 'cms', 'comment', NULL, 'allow');
+INSERT INTO cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('17', '1', 'cms', 'file', 'index', 'allow');
+INSERT INTO cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('18', '2', 'cms', 'article', NULL, 'allow');
+INSERT INTO cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('19', '1', 'cms', 'article', NULL, 'allow');
+INSERT INTO cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('20', '1', 'user', 'index', NULL, 'allow');
+INSERT INTO cms_acl (`id`, `cms_role_id`, `module`, `controller`, `action`, `access`) values ('21', '2', 'user', 'index', NULL, 'allow');
+
+INSERT INTO `cms_auth` (`id`, `lang`, `username`, `email`, `password`, `lastIp`, `lastLog`, `lastFailIp`, `lastFailLog`, `failLogCount`, `logged`, `active`) VALUES
+(1,	'pl',	'admin',	'admin@milejko.pl',	'd033e22ae348aeb5660fc2140aec35850c4da997',	'127.0.0.1',	'2012-02-23 15:41:12',	'89.231.108.27',	'2011-12-20 19:42:01',	8,	0,	0),
+(2,	'pl',	'mariusz',	'mariusz@milejko.pl',	'7a48d2fe2f6f86430acee5b86a093c3352b9f780',	'127.0.0.1',	'2012-03-20 15:54:01',	'127.0.0.1',	'2012-03-16 13:41:49',	9,	0,	1);
+
+INSERT INTO `cms_auth_role` (`id`, `cms_auth_id`, `cms_role_id`) VALUES
+(1,	2,	3),
+(2,	1,	3);
+
+INSERT INTO `cms_contact_option` (`id`, `name`) VALUES
+(1,	'Inne'),
+(2,	'Propozycje zmian');
+
+INSERT INTO `cms_article` (`id`, `lang`, `title`, `uri`, `dateAdd`, `dateModify`, `text`, `noindex`) VALUES (1,	NULL,	'Hello admin',	'hello-admin',	'2014-03-20 12:06:56',	'2014-03-20 12:33:47',	'<h4>Witaj!</h4>
+<p>To jest panel administracyjny systemu DEMO, pozwalający na zarządzanie treścią stron. Podłączone moduły umożliwiają dodawanie aktualności, artykułów (typu regulamin), zarządzanie strukturą menu i wiele innych, które zostaną krótko omówione w tym artykule.</p>
+<p><strong>Górna sekcja została podzielona na 3 obszary:</strong></p>
+<ol>
+<li>Czarny pasek operacji - zawiera stałą ilość opcji: link do strony głównej panelu administracyjnego, podgląd strony frontowej, zmianę hasła i zamknięcie sesji.</li>
+<li>Pasek "okruszków" - ułatwiają nawigację (np. cofnięcie do poprzedniej sekcji), oraz informują o obecnej pozycji w nawigacji.</li>
+<li>Menu CMS - zawiera kompletną nawigację po panelu administracyjnym.</li>
+<li>Okno robocze - pozwala na operację na danym module (wybranym z menu nawigacyjnego), pojawią się w nim np.: formularze, tabele, raporty i listy artykułów. </li>
+</ol>
+<h4>Przegląd modułów CMS</h4>
+<ol>
+<li>Aktualności - ten moduł zawiera dwa widoki: listę i szczegóły, umożliwia tworzenie treści za pomocą edytora WYSIWYG</li>
+<li>Artykuły - jeden widok: artykuł, umożliwia tworzenie treści typu regulamin, polityka prywatności itp. (za pomocą WYSIWYG)</li>
+<li>CMS<ol style="list-style-type: lower-alpha;`>
+<li>Cron - harmonogram zadań, np. wysyłka newslettera, obliczanie statystyk itp.</li>
+<li>Komentarze - agreguje komentarze użytkowników ze wszystkich modułów (np. aktualności)</li>
+<li>Kontakt - zapytania zadane przez użytkowników w formularzu kontaktowym</li>
+<li>Logi (systemowe i błędów) - pozwalają monitorować aplikację</li>
+<li>Menu serwisu - umożliwia zarządzanie menu (zarówno frontu jak i panelu administracyjnego)</li>
+<li>Pliki - agreguje pliki dodane we wszystkich modułach (np. zdjęcia w aktualnościach, awatary użytkowników itp.)</li>
+<li>Strony CMS - umożliwia utworzenie szablonów (layoutów), a następnie stron opartych o te szablony, złożonych z dowolnych komponentów CMS</li>
+<li>Teksty stałe - zarządzanie tekstami stałymi frontu aplikacji (np. tekst w stopce)</li>
+</ol></li>
+<li>Statystyki - pozwala monitorować wybrane zachowania użytkowników</li>
+<li>System mailowy - odpowiada za wysyłkę e-maili do użytkowników</li>
+<li>Użytkownicy - zarządzanie bazą zarejestrowanych użytkowników (oraz administratorów)<ol style="list-style-type: lower-alpha;">
+<li>Uprawnienia - umożliwia nadawanie i odbieranie uprawnień wybranym rolom (ACL)</li>
+</ol></li>
+</ol>',	'0');
+
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (4,	NULL,	'0',	3,	NULL,	NULL,	NULL,	'',	'Panel administracyjny',	'',	'',	'',	NULL,	'0',	'0',	'0',	'0',	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (12,	NULL,	4,	2,	'admin',	'index',	'index',	'',	'CMS',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (13,	NULL,	12,	5,	'cms',	'adminNavigation',	'index',	'',	'Menu serwisu',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (14,	NULL,	12,	4,	'cms',	'adminLog',	'index',	'',	'Log systemowy',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (15,	NULL,	13,	3,	'cms',	'adminNavigation',	'edit',	'type=simple',	'Dodaj artykuł',	'',	'',	'',	NULL,	'0',	'0',	'0',	'0',	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (17,	NULL,	13,	7,	'cms',	'adminNavigation',	'edit',	'type=cms',	'Dodaj obiekt CMS',	'',	'',	'',	NULL,	'0',	'0',	'0',	'0',	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (18,	NULL,	13,	8,	'cms',	'adminNavigation',	'edit',	'type=link',	'Dodaj odnośnik',	'',	'',	'',	NULL,	'0',	'0',	'0',	'0',	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (21,	NULL,	13,	5,	'cms',	'adminNavigation',	'edit',	'type=folder',	'Dodaj folder',	'',	'',	'',	NULL,	'0',	'0',	'0',	'0',	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (22,	NULL,	12,	6,	'cms',	'adminFile',	'index',	'',	'Pliki',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (24,	NULL,	12,	3,	'admin',	'errorLog',	'index',	'',	'Log błędów',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (26,	NULL,	48,	9,	'cms',	'adminAcl',	'index',	'',	'Uprawnienia',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (31,	NULL,	12,	1,	'cms',	'adminComment',	'index',	'',	'Komentarze',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (48,	NULL,	4,	5,	'cms',	'adminAuth',	'index',	'',	'Użytkownicy',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (49,	NULL,	48,	'0',	'cms',	'adminAuth',	'edit',	'',	'Dodaj',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (70,	NULL,	4,	1,	'cms',	'adminArticle',	'index',	'',	'Artykuły',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (71,	NULL,	70,	'0',	'cms',	'adminArticle',	'edit',	'',	'Dodaj',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (99,	NULL,	4,	'0',	'news',	'admin',	'index',	'',	'Aktualności',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (100,	NULL,	99,	'0',	'news',	'admin',	'edit',	'',	'Dodaj',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (101,	NULL,	'0',	'0',	NULL,	NULL,	NULL,	'',	'Górne menu',	'Demo',	'',	'',	NULL,	'0',	'0',	'0',	'0',	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (103,	NULL,	101,	'0',	'default',	'index',	'index',	'',	'Strona główna',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (104,	NULL,	101,	1,	'news',	'index',	'index',	'',	'Aktualności',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (105,	NULL,	104,	'0',	'news',	'index',	'display',	'',	'Artykuł',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	'0',	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (107,	NULL,	101,	4,	'user',	'registration',	'index',	'',	'Rejestracja',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (110,	NULL,	12,	2,	'cms',	'adminContact',	'index',	'',	'Kontakt',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (111,	NULL,	110,	'0',	'cms',	'adminContact',	'subject',	'',	'Tematy',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (112,	NULL,	111,	2,	'cms',	'adminContact',	'editSubject',	'',	'Dodaj',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (113,	NULL,	110,	1,	'cms',	'adminContact',	'edit',	'',	'Odpowiedz',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	'0',	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (116,	NULL,	101,	5,	'cms',	'contact',	'index',	'',	'Kontakt',	'Strona kontaktu',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (119,	NULL,	4,	4,	'mail',	'admin',	'index',	'',	'System mailowy',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (120,	NULL,	119,	'0',	'mail',	'admin',	'send',	'',	'Wyślij z kolejki',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (121,	NULL,	119,	2,	'mail',	'adminServer',	'index',	'',	'Serwery',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (122,	NULL,	119,	1,	'mail',	'adminDefinition',	'index',	'',	'Szablony',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (123,	NULL,	121,	'0',	'mail',	'adminServer',	'edit',	'',	'Dodaj',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (124,	NULL,	122,	'0',	'mail',	'adminDefinition',	'edit',	'',	'Dodaj',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (125,	NULL,	12,	'0',	'cron',	'admin',	'index',	'',	'Cron',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (126,	NULL,	125,	'0',	'cron',	'admin',	'edit',	'',	'Dodaj zadanie',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (127,	NULL,	12,	8,	'cms',	'adminContainer',	'index',	'',	'Strony CMS',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (128,	NULL,	127,	'0',	'cms',	'adminContainer',	'edit',	'',	'Dodaj',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (129,	NULL,	127,	1,	'cms',	'adminContainerTemplate',	'index',	'',	'Szablony',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (130,	NULL,	129,	'0',	'cms',	'adminContainerTemplate',	'edit',	'',	'Dodaj',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (131,	NULL,	129,	1,	'cms',	'adminContainerTemplatePlaceholder',	'edit',	'',	'Dodaj placeholder',	'',	'',	'',	NULL,	'0',	'0',	'0',	'0',	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (132,	NULL,	127,	2,	'cms',	'adminContainerTemplatePlaceholderContainer',	'edit',	'',	'Ustaw placeholder',	'',	'',	'',	NULL,	'0',	'0',	'0',	'0',	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (133,	NULL,	'0',	'0',	NULL,	NULL,	NULL,	NULL,	'Dolne menu',	'',	'',	'',	NULL,	'0',	'0',	'0',	'0',	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (134,	NULL,	133,	'0',	'cms',	'article',	'index',	'uri=regulamin',	'Regulamin serwisu',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (135,	NULL,	133,	1,	'cms',	'article',	'index',	'uri=strona-z-obrazkami',	'Strona z obrazkami',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (136,	NULL,	12,	9,	'cms',	'adminText',	'index',	'',	'Teksty stałe',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (137,	NULL,	13,	9,	'cms',	'adminNavigation',	'edit',	'type=container',	'Dodaj stronę CMS',	'',	'',	'',	NULL,	'0',	'0',	'0',	'0',	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (138,	NULL,	136,	'0',	'cms',	'adminText',	'edit',	'',	'Dodaj',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (139,	NULL,	4,	3,	'stat',	'admin',	'index',	'',	'Statystyki',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (140,	NULL,	139,	'0',	'stat',	'admin',	'label',	'',	'Nazwy',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (141,	NULL,	140,	'0',	'stat',	'admin',	'edit',	'',	'Dodaj',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (142,	NULL,	4,	6,	'cms',	'admin',	'password',	'',	'Zmiana hasła',	'',	'',	'',	NULL,	'0',	'0',	'0',	'0',	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (143,	NULL,	133,	2,	'cms',	'container',	'display',	'uri=witajcie',	'Przykładowa strona CMS',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (144,	NULL,	12,	7,	'cms',	'adminRoute',	'index',	'',	'Routing',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO `cms_navigation` (`id`, `lang`, `parent_id`, `order`, `module`, `controller`, `action`, `params`, `label`, `title`, `keywords`, `description`, `uri`, `independent`, `nofollow`, `blank`, `visible`, `dateStart`, `dateEnd`, `active`) VALUES (145,	NULL,	144,	'0',	'cms',	'adminRoute',	'edit',	'',	'Dodaj',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+
+INSERT INTO `cms_text` (`id`, `lang`, `key`, `content`, `dateModify`) VALUES (1,	NULL,	'footer-copyright',	'© 2011-2014 Powered by MMi CMS',	'2014-03-19 16:59:43');
+
+INSERT INTO `cron` (`id`, `active`, `minute`, `hour`, `dayOfMonth`, `month`, `dayOfWeek`, `name`, `description`, `module`, `controller`, `action`, `dateAdd`, `dateModified`, `dateLastExecute`) VALUES (1,	1,	'*',	'*',	'*',	'*',	'*',	'Wysyłka maili',	'Wysyła maile z kolejki',	'mail',	'cron',	'send',	'2012-03-14 10:35:57',	'2014-03-21 21:31:02',	'2014-03-21 21:31:02');
+INSERT INTO `cron` (`id`, `active`, `minute`, `hour`, `dayOfMonth`, `month`, `dayOfWeek`, `name`, `description`, `module`, `controller`, `action`, `dateAdd`, `dateModified`, `dateLastExecute`) VALUES (2,	1,	'*',	'*',	'*',	'*',	'*',	'Agregator statystyk',	'Zlicza statystyki z serwisu',	'stat',	'cron',	'agregate',	'2014-03-20 09:48:29',	'2014-03-21 21:31:02',	'2014-03-21 21:31:02');
+INSERT INTO `cron` (`id`, `active`, `minute`, `hour`, `dayOfMonth`, `month`, `dayOfWeek`, `name`, `description`, `module`, `controller`, `action`, `dateAdd`, `dateModified`, `dateLastExecute`) VALUES (3,	1,	'30',	'4',	'1',	'*/2',	'*',	'Czyszczenie logów',	'Czyści archiwalne logi aplikacji',	'cms',	'cron',	'clean',	'2014-03-20 09:49:37',	'2014-03-20 09:49:37',	NULL);
+
+INSERT INTO `mail_server` (`id`, `address`, `port`, `username`, `password`, `from`, `dateAdd`, `dateModify`, `active`, `ssl`) VALUES
+(1,	'localhost',	25,	'local',	'',	'',	'2012-03-14 14:31:43',	'2012-03-14 14:47:01',	1,	'plain');

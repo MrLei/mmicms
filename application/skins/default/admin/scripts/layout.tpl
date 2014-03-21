@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{$lang}">
+<html{* lang="{$lang}"*}>
 	<head>
 		<meta charset="utf-8" />
 		<title>{navigation()->title()}</title>
@@ -38,7 +38,7 @@
 		</nav>
 		<div class="grid">
 			<nav class="local">
-				{$currentDepth = navigation()->getCurrentDepth()}
+				{$currentDepth = navigation()->getCurrentDepth() + 1}
 				{navigation()->setRoot(4)->setActiveBranchOnly()->setMinDepth($currentDepth)->setMaxDepth($currentDepth)->menu()}
 			</nav>
 			{messenger()}
