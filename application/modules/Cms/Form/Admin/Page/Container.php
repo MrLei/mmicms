@@ -76,6 +76,7 @@ class Cms_Form_Admin_Page_Container extends Mmi_Form {
 			->setLabel('Data i czas wyłączenia');
 
 		$this->addElementCheckbox('active')
+			->setValue(1)
 			->setLabel('Włączony');
 
 		//submit
