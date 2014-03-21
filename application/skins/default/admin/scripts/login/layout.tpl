@@ -24,7 +24,7 @@
 			{content()}
 		</div>
 		<div id="footer">
-			<small>{$domain} &copy; {php_date('Y')}. Powered by MMi CMS</small>
+			<small>{$domain} &copy; {system_date('Y')}. Powered by MMi CMS</small>
 		</div>
 	</body>
 </html>

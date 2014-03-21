@@ -11,7 +11,7 @@ class Cms_Controller_AdminFile extends MmiCms_Controller_Admin {
 			die();
 		}
 		$file = new Cms_Model_File_Record($this->_getParam('id'));
-		if ($this->_getParam('hash') != substr($file->name, 0, 10)) {
+		if ($this->_getParam('hash') != $file->name) {
 			die($this->view->getTranslate()->_('Przypinanie nie powiodło się'));
 		}
 		$file->setSticky();
@@ -63,7 +63,7 @@ class Cms_Controller_AdminFile extends MmiCms_Controller_Admin {
 		if (!$this->_getParam('order')) {
 			die($this->view->getTranslate()->_('Przenoszenie nie powiodło się'));
 		}
-		parse_str(str_replace('&amp;', '&', $this->_getParam('order')), $order);
+		parse_str(str_replace(array('&amp;', '&#38;'), '&', $this->_getParam('order')), $order);
 		if (!isset($order['item-file'])) {
 			die($this->view->getTranslate()->_('Przenoszenie nie powiodło się'));
 		}

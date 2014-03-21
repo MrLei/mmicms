@@ -87,6 +87,8 @@ class Mmi_View_Helper_Template extends Mmi_View_Helper_Abstract {
 			'/\{\$this->([a-z0-9_-]+)/i', //wyświetlanie pól
 			'/\{\$this->php_([a-z0-9_-]+)\(/i', //wyświetlanie funkcji php
 			'/\$this->php_([a-z0-9_-]+)\(/i', //zamiana na funkcje php wbudowane
+			'/\{\$this->system_([a-z0-9_-]+)\(/i', //wyświetlanie funkcji php
+			'/\$this->system_([a-z0-9_-]+)\(/i', //zamiana na funkcje php wbudowane
 			'/\{\$this->([a-z0-9_-]+)\(/i', //wyświetlanie helperów
 			'/([a-z0-9)\]\'\+\-])}/i', //obsługa zamknięcia
 			'/\{\$\$this->([a-z0-9_-]+)/i', //$nazwa -> $this->{$this->nazwa}
@@ -105,6 +107,8 @@ class Mmi_View_Helper_Template extends Mmi_View_Helper_Abstract {
 			'<?php \$this->${1} ${2} ',
 			'<?php \$this->${1}${2}',
 			'<?php echo \$this->${1}',
+			'<?php echo ${1}(',
+			'${1}(',
 			'<?php echo ${1}(',
 			'${1}(',
 			'<?php echo \$this->${1}(',
