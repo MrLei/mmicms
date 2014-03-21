@@ -5,6 +5,16 @@ class Cms_Model_Text_Dao extends Mmi_Dao {
 	protected static $_tableName = 'cms_text';
 	protected static $_texts = array();
 
+	public static function countLang($q) {
+		self::_langQuery($q);
+		return self::count($q);
+	}
+
+	public static function findLang($q) {
+		self::_langQuery($q);
+		return parent::find($q);
+	}
+
 	public static function textByKeyLang($key, $lang) {
 		if (empty(self::$_texts)) {
 			self::_initDictionary();
@@ -33,6 +43,17 @@ class Cms_Model_Text_Dao extends Mmi_Dao {
 			}
 			Default_Registry::$cache->save(self::$_texts, 'Cms_Text', 86400);
 		}
+	}
+
+	protected static function _langQuery(Mmi_Dao_Query $q) {
+		if (!Mmi_Controller_Front::getInstance()->getRequest()->lang) {
+			return $q;
+		}
+		$subQ = self::newQuery()
+			->where('lang')->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
+			->orField('lang')->equals(null)
+			->orderDesc('lang');
+		return $q->andQuery($subQ);
 	}
 
 }

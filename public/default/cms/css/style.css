@@ -135,7 +135,8 @@ ul#messenger {
 	opacity: 0.3;
 }
 
-.languages img {
+.languages img, img.language {
+	vertical-align: middle;
 	border-radius: 2px;
 	border: 1px solid #666;
 }

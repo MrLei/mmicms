@@ -24,10 +24,10 @@
 		<ul class="list" id="navigation-list">
 			{foreach $navigation.children as $id => $child}
 			<li id="navigation-item-{$id}" class="navigation-{$child.type}">
-				<div><a href="{url(array('id' => $child['id']))}">{$child.label}</a></div>
-                <div>{if $child.disabled}Wyłączony{else}{if $child.visible==1}{#Widoczny#}{else}{#Ukryty#}{/if}{/if}</div>
-				<a href="{@module=cms&controller=adminNavigation&action=edit&action=edit&type={$child.type}&id={$child.id}@}" class="button edit">{#edytuj#}</a>
-				<a href="{@module=cms&controller=adminNavigation&action=edit&action=delete&id={$child.id}@}" class="button delete confirm" title="{#Czy na pewno usunąć pozycję menu wraz z podmenu#}?">{#usuń#}</a>
+				<div>{if $child['lang']}<img class="language" src="{$baseUrl}/default/geo/image/country/{$child['lang']}-ico-16.gif" /> {/if}<a href="{url(array('id' => $child['id']))}">{$child.label}</a></div>
+                <div>{if $child.disabled}Wyłączony{else}{if $child.visible==1}<i class=" icon-eye-open"></i> {#widoczny#}{else}<i class=" icon-eye-close"></i> {#ukryty#}{/if}{/if}</div>
+				<a href="{@module=cms&controller=adminNavigation&action=edit&action=edit&type={$child.type}&id={$child.id}@}" class="button edit"><i class="icon-edit"></i> {#edytuj#}</a>
+				<a href="{@module=cms&controller=adminNavigation&action=edit&action=delete&id={$child.id}@}" class="button delete confirm" title="{#Czy na pewno usunąć pozycję menu wraz z podmenu#}?"><i class="icon-remove-sign"></i> {#usuń#}</a>
 			</li>
 			{/foreach}
 		</ul>
