@@ -18,7 +18,7 @@
 		<p>
 		{$entry->text}
 		</p>
-		<span>{#Dodano#}: {php_date('d.m.Y H:i', php_strtotime($entry->dateAdd))}, {#Autor#}: {$entry->signature}{if $entry->ip}, {#Adres IP#}: {php_substr($entry->ip, 0, php_strrpos($entry->ip, '.'))}.*{/if}</span>
+		<span>{#Dodano#}: {$entry->dateAdd}, {#Autor#}: {$entry->signature}{if $entry->ip}, {#Adres IP#}: {$entry->ip|truncate:5:''}.*{/if}</span>
 	</li>
 {/foreach}
 </ul>

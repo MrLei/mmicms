@@ -22,7 +22,7 @@
 					<a href="{@module=default@}" target="_blank">{#Podgląd frontu#}</a>
 				</li>
 				<li>
-					<a href="{@module=admin&controller=index&action=password@}">{#Zmiana hasła#}</a>
+					<a href="{@module=cms&controller=admin&action=password@}">{#Zmiana hasła#}</a>
 				</li>
 				<li>
 					<a href="{@module=admin&controller=login&action=logout@}">{#Wyloguj się#}<span>{if $auth} {$auth->getUsername()}</span> ({foreach name=role $auth->getRoles() as $role}{$role}{if !$_roleLast}, {/if}{/foreach}){/if}</a>
@@ -30,30 +30,22 @@
 			</ul>
 		</nav>
 		<div class="breadcrumbs">
-			{if $languages}
-				<div class="languages">
-				<a{if !$request->lang} class="active"{/if} href="{@module=admin&controller=index&action=language&locale=null@}"{#>wszystkie#}</a>
-				{foreach $languages as $language}
-					<a{if $request->lang == $language} class="active"{/if} title="{$language}" href="{@module=admin&controller=index&action=language&locale={$language}@}"><img src="{$baseUrl}/default/geo/image/country/{$language}-ico-16.gif" alt="{$language}" /></a>
-				{/foreach}
-				</div>
-			{/if}
 			{navigation()->breadcrumbs()}
+			{widget('cms', 'admin', 'languageWidget')}
 		</div>
 		<nav id="main-menu">
 			{navigation()->setRoot(4)->menu()}
 		</nav>
 		<div class="grid">
 			<nav class="local">
-				{$dpt = navigation()->getCurrentDepth()}
-				{navigation()->setRoot(4)->setActiveBranchOnly()->setMinDepth($dpt)->setMaxDepth($dpt)->menu()}
+				{$currentDepth = navigation()->getCurrentDepth()}
+				{navigation()->setRoot(4)->setActiveBranchOnly()->setMinDepth($currentDepth)->setMaxDepth($currentDepth)->menu()}
 			</nav>
 			{messenger()}
 			{content()}
-			<div class="clear"></div>
 		</div>
 		<div id="footer">
-			{$domain} &copy; {php_date('Y')}. Powered by MMi CMS
+			{$domain} &copy; {system_date('Y')}. Powered by MMi CMS
 		</div>
 	</body>
 </html>

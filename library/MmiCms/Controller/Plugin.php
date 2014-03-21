@@ -48,8 +48,7 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		$view = Mmi_Controller_Front::getInstance()->getView();
 		$base = $view->baseUrl;
 		$view->domain = Default_Registry::$config->application->host;
-		$view->mediaServer = Default_Registry::$config->media->mediaServer;
-		$view->languages = Default_Registry::$config->application->languages;
+		$view->mediaServer = Default_Registry::$config->media->server;
 
 		$jsReqestArray = array();
 		$jsReqestArray[] = "'baseUrl' : '" . $base . "'";

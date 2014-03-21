@@ -16,7 +16,7 @@
 		<div class="content-box-content clearfix">
 			<strong>{$trace.message}</strong>
 			<br />{$trace.file}<br /><br />
-			<pre>{php_nl2br($trace.info)}</pre>
+			<pre>{$trace['info']|nl2br}</pre>
 		</div>
 	</div>
 
