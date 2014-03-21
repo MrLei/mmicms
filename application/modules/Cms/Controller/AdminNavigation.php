@@ -3,6 +3,7 @@
 class Cms_Controller_AdminNavigation extends MmiCms_Controller_Admin {
 
 	public function indexAction() {
+		Cms_Model_Navigation_Dao::resetNested();
 		$this->view->navigation = Cms_Model_Navigation_Dao::seek($this->_getParam('id'));
 	}
 

@@ -16,20 +16,20 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 				->andField('controller')->equals('article')
 				->andField('action')->equals('index')
 				->andField('params')->equals('uri=' . $uri);
-		return Cms_Model_Navigation_Dao::findFirst($q);
+		return self::findFirst($q);
 	}
 
 	public static function findLastByParentId($parentId) {
 		$q = self::newQuery()
 				->where('parent_id')->equals($parentId)
 				->orderDesc('order');
-		return Cms_Model_Navigation_Dao::findFirst($q);
+		return self::findFirst($q);
 	}
 
 	public static function findByParentId($parentId) {
 		$q = self::newQuery()
 				->where('parent_id')->equals($parentId);
-		return Cms_Model_Navigation_Dao::find($q);
+		return self::find($q);
 	}
 
 	public static function seek($id) {
@@ -52,6 +52,10 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 		}
 		return $multiOptions;
 	}
+	
+	public static function resetNested() {
+		self::$_nested = null;
+	}
 
 	public static function getNested() {
 		self::_initNested();
@@ -69,12 +73,7 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 			->orderAsc('parent_id')
 			->orderAsc('order');
 		$lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
-		if ($lang !== null) {
-			$subQ = self::newQuery()
-				->where('lang')->equals($lang)
-				->orField('lang')->equals(null);
-			$q->andQuery($subQ);
-		}
+		self::_langQuery($q);
 		$data = self::find($q)->toArray();
 		$view = Mmi_Controller_Front::getInstance()->getView();
 		foreach ($data as $key => $item) {
@@ -147,6 +146,17 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 			$record->save();
 		}
 		return true;
+	}
+	
+	protected static function _langQuery(Mmi_Dao_Query $q) {
+		if (!Mmi_Controller_Front::getInstance()->getRequest()->lang) {
+			return $q;
+		}
+		$subQ = self::newQuery()
+			->where('lang')->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
+			->orField('lang')->equals(null)
+			->orderDesc('lang');
+		return $q->andQuery($subQ);
 	}
 
 }

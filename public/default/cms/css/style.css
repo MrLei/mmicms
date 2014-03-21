@@ -130,17 +130,21 @@ ul#messenger {
 	float: right;
 }
 
+.languages a {
+	margin-left: 5px;
+	opacity: 0.3;
+}
+
 .languages img {
 	border-radius: 2px;
-	opacity: 0.3;
 	border: 1px solid #666;
 }
 
-.languages img:hover {
-	opacity: 0.6;
+.languages a:hover {
+	opacity: 0.75;
 }
 
-.languages img.active {
+.languages a.active {
 	opacity: 1;
 }
 
@@ -261,7 +265,7 @@ ul.list li div {
 
 .mce-btn button:focus, .mce-btn button:hover {
 	border: none;
-	background: rgb(252,252,252); /* Old browsers */
+	background: rgb(252,252,252);
 }
 
 label.mce-wordcount {
