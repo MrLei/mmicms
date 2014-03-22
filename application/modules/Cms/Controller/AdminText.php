@@ -8,10 +8,14 @@ class Cms_Controller_AdminText extends MmiCms_Controller_Admin {
 
 	public function editAction() {
 		$form = new Cms_Form_Admin_Text($this->_getParam('id'));
+		if (!$form->isMine()) {
+			return;
+		}
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Poprawnie zapisano tekst', true);
 			$this->_helper->redirector('index', 'adminText', 'cms', array(), true);
 		}
+		$this->_helper->messenger('Błąd zapisu tekstu, tekst o tym kluczu już istnieje', false);
 	}
 
 	public function deleteAction() {

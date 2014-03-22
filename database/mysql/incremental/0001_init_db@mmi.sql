@@ -102,6 +102,7 @@ CREATE TABLE cms_container_template_placeholder
   `placeholder` varchar(32) NOT NULL,
   `name` text,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `cms_container_template_id_placeholder` (`cms_container_template_id`,`placeholder`),
   CONSTRAINT `cms_container_template_placeholder_ibfk_1` FOREIGN KEY (cms_container_template_id) REFERENCES cms_container_template (id) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
@@ -292,7 +293,8 @@ CREATE TABLE `cms_text` (
   `key` varchar(32) COLLATE utf8_polish_ci DEFAULT NULL,
   `content` text COLLATE utf8_polish_ci,
   `dateModify` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `cms_text_lang_key` (`lang`,`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `cron` (
