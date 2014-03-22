@@ -231,9 +231,9 @@ CREATE TABLE cms_navigation (
     lang character varying(2),
     parent_id integer DEFAULT 0 NOT NULL,
     "order" integer DEFAULT 0 NOT NULL,
-    module character varying(32),
-    controller character varying(32),
-    action character varying(32),
+    module character varying(64),
+    controller character varying(64),
+    action character varying(64),
     params text,
     label character varying(64),
     title character varying(64),
@@ -613,13 +613,11 @@ INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES
 INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (6, 1, 'user', 'login', NULL, 'allow');
 INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (7, 1, 'user', 'registration', NULL, 'allow');
 
-INSERT INTO cms_auth (id, lang, username, email, password, "lastIp", "lastLog", "lastFailIp", "lastFailLog", "failLogCount", logged, active) VALUES (1, 'pl', 'admin', 'admin@hqsoft.pl', 'd033e22ae348aeb5660fc2140aec35850c4da997', '127.0.0.1', '2012-02-23 15:41:12', '89.231.108.27', '2011-12-20 19:42:01', 8, 0, 1);
-INSERT INTO cms_auth (id, lang, username, email, password, "lastIp", "lastLog", "lastFailIp", "lastFailLog", "failLogCount", logged, active) VALUES (11, 'pl', 'test', 'test@milejko.pl', '5cb9cbee5f6421f730ecbf0bc981cee4e117181243a95512aef7576d20e547b0559da0a4d5d67252888a2e52e8589ace4a30a87716d33745f3697f80b6269576', '127.0.0.1', '2012-03-15 11:06:52', '127.0.0.1', '2012-03-15 11:04:59', 1, 0, 1);
+INSERT INTO cms_auth (id, lang, username, email, password, "lastIp", "lastLog", "lastFailIp", "lastFailLog", "failLogCount", logged, active) VALUES (1, 'pl', 'admin', 'admin@milejko.pl', 'd033e22ae348aeb5660fc2140aec35850c4da997', '127.0.0.1', '2012-02-23 15:41:12', '89.231.108.27', '2011-12-20 19:42:01', 8, 0, 0);
 INSERT INTO cms_auth (id, lang, username, email, password, "lastIp", "lastLog", "lastFailIp", "lastFailLog", "failLogCount", logged, active) VALUES (2, 'pl', 'mariusz', 'mariusz@milejko.pl', '7a48d2fe2f6f86430acee5b86a093c3352b9f780', '127.0.0.1', '2012-03-20 15:54:01', '127.0.0.1', '2012-03-16 13:41:49', 9, 0, 1);
 
-INSERT INTO cms_auth_role (id, cms_auth_id, cms_role_id) VALUES (7, 2, 3);
-INSERT INTO cms_auth_role (id, cms_auth_id, cms_role_id) VALUES (8, 1, 3);
-INSERT INTO cms_auth_role (id, cms_auth_id, cms_role_id) VALUES (13, 11, 2);
+INSERT INTO cms_auth_role (id, cms_auth_id, cms_role_id) VALUES (1, 2, 3);
+INSERT INTO cms_auth_role (id, cms_auth_id, cms_role_id) VALUES (2, 1, 3);
 
 INSERT INTO cms_contact_option (id, name) VALUES (3, 'Propozycje zmian');
 INSERT INTO cms_contact_option (id, name) VALUES (1, 'Inne');
@@ -676,10 +674,6 @@ INSERT INTO cron (id, active, minute, hour, "dayOfMonth", month, "dayOfWeek", na
 
 
 INSERT INTO mail_server (id, address, port, username, password, "from", "dateAdd", "dateModify", active, ssl) VALUES (1, 'localhost', 25, 'local', '', '', '2012-03-14 14:31:43', '2012-03-14 14:47:01', 1, 'plain');
-
-
-INSERT INTO stat (id, object, "objectId", "dateTime") VALUES (1, 'user_login', NULL, '2012-03-15 11:06:12');
-INSERT INTO stat (id, object, "objectId", "dateTime") VALUES (2, 'user_login', NULL, '2012-03-15 11:06:52');
 
 
 ALTER TABLE ONLY cms_acl
