@@ -7,12 +7,19 @@ class Default_Config_Default extends MmiCms_Config {
 	 * @var Default_Config_Router
 	 */
 	public $router;
+	
+	/**
+	 * Konfiguracja nawigatora
+	 * @var Default_Config_Navigation
+	 */
+	public $navigation;
 
 	public function __construct() {
 
 		parent::__construct();
 
 		$this->router = new Default_Config_Router();
+		$this->navigation = new Default_Config_Navigation();
 
 		$this->application->host = 'localhost';
 		$this->application->salt = 'salt-should-be-changed';

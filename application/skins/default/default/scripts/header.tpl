@@ -20,7 +20,10 @@
 				{navigation()->breadcrumbs()}
 			</nav>
 			<nav class="top-level">
+				{*pl*}
 				{navigation()->setRoot(101)->menu()}
+				{*en*}
+				{navigation()->setRoot(146)->menu()}
 			</nav>
 		</header>
 		{messenger()}
