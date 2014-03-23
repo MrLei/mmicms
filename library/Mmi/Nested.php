@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -35,13 +36,11 @@ class Mmi_Nested {
 	 * Konstruktor ustawia dane do ułożenia w strukturę
 	 * @param array $data dane
 	 * @param bool $nested zagnieżdżenie w tablicy
-	 * @return self
+	 * @return Mmi_Nested
 	 */
 	public function __construct(array $data, $nested = false) {
 		if ($nested) {
-			$this->structure = array();
-			$data = array(array('children' => $data));
-			$this->_buildStructureFromNested($data, $this->structure, 0, 0, 0);
+			$this->_buildStructureFromNested($data);
 			return $this;
 		}
 		$this->_buildStructure($data);
@@ -77,63 +76,21 @@ class Mmi_Nested {
 		}
 		return $result;
 	}
+
 	/**
 	 * Buduje strukture kategorii z zagnieżdżonej tablicy
 	 * @param array $array dane
-	 * @param array $target struktura
-	 * @param int $id identyfikator
-	 * @param int $parent_id identyfikator rodzica
-	 * @param int $level poziom
 	 */
-	protected function _buildStructureFromNested(array &$array, array &$target, $id = 0, $parent_id = 0, $level = 1) {
-		foreach ($array as $k => $v) {
-			$id++;
-			$array[$k]['id'] = $id;
-			$array[$k]['parent_id'] = $parent_id;
-			$parent_id = $id;
-			$array[$k]['request'] = array();
-			$array[$k]['level'] = $level;
-			$array[$k]['lang'] = isset($v['lang']) ? $v['lang'] : '';
-			$array[$k]['module'] = isset($v['module']) ? $v['module'] : '';
-			$array[$k]['controller'] = isset($v['controller']) ? $v['controller'] : '';
-			$array[$k]['action'] = isset($v['action']) ? $v['action'] : '';
-			$array[$k]['visible'] = isset($v['visible']) ? $v['visible'] : 1;
-			$array[$k]['active'] = isset($v['active']) ? $v['active'] : 1;
-			$array[$k]['request']['lang'] = $array[$k]['lang'];
-			$array[$k]['request']['module'] = $array[$k]['module'];
-			$array[$k]['request']['controller'] = $array[$k]['controller'];
-			$array[$k]['request']['action'] = $array[$k]['action'];
-			$array[$k]['params'] = isset($v['params']) ? $v['params'] : '';
-			if (is_array($array[$k]['params'])) {
-				foreach ($array[$k]['params'] as $paramName => $paramValue) {
-					$array[$k]['request'][$paramName] = $paramValue;
-				}
-			}
-			if (!isset($array[$k]['title'])) {
-				$array[$k]['title'] = '';
-			}
-			if (!isset($array[$k]['keywords'])) {
-				$array[$k]['keywords'] = '';
-			}
-			if (!isset($array[$k]['description'])) {
-				$array[$k]['description'] = '';
-			}
-			if (!isset($array[$k]['uri']) && (!isset($array[$k]['type']) || $array[$k]['type'] != 'folder')) {
-				die();
-				$array[$k]['uri'] = Mmi_Controller_Front::getInstance()->getRouter()->encodeUrl($array[$k]['request']);
-			} else {
-				$array[$k]['uri'] = isset($v['uri']) ? $v['uri'] : '';
-			}
-			if (!isset($array[$k]['type'])) {
-				$array[$k]['type'] = 'cms';
-			}
-			$localId = $id;
-			$target[$localId] = $array[$k];
-			if (isset($array[$k]['children'])) {
-				$target[$localId]['children'] = array();
-				$this->_buildStructureFromNested($array[$k]['children'], $target[$localId]['children'], $id, $parent_id, $level + 1);
-			}
-		}
+	protected function _buildStructureFromNested(array $array) {
+		$this->structure = array(array(
+				'name' => '',
+				'label' => '',
+				'id' => 0,
+				'level' => 0,
+				'uri' => '',
+				'children' => $array
+		));
+		return $this;
 	}
 
 	/**
@@ -179,8 +136,8 @@ class Mmi_Nested {
 	 * @param array $result tablica wynikowa
 	 */
 	public function _getFlat($branch, &$result) {
-		foreach($branch as $leaf) {
-			if (isset($leaf['id']))	{
+		foreach ($branch as $leaf) {
+			if (isset($leaf['id'])) {
 				$trimmed = $leaf;
 				unset($trimmed['children']);
 				unset($trimmed['parent_id']);
@@ -199,11 +156,11 @@ class Mmi_Nested {
 	 */
 	protected function _buildStructure($flat) {
 		$this->structure = array(0 => array(
-			'name' => null,
-			'label' => null,
-			'id' => 0,
-			'level' => 0,
-			'uri' => ''
+				'name' => null,
+				'label' => null,
+				'id' => 0,
+				'level' => 0,
+				'uri' => ''
 		));
 		$this->_buildChildren($this->structure, $flat);
 	}

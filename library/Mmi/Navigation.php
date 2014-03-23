@@ -60,14 +60,6 @@ class Mmi_Navigation {
 	}
 
 	/**
-	 * Pobiera zagnieżdżone drzewo
-	 * @return array
-	 */
-	public function getTree() {
-		return $this->_nested->seek(0);
-	}
-
-	/**
 	 * Wyszukuje element, wraz jego dziećmi, oraz rodzicami
 	 * @param string $id wyszukiwane id
 	 * @return array

@@ -27,6 +27,7 @@ class News_Plugin_Grid extends Mmi_Grid {
 		));
 
 		$this->addColumn('text', 'text', array(
+			'sortable' => false,
 			'label' => 'treść aktualności'
 		));
 
