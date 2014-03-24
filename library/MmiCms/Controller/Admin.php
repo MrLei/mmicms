@@ -19,6 +19,9 @@ class MmiCms_Controller_Admin Extends Mmi_Controller_Action {
 		//ustawienie języka edycji
 		$session = new Mmi_Session_Namespace('cms-language');
 		$lang = in_array($session->lang, Default_Registry::$config->application->languages) ? $session->lang : null;
+		if ($lang === null && isset(Default_Registry::$config->application->languages[0])) {
+			$lang = Default_Registry::$config->application->languages[0];
+		}
 		unset($request->lang);
 		unset(Mmi_Controller_Front::getInstance()->getRequest()->lang);
 		if ($lang !== null) {
