@@ -7,7 +7,7 @@ class Default_Config_Default extends MmiCms_Config {
 	 * @var Default_Config_Router
 	 */
 	public $router;
-	
+
 	/**
 	 * Konfiguracja nawigatora
 	 * @var Default_Config_Navigation
@@ -27,7 +27,7 @@ class Default_Config_Default extends MmiCms_Config {
 		$this->application->timeZone = 'Europe/Warsaw';
 		$this->application->debug = false;
 		$this->application->compile = false;
-		$this->application->languages = array('pl', 'en', 'de', 'fr');
+		$this->application->languages = array('pl', 'en');
 		$this->application->plugins = array('MmiCms_Controller_Plugin');
 
 		$this->media->server = '';
