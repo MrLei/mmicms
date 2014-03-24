@@ -5,6 +5,7 @@
 	</div>
 	<div class="content-box-content clearfix">
 		{$grid}
+		<br />
 		<a class="button" href="{@module=cms&controller=adminContainerTemplatePlaceholder&action=edit&templateId={$request->templateId}@}">dodaj placeholder</a>
 	</div>
 </div>

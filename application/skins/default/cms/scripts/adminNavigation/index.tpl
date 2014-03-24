@@ -9,7 +9,6 @@
 	<div class="content-box-content clearfix">
 		{if $navigation}
 		<div class="list-path">
-			{#Jesteś tutaj#}:
 			{foreach $navigation.parents as $parent}
 			<a href="{url(array('id' => $parent['id']))}">{if !$parent.label}{#Katalog główny#}{else}{$parent.label}{/if}</a> &raquo;
 			{/foreach}

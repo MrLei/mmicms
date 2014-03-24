@@ -28,25 +28,56 @@ class Mmi_Navigation_Config {
 
 	/**
 	 * Dane nawigacji
-	 * @var type
+	 * @var array
 	 */
 	protected $_data = array();
-	
+
+	/**
+	 * Indeks elementów
+	 * @var int
+	 */
+	protected static $_index = 1000000;
+
 	/**
 	 * Dodaje element nawigatora
 	 * @param int $id klucz
 	 * @return Mmi_Navigation_Config_Element
 	 */
-	public function add(Mmi_Navigation_Config_Element $element) {
-		$this->_data[$element->getId()] = $element; 
+	public function addElement(Mmi_Navigation_Config_Element $element) {
+		$this->_data[$element->getId()] = $element;
 		return $this;
+	}
+
+	/**
+	 * Pobiera element po kluczu
+	 * @param int $id klucz
+	 * @return Mmi_Navigation_Config_Element
+	 */
+	public function getElement($id) {
+		return isset($this->_data[$id]) ? $this->_data[$id] : null;
+	}
+
+	/**
+	 * Tworzy nowy element nawigacyjny
+	 * @return Mmi_Navigation_Config_Element
+	 */
+	public static function newElement() {
+		return new Mmi_Navigation_Config_Element();
+	}
+
+	/**
+	 * Zwraca i inkrementuje indeks elementów
+	 * @return int
+	 */
+	public static function getIndex() {
+		return self::$_index++;
 	}
 
 	/**
 	 * Zwraca wszystkie skonfigurowane elementy
 	 * @return array
 	 */
-	public function get() {
+	public function toArray() {
 		$data = array();
 		foreach ($this->_data as $id => $level) {
 			$data[$id] = $level->toArray();
