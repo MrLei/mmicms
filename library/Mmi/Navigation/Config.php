@@ -76,9 +76,13 @@ class Mmi_Navigation_Config {
 	 * @param int $id identyfikator
 	 * @return Mmi_Navigation_Config_Element
 	 */
-	public function findById($id) {
+	public function findById($id, $withParents = false) {
+		$parents = array();
 		foreach ($this->build() as $element) {
-			if (null !== ($found = $this->_findInChildren($element, $id))) {
+			if (null !== ($found = $this->_findInChildren($element, $id, $withParents, $parents))) {
+				if ($withParents) {
+					$found['parents'] = array_reverse($parents);
+				}
 				return $found;
 			}
 		}
@@ -90,15 +94,21 @@ class Mmi_Navigation_Config {
 	 * @param int $id identyfikator
 	 * @return array
 	 */
-	protected function _findInChildren(array $element, $id) {
+	protected function _findInChildren(array $element, $id, $withParents, array &$parents) {
 		if ($element['id'] == $id) {
 			return $element;
 		}
 		foreach ($element['children'] as $child) {
 			if ($child['id'] == $id) {
+				if ($withParents) {
+					$parents[] = $element;
+				}
 				return $child;
 			}
-			if (null !== ($found = $this->_findInChildren($child, $id))) {
+			if (null !== ($found = $this->_findInChildren($child, $id, $withParents, $parents))) {
+				if ($withParents) {
+					$parents[] = $element;
+				}
 				return $found;
 			}
 		}

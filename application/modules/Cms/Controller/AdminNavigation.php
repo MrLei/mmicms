@@ -3,7 +3,9 @@
 class Cms_Controller_AdminNavigation extends MmiCms_Controller_Admin {
 
 	public function indexAction() {
-		$this->view->navigation = Default_Registry::$config->navigation->findById($this->_getParam('id'));
+		$config = new Mmi_Navigation_Config();
+		Cms_Model_Navigation_Dao::decorateConfiguration($config);
+		$this->view->navigation = $config->findById($this->_getParam('id'), true);
 	}
 
 	public function editAction() {

@@ -272,3 +272,15 @@ ul.list li div {
 label.mce-wordcount {
 	left: auto;
 }
+
+.icon-2x {
+	width: 2em;
+}
+
+.icon-3x {
+	width: 3em;
+}
+
+.icon-4x {
+	width: 4em;
+}
