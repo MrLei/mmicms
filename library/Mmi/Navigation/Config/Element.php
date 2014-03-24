@@ -16,7 +16,7 @@ class Mmi_Navigation_Config_Element {
 		'keywords' => null,
 		'description' => null,
 		'uri' => null,
-		'https' => false,
+		'https' => null,
 		'absolute' => false,
 		'independent' => false,
 		'nofollow' => false,
@@ -167,9 +167,9 @@ class Mmi_Navigation_Config_Element {
 			if ($this->_data['module']) {
 				$this->_data['uri'] = $view->url($params, true, $this->_data['absolute'], $this->_data['https']);
 				if ($this->_data['module'] == 'cms' && $this->_data['controller'] == 'article' && $this->_data['action'] == 'index') {
-					$data['type'] = 'simple';
+					$this->_data['type'] = 'simple';
 				} elseif ($this->_data['module'] == 'cms' && $this->_data['controller'] == 'container' && $this->_data['action'] == 'display') {
-					$data['type'] = 'container';
+					$this->_data['type'] = 'container';
 				}
 			} else {
 				$this->_data['uri'] = '#';

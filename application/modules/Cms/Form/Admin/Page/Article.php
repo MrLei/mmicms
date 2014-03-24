@@ -10,7 +10,7 @@ class Cms_Form_Admin_Page_Article extends Mmi_Form {
 		$this->addElementText('label')
 			->setLabel('Nazwa w menu')
 			->setRequired()
-			->addValidatorStringLength(3, 64);
+			->addValidatorStringLength(2, 64);
 
 		//opcjonalny opis
 		$this->addElementTextarea('description')

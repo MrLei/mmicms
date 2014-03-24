@@ -58,7 +58,7 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 		//ustawianie domyślnego języka
 		$this->lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
 		if ($this->parent_id === null) {
-			return false;
+			$this->parent_id = 0;
 		}
 		//konwersja obiektu na moduł/kontroler/akcja
 		if ($this->object) {
