@@ -39,6 +39,12 @@ class Mmi_Navigation_Config {
 	protected static $_index = 1000000;
 
 	/**
+	 * Czy zbudowany
+	 * @var array
+	 */
+	public $built = array();
+
+	/**
 	 * Dodaje element nawigatora
 	 * @param int $id klucz
 	 * @return Mmi_Navigation_Config_Element
@@ -49,40 +55,76 @@ class Mmi_Navigation_Config {
 	}
 
 	/**
-	 * Pobiera element po kluczu
-	 * @param int $id klucz
-	 * @return Mmi_Navigation_Config_Element
-	 */
-	public function getElement($id) {
-		return isset($this->_data[$id]) ? $this->_data[$id] : null;
-	}
-
-	/**
 	 * Tworzy nowy element nawigacyjny
+	 * @param int $id opcjonalny parametr klucza (zostanie zastąpiony domyślnym gdy nieobecny)
 	 * @return Mmi_Navigation_Config_Element
 	 */
-	public static function newElement() {
-		return new Mmi_Navigation_Config_Element();
+	public static function newElement($id = null) {
+		return new Mmi_Navigation_Config_Element($id);
 	}
 
 	/**
 	 * Zwraca i inkrementuje indeks elementów
 	 * @return int
 	 */
-	public static function getIndex() {
+	public static function getAutoIndex() {
 		return self::$_index++;
 	}
 
 	/**
-	 * Zwraca wszystkie skonfigurowane elementy
+	 * Znajduje element po identyfikatorze
+	 * @param int $id identyfikator
+	 * @return Mmi_Navigation_Config_Element
+	 */
+	public function findById($id) {
+		foreach ($this->build() as $element) {
+			if (null !== ($found = $this->_findInChildren($element, $id))) {
+				return $found;
+			}
+		}
+	}
+
+	/**
+	 * Rekurencyjnie przeszukuje elementy potomne
+	 * @param $element
+	 * @param int $id identyfikator
 	 * @return array
 	 */
-	public function toArray() {
-		$data = array();
-		foreach ($this->_data as $id => $level) {
-			$data[$id] = $level->toArray();
+	protected function _findInChildren(array $element, $id) {
+		if ($element['id'] == $id) {
+			return $element;
 		}
-		return $data;
+		foreach ($element['children'] as $child) {
+			if ($child['id'] == $id) {
+				return $child;
+			}
+			if (null !== ($found = $this->_findInChildren($child, $id))) {
+				return $found;
+			}
+		}
+	}
+
+	/**
+	 * Buduje wszystkie obiekty
+	 * @return array
+	 */
+	public function build() {
+		if (!empty($this->built)) {
+			return $this->built;
+		}
+		$this->built = array(array(
+				'active' => true,
+				'name' => '',
+				'label' => '',
+				'id' => 0,
+				'level' => 0,
+				'uri' => '',
+				'children' => array()
+		));
+		foreach ($this->_data as $element) {
+			$this->built[0]['children'][$element->getId()] = $element->build();
+		}
+		return $this->built;
 	}
 
 }

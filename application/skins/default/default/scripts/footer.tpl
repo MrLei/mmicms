@@ -1,5 +1,5 @@
 		<footer class="top-level">
-			{navigation()->setRoot(133)->menu()}
+			{navigation()->setRoot(7)->menu()}
 			{=footer-copyright=}
 		</footer>
 	</body>
