@@ -5,6 +5,7 @@
 	</div>
 	<div class="content-box-content clearfix">
 		{$grid}
+		<br />
 		<a class="button" href="{@module=cms&controller=adminContainerTemplatePlaceholderContainer&action=edit&containerId={$request->containerId}@}">ustaw placeholder</a>
 	</div>
 </div>

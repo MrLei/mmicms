@@ -34,12 +34,12 @@
 			{widget('cms', 'admin', 'languageWidget')}
 		</div>
 		<nav id="main-menu">
-			{navigation()->setRoot(4)->menu()}
+			{navigation()->setRoot(1000000)->menu()}
 		</nav>
 		<div class="grid">
 			<nav class="local">
-				{$currentDepth = navigation()->getCurrentDepth() + 1}
-				{navigation()->setRoot(4)->setActiveBranchOnly()->setMinDepth($currentDepth)->setMaxDepth($currentDepth)->menu()}
+				{$currentDepth = navigation()->getCurrentDepth()}
+				{navigation()->setRoot(1000000)->setActiveBranchOnly()->setMinDepth($currentDepth)->setMaxDepth($currentDepth)->menu()}
 			</nav>
 			{messenger()}
 			{content()}

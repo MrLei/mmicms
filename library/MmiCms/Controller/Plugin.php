@@ -118,8 +118,7 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		//ustawienie nawigatora
 		if (null === ($navigation = Default_Registry::$cache->load('Mmi_Navigation_' . $request->__get('lang')))) {
 			$navigation = new Mmi_Navigation(Cms_Model_Navigation_Dao::getNested());
-			//$nested = new Mmi_Nested(Default_Registry::$config->navigation->get(), true);
-			//$navigation = new Mmi_Navigation($nested);
+			//$navigation = new Mmi_Navigation(new Mmi_Nested(Default_Registry::$config->navigation->toArray(), true));
 			Default_Registry::$cache->save($navigation, 'Mmi_Navigation_' . $request->__get('lang'), 3600);
 		}
 		$navigation->setup($request);
