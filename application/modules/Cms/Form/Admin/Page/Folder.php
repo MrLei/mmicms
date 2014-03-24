@@ -11,7 +11,7 @@ class Cms_Form_Admin_Page_Folder extends Mmi_Form {
 				->setLabel('Nazwa folderu')
 				->setDescription('Nazwa będzie jednocześnie składową tytułu strony')
 				->setRequired()
-				->addValidatorStringLength(3, 64);
+				->addValidatorStringLength(2, 64);
 
 		//opcjonalny tytuł
 		$this->addElementText('title')
@@ -43,7 +43,7 @@ class Cms_Form_Admin_Page_Folder extends Mmi_Form {
 				0 => 'ukryty',
 				))
 				->setDescription('Jeśli niewidoczny, jego dane nie wejdą do ścieżki tytułu i okruchów');
-		
+
 		$this->addElementDateTimePicker('dateStart')
 				->setLabel('Data i czas włączenia');
 
