@@ -35,15 +35,10 @@ class Mmi_Nested {
 	/**
 	 * Konstruktor ustawia dane do ułożenia w strukturę
 	 * @param array $data dane
-	 * @param bool $nested zagnieżdżenie w tablicy
 	 * @return Mmi_Nested
 	 */
-	public function __construct(array $data, $nested = false) {
-		if ($nested) {
-			$this->_buildStructureFromNested($data);
-			return $this;
-		}
-		$this->_buildStructure($data);
+	public function __construct(array $data) {
+		$this->_buildStructureFromNested($data);
 		return $this;
 	}
 
@@ -145,45 +140,6 @@ class Mmi_Nested {
 			}
 			if (!empty($leaf['children'])) {
 				$this->_getFlat($leaf['children'], $result);
-			}
-		}
-	}
-
-	/**
-	 * Buduje strukturę kategorii w której
-	 * będą zagnieżdżane dzieci danej gąłęzi
-	 * @param array $flat płaskie dane (zawiera id rodzica)
-	 */
-	protected function _buildStructure($flat) {
-		$this->structure = array(0 => array(
-				'name' => null,
-				'label' => null,
-				'id' => 0,
-				'level' => 0,
-				'uri' => ''
-		));
-		$this->_buildChildren($this->structure, $flat);
-	}
-
-	/**
-	 * Buduje dzieci danej gałęzi (rekursywna)
-	 * Finalnie buduje strukturę drzewiastą
-	 * @param array $branch gałąź
-	 * @param array $flat płaskie dane (zawiera id rodzica)
-	 * @param int $level poziom
-	 */
-	protected function _buildChildren(&$branch, $flat, $level = 0) {
-		foreach ($branch as $key => $leaf) {
-			$branch[$key]['level'] = $level;
-			foreach ($flat as $flatKey => $item) {
-				if ($item['parent_id'] != $leaf['id']) {
-					continue;
-				}
-				unset($flat[$flatKey]);
-				$branch[$key]['children'][$item['id']] = $item;
-			}
-			if (isset($branch[$key]['children']) && is_array($branch[$key]['children'])) {
-				$this->_buildChildren($branch[$key]['children'], $flat, $level + 1);
 			}
 		}
 	}

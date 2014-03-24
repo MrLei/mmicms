@@ -23,19 +23,26 @@ class Mmi_Navigation_Config_Element {
 		'blank' => false,
 		'dateStart' => null,
 		'dateEnd' => null,
+		'type' => 'cms',
 		'children' => array(),
 	);
 
-	public function __construct() {
-		$this->_data['id'] = Mmi_Navigation_Config::getIndex();
+	protected $_built = array();
+
+	public function __construct($id = null) {
+		$this->_data['id'] = ($id === null) ? Mmi_Navigation_Config::getAutoIndex() : $id;
 	}
 
 	public function getId() {
 		return $this->_data['id'];
 	}
 
+	public function getChildren() {
+		return $this->_data['children'];
+	}
+
 	public function setLang($lang) {
-		$this->data['lang'] = $lang;
+		$this->_data['lang'] = $lang;
 		return $this;
 	}
 
@@ -117,14 +124,17 @@ class Mmi_Navigation_Config_Element {
 		$this->_data['nofollow'] = $nofollow;
 		return $this;
 	}
+
 	public function setBlank($blank) {
 		$this->_data['blank'] = $blank;
 		return $this;
 	}
+
 	public function setDateStart($dateStart) {
 		$this->_data['dateStart'] = $dateStart;
 		return $this;
 	}
+
 	public function setDateEnd($dateEnd) {
 		$this->_data['dateEnd'] = $dateEnd;
 		return $this;
@@ -140,70 +150,47 @@ class Mmi_Navigation_Config_Element {
 		return $this;
 	}
 
-	public function toArray() {
-		$data = $this->_data;
+	public function build() {
 		$lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
 		$view = Mmi_Controller_Front::getInstance()->getView();
-		$data['disabled'] = false;
-		if ($data['disabled'] || ($data['dateStart'] !== null && $data['dateStart'] > date('Y-m-d H:i:s')) || ($data['dateEnd'] !== null && $data['dateEnd'] < date('Y-m-d H:i:s'))) {
-			$data['disabled'] = true;
+		if ($this->_data['disabled'] || ($this->_data['dateStart'] !== null && $this->_data['dateStart'] > date('Y-m-d H:i:s')) || ($this->_data['dateEnd'] !== null && $this->_data['dateEnd'] < date('Y-m-d H:i:s'))) {
+			$this->_data['disabled'] = true;
 		}
-		$data['active'] = 0;
 		if (!$this->_data['uri']) {
 			$params = $this->_data['params'];
 			if ($lang !== null && $this->_data['lang'] !== null) {
 				$params['lang'] = $this->_data['lang'];
 			}
-			if ($this->_data['module'] != '') {
-				$data['type'] = 'cms';
-			} else {
-				$data['type'] = 'folder';
-			}
 			$params['module'] = $this->_data['module'];
-			$params['controller'] = $this->_data['controller'] ? $this->_data['controller'] : 'index';
-			$params['action'] = $this->_data['action'] ? $this->_data['action'] : 'index';
-			$https = null;
-			if (array_key_exists('https', $this->_data) && $this->_data['https'] == 1) {
-				$https = true;
-			}
-			if (array_key_exists('https', $this->_data) && $this->_data['https'] == 0) {
-				$https = false;
-			}
-			$absolute = (isset($this->_data['absolute']) && $this->_data['absolute']) ? true : false;
-			if ($this->_data['module'] != '') {
-				$data['uri'] = $view->url($params, true, $absolute, $https);
+			$params['controller'] = $this->_data['controller'];
+			$params['action'] = $this->_data['action'];
+			if ($this->_data['module']) {
+				$this->_data['uri'] = $view->url($params, true, $this->_data['absolute'], $this->_data['https']);
+				if ($this->_data['module'] == 'cms' && $this->_data['controller'] == 'article' && $this->_data['action'] == 'index') {
+					$data['type'] = 'simple';
+				} elseif ($this->_data['module'] == 'cms' && $this->_data['controller'] == 'container' && $this->_data['action'] == 'display') {
+					$data['type'] = 'container';
+				}
 			} else {
-				$data['uri'] = '#';
+				$this->_data['uri'] = '#';
+				$this->_data['type'] = 'folder';
 			}
-			$data['request'] = $params;
+			$this->_data['request'] = $params;
 		} else {
-			if (strpos($data['uri'], '://') === false && strpos($data['uri'], '#') !== 0 && strpos($data['uri'], '/') !== 0) {
-				$data['uri'] = 'http://' . $data['uri'];
+			if (strpos($this->_data['uri'], '://') === false && strpos($this->_data['uri'], '#') !== 0 && strpos($this->_data['uri'], '/') !== 0) {
+				$this->_data['uri'] = 'http://' . $this->_data['uri'];
 			}
-			$data['type'] = 'link';
+			$this->_data['type'] = 'link';
 		}
+		$this->_built = $this->_data;
+		$this->_built['children'] = array();
 
-		if ($this->_data['uri'] == null && $this->_data['module'] == null && $this->_data['controller'] == null && $this->_data['action'] == null) {
-			$data['type'] = 'folder';
-		} elseif ($this->_data['uri'] != null) {
-			$data['type'] = 'link';
-		} elseif ($this->_data['module'] == 'cms' && $this->_data['controller'] == 'article' && $this->_data['action'] == 'index') {
-			$data['type'] = 'simple';
-		} elseif ($this->_data['module'] == 'cms' && $this->_data['controller'] == 'container' && $this->_data['action'] == 'display') {
-			$data['type'] = 'container';
-		} else {
-			$data['type'] = 'cms';
-		}
-
-		if (isset($data['children']) && !empty($data['children'])) {
-			$children = array();
-			foreach ($data['children'] as $child) {
-				$childArray = $child->toArray();
-				$children[$childArray['id']] = $childArray;
+		if (!empty($this->_data['children'])) {
+			foreach ($this->_data['children'] as $child) {
+				$this->_built['children'][$child->getId()] = $child->build();
 			}
-			$data['children'] = $children;
 		}
-		return $data;
+		return $this->_built;
 	}
 
 }
