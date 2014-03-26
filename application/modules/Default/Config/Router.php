@@ -14,7 +14,7 @@ class Default_Config_Router extends Mmi_Controller_Router_Config {
 		$this->setRoute(13, '/^aktualnosci\/([0-9]+)/', array('module' => 'news', 'controller' => 'index', 'action' => 'index', 'p' => '$1'));
 		$this->setRoute(14, '/^aktualnosci,(.[^\/]+)/', array('module' => 'news', 'controller' => 'index', 'action' => 'display', 'uri' => '$1'));
 
-		$this->setRoute(20, '/^czytaj-(.[^\/]+)$/', array('module' => 'cms', 'controller' => 'container', 'action' => 'display', 'uri' => '$1'));
+		$this->setRoute(20, '/^czytaj,(.[^\/]+)$/', array('module' => 'cms', 'controller' => 'container', 'action' => 'display', 'uri' => '$1'));
 	}
 
 }

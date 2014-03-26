@@ -9,13 +9,13 @@ class Cms_Form_Admin_Route extends Mmi_Form {
 		$this->addElementText('pattern')
 				->setLabel('Wzorzec')
 				->setRequired()
-				->addValidatorsNotEmpty();
+				->addValidatorNotEmpty();
 		
 		$this->addElementText('replace')
 				->setLabel('Tabela zastąpień')
 				->setRequired()
 				->setDescription('zmienna1=foo&zmienna2=bar')
-				->addValidatorsNotEmpty();
+				->addValidatorNotEmpty();
 
 		$this->addElementText('default')
 				->setLabel('Tabela wartości domyślnych')

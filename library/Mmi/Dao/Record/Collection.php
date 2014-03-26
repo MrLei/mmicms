@@ -38,7 +38,7 @@ class Mmi_Dao_Record_Collection extends ArrayObject {
 		}
 		return $i;
 	}
-	
+
 	/**
 	 * Zwraca kolekcję w postaci tablicy
 	 * @return array
@@ -47,6 +47,18 @@ class Mmi_Dao_Record_Collection extends ArrayObject {
 		$array = array();
 		foreach ($this as $key => $record) {
 			$array[$key] = $record->toArray();
+		}
+		return $array;
+	}
+
+	/**
+	 * Zwraca kolekcję w postaci tablicy obiektów
+	 * @return Mmi_Dao_Record_Collection
+	 */
+	public function toObjectArray() {
+		$array = array();
+		foreach ($this as $key => $record) {
+			$array[$key] = $record;
 		}
 		return $array;
 	}

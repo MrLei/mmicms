@@ -3,7 +3,7 @@
 		<h3>{if $cronForm->getRecord()->id > 0}{#Edycja#}{else}{#Dodawanie#}{/if} {#zadania CRON#}</h3>
 		<div class="clear"></div>
 	</div>
-	<div class="content-box-content">
+	<div class="content-box-content clearfix">
 		{$cronForm}
 	</div>
 </div>

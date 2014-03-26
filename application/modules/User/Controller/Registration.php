@@ -13,6 +13,7 @@ class User_Controller_Registration extends Mmi_Controller_Action {
 
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Zarejestrowano poprawnie. Sprawdź e-mail i kliknij potwierdzenie konta.', true);
+			Stat_Model_Dao::hit('user-register');
 			return $this->_helper->redirector('index', 'index', 'default', array(), true);
 		}
 
