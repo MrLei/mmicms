@@ -18,24 +18,21 @@ class News_Controller_Index extends Mmi_Controller_Action {
 		}
 		$paginator->setRowsPerPage($pages);
 		$paginator->setRowsCount(News_Model_Dao::countActive());
-		$this->view->news = News_Model_Dao::findActiveWithFile($paginator->getLimit(), $paginator->getOffset());
+		$this->view->news = News_Model_Dao::findActive($paginator->getLimit(), $paginator->getOffset());
 		$this->view->paginator = $paginator;
 	}
 
 	public function topAction() {
 		$limit = $this->_getParam('limit') ? intval($this->_getParam('limit')) : 5;
-		if ($this->_getParam('widget') == 1) {
-			Mmi_Controller_Front::getInstance()->getView()->setLayoutDisabled();
-		}
-		$this->view->news = News_Model_Dao::findActiveWithFile($paginator->getLimit(), $paginator->getOffset());
+		$this->view->news = News_Model_Dao::findActive($limit);
 	}
 
 	public function displayAction() {
-		$this->view->entry = News_Model_Dao::findFirstActiveByUri($this->_getParam('uri'));
-		if ($this->view->entry === null) {
+		$this->view->item = News_Model_Dao::findFirstActiveByUri($this->_getParam('uri'));
+		if ($this->view->item === null) {
 			$this->_helper->redirector('index', 'index', 'news', array(), true);
 		}
-		$this->view->navigation()->modifyLastBreadcrumb($this->view->entry->title, $this->view->url());
+		$this->view->navigation()->modifyLastBreadcrumb($this->view->item->title, $this->view->url());
 	}
 
 }

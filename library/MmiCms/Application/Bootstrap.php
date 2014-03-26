@@ -98,7 +98,7 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 			throw new Exception('MmiCms_Application_Bootstrap requires application/modules/Default/Registry.php instance of MmiCms_Registry');
 		}
 	}
-	
+
 	/**
 	 * Inicjalizacja routera
 	 * @param MmiCms_Config $config
@@ -108,7 +108,7 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 	protected function _initRouter(MmiCms_Config $config, $language) {
 		return new Mmi_Controller_Router($config->router, $language, $config->application->skin);
 	}
-	
+
 	/**
 	 * Inicjalizacja tłumaczeń
 	 * @param string $defaultLanguage domyślny język
@@ -205,7 +205,6 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		require LIB_PATH . '/Mmi/Filter/Urlencode.php';
 		require LIB_PATH . '/Mmi/Http/Cookie.php';
 		require LIB_PATH . '/Mmi/Navigation.php';
-		require LIB_PATH . '/Mmi/Nested.php';
 		require LIB_PATH . '/Mmi/Session/Config.php';
 		require LIB_PATH . '/Mmi/Translate.php';
 		require LIB_PATH . '/Mmi/View/Helper/Abstract.php';

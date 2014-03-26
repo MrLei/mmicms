@@ -231,9 +231,9 @@ CREATE TABLE cms_navigation (
     lang character varying(2),
     parent_id integer DEFAULT 0 NOT NULL,
     "order" integer DEFAULT 0 NOT NULL,
-    module character varying(32),
-    controller character varying(32),
-    action character varying(32),
+    module character varying(64),
+    controller character varying(64),
+    action character varying(64),
     params text,
     label character varying(64),
     title character varying(64),
@@ -538,7 +538,7 @@ SELECT pg_catalog.setval('stat_id_seq', 2, true);
 
 CREATE TABLE stat_label (
     id integer NOT NULL,
-    lang character varying(2) NOT NULL,
+    lang character varying(2),
     object character varying(32) NOT NULL,
     label character varying(48) NOT NULL,
     description text
@@ -613,57 +613,14 @@ INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES
 INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (6, 1, 'user', 'login', NULL, 'allow');
 INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (7, 1, 'user', 'registration', NULL, 'allow');
 
-INSERT INTO cms_auth (id, lang, username, email, password, "lastIp", "lastLog", "lastFailIp", "lastFailLog", "failLogCount", logged, active) VALUES (1, 'pl', 'admin', 'admin@hqsoft.pl', 'd033e22ae348aeb5660fc2140aec35850c4da997', '127.0.0.1', '2012-02-23 15:41:12', '89.231.108.27', '2011-12-20 19:42:01', 8, 0, 1);
-INSERT INTO cms_auth (id, lang, username, email, password, "lastIp", "lastLog", "lastFailIp", "lastFailLog", "failLogCount", logged, active) VALUES (11, 'pl', 'test', 'test@milejko.pl', '5cb9cbee5f6421f730ecbf0bc981cee4e117181243a95512aef7576d20e547b0559da0a4d5d67252888a2e52e8589ace4a30a87716d33745f3697f80b6269576', '127.0.0.1', '2012-03-15 11:06:52', '127.0.0.1', '2012-03-15 11:04:59', 1, 0, 1);
+INSERT INTO cms_auth (id, lang, username, email, password, "lastIp", "lastLog", "lastFailIp", "lastFailLog", "failLogCount", logged, active) VALUES (1, 'pl', 'admin', 'admin@milejko.pl', 'd033e22ae348aeb5660fc2140aec35850c4da997', '127.0.0.1', '2012-02-23 15:41:12', '89.231.108.27', '2011-12-20 19:42:01', 8, 0, 0);
 INSERT INTO cms_auth (id, lang, username, email, password, "lastIp", "lastLog", "lastFailIp", "lastFailLog", "failLogCount", logged, active) VALUES (2, 'pl', 'mariusz', 'mariusz@milejko.pl', '7a48d2fe2f6f86430acee5b86a093c3352b9f780', '127.0.0.1', '2012-03-20 15:54:01', '127.0.0.1', '2012-03-16 13:41:49', 9, 0, 1);
 
-INSERT INTO cms_auth_role (id, cms_auth_id, cms_role_id) VALUES (7, 2, 3);
-INSERT INTO cms_auth_role (id, cms_auth_id, cms_role_id) VALUES (8, 1, 3);
-INSERT INTO cms_auth_role (id, cms_auth_id, cms_role_id) VALUES (13, 11, 2);
+INSERT INTO cms_auth_role (id, cms_auth_id, cms_role_id) VALUES (1, 2, 3);
+INSERT INTO cms_auth_role (id, cms_auth_id, cms_role_id) VALUES (2, 1, 3);
 
 INSERT INTO cms_contact_option (id, name) VALUES (3, 'Propozycje zmian');
 INSERT INTO cms_contact_option (id, name) VALUES (1, 'Inne');
-
-
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (12, 'pl', 4, 0, 'admin', 'index', 'index', '', 'CMS', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (13, 'pl', 12, 0, 'cms', 'adminNavigation', 'index', '', 'Struktura serwisu', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (14, 'pl', 12, 8, 'cms', 'adminLog', 'index', '', 'Log systemowy', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (15, 'pl', 13, 3, 'cms', 'adminNavigation', 'edit', 'type=simple', 'Dodaj stronę statyczną', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (17, 'pl', 13, 7, 'cms', 'adminNavigation', 'edit', 'type=cms', 'Dodaj obiekt CMS', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (18, 'pl', 13, 8, 'cms', 'adminNavigation', 'edit', 'type=link', 'Dodaj odnośnik', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (21, 'pl', 13, 5, 'cms', 'adminNavigation', 'edit', 'type=folder', 'Dodaj folder', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (22, 'pl', 12, 2, 'cms', 'adminFile', 'index', '', 'Pliki', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (24, 'pl', 12, 9, 'admin', 'errorLog', 'index', '', 'Log błędów', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (26, 'pl', 12, 6, 'cms', 'adminAcl', 'index', '', 'Uprawnienia', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (31, 'pl', 12, 4, 'cms', 'adminComment', 'index', '', 'Komentarze', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (48, 'pl', 12, 5, 'cms', 'adminAuth', 'index', '', 'Użytkownicy', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (49, 'pl', 48, 0, 'cms', 'adminAuth', 'edit', '', 'Dodaj użytkownika', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (70, 'pl', 12, 1, 'cms', 'adminArticle', 'index', '', 'Artykuły', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (71, 'pl', 70, 0, 'cms', 'adminArticle', 'edit', '', 'Dodaj artykuł', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (74, 'pl', 48, 1, 'cms', 'adminAuth', 'property', '', 'Właściwości użytkownika', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (75, 'pl', 74, 0, 'cms', 'adminAuth', 'propertyEdit', '', 'Dodaj właściwości użytkownika', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (99, 'pl', 4, 2, 'news', 'admin', 'index', '', 'Aktualności', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (100, 'pl', 99, 0, 'news', 'admin', 'edit', '', 'Dodaj artykuł', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (103, 'pl', 101, 0, 'default', 'index', 'index', '', 'Strona główna', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (104, 'pl', 101, 1, 'news', 'index', 'index', '', 'Aktualności', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (105, 'pl', 104, 0, 'news', 'index', 'display', '', 'Artykuł', NULL, '', '', NULL, 0);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (107, 'pl', 101, 4, 'user', 'registration', 'index', '', 'Rejestracja', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (110, 'pl', 12, 3, 'cms', 'adminContact', 'index', '', 'Kontakt', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (111, 'pl', 110, 3, 'cms', 'adminContact', 'subject', '', 'Tematy kontaktu', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (112, 'pl', 110, 2, 'cms', 'adminContact', 'editSubject', '', 'Dodaj temat', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (113, 'pl', 110, 1, 'cms', 'adminContact', 'edit', '', 'Odpowiedz', NULL, '', '', NULL, 0);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (114, 'pl', 110, 0, 'cms', 'adminContact', 'index', '', 'Lista zgłoszeń', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (119, 'pl', 4, 0, 'mail', 'admin', 'index', '', 'Maile', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (120, 'pl', 119, 0, 'mail', 'admin', 'send', '', 'Wyślij z kolejki', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (121, 'pl', 119, 2, 'mail', 'adminServer', 'index', '', 'Serwery', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (122, 'pl', 119, 1, 'mail', 'adminDefinition', 'index', '', 'Definicje maili', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (123, 'pl', 121, 0, 'mail', 'adminServer', 'edit', '', 'Dodaj serwer', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (124, 'pl', 122, 0, 'mail', 'adminDefinition', 'edit', '', 'Dodaj definicję', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (125, 'pl', 12, 7, 'cron', 'admin', 'index', '', 'Cron', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (126, 'pl', 125, 0, 'cron', 'admin', 'edit', '', 'Dodaj zadanie', NULL, '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (116, 'pl', 101, 5, 'cms', 'contact', 'index', '', 'Kontakt', 'Strona kontaktu', '', '', NULL, 1);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (4, 'pl', 0, 3, 'admin', 'index', 'index', '', 'Panel administracyjny', NULL, '', '', NULL, 0);
-INSERT INTO cms_navigation (id, lang, parent_id, "order", module, controller, action, params, label, title, keywords, description, uri, visible) VALUES (101, 'pl', 0, 0, 'default', 'index', 'index', NULL, 'Front', NULL, NULL, NULL, NULL, 0);
 
 
 INSERT INTO cms_role (id, name) VALUES (1, 'guest');
@@ -676,10 +633,6 @@ INSERT INTO cron (id, active, minute, hour, "dayOfMonth", month, "dayOfWeek", na
 
 
 INSERT INTO mail_server (id, address, port, username, password, "from", "dateAdd", "dateModify", active, ssl) VALUES (1, 'localhost', 25, 'local', '', '', '2012-03-14 14:31:43', '2012-03-14 14:47:01', 1, 'plain');
-
-
-INSERT INTO stat (id, object, "objectId", "dateTime") VALUES (1, 'user_login', NULL, '2012-03-15 11:06:12');
-INSERT INTO stat (id, object, "objectId", "dateTime") VALUES (2, 'user_login', NULL, '2012-03-15 11:06:52');
 
 
 ALTER TABLE ONLY cms_acl

@@ -38,11 +38,16 @@ class Mmi_View_Helper_Messenger extends Mmi_View_Helper_Abstract {
 		if ($messenger->hasMessages()) {
 			$html = '<ul id="messenger">';
 			foreach ($messages as $message) {
-				$class = '';
+				$class = ' class="notice warning"';
+				$icon = '<i class="icon-warning-sign icon-large"></i>';
 				if ($message['type']) {
-					$class = ' class="' . $message['type'] . '"';
+					$class = ' class="notice ' . $message['type'] . '"';
+					$icon = '<i class="icon-ok icon-large"></i>';
+					if ($message['type'] == 'error') {
+						$icon = '<i class="icon-remove-sign icon-large"></i>';
+					}
 				}
-				$html .= '<li' . $class . '>' . $message['message'] . '</li>';
+				$html .= '<li' . $class . '>' . $icon . $message['message'] . '</li>';
 			}
 			$html .= '</ul>';
 			$messenger->clearMessages();

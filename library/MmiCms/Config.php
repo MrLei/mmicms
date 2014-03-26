@@ -38,6 +38,12 @@ abstract class MmiCms_Config extends Mmi_Config {
 	 */
 	public $session;
 
+	/*
+	 * Nawigacja
+	 * @var Mmi_Navigation_Config
+	 */
+	public $navigation;
+
 	/**
 	 * Konfiguracji bazy danych
 	 * @var Mmi_Db_Config
@@ -49,6 +55,7 @@ abstract class MmiCms_Config extends Mmi_Config {
 		parent::__construct();
 
 		$this->media = new MmiCms_Media_Config();
+		$this->navigation = new Mmi_Navigation_Config();
 		$this->session = new Mmi_Session_Config();
 		$this->db = new Mmi_Db_Config();
 	}

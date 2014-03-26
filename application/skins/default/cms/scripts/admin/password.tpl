@@ -4,7 +4,7 @@
 			{#Zmiana hasła#}
 		</h3>
 	</div>
-	<div class="content-box-content">
+	<div class="content-box-content clearfix">
 		{$passwordForm}
 	</div>
 </div>

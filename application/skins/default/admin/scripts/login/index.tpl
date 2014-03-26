@@ -4,7 +4,7 @@
 			{#Zaloguj się#}
 		</h3>
 	</div>
-	<div class="content-box-content">
+	<div class="content-box-content clearfix">
 		{if($loginForm)}
 		{$loginForm}
 		{/if}

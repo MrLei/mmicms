@@ -26,37 +26,34 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
-	
+
 	/**
 	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora
 	 */
 	public function init() {
-		$this->_options['validators'] = array(
-		array(
-			'validator' => 'Date'
-		));
+		$this->addValidatorDate();
 	}
-	
+
 	/**
 	 * Ustawia datę startową
 	 * @param string $date - sformatowany string czasu
 	 * @return Mmi_Form_Element_DatePicker
 	 */
-	public function setStartDate($date) {
-		$this->_options['startDate'] = $date;
+	public function setDateStart($date) {
+		$this->_options['dateStart'] = $date;
 		return $this;
 	}
-	
+
 	/**
 	 * Ustawia datę końcową
 	 * @param string $date - sformatowany string czasu
 	 * @return Mmi_Form_Element_DatePicker
 	 */
-	public function setEndDate($date) {
-		$this->_options['endDate'] = $date;
+	public function setDateEnd($date) {
+		$this->_options['dateEnd'] = $date;
 		return $this;
 	}
-	
+
 	/**
 	 * Ustawia format daty
 	 * @param string $format
@@ -66,16 +63,6 @@ class Mmi_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
 		$this->_options['format'] = $format;
 		return $this;
 	}
-	
-	/**
-	 * Dopuszcza wstawiania pustej wartości
-	 * @param bool $empty
-	 * @return Mmi_Form_Element_DatePicker
-	 */
-	public function setEmptyValue($empty = true) {
-		$this->_options['emptyValue'] = $empty;
-		return $this;
-	}
 
 	/**
 	 * Buduje pole
@@ -83,56 +70,16 @@ class Mmi_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
 	 */
 	public function fetchField() {
 		$view = Mmi_Controller_Front::getInstance()->getView();
-		if (!isset($this->_options['startDate'])) {
-			$this->_options['startDate'] = date('Y-m-d', time() - 100 * 365 * 86400);
-		}
-		if (!isset($this->_options['endDate'])) {
-			$this->_options['endDate'] = date('Y-m-d', time() + 10 * 365 * 86400);
-		}
-        if (!isset($this->_options['format'])) {
-			$this->_options['format'] = 'yyyy-mm-dd';
-		}
+		$format = isset($this->_options['format']) ? $this->_options['format'] : 'Y-m-d';
+		$dateStart = isset($this->_options['dateStart']) ? $this->_options['dateStart'] : 'false';
+		$dateEnd = isset($this->_options['dateEnd']) ? $this->_options['dateEnd'] : 'false';
+		$view->headLink()->appendStylesheet($view->baseUrl . '/library/css/datetimepicker.css');
 		$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
-		$view->headScript()->appendFile($view->baseUrl . '/library/js/datePicker.js');
-
-        if (!$this->value && !(isset($this->_options['emptyValue'])&&$this->_options['emptyValue']===true)) {
-			$this->value = date('Y-m-d');
-            $blur = '$(this).blur();';
-            $actions = '';
-		}else{
-            $blur = '';
-            //na razie takie blokowanie wpisywania, bo kalendarzyk się wywali po wpisaniu niepoprawnej daty
-            //najlepiej zastapić kalendarzykiem z jQ UI, ma możliwość kasowania daty i blokuje wpisywanie domyślnie
-            $actions = '
-            $("#' . $this->id . '").keyup(function () {
-				$(this).attr("value", "");
+		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/datetimepicker.js');
+		$view->headScript()->appendScript("$(document).ready(function () {
+				$('#$this->id').datetimepicker({timepicker: false, dateStart: '$dateStart', dateEnd: '$dateEnd', format:'$format', 'lang':'pl', mask:true, closeOnDateSelect: true});
 			});
-             $("#' . $this->id . '").keypress(function () {
-				$(this).attr("value", "");
-			});';
-        }
-		$view->headScript()->appendScript('$(document).ready(function() {
-			Date.format = "' . $this->_options['format'] . '";
-			$.dpText = {
-				TEXT_PREV_YEAR		:	"' . $this->getTranslate()->_('Poprzedni rok') . '",
-				TEXT_PREV_MONTH		:	"' . $this->getTranslate()->_('Poprzedni miesiąc') . '",
-				TEXT_NEXT_YEAR		:	"' . $this->getTranslate()->_('Następny rok') . '",
-				TEXT_NEXT_MONTH		:	"' . $this->getTranslate()->_('Następny miesiąc') . '",
-				TEXT_CLOSE			:	"' . $this->getTranslate()->_('Zamknij') . '",
-				TEXT_CHOOSE_DATE	:	"' . $this->getTranslate()->_('Wybierz datę') . '"
-			}
-			$("#' . $this->id . '").datePicker({
-				startDate: "' . $this->_options['startDate'] . '",
-				endDate: "' .$this->_options['endDate']. '"
-			}).val("' . $this->value . '").trigger("change");
-			$("#' . $this->id . '").focus(function () {
-				'.$blur.'
-				$(this).next("a.dp-choose-date").click();
-			});
-            '.$actions.'
-		});
-		');
-		$view->headLink()->appendStylesheet($view->baseUrl . '/library/css/datepicker.css');
+		");
 		unset($this->_options['startDate']);
 		unset($this->_options['endDate']);
 		unset($this->_options['format']);

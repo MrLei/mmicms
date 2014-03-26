@@ -10,7 +10,7 @@ class Cms_Form_Admin_Page_Link extends Mmi_Form {
 		$this->addElementText('label')
 				->setLabel('Tekst linku (href-text)')
 				->setRequired()
-				->addValidatorStringLength(3, 64);
+				->addValidatorStringLength(2, 64);
 
 		//optional url
 		$this->addElementText('uri')
@@ -50,6 +50,7 @@ class Cms_Form_Admin_Page_Link extends Mmi_Form {
 			->setLabel('Data i czas wyłączenia');
 
 		$this->addElementCheckbox('active')
+			->setValue(1)
 			->setLabel('Włączony');
 
 		//submit

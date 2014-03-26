@@ -144,7 +144,7 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 		foreach ($series as $chart) {
 			$i = 0;
 			$first = true;
-			$html .= $chartName . '_' . $chart['object'] . '_' . $j . ' = [';
+			$html .= $chartName . '_' . str_replace('-', '_', $chart['object']) . '_' . $j . ' = [';
 			foreach ($chart['data'] as $label => $count) {
 				$i++;
 				if ($count < $min) {
@@ -180,7 +180,7 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 		$html .= 'var ' . $chartName . ' = $.plot($(\'#' . $chartName . '\'), [';
 		$i = 0;
 		foreach ($series as $chart) {
-			$html .= '{data: ' . $chartName . '_' . $chart['object'] . '_' . $i . ', label: \'' . $chart['label'] . '\'}, ';
+			$html .= '{data: ' . $chartName . '_' . str_replace('-', '_', $chart['object']) . '_' . $i . ', label: \'' . $chart['label'] . '\'}, ';
 			$i++;
 		}
 		$html = trim($html, ', ') . '], ';

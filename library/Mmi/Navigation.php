@@ -27,10 +27,10 @@
 class Mmi_Navigation {
 
 	/**
-	 * Klasa struktur zagnieżdżonych
-	 * @var Mmi_Nested
+	 * Klasa kongiguracji
+	 * @var Mmi_Navigation_Config
 	 */
-	private $_nested;
+	private $_config;
 
 	/**
 	 * Breadcrumbs
@@ -40,10 +40,11 @@ class Mmi_Navigation {
 
 	/**
 	 * Konstruktor, buduje drzewo na podstawie struktury zagnieżdżonej
-	 * @param Mmi_Nested $nested struktura zagnieżdżona
+	 * @param Mmi_Navigation_Config $config konfiguracja nawigatora
 	 */
-	public function __construct(Mmi_Nested $nested) {
-		$this->_nested = $nested;
+	public function __construct(Mmi_Navigation_Config $config) {
+		$this->_config = $config;
+		$config->build();
 	}
 
 	/**
@@ -52,19 +53,11 @@ class Mmi_Navigation {
 	 * @return Mmi_Translate
 	 */
 	public function setup(Mmi_Controller_Request $request) {
-		$activatedTree = $this->_setupActive($this->_nested->structure, $request->getParams());
+		$activatedTree = $this->_setupActive($this->_config->built, $request->getParams());
 		if (isset($activatedTree['tree'][0]['children'])) {
 			$this->_setupBreadcrumbs($activatedTree['tree'][0]['children']);
 		}
 		return $this;
-	}
-
-	/**
-	 * Pobiera zagnieżdżone drzewo
-	 * @return array
-	 */
-	public function getTree() {
-		return $this->_nested->seek(0);
 	}
 
 	/**
@@ -73,7 +66,7 @@ class Mmi_Navigation {
 	 * @return array
 	 */
 	public function seek($id) {
-		return $this->_nested->seek($id);
+		return $this->_config->findById($id);
 	}
 	/**
 	 * Pobiera breadcrumbs
@@ -114,7 +107,7 @@ class Mmi_Navigation {
 					$tree[$key]['active'] = true;
 				}
 			}
-			if ($tree[$key]['active'] == 1 && array_key_exists('visible', $tree[$key])) {
+			if ($tree[$key]['active'] && array_key_exists('visible', $tree[$key])) {
 				unset($item['children']);
 				$branchActive = true;
 			}

@@ -19,7 +19,7 @@ class Payment_Controller_AdminConfig extends MmiCms_Controller_Admin {
 		$config = new Payment_Model_Config($this->_getParam('id'));
 		try {
 			$config->delete();
-			$this->_helper->messenger('Konfiguracja płatności została usunięta');
+			$this->_helper->messenger('Konfiguracja płatności została usunięta', true);
 		} catch (Exception $e) {
 			$this->_helper->messenger('Konfiguracja jest w użyciu', false);
 		}
