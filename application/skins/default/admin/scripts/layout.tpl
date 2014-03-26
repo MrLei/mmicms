@@ -37,11 +37,11 @@
 			{navigation()->setRoot(1000000)->menu()}
 		</nav>
 		<div class="grid">
+			{messenger()}
 			<nav class="local">
 				{$currentDepth = navigation()->getCurrentDepth()}
 				{navigation()->setRoot(1000000)->setActiveBranchOnly()->setMinDepth($currentDepth)->setMaxDepth($currentDepth)->menu()}
 			</nav>
-			{messenger()}
 			{content()}
 		</div>
 		<div id="footer">
