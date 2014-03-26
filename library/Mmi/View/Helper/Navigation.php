@@ -546,7 +546,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 		$i = 0;
 		foreach ($data as $breadcrumb) {
 			$i++;
-			if ($i == $count && !$this->_linkLastBreadcrumb) {
+			if (($i == $count && !$this->_linkLastBreadcrumb) || $breadcrumb['uri'] == '#') {
 				$breadcrumbs[] = '<span>' . strip_tags($breadcrumb['label']) . '</span>';
 			} else {
 				$breadcrumbs[] = '<a href="' . $breadcrumb['uri'] . '">' . strip_tags($breadcrumb['label']) . '</a>';
