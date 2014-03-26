@@ -25,7 +25,7 @@
 		<input type="hidden" name="order_id" value="{$payment->id}" />
 		<input type="hidden" name="client_ip" value="{$payment->ip}" />
 		<input type="hidden" name="js" value="0">
-		<script language="JavaScript" type="text/JavaScript" src='https://www.platnosci.pl/paygw/UTF/js/{$paymentConfig->shopId}/{php_substr($paymentConfig->key1, 0, 2)}/paytype.js'></script>
+		<script language="JavaScript" type="text/JavaScript" src='https://www.platnosci.pl/paygw/UTF/js/{$paymentConfig->shopId}/{$paymentConfig->key1|truncate:2:''}/paytype.js'></script>
 		<script language="JavaScript" type="text/JavaScript">
 			PlnDrawRadioImg(5);
 		</script>

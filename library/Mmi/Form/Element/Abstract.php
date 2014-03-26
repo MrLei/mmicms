@@ -57,7 +57,7 @@ abstract class Mmi_Form_Element_Abstract {
 	 * @var array
 	 */
 	protected $_renderingOrder = array(
-		'fetchErrors', 'fetchLabel', 'fetchField', 'fetchDescription', 'fetchCustomHtml'
+		'fetchLabel', 'fetchField', 'fetchDescription', 'fetchErrors', 'fetchCustomHtml'
 	);
 
 	/**
@@ -141,14 +141,14 @@ abstract class Mmi_Form_Element_Abstract {
 	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora
 	 */
 	public function init() {
-		
+
 	}
 
 	/**
 	 * Funkcja użytkownika, jest wykonywana przed renderingiem
 	 */
 	public function preRender() {
-		
+
 	}
 
 	/**
@@ -268,7 +268,7 @@ abstract class Mmi_Form_Element_Abstract {
 		}
 		return $this;
 	}
-	
+
 	/**
 	 * Ustawia pole do odczytu
 	 * @param readOnly $disable
@@ -354,7 +354,7 @@ abstract class Mmi_Form_Element_Abstract {
 		$this->_options['multiOptions'][$value] = $caption;
 		return $this;
 	}
-	
+
 	/**
 	 * Ustawia dowolną opcję
 	 * @param string $key klucz
@@ -492,7 +492,7 @@ abstract class Mmi_Form_Element_Abstract {
 	public function addValidatorPostal($message = null) {
 		return $this->addValidator('postal', array(), $message);
 	}
-	
+
 	/**
 	 * Walidacja unikalności rekordu
 	 * @param Mmi_Dao $dao DAO
@@ -504,7 +504,7 @@ abstract class Mmi_Form_Element_Abstract {
 	public function addValidatorRecordUnique($dao, $fieldName, $id = null, $message = null) {
 		return $this->addValidator('recordUnique', array($dao, $fieldName, $id), $message);
 	}
-	
+
 	/**
 	 * Walidacja regex
 	 * @param string $pattern wzorzec
@@ -525,7 +525,7 @@ abstract class Mmi_Form_Element_Abstract {
 	public function addValidatorStringLength($from, $to, $message = null) {
 		return $this->addValidator('stringLength', array(intval($from), intval($to)), $message);
 	}
-	
+
 	/**
 	 * Ustawia html użytkownika
 	 * @param string $html
@@ -801,16 +801,16 @@ abstract class Mmi_Form_Element_Abstract {
 		if ($this->hasErrors()) {
 			$html .= '<span class="marker"></span>'
 				  .  '<ul>'
-				  .		'<li class="point"></li>';
+				  .		'<li class="point first"></li>';
 			foreach ($this->_errors as $error) {
 				if ($this->_translatorEnabled && ($this->getTranslate() !== null)) {
 					$err = $this->getTranslate()->_($error);
 				} else {
 					$err = $error;
 				}
-				$html .= '<li>' . $err . '</li>';
+				$html .= '<li class="notice error"><i class="icon-remove-sign icon-large"></i>' . $err . '</li>';
 			}
-			$html .=	'<li class="close"></li>'
+			$html .=	'<li class="close last"></li>'
 				  .  '</ul>';
 		}
 		$html .= '<div class="clear"></div></div>';
