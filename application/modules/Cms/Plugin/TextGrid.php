@@ -2,6 +2,8 @@
 class Cms_Plugin_TextGrid extends Mmi_Grid {
 
 	protected $_daoName = 'Cms_Model_Text_Dao';
+	protected $_daoGetMethod = 'findLang';
+	protected $_daoCountMethod = 'countLang';
 
 	public function init() {
 
@@ -9,6 +11,10 @@ class Cms_Plugin_TextGrid extends Mmi_Grid {
 		$this->setInitialQuery($q->orderAsc('key'));
 		$this->setOption('rows', 100);
 		
+		$this->addColumn('text', 'lang', array(
+			'label' => 'język'
+		));
+
 		$this->addColumn('text', 'key', array(
 			'label' => 'klucz',
 		));

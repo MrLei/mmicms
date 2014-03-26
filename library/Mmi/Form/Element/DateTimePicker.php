@@ -25,7 +25,7 @@
  * @subpackage Element
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
-class Mmi_Form_Element_DateTimePicker extends Mmi_Form_Element_Text {
+class Mmi_Form_Element_DateTimePicker extends Mmi_Form_Element_DatePicker {
 
 	/**
 	 * Buduje pole
@@ -33,20 +33,21 @@ class Mmi_Form_Element_DateTimePicker extends Mmi_Form_Element_Text {
 	 */
 	public function fetchField() {
 		$view = Mmi_Controller_Front::getInstance()->getView();
-		if (isset($this->_options['format'])) {
-			$format = $this->_options['format'];
-			unset($this->_options['format']);
-		} else {
-			$format = '%Y-%m-%d %H:%i:00';
-		}
+		$format = isset($this->_options['format']) ? $this->_options['format'] : 'Y-m-d H:i';
+		$dateStart = isset($this->_options['dateStart']) ? $this->_options['dateStart'] : 'false';
+		$dateEnd = isset($this->_options['dateEnd']) ? $this->_options['dateEnd'] : 'false';
+		$view->headLink()->appendStylesheet($view->baseUrl . '/library/css/datetimepicker.css');
 		$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
-		$view->headScript()->appendFile($view->baseUrl . '/library/js/anytimec.js');
-		$view->headLink()->appendStylesheet($view->baseUrl . '/library/css/anytimec.css');
-
-		$html = '<div class="field"><input data-format="' . $format . '" data-id="' . $this->id . '" class="datetimeField" ';
-		$html .= 'type="text" ' . $this->_getHtmlOptions() . '/>';
-		$html .= '<input type="button" class="clear-anytimec" data-id="' . $this->id . '" id="' . $this->id . 'Clear" value="wyczyść" />';
-		$html .= '<div id="' . $this->id . 'DateTime"></div></div>';
+		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/datetimepicker.js');
+		$view->headScript()->appendScript("$(document).ready(function () {
+				$('#$this->id').datetimepicker({step: 15, dateStart: '$dateStart', dateEnd: '$dateEnd', format:'$format', 'lang':'pl', mask:true, closeOnDateSelect: false});
+			});
+		");
+		unset($this->_options['startDate']);
+		unset($this->_options['endDate']);
+		unset($this->_options['format']);
+		$html = '<div class="field"><input id="' . $this->id . '" class="datePickerField dp-applied" ';
+		$html .= 'type="text" ' . $this->_getHtmlOptions() . '/></div>';
 
 		return $html;
 	}

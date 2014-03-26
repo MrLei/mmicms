@@ -15,7 +15,12 @@ class Cms_Model_Text_Record extends Mmi_Dao_Record {
 		foreach (glob(TMP_PATH . '/compile/' . $this->lang . '_*.php') as $compilant) {
 			unlink($compilant);
 		}
-		$result = parent::save();
+		try {
+			$result = parent::save();
+		} catch (Exception $e) {
+			//duplikat
+			return false;
+		}
 		Default_Registry::$cache->remove('Cms_Text');
 		return $result;
 	}

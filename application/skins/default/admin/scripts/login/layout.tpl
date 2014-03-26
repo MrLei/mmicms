@@ -3,28 +3,28 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>{navigation()->title()}</title>
-		{headLink()->appendStyleSheet($baseUrl . '/default/cms/style.css')}
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		{headLink()->appendStyleSheet($baseUrl . '/default/cms/css/kickstart.css')}
+		{headLink()->appendStyleSheet($baseUrl . '/default/cms/css/style.css')}
 		{headLink()}
+		{headScript()->appendFile($baseUrl . '/library/js/jquery/jquery.js')}
+		{headScript()->appendFile($baseUrl . '/default/cms/js/kickstart.js')}
 		{headScript()}
 	</head>
 	<body>
-		<div id="body-wrapper">
-			<div id="sidebar">
-				<div id="sidebar-wrapper">
-					<h1><a href="{@module=admin@}">{$domain|replace:'www.':''}</a></h1>
-				</div>
-			</div>
-
-			<div id="main-content">
-				<h1>{#Strona dostępna wyłącznie dla uprawnionych użytkowników#}</h1>
-				<h3>{#Wprowadź swój login i hasło#}</h3><br /><br />
-				{messenger()}
-				{content()}
-				<div id="footer">
-					<small>{php_ucfirst($domain)} &copy; {php_date('Y')}. Powered by MMi CMS</small>
-				</div>
-			</div>
-
+		<nav class="navbar">
+			<ul>
+				<li>
+					<a href="{@module=admin@}"><span>{$domain|replace:'www.':''}</span></a>
+				</li>
+			</ul>
+		</nav>
+		<div class="grid">
+			{messenger()}
+			{content()}
+		</div>
+		<div id="footer">
+			<small>{$domain} &copy; {system_date('Y')}. Powered by MMi CMS</small>
 		</div>
 	</body>
 </html>

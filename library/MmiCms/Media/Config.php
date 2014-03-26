@@ -29,6 +29,6 @@ class MmiCms_Media_Config {
 	/**
 	 * Adres serwera mediów
 	 */
-	public $mediaServer = '';
+	public $server = '';
 
 }

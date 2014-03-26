@@ -3,7 +3,7 @@
 		<h3>{#Tematy kontaktu#}</h3>
 		<div class="clear"></div>
 	</div>
-	<div class="content-box-content">
+	<div class="content-box-content clearfix">
 		{$grid}
 	</div>
 </div>

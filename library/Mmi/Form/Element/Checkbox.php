@@ -26,15 +26,15 @@
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
 class Mmi_Form_Element_Checkbox extends Mmi_Form_Element_Abstract {
-	
+
 	/**
 	 * Kolejność renderowania pola
 	 * @var array
 	 */
 	protected $_renderingOrder = array(
-		'fetchErrors', 'fetchField', 'fetchLabel',  'fetchDescription'
+		'fetchField', 'fetchLabel',  'fetchDescription', 'fetchErrors'
 	);
-	
+
 	/**
 	 * Funkcja użytkownika, jest wykonywana przed renderingiem
 	 */
@@ -47,7 +47,7 @@ class Mmi_Form_Element_Checkbox extends Mmi_Form_Element_Abstract {
 		}
 		$this->_options['value'] = '1';
 	}
-	
+
 	/**
 	 * Buduje pole
 	 * @return string
@@ -55,5 +55,5 @@ class Mmi_Form_Element_Checkbox extends Mmi_Form_Element_Abstract {
 	public function fetchField() {
 		return '<input type="checkbox" ' . $this->_getHtmlOptions() . '/>';
 	}
-	
+
 }
