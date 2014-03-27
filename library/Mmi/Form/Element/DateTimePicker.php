@@ -40,7 +40,7 @@ class Mmi_Form_Element_DateTimePicker extends Mmi_Form_Element_DatePicker {
 		$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
 		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/datetimepicker.js');
 		$view->headScript()->appendScript("$(document).ready(function () {
-				$('#$this->id').datetimepicker({step: 15, dateStart: '$dateStart', dateEnd: '$dateEnd', format:'$format', 'lang':'pl', mask:true, closeOnDateSelect: false});
+				$('#$this->id').datetimepicker({'lang':'pl', step: 15, dateStart: '$dateStart', dateEnd: '$dateEnd', format:'$format', validateOnBlur: true, closeOnDateSelect: false});
 			});
 		");
 		unset($this->_options['startDate']);
