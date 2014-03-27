@@ -27,12 +27,11 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 	}
 
 	public static function getMultiOptions() {
-		$multiOptions = array();
 		$q = self::newQuery()
 			->orderAsc('parent_id')
 			->orderAsc('order');
 		self::_langQuery($q);
-		return self::findPairs('id', 'label', $q);
+		return array(null => '---') + self::findPairs('id', 'label', $q);
 	}
 
 	/**

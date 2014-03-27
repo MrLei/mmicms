@@ -31,7 +31,7 @@ class Mmi_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
 	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora
 	 */
 	public function init() {
-		$this->addValidatorDate();
+		$this->addFilter('emptyToNull');
 	}
 
 	/**
@@ -77,7 +77,7 @@ class Mmi_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
 		$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
 		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/datetimepicker.js');
 		$view->headScript()->appendScript("$(document).ready(function () {
-				$('#$this->id').datetimepicker({timepicker: false, dateStart: '$dateStart', dateEnd: '$dateEnd', format:'$format', 'lang':'pl', mask:true, closeOnDateSelect: true});
+				$('#$this->id').datetimepicker({'lang':'pl', timepicker: false, dateStart: '$dateStart', dateEnd: '$dateEnd', format:'$format', validateOnBlur: true, closeOnDateSelect: true});
 			});
 		");
 		unset($this->_options['startDate']);
