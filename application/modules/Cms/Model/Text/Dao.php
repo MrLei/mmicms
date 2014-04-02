@@ -4,6 +4,19 @@ class Cms_Model_Text_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_text';
 	protected static $_texts = array();
+	
+	public static function findByLang($lang) {
+		$q = self::newQuery()
+			->where('lang')->equals($lang);
+		return self::find($q);
+	}
+	
+	public static function findFirstByKeyLang($key, $lang) {
+		$q = self::newQuery()
+			->where('lang')->equals($lang)
+			->andField('key')->equals($key);
+		return self::findFirst($q);
+	}
 
 	public static function countLang($q) {
 		self::_langQuery($q);
