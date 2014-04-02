@@ -170,6 +170,7 @@ class Mmi_Application {
 	 * @return Mmi_Application
 	 */
 	protected function _initPaths($path) {
+		$path = str_replace('\\', '/', $path);
 		define('BASE_PATH', $path);
 		define('APPLICATION_PATH', BASE_PATH . '/application');
 		define('LIB_PATH', BASE_PATH . '/library');
