@@ -4,130 +4,56 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_navigation';
 
-	/**
-	 * Obiekt struktury zagnieżdżonej
-	 * @var Mmi_Nested
-	 */
-	protected static $_nested;
-
 	public static function findFirstByArticleUri($uri) {
 		$q = self::newQuery()
 				->where('module')->equals('cms')
 				->andField('controller')->equals('article')
 				->andField('action')->equals('index')
 				->andField('params')->equals('uri=' . $uri);
-		return Cms_Model_Navigation_Dao::findFirst($q);
+		return self::findFirst($q);
 	}
 
 	public static function findLastByParentId($parentId) {
 		$q = self::newQuery()
-				->where('parent_id')->equals($parentId)
-				->orderDesc('order');
-		return Cms_Model_Navigation_Dao::findFirst($q);
+			->where('parent_id')->equals($parentId)
+			->orderDesc('order');
+		return self::findFirst($q);
 	}
 
 	public static function findByParentId($parentId) {
 		$q = self::newQuery()
 				->where('parent_id')->equals($parentId);
-		return Cms_Model_Navigation_Dao::find($q);
-	}
-
-	public static function seek($id) {
-		self::_initNested();
-		return self::$_nested->seek($id);
+		return self::find($q);
 	}
 
 	public static function getMultiOptions() {
-		self::_initNested(true);
-		$multiOptions = array();
-		foreach (self::$_nested->flat(self::$_nested->getStructure()) as $leaf) {
-			if ($leaf['label'] == '')
-				$leaf['label'] = '---';
-			$space = '';
-			for ($i = 0; $i < $leaf['level']; $i++) {
-				$space .= '&nbsp;&nbsp;';
-			}
-			$space .= '| ';
-			$multiOptions[$leaf['id']] = $space . $leaf['label'];
-		}
-		return $multiOptions;
-	}
-
-	public static function getNested() {
-		self::_initNested();
-		return self::$_nested;
-	}
-
-	protected static function _initNested() {
-		if (!(self::$_nested instanceof Mmi_Nested)) {
-			self::$_nested = new Mmi_Nested(self::_getNestedData());
-		}
-	}
-
-	protected static function _getNestedData() {
 		$q = self::newQuery()
 			->orderAsc('parent_id')
 			->orderAsc('order');
-		$lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
-		if ($lang !== null) {
-			$q->where('lang')->equals($lang);
-		}
-		$data = self::find($q)->toArray();
-		$view = Mmi_Controller_Front::getInstance()->getView();
-		foreach ($data as $key => $item) {
-			$data[$key]['disabled'] = 0;
-			if (isset($item['active']) && ($item['active'] == 0 || ($item['dateStart'] !== null && $item['dateStart'] > date('Y-m-d H:i:s')) || ($item['dateEnd'] !== null && $item['dateEnd'] < date('Y-m-d H:i:s')))) {
-				$data[$key]['disabled'] = 1;
-			}
-			$data[$key]['active'] = 0;
-			if (!$item['uri']) {
-				$params = array();
-				parse_str($item['params'], $params);
-				if ($lang !== null) {
-					$params['lang'] = $item['lang'];
-				}
-				if ($item['module'] != '') {
-					$data[$key]['type'] = 'cms';
-				} else {
-					$data[$key]['type'] = 'folder';
-				}
-				$params['module'] = $item['module'];
-				$params['controller'] = $item['controller'] ? $item['controller'] : 'index';
-				$params['action'] = $item['action'] ? $item['action'] : 'index';
-				$https = null;
-				if (array_key_exists('https', $item) && $item['https'] == 1) {
-					$https = true;
-				}
-				if (array_key_exists('https', $item) && $item['https'] == 0) {
-					$https = false;
-				}
-				$absolute = (isset($item['absolute']) && $item['absolute']) ? true : false;
-				if ($item['module'] != '') {
-					$data[$key]['uri'] = $view->url($params, true, $absolute, $https);
-				} else {
-					$data[$key]['uri'] = '#';
-				}
-				$data[$key]['request'] = $params;
-			} else {
-				if (strpos($data[$key]['uri'], '://') === false && strpos($data[$key]['uri'], '#') !== 0 && strpos($data[$key]['uri'], '/') !== 0) {
-					$data[$key]['uri'] = 'http://' . $data[$key]['uri'];
-				}
-				$data[$key]['type'] = 'link';
-			}
+		self::_langQuery($q);
+		return array(null => '---') + self::findPairs('id', 'label', $q);
+	}
 
-			if ($item['uri'] == null && $item['module'] == null && $item['controller'] == null && $item['action'] == null) {
-				$data[$key]['type'] = 'folder';
-			} elseif ($item['uri'] != null) {
-				$data[$key]['type'] = 'link';
-			} elseif ($item['module'] == 'cms' && $item['controller'] == 'article' && $item['action'] == 'index') {
-				$data[$key]['type'] = 'static';
-			} elseif ($item['module'] == 'cms' && $item['controller'] == 'container' && $item['action'] == 'index') {
-				$data[$key]['type'] = 'container';
-			} else {
-				$data[$key]['type'] = 'cms';
+	/**
+	 * Dodaje do konfiguracji dane z bazy danych
+	 * @param Mmi_Navigation_Config $config
+	 */
+	public static function decorateConfiguration(Mmi_Navigation_Config $config) {
+		$q = self::newQuery()
+			->orderAsc('parent_id')
+			->orderAsc('order');
+		self::_langQuery($q);
+		$objectArray = self::find($q)->toObjectArray();
+		foreach ($objectArray as $key => $record) {/* @var $record Cms_Model_Navigation_Record */
+			if ($record->parent_id != 0) {
+				continue;
 			}
+			$element = Mmi_Navigation_Config::newElement($record->id);
+			self::_setNavigationElementFromRecord($record, $element);
+			$config->addElement($element);
+			unset($objectArray[$key]);
+			self::_buildChildren($record, $element, $objectArray);
 		}
-		return $data;
 	}
 
 	/**
@@ -144,6 +70,65 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 			$record->save();
 		}
 		return true;
+	}
+
+	protected static function _buildChildren(Cms_Model_Navigation_Record $record, Mmi_Navigation_Config_Element $element, array $objectArray) {
+		foreach ($objectArray as $key => $child) {/* @var $child Cms_Model_Navigation_Record */
+			if ($child->parent_id != $record->id) {
+				continue;
+			}
+			$childElement = Mmi_Navigation_Config::newElement($child->id);
+			self::_setNavigationElementFromRecord($child, $childElement);
+			$element->addChild($childElement);
+			unset($objectArray[$key]);
+			self::_buildChildren($child, $childElement, $objectArray);
+		}
+	}
+
+	protected static function _setNavigationElementFromRecord(Cms_Model_Navigation_Record $record, Mmi_Navigation_Config_Element $element) {
+		$https = null;
+		if ($record->https === 0) {
+			$https = false;
+		} elseif ($record->https === 1) {
+			$https = true;
+		}
+
+		$params = array();
+		parse_str($record->params, $params);
+
+		$element
+			->setAbsolute($record->absolute ? true : false)
+			->setAction($record->action ? : null)
+			->setBlank($record->blank ? true : false)
+			->setController($record->controller ? : null)
+			->setDateEnd($record->dateEnd ? : null)
+			->setDateStart($record->dateStart ? : null)
+			->setDescription($record->description ? : null)
+			->setDisabled($record->active ? false : true)
+			->setHttps($https)
+			->setIndependent($record->independent ? : null)
+			->setKeywords($record->keywords ? : null)
+			->setLabel($record->label ? : null)
+			->setLang($record->lang ? : null)
+			->setModule($record->module ? : null)
+			->setNofollow($record->nofollow ? : null)
+			->setParams($params)
+			->setTitle($record->title ? : null)
+			->setUri($record->uri ? : null)
+			->setVisible($record->visible ? true : false)
+		;
+		return $element;
+	}
+
+	protected static function _langQuery(Mmi_Dao_Query $q) {
+		if (!Mmi_Controller_Front::getInstance()->getRequest()->lang) {
+			return $q;
+		}
+		$subQ = self::newQuery()
+			->where('lang')->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
+			->orField('lang')->equals(null)
+			->orderDesc('lang');
+		return $q->andQuery($subQ);
 	}
 
 }

@@ -317,6 +317,15 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	}
 
 	/**
+	 * Zwraca bieżącą głębokość w menu
+	 * @return int
+	 */
+	public function getCurrentDepth() {
+		$depth = count($this->_breadcrumbsData) - 1;
+		return ($depth > 0) ? $depth : 0;
+	}
+
+	/**
 	 * Zwraca breadcrumbs
 	 * @return string
 	 */
@@ -537,7 +546,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 		$i = 0;
 		foreach ($data as $breadcrumb) {
 			$i++;
-			if ($i == $count && !$this->_linkLastBreadcrumb) {
+			if (($i == $count && !$this->_linkLastBreadcrumb) || $breadcrumb['uri'] == '#') {
 				$breadcrumbs[] = '<span>' . strip_tags($breadcrumb['label']) . '</span>';
 			} else {
 				$breadcrumbs[] = '<a href="' . $breadcrumb['uri'] . '">' . strip_tags($breadcrumb['label']) . '</a>';
@@ -599,7 +608,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 				$subHtml = $this->_getHtml($leaf, $depth + 1);
 				$childHtml .= $subHtml;
 			}
-			$class = (isset($leaf['active']) && $leaf['active']) ? 'active ' : '';
+			$class = (isset($leaf['active']) && $leaf['active']) ? 'active current ' : '';
 			$class .= ($index == 0) ? 'first ' : '';
 			$class .= ($index == ($count - 1)) ? 'last ' : '';
 			if ($class) {
@@ -618,7 +627,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 		if ($this->_minDepth > $depth) {
 			return $childHtml;
 		} elseif ($html) {
-			return '<ul class="depth-' . $depth . '" id="menu-' . $tree['id'] . '">' . $html . '</ul>' . PHP_EOL;
+			return '<ul class="menu depth-' . $depth . '" id="menu-' . $tree['id'] . '">' . $html . '</ul>' . PHP_EOL;
 		} else {
 			return '';
 		}

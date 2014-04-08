@@ -8,4 +8,12 @@
  */
 class Cms_Model_Container_Template_Placeholder_Record extends Mmi_Dao_Record {
 	
+	public function save() {
+		try {
+			return parent::save();
+		} catch (Exception $e) {
+			return false;
+		}
+	}
+	
 }

@@ -75,8 +75,8 @@ class Mmi_Controller_Router {
 		$subFolderPath = substr(BASE_PATH, strrpos(BASE_PATH, '/') + 1) . '/public';
 		$position = strpos($this->_url, $subFolderPath);
 		if ($position !== false) {
-			$this->_baseUrl = substr($this->_url, 0, strlen($subFolderPath));
-			$this->_url = substr($this->_url, strlen($subFolderPath) + 1);
+			$this->_baseUrl = substr($this->_url, 0, strlen($subFolderPath) + $position);
+			$this->_url = substr($this->_url, strlen($subFolderPath) + $position + 1);
 		}
 		$this->_baseUrl = isset($this->_baseUrl) ? '/' . trim($this->_baseUrl, '/') : '';
 		$this->_url = rtrim($this->_url, '/');

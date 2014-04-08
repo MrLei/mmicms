@@ -18,7 +18,7 @@ class Cms_Controller_Captcha extends Mmi_Controller_Action {
 		$green = imagecolorallocate($img, 0x00, 0x77, 0x00);
 		$gray = imagecolorallocate($img, 0xF5, 0xF5, 0xF5);
 		$darkGray = imagecolorallocate($img, 0x99, 0x99, 0x99);
-		$font = PUBLIC_PATH . '/library/ttf/dejavu.ttf';
+		$font = PUBLIC_PATH . '/default/cms/ttf/dejavu.ttf';
 
 		imagefilledrectangle($img, 0, 0, 129, 49, $darkGray);
 		imagefilledrectangle($img, 1, 1, 128, 48, $gray);
@@ -42,7 +42,7 @@ class Cms_Controller_Captcha extends Mmi_Controller_Action {
 			$prevAngle = $angle;
 			imagefttext($img, $size, $angle, $space, $height, $green, $font, $word[$i]);
 		}
-		
+
 		$formSession = new Mmi_Session_Namespace('Mmi_Form');
 		$name = 'captcha_' . $this->_getParam('name');
 		$formSession->$name = $word;

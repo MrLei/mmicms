@@ -3,8 +3,9 @@
 		<h3>{#Placeholdery w szablonie#}</h3>
 		<div class="clear"></div>
 	</div>
-	<div class="content-box-content">
+	<div class="content-box-content clearfix">
 		{$grid}
+		<br />
 		<a class="button" href="{@module=cms&controller=adminContainerTemplatePlaceholderContainer&action=edit&containerId={$request->containerId}@}">ustaw placeholder</a>
 	</div>
 </div>

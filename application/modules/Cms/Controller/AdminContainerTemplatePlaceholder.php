@@ -14,10 +14,14 @@ class Cms_Controller_AdminContainerTemplatePlaceholder extends MmiCms_Controller
 
 	public function editAction() {
 		$form = new Cms_Form_Admin_Container_Template_Placeholder($this->_getParam('id'), array('templateId' => $this->_getParam('templateId')));
+		if (!$form->isMine()) {
+			return;
+		}
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Placeholder zapisany poprawnie', true);
 			$this->_helper->redirector('edit', 'adminContainerTemplate', 'cms', array('id' => $form->getRecord()->cms_container_template_id), true);
 		}
+		$this->_helper->messenger('Placeholder o tym samym kluczu już istnieje', false);
 	}
 
 	public function deleteAction() {

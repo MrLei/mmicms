@@ -73,7 +73,7 @@ class Mmi_Db_Config {
 	 * Kodowanie znaków
 	 * @var string
 	 */
-	public $charset = 'utf-8';
+	public $charset = 'utf8';
 
 	/**
 	 * Połączenie trwałe

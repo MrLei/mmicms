@@ -93,7 +93,7 @@ class Stat_Controller_Admin extends MmiCms_Controller_Admin {
 	public function deleteAction() {
 		$label = new Stat_Model_Label(intval($this->_getParam('id')));
 		$label->delete();
-		$this->_helper->messenger('Nazwa statystyki została usunięta');
+		$this->_helper->messenger('Nazwa statystyki została usunięta', true);
 		$this->_helper->redirector('label', 'admin', 'stat', array(), true);
 	}
 

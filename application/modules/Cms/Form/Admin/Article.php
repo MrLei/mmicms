@@ -7,6 +7,8 @@ class Cms_Form_Admin_Article extends Mmi_Form {
 	public function init() {
 
 		$this->addElementText('title')
+			->setRequired()
+			->addValidatorNotEmpty()
 			->setLabel('tytuł');
 
 		$this->addElementTinyMce('text')
