@@ -11,12 +11,12 @@ class Cms_Form_Admin_Container_Template_Placeholder extends Mmi_Form {
 		}
 		
 		$this->addElementText('name')
-			->setLabel('name placeholder')
+			->setLabel('nazwa placeholder')
 			->setRequired()
 			->addValidatorNotEmpty();
 
 		$this->addElementText('placeholder')
-			->setLabel('kod placeholdera')
+			->setLabel('klucz placeholdera')
 			->setRequired()
 			->addValidatorNotEmpty();
 

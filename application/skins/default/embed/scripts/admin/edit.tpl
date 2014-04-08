@@ -3,7 +3,7 @@
 		<h3>{if $request->id > 0}{#Edycja#}{else}{#Dodawanie#}{/if} {#konfiguracji widgeta#}</h3>
 		<div class="clear"></div>
 	</div>
-	<div class="content-box-content">
+	<div class="content-box-content clearfix">
 		{$embedForm}
 	</div>
 </div>

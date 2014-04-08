@@ -48,7 +48,8 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		$view = Mmi_Controller_Front::getInstance()->getView();
 		$base = $view->baseUrl;
 		$view->domain = Default_Registry::$config->application->host;
-		$view->mediaServer = Default_Registry::$config->media->mediaServer;
+		$view->mediaServer = Default_Registry::$config->media->server;
+		$view->languages = Default_Registry::$config->application->languages;
 
 		$jsReqestArray = array();
 		$jsReqestArray[] = "'baseUrl' : '" . $base . "'";
@@ -117,7 +118,9 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 
 		//ustawienie nawigatora
 		if (null === ($navigation = Default_Registry::$cache->load('Mmi_Navigation_' . $request->__get('lang')))) {
-			$navigation = new Mmi_Navigation(Cms_Model_Navigation_Dao::getNested());
+			$config = Default_Registry::$config->navigation;
+			Cms_Model_Navigation_Dao::decorateConfiguration($config);
+			$navigation = new Mmi_Navigation($config);
 			Default_Registry::$cache->save($navigation, 'Mmi_Navigation_' . $request->__get('lang'), 3600);
 		}
 		$navigation->setup($request);

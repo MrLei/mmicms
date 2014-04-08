@@ -8,11 +8,18 @@ class Default_Config_Default extends MmiCms_Config {
 	 */
 	public $router;
 
+	/**
+	 * Konfiguracja nawigatora
+	 * @var Default_Config_Navigation
+	 */
+	public $navigation;
+
 	public function __construct() {
 
 		parent::__construct();
 
 		$this->router = new Default_Config_Router();
+		$this->navigation = new Default_Config_Navigation();
 
 		$this->application->host = 'localhost';
 		$this->application->salt = 'salt-should-be-changed';
@@ -20,7 +27,7 @@ class Default_Config_Default extends MmiCms_Config {
 		$this->application->timeZone = 'Europe/Warsaw';
 		$this->application->debug = false;
 		$this->application->compile = false;
-		$this->application->languages = array();
+		$this->application->languages = array('pl', 'en');
 		$this->application->plugins = array('MmiCms_Controller_Plugin');
 
 		$this->media->server = '';
