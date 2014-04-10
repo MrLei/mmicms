@@ -6,6 +6,6 @@
 	<p>
 	{$i = 0}
 	{foreach $items as $item}
-    {$i++}{$i}. {$item.data}<br>
+	{$i++}{$i}. {$item.data}<br>
 	{/foreach}
 </div>
