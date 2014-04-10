@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -29,17 +30,17 @@ class Mmi_Validate_Regex extends Mmi_Validate_Abstract {
 	 * Treść wiadomości
 	 */
 	const INVALID = 'Nieprawidłowy typ danych wejściowych';
-		
+
 	/**
-     * Komunikat - nie pasuje do wzorca
-     */
-    const NOT_MATCH = 'Wartość nie pasuje do wzorca';
-		
+	 * Komunikat - nie pasuje do wzorca
+	 */
+	const NOT_MATCH = 'Wartość nie pasuje do wzorca';
+
 	/**
-     * Komunikat o błędzie wyrażenia regularnego
-     */
-    const ERROROUS  = 'Błędne wyrażenie regularne';
-	
+	 * Komunikat o błędzie wyrażenia regularnego
+	 */
+	const ERROROUS = 'Błędne wyrażenie regularne';
+
 	/**
 	 * Walidacja za pomocą wyrażenia regularnego
 	 * @param mixed $value wartość
@@ -51,19 +52,20 @@ class Mmi_Validate_Regex extends Mmi_Validate_Abstract {
 		if (is_null($pattern)) {
 			return true;
 		}
-        if (!is_string($value) && !is_int($value) && !is_float($value)) {
-            $this->_error(self::INVALID);
-            return false;
-        }
-        $status = preg_match($pattern, $value);
-        if ($status === false) {
-            $this->_error(self::ERROROUS);
-            return false;
-        }
-        if (!$status) {
-            $this->_error(self::NOT_MATCH);
-            return false;
-        }
-        return true;
+		if (!is_string($value) && !is_int($value) && !is_float($value)) {
+			$this->_error(self::INVALID);
+			return false;
+		}
+		$status = preg_match($pattern, $value);
+		if ($status === false) {
+			$this->_error(self::ERROROUS);
+			return false;
+		}
+		if (!$status) {
+			$this->_error(self::NOT_MATCH);
+			return false;
+		}
+		return true;
 	}
+
 }
