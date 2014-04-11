@@ -284,3 +284,181 @@ label.mce-wordcount {
 .icon-4x {
 	width: 4em;
 }
+
+/*---------------------------------
+	General Classes
+-----------------------------------*/
+.clear {
+	clear: both;
+	float: none!important;
+}
+
+.align-left {
+	float: left;
+}
+
+.align-right {
+	float: right;
+}
+
+.ajax-loader {
+	background: url("img/bx_loader.gif") no-repeat scroll center center transparent;
+	width: 100%;
+}
+
+/*---------------------------------
+	MULTI-DIRECTION-SORT
+-----------------------------------*/
+div.mdlist-button-container {
+	height: 50px;
+	float:left;
+	margin-right: 10px;
+}
+
+ul.mdlist {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+ul.mdlist li {
+	font-weight: bold;
+	padding: 0 !important;
+	border: 1px #ddd dotted;
+	margin: 0 0.5% 10px 0;
+	background: #fff!important;
+	float: left;
+	height: 80px;
+	overflow: hidden;
+}
+
+ul.mdlist table.form-container {
+	position: relative;
+	padding: 9px;
+	border-collapse: separate;
+	border: 1px solid transparent;
+}
+
+ul.mdlist li.open {
+	overflow: visible;
+}
+
+ul.mdlist a.button {
+	margin-bottom: 2px;
+	padding: 3px 10px;
+}
+
+ul.mdlist table {
+	width: 100%;
+	height: 100%;
+	background-color: #ffffff;
+}
+
+ul.mdlist td:first-child {
+	width: 80%;
+	vertical-align: top;
+}
+
+ul.mdlist td:last-child {
+	width: 20%;
+	text-align: right;
+}
+
+ul.mdlist div {
+	line-height: 160%;
+	width: 100%;
+	position: relative;
+	padding: 0!important;
+}
+
+ul.mdlist div form div {
+	float: left;
+	line-height: 100%;
+	padding: 0;
+	width: 100px;
+	position: relative;
+	margin-bottom: 0;
+}
+
+ul.mdlist div form div input.field {
+	width: 95px;
+	margin-top: 6px;
+	margin-bottom: 0px;
+}
+
+ul.mdlist div form div input[type='submit'] {
+	padding: 4px 15px;
+}
+
+ul.mdlist div form div label {
+	position: absolute;
+	font-weight: normal;
+	font-size: 11px;
+	top: 0;
+	left: 6px;
+}
+
+ul.mdlist div form div .errors {
+	position: absolute;
+}
+
+ul.mdlist div.close {
+	background: url('img/fancybox/fancy_close.png');
+	width: 30px;
+	height: 30px;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	cursor: pointer;
+	padding: 0!important;
+}
+
+ul.mdlist div.ok {
+	background: url('img/fancybox/fancy_accept.png');
+	width: 30px;
+	height: 30px;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	cursor: pointer;
+	padding: 0!important;
+}
+
+ul.mdlist div.add {
+	background: url('img/fancybox/fancy_add.png');
+	width: 30px;
+	height: 30px;
+	position: relative;
+	cursor: pointer;
+	padding: 0!important;
+	float: left;
+	margin: 25px 0 35px 10px;
+}
+
+ul.mdlist div img {
+	float: left;
+}
+
+ul.mdlist .template {
+	display: none;
+}
+
+ul.mdlist .field.checkbox {
+	margin: 10px 0 0 0;
+}
+
+ul.mdlist .field.checkbox input {
+	width: 18px;
+	margin: 4px 2px 0 0;
+}
+
+ul.mdlist .field.checkbox label {
+	position: initial;
+	float: left;
+	margin-top: 5px
+
+}
+
+ul.mdlist .hide-active {
+	color: #bbbbbb;
+}
