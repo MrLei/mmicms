@@ -161,7 +161,7 @@ class Mmi_Application {
 	protected function _initEncoding() {
 		mb_internal_encoding('utf-8');
 		ini_set('default_charset', 'utf-8');
-		setlocale(LC_ALL, 'en_US.utf-8');
+		setlocale(LC_ALL, 'pl_PL.utf-8');
 		return $this;
 	}
 
