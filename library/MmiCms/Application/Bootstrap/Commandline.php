@@ -47,9 +47,6 @@ class MmiCms_Application_Bootstrap_Commandline extends MmiCms_Application_Bootst
 				->setControllerName('index')
 				->setActionName('index')
 				->setSkinName(Default_Registry::$config->application->skin);
-		if (isset(Default_Registry::$config->application->languages[0])) {
-			$request->setParam('lang', Default_Registry::$config->application->languages[0]);
-		}
 		//ustawianie żądania
 		$front->setRequest($request);
 		Mmi_Controller_Front::getInstance()->getView()->setRequest($request);
