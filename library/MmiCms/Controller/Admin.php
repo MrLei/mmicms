@@ -9,7 +9,7 @@
  */
 class MmiCms_Controller_Admin Extends Mmi_Controller_Action {
 
-	public function __construct(Mmi_Controller_Request $request) {
+	public function init() {
 
 		//acl dla admina
 		if (!Default_Registry::$acl->isAllowed(Default_Registry::$auth->getRoles(), 'admin:index:index')) {
@@ -22,18 +22,16 @@ class MmiCms_Controller_Admin Extends Mmi_Controller_Action {
 		if ($lang === null && isset(Default_Registry::$config->application->languages[0])) {
 			$lang = Default_Registry::$config->application->languages[0];
 		}
-		unset($request->lang);
+		unset($this->getRequest()->lang);
 		unset(Mmi_Controller_Front::getInstance()->getRequest()->lang);
 		if ($lang !== null) {
 			Mmi_Controller_Front::getInstance()->getRequest()->lang = $lang;
-			$request->lang = $lang;
+			$this->getRequest()->lang = $lang;
 		}
 
 		$this->view = Mmi_Controller_Front::getInstance()->getView();
 		$this->view->baseSkin = Default_Registry::$config->application->skin;
 		$this->view->baseModule = 'admin';
-
-		parent::__construct($request);
 	}
 
 }

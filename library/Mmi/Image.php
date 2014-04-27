@@ -242,159 +242,17 @@ class Mmi_Image {
 		if (!$input) {
 			return;
 		}
+		if (imagesx($input) < $newWidth + $x) {
+			$newWidth = imagesx($input) - $x;
+		}
+		if (imagesy($input) < $newHeight + $y) {
+			$newHeight = imagesy($input) - $y;
+		}
 		$destination = imagecreatetruecolor($newWidth, $newHeight);
 		imagecopy($destination, $input, 0, 0, $x, $y, $newWidth, $newHeight);
 		return $destination;
 	}
 		
-	/**
-	 * Służy do nakładania tekstu na obrazek
-	 * @param mixed $input wejście
-	 * @param string $text treść tekstu
-	 * @param array $position - pozycja tekstu - przymuję tablicę dwóch typów:
-	 *		1.array(int x, int y);
-	 *		2.array(string position, int margin-top, int margin-left, int margin-bottom, int margin-right);
-	 *			Możliwe wartości position:
-	 *			north-west	north	north-east
-	 *			west		center	east
-	 *			south-west	south	south-east
-	 * @param string $fontPatch ścieżka do pliku z czcionką
-	 * @param int $fontSize wiekość tekstu
-	 * @param array $fontColor kolor w postaci tablicy z trzema elementami (r, g, b)
-	 * @param int $angle pochylenie tekstu
-	 * @param string $anchor róg obrazka wg którego przeprowadzone będzie pozcjonowanie.
-	 *			Możliwe wartości anchor:
-	 *			north-west	north	north-east
-	 *			west		center	east
-	 *			south-west	south	south-east
-	 * @return resource obrazek
-	 */
-	public static function mergWithText($input, $text, $position, $fontPatch, $fontSize = 8, $fontColor = array(255,255,255), $angle = 0, $anchor = 'center') {
-		$input = self::_resource($input);
-		if (!$input) {
-			return;
-		}
-		
-		imagealphablending($input, true);
-		imagesavealpha($input, true);
-		
-		$color = imagecolorallocate($input, $fontColor[0], $fontColor[1], $fontColor[2]);
-
-		$ix = 0;				//image x
-		$iy = 0;				//image y
-		$iw = imagesx($input);	//image width
-		$ih = imagesy($input);	//image height
-		$px = 0;				//point x
-		$py = 0;				//point y
-		
-		if(!is_array($position)) {
-			return $input;
-		}
-		
-		// Określanie pozycji tekstu na obrazku
-		if(is_numeric($position[0])) {
-			$px = $position[0];
-			$py = $position[1];
-		} else {
-			$mt = 0;
-			if(isset($position[1])) {
-				$mt = $position[1];
-			}
-			$ml = 0;
-			if(isset($position[2])) {
-				$ml = $position[2];
-			}
-			$mb = 0;
-			if(isset($position[3])) {
-				$mb = $position[3];
-			}
-			$mr = 0;
-			if(isset($position[4])) {
-				$mr = $position[4];
-			}
-			if($position[0] == 'center' || $position[0] == 'middle') {
-				$px = $iw/2+$ml-$mr;
-				$py = $ih/2+$mt-$mb;
-			} else if ($position[0] == 'north' || $position[0] == 'top') {
-				$px = $iw/2+$ml-$mr;
-				$py = $iy+$mt;
-			} else if ($position[0] == 'south' || $position[0] == 'bottom') {
-				$px = $iw/2+$ml-$mr;
-				$py = $ih-$mb;
-			} else if ($position[0] == 'east' || $position[0] == 'right') {
-				$px = $iw-$mr;
-				$py = $ih/2+$mt-$mb;
-			} else if ($position[0] == 'west' || $position[0] == 'left') {
-				$px = $ix+$ml;
-				$py = $ih/2+$mt-$mb;
-			} else if ($position[0] == 'north-east' || $position[0] == 'top-right') {
-				$px = $iw-$mr;
-				$py = $iy+$mt;
-			} else if ($position[0] == 'north-west' || $position[0] == 'top-left') {
-				$px = $ix+$ml;
-				$py = $iy+$mt;
-			} else if ($position[0] == 'south-east' || $position[0] == 'bottom-right') {
-				$px = $iw-$mr;
-				$py = $ih-$mb;
-			} else if ($position[0] == 'south-west' || $position[0] == 'bottom-left') {
-				$px = $ix+$ml;
-				$py = $ih-$mb;
-			}
-		}
-
-		$ts = imagettfbbox($fontSize, $angle, $fontPatch, $text);
-		//$ts[0]	bottom-left, X int(-1)
-		//$ts[1]	bottom-left, Y int(-1)
-		//$ts[2]	bottom-right, X int(30)
-		//$ts[3]	bottom-right, Y int(-1)
-		//$ts[4]	top-right, X int(30)
-		//$ts[5]	top-right, Y int(-9)
-		//$ts[6]	top-left, X int(-1)
-		//$ts[7]	top-left, Y int(-9)
-		
-		$tx = 0;					//text x;
-		$ty = 0;					//text y;
-		$tw = $ts[2] - $ts[0];		//text width;
-		$th = ($fontSize * 1.25)*-1;//text height;
-		
-		// Określenie pozycji tekstu względem kotwicy tekstu
-		if ($anchor == 'center' || $anchor == 'middle') {
-			$tx = $tw/2;
-			$ty = $th/2;
-		} else if ($anchor == 'north' || $anchor == 'top') {
-			$tx = $tw/2;
-			$ty = $ts[5];
-		} else if ($anchor == 'south' || $anchor == 'bottom') {
-			$tx = $tw/2;
-			$ty = $ts[1];
-		} else if ($anchor == 'east' || $anchor == 'right') {
-			$tx = $ts[2];
-			$ty = $th/2;
-		} else if ($anchor == 'west' || $anchor == 'left') {
-			$tx = $ts[0];
-			$ty = $th/2;
-		} else if ($anchor == 'north-east' || $anchor == 'top-right') {
-			$tx = $ts[4];
-			$ty = $ts[5];
-		} else if ($anchor == 'north-west' || $anchor == 'top-left') {
-			$tx = $ts[6];
-			$ty = $ts[7];
-		} else if ($anchor == 'south-east' || $anchor == 'bottom-right') {
-			$tx = $ts[2];
-			$ty = $ts[3];
-		} else if ($anchor == 'south-west' || $anchor == 'bottom-left') {
-			$tx = $ts[0];
-			$ty = $ts[1];
-		}
-
-		$x = $px-$tx;				//final x
-		$y = $py-$ty;				//final y
-		
-		imagettftext($input, $fontSize, $angle, $x, $y, $color, $fontPatch, $text);
-		
-		return $input;
-	}
-	
 	/**
 	 * Przerabia wejście w postaci String na obiekt resource 
 	 * lub zwraca wejście jeśli nie jest stringiem, w przypadku
