@@ -166,9 +166,6 @@ class Mmi_Auth {
 	 * @param string $modelName
 	 */
 	public function setModelName($modelName) {
-		if (!is_subclass_of($modelName, 'Mmi_Auth_Model_Interface')) {
-			throw new Exception('Authorization model does not implement Mmi_Auth_Model_Interface');
-		}
 		$this->_modelName = $modelName;
 	}
 

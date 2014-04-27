@@ -22,7 +22,10 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		//niepoprawny język
 		if ($request->__get('lang') && !in_array($request->__get('lang'), Default_Registry::$config->application->languages)) {
 			Mmi_Controller_Front::getInstance()->getResponse()->setCode(404);
-			$request->lang = Default_Registry::$config->application->languages[0];
+			unset($request->lang);
+			if (isset(Default_Registry::$config->application->languages[0])) {
+				$request->lang = Default_Registry::$config->application->languages[0];
+			}
 			$request->setModuleName('default');
 			$request->setControllerName('error');
 			$request->setActionName('index');
