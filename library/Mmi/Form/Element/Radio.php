@@ -57,11 +57,11 @@ class Mmi_Form_Element_Radio extends Mmi_Form_Element_Abstract {
 			$liClass = '';
 			if (mb_stripos($key, ':disabled')) {
 				$key = mb_strstr($key, ':disabled', true, 'utf-8');
-				$this->_options['disabled'] = 'disabled';
+				$this->_options['disabled'] = '';
 				$this->_options['value'] = '';
 				$liClass = 'disabled';
 			} else {
-				$this->_options['disabled'] = '';
+				unset($this->_options['disabled']);
 				$this->_options['value'] = $key;
 			}
 			$f = new Mmi_Filter_Url();
