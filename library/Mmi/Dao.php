@@ -204,7 +204,7 @@ class Mmi_Dao {
 	 * @param array $joinSchema schemat połączeń
 	 * @return array mixed wartość maksymalna
 	 */
-	public static final function findMax($keyName, array $bind = array(), array $joinSchema = array()) {
+	public static final function findMax($keyName, $bind = array(), array $joinSchema = array()) {
 		//@TODO po refaktoryzacji przerobić by przyjmował tylko obiekt query
 		if ($bind instanceof Mmi_Dao_Query) {
 			$q = $bind->queryCompilation();
@@ -217,6 +217,32 @@ class Mmi_Dao {
 			$result = self::getAdapter()->select(static::$_tableName, $bind, array(), 1, 0, array('MAX(' . self::getAdapter()->prepareField($keyName) . ')'), $joinSchema);
 		}
 		return isset($result[0]) ? current($result[0]) : 0;
+	}
+	
+	/**
+	 * Pobiera unikalne wartości ze zbioru rekordów
+	 * @param string $keyName nazwa klucza
+	 * @param array $bind tabela w postaci: @see Mmi_Db_Adapter_Pdo_Abstract::_parseWhereBind()
+	 * @param array $joinSchema schemat połączeń
+	 * @return array mixed wartość maksymalna
+	 */
+	public static final function findUnique($keyName, $bind = array(), $order = array(), $limit = null, $offset = null, array $joinSchema = array()) {
+		//@TODO po refaktoryzacji przerobić by przyjmował tylko obiekt query
+		if ($bind instanceof Mmi_Dao_Query) {
+			$q = $bind->queryCompilation();
+			//@TODO usunąć tego if'a:
+			if (!empty($joinSchema)) {
+				throw new Exception('Mmi_Dao: query object supplied together with $limit, $offset etc.');
+			}
+			$data = self::getAdapter()->select(static::$_tableName, $q->bind, $q->order, $q->limit, $q->offset, array('DISTINCT(' . self::getAdapter()->prepareField($keyName) . ')'), $q->joinSchema);
+		} else {
+			$data = self::getAdapter()->select(static::$_tableName, $bind, $order, $limit, $offset, array('DISTINCT(' . self::getAdapter()->prepareField($keyName) . ')'), $joinSchema);
+		}
+		$result = array();
+		foreach ($data as $line) {
+			$result[] = current($line);
+		}
+		return $result;
 	}
 
 	/**
