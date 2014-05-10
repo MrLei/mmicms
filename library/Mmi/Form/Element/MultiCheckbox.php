@@ -79,7 +79,7 @@ class Mmi_Form_Element_MultiCheckbox extends Mmi_Form_Element_Abstract {
 					<label ' . $classTag . 'for="' . $this->_options['id'] . '">' . $caption . '</label>
 				</li>';
 			} else {
-				$this->_options['disabled'] = '';
+				unset($this->_options['disabled']);
 				$html .= '<li id="' . $this->_options['id'] . '_item' . '">
 					<input type="checkbox" ' . $this->_getHtmlOptions() . '/>
 					<label ' . $classTag . 'for="' . $this->_options['id'] . '">' . $caption . '</label>
