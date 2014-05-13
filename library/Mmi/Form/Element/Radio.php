@@ -79,6 +79,7 @@ class Mmi_Form_Element_Radio extends Mmi_Form_Element_Abstract {
 		}
 		$html .= '</ul>';
 		$this->_options['id'] = $baseId;
+		$this->_options['value'] = $value;
 		return $html;
 	}
 
