@@ -159,8 +159,9 @@ class Mmi_View_Helper_HeadStyle extends Mmi_View_Helper_Abstract {
 		if (!$cache || (null === ($content = $cache->load($cacheKey)))) {
 			$content = file_get_contents(PUBLIC_PATH . '/' . $fileName);
 			$location = $this->view->baseUrl . '/' . dirname($fileName) . '/';
-			$content = str_replace(array('url(\'', 'url("'), 
-				array('url(\'' . $location, 'url("' . $location), $content);
+			$content = str_replace(array('url(\'', 'url("', "\r\n", "\n", "\t", ', ', ': ', ' {', '{ ', ' }', '} '), 
+				array('url(\'' . $location, 'url("' . $location, '', '', '', ',', ':', '{', '{', '}', '}'), $content);
+			$content = preg_replace('/\/\*(.[^\*]+)\*\//is', '', $content);
 			$cache->save($content, $cacheKey, 864000);
 		}
 		return $content;
