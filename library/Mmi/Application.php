@@ -37,7 +37,6 @@ class Mmi_Application {
 	 * @param string $path
 	 */
 	public function __construct($path, $bootstrapName = 'Mmi_Application_Bootstrap') {
-		ob_start();
 		$this->_initPaths($path)
 				->_initDefaultComponents()
 				->_initEncoding()

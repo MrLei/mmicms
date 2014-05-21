@@ -81,12 +81,6 @@ class Mmi_View {
 	private $_alwaysCompile = true;
 
 	/**
-	 * Tryb debugowania aplikacji
-	 * @var boolean
-	 */
-	private $_debug = true;
-
-	/**
 	 * Obiekt requestu
 	 * @var Mmi_Controller_Request
 	 */
@@ -193,16 +187,6 @@ class Mmi_View {
 	 */
 	public function setAlwaysCompile($compile = true) {
 		$this->_alwaysCompile = $compile;
-		return $this;
-	}
-
-	/**
-	 * Ustawia tryb debugowania
-	 * @param boolean $debug
-	 * @return \Mmi_View
-	 */
-	public function setDebug($debug = true) {
-		$this->_debug = $debug;
 		return $this;
 	}
 
@@ -351,27 +335,24 @@ class Mmi_View {
 		$this->_layoutDisabled = $disabled;
 		return $this;
 	}
+	
+	/**
+	 * Czy layout wyłączony
+	 * @return boolean
+	 */
+	public function isLayoutDisabled() {
+		return $this->_layoutDisabled;
+	}
 
 	/**
-	 * Wyświetla stronę
+	 * Renderuje layout
 	 */
-	public function displayLayout($skin, $module, $controller) {
-		//wyłączony layout zwraca tylko content
-		if ($this->_layoutDisabled) {
-			echo $this->getPlaceholder('content');
-			return;
-		}
+	public function renderLayout($skin, $module, $controller) {
 		//layouty kontrolerów admina zachowują się jak moduł admin
 		$module = (substr($controller, 0, 5) == 'admin') ? 'admin' : $module;
 
 		//renderowanie layoutu
-		$this->render($this->_getLayout($skin, $module, $controller), false);
-
-		//opcjonalne uruchomienie panelu deweloperskiego
-		if ($this->_debug) {
-			Mmi_Profiler::event('Debugger started');
-			new Mmi_View_Helper_Debug();
-		}
+		return $this->render($this->_getLayout($skin, $module, $controller), false);
 	}
 
 	/**
@@ -381,6 +362,7 @@ class Mmi_View {
 	 * @return string|null zwraca efekt renderowania lub brak przy renderowaniu bezpośrednim
 	 */
 	public function render($fileName, $fetch = false) {
+		$fetch = true;
 		Mmi_Profiler::event('View build: ' . basename($fileName));
 		//przechwycenie obecnego stanu bufora
 		if ($fetch) {

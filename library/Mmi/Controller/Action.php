@@ -26,10 +26,16 @@
 class Mmi_Controller_Action {
 
 	/**
-	 * Referencja do żądania
-	 * @var Mmi_Request
+	 * Żądanie
+	 * @var Mmi_Controller_Request
 	 */
 	protected $_request;
+	
+	/**
+	 * Referencja do odpowiedzi z Front controllera
+	 * @var Mmi_Controller_Response
+	 */
+	protected $_response;
 
 	/**
 	 * Referencja do brokera helperów controlera akcji
@@ -84,6 +90,14 @@ class Mmi_Controller_Action {
 	 */
 	public final function getRequest() {
 		return $this->_request;
+	}
+	
+	/**
+	 * Pobiera response
+	 * @return Mmi_Controller_Response
+	 */
+	public final function getResponse() {
+		return $this->_response;
 	}
 
 	/**
@@ -179,5 +193,5 @@ class Mmi_Controller_Action {
 
 		Mmi_Profiler::event('Init Translate: [' . $lang . '] ' . $module);
 	}
-
+	
 }

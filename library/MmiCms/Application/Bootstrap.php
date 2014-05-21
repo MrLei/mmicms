@@ -161,7 +161,8 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		$frontController = Mmi_Controller_Front::getInstance();
 		$frontController->setStructure($frontStructure)
 			->setRouter($router)
-			->setView($view);
+			->setView($view)
+			->getResponse()->setDebug($config->application->debug);
 		//rejestracja pluginów
 		foreach ($config->application->plugins as $plugin) {
 			$frontController->registerPlugin(new $plugin());
@@ -180,7 +181,6 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		$view = new Mmi_View();
 		$view->setCache(Default_Registry::$cache)
 			->setAlwaysCompile($config->application->compile)
-			->setDebug($config->application->debug)
 			->setTranslate($translate)
 			->setBaseUrl($router->getBaseUrl());
 		return $view;

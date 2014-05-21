@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -48,7 +49,7 @@ class Mmi_Controller_Front {
 	 * @var Mmi_Controller_Router
 	 */
 	private $_router;
-	
+
 	/**
 	 * Środowisko uruchomieniowe
 	 * @var Mmi_Controller_Environment
@@ -179,7 +180,7 @@ class Mmi_Controller_Front {
 		}
 		return $this->_router;
 	}
-	
+
 	/**
 	 * Pobiera środowisko uruchomieniowe
 	 * @return Mmi_Controller_Environment
@@ -245,11 +246,6 @@ class Mmi_Controller_Front {
 	 * Dispatcher
 	 */
 	public function dispatch() {
-		//ustawianie pustego żądania
-		$this->setRequest(new Mmi_Controller_Request());
-		//ustawianie pustej odpowiedzi
-		$this->setResponse(new Mmi_Controller_Response());
-
 		//wpięcie dla pluginów przed routingiem
 		$this->routeStartup();
 		Mmi_Profiler::event('Plugins route startup');
@@ -262,20 +258,27 @@ class Mmi_Controller_Front {
 		$this->preDispatch();
 		Mmi_Profiler::event('Plugins pre-dispatch');
 
-		//wybór i uruchomienie kontrolera akcji (dispatch)
+		//wybór i uruchomienie kontrolera akcji
 		$actionHelper = new Mmi_Controller_Action_Helper_Action();
-		$content = $actionHelper->action($this->_request->__get('module'),
-			$this->_request->__get('controller'),
-			$this->_request->__get('action'),
-			$this->_request->getUserParams(), true);
+		$content = $actionHelper->action($this->getRequest()->__get('module'), $this->getRequest()->__get('controller'), $this->getRequest()->__get('action'), $this->getRequest()->getUserParams(), true);
 
 		//wpięcie dla pluginów po dispatchu
 		$this->postDispatch();
 		Mmi_Profiler::event('Plugins post-dispatch');
 
-		//wyświetlenie layoutu
-		$this->getView()->setPlaceholder('content', $content);
-		$this->getView()->displayLayout($this->_request->__get('skin'), $this->_request->__get('module'), $this->_request->__get('controller'));
+		//przekazanie wykonanych widoków do response
+		if ($this->getView()->isLayoutDisabled()) {
+			$this->getResponse()->setContent($content);
+		} else {
+			$layout = $this->getView()
+				->setPlaceholder('content', $content)
+				->renderLayout($this->_request->__get('skin'), $this->_request->__get('module'), $this->_request->__get('controller'));
+			$this->getResponse()->setContent($layout);
+		}
+		
+		Mmi_Profiler::event('Response prepared');
+		//wysłanie odpowiedzi
+		$this->getResponse()->send();
 	}
 
 }
