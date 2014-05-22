@@ -21,7 +21,7 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 
 		//niepoprawny język
 		if ($request->__get('lang') && !in_array($request->__get('lang'), Default_Registry::$config->application->languages)) {
-			Mmi_Controller_Front::getInstance()->getResponse()->setCode(404);
+			Mmi_Controller_Front::getInstance()->getResponse()->setCodeNotFound();
 			unset($request->lang);
 			if (isset(Default_Registry::$config->application->languages[0])) {
 				$request->lang = Default_Registry::$config->application->languages[0];
@@ -34,7 +34,7 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		//brak komponentu (moduł + kontroler + akcja)
 		$components = Mmi_Controller_Front::getInstance()->getStructure('module');
 		if (!isset($components[$request->getModuleName()][$request->getControllerName()][$request->getActionName()])) {
-			Mmi_Controller_Front::getInstance()->getResponse()->setCode(404);
+			Mmi_Controller_Front::getInstance()->getResponse()->setCodeNotFound();
 			$request->setModuleName('default');
 			$request->setControllerName('error');
 			$request->setActionName('index');
@@ -116,6 +116,7 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 				$request->setModuleName('default');
 				$request->setControllerName('error');
 				$request->setActionName('unauthorized');
+				Mmi_Controller_Front::getInstance()->getResponse()->setCodeForbidden();
 			}
 		}
 
