@@ -221,7 +221,7 @@ class Mmi_Controller_Response {
 	 * @param boolean $replace zastąpienie
 	 * @return Mmi_Controller_Response
 	 */
-	public function setCodeUnauthorized($replace = false) {
+	public function setCodeForbidden($replace = false) {
 		return $this->setCode(401, $replace);
 	}
 	
@@ -264,6 +264,15 @@ class Mmi_Controller_Response {
 	 */
 	public function setTypeJson($replace = false) {
 		return $this->setType('json', $replace);
+	}
+	
+	/**
+	 * Ustawia typ na Plain
+	 * @param boolean $replace zastąpienie
+	 * @return Mmi_Controller_Response
+	 */
+	public function setTypePlain($replace = false) {
+		return $this->setType('txt', $replace);
 	}
 	
 	/**
