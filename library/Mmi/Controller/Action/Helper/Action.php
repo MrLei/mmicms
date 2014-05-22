@@ -69,7 +69,7 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 	 * @param boolean $fetch true zwróci wynik renderowania, w innym przypadku wyrenderuje do bufora
 	 * @return mixed
 	 */
-	public function action($moduleName = 'default', $controllerName = 'index', $actionName = 'index', array $params = array(), $fetch = false) {
+	public function action($moduleName = 'default', $controllerName = 'index', $actionName = 'index', array $params = array()) {
 		Mmi_Profiler::event('Run: ' . $moduleName . '::' . $controllerName . '::' . $actionName);
 		if (!$this->_checkAcl($moduleName, $controllerName, $actionName)) {
 			return;
@@ -91,7 +91,7 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 		$controller->$actionMethodName();
 		//rendering szablonu
 		$skin = $controllerRequest->getParam('skin') ? $controllerRequest->getParam('skin') : 'default';
-		$content = Mmi_Controller_Front::getInstance()->getView()->renderTemplate($skin, $moduleName, $controllerName, $actionName, $fetch);
+		$content = Mmi_Controller_Front::getInstance()->getView()->renderTemplate($skin, $moduleName, $controllerName, $actionName);
 		//przywrócenie do widoku request'a z front controllera
 		Mmi_Controller_Front::getInstance()->getView()->setRequest($frontRequest);
 		return $content;
