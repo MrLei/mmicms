@@ -304,8 +304,8 @@ class Mmi_View {
 	 * @param string $action akcja
 	 * @param bool $fetch przekaż wynik wywołania w zmiennej
 	 */
-	public function renderTemplate($skin, $module, $controller, $action, $fetch = false) {
-		return $this->render($this->_getTemplate($skin, $module, $controller, $action), $fetch);
+	public function renderTemplate($skin, $module, $controller, $action) {
+		return $this->render($this->_getTemplate($skin, $module, $controller, $action));
 	}
 
 	/**
@@ -350,25 +350,20 @@ class Mmi_View {
 	public function renderLayout($skin, $module, $controller) {
 		//layouty kontrolerów admina zachowują się jak moduł admin
 		$module = (substr($controller, 0, 5) == 'admin') ? 'admin' : $module;
-
 		//renderowanie layoutu
-		return $this->render($this->_getLayout($skin, $module, $controller), false);
+		return $this->render($this->_getLayout($skin, $module, $controller));
 	}
 
 	/**
 	 * Renderuje szablon z pliku
 	 * @param string $fileName nazwa pliku szablonu
-	 * @param boolean $fetch nie renderuj tylko zwróć dane
-	 * @return string|null zwraca efekt renderowania lub brak przy renderowaniu bezpośrednim
+	 * @return string zwraca efekt renderowania
 	 */
-	public function render($fileName, $fetch = false) {
-		$fetch = true;
+	public function render($fileName) {
 		Mmi_Profiler::event('View build: ' . basename($fileName));
 		//przechwycenie obecnego stanu bufora
-		if ($fetch) {
-			$prev = ob_get_contents();
-			ob_clean();
-		}
+		$prev = ob_get_contents();
+		ob_clean();
 		if (!$this->_locale && $this->_translate !== null) {
 			$this->_locale = $this->_translate->getLocale();
 		}
@@ -387,15 +382,12 @@ class Mmi_View {
 				include $destFile;
 			}
 		}
-		if ($fetch) {
-			$data = ob_get_contents();
-			ob_clean();
-			//zwrot starego bufora
-			echo $prev;
-			Mmi_Profiler::event('View fetched: ' . $compileName);
-			return $data;
-		}
-		Mmi_Profiler::event('View rendered: ' . $compileName);
+		$data = ob_get_contents();
+		ob_clean();
+		//zwrot starego bufora
+		echo $prev;
+		Mmi_Profiler::event('View fetched: ' . $compileName);
+		return $data;
 	}
 
 	/**

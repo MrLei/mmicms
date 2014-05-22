@@ -275,7 +275,7 @@ class Mmi_Controller_Front {
 				->renderLayout($this->_request->__get('skin'), $this->_request->__get('module'), $this->_request->__get('controller'));
 			$this->getResponse()->setContent($layout);
 		}
-		
+
 		Mmi_Profiler::event('Response prepared');
 		//wysłanie odpowiedzi
 		$this->getResponse()->send();
