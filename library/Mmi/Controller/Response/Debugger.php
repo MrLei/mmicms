@@ -34,7 +34,10 @@ class Mmi_Controller_Response_Debugger {
 			case 'htm':
 			case 'html':
 			case 'shtml':
-				if (!is_string($response->getContent()) || strpos($response->getContent(), '</body>')) {
+				if (!is_string($response->getContent())) {
+					return;
+				}
+				if (strpos($response->getContent(), '</body>')) {
 					$response->setContent(str_replace('</body>', $this->getHtml() . '</body>', $response->getContent()));
 				} else {
 					$response->appendContent($this->getHtml());
@@ -42,12 +45,18 @@ class Mmi_Controller_Response_Debugger {
 				break;
 			case 'json':
 				try {
-					$content = json_decode($response->getContent(), true);
-					if (empty($content) && !empty($response->getContent())) {
-						throw new Exception('Mmi_Controller_Response_Debugger: Format mismatch');
+					if (!is_string($response->getContent())) {
+						return;
 					}
-					$content['debugger'] = $this->getJsonArray();
-					$response->setContent(json_encode($content));
+					if (strpos($response->getContent(), '}')) {
+						$lastBracket = strrpos($response->getContent(), '}');
+						$content = substr($response->getContent(), 0, $lastBracket) . ',"debugger":' . json_encode($this->getJsonArray()) . substr($response->getContent(), $lastBracket);
+						$response->setContent($content);
+					} else {
+						$response->appendContent(json_encode($this->getJsonArray()));
+					}
+
+			
 				} catch (Exception $e) {
 					$response
 						->setCodeError()
