@@ -260,25 +260,23 @@ class Mmi_Controller_Front {
 
 		//wybór i uruchomienie kontrolera akcji
 		$actionHelper = new Mmi_Controller_Action_Helper_Action();
-		$content = $actionHelper->action($this->getRequest()->__get('module'), $this->getRequest()->__get('controller'), $this->getRequest()->__get('action'), $this->getRequest()->getUserParams(), true);
+		$content = $actionHelper->action($this->getRequest()->__get('module'), $this->getRequest()->__get('controller'), $this->getRequest()->__get('action'), $this->getRequest()->getUserParams());
 
 		//wpięcie dla pluginów po dispatchu
 		$this->postDispatch();
 		Mmi_Profiler::event('Plugins post-dispatch');
 
 		//przekazanie wykonanych widoków do response
-		if ($this->getView()->isLayoutDisabled()) {
-			$this->getResponse()->setContent($content);
-		} else {
-			$layout = $this->getView()
+		if (!$this->getView()->isLayoutDisabled()) {
+			$content = $this->getView()
 				->setPlaceholder('content', $content)
 				->renderLayout($this->_request->__get('skin'), $this->_request->__get('module'), $this->_request->__get('controller'));
-			$this->getResponse()->setContent($layout);
 		}
 
-		Mmi_Profiler::event('Response prepared');
 		//wysłanie odpowiedzi
-		$this->getResponse()->send();
+		$this->getResponse()
+			->setContent($content)
+			->send();
 	}
 
 }

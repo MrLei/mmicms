@@ -33,7 +33,7 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 	 * @var Mmi_Acl
 	 */
 	protected static $_acl;
-	
+
 	/**
 	 * Obiekt Auth
 	 * @var Mmi_Auth
@@ -49,7 +49,7 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 		self::$_acl = $acl;
 		return $acl;
 	}
-	
+
 	/**
 	 * Ustawia obiekt autoryzacji
 	 * @param Mmi_Auth $auth
@@ -70,7 +70,7 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 	 * @return mixed
 	 */
 	public function action($moduleName = 'default', $controllerName = 'index', $actionName = 'index', array $params = array()) {
-		Mmi_Profiler::event('Run: ' . $moduleName . '::' . $controllerName . '::' . $actionName);
+		Mmi_Profiler::event('Action execute: ' . $moduleName . ':' . $controllerName . ':' . $actionName);
 		if (!$this->_checkAcl($moduleName, $controllerName, $actionName)) {
 			return;
 		}
@@ -88,7 +88,14 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 		$actionMethodName = $controllerRequest->getActionName() . 'Action';
 		$controller = new $controllerClassName($controllerRequest);
 		//wywołanie akcji
-		$controller->$actionMethodName();
+		$rawContent = $controller->$actionMethodName();
+		//jeśli akcja zwraca cokolwiek, automatycznie jest to content
+		if ($rawContent !== null) {
+			Mmi_Controller_Front::getInstance()->getView()
+				->setLayoutDisabled()
+				->setRequest($frontRequest);
+			return $rawContent;
+		}
 		//rendering szablonu
 		$skin = $controllerRequest->getParam('skin') ? $controllerRequest->getParam('skin') : 'default';
 		$content = Mmi_Controller_Front::getInstance()->getView()->renderTemplate($skin, $moduleName, $controllerName, $actionName);

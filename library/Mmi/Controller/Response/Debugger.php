@@ -9,9 +9,9 @@
  * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
  * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
  *
- * Mmi/View/Helper/Debug.php
+ * Mmi/Controller/Response/Debugger.php
  * @category   Mmi
- * @package    Mmi_View
+ * @package    Mmi_Controller
  * @subpackage Helper
  * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -22,42 +22,75 @@
 /**
  * Panel deweloperski
  * @category   Mmi
- * @package    Mmi_View
- * @subpackage Helper
+ * @package    Mmi_Controller
+ * @subpackage Response
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
  */
-class Mmi_View_Helper_Debug extends Mmi_View_Helper_Abstract {
-
+class Mmi_Controller_Response_Debugger {
+	
 	public function __construct() {
-		
+		$response = Mmi_Controller_Front::getInstance()->getResponse();
+		switch ($response->getType()) {
+			case 'htm':
+			case 'html':
+			case 'shtml':
+				if (!is_string($response->getContent()) || strpos($response->getContent(), '</body>')) {
+					$response->setContent(str_replace('</body>', $this->getHtml() . '</body>', $response->getContent()));
+				} else {
+					$response->appendContent($this->getHtml());
+				}
+				break;
+			case 'json':
+				try {
+					$content = json_decode($response->getContent(), true);
+					if (empty($content) && !empty($response->getContent())) {
+						throw new Exception('Mmi_Controller_Response_Debugger: Format mismatch');
+					}
+					$content['debugger'] = $this->getJsonArray();
+					$response->setContent(json_encode($content));
+				} catch (Exception $e) {
+					$response
+						->setCodeError()
+						->setContent(json_encode(array('status' => 500, 'error' => 'Mmi_Controller_Response_Debugger: JSON format mismatch', 'exception' => $e->getTraceAsString(), 'debugger' => $this->getJsonArray())));
+				}
+				break;
+		}
+	}
+
+	public function getJsonArray() {
+		$view = Mmi_Controller_Front::getInstance()->getView();
+		$env = Mmi_Controller_Front::getInstance()->getEnvironment();
+		$dbg = array();
+		$dbg['elapsed'] = round(Mmi_Profiler::elapsed(), 4) . 's';
+		$dbg['memory'] = round(memory_get_peak_usage() / (1024 * 1024), 2) . 'MB';
+		return $dbg;
+	}
+	
+	public function getHtml() {
 		$preElem = '<pre style="min-width: 450px; margin: 0px 0px 10px 0px; color: #666; background: #eee; padding: 3px; border: 1px solid #666;">';
 		$preElemBreak = '<pre style="white-space: normal; word-wrap: break-word; margin: 0px 0px 10px 0px; color: #666; background: #eee; padding: 3px; border: 1px solid #666;">';
-		
-		parent::__construct();
-		$view = $this->view;
+		$view = Mmi_Controller_Front::getInstance()->getView();
 		$env = Mmi_Controller_Front::getInstance()->getEnvironment();
 		$elapsed = round(Mmi_Profiler::elapsed(), 4) . 's';
 		$memory = round(memory_get_peak_usage() / (1024 * 1024), 2) . 'MB';
-		if ($this->view->getCache() === null || !$this->view->getCache()->isActive()) {
+		if ($view->getCache() === null || !$view->getCache()->isActive()) {
 			$cacheInfo = '<span style="color: #f22;">no cache</span>';
 		} else {
 			$cacheInfo = '<span style="color: #99ff99;">cache on</span>';
 		}
-		$html = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-		$exception = $view->_exceptionInfo;
-		$html .= '<div id="MmiPanelBar" onclick="document.getElementById(\'MmiPanel\').style.display=\'block\'; window.scrollTo(0,document.getElementById(\'MmiPanel\').offsetTop);" style="';
+		$html = "\n\n\n<!-- MMI DEBUGGER -->\n\n";
+		$html .= '<style>div#MmiPanel pre, div#MmiPanel table, div#MmiPanel table tr, div#MmiPanel table td, div#MmiPanel div, div#MmiPanel p {font: normal 11px Monospace!important;}</style><div id="MmiPanelBar" onclick="document.getElementById(\'MmiPanel\').style.display=\'block\'; window.scrollTo(0,document.getElementById(\'MmiPanel\').offsetTop);" style="';
 		$html .= 'text-align: center; position: fixed; padding: 0 10px; margin: 0; line-height: 0; background: #999; border-radius: 5px 5px 0 0; font: bold 10px Arial!important; color: #000; bottom: 0px; left: 45%; text-transform: none;">' . $elapsed . ', ' . $memory . ' - ' . $cacheInfo . '</div>';
 		$html .= '<div id="MmiPanel" ondblclick="this.style.display=\'none\';" style="';
-		if (null === $exception) {
+		/* @var $view->_exception Exception */
+		if (null === $view->_exception) {
 			$html .= 'display: none; ';
 		}
-		$html .= 'position: relative; text-align: left; padding: 20px 10px 5px 10px; background: #ccc; color: #000; font: normal 11px Monospace;">';
-		if (null !== $exception) {
-			$html .= '<h2 style="color: #bb0000; margin: 0px; font-size: 14px; text-transform: none;">' . $exception['message'] . '</h2>';
-			$html .= '<p style="margin: 0px; padding: 0px 0px 10px 0px;">' . $exception['file'] . ' <strong>(' . $exception['line'] . ')</strong></p>';
-			if (!is_null($exception['info'])) {
-				$html .= '<pre>' . print_r($exception['info'], true) . '</pre><br />';
-			}
+		$html .= 'position: relative; text-align: left; padding: 20px 10px 5px 10px; background: #ccc; color: #000; font: normal 11px Monospace!important;">';
+		if (null !== $view->_exception) {
+			$html .= '<h2 style="color: #bb0000; margin: 0px; font-size: 14px; text-transform: none;">' . $view->_exception->getMessage() . '</h2>';
+			$html .= '<p style="margin: 0px; padding: 0px 0px 10px 0px;">' . $view->_exception->getFile() . ' <strong>(' . $view->_exception->getLine() . ')</strong></p>';
+			//$html .= '<pre>' . $view->_exception->getTraceAsString() . '</pre><br />';
 		}
 		$extensions = get_loaded_extensions();
 		$classes = get_declared_classes();
@@ -96,10 +129,10 @@ class Mmi_View_Helper_Debug extends Mmi_View_Helper_Abstract {
 			foreach (Mmi_Db_Profiler::get() as $query) {
 				$i++;
 				$color = $query['percent'] * 15;
-				$color = ($color + 80) > 255 ? 255 : $color + 80;
+				$color = ($color > 255) ? 255 : $color;
 				$color = dechex($color);
-				$color = $color . '9933';
-				$html .= $i . '. (<strong style="color: #' . $color . ';">' . round($query['elapsed'], 4) . 's</strong>) - ' . $this->_colorify($query['name']) . '<br />';
+				$color = $color . '2222';
+				$html .= $i . '. (<strong style="color: #' . $color . '!important;">' . round($query['elapsed'], 4) . 's</strong>) - ' . $this->_colorify($query['name']) . '<br />';
 			}
 		} else {
 			$html .= 'No SQL queries.';
@@ -113,9 +146,9 @@ class Mmi_View_Helper_Debug extends Mmi_View_Helper_Abstract {
 		foreach ($profilerData as $event) {
 			$percentSum += $event['percent'];
 			$color = $event['percent'] * 15;
-			$color = ($color + 80) > 255 ? 255 : $color + 80;
+			$color = ($color > 255) ? 255 : $color;
 			$color = dechex($color);
-			$color = $color . $color . $color;
+			$color = $color . '2222';
 			$html .= '<div style="color: #' . $color . '"><div style="float: left; min-width: 400px;">' . $event['name'] . '</div><div style="float: left; width: 60px;"><b>' . round($event['elapsed'], 4) . 's</b></div><div style="float: left; width: 60px;"><b>' . round($event['percent'], 2) . '%</b></div><div style="float: left;"><b>' . round($percentSum, 2) . '%</b></div></div><div style="clear: both"></div>';
 		}
 		$html .= '</pre>';
@@ -221,9 +254,8 @@ class Mmi_View_Helper_Debug extends Mmi_View_Helper_Abstract {
 		}
 		$exHtml .= '</td></tr></table>';
 		$html .= '<p style="margin: 0px">Loaded extensions:</p>' . $exHtml;
-
 		$html .= '</div>';
-		echo $html;
+		return $html;
 	}
 
 	/**
@@ -258,17 +290,17 @@ class Mmi_View_Helper_Debug extends Mmi_View_Helper_Abstract {
 			'AS',
 		);
 		$replace = array(
-			'<span style="color: #66ff66; font-weight: bold;">Array</span>',
-			'<span style="color: #66ff66; font-weight: bold;">Object</span>',
-			'<span style="color: #6666ff; font-weight: bold;">(</span>',
-			'<span style="color: #6666ff; font-weight: bold;">)</span>',
-			'<span style="color: #ff6666; font-weight: bold;">[</span>',
-			'<span style="color: #ff6666; font-weight: bold;">]</span>',
+			'<span style="color: #22cc22; font-weight: bold;">Array</span>',
+			'<span style="color: #22cc22; font-weight: bold;">Object</span>',
+			'<span style="color: #2222cc; font-weight: bold;">(</span>',
+			'<span style="color: #2222cc; font-weight: bold;">)</span>',
+			'<span style="color: #cc2222; font-weight: bold;">[</span>',
+			'<span style="color: #cc2222; font-weight: bold;">]</span>',
 			'<span style="color: #006600; font-weight: bold;">{</span>',
 			'<span style="color: #006600; font-weight: bold;">}</span>',
 			'<span style="color: #000f66; font-weight: bold;">=></span>',
 			'<span style="color: #000f66; font-weight: bold;"> = </span>',
-			'<span style="color: #ff6666; font-weight: bold;">`</span>',
+			'<span style="color: #cc2222; font-weight: bold;">`</span>',
 			'<span style="color: #000; font-weight: bold;">DESCRIBE</span>',
 			'<span style="color: #000; font-weight: bold;">SELECT</span>',
 			'<span style="color: #000; font-weight: bold;">UPDATE</span>',
