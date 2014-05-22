@@ -23,6 +23,8 @@
  * @category   Mmi
  * @package    Mmi_View
  * @license    http://www.hqsoft.pl/new-bsd     New BSD License
+ * 
+ * @property Exception $_exception wyjątek
  */
 class Mmi_View {
 
@@ -73,7 +75,7 @@ class Mmi_View {
 	 * @var Mmi_Cache
 	 */
 	private $_cache;
-
+	
 	/**
 	 * Włączone buforowanie
 	 * @var boolean
@@ -361,9 +363,6 @@ class Mmi_View {
 	 */
 	public function render($fileName) {
 		Mmi_Profiler::event('View build: ' . basename($fileName));
-		//przechwycenie obecnego stanu bufora
-		$prev = ob_get_contents();
-		ob_clean();
 		if (!$this->_locale && $this->_translate !== null) {
 			$this->_locale = $this->_translate->getLocale();
 		}
@@ -384,8 +383,6 @@ class Mmi_View {
 		}
 		$data = ob_get_contents();
 		ob_clean();
-		//zwrot starego bufora
-		echo $prev;
 		Mmi_Profiler::event('View fetched: ' . $compileName);
 		return $data;
 	}

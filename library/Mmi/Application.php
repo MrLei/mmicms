@@ -38,11 +38,11 @@ class Mmi_Application {
 	 */
 	public function __construct($path, $bootstrapName = 'Mmi_Application_Bootstrap') {
 		$this->_initPaths($path)
-				->_initDefaultComponents()
-				->_initEncoding()
-				->_initPhpConfiguration()
-				->_initAutoloader()
-				->_initErrorHandler();
+			->_initDefaultComponents()
+			->_initEncoding()
+			->_initPhpConfiguration()
+			->_initAutoloader()
+			->_initErrorHandler();
 		Mmi_Profiler::event('Init bootstrap');
 		$this->_bootstrap = new $bootstrapName($path);
 		if (!($this->_bootstrap instanceof Mmi_Application_Bootstrap_Interface)) {
@@ -134,23 +134,53 @@ class Mmi_Application {
 	 */
 	public function exceptionHandler(Exception $exception) {
 		ob_clean();
-		//@TODO: uzależnić od środowiska
-		$position = Mmi_Exception_Logger::log($exception);
+		Mmi_Exception_Logger::log($exception);
+		$response = Mmi_Controller_Front::getInstance()->getResponse();
 		try {
 			$view = Mmi_Controller_Front::getInstance()->getView();
-			$view->_exceptionInfo = array(
-				'message' => $exception->getMessage(),
-				'file' => $position['file'],
-				'line' => $position['line'],
-				'info' => $position['info']
-			);
+			$view->_exception = $exception;
+			//błąd bez layoutu lub nie HTML
+			if ($view->isLayoutDisabled() || $response->getType() != 'html') {
+				$response
+					->setCodeError()
+					->setContent($this->_rawErrorResponse($response, $exception))
+					->send();
+				return true;
+			}
+			//błąd z prezentacją HTML
 			$actionHelper = new Mmi_Controller_Action_Helper_Action();
-			$view->setPlaceholder('content', $actionHelper->action('default', 'error', 'index', array(), true));
-			$view->displayLayout($view->skin, 'default', 'error');
+			$response
+				->setCodeError()
+				->setContent($view->setPlaceholder('content', $actionHelper->action('default', 'error', 'index', array()))
+					->renderLayout($view->skin, 'default', 'error'))
+				->send();
+			return true;
 		} catch (Exception $e) {
-			echo '<html><body><h1>' . $exception->getMessage() . '</h1>' . nl2br($exception->getTraceAsString()) . '<h2>'. $e->getMessage() . '</h2></body></html>';
+			$response
+				->setCodeError()
+				->setContent($this->_rawErrorResponse($response, $exception))
+				->send();
 		}
 		return true;
+	}
+
+	private function _rawErrorResponse(Mmi_Controller_Response $response, Exception $e) {
+		$content = '';
+		switch ($response->getType()) {
+			case 'htm':
+			case 'html':
+			case 'shtml':
+				$content = '<html><body><h1>' . $e->getMessage() . '</h1>' . nl2br($e->getTraceAsString()) . '</body></html>';
+				break;
+			case 'json':
+				$content = json_encode(array(
+					'status' => 500,
+					'error' => $e->getMessage(),
+					'exception' => $e->getTraceAsString(),
+				));
+				break;
+		}
+		return $content;
 	}
 
 	/**
@@ -218,9 +248,11 @@ class Mmi_Application {
 		if (!ini_get('magic_quotes_gpc')) {
 			return $this;
 		}
+
 		function _stripslashesGpc(&$value) {
 			$value = stripslashes($value);
 		}
+
 		array_walk_recursive($_GET, array('_stripslashesGpc'));
 		array_walk_recursive($_POST, array('_stripslashesGpc'));
 		array_walk_recursive($_COOKIE, array('_stripslashesGpc'));

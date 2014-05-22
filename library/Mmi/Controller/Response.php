@@ -140,6 +140,12 @@ class Mmi_Controller_Response {
 	private $_debug = false;
 	
 	/**
+	 * Typ odpowiedzi
+	 * @var string
+	 */
+	private $_type = 'html';
+	
+	/**
 	 * Konstruktor
 	 */
 	public function __construct() {
@@ -200,6 +206,15 @@ class Mmi_Controller_Response {
 	public function setCodeOk($replace = false) {
 		return $this->setCode(200, $replace);
 	}
+	
+	/**
+	 * Ustawia kod na 500
+	 * @param boolean $replace zastąpienie
+	 * @return Mmi_Controller_Response
+	 */
+	public function setCodeError($replace = false) {
+		return $this->setCode(500, $replace);
+	}
 
 	/**
 	 * Ustawia kod na 401
@@ -219,9 +234,18 @@ class Mmi_Controller_Response {
 	public function setType($type, $replace = false) {
 		$type = strtolower($type);
 		if (array_key_exists($type, $this->_contentTypes)) {
+			$this->_type = $type;
 			return $this->setHeader('Content-type', $this->_contentTypes[$type], $replace);
 		}
 		return $this->setHeader('Content-type', $type, $replace);
+	}
+	
+	/**
+	 * Zwraca typ zwrotu
+	 * @return string
+	 */
+	public function getType() {
+		return $this->_type;
 	}
 	
 	/**
@@ -280,15 +304,32 @@ class Mmi_Controller_Response {
 	}
 	
 	/**
+	 * Pobiera content
+	 * @return string
+	 */
+	public function getContent() {
+		return $this->_content;
+	}
+	
+	/**
+	 * Dodaje content do istniejącego
+	 * @param string $content
+	 * @return Mmi_Controller_Response
+	 */
+	public function appendContent($content) {
+		$this->_content .= $content;
+		return $this;
+	}
+	
+	/**
 	 * Wysyła dane do klienta
 	 */
 	public function send() {
-		echo $this->_content;
-		//opcjonalne uruchomienie panelu deweloperskiego
 		if ($this->_debug) {
-			Mmi_Profiler::event('Debugger started');
-			new Mmi_View_Helper_Debug();
+			//opcjonalne uruchomienie panelu deweloperskiego
+			new Mmi_Controller_Response_Debugger();
 		}
+		echo $this->_content;
 		ob_end_flush();
 	}
 	
