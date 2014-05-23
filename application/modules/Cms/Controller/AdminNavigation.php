@@ -51,13 +51,13 @@ class Cms_Controller_AdminNavigation extends MmiCms_Controller_Admin {
 
 	public function sortAction() {
 		if (!$this->_getParam('order')) {
-			die($this->view->getTranslate()->_('Przenoszenie nie powiodło się'));
+			return $this->view->getTranslate()->_('Przenoszenie nie powiodło się');
 		}
 		parse_str(str_replace(array('&amp;', '&#38;'), '&', $this->_getParam('order')), $order);
 		if (!isset($order['navigation-item'])) {
-			die($this->view->getTranslate()->_('Przenoszenie nie powiodło się'));
+			return $this->view->getTranslate()->_('Przenoszenie nie powiodło się');
 		}
 		Cms_Model_Navigation_Dao::sortBySerial($order['navigation-item']);
-		die();
+		return '';
 	}
 }

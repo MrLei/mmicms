@@ -112,6 +112,7 @@ class Mmi_Controller_Response {
 		'ppt' => 'application/vnd.ms-powerpoint',
 		'xhtml' => 'application/xhtml+xml',
 		'zip' => 'application/zip',
+		'gz' => 'application/gzip',
 		
 		'bin' => 'application/octet-stream',
 		
@@ -319,7 +320,16 @@ class Mmi_Controller_Response {
 	public function setTypeJpeg($replace = false) {
 		return $this->setType('jpeg', $replace);
 	}
-
+	
+	/**
+	 * Ustawia typ na Gzip
+	 * @param boolean $replace zastąpienie
+	 * @return Mmi_Controller_Response
+	 */
+	public function setTypeGzip($replace = false) {
+		return $this->setType('gz', $replace);
+	}
+	
 	/**
 	 * Ustawia content do wysyłki
 	 * @param string $content
