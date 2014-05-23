@@ -6,16 +6,16 @@
  * LICENSE
  *
  * Ten plik źródłowy objęty jest licencją BSD bez klauzuli ogłoszeniowej.
- * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
- * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
+ * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
+ * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
  *
  * Mmi/Filter/StripTags.php
  * @category   Mmi
  * @package    Mmi_Filter
- * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
+ * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
- * @version    $Id$
- * @license    http://www.hqsoft.pl/new-bsd     New BSD License
+ * @version    1.0.0
+ * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 
 /**
@@ -23,7 +23,7 @@
  * bez HTML i cudzysłowów
  * @category   Mmi
  * @package    Mmi_Filter
- * @license    http://www.hqsoft.pl/new-bsd     New BSD License
+ * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 class Mmi_Filter_MarkupProperty extends Mmi_Filter_Abstract {
 
