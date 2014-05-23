@@ -30,8 +30,6 @@ final class Mmi_Application_Bootstrap implements Mmi_Application_Bootstrap_Inter
 	 * Przykładowa konfiguracja o mizernej wydajności
 	 */
 	public function __construct() {
-		Mmi_Profiler::event('Bootstrap started');
-
 		//przykładowy pusty router
 		$routerConfig = new Mmi_Controller_Router_Config();
 		$router = new Mmi_Controller_Router($routerConfig);
