@@ -260,9 +260,12 @@ class Mmi_Auth {
 		$model = $this->_modelName;
 		$result = $model::authenticate($identity, $credential);
 		if ($result === false) {
-			header('WWW-Authenticate: Basic realm="' . $realm . '"');
-			header('HTTP/1.0 401 Unauthorized');
-			die($errorMessage);
+			Mmi_Controller_Front::getInstance()->getResponse()
+				->setHeader('WWW-Authenticate', 'Basic realm="' . $realm . '"')
+				->setCodeForbidden()
+				->setContent($errorMessage)
+				->send();
+			exit;
 		}
 	}
 
