@@ -230,7 +230,6 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		
 		require APPLICATION_PATH . '/modules/Default/Config/Default.php';
 		require APPLICATION_PATH . '/modules/Default/Config/Local.php';
-		require APPLICATION_PATH . '/modules/Default/Config/Navigation.php';
 		require APPLICATION_PATH . '/modules/Default/Config/Router.php';
 		require APPLICATION_PATH . '/modules/Default/Registry.php';
 		Mmi_Profiler::event('Bootstrap: component setup');
