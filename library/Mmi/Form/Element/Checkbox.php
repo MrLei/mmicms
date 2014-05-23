@@ -35,24 +35,18 @@ class Mmi_Form_Element_Checkbox extends Mmi_Form_Element_Abstract {
 		'fetchField', 'fetchLabel',  'fetchDescription', 'fetchErrors'
 	);
 
-	/**
-	 * Funkcja użytkownika, jest wykonywana przed renderingiem
-	 */
-	public function preRender() {
+	public function fetchLabel() {
 		$this->_options['labelPostfix'] = '';
+		return parent::fetchField();
+	}
+
+	public function fetchField() {
 		if (isset($this->_options['value']) && $this->_options['value'] == 1) {
 			$this->_options['checked'] = 'checked';
 		} else {
 			unset($this->_options['checked']);
 		}
 		$this->_options['value'] = '1';
-	}
-
-	/**
-	 * Buduje pole
-	 * @return string
-	 */
-	public function fetchField() {
 		return '<input type="checkbox" ' . $this->_getHtmlOptions() . '/>';
 	}
 
