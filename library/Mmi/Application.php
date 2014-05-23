@@ -27,7 +27,7 @@
 class Mmi_Application {
 
 	/**
-	 * Klasa bootstrapa aplikacji
+	 * Obiekt bootstrap
 	 * @var Mmi_Bootstrap
 	 */
 	private $_bootstrap;
