@@ -73,6 +73,22 @@ class Mmi_Controller_Request {
 	public function __set($key, $value) {
 		$this->_data[$key] = $value;
 	}
+	
+	/**
+	 * Zwraca Content-Type żądania
+	 * @return string
+	 */
+	public function getContentType() {
+		return filter_input(INPUT_SERVER, 'CONTENT_TYPE', FILTER_SANITIZE_SPECIAL_CHARS);
+	}
+	
+	/**
+	 * Zwraca metodę żądania (np. GET, POST, PUT)
+	 * @return string
+	 */
+	public function getRequestMethod() {
+		return filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_SPECIAL_CHARS);
+	}
 
 	/**
 	 * Zwraca zmienne żądania w formie tabeli

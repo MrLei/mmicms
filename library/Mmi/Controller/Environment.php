@@ -45,12 +45,6 @@ class Mmi_Controller_Environment {
 	public $authPassword;
 
 	/**
-	 * Kodowanie strumienia, np. text/xml
-	 * @var string
-	 */
-	public $contentType;
-
-	/**
 	 *
 	 * @var string
 	 */
@@ -111,12 +105,6 @@ class Mmi_Controller_Environment {
 	public $remotePort;
 
 	/**
-	 * Metoda zapytania GET, POST, PUT, DELETE
-	 * @var string
-	 */
-	public $requestMethod;
-
-	/**
 	 * Adres uri
 	 * @var string
 	 */
@@ -152,9 +140,6 @@ class Mmi_Controller_Environment {
 
 		$this->authUser = isset($_SERVER['PHP_AUTH_USER']) ? filter_var($_SERVER['PHP_AUTH_USER']) : null;
 		$this->authPassword = isset($_SERVER['PHP_AUTH_PW']) ? filter_var($_SERVER['PHP_AUTH_PW']) : null;
-
-		$this->contentType = filter_input(INPUT_SERVER, 'CONTENT_TYPE', FILTER_SANITIZE_SPECIAL_CHARS);
-
 		$this->documentRoot = filter_input(INPUT_SERVER, 'DOCUMENT_ROOT', FILTER_SANITIZE_SPECIAL_CHARS);
 
 		$this->httpAcceptLanguage = filter_input(INPUT_SERVER, 'HTTP_ACCEPT_LANGUAGE', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -174,7 +159,6 @@ class Mmi_Controller_Environment {
 		}
 		$this->remotePort = filter_input(INPUT_SERVER, 'REMOTE_PORT', FILTER_SANITIZE_NUMBER_INT);
 
-		$this->requestMethod = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_SPECIAL_CHARS);
 		$this->requestUri = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_SPECIAL_CHARS);
 		if ($this->requestUri === null) {
 			$this->remoteUri = '/';
