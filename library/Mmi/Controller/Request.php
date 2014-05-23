@@ -5,23 +5,23 @@
  * LICENSE
  *
  * Ten plik źródłowy objęty jest licencją BSD bez klauzuli ogłoszeniowej.
- * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
- * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
+ * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
+ * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
  *
  * Mmi/Controller/Request.php
  * @category   Mmi
  * @package    Mmi_Controller
- * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
+ * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
- * @version    $Id$
- * @license    http://www.hqsoft.pl/new-bsd     New BSD License
+ * @version    1.0.0
+ * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 
 /**
  * Klasa żądania
  * @category   Mmi
  * @package    Mmi_Controller
- * @license    http://www.hqsoft.pl/new-bsd     New BSD License
+ * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 class Mmi_Controller_Request {
 
@@ -72,6 +72,22 @@ class Mmi_Controller_Request {
 	 */
 	public function __set($key, $value) {
 		$this->_data[$key] = $value;
+	}
+	
+	/**
+	 * Zwraca Content-Type żądania
+	 * @return string
+	 */
+	public function getContentType() {
+		return filter_input(INPUT_SERVER, 'CONTENT_TYPE', FILTER_SANITIZE_SPECIAL_CHARS);
+	}
+	
+	/**
+	 * Zwraca metodę żądania (np. GET, POST, PUT)
+	 * @return string
+	 */
+	public function getRequestMethod() {
+		return filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_SPECIAL_CHARS);
 	}
 
 	/**

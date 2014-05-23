@@ -8,33 +8,33 @@ class Cms_Controller_AdminFile extends MmiCms_Controller_Admin {
 
 	public function stickAction() {
 		if (!$this->_getParam('id')) {
-			die();
+			return '';
 		}
 		$file = new Cms_Model_File_Record($this->_getParam('id'));
 		if ($this->_getParam('hash') != $file->name) {
-			die($this->view->getTranslate()->_('Przypinanie nie powiodło się'));
+			return $this->view->getTranslate()->_('Przypinanie nie powiodło się');
 		}
 		$file->setSticky();
-		die();
+		return '';
 	}
 
 	public function editAction() {
 		if (!($this->_getParam('id') > 0)) {
-			die($this->view->getTranslate()->_('Edycja nie powiodła się, brak pliku'));
+			return $this->view->getTranslate()->_('Edycja nie powiodła się, brak pliku');
 		}
 		$file = new Cms_Model_File_Record($this->_getParam('id'));
 		if (!empty($_POST)) {
 			if ($this->_getParam('hash') != $file->getHashName()) {
-				die($this->view->getTranslate()->_('Edycja nie powiodła się'));
+				return $this->view->getTranslate()->_('Edycja nie powiodła się');
 			}
 			$file->setFromArray($_POST);
 			$file->save();
-			die();
+			return '';
 		}
 		if ($this->_getParam('hash') != $file->getHashName()) {
-				die(json_encode(array('error' => 'Brak pliku')));
+				return json_encode(array('error' => 'Brak pliku'));
 		}
-		die($file->toJson());
+		return $file->toJson();
 	}
 
 	public function removeAction() {
@@ -49,26 +49,26 @@ class Cms_Controller_AdminFile extends MmiCms_Controller_Admin {
 
 	public function deleteAction() {
 		if (!($this->_getParam('id') > 0)) {
-			die($this->view->getTranslate()->_('Usuwanie nie powiodło się, brak pliku'));
+			return $this->view->getTranslate()->_('Usuwanie nie powiodło się, brak pliku');
 		}
 		$file = new Cms_Model_File_Record($this->_getParam('id'));
 		if ($this->_getParam('hash') != $file->getHashName()) {
-			die($this->view->getTranslate()->_('Usuwanie nie powiodło się'));
+			return $this->view->getTranslate()->_('Usuwanie nie powiodło się');
 		}
 		$file->delete();
-		die();
+		return '';
 	}
 
 	public function sortAction() {
 		if (!$this->_getParam('order')) {
-			die($this->view->getTranslate()->_('Przenoszenie nie powiodło się'));
+			return $this->view->getTranslate()->_('Przenoszenie nie powiodło się');
 		}
 		parse_str(str_replace(array('&amp;', '&#38;'), '&', $this->_getParam('order')), $order);
 		if (!isset($order['item-file'])) {
-			die($this->view->getTranslate()->_('Przenoszenie nie powiodło się'));
+			return $this->view->getTranslate()->_('Przenoszenie nie powiodło się');
 		}
 		Cms_Model_File_Dao::sortBySerial($order['item-file']);
-		die();
+		return '';
 	}
 
 }
