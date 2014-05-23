@@ -27,18 +27,8 @@
  */
 class Mmi_Form_Element_Text extends Mmi_Form_Element_Abstract {
 
-	/**
-	 * Filtracja niedozwolonych znaków
-	 */
-	public function preRender() {
-		$this->addFilter('Input');
-	}
-	
-	/**
-	 * Buduje pole
-	 * @return string
-	 */
 	public function fetchField() {
+		$this->addFilter('Input');
 		if (isset($this->_options['value'])) {
 			$filter = $this->_getFilter('Input');
 			$this->_options['value'] = $filter->filter($this->_options['value']);
