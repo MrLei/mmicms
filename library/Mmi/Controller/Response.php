@@ -276,6 +276,15 @@ class Mmi_Controller_Response {
 	}
 	
 	/**
+	 * Ustawia typ na JS
+	 * @param boolean $replace zastąpienie
+	 * @return Mmi_Controller_Response
+	 */
+	public function setTypeJs($replace = false) {
+		return $this->setType('js', $replace);
+	}
+	
+	/**
 	 * Ustawia typ na Plain
 	 * @param boolean $replace zastąpienie
 	 * @return Mmi_Controller_Response

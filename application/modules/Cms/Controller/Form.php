@@ -5,17 +5,17 @@ class Cms_Controller_Form extends Mmi_Controller_Action {
 	public function validateAction() {
 		Mmi_Controller_Front::getInstance()->getView()->setLayoutDisabled();
 		if (!isset($_POST['ctrl']) || !isset($_POST['field'])) {
-			exit;
+			return '';
 		}
 		$options = Mmi_Lib::unhashTable($_POST['ctrl']);
 		$field = $_POST['field'];
 		$value = isset($_POST['value']) ? $_POST['value'] : '';
 		$_POST = array();
 		if (!isset($options['class'])) {
-			exit;
+			return '';
 		}
 		if (!isset($options['options'])) {
-			exit;
+			return '';
 		}
 		$class = $options['class'];
 		$formOptions = $options['options'];
@@ -24,16 +24,16 @@ class Cms_Controller_Form extends Mmi_Controller_Action {
 		$form = new $class($id, $formOptions);
 		$element = $form->getElement($field);
 		if (!$element instanceof Mmi_Form_Element_Abstract) {
-			exit;
+			return '';
 		}
 		if ($element->noAjax) {
-			exit;
+			return '';
 		}
 		$element->value = $element->applyFilters($value);
 		if (!$element->isValid() && $element->hasErrors()) {
 			$this->view->errors = $element->getErrors();
 		} else {
-			exit;
+			return '';
 		}
 	}
 
