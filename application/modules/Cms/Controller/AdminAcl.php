@@ -23,24 +23,24 @@ class Cms_Controller_AdminAcl extends MmiCms_Controller_Admin {
 
 	public function deleteAction() {
 		if (!($this->_getParam('id') > 0)) {
-			die(0);
+			return 0;
 		}
 		$rule = new Cms_Model_Acl_Record($this->_getParam('id'));
 		$rule->delete();
-		die('1');
+		return 1;
 	}
 
 	public function updateAction() {
 		$msg = Mmi_Controller_Front::getInstance()->getView()->getTranslate()->_('Zmiana właściwości nie powiodła się.');
 		if (!($this->_getParam('id'))) {
-			die($msg);
+			return $msg;
 		}
 		if (!($this->_getParam('value'))) {
-			die($msg);
+			return $msg;
 		}
 		$params = explode('-', $this->_getParam('id'));
 		if (count($params) != 3) {
-			die($msg);
+			return $msg;
 		}
 		$model = new Cms_Model_Acl_Record($params[2]);
 
@@ -54,7 +54,7 @@ class Cms_Controller_AdminAcl extends MmiCms_Controller_Admin {
 			$model->access = $this->_getParam('value') == 'allow' ? 'allow' : 'deny';
 		}
 		$model->save();
-		die('1');
+		return 1;
 	}
 
 }
