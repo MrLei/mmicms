@@ -197,6 +197,15 @@ class Mmi_Controller_Response {
 	public function setCodeNotFound($replace = false) {
 		return $this->setCode(404, $replace);
 	}
+	
+	/**
+	 * Ustawia kod na 410
+	 * @param boolean $replace zastąpienie
+	 * @return Mmi_Controller_Response
+	 */
+	public function setCodeGone($replace = false) {
+		return $this->setCode(410, $replace);
+	}
 
 	/**
 	 * Ustawia kod na 200
