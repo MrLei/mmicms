@@ -37,7 +37,7 @@ class Mmi_Form_Element_Checkbox extends Mmi_Form_Element_Abstract {
 
 	public function fetchLabel() {
 		$this->_options['labelPostfix'] = '';
-		return parent::fetchField();
+		return parent::fetchLabel();
 	}
 
 	public function fetchField() {
