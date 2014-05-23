@@ -82,6 +82,7 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		//ustawienie lokalizacji
 		date_default_timezone_set($config->application->timeZone);
 		ini_set('default_charset', $config->application->charset);
+		Mmi_Profiler::event('Bootstrap: configuration setup');
 		return $config;
 	}
 
@@ -127,6 +128,7 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 			return $translate;
 		}
 		$translate->setLocale($envLang);
+		Mmi_Profiler::event('Bootstrap: translate setup');
 		return $translate;
 	}
 
@@ -161,11 +163,13 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		$frontController = Mmi_Controller_Front::getInstance();
 		$frontController->setStructure($frontStructure)
 			->setRouter($router)
-			->setView($view);
+			->setView($view)
+			->getResponse()->setDebug($config->application->debug);
 		//rejestracja pluginów
 		foreach ($config->application->plugins as $plugin) {
 			$frontController->registerPlugin(new $plugin());
 		}
+		Mmi_Profiler::event('Bootstrap: front controller setup');
 	}
 
 	/**
@@ -180,9 +184,9 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		$view = new Mmi_View();
 		$view->setCache(Default_Registry::$cache)
 			->setAlwaysCompile($config->application->compile)
-			->setDebug($config->application->debug)
 			->setTranslate($translate)
 			->setBaseUrl($router->getBaseUrl());
+		Mmi_Profiler::event('Bootstrap: view setup');
 		return $view;
 	}
 
@@ -202,9 +206,12 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		require LIB_PATH . '/Mmi/Acl.php';
 		require LIB_PATH . '/Mmi/Auth.php';
 		require LIB_PATH . '/Mmi/Filter/Abstract.php';
+		require LIB_PATH . '/Mmi/Filter/Alnum.php';
 		require LIB_PATH . '/Mmi/Filter/Urlencode.php';
 		require LIB_PATH . '/Mmi/Http/Cookie.php';
 		require LIB_PATH . '/Mmi/Navigation.php';
+		require LIB_PATH . '/Mmi/Navigation/Config.php';
+		require LIB_PATH . '/Mmi/Navigation/Config/Element.php';
 		require LIB_PATH . '/Mmi/Session/Config.php';
 		require LIB_PATH . '/Mmi/Translate.php';
 		require LIB_PATH . '/Mmi/View/Helper/Abstract.php';
@@ -220,6 +227,12 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		require LIB_PATH . '/MmiCms/Controller/Plugin.php';
 		require LIB_PATH . '/MmiCms/Media/Config.php';
 		require LIB_PATH . '/MmiCms/Registry.php';
+		
+		require APPLICATION_PATH . '/modules/Default/Config/Default.php';
+		require APPLICATION_PATH . '/modules/Default/Config/Local.php';
+		require APPLICATION_PATH . '/modules/Default/Config/Router.php';
+		require APPLICATION_PATH . '/modules/Default/Registry.php';
+		Mmi_Profiler::event('Bootstrap: component setup');
 	}
 
 }

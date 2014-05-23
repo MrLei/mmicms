@@ -33,7 +33,7 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 	 * @var Mmi_Acl
 	 */
 	protected static $_acl;
-	
+
 	/**
 	 * Obiekt Auth
 	 * @var Mmi_Auth
@@ -49,7 +49,7 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 		self::$_acl = $acl;
 		return $acl;
 	}
-	
+
 	/**
 	 * Ustawia obiekt autoryzacji
 	 * @param Mmi_Auth $auth
@@ -69,8 +69,8 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 	 * @param boolean $fetch true zwróci wynik renderowania, w innym przypadku wyrenderuje do bufora
 	 * @return mixed
 	 */
-	public function action($moduleName = 'default', $controllerName = 'index', $actionName = 'index', array $params = array(), $fetch = false) {
-		Mmi_Profiler::event('Run: ' . $moduleName . '::' . $controllerName . '::' . $actionName);
+	public function action($moduleName = 'default', $controllerName = 'index', $actionName = 'index', array $params = array()) {
+		Mmi_Profiler::event('Action execute: ' . $moduleName . ':' . $controllerName . ':' . $actionName);
 		if (!$this->_checkAcl($moduleName, $controllerName, $actionName)) {
 			return;
 		}
@@ -88,10 +88,17 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 		$actionMethodName = $controllerRequest->getActionName() . 'Action';
 		$controller = new $controllerClassName($controllerRequest);
 		//wywołanie akcji
-		$controller->$actionMethodName();
-		//rendering szablonu
+		$directContent = $controller->$actionMethodName();
+		//jeśli akcja zwraca cokolwiek, automatycznie jest to content
+		if ($directContent !== null) {
+			Mmi_Controller_Front::getInstance()->getView()
+				->setLayoutDisabled()
+				->setRequest($frontRequest);
+			return $directContent;
+		}
+		//rendering szablonu jeśli akcja zwraca null
 		$skin = $controllerRequest->getParam('skin') ? $controllerRequest->getParam('skin') : 'default';
-		$content = Mmi_Controller_Front::getInstance()->getView()->renderTemplate($skin, $moduleName, $controllerName, $actionName, $fetch);
+		$content = Mmi_Controller_Front::getInstance()->getView()->renderTemplate($skin, $moduleName, $controllerName, $actionName);
 		//przywrócenie do widoku request'a z front controllera
 		Mmi_Controller_Front::getInstance()->getView()->setRequest($frontRequest);
 		return $content;
