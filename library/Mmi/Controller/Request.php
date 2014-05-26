@@ -177,10 +177,13 @@ class Mmi_Controller_Request {
 				$files[$fieldName] = $fieldFiles;
 				continue;
 			}
-			//upload wielokrotny html >= 5
+			//upload wielokrotny html5
 			for ($i = 0, $count = count($fieldFiles['name']); $i< $count; $i++) {
 				if (!isset($files[$fieldName])) {
 					$files[$fieldName] = array();
+				}
+				if (!isset($fieldFiles['tmp_name'][$i]) || !$fieldFiles['tmp_name'][$i]) {
+					continue;
 				}
 				$files[$fieldName][$i] = array(
 					'name' => $fieldFiles['name'][$i],

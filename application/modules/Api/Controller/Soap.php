@@ -25,9 +25,7 @@ class Api_Controller_Soap extends Mmi_Controller_Action {
 			$soap->handle();
 			return '';
 		} catch (Exception $e) {
-			Mmi_Exception_Logger::log($e);
-			$this->getResponse()->setCodeError();
-			return '<html><body><h1>Soap service failed</h1></body></html>';
+			$this->_internalError($e);
 		}
 	}
 
@@ -52,9 +50,7 @@ class Api_Controller_Soap extends Mmi_Controller_Action {
 			$autodiscover->handle();
 			return '';
 		} catch (Exception $e) {
-			Mmi_Exception_Logger::log($e);
-			$this->getResponse()->setCodeError();
-			return '<html><body><h1>Soap service failed</h1></body></html>';
+			$this->_internalError($e);
 		}
 	}
 
@@ -67,6 +63,12 @@ class Api_Controller_Soap extends Mmi_Controller_Action {
 		$class = $obj[0] . '_Model_';
 		unset($obj[0]);
 		return rtrim($class . implode('_', $obj), '_') . '_Api';
+	}
+	
+	protected function _internalError($e) {
+		Mmi_Exception_Logger::log($e);
+		$this->getResponse()->setCodeError();
+		return '<html><body><h1>Soap service failed</h1></body></html>';
 	}
 
 	protected function _isSsl() {

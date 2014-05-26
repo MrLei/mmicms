@@ -5,38 +5,38 @@ class Cms_Controller_AdminNavigation extends MmiCms_Controller_Admin {
 	public function indexAction() {
 		$config = new Mmi_Navigation_Config();
 		Cms_Model_Navigation_Dao::decorateConfiguration($config);
-		$this->view->navigation = $config->findById($this->_getParam('id'), true);
+		$this->view->navigation = $config->findById($this->id, true);
 	}
 
 	public function editAction() {
 		switch ($this->_getParam('type')) {
 			case 'link':
-				$form = new Cms_Form_Admin_Page_Link($this->_getParam('id'));
+				$form = new Cms_Form_Admin_Page_Link($this->id);
 				break;
 			case 'folder':
-				$form = new Cms_Form_Admin_Page_Folder($this->_getParam('id'));
+				$form = new Cms_Form_Admin_Page_Folder($this->id);
 				break;
 			case 'container':
-				$form = new Cms_Form_Admin_Page_Container($this->_getParam('id'));
+				$form = new Cms_Form_Admin_Page_Container($this->id);
 				break;
 			case 'simple':
-				$form = new Cms_Form_Admin_Page_Article($this->_getParam('id'));
+				$form = new Cms_Form_Admin_Page_Article($this->id);
 				break;
 			default:
-				$form = new Cms_Form_Admin_Page_Cms($this->_getParam('id'));
+				$form = new Cms_Form_Admin_Page_Cms($this->id);
 				break;
 		}
 		if ($form->isSaved()) {
 			return $this->_helper->redirector('index', 'adminNavigation', 'cms', array('id' => $form->getRecord()->parent_id), true);
 		}
-		if ($this->_getParam('id') > 0) {
-			$model = new Cms_Model_Navigation_Record($this->_getParam('id'));
-			if ($this->_getParam('remove')) {
-				$parentId = $model->parent_id;
-				$model->delete();
+		/*if ($this->id > 0) {
+			$record = Cms_Model_Navigation_Dao::findPk($this->id);
+			if ($this->remove && $record) {
+				$parentId = $record->parent_id;
+				$record->delete();
 				return $this->_helper->redirector('index', 'adminNavigation', 'cms', array('id' => $parentId), true);
 			}
-		}
+		}*/
 		$this->view->pageForm = $form;
 	}
 
@@ -44,16 +44,19 @@ class Cms_Controller_AdminNavigation extends MmiCms_Controller_Admin {
 	 * Usuwanie elementu
 	 */
 	public function deleteAction() {
-		$record = new Cms_Model_Navigation_Record($this->_getParam('id'));
-		$record->delete();
+		$record = Cms_Model_Navigation_Dao::findPk($this->id);
+		if ($record !== null) {
+			$record->delete();
+		}
 		return $this->_helper->redirector('index', 'adminNavigation', 'cms', array('id' => $record->parent_id), true);
 	}
 
 	public function sortAction() {
-		if (!$this->_getParam('order')) {
+		$this->getResponse()->setTypePlain();
+		if (!$this->order) {
 			return $this->view->getTranslate()->_('Przenoszenie nie powiodło się');
 		}
-		parse_str(str_replace(array('&amp;', '&#38;'), '&', $this->_getParam('order')), $order);
+		parse_str(str_replace(array('&amp;', '&#38;'), '&', $this->order), $order);
 		if (!isset($order['navigation-item'])) {
 			return $this->view->getTranslate()->_('Przenoszenie nie powiodło się');
 		}
