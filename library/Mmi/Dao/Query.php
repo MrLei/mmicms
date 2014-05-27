@@ -183,5 +183,23 @@ class Mmi_Dao_Query {
 	public function queryCompilationMd5() {
 		return md5(print_r($this->_compile, true));
 	}
+	
+	/**
+	 * Resetuje sortowanie w zapytaniu
+	 * @return Mmi_Dao_Query
+	 */
+	public function resetOrder() {
+		$this->_compile->order = array();
+		return $this;
+	}
+	
+	/**
+	 * Resetuje warunki w zapytaniu
+	 * @return Mmi_Dao_Query
+	 */
+	public function resetWhere() {
+		$this->_compile->bind = array();
+		return $this;
+	}
 
 }
