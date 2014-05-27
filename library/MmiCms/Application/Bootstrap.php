@@ -73,7 +73,7 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		try {
 			$config = new Default_Config_Local();
 		} catch (Exception $e) {
-			throw new Exception('MmiCms_Application_Bootstrap requires application/modules/Default/Config/Local.php instance of MmiCms_Config');
+			throw new Exception('Default_Config_Local invalid ' . $e->getMessage());
 		}
 
 		//konfiguracja profilera aplikacji
@@ -229,7 +229,11 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		require LIB_PATH . '/MmiCms/Registry.php';
 		
 		require APPLICATION_PATH . '/modules/Default/Config/Default.php';
-		require APPLICATION_PATH . '/modules/Default/Config/Local.php';
+		try {
+			include APPLICATION_PATH . '/modules/Default/Config/Local.php';
+		} catch (Exception $e) {
+			throw new Exception('MmiCms_Application_Bootstrap requires application/modules/Default/Config/Local.php instance of MmiCms_Config');
+		}
 		require APPLICATION_PATH . '/modules/Default/Config/Router.php';
 		require APPLICATION_PATH . '/modules/Default/Registry.php';
 		Mmi_Profiler::event('Bootstrap: component setup');
