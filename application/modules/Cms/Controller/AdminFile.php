@@ -7,68 +7,77 @@ class Cms_Controller_AdminFile extends MmiCms_Controller_Admin {
 	}
 
 	public function stickAction() {
-		if (!$this->_getParam('id')) {
-			die();
+		$this->getResponse()->setTypePlain();
+		if (!$this->id) {
+			return '';
 		}
-		$file = new Cms_Model_File_Record($this->_getParam('id'));
-		if ($this->_getParam('hash') != $file->name) {
-			die($this->view->getTranslate()->_('Przypinanie nie powiodło się'));
+		$file = Cms_Model_File_Dao::findPk($this->id);
+		if (!$file || $this->hash != $file->name) {
+			return $this->view->getTranslate()->_('Przypinanie nie powiodło się');
 		}
 		$file->setSticky();
-		die();
+		return '';
 	}
 
 	public function editAction() {
-		if (!($this->_getParam('id') > 0)) {
-			die($this->view->getTranslate()->_('Edycja nie powiodła się, brak pliku'));
+		$this->getResponse()->setTypeJson();
+		if (!$this->id) {
+			return $this->view->getTranslate()->_('Edycja nie powiodła się, brak pliku');
 		}
-		$file = new Cms_Model_File_Record($this->_getParam('id'));
+		$file = Cms_Model_File_Dao::findPk($this->id);
+		if (!$file) {
+			return '';
+		}
 		if (!empty($_POST)) {
-			if ($this->_getParam('hash') != $file->getHashName()) {
-				die($this->view->getTranslate()->_('Edycja nie powiodła się'));
+			if ($this->hash != $file->getHashName()) {
+				return $this->view->getTranslate()->_('Edycja nie powiodła się');
 			}
 			$file->setFromArray($_POST);
 			$file->save();
-			die();
+			return '';
 		}
-		if ($this->_getParam('hash') != $file->getHashName()) {
-				die(json_encode(array('error' => 'Brak pliku')));
+		if ($this->hash != $file->getHashName()) {
+				return json_encode(array('error' => 'Brak pliku'));
 		}
-		die($file->toJson());
+		return $file->toJson();
 	}
 
 	public function removeAction() {
-		if (!($this->_getParam('id') > 0)) {
+		if (!$this->id) {
 			$this->_helper->redirector('index');
 		}
-		$file = new Cms_Model_File_Record($this->_getParam('id'));
-		$file->delete();
-		$this->_helper->messenger('Poprawnie usunięto plik', true);
+		$file = Cms_Model_File_Dao::findPk($this->id);
+		if ($file && $file->delete()) {
+			$file->delete();
+			$this->_helper->messenger('Poprawnie usunięto plik', true);
+		}
 		$this->_helper->redirector('index');
 	}
 
 	public function deleteAction() {
-		if (!($this->_getParam('id') > 0)) {
-			die($this->view->getTranslate()->_('Usuwanie nie powiodło się, brak pliku'));
+		$this->getResponse()->setTypePlain();
+		if (!$this->id > 0) {
+			return $this->view->getTranslate()->_('Usuwanie nie powiodło się, brak pliku');
 		}
-		$file = new Cms_Model_File_Record($this->_getParam('id'));
-		if ($this->_getParam('hash') != $file->getHashName()) {
-			die($this->view->getTranslate()->_('Usuwanie nie powiodło się'));
+		$file = Cms_Model_File_Dao::findPk($this->id);
+		if (!$file || $this->hash != $file->getHashName()) {
+			return $this->view->getTranslate()->_('Usuwanie nie powiodło się');
 		}
 		$file->delete();
-		die();
+		return '';
 	}
 
 	public function sortAction() {
-		if (!$this->_getParam('order')) {
-			die($this->view->getTranslate()->_('Przenoszenie nie powiodło się'));
+		$this->getResponse()->setTypePlain();
+		if (!$this->order) {
+			return $this->view->getTranslate()->_('Przenoszenie nie powiodło się');
 		}
 		parse_str(str_replace(array('&amp;', '&#38;'), '&', $this->_getParam('order')), $order);
 		if (!isset($order['item-file'])) {
-			die($this->view->getTranslate()->_('Przenoszenie nie powiodło się'));
+			return $this->view->getTranslate()->_('Przenoszenie nie powiodło się');
 		}
 		Cms_Model_File_Dao::sortBySerial($order['item-file']);
-		die();
+		return '';
 	}
 
 }

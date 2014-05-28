@@ -23,10 +23,10 @@ class Cms_Controller_Container extends Mmi_Controller_Action {
 			$package .= 'px ' . ($placeholder->marginLeft ? $placeholder->marginLeft : 0);
 			$package .= 'px">';
 			$content = $package . $content . '</div>';
-			Mmi_Controller_Front::getInstance()->getView()->setPlaceholder($placeholder->cms_container_template_placeholder->placeholder, '<div>' . $content . '</div>');
+			$this->view->setPlaceholder($placeholder->cms_container_template_placeholder->placeholder, '<div>' . $content . '</div>');
 		}
-		Mmi_Controller_Front::getInstance()->getView()->render($container->template->path);
-		Mmi_Controller_Front::getInstance()->getView()->setLayoutDisabled();
+		$this->view->render($container->template->path);
+		$this->view->setLayoutDisabled();
 	}
 
 }

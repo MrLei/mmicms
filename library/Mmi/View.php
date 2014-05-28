@@ -5,16 +5,16 @@
  * LICENSE
  *
  * Ten plik źródłowy objęty jest licencją BSD bez klauzuli ogłoszeniowej.
- * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
- * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
+ * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
+ * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
  *
  * Mmi/View.php
  * @category   Mmi
  * @package    Mmi_View
- * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
+ * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
- * @version    $Id$
- * @license    http://www.hqsoft.pl/new-bsd     New BSD License
+ * @version    1.0.0
+ * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 
 /**
@@ -22,7 +22,9 @@
  * @see Mmi_View_Helper
  * @category   Mmi
  * @package    Mmi_View
- * @license    http://www.hqsoft.pl/new-bsd     New BSD License
+ * @license    http://milejko.com/new-bsd.txt     New BSD License
+ * 
+ * @property Exception $_exception wyjątek
  */
 class Mmi_View {
 
@@ -73,18 +75,12 @@ class Mmi_View {
 	 * @var Mmi_Cache
 	 */
 	private $_cache;
-
+	
 	/**
 	 * Włączone buforowanie
 	 * @var boolean
 	 */
 	private $_alwaysCompile = true;
-
-	/**
-	 * Tryb debugowania aplikacji
-	 * @var boolean
-	 */
-	private $_debug = true;
 
 	/**
 	 * Obiekt requestu
@@ -193,16 +189,6 @@ class Mmi_View {
 	 */
 	public function setAlwaysCompile($compile = true) {
 		$this->_alwaysCompile = $compile;
-		return $this;
-	}
-
-	/**
-	 * Ustawia tryb debugowania
-	 * @param boolean $debug
-	 * @return \Mmi_View
-	 */
-	public function setDebug($debug = true) {
-		$this->_debug = $debug;
 		return $this;
 	}
 
@@ -320,8 +306,8 @@ class Mmi_View {
 	 * @param string $action akcja
 	 * @param bool $fetch przekaż wynik wywołania w zmiennej
 	 */
-	public function renderTemplate($skin, $module, $controller, $action, $fetch = false) {
-		return $this->render($this->_getTemplate($skin, $module, $controller, $action), $fetch);
+	public function renderTemplate($skin, $module, $controller, $action) {
+		return $this->render($this->_getTemplate($skin, $module, $controller, $action));
 	}
 
 	/**
@@ -351,42 +337,32 @@ class Mmi_View {
 		$this->_layoutDisabled = $disabled;
 		return $this;
 	}
+	
+	/**
+	 * Czy layout wyłączony
+	 * @return boolean
+	 */
+	public function isLayoutDisabled() {
+		return $this->_layoutDisabled;
+	}
 
 	/**
-	 * Wyświetla stronę
+	 * Renderuje layout
 	 */
-	public function displayLayout($skin, $module, $controller) {
-		//wyłączony layout zwraca tylko content
-		if ($this->_layoutDisabled) {
-			echo $this->getPlaceholder('content');
-			return;
-		}
+	public function renderLayout($skin, $module, $controller) {
 		//layouty kontrolerów admina zachowują się jak moduł admin
 		$module = (substr($controller, 0, 5) == 'admin') ? 'admin' : $module;
-
 		//renderowanie layoutu
-		$this->render($this->_getLayout($skin, $module, $controller), false);
-
-		//opcjonalne uruchomienie panelu deweloperskiego
-		if ($this->_debug) {
-			Mmi_Profiler::event('Debugger started');
-			new Mmi_View_Helper_Debug();
-		}
+		return $this->render($this->_getLayout($skin, $module, $controller));
 	}
 
 	/**
 	 * Renderuje szablon z pliku
 	 * @param string $fileName nazwa pliku szablonu
-	 * @param boolean $fetch nie renderuj tylko zwróć dane
-	 * @return string|null zwraca efekt renderowania lub brak przy renderowaniu bezpośrednim
+	 * @return string zwraca efekt renderowania
 	 */
-	public function render($fileName, $fetch = false) {
+	public function render($fileName) {
 		Mmi_Profiler::event('View build: ' . basename($fileName));
-		//przechwycenie obecnego stanu bufora
-		if ($fetch) {
-			$prev = ob_get_contents();
-			ob_clean();
-		}
 		if (!$this->_locale && $this->_translate !== null) {
 			$this->_locale = $this->_translate->getLocale();
 		}
@@ -405,15 +381,10 @@ class Mmi_View {
 				include $destFile;
 			}
 		}
-		if ($fetch) {
-			$data = ob_get_contents();
-			ob_clean();
-			//zwrot starego bufora
-			echo $prev;
-			Mmi_Profiler::event('View fetched: ' . $compileName);
-			return $data;
-		}
-		Mmi_Profiler::event('View rendered: ' . $compileName);
+		$data = ob_get_contents();
+		ob_clean();
+		Mmi_Profiler::event('View fetched: ' . $compileName);
+		return $data;
 	}
 
 	/**

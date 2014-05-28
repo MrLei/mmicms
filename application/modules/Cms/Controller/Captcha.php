@@ -4,7 +4,7 @@ class Cms_Controller_Captcha extends Mmi_Controller_Action {
 
 	public function indexAction() {
 		if (!$this->_getParam('name')) {
-			exit;
+			return '';
 		}
 		$characters = array('A','B','C','D','E','F','G','H','J','K','L','M','N','P','R','S','T','U','W','Z');
 		$word = '';
@@ -48,14 +48,15 @@ class Cms_Controller_Captcha extends Mmi_Controller_Action {
 		$formSession->$name = $word;
 
 		$pastYear = date('Y')-1;
-		header('Expires: Mon, 15 Dec ' . $pastYear . ' 01:00:00 GMT+0100');
-		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-		header('Cache-Control: no-store, no-cache, must-revalidate');
-		header('Cache-Control: post-check=0, pre-check=0', false);
-		header('Pragma: no-cache');
-		header('Content-Type: image/jpeg');
+		$this->getResponse()
+			->setHeader('Expires', 'Mon, 15 Dec ' . $pastYear . ' 01:00:00 GMT+0100')
+			->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT')
+			->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate')
+			->setHeader('Cache-Control', 'post-check=0, pre-check=0', false)
+			->setHeader('Pragma', 'no-cache')
+			->setTypeJpeg();
 		imagejpeg($img, NULL, 25);
-		exit;
+		return '';
 	}
 
 }
