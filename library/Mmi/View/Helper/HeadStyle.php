@@ -5,17 +5,17 @@
  * LICENSE
  *
  * Ten plik źródłowy objęty jest licencją BSD bez klauzuli ogłoszeniowej.
- * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
- * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
+ * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
+ * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
  *
  * Mmi/View/Helper/HeadStyle.php
  * @category   Mmi
  * @package    Mmi_View
  * @subpackage Helper
- * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
+ * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
- * @version    $Id$
- * @license    http://www.hqsoft.pl/new-bsd     New BSD License
+ * @version    1.0.0
+ * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 
 /**
@@ -23,7 +23,7 @@
  * @category   Mmi
  * @package    Mmi_View
  * @subpackage Helper
- * @license    http://www.hqsoft.pl/new-bsd     New BSD License
+ * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 class Mmi_View_Helper_HeadStyle extends Mmi_View_Helper_Abstract {
 
@@ -159,8 +159,9 @@ class Mmi_View_Helper_HeadStyle extends Mmi_View_Helper_Abstract {
 		if (!$cache || (null === ($content = $cache->load($cacheKey)))) {
 			$content = file_get_contents(PUBLIC_PATH . '/' . $fileName);
 			$location = $this->view->baseUrl . '/' . dirname($fileName) . '/';
-			$content = str_replace(array('url(\'', 'url("'), 
-				array('url(\'' . $location, 'url("' . $location), $content);
+			$content = str_replace(array('url(\'', 'url("', "\r\n", "\n", "\t", ', ', ': ', ' {', '{ ', ' }', '} '), 
+				array('url(\'' . $location, 'url("' . $location, '', '', '', ',', ':', '{', '{', '}', '}'), $content);
+			$content = preg_replace('/\/\*(.[^\*]+)\*\//is', '', $content);
 			$cache->save($content, $cacheKey, 864000);
 		}
 		return $content;

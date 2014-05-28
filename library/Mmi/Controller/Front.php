@@ -1,27 +1,28 @@
 <?php
+
 /**
  * Mmi
  *
  * LICENSE
  *
  * Ten plik źródłowy objęty jest licencją BSD bez klauzuli ogłoszeniowej.
- * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
- * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
+ * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
+ * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
  *
  * Mmi/Controller/Front.php
  * @category   Mmi
  * @package    Mmi_Controller
- * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
+ * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
- * @version    $Id$
- * @license    http://www.hqsoft.pl/new-bsd     New BSD License
+ * @version    1.0.0
+ * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 
 /**
  * Front kontroler aplikacji
  * @category   Mmi
  * @package    Mmi_Controller
- * @license    http://www.hqsoft.pl/new-bsd     New BSD License
+ * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 class Mmi_Controller_Front {
 
@@ -48,7 +49,7 @@ class Mmi_Controller_Front {
 	 * @var Mmi_Controller_Router
 	 */
 	private $_router;
-	
+
 	/**
 	 * Środowisko uruchomieniowe
 	 * @var Mmi_Controller_Environment
@@ -179,7 +180,7 @@ class Mmi_Controller_Front {
 		}
 		return $this->_router;
 	}
-	
+
 	/**
 	 * Pobiera środowisko uruchomieniowe
 	 * @return Mmi_Controller_Environment
@@ -245,11 +246,6 @@ class Mmi_Controller_Front {
 	 * Dispatcher
 	 */
 	public function dispatch() {
-		//ustawianie pustego żądania
-		$this->setRequest(new Mmi_Controller_Request());
-		//ustawianie pustej odpowiedzi
-		$this->setResponse(new Mmi_Controller_Response());
-
 		//wpięcie dla pluginów przed routingiem
 		$this->routeStartup();
 		Mmi_Profiler::event('Plugins route startup');
@@ -262,20 +258,25 @@ class Mmi_Controller_Front {
 		$this->preDispatch();
 		Mmi_Profiler::event('Plugins pre-dispatch');
 
-		//wybór i uruchomienie kontrolera akcji (dispatch)
+		//wybór i uruchomienie kontrolera akcji
 		$actionHelper = new Mmi_Controller_Action_Helper_Action();
-		$content = $actionHelper->action($this->_request->__get('module'),
-			$this->_request->__get('controller'),
-			$this->_request->__get('action'),
-			$this->_request->getUserParams(), true);
+		$content = $actionHelper->action($this->getRequest()->__get('module'), $this->getRequest()->__get('controller'), $this->getRequest()->__get('action'), $this->getRequest()->getUserParams());
 
 		//wpięcie dla pluginów po dispatchu
 		$this->postDispatch();
 		Mmi_Profiler::event('Plugins post-dispatch');
 
-		//wyświetlenie layoutu
-		$this->getView()->setPlaceholder('content', $content);
-		$this->getView()->displayLayout($this->_request->__get('skin'), $this->_request->__get('module'), $this->_request->__get('controller'));
+		//przekazanie wykonanych widoków do response
+		if (!$this->getView()->isLayoutDisabled()) {
+			$content = $this->getView()
+				->setPlaceholder('content', $content)
+				->renderLayout($this->_request->__get('skin'), $this->_request->__get('module'), $this->_request->__get('controller'));
+		}
+
+		//wysłanie odpowiedzi
+		$this->getResponse()
+			->setContent($content)
+			->send();
 	}
 
 }

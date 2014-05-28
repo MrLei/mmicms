@@ -6,23 +6,23 @@
  * LICENSE
  *
  * Ten plik źródłowy objęty jest licencją BSD bez klauzuli ogłoszeniowej.
- * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
- * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
+ * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
+ * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
  *
  * Mmi/Dao/Query.php
  * @category   Mmi
  * @package    Mmi_Dao
- * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
+ * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
- * @version    $Id$
- * @license    http://www.hqsoft.pl/new-bsd     New BSD License
+ * @version    1.0.0
+ * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 
 /**
  * Klasa zapytania DAO
  * @category   Mmi
  * @package    Mmi_Dao
- * @license    http://www.hqsoft.pl/new-bsd     New BSD License
+ * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 class Mmi_Dao_Query {
 
@@ -182,6 +182,24 @@ class Mmi_Dao_Query {
 	 */
 	public function queryCompilationMd5() {
 		return md5(print_r($this->_compile, true));
+	}
+	
+	/**
+	 * Resetuje sortowanie w zapytaniu
+	 * @return Mmi_Dao_Query
+	 */
+	public function resetOrder() {
+		$this->_compile->order = array();
+		return $this;
+	}
+	
+	/**
+	 * Resetuje warunki w zapytaniu
+	 * @return Mmi_Dao_Query
+	 */
+	public function resetWhere() {
+		$this->_compile->bind = array();
+		return $this;
 	}
 
 }
