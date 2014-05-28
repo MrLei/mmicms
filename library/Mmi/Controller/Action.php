@@ -5,31 +5,37 @@
  * LICENSE
  *
  * Ten plik źródłowy objęty jest licencją BSD bez klauzuli ogłoszeniowej.
- * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
- * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
+ * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
+ * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
  *
  * Mmi/Controller/Action.php
  * @category   Mmi
  * @package    Mmi_Controller
- * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
+ * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
- * @version    $Id$
- * @license    http://www.hqsoft.pl/new-bsd     New BSD License
+ * @version    1.0.0
+ * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 
 /**
  * Kontroler akcji
  * @category   Mmi
  * @package    Mmi_Controller
- * @license    http://www.hqsoft.pl/new-bsd     New BSD License
+ * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 class Mmi_Controller_Action {
 
 	/**
-	 * Referencja do żądania
-	 * @var Mmi_Request
+	 * Żądanie
+	 * @var Mmi_Controller_Request
 	 */
 	protected $_request;
+	
+	/**
+	 * Referencja do odpowiedzi z Front controllera
+	 * @var Mmi_Controller_Response
+	 */
+	protected $_response;
 
 	/**
 	 * Referencja do brokera helperów controlera akcji
@@ -49,6 +55,8 @@ class Mmi_Controller_Action {
 	public function __construct(Mmi_Controller_Request $request) {
 		//request
 		$this->_request = $request;
+		//response
+		$this->_response = Mmi_Controller_Front::getInstance()->getResponse();
 		//inicjalizacja domyślna
 		$this->_init();
 		//inicjacja programisty kontrolera
@@ -84,6 +92,14 @@ class Mmi_Controller_Action {
 	 */
 	public final function getRequest() {
 		return $this->_request;
+	}
+	
+	/**
+	 * Pobiera response
+	 * @return Mmi_Controller_Response
+	 */
+	public final function getResponse() {
+		return $this->_response;
 	}
 
 	/**
@@ -136,20 +152,15 @@ class Mmi_Controller_Action {
 
 		$translate = $this->view->getTranslate();
 
-		//brak translatora
-		if ($translate === null) {
-			return;
-		}
-
-		$cache = $this->view->getCache();
-		$key = 'Mmi_Translate_' . $lang . '_' . $skin . '_' . $module;
-
 		//dodawanie tłumaczeń
-		if ($lang == $translate->getDefaultLocale()) {
+		if ($lang === null || $lang == $translate->getDefaultLocale()) {
 			return;
 		}
 
 		//ładowanie zbuforowanego translatora
+		$cache = $this->view->getCache();
+		$key = 'Mmi_Translate_' . $lang . '_' . $skin . '_' . $module;
+		
 		if ($cache !== null && (null !== ($cachedTranslate = $cache->load($key)))) {
 			$this->view->setTranslate($cachedTranslate);
 			$translate->setLocale($lang);
@@ -179,5 +190,5 @@ class Mmi_Controller_Action {
 
 		Mmi_Profiler::event('Init Translate: [' . $lang . '] ' . $module);
 	}
-
+	
 }

@@ -6,23 +6,23 @@
  * LICENSE
  *
  * Ten plik źródłowy objęty jest licencją BSD bez klauzuli ogłoszeniowej.
- * Licencja jest dostępna pod adresem: http://www.hqsoft.pl/new-bsd
- * W przypadku problemów, prosimy o kontakt na adres office@hqsoft.pl
+ * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
+ * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
  *
  * Mmi/Controller/Environment.php
  * @category   Mmi
  * @package    Mmi_Controller
- * @copyright  Copyright (c) 2010 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
+ * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
- * @version    $Id$
- * @license    http://www.hqsoft.pl/new-bsd     New BSD License
+ * @version    1.0.0
+ * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 
 /**
  * Obiekt środowiska uruchomienia kontrolera
  * @category   Mmi
  * @package    Mmi_Controller
- * @license    http://www.hqsoft.pl/new-bsd     New BSD License
+ * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 class Mmi_Controller_Environment {
 
@@ -43,12 +43,6 @@ class Mmi_Controller_Environment {
 	 * @var string
 	 */
 	public $authPassword;
-
-	/**
-	 * Kodowanie strumienia, np. text/xml
-	 * @var string
-	 */
-	public $contentType;
 
 	/**
 	 *
@@ -111,12 +105,6 @@ class Mmi_Controller_Environment {
 	public $remotePort;
 
 	/**
-	 * Metoda zapytania GET, POST, PUT, DELETE
-	 * @var string
-	 */
-	public $requestMethod;
-
-	/**
 	 * Adres uri
 	 * @var string
 	 */
@@ -152,9 +140,6 @@ class Mmi_Controller_Environment {
 
 		$this->authUser = isset($_SERVER['PHP_AUTH_USER']) ? filter_var($_SERVER['PHP_AUTH_USER']) : null;
 		$this->authPassword = isset($_SERVER['PHP_AUTH_PW']) ? filter_var($_SERVER['PHP_AUTH_PW']) : null;
-
-		$this->contentType = filter_input(INPUT_SERVER, 'CONTENT_TYPE', FILTER_SANITIZE_SPECIAL_CHARS);
-
 		$this->documentRoot = filter_input(INPUT_SERVER, 'DOCUMENT_ROOT', FILTER_SANITIZE_SPECIAL_CHARS);
 
 		$this->httpAcceptLanguage = filter_input(INPUT_SERVER, 'HTTP_ACCEPT_LANGUAGE', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -174,7 +159,6 @@ class Mmi_Controller_Environment {
 		}
 		$this->remotePort = filter_input(INPUT_SERVER, 'REMOTE_PORT', FILTER_SANITIZE_NUMBER_INT);
 
-		$this->requestMethod = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_SPECIAL_CHARS);
 		$this->requestUri = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_SPECIAL_CHARS);
 		if ($this->requestUri === null) {
 			$this->remoteUri = '/';
