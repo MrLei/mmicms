@@ -22,6 +22,7 @@ class Cms_Controller_AdminAcl extends MmiCms_Controller_Admin {
 	}
 
 	public function deleteAction() {
+		$this->getResponse()->setTypePlain();
 		if (!($this->_getParam('id') > 0)) {
 			return 0;
 		}
@@ -31,7 +32,8 @@ class Cms_Controller_AdminAcl extends MmiCms_Controller_Admin {
 	}
 
 	public function updateAction() {
-		$msg = Mmi_Controller_Front::getInstance()->getView()->getTranslate()->_('Zmiana właściwości nie powiodła się.');
+		$msg = $this->view->getTranslate()->_('Zmiana właściwości nie powiodła się.');
+		$this->getResponse()->setTypePlain();
 		if (!($this->_getParam('id'))) {
 			return $msg;
 		}
