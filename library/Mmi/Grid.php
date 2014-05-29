@@ -599,6 +599,9 @@ abstract class Mmi_Grid {
 			}
 		}
 		//nakładanie sortów
+		if (!empty($this->_options['order'])) {
+			$q->resetOrder();
+		}
 		foreach ($this->_options['order'] as $field => $value) {
 			if ($value == 'ASC') {
 				$q->orderAsc($field);

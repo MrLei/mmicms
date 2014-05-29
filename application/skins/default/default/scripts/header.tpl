@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="{$request->lang}">
 	<head>
+		<meta charset="UTF-8" />
 		<title>{navigation()->title()}</title>
 		<link rel="shortcut icon" type="image/x-icon" href="{$baseUrl}/favicon.ico" />
 		{headLink()->appendStyleSheet($baseUrl . '/default/default/style.css')}
 		{headLink()}
 		{headScript()}
-		<meta charset="utf-8" />
 		<meta name="description" content="{navigation()->description()}" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 		<!--[if lte IE 8]><script type="text/javascript" src="{$baseUrl}/library/js/html5.js"></script><![endif]-->

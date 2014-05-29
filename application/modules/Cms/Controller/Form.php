@@ -3,7 +3,8 @@
 class Cms_Controller_Form extends Mmi_Controller_Action {
 
 	public function validateAction() {
-		Mmi_Controller_Front::getInstance()->getView()->setLayoutDisabled();
+		$this->view->setLayoutDisabled();
+		$this->getResponse()->setTypePlain();
 		if (!isset($_POST['ctrl']) || !isset($_POST['field'])) {
 			return '';
 		}
