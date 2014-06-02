@@ -621,7 +621,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 			if (isset($leaf['blank']) && $leaf['blank'] == 1) {
 				$extras .= ' target="_blank"';
 			}
-			$html .= '<li id="item-' . $leaf['id'] . '" ' . $class . '><span class="sprite item-begin"></span><a href="' . htmlspecialchars($leaf['uri']) . '"' . $extras . '>' . $leaf['label'] . '</a>' . $subHtml . '<span class="item-end"></span></li>';
+			$html .= '<li id="item-' . $leaf['id'] . '" ' . $class . '><span class="item-begin"></span><a href="' . htmlspecialchars($leaf['uri']) . '"' . $extras . '>' . $leaf['label'] . '</a>' . $subHtml . '<span class="item-end"></span></li>';
 			$index++;
 		}
 		if ($this->_minDepth > $depth) {
