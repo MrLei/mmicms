@@ -25,8 +25,7 @@ class Cms_Controller_Container extends Mmi_Controller_Action {
 			$content = $package . $content . '</div>';
 			$this->view->setPlaceholder($placeholder->cms_container_template_placeholder->placeholder, '<div>' . $content . '</div>');
 		}
-		$this->view->render($container->template->path);
-		$this->view->setLayoutDisabled();
+		return $this->view->render($container->template->path);
 	}
 
 }
