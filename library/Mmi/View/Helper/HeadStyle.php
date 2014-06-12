@@ -157,12 +157,16 @@ class Mmi_View_Helper_HeadStyle extends Mmi_View_Helper_Abstract {
 		$cache = $this->view->getCache();
 		$cacheKey = 'Head_Style_Css_' . md5($fileName);
 		if (!$cache || (null === ($content = $cache->load($cacheKey)))) {
-			$content = file_get_contents(PUBLIC_PATH . '/' . $fileName);
-			$location = $this->view->baseUrl . '/' . dirname($fileName) . '/';
-			$content = str_replace(array('url(\'', 'url("', "\r\n", "\n", "\t", ', ', ': ', ' {', '{ ', ' }', '} '), 
-				array('url(\'' . $location, 'url("' . $location, '', '', '', ',', ':', '{', '{', '}', '}'), $content);
-			$content = preg_replace('/\/\*(.[^\*]+)\*\//is', '', $content);
-			$cache->save($content, $cacheKey, 864000);
+			try {
+				$content = file_get_contents(PUBLIC_PATH . '/' . $fileName);
+				$location = $this->view->baseUrl . '/' . dirname($fileName) . '/';
+				$content = str_replace(array('url(\'', 'url("', "\r\n", "\n", "\t", ', ', ': ', ' {', '{ ', ' }', '} '), 
+					array('url(\'' . $location, 'url("' . $location, '', '', '', ',', ':', '{', '{', '}', '}'), $content);
+				$content = preg_replace('/\/\*(.[^\*]+)\*\//is', '', $content);
+				$cache->save($content, $cacheKey, 864000);
+			} catch (Exception $e) {
+				return '/* CSS file not found: ' . $fileName . ' */';
+			}
 		}
 		return $content;
 	}
