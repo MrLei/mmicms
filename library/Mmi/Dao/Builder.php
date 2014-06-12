@@ -64,6 +64,9 @@ class Mmi_Dao_Builder {
 		}
 		$baseDir = APPLICATION_PATH . '/modules/' . ucfirst($table[0]) . '/Model/';
 		$className = ucfirst($table[0]) . '_Model_';
+		if (!file_exists(APPLICATION_PATH . '/modules/' . ucfirst($table[0]))) {
+			mkdir(rtrim(APPLICATION_PATH . '/modules/' . ucfirst($table[0]), '/'));
+		}
 		if (!file_exists($baseDir)) {
 			mkdir(rtrim($baseDir, '/'));
 		}
