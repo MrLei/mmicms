@@ -186,7 +186,7 @@ abstract class Mmi_Grid {
 		$options->options = $this->_options;
 		return $this;
 	}
-	
+
 	/**
 	 * Pobiera opcję po nazwie
 	 * @param string $name
@@ -530,8 +530,8 @@ abstract class Mmi_Grid {
 					case 'custom':
 						$GLOBALS['rowData'] = $rowData;
 						$column['value'] = preg_replace_callback('/%([a-zA-Z0-9_]+)%/', create_function(
-										'$matches', 'return $GLOBALS[\'rowData\']->$matches[1];'
-								), $column['value']);
+								'$matches', 'return $GLOBALS[\'rowData\']->$matches[1];'
+							), $column['value']);
 						$this->_view->rowData = $rowData;
 						$this->_view->column = $column;
 						$html .= $this->_view->renderDirectly($column['value']);
@@ -622,13 +622,19 @@ abstract class Mmi_Grid {
 					break;
 				}
 			}
+			$table = null;
 			if (strpos($field, ':') !== false) {
-				continue;
+				$fld = explode(':', $field);
+				if (count($fld) != 2) {
+					continue;
+				}
+				$table = $fld[0];
+				$field = $fld[1];
 			}
 			if ($type == 'select' || $type == 'checkbox') {
-				$q->andField($field)->equals($value);
+				$q->andField($field, $table)->equals($value);
 			} else {
-				$q->andField($field)->like('%' . $value . '%');
+				$q->andField($field, $table)->like('%' . $value . '%');
 			}
 		}
 		//nakładanie sortów
@@ -636,10 +642,19 @@ abstract class Mmi_Grid {
 			$q->resetOrder();
 		}
 		foreach ($this->_options['order'] as $field => $value) {
+			$table = null;
+			if (strpos($field, ':') !== false) {
+				$fld = explode(':', $field);
+				if (count($fld) != 2) {
+					continue;
+				}
+				$table = $fld[0];
+				$field = $fld[1];
+			}
 			if ($value == 'ASC') {
-				$q->orderAsc($field);
+				$q->orderAsc($field, $table);
 			} else {
-				$q->orderDesc($field);
+				$q->orderDesc($field, $table);
 			}
 		}
 
