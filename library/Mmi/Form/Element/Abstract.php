@@ -471,7 +471,7 @@ abstract class Mmi_Form_Element_Abstract {
 	 * @param string $message opcjonalny komunikat błędu
 	 * @return Mmi_Form_Element_Abstract
 	 */
-	public function addValidatorValueBetween($from, $to, $message = null) {
+	public function addValidatorValueBetween($from = null, $to = null, $message = null) {
 		return $this->addValidator('numberBetween', array($from, $to), $message);
 	}
 
