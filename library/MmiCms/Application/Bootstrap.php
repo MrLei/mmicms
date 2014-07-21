@@ -96,7 +96,7 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 			Default_Registry::$config = $config;
 			Default_Registry::$cache = new Mmi_Cache($config->cache);
 		} catch (Exception $e) {
-			throw new Exception('MmiCms_Application_Bootstrap requires application/modules/Default/Registry.php instance of MmiCms_Registry');
+			throw new Exception('MmiCms_Application_Bootstrap: Unable to invoke Cache');
 		}
 	}
 

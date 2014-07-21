@@ -36,6 +36,14 @@ class Mmi_Form_Element_Select extends Mmi_Form_Element_Abstract {
 		$this->_options['multiple'] = 'multiple';
 		return $this;
 	}
+	
+	/**
+	 * Zwraca czy pole jest multiple
+	 * @return boolean
+	 */
+	public final function isMultiple() {
+		return (isset($this->_options['multiple']) && $this->_options['multiple'] === 'multiple') ? true : false;
+	}
 
 	/**
 	 * Buduje pole

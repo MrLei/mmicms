@@ -76,7 +76,7 @@ class Mmi_Dao {
 			$q = $bind->queryCompilation();
 			//@TODO usunąć tego if'a:
 			if (!empty($joinSchema)) {
-				throw new Exception('Mmi_Dao: query object supplied together with $limit, $offset etc.');
+				throw new Exception('Mmi_Dao: Query object supplied together with $limit, $offset etc.');
 			}
 			$result = self::getAdapter()->select(static::$_tableName, $q->bind, array(), null, null, array('COUNT(*)'), $q->joinSchema);
 		} else {
@@ -251,10 +251,10 @@ class Mmi_Dao {
 	 */
 	public static final function getAdapter() {
 		if (static::$_tableName === null) {
-			throw new Exception('Table name not specified');
+			throw new Exception('Mmi_Dao: Table name not specified');
 		}
 		if (!(static::$_adapter instanceof Mmi_Db_Adapter_Pdo_Abstract)) {
-			throw new Exception('Adapter not specified or invalid');
+			throw new Exception('Mmi_Dao: Adapter not specified or invalid');
 		}
 		return static::$_adapter;
 	}
