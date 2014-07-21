@@ -188,6 +188,15 @@ abstract class Mmi_Grid {
 	}
 
 	/**
+	 * Pobiera opcję po nazwie
+	 * @param string $name
+	 * @return Mmi_Grid
+	 */
+	public function getOption($name) {
+		return isset($this->_options[$name]) ? $this->_options[$name] : null;
+	}
+
+	/**
 	 * Ustawia startowe zapytanie filtrujące
 	 * @param Mmi_Dao_Query $query
 	 * @return Mmi_Grid
@@ -442,13 +451,34 @@ abstract class Mmi_Grid {
 		$html = '<tr class="unhover">';
 
 		foreach ($this->_columns as $column) {
+			$columnName = $column['name'];
+			if (strpos($columnName, ':') !== false) {
+				$path = explode(':', $columnName);
+				$fieldData = '???';
+				switch (count($path)) {
+					case 2:
+						$fieldData = $rowData->$path[0]->$path[1];
+						break;
+					case 3:
+						$fieldData = $rowData->$path[0]->$path[1]->$path[2];
+						break;
+					case 4:
+						$fieldData = $rowData->$path[0]->$path[1]->$path[2]->$path[3];
+						break;
+					case 5:
+						$fieldData = $rowData->$path[0]->$path[1]->$path[2]->$path[3]->$path[4];
+						break;
+				}
+			} else {
+				$fieldData = $rowData->$column['name'];
+			}
 			$filters = isset($column['filters']) ? $column['filters'] : array();
 			$html .= '<td class="' . $column['type'] . '">';
 			if ($column['type'] != 'buttons' && $column['type'] != 'counter') {
 				$id = 'id="' . $this->_id . '-field-' . $column['type'] . '-' . $column['name'] . '-' . $rowData->id . '"';
 				switch ($column['type']) {
 					case 'text':
-						$data = $this->_applyFilters($filters, strip_tags($rowData->$column['name']));
+						$data = $this->_applyFilters($filters, strip_tags($fieldData));
 						if (strlen($data) > 128) {
 							$data = mb_substr($data, 0, 125, 'utf-8') . '...';
 						}
@@ -459,7 +489,7 @@ abstract class Mmi_Grid {
 						}
 						break;
 					case 'image':
-						$image = $rowData->$column['name'];
+						$image = $fieldData;
 						if ($image instanceof Cms_Model_File_Record) {
 							$column['scale'] = (isset($column['scale']) && intval(isset($column['scale'])) > 0) ? $column['scale'] : 200;
 							$column['scaleType'] = (isset($column['scaleType'])) ? $column['scaleType'] : 'scalex';
@@ -470,7 +500,7 @@ abstract class Mmi_Grid {
 						if ($column['writeable'] && !$this->_options['locked']) {
 							$html .= '<select ' . $id . ' class="grid-field">';
 							foreach ($column['multiOptions'] as $key => $value) {
-								if ($key == $rowData->$column['name']) {
+								if ($key == $fieldData) {
 									$selected = ' selected="selected"';
 								} else {
 									$selected = '';
@@ -485,12 +515,12 @@ abstract class Mmi_Grid {
 							if (isset($column['multiOptions']['true'])) {
 								$column['multiOptions'][1] = $column['multiOptions']['true'];
 							}
-							$value = isset($column['multiOptions'][$rowData->$column['name']]) ? $column['multiOptions'][$rowData->$column['name']] : $rowData->$column['name'];
+							$value = isset($column['multiOptions'][$fieldData]) ? $column['multiOptions'][$fieldData] : $fieldData;
 							$html .= '<div>' . $value . '</div>';
 						}
 						break;
 					case 'checkbox':
-						$checked = $rowData->$column['name'] == 1 ? ' checked=""' : '';
+						$checked = $fieldData ? ' checked=""' : '';
 						if ($column['writeable'] && !$this->_options['locked']) {
 							$html .= '<input type="checkbox" ' . $id . ' value="1" class="grid-field"' . $checked . '>';
 						} else {
@@ -500,8 +530,8 @@ abstract class Mmi_Grid {
 					case 'custom':
 						$GLOBALS['rowData'] = $rowData;
 						$column['value'] = preg_replace_callback('/%([a-zA-Z0-9_]+)%/', create_function(
-										'$matches', 'return $GLOBALS[\'rowData\']->$matches[1];'
-								), $column['value']);
+								'$matches', 'return $GLOBALS[\'rowData\']->$matches[1];'
+							), $column['value']);
 						$this->_view->rowData = $rowData;
 						$this->_view->column = $column;
 						$html .= $this->_view->renderDirectly($column['value']);
@@ -592,10 +622,19 @@ abstract class Mmi_Grid {
 					break;
 				}
 			}
+			$table = null;
+			if (strpos($field, ':') !== false) {
+				$fld = explode(':', $field);
+				if (count($fld) != 2) {
+					continue;
+				}
+				$table = $fld[0];
+				$field = $fld[1];
+			}
 			if ($type == 'select' || $type == 'checkbox') {
-				$q->andField($field)->equals($value);
+				$q->andField($field, $table)->equals($value);
 			} else {
-				$q->andField($field)->like('%' . $value . '%');
+				$q->andField($field, $table)->like('%' . $value . '%');
 			}
 		}
 		//nakładanie sortów
@@ -603,10 +642,19 @@ abstract class Mmi_Grid {
 			$q->resetOrder();
 		}
 		foreach ($this->_options['order'] as $field => $value) {
+			$table = null;
+			if (strpos($field, ':') !== false) {
+				$fld = explode(':', $field);
+				if (count($fld) != 2) {
+					continue;
+				}
+				$table = $fld[0];
+				$field = $fld[1];
+			}
 			if ($value == 'ASC') {
-				$q->orderAsc($field);
+				$q->orderAsc($field, $table);
 			} else {
-				$q->orderDesc($field);
+				$q->orderDesc($field, $table);
 			}
 		}
 

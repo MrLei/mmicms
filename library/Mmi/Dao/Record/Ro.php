@@ -233,7 +233,7 @@ class Mmi_Dao_Record_Ro {
 		$bind = array();
 		foreach ($this->_pk as $index => $column) {
 			if (!array_key_exists($index, $values)) {
-				throw new Exception('Invalid primary key values count');
+				throw new Exception('Mmi_Dao_Record_Ro: Invalid primary key values: ' . $column . ' not found in ' . print_r($values, true) . $this->_daoClass);
 			}
 			$bind[] = array($column, $values[$index]);
 		}
