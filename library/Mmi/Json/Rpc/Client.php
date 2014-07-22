@@ -77,16 +77,25 @@ class Mmi_Json_Rpc_Client {
 
 		//pobieranie odpowiedzi z serwera
 		try {
-			$response = json_decode(file_get_contents($this->_url, false, stream_context_create(array('http' => array(
+			$rawResponse = (string)file_get_contents($this->_url, false, stream_context_create(array('http' => array(
 					'method' => $httpMethod,
 					'header' => array('Content-type: application/json', 'Connection: close'),
 					'content' => json_encode($request)
-			)))));
+			))));
+			$response = json_decode($rawResponse);
 		} catch (Exception $e) {
-			throw new Exception('Service unavailable or access denied.');
+			$message = substr($e->getMessage(), 30 + strpos($e->getMessage(), 'HTTP request failed! '));
+			$message = substr($message, 0, strpos($message, '[') - 2);
+			throw new Exception('Service error: ' . $message . '.');
 		}
-		if (!is_object($response) || !property_exists($response, 'result') || !isset($response->id)) {
-			throw new Exception('Service data error, not a valid JSON-RPC response.');
+		if (!is_object($response)) {
+			throw new Exception('Service response is not a valid JSON-RPC response, RAW response: ' . $rawResponse);
+		}
+		if (!property_exists($response, 'result')) {
+			throw new Exception('Service response missing field: "result".');
+		}
+		if (!property_exists($response, 'id')) {
+			throw new Exception('Service response missing field: "id".');
 		}
 		if ((string) $request['id'] != (string) $response->id) {
 			throw new Exception('Invalid response "id".');
@@ -96,5 +105,5 @@ class Mmi_Json_Rpc_Client {
 		}
 		return $response->result;
 	}
-
+	
 }
