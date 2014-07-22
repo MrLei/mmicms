@@ -5,43 +5,44 @@ class Api_Controller_Soap extends Mmi_Controller_Action {
 	public function serverAction() {
 		try {
 			$apiModel = $this->_getModelName($this->obj);
-			//prywatny serwer
-			if ($this->type == 'private') {
-				$apiModel .= '_Private';
-				$auth = new Mmi_Auth();
-				$auth->setModelName($apiModel);
-				$auth->httpAuth('Private API', 'Access denied!');
-			}
-			$url = $this->view->url(array(
+			$wsdlParams = array(
 				'module' => 'api',
 				'controller' => 'soap',
 				'action' => 'wsdl',
 				'obj' => $this->obj,
-				'type' => $this->type,
-				), true, true, $this->_isSsl());
+			);
+			//prywatny serwer
+			if (Mmi_Controller_Front::getInstance()->getEnvironment()->authUser) {
+				$apiModel .= '_Private';
+				$auth = new Mmi_Auth();
+				$auth->setModelName($apiModel);
+				$auth->httpAuth('Private API', 'Access denied!');
+				$wsdlParams['type'] = 'private';
+			}
+			$url = $this->view->url($wsdlParams, true, true, $this->_isSsl());
 			$this->getResponse()->setTypeXml();
 			$soap = new SoapServer($url);
 			$soap->setClass($apiModel);
 			$soap->handle();
 			return '';
 		} catch (Exception $e) {
-			$this->_internalError($e);
+			return $this->_internalError($e);
 		}
 	}
 
 	public function wsdlAction() {
 		try {
 			$apiModel = $this->_getModelName($this->obj);
-			$url = $this->view->url(array(
+			$serverParams = array(
 				'module' => 'api',
 				'controller' => 'soap',
 				'action' => 'server',
 				'obj' => $this->obj,
-				'type' => $this->type
-				), true, true, $this->_isSsl());
-			if ($this->type === 'private') {
+			);
+			if ($this->type == 'private' || Mmi_Controller_Front::getInstance()->getEnvironment()->authUser) {
 				$apiModel .= '_Private';
 			}
+			$url = $this->view->url($serverParams, true, true, $this->_isSsl());
 			//@TODO: przepisać do ZF2
 			$this->getResponse()->setTypeXml();
 			$autodiscover = new Zend_Soap_AutoDiscover();
@@ -64,7 +65,7 @@ class Api_Controller_Soap extends Mmi_Controller_Action {
 		unset($obj[0]);
 		return rtrim($class . implode('_', $obj), '_') . '_Api';
 	}
-	
+
 	protected function _internalError($e) {
 		Mmi_Exception_Logger::log($e);
 		$this->getResponse()->setCodeError();
