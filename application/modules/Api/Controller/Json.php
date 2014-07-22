@@ -5,8 +5,8 @@ class Api_Controller_Json extends Mmi_Controller_Action {
 	public function serverAction() {
 		try {
 			$apiModel = $this->_getModelName($this->obj);
-			//prywatny serwer
-			if ($this->type === 'private') {
+			//serwer z autoryzacją HTTP
+			if (Mmi_Controller_Front::getInstance()->getEnvironment()->authUser) {
 				$apiModel .= '_Private';
 				$auth = new Mmi_Auth();
 				$auth->setModelName($apiModel);
@@ -16,7 +16,7 @@ class Api_Controller_Json extends Mmi_Controller_Action {
 		} catch (Exception $e) {
 			Mmi_Exception_Logger::log($e);
 			$this->getResponse()->setCodeError();
-			return '<html><body><h1>Soap service failed</h1></body></html>';
+			return '<html><body><h1>JSON service failed</h1></body></html>';
 		}
 	}
 
