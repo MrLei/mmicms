@@ -39,6 +39,9 @@ class Mmi_Json_Rpc_Server {
 			'error' => null,
 			'id' => null,
 		);
+		
+		//nagłówek json
+		Mmi_Controller_Front::getInstance()->getResponse()->setTypeJson();
 
 		//sprawdzanie poprawności nagłówka
 		if (Mmi_Controller_Front::getInstance()->getRequest()->getContentType() != 'application/json') {
@@ -58,6 +61,14 @@ class Mmi_Json_Rpc_Server {
 			return json_encode($content);
 		}
 
+		//brak, lub niewłaściwa wersja jsonrpc
+		if (!isset($request['jsonrpc']) || $request['jsonrpc'] != '2.0') {
+			$response['error'] = self::_newErrorInvalidRequest(array(
+					'details' => 'Missing request "jsonrpc", or not 2.0 version.'
+			));
+			return json_encode($content);
+		}
+	
 		//brak id
 		if (!isset($request['id'])) {
 			$response['error'] = self::_newErrorInvalidRequest(array(
@@ -65,14 +76,7 @@ class Mmi_Json_Rpc_Server {
 			));
 			return json_encode($content);
 		}
-
-		//brak, lub niewłaściwe jsonrpc
-		if (!isset($request['jsonrpc']) || $request['jsonrpc'] != '2.0') {
-			$response['error'] = self::_newErrorInvalidRequest(array(
-					'details' => 'Missing request "jsonrpc", or not 2.0 version.'
-			));
-			return json_encode($content);
-		}
+		$response['id'] = $request['id'];
 
 		//brak metody
 		if (!isset($request['method'])) {
@@ -85,7 +89,7 @@ class Mmi_Json_Rpc_Server {
 		//walidacja nazwy metody
 		if (!preg_match('/^[a-z0-9\-\_]+$/i', $request['method'])) {
 			$response['error'] = self::_newErrorMethodNotFound(array(
-					'details' => 'Method name "' . $request['method'] . '" is invalid.'
+					'details' => 'Method name "' . $request['method'] . '" is invalid in class " ' . $className . '".'
 			));
 			return json_encode($response);
 		}
@@ -93,33 +97,29 @@ class Mmi_Json_Rpc_Server {
 		//filtrowanie nazwy metody
 		$method = strtolower(Mmi_Controller_Front::getInstance()->getRequest()->getRequestMethod()) .
 			ucfirst($request['method']);
-
+		
 		//wykonanie metody
 		try {
 			$object = new $className();
-			//nagłówek json
-			Mmi_Controller_Front::getInstance()->getResponse()->setTypeJson();
-			$response['id'] = $request['id'];
 			$response['result'] = call_user_func_array(array($object, $method), (isset($request['params']) ? $request['params'] : array()));
 			return json_encode($response);
 			//wykonanie nie powiodło się
 		} catch (Exception $e) {
-			$response['id'] = $request['id'];
 			//objekt i metoda istnieją, błąd parametrów
 			if (isset($object) && is_object($object) && method_exists($object, $method)) {
 				$response['error'] = self::_newErrorInvalidParams(array(
-						'details' => 'Invalid parameter count for method "' . $method . '" or method failed.'
+						'details' => 'Invalid parameter count for method "' . $method . '" or method failed in class "' . $className . '".'
 				));
 				return json_encode($response);
 				//brak metody w serwisie
 			} elseif (isset($object)) {
 				$response['error'] = self::_newErrorMethodNotFound(array(
-						'details' => 'Method "' . $method . '" is not implemented.'
+						'details' => 'Method "' . $method . '" is not implemented in class "' . $className . '".'
 				));
 				return json_encode($response);
 			}
 			$response['error'] = self::_newErrorInternal(array(
-					'details' => 'General service error.'
+					'details' => 'General service error in class "' . $className . '".'
 			));
 			return json_encode($response);
 		}
