@@ -39,7 +39,7 @@ class Mmi_Json_Rpc_Server {
 			'error' => null,
 			'id' => null,
 		);
-		
+
 		//nagłówek json
 		Mmi_Controller_Front::getInstance()->getResponse()->setTypeJson();
 
@@ -68,7 +68,7 @@ class Mmi_Json_Rpc_Server {
 			));
 			return json_encode($content);
 		}
-	
+
 		//brak id
 		if (!isset($request['id'])) {
 			$response['error'] = self::_newErrorInvalidRequest(array(
@@ -85,7 +85,7 @@ class Mmi_Json_Rpc_Server {
 			));
 			return json_encode($content);
 		}
-		
+
 		//walidacja nazwy metody
 		if (!preg_match('/^[a-z0-9\-\_]+$/i', $request['method'])) {
 			$response['error'] = self::_newErrorMethodNotFound(array(
@@ -97,7 +97,7 @@ class Mmi_Json_Rpc_Server {
 		//filtrowanie nazwy metody
 		$method = strtolower(Mmi_Controller_Front::getInstance()->getRequest()->getRequestMethod()) .
 			ucfirst($request['method']);
-		
+
 		//wykonanie metody
 		try {
 			$object = new $className();
@@ -105,19 +105,29 @@ class Mmi_Json_Rpc_Server {
 			return json_encode($response);
 			//wykonanie nie powiodło się
 		} catch (Exception $e) {
-			//objekt i metoda istnieją, błąd parametrów
-			if (isset($object) && is_object($object) && method_exists($object, $method)) {
+			//objekt i metoda istnieją, błąd ilości parametrów
+			if (isset($object) && is_object($object) && method_exists($object, $method) && strpos($e->getMessage(), 'WARNING: Missing argument') !== false) {
 				$response['error'] = self::_newErrorInvalidParams(array(
-						'details' => 'Invalid parameter count for method "' . $method . '" or method failed in class "' . $className . '".'
+						'details' => 'Invalid method "' . $method . '" parameter count (' . count($request['params'])  . ') in class "' . $className . '".'
 				));
 				return json_encode($response);
-				//brak metody w serwisie
-			} elseif (isset($object)) {
+			}
+			//błąd metody
+			if (isset($object) && is_object($object) && method_exists($object, $method)) {
+				Mmi_Exception_Logger::log($e);
+				$response['error'] = self::_newErrorInternal(array(
+						'details' => 'Method "' . $method . '" failed in class "' . $className . '".'
+				));
+				return json_encode($response);
+			}
+			//brak metody w serwisie
+			if (isset($object)) {
 				$response['error'] = self::_newErrorMethodNotFound(array(
 						'details' => 'Method "' . $method . '" is not implemented in class "' . $className . '".'
 				));
 				return json_encode($response);
 			}
+			//błąd powołania obiektu
 			$response['error'] = self::_newErrorInternal(array(
 					'details' => 'General service error in class "' . $className . '".'
 			));
