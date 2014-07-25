@@ -58,7 +58,7 @@ class Mmi_Json_Rpc_Server {
 			$response['error'] = self::_newErrorInvalidRequest(array(
 					'details' => 'Request is not in a JSON format.'
 			));
-			return json_encode($content);
+			return json_encode($response);
 		}
 
 		//brak, lub niewłaściwa wersja jsonrpc
@@ -66,7 +66,7 @@ class Mmi_Json_Rpc_Server {
 			$response['error'] = self::_newErrorInvalidRequest(array(
 					'details' => 'Missing request "jsonrpc", or not 2.0 version.'
 			));
-			return json_encode($content);
+			return json_encode($response);
 		}
 
 		//brak id
@@ -74,7 +74,7 @@ class Mmi_Json_Rpc_Server {
 			$response['error'] = self::_newErrorInvalidRequest(array(
 					'details' => 'Missing request "id".'
 			));
-			return json_encode($content);
+			return json_encode($response);
 		}
 		$response['id'] = $request['id'];
 
@@ -83,7 +83,7 @@ class Mmi_Json_Rpc_Server {
 			$response['error'] = self::_newErrorInvalidRequest(array(
 					'details' => 'Missing request "method".'
 			));
-			return json_encode($content);
+			return json_encode($response);
 		}
 
 		//walidacja nazwy metody
