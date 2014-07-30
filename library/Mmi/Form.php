@@ -31,6 +31,12 @@ abstract class Mmi_Form {
 	 * @var string
 	 */
 	protected $_formBaseName;
+	
+	/**
+	 * Nazwa klasy
+	 * @var string
+	 */
+	protected $_className;
 
 	/**
 	 * Referencja do requestu
@@ -190,7 +196,7 @@ abstract class Mmi_Form {
 			$this->_recordId = $id;
 		}
 
-		$className = isset($className) ? $className : get_class($this);
+		$this->_className =  isset($className) ? $className : get_class($this);
 
 		//kalkulacja nazwy plików dla active record
 		if ($this->_recordName) {
@@ -200,7 +206,7 @@ abstract class Mmi_Form {
 		$this->_request = Mmi_Controller_Front::getInstance()->getRequest();
 
 		if (!$this->getAttrib('name')) {
-			$this->_formBaseName = strtolower(substr($className, strrpos($className, '_') + 1));
+			$this->_formBaseName = strtolower(substr($this->_className, strrpos($this->_className, '_') + 1));
 		} else {
 			$this->_formBaseName = $this->getAttrib('name');
 		}
@@ -274,16 +280,15 @@ abstract class Mmi_Form {
 		$formName = $this->_formBaseName . 'Form';
 		$view->$formName = $this;
 		if ($this->_secured) {
-			$this->_hash = sha1($className . microtime(true));
+			$this->_hash = sha1($this->_className . microtime(true));
 		} else {
-			$this->_hash = sha1($className);
+			$this->_hash = sha1($this->_className);
 		}
 
-		$this->addElement('hidden', $this->_formBaseName . '__ctrl', array(
-			'id' => $this->_formBaseName . '__ctrl',
-			'ignore' => true,
-			'value' => Mmi_Lib::hashTable(array('hash' => $this->_hash, 'class' => $className, 'options' => $this->_options))
-		));
+		$this->addElementHidden($this->_formBaseName . '__ctrl')
+			->setIgnore()
+			->setOption('id', $this->_formBaseName . '__ctrl')
+			->setValue(Mmi_Lib::hashTable(array('hash' => $this->_hash, 'class' => $this->_className, 'options' => $this->_options)));
 
 		if (!isset($options['ajax']) && $this->_secured) {
 			$this->_sessionNamespace = new Mmi_Session_Namespace('Mmi_Form');
@@ -300,39 +305,55 @@ abstract class Mmi_Form {
 		$this->setDefaults($this->_values);
 		$this->lateInit();
 	}
+	
+	/**
+	 * Sprawdza poprawność całego formularza
+	 * @return boolean
+	 */
+	public function isProper() {
+		if (!$this->isMine()) {
+			return false;
+		}
+		$values = array();
+		$validatorData = array();
+		$values[$this->_formBaseName . '__ctrl'] = isset($this->_values[$this->_formBaseName . '__ctrl']) ? $this->_values[$this->_formBaseName . '__ctrl'] : null;
+		foreach ($this->_values as $key => $value) {
+			$element = $this->getElement($key);
+			if ($element === null) {
+				continue;
+			}
+			$value = $element->applyFilters($value);
+			if (!$element->isIgnored()) {
+				$values[$key] = $value;
+			}
+			$validatorData[$key] = $value;
+		}
+		$this->_values = $values;
+		if ($this->_request->isPost() && $this->isValid($validatorData)) {
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * Wywołuje walidację i zapis rekordu powiązanego z formularzem.
 	 * @return bool
 	 */
 	public function save() {
-		if ($this->isMine()) {
-			$values = array();
-			$validatorData = array();
-			$values[$this->_formBaseName . '__ctrl'] = isset($this->_values[$this->_formBaseName . '__ctrl']) ? $this->_values[$this->_formBaseName . '__ctrl'] : null;
-			foreach ($this->_values as $key => $value) {
-				$element = $this->getElement($key);
-				if ($element !== null) {
-					if (!$element->isIgnored()) {
-						$values[$key] = $element->applyFilters($value);
-					}
-					$validatorData[$key] = $element->applyFilters($value);
-				}
+		if (!$this->hasRecord()) {
+			return $this->isSaved();
+		}
+		if (!$this->isProper()) {
+			return $this->isSaved();
+		}
+		$this->_saved = $this->_saveRecord($this->_values);
+		$this->_saveResult = $this->_record->getSaveStatus();
+		if ($this->_saved === true) {
+			if (null != $this->_sessionNamespace) {
+				$this->_sessionNamespace->unsetAll();
 			}
-			$this->_values = $values;
-			//zapis danych do aktywnego rekordu
-			if ($this->_request->isPost() && $this->isValid($validatorData) && $this->hasRecord()) {
-				//zapis do rekordu
-				$this->_saved = $this->_saveRecord($this->_values);
-				$this->_saveResult = $this->_record->getSaveStatus();
-				if ($this->_saved === true) {
-					if (null != $this->_sessionNamespace) {
-						$this->_sessionNamespace->unsetAll();
-					}
-					$this->_appendFiles($this->_record->getPk(), $this->_importFiles());
-					$this->_recordId = $this->_record->getPk();
-				}
-			}
+			$this->_appendFiles($this->_record->getPk(), $this->_importFiles());
+			$this->_recordId = $this->_record->getPk();
 		}
 		return $this->isSaved();
 	}
@@ -853,7 +874,7 @@ abstract class Mmi_Form {
 			return false;
 		}
 		$options = Mmi_Lib::unhashTable($data[$this->_formBaseName . '__ctrl']);
-		if ($options['class'] != get_class($this)) {
+		if ($options['class'] != $this->_className) {
 			return false;
 		}
 		if ($this->_secured && $options['hash'] != $this->_hash) {
@@ -875,7 +896,7 @@ abstract class Mmi_Form {
 		}
 		return $this->_validationResult;
 	}
-
+	
 	/**
 	 * Bramka zapisu danych
 	 * @param array $data
