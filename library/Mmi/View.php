@@ -159,6 +159,9 @@ class Mmi_View {
 	 */
 	public function setRequest(Mmi_Controller_Request $request) {
 		$this->request = $request;
+		$this->module = $request->getModuleName();
+		$this->lang = $request->lang;
+		$this->skin = $request->skin;
 		return $this;
 	}
 

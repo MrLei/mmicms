@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -28,57 +29,37 @@
 class Mmi_Controller_Action_Helper_Abstract {
 
 	/**
-	 * Kontroler akcji
-	 * @var Mmi_Controller_Action
+	 * Request
+	 * @var Mmi_Controller_Request
 	 */
-	private $_actionController;
-	
+	protected $_request;
+
 	/**
 	 * Inicjalizacja dla programisty
 	 */
-	public function init() {}
+	public function init() {
+		
+	}
 
 	/**
-	 * Magiczne pobranie zmiennej z requestu
-	 * @param mixed $name wartość zmiennej
+	 * Ustawia request (zastępujący domyślny z Front Controllera)
+	 * @param Mmi_Controller_Request $request
+	 * @return Mmi_Controller_Action_Helper_Abstract
 	 */
-	public final function __get($name) {
-		return $this->_getParam($name);
-	}
-	
-	/**
-	 * Ustawia kontroler akcji
-	 * @param Mmi_Controller_Action $actionController
-	 * @return Mmi_Controller_Action_Helper_Abstract 
-	 */
-	public final function setActionController(Mmi_Controller_Action $actionController) {
-		$this->_actionController = $actionController;
+	public final function setRequest(Mmi_Controller_Request $request) {
+		$this->_request = $request;
 		return $this;
 	}
-	
+
 	/**
-	 * Zwraca kontroler akcji
-	 * @return Mmi_Controller_Action
-	 */
-	public final function getActionController() {
-		return $this->_actionController;
-	}
-	
-	/**
-	 * Pobiera request
+	 * Zwraca request
 	 * @return Mmi_Controller_Request
 	 */
 	public final function getRequest() {
-		return $this->_actionController->getRequest();
+		if (!$this->_request) {
+			return Mmi_Controller_Front::getInstance()->getRequest();
+		}
+		return $this->_request;
 	}
 
-	/**
-	 * Pobiera parametr z requestu
-	 * @param string $name nazwa parametru
-	 * @return mixed wartość
-	 */
-	protected final function _getParam($name) {
-		return $this->getRequest()->getParam($name);
-	}
-	
 }
