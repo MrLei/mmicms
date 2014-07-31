@@ -102,11 +102,13 @@ class Mmi_Auth {
 
 	/**
 	 * Usuwa pamięć o automatycznym logowaniu użytkownika
+	 * @return \Mmi_Auth
 	 */
 	public function forgetMe() {
 		$cookie = new Mmi_Http_Cookie();
 		$cookie->match('remember');
 		$cookie->delete();
+		return $this;
 	}
 
 	/**
@@ -164,9 +166,11 @@ class Mmi_Auth {
 	/**
 	 * Ustawia nazwę modelu
 	 * @param string $modelName
+	 * @return \Mmi_Auth
 	 */
 	public function setModelName($modelName) {
 		$this->_modelName = $modelName;
+		return $this;
 	}
 
 	/**
@@ -180,30 +184,38 @@ class Mmi_Auth {
 	/**
 	 * Ustawia identyfikator do autoryzacji (np. login)
 	 * @param string $identity identyfikator
+	 * @return \Mmi_Auth
 	 */
 	public function setIdentity($identity) {
 		$this->_identity = $identity;
+		return $this;
 	}
 
 	/**
 	 * Ustawia ciąg uwierzytelniający do autoryzacji (np. hasło)
 	 * @param string $credential ciąg uwierzytelniający
+	 * @return \Mmi_Auth
 	 */
 	public function setCredential($credential) {
 		$this->_credential = $credential;
+		return $this;
 	}
 
 	/**
 	 * Czyści tożsamość
 	 * @param bool $cookies czyści także ciastka zapamiętujące użytkownika
+	 * @return \Mmi_Auth
 	 */
 	public function clearIdentity($cookies = true) {
 		if ($cookies) {
 			$this->forgetMe();
 		}
-		$model = $this->_modelName;
-		$model::deauthenticate();
+		if ($this->_modelName) {
+			$model = $this->_modelName;
+			$model::deauthenticate();
+		}
 		$this->_session->unsetAll();
+		return $this;
 	}
 
 	/**
@@ -212,6 +224,9 @@ class Mmi_Auth {
 	 */
 	public function authenticate() {
 		$model = $this->_modelName;
+		if (!$this->_modelName) {
+			return false;
+		}
 		$result = $model::authenticate($this->_identity, $this->_credential);
 		if ($result === false) {
 			return false;
