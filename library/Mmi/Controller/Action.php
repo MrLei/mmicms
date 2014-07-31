@@ -123,22 +123,14 @@ class Mmi_Controller_Action {
 	 * Konfiguruje kontroler akcji
 	 */
 	private function _init() {
-		//widok
+		//przypięcie widoku
 		$this->view = Mmi_Controller_Front::getInstance()->getView();
-		$lang = $this->_request->__get('lang');
-		$skin = $this->_request->__get('skin');
-		$module = $this->_request->__get('module');
 
-		//zmienne widoku
-		$this->view->setRequest($this->_request);
-		$this->view->module = $module;
-		$this->view->lang = $lang;
-		$this->view->skin = $skin;
 		//inicjalizacja tłumaczeń
-		$this->_initTranslaction($module, $skin, $lang);
+		$this->_initTranslaction($this->_request->__get('module'), $this->_request->__get('skin'), $this->_request->__get('lang'));
 
 		//tworzenie brokera helperów kontrolera
-		$this->_helper = new Mmi_Controller_Action_HelperBroker($this);
+		$this->_helper = new Mmi_Controller_Action_HelperBroker($this->_request);
 	}
 
 	/**

@@ -47,10 +47,9 @@ class Mmi_Controller_Action_Helper_Messenger extends Mmi_Controller_Action_Helpe
 
 	/**
 	 * Konstruktor pozwala zdefiniować w opcjach 'namespace' czyli nazwę przestrzeni
-	 * @param array $options opcje
 	 */
-	public function __construct(array $options = array()) {
-		$this->_namespace = isset($options['namespace']) ? $options['namespace'] : 'messenger';
+	public function __construct() {
+		$this->_namespace = 'messenger';
 		self::$_session = new Mmi_Session_Namespace($this->_namespace);
 	}
 
@@ -63,13 +62,13 @@ class Mmi_Controller_Action_Helper_Messenger extends Mmi_Controller_Action_Helpe
 		$this->_translate = $translate;
 		return $this;
 	}
-
+	
 	/**
 	 * Metoda główna, dodaje wiadomość
 	 * @param string $message wiadomość w formacie sprintf
 	 * @param bool $type true - pozytywna, null - neutralna, false - negatywna
 	 * @param array $variables zawiera zmienne do sprintf
-	 * @return Mmi_Session_Namespace
+	 * @return Mmi_Controller_Action_Helper_Messenger
 	 */
 	public function messenger($message, $type = null, array $variables = array()) {
 		if ($this->_translate !== null) {
@@ -83,7 +82,7 @@ class Mmi_Controller_Action_Helper_Messenger extends Mmi_Controller_Action_Helpe
 	 * Dodaje wiadomość
 	 * @param string $message wiadomość
 	 * @param bool $type true - pozytywna, false - negatywna, brak - neutralna
-	 * @return Mmi_Session_Namespace
+	 * @return Mmi_Controller_Action_Helper_Messenger
 	 */
 	public function addMessage($message, $type = null) {
 		if ($type) {
@@ -124,7 +123,7 @@ class Mmi_Controller_Action_Helper_Messenger extends Mmi_Controller_Action_Helpe
 
 	/**
 	 * Czyści wiadomości
-	 * @return Mmi_Session_Namespace
+	 * @return Mmi_Controller_Action_Helper_Messenger
 	 */
 	public function clearMessages() {
 		self::$_session->unsetAll();
