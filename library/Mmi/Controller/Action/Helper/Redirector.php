@@ -26,7 +26,7 @@
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 class Mmi_Controller_Action_Helper_Redirector extends Mmi_Controller_Action_Helper_Abstract {
-
+	
 	/**
 	 * Metoda główna, wykonuje gotoSimple
 	 * @see Mmi_Controller_Action_Helper_Redirector::gotoSimple()
@@ -52,7 +52,7 @@ class Mmi_Controller_Action_Helper_Redirector extends Mmi_Controller_Action_Help
 		$response->setCode($code);
 		return $this;
 	}
-
+	
 	/**
 	 * Przekierowanie wewnątrz systemu (z użyciem routera)
 	 * Buduje URL za pomocą routera i wykonuje gotoUrl()
@@ -75,7 +75,7 @@ class Mmi_Controller_Action_Helper_Redirector extends Mmi_Controller_Action_Help
 	 */
 	public function gotoSimple($action = null, $controller = null, $module = null, array $params = array(), $reset = false) {
 		if (!$reset) {
-			$requestParams = Mmi_Controller_Front::getInstance()->getRequest()->toArray();
+			$requestParams = $this->getRequest()->toArray();
 			$params = array_merge($requestParams, $params);
 		}
 		if ($action !== null) {
