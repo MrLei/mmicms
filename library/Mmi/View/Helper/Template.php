@@ -211,10 +211,8 @@ class Mmi_View_Helper_Template extends Mmi_View_Helper_Abstract {
 	 * @return string
 	 */
 	private function _render(array $matches) {
-		$fileName = APPLICATION_PATH . '/skins/' . $this->view->skin . '/' . $matches[1];
-		$data = file_get_contents($fileName);
-		$data = preg_replace_callback('/\{\'(.[^\']+)\'\}/', array(&$this, '_render'), $data);
-		return $data;
+		$fileName = APPLICATION_PATH . '/skins/' . $this->view->request->skin . '/' . $matches[1];
+		return preg_replace_callback('/\{\'(.[^\']+)\'\}/', array(&$this, '_render'), file_get_contents($fileName));
 	}
 
 	/**
