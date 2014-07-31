@@ -207,7 +207,7 @@ class Mmi_Auth {
 	}
 
 	/**
-	 * Autoryzacja, zwraca wynik, lub false
+	 * Autoryzacja
 	 * @return boolean
 	 */
 	public function authenticate() {
@@ -219,12 +219,26 @@ class Mmi_Auth {
 		if (!is_object($result)) {
 			throw new Exception('Authentication result is not an instance of stdClass');
 		}
-		$this->_session->id = $result->id;
-		$this->_session->username = $result->username;
-		$this->_session->email = $result->email;
-		$this->_session->lang = $result->lang;
-		$this->_session->roles = $result->roles;
-		$this->_session->ip = Mmi_Controller_Front::getInstance()->getEnvironment()->remoteAddress;
+		return $this->setAuthentication($result->id, $result->username, $result->email, $result->roles, $result->lang, Mmi_Controller_Front::getInstance()->getEnvironment()->remoteAddress);
+	}
+	
+	/**
+	 * Wymuszenie ustawienia autoryzacji
+	 * @param integer $id
+	 * @param string $username
+	 * @param string $email
+	 * @param array $roles
+	 * @param string $lang
+	 * @param string $ip
+	 * @return boolean
+	 */
+	public function setAuthentication($id, $username, $email, array $roles = array('guest'), $lang = null, $ip = null) {
+		$this->_session->id = $id;
+		$this->_session->username = $username;
+		$this->_session->email = $email;
+		$this->_session->lang = $lang;
+		$this->_session->roles = $roles;
+		$this->_session->ip = $ip;
 		return true;
 	}
 
@@ -235,15 +249,10 @@ class Mmi_Auth {
 	public function idAuthenticate() {
 		$model = $this->_modelName;
 		$result = $model::idAuthenticate($this->_identity);
-		if (is_object($result)) {
-			$this->_session->id = $result->id;
-			$this->_session->username = $result->username;
-			$this->_session->email = $result->email;
-			$this->_session->lang = $result->lang;
-			$this->_session->roles = $result->roles;
-			$this->_session->ip = Mmi_Controller_Front::getInstance()->getEnvironment()->remoteAddress;
+		if (!is_object($result)) {
+			throw new Exception('Authentication result is not an instance of stdClass');
 		}
-		return true;
+		return $this->setAuthentication($result->id, $result->username, $result->email, $result->roles, $result->lang, Mmi_Controller_Front::getInstance()->getEnvironment()->remoteAddress);
 	}
 
 	/**
