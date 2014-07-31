@@ -329,7 +329,7 @@ abstract class Mmi_Form {
 			$validatorData[$key] = $value;
 		}
 		$this->_values = $values;
-		if ($this->_request->isPost() && $this->isValid($validatorData)) {
+		if ($this->_request->isPost() && $this->validator() && $this->isValid($validatorData)) {
 			return true;
 		}
 		return false;
@@ -377,6 +377,14 @@ abstract class Mmi_Form {
 	 */
 	public function lateInit() {
 
+	}
+	
+	/**
+	 * Metoda walidacji całego formularza
+	 * @return boolean
+	 */
+	public function validator() {
+		return true;
 	}
 
 	/**
