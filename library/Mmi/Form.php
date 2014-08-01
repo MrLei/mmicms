@@ -329,7 +329,7 @@ abstract class Mmi_Form {
 			$validatorData[$key] = $value;
 		}
 		$this->_values = $values;
-		if ($this->_request->isPost() && $this->validator() && $this->isValid($validatorData)) {
+		if ($this->_request->isPost() && $this->isValid($validatorData) && $this->validator()) {
 			return true;
 		}
 		return false;
