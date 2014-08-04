@@ -1253,10 +1253,12 @@ abstract class Mmi_Form {
 	 */
 	protected function _appendFiles($id, $files) {
 		try {
-			Cms_Model_File_Dao::appendFiles($this->_fileObjectName, $id, $files);
+			foreach ($files as $fileSet) {
+				Cms_Model_File_Dao::appendFiles($this->_fileObjectName, $id, $fileSet);
+			}
 			Cms_Model_File_Dao::move('tmp-' . $this->_fileObjectName, Mmi_Session::getNumericId(), $this->_fileObjectName, $id);
 		} catch (Exception $e) {
-
+			Mmi_Exception_Logger::log($e);
 		}
 	}
 
@@ -1275,7 +1277,7 @@ abstract class Mmi_Form {
 			if (!$element->isUploaded()) {
 				continue;
 			}
-			$files = $element->getFileInfo();
+			$files[$element->getName()] = $element->getFileInfo();
 		}
 		return $files;
 	}
