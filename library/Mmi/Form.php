@@ -329,7 +329,7 @@ abstract class Mmi_Form {
 			$validatorData[$key] = $value;
 		}
 		$this->_values = $values;
-		if ($this->_request->isPost() && $this->isValid($validatorData)) {
+		if ($this->_request->isPost() && $this->isValid($validatorData) && $this->validator()) {
 			return true;
 		}
 		return false;
@@ -352,7 +352,7 @@ abstract class Mmi_Form {
 			if (null != $this->_sessionNamespace) {
 				$this->_sessionNamespace->unsetAll();
 			}
-			$this->_appendFiles($this->_record->getPk(), $this->_importFiles());
+			$this->_appendFiles($this->_record->getPk(), $this->getFiles());
 			$this->_recordId = $this->_record->getPk();
 		}
 		return $this->isSaved();
@@ -377,6 +377,14 @@ abstract class Mmi_Form {
 	 */
 	public function lateInit() {
 
+	}
+	
+	/**
+	 * Metoda walidacji całego formularza
+	 * @return boolean
+	 */
+	public function validator() {
+		return true;
 	}
 
 	/**
@@ -1245,10 +1253,12 @@ abstract class Mmi_Form {
 	 */
 	protected function _appendFiles($id, $files) {
 		try {
-			Cms_Model_File_Dao::appendFiles($this->_fileObjectName, $id, $files);
+			foreach ($files as $fileSet) {
+				Cms_Model_File_Dao::appendFiles($this->_fileObjectName, $id, $fileSet);
+			}
 			Cms_Model_File_Dao::move('tmp-' . $this->_fileObjectName, Mmi_Session::getNumericId(), $this->_fileObjectName, $id);
 		} catch (Exception $e) {
-
+			Mmi_Exception_Logger::log($e);
 		}
 	}
 
@@ -1257,7 +1267,7 @@ abstract class Mmi_Form {
 	 * Zwraca tabelę danych plików
 	 * @return array
 	 */
-	protected function _importFiles() {
+	public function getFiles() {
 		$files = array();
 		//import z elementów File
 		foreach ($this->getElements() as $element) {
@@ -1267,7 +1277,7 @@ abstract class Mmi_Form {
 			if (!$element->isUploaded()) {
 				continue;
 			}
-			$files = $element->getFileInfo();
+			$files[$element->getName()] = $element->getFileInfo();
 		}
 		return $files;
 	}
