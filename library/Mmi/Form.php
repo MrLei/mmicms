@@ -352,7 +352,7 @@ abstract class Mmi_Form {
 			if (null != $this->_sessionNamespace) {
 				$this->_sessionNamespace->unsetAll();
 			}
-			$this->_appendFiles($this->_record->getPk(), $this->_importFiles());
+			$this->_appendFiles($this->_record->getPk(), $this->getFiles());
 			$this->_recordId = $this->_record->getPk();
 		}
 		return $this->isSaved();
@@ -1267,7 +1267,7 @@ abstract class Mmi_Form {
 	 * Zwraca tabelę danych plików
 	 * @return array
 	 */
-	protected function _importFiles() {
+	public function getFiles() {
 		$files = array();
 		//import z elementów File
 		foreach ($this->getElements() as $element) {
