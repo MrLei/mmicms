@@ -65,6 +65,22 @@ class Cms_Model_File_Record extends Mmi_Dao_Record {
 		}
 		return DATA_PATH . '/' . $this->name[0] . $this->name[1] . $this->name[2] . '/' . $this->name;
 	}
+	
+	/**
+	 * Zwraca binarną zawartość pliku
+	 * @return mixed
+	 */
+	public function getBinaryContent() {
+		$path = $this->getRealPath();
+		if (empty($path)) {
+			return null;
+		}
+		$content = file_get_contents($path);
+		if ($content !== false) {
+			return $content;
+		}
+		return null;
+	}
 
 	/**
 	 * Pobiera adres pliku
