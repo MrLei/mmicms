@@ -71,7 +71,7 @@ class Mmi_Form_Element_File extends Mmi_Form_Element_Abstract {
 	public function init() {
 		$fieldName = trim($this->_options['name'], '[]');
 		$files = Mmi_Controller_Front::getInstance()->getRequest()->getFiles();
-		if (!isset($files[$fieldName])) {
+		if (!isset($files[$fieldName]) || empty($files[$fieldName])) {
 			return;
 		}
 		//pojedynczy upload
