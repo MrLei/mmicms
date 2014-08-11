@@ -196,10 +196,11 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 * Dołącza pliki dla danego object i id przesłane w postaci binarnej
 	 * @param string $object obiekt
 	 * @param int $id id obiektu
-	 * @param array $files tabela nazw plików na serwerze
-	 * @return Cms_Model_File_Dao
+	 * @param array $files tabela z nazwami i binarnymi zawartościami plików
+	 * @return boolean|array tablica z PK dodanych plików
 	 */
 	public static function appendFilesFromBinary($object, $id = null, array $files = array()) {
+		$ids = array();
 		foreach ($files as $file) {
 			$record = new Cms_Model_File_Record();
 			$name = md5(microtime(true) . $file['name']) . substr($file['name'], strrpos($file['name'], '.'));
@@ -224,9 +225,13 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 			$record->object = $object;
 			$record->objectId = $id;
 			$record->active = 1;
-			$record->save();
+			if ($record->save()) {
+				$ids[] = $record->getPk();
+			} else {
+				return false;
+			}
 		}
-		return true;
+		return $ids;
 	}
 
 	/**
