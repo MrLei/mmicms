@@ -183,17 +183,16 @@ abstract class Mmi_Form {
 	public function __construct($id = null, array $options = array(), $className = null) {
 		$this->_options = $options;
 
-		//jeśli przekazano obiekt rekordu zamiast id
-		if (is_object($id)) {
-			if ($id instanceof Mmi_Dao_Record && get_class($id) === $this->_recordName) {
-				$this->_record = $id;
-				$this->_recordId = $id->getPk();
-				$id = $this->_recordId;
-			} else {
-				throw new Exception('Invalid record object');
-			}
-		} else {
+		//@TODO: bardzo brzydki hak, przerobimy to - jeśli przekazano obiekt rekordu zamiast id
+		if (is_object($id) && ($id instanceof Mmi_Dao_Record)) {
+			$this->_record = $id;
+			$this->_recordId = $id->getPk();
+			$this->_recordName = get_class($id);
+			$id = $this->_recordId;
+		} elseif(null === $id || is_numeric($id)) {
 			$this->_recordId = $id;
+		} else {
+			throw new Exception('Invalid record object');
 		}
 
 		$this->_className =  isset($className) ? $className : get_class($this);
