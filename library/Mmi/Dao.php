@@ -80,6 +80,11 @@ class Mmi_Dao {
 			}
 			$result = self::getAdapter()->select(static::$_tableName, $q->bind, array(), null, null, array('COUNT(*)'), $q->joinSchema);
 		} else {
+			try {
+				throw new Exception('DAO legacy usage');
+			} catch (Exception $e) {
+				Mmi_Exception_Logger::log($e);
+			}
 			$result = self::getAdapter()->select(static::$_tableName, $bind, array(), null, null, array('COUNT(*)'), $joinSchema);
 		}
 		return isset($result[0]) ? current($result[0]) : 0;
@@ -105,6 +110,11 @@ class Mmi_Dao {
 			}
 			$result = self::getAdapter()->select(static::$_tableName, $q->bind, $q->order, $q->limit, $q->offset, self::_getFields($q->joinSchema), $q->joinSchema);
 		} else {
+			try {
+				throw new Exception('DAO legacy usage');
+			} catch (Exception $e) {
+				Mmi_Exception_Logger::log($e);
+			}
 			$result = self::getAdapter()->select(static::$_tableName, $bind, $order, $limit, $offset, array('*'), $joinSchema);
 		}
 		$collection = new Mmi_Dao_Record_Collection();
@@ -136,6 +146,11 @@ class Mmi_Dao {
 			}
 			$result = self::getAdapter()->select(static::$_tableName, $q->bind, $q->order, 1, $q->offset, self::_getFields($q->joinSchema), $q->joinSchema);
 		} else {
+			try {
+				throw new Exception('DAO legacy usage');
+			} catch (Exception $e) {
+				Mmi_Exception_Logger::log($e);
+			}
 			$result = self::getAdapter()->select(static::$_tableName, $bind, $order, 1, $offset, array('*'), $joinSchema);
 		}
 		if (!is_array($result) || !isset($result[0])) {
@@ -160,7 +175,7 @@ class Mmi_Dao {
 			return $record;
 		}
 	}
-	
+
 	/**
 	 * Pobiera obiekt po kluczu głównym, lub tworzy nowy jeśli brak
 	 * @param mixed $id identyfikator
@@ -192,6 +207,11 @@ class Mmi_Dao {
 			}
 			$data = self::getAdapter()->select(static::$_tableName, $q->bind, $q->order, $q->limit, $q->offset, array($keyName, $valueName), $q->joinSchema);
 		} else {
+			try {
+				throw new Exception('DAO legacy usage');
+			} catch (Exception $e) {
+				Mmi_Exception_Logger::log($e);
+			}
 			$data = self::getAdapter()->select(static::$_tableName, $bind, $order, $limit, $offset, array($keyName, $valueName), $joinSchema);
 		}
 		$kv = array();
@@ -226,11 +246,16 @@ class Mmi_Dao {
 			}
 			$result = self::getAdapter()->select(static::$_tableName, $q->bind, array(), 1, 0, array('MAX(' . self::getAdapter()->prepareField($keyName) . ')'), $q->joinSchema);
 		} else {
+			try {
+				throw new Exception('DAO legacy usage');
+			} catch (Exception $e) {
+				Mmi_Exception_Logger::log($e);
+			}
 			$result = self::getAdapter()->select(static::$_tableName, $bind, array(), 1, 0, array('MAX(' . self::getAdapter()->prepareField($keyName) . ')'), $joinSchema);
 		}
 		return isset($result[0]) ? current($result[0]) : 0;
 	}
-	
+
 	/**
 	 * Pobiera unikalne wartości ze zbioru rekordów
 	 * @param string $keyName nazwa klucza
