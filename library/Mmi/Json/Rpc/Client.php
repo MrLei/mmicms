@@ -101,7 +101,10 @@ class Mmi_Json_Rpc_Client {
 			throw new Exception('Invalid response "id".');
 		}
 		if (isset($response->error) && is_object($response->error)) {
-			throw new Exception('Service error: ' . print_r($response->error, true));
+			if (isset($response->error->code) && $response->error->code == -10) {
+				throw new Mmi_Json_Rpc_Data_Exception($response->error->message);
+			}
+			throw new Exception($response->error->message);
 		}
 		return $response->result;
 	}
