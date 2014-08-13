@@ -104,11 +104,18 @@ class Mmi_Json_Rpc_Server {
 			$response['result'] = call_user_func_array(array($object, $method), (isset($request['params']) ? $request['params'] : array()));
 			return json_encode($response);
 			//wykonanie nie powiodło się
+		} catch (Mmi_Json_Rpc_Data_Exception $e) {
+			$response['error'] = self::_newError($e->getCode(), $e->getMessage());
+			return json_encodee($response);
+		} catch (Mmi_Json_Rpc_Server_Exception $e) {
+			$response['error'] = self::_newError($e->getCode(), $e->getMessage());
+			return json_encodee($response);
 		} catch (Exception $e) {
 			//objekt i metoda istnieją, błąd ilości parametrów
 			if (isset($object) && is_object($object) && method_exists($object, $method) && strpos($e->getMessage(), 'WARNING: Missing argument') !== false) {
 				$response['error'] = self::_newErrorInvalidParams(array(
-						'details' => 'Invalid method "' . $method . '" parameter count (' . count($request['params'])  . ') in class "' . $className . '".'
+						'details' => 'Invalid method "' . $method . '" parameter count (' . count($request['params'])  . ') in class "' . $className . '".',
+					'e' => $e->getMessage()
 				));
 				return json_encode($response);
 			}
