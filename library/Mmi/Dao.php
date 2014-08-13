@@ -156,7 +156,19 @@ class Mmi_Dao {
 	public static final function findPk($id) {
 		$recordName = self::getRecordName();
 		$record = new $recordName($id);
-		return ($record->getPk() === null) ? null : $record;
+		if ($record->getPk() !== null) {
+			return $record;
+		}
+	}
+	
+	/**
+	 * Pobiera obiekt po kluczu głównym, lub tworzy nowy jeśli brak
+	 * @param mixed $id identyfikator
+	 * @return Mmi_Dao_Record_Ro
+	 */
+	public static final function findOrCreatePk($id) {
+		$recordName = self::getRecordName();
+		return new $recordName($id);
 	}
 
 	/**
