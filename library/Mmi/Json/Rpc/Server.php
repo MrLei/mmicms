@@ -107,6 +107,9 @@ class Mmi_Json_Rpc_Server {
 		} catch (Mmi_Json_Rpc_Data_Exception $e) {
 			$response['error'] = self::_newError($e->getCode(), $e->getMessage());
 			return json_encode($response);
+		} catch (Mmi_Json_Rpc_General_Exception $e) {
+			$response['error'] = self::_newError($e->getCode(), $e->getMessage());
+			return json_encode($response);
 		} catch (Exception $e) {
 			//objekt i metoda istnieją, błąd ilości parametrów
 			if (isset($object) && is_object($object) && method_exists($object, $method) && strpos($e->getMessage(), 'WARNING: Missing argument') !== false && strpos($e->getMessage(), 'and defined') === false) {

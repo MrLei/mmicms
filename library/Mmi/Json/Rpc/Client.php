@@ -100,9 +100,13 @@ class Mmi_Json_Rpc_Client {
 		if ((string) $request['id'] != (string) $response->id) {
 			throw new Exception('Invalid response "id".');
 		}
+		//błędy zdefiniowane przez serwer
 		if (isset($response->error) && is_object($response->error)) {
 			if (isset($response->error->code) && $response->error->code == -10) {
 				throw new Mmi_Json_Rpc_Data_Exception($response->error->message);
+			}
+			if (isset($response->error->code) && $response->error->code == -500) {
+				throw new Mmi_Json_Rpc_General_Exception($response->error->message);
 			}
 			throw new Exception($response->error->message);
 		}
