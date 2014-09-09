@@ -70,6 +70,7 @@ class Mmi_Dao {
 	 * @return int
 	 */
 	public static final function count(Mmi_Dao_Query $q = null) {
+		$q = ($q === null) ? self::newQuery() : $q;
 		$compile = $q->queryCompilation();
 		$result = self::getAdapter()->select(static::$_tableName, $compile->bind, array(), null, null, array('COUNT(*)'), $compile->joinSchema);
 		return isset($result[0]) ? current($result[0]) : 0;
@@ -81,6 +82,7 @@ class Mmi_Dao {
 	 * @return Mmi_Dao_Record_Collection
 	 */
 	public static final function find(Mmi_Dao_Query $q = null) {
+		$q = ($q === null) ? self::newQuery() : $q;
 		$compile = $q->queryCompilation();
 		$result = self::getAdapter()->select(static::$_tableName, $compile->bind, $compile->order, $compile->limit, $compile->offset, self::_getFields($compile->joinSchema), $compile->joinSchema);
 		$collection = new Mmi_Dao_Record_Collection();
@@ -100,6 +102,7 @@ class Mmi_Dao {
 	 * @return Mmi_Dao_Record_Ro
 	 */
 	public static final function findFirst(Mmi_Dao_Query $q = null) {
+		$q = ($q === null) ? self::newQuery() : $q;
 		$compile = $q->queryCompilation();
 		$result = self::getAdapter()->select(static::$_tableName, $compile->bind, $compile->order, 1, $compile->offset, self::_getFields($compile->joinSchema), $compile->joinSchema);
 		if (!is_array($result) || !isset($result[0])) {
@@ -143,6 +146,7 @@ class Mmi_Dao {
 	 * @return array tablica klucz wartość
 	 */
 	public static final function findPairs($keyName, $valueName, Mmi_Dao_Query $q = null) {
+		$q = ($q === null) ? self::newQuery() : $q;
 		$compile = $q->queryCompilation();
 		$data = self::getAdapter()->select(static::$_tableName, $compile->bind, $compile->order, $compile->limit, $compile->offset, array($keyName, $valueName), $compile->joinSchema);
 		$kv = array();
@@ -167,6 +171,7 @@ class Mmi_Dao {
 	 * @return array mixed wartość maksymalna
 	 */
 	public static final function findMax($keyName, Mmi_Dao_Query $q = null) {
+		$q = ($q === null) ? self::newQuery() : $q;
 		$compile = $q->queryCompilation();
 		$result = self::getAdapter()->select(static::$_tableName, $compile->bind, array(), 1, 0, array('MAX(' . self::getAdapter()->prepareField($keyName) . ')'), $compile->joinSchema);
 		return isset($result[0]) ? current($result[0]) : 0;
@@ -179,6 +184,7 @@ class Mmi_Dao {
 	 * @return array mixed wartość maksymalna
 	 */
 	public static final function findUnique($keyName, Mmi_Dao_Query $q = null) {
+		$q = ($q === null) ? self::newQuery() : $q;
 		$compile = $q->queryCompilation();
 		$data = self::getAdapter()->select(static::$_tableName, $compile->bind, $compile->order, $compile->limit, $compile->offset, array('DISTINCT(' . self::getAdapter()->prepareField($keyName) . ')'), $compile->joinSchema);
 		$result = array();
