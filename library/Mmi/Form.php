@@ -183,17 +183,16 @@ abstract class Mmi_Form {
 	public function __construct($id = null, array $options = array(), $className = null) {
 		$this->_options = $options;
 
-		//jeśli przekazano obiekt rekordu zamiast id
-		if (is_object($id)) {
-			if ($id instanceof Mmi_Dao_Record && get_class($id) === $this->_recordName) {
-				$this->_record = $id;
-				$this->_recordId = $id->getPk();
-				$id = $this->_recordId;
-			} else {
-				throw new Exception('Invalid record object');
-			}
-		} else {
+		//@TODO: bardzo brzydki hak, przerobimy to - jeśli przekazano obiekt rekordu zamiast id
+		if (is_object($id) && ($id instanceof Mmi_Dao_Record)) {
+			$this->_record = $id;
+			$this->_recordId = $id->getPk();
+			$this->_recordName = get_class($id);
+			$id = $this->_recordId;
+		} elseif(null === $id || is_numeric($id)) {
 			$this->_recordId = $id;
+		} else {
+			throw new Exception('Invalid record object');
 		}
 
 		$this->_className =  isset($className) ? $className : get_class($this);
@@ -329,7 +328,7 @@ abstract class Mmi_Form {
 			$validatorData[$key] = $value;
 		}
 		$this->_values = $values;
-		if ($this->_request->isPost() && $this->isValid($validatorData)) {
+		if ($this->_request->isPost() && $this->isValid($validatorData) && $this->validator()) {
 			return true;
 		}
 		return false;
@@ -352,7 +351,7 @@ abstract class Mmi_Form {
 			if (null != $this->_sessionNamespace) {
 				$this->_sessionNamespace->unsetAll();
 			}
-			$this->_appendFiles($this->_record->getPk(), $this->_importFiles());
+			$this->_appendFiles($this->_record->getPk(), $this->getFiles());
 			$this->_recordId = $this->_record->getPk();
 		}
 		return $this->isSaved();
@@ -377,6 +376,14 @@ abstract class Mmi_Form {
 	 */
 	public function lateInit() {
 
+	}
+	
+	/**
+	 * Metoda walidacji całego formularza
+	 * @return boolean
+	 */
+	public function validator() {
+		return true;
 	}
 
 	/**
@@ -1245,10 +1252,12 @@ abstract class Mmi_Form {
 	 */
 	protected function _appendFiles($id, $files) {
 		try {
-			Cms_Model_File_Dao::appendFiles($this->_fileObjectName, $id, $files);
+			foreach ($files as $fileSet) {
+				Cms_Model_File_Dao::appendFiles($this->_fileObjectName, $id, $fileSet);
+			}
 			Cms_Model_File_Dao::move('tmp-' . $this->_fileObjectName, Mmi_Session::getNumericId(), $this->_fileObjectName, $id);
 		} catch (Exception $e) {
-
+			Mmi_Exception_Logger::log($e);
 		}
 	}
 
@@ -1257,7 +1266,7 @@ abstract class Mmi_Form {
 	 * Zwraca tabelę danych plików
 	 * @return array
 	 */
-	protected function _importFiles() {
+	public function getFiles() {
 		$files = array();
 		//import z elementów File
 		foreach ($this->getElements() as $element) {
@@ -1267,7 +1276,7 @@ abstract class Mmi_Form {
 			if (!$element->isUploaded()) {
 				continue;
 			}
-			$files = $element->getFileInfo();
+			$files[$element->getName()] = $element->getFileInfo();
 		}
 		return $files;
 	}

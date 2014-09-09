@@ -191,6 +191,48 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 		}
 		return true;
 	}
+	
+	/**
+	 * Dołącza pliki dla danego object i id przesłane w postaci binarnej
+	 * @param string $object obiekt
+	 * @param int $id id obiektu
+	 * @param array $files tabela z nazwami i binarnymi zawartościami plików
+	 * @return boolean|array tablica z PK dodanych plików
+	 */
+	public static function appendFilesFromBinary($object, $id = null, array $files = array()) {
+		$ids = array();
+		foreach ($files as $file) {
+			$record = new Cms_Model_File_Record();
+			$name = md5(microtime(true) . $file['name']) . substr($file['name'], strrpos($file['name'], '.'));
+			$dir = DATA_PATH . '/' . $name[0] . $name[1] . $name[2];
+			if (!file_exists($dir)) {
+				mkdir($dir, 0777, true);
+			}
+			$path = $dir . '/' . $name;
+			$result = file_put_contents($path, $file['content']);
+			if ($result === false) {
+				return false;
+			}
+			$mimeType = Mmi_Lib::mimeType($path);
+			$class = explode('/', $mimeType);
+			$record->class = $class[0];
+			$record->mimeType = $mimeType;
+			$record->name = $name;
+			$record->original = $file['name'];
+			$record->size = filesize($path);
+			$record->dateAdd = date('Y-m-d H:i:s');
+			$record->dateModify = date('Y-m-d H:i:s');
+			$record->object = $object;
+			$record->objectId = $id;
+			$record->active = 1;
+			if ($record->save()) {
+				$ids[] = $record->getPk();
+			} else {
+				return false;
+			}
+		}
+		return $ids;
+	}
 
 	/**
 	 * Przenosi plik z jednego obiektu na inny
