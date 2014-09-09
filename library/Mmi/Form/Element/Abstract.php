@@ -889,6 +889,7 @@ abstract class Mmi_Form_Element_Abstract {
 		unset($options['translatorDisabled']);
 		unset($options['validators']);
 		unset($options['customHtml']);
+		unset($options['count']);
 		if (isset($options['disabled']) && is_array($options['disabled']) && empty($options['disabled'])) {
 			unset($options['disabled']);
 		}

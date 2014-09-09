@@ -213,4 +213,42 @@ class Mmi_Lib {
 		return false;
 	}
 
+	/**
+	 * Konwertuje liczbę całkowitą do liczby o podstawie 58
+	 * @param integer $num
+	 * @return string
+	 */
+	public static function base58encode($num) {
+		$alphabet = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';
+		$baseCount = strlen($alphabet);
+		$encoded = '';
+		while ($num >= $baseCount) {
+			$div = $num / $baseCount;
+			$mod = ($num - ($baseCount * intval($div)));
+			$encoded = $alphabet[$mod] . $encoded;
+			$num = intval($div);
+		}
+		if ($num) {
+			$encoded = $alphabet[$num] . $encoded;
+		}
+		return $encoded;
+	}
+
+	/**
+	 * Konwertuje liczbę o podstawie 58 do całkowitej
+	 * @param string $base58
+	 * @return integer
+	 */
+	public static function base58decode($base58) {
+		$alphabet = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';
+		$len = strlen($base58);
+		$decoded = 0;
+		$multi = 1;
+		for ($i = $len - 1; $i >= 0; $i--) {
+			$decoded += $multi * strpos($alphabet, $base58[$i]);
+			$multi = $multi * strlen($alphabet);
+		}
+		return $decoded;
+	}
+
 }
