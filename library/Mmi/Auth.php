@@ -116,7 +116,7 @@ class Mmi_Auth {
 	 * @return boolean
 	 */
 	public function hasIdentity() {
-		if (!isset($this->_session->id) || !($this->_session->id > 0)) {
+		if (!isset($this->_session->id) || !$this->_session->id) {
 			return false;
 		}
 		return true;
