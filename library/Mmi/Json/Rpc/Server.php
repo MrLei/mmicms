@@ -95,8 +95,7 @@ class Mmi_Json_Rpc_Server {
 		}
 
 		//filtrowanie nazwy metody
-		$method = strtolower(Mmi_Controller_Front::getInstance()->getRequest()->getRequestMethod()) .
-			ucfirst($request['method']);
+		$method = strtolower(Mmi_Controller_Front::getInstance()->getRequest()->getRequestMethod()) . ucfirst($request['method']);
 
 		//wykonanie metody
 		try {

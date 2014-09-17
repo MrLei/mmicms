@@ -33,11 +33,25 @@ class Mmi_Json_Rpc_Client {
 	protected $_url;
 
 	/**
+	 * Dane debuggera
+	 * @var boolean
+	 */
+	protected $_debug = false;
+
+	/**
+	 * Dane debuggera
+	 * @var array
+	 */
+	protected $_debugData = array();
+
+	/**
 	 * Konstruktor
 	 * @param string $url Adres serwera RPC
+	 * @param boolean $debug Włącza debugger
 	 */
-	public function __construct($url) {
+	public function __construct($url, $debug = false) {
 		$this->_url = $url;
+		$this->_debug = $debug;
 	}
 
 	/**
@@ -62,26 +76,28 @@ class Mmi_Json_Rpc_Client {
 		if (!preg_match('/(get|post|put|delete)([a-z0-9\-\_]+)/i', $method, $matches)) {
 			throw new Exception('Method name must start with get, post, put or delete.');
 		}
-		
+
 		//określenie typu żądania i nazwy metody
 		$httpMethod = strtoupper($matches[1]);
-		$method = $matches[2];
+		$method = lcfirst($matches[2]);
+		$id = (microtime(true) * 10000);
 
 		//przygotowanie żądania
-		$request = array(
+		$request = json_encode(array(
 			'jsonrpc' => '2.0',
 			'method' => $method,
 			'params' => array_values($params),
-			'id' => (microtime(true) * 10000),
-		);
+			'id' => $id,
+		));
 
 		//pobieranie odpowiedzi z serwera
 		try {
-			$rawResponse = (string)file_get_contents($this->_url, false, stream_context_create(array('http' => array(
-					'method' => $httpMethod,
-					'header' => array('Content-type: application/json', 'Connection: close'),
-					'content' => json_encode($request)
+			$rawResponse = (string) file_get_contents($this->_url, false, stream_context_create(array('http' => array(
+						'method' => $httpMethod,
+						'header' => array('Content-type: application/json', 'Connection: close'),
+						'content' => $request
 			))));
+			$this->_debug($id, $request, $rawResponse, $httpMethod);
 			$response = json_decode($rawResponse);
 		} catch (Exception $e) {
 			$message = substr($e->getMessage(), 30 + strpos($e->getMessage(), 'HTTP request failed! '));
@@ -97,20 +113,52 @@ class Mmi_Json_Rpc_Client {
 		if (!property_exists($response, 'id')) {
 			throw new Exception('Service response missing field: "id".');
 		}
-		if ((string) $request['id'] != (string) $response->id) {
+		if ((string) $id != (string) $response->id) {
 			throw new Exception('Invalid response "id".');
 		}
 		//błędy zdefiniowane przez serwer
 		if (isset($response->error) && is_object($response->error)) {
+			$errorMessage = $response->error->message;
+			if (isset($response->error->data) && isset($response->error->data->details)) {
+				$errorMessage .= ' ' . $response->error->data->details;
+			}
 			if (isset($response->error->code) && $response->error->code == -10) {
-				throw new Mmi_Json_Rpc_Data_Exception($response->error->message);
+				throw new Mmi_Json_Rpc_Data_Exception($errorMessage);
 			}
 			if (isset($response->error->code) && $response->error->code == -500) {
-				throw new Mmi_Json_Rpc_General_Exception($response->error->message);
+				throw new Mmi_Json_Rpc_General_Exception($errorMessage);
 			}
-			throw new Exception($response->error->message);
+			throw new Exception($errorMessage);
 		}
 		return $response->result;
 	}
 	
+	/**
+	 * Zwraca dane
+	 * @return array
+	 */
+	public function getDebugData() {
+		if (!$this->_debug) {
+			throw new Exception('Debugger not enabled!');
+		}
+		return $this->_debugData;
+	}
+
+	/**
+	 * Zapisuje dane debugujące
+	 * @param string $id
+	 * @param string $request
+	 * @param string $response
+	 * @param string $method
+	 */
+	protected function _debug($id, $request, $response, $method) {
+		if (!$this->_debug) {
+			return;
+		}
+		$this->_debugData[] = array('request' => $request,
+			'response' => $response,
+			'method' => $method
+		);
+	}
+
 }
