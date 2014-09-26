@@ -42,6 +42,10 @@ class Mmi_Solr_Query {
 
 	private $_facetField = array();
 
+	private $_facetFieldRange = array();
+
+	private $_sort = array();
+
 	public function __construct() {
 
 	}
@@ -110,6 +114,32 @@ class Mmi_Solr_Query {
 	}
 
 	/**
+	 * Dodaje pola po których można stworzyć fasety zakresowe
+	 * @param string $facetField
+	 * @param int $facetRangeStart
+	 * @param int $facetRangeGap
+	 * @param int $facetRangeEnd
+	 */
+	public function addFacetRangeField($facetField, $facetRangeStart, $facetRangeGap, $facetRangeEnd) {
+		$this->_facetFieldRange[] = array(
+			'facetField' => $facetField,
+			'facetRangeStart' => $facetRangeStart,
+			'facetRangeGap' => $facetRangeGap,
+			'facetRangeEnd' => $facetRangeEnd
+			);
+	}
+
+	/**
+	 * Ustawia sortowanie
+	 *
+	 * @param string $type (asc, dsc)
+	 * @param string  $facetField
+	 */
+	public function setSort($type, $facetField) {
+		$this->_sort = array($type, $facetField);
+	}
+
+	/**
 	 * Generuje url search dla solr
 	 * @return string
 	 */
@@ -147,6 +177,20 @@ class Mmi_Solr_Query {
 			foreach($this->_facetField as $facetField) {
 				$url .= '&facet.field=' . $facetField;
 			}
+		}
+
+		if($this->_facetFieldRange) {
+			foreach($this->_facetFieldRange as $facetFieldRange) {
+				$url .= '&facet.range='.$facetFieldRange['facetField'];
+				$url .= '&facet.range.start='.$facetFieldRange['facetRangeStart'];
+				$url .= '&facet.range.gap='.$facetFieldRange['facetRangeGap'];
+				$url .= '&facet.range.end='.$facetFieldRange['facetRangeEnd'];
+				$url .= '&facet.range.other=after';
+			}
+		}
+
+		if($this->_sort) {
+			$url .= '&sort=' . $this->_sort[1] . '+' . $this->_sort[0];
 		}
 
 		$url .= '&wt=json';
