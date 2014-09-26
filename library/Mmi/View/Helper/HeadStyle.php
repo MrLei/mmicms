@@ -162,8 +162,8 @@ class Mmi_View_Helper_HeadStyle extends Mmi_View_Helper_Abstract {
 				$location = $this->view->baseUrl . '/' . trim(dirname($fileName), '/') . '/';
 				$content = str_replace(array('url(\'', 'url("', "\r\n", "\n", "\t", ', ', ': ', ' {', '{ ', ' }', '} '), 
 					array('url(\'' . $location, 'url("' . $location, '', '', '', ',', ':', '{', '{', '}', '}'), $content);
-				$content = preg_replace('/\/\*(.[^\*]+)\*\//is', '', $content);
-				$content = preg_replace('/\/[\w]+\/..\//', '/', $content);
+				$content = preg_replace('/\/\*.+?\*\//is', '', $content);
+				$content = preg_replace('/\/[\w]*?\/..\//', '/', $content);
 				$cache->save($content, $cacheKey, 864000);
 			} catch (Exception $e) {
 				return '/* CSS file not found: ' . $fileName . ' */';
