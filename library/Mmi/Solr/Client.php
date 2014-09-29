@@ -53,8 +53,7 @@ class Mmi_Solr_Client {
 		try {
 			return file_get_contents($this->solrServerUrl . '/' . $this->_solrMethod . '?' . $queryObject->searchUrl(), false, $context);
 		} catch (Exception $ex) {
-			Mmi_Lib::dump($ex);
-			die();
+			throw $ex;
 		}
 	}
 
