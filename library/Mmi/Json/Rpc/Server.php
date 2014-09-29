@@ -99,6 +99,11 @@ class Mmi_Json_Rpc_Server {
 
 		//wykonanie metody
 		try {
+			if ($method == 'getMethodList') {
+				$reflection = new Mmi_Json_Rpc_Server_Reflection($className);
+				$response['result'] = $reflection->getMethodList();
+				return json_encode($response);
+			}
 			$object = new $className();
 			$response['result'] = call_user_func_array(array($object, $method), (isset($request['params']) ? $request['params'] : array()));
 			return json_encode($response);
