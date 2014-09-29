@@ -218,6 +218,15 @@ class Mmi_Controller_Response {
 	}
 	
 	/**
+	 * Ustawia kod na 202
+	 * @param boolean $replace zastąpienie
+	 * @return Mmi_Controller_Response
+	 */
+	public function setCodeAccepted($replace = false) {
+		return $this->setCode(202, $replace);
+	}
+	
+	/**
 	 * Ustawia kod na 500
 	 * @param boolean $replace zastąpienie
 	 * @return Mmi_Controller_Response
@@ -226,6 +235,15 @@ class Mmi_Controller_Response {
 		return $this->setCode(500, $replace);
 	}
 
+	/**
+	 * Ustawia kod na 401
+	 * @param boolean $replace zastąpienie
+	 * @return Mmi_Controller_Response
+	 */
+	public function setCodeUnauthorized($replace = false) {
+		return $this->setCode(401, $replace);
+	}
+	
 	/**
 	 * Ustawia kod na 401
 	 * @param boolean $replace zastąpienie

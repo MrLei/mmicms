@@ -52,11 +52,7 @@ class Mmi_Controller_Response_Debugger {
 						$lastBracket = strrpos($response->getContent(), '}');
 						$content = substr($response->getContent(), 0, $lastBracket) . ',"debugger":' . json_encode($this->getJsonArray()) . substr($response->getContent(), $lastBracket);
 						$response->setContent($content);
-					} else {
-						$response->appendContent(json_encode($this->getJsonArray()));
 					}
-
-			
 				} catch (Exception $e) {
 					$response
 						->setCodeError()

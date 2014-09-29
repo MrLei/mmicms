@@ -89,6 +89,16 @@ class Mmi_Controller_Request {
 	public function getRequestMethod() {
 		return filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_SPECIAL_CHARS);
 	}
+	
+	/**
+	 * Pobiera nagłówek żądania
+	 * @param string $name np. Accept-Encoding
+	 * @return string
+	 */
+	public function getHeader($name) {
+		$headerName = strtoupper(preg_replace("/[^a-zA-Z0-9_]/", '_', $name));
+		return filter_input(INPUT_SERVER, 'HTTP_' . $headerName, FILTER_SANITIZE_SPECIAL_CHARS);
+	}
 
 	/**
 	 * Zwraca zmienne żądania w formie tabeli
