@@ -9,7 +9,7 @@
  * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
  * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
  *
- * Mmi/Json/Rpc/Server.php
+ * Mmi/Json/Rpc/Server/Reflection.php
  * @category   Mmi
  * @package    Mmi_Json_Rpc_Server
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
@@ -19,21 +19,20 @@
  */
 
 /**
- * Serwer JSON-RPC w standardzie 2.0
+ * Parser komentarzy w klasach API
  * @category   Mmi
  * @package    Mmi_Json_Rpc_Server
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 class Mmi_Json_Rpc_Server_Reflection {
-	
+
 	protected $_reflectionClass;
 
 	public function __construct($className) {
 		$class = new $className();
 		$this->_reflectionClass = new ReflectionClass($className);
-		
 	}
-	
+
 	public function getMethodList() {
 		$methods = array();
 		foreach ($this->_reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC) as $methodRow) {
@@ -44,24 +43,25 @@ class Mmi_Json_Rpc_Server_Reflection {
 			$comment = $methodReflection->getDocComment();
 			$params = array();
 			foreach ($methodReflection->getParameters() as $param) {
-				if (preg_match('/\@param\s([a-zA-Z]+)\s\$' . $param->name . '/', $comment, $type)) {
-					$params[$param->name] = $type[1];
-					if ($type[1] == 'array') {
-						if (preg_match('/\@see\s([a-zA-Z\_]+)/', $comment, $dtoClass)) {
-							$dtoClassName = $dtoClass[1];
-							$dtoReflection = new ReflectionClass($dtoClassName);
-							$props = array();
-							foreach ($dtoReflection->getProperties(ReflectionProperty::IS_PUBLIC) as $prop) {
-								$props[] = $prop->name . ' => ?';
-							}
-							$params[$param->name] = 'array(' . implode(', ', $props) . ')';
-						}
-						
-					}
-					
+				if (!preg_match('/\@param\s([a-zA-Z]+)\s\$' . $param->name . '/', $comment, $type)) {
+					$params[$param->name] = 'string';
 					continue;
 				}
-				$params[$param->name] = 'string';
+				$params[$param->name]['type'] = $type[1];
+				if ($type[1] == 'array') {
+					if (preg_match('/\@see\s([a-zA-Z\_]+)/', $comment, $dtoClass)) {
+						$dtoClassName = $dtoClass[1];
+						$dtoReflection = new ReflectionClass($dtoClassName);
+						$props = array();
+						foreach ($dtoReflection->getProperties(ReflectionProperty::IS_PUBLIC) as $prop) {
+							$props[] = $prop->name . ' => ?';
+						}
+						$params[$param->name]['type'] = 'array(' . implode(', ', $props) . ')';
+					}
+				}
+				if (preg_match('/\@param\s([a-zA-Z]+)\s\$' . $param->name . '\ (.[^\n]+)/', $comment, $comm)) {
+					$params[$param->name]['comment'] = trim($comm[2]);
+				}
 			}
 			if (preg_match('/\@return\s([a-zA-Z\|]+)/', $comment, $return)) {
 				$return = $return[1];
@@ -69,21 +69,24 @@ class Mmi_Json_Rpc_Server_Reflection {
 				$return = 'string';
 			}
 			$paramStr = '';
-			foreach ($params as $param => $type) {
-				$paramStr .= $type . ' $' . $param . ', ';
+			foreach ($params as $param => $data) {
+				if (substr($data['type'], 0, 5) == 'array') {
+					$data['type'] = 'array';
+				}
+				$paramStr .= $data['type'] . ' $' . $param . ', ';
 			}
 			$comment = explode("\n", $comment);
 			$methods[] = array(
+				'definition' => $methodRow->name . '(' . trim($paramStr, ', ') . ');',
+				'comment' => isset($comment[1]) ? trim($comment[1], '*	 ') : '',
 				'HTTP method' => strtoupper($httpMethod[1]),
 				'RPC method' => lcfirst(substr($methodRow->name, strlen($httpMethod[1]))),
-				'Parameters' => $params,
-				'Return' => $return,
-				'Method comment' => isset($comment[1]) ? trim($comment[1], '*	 ') : '',
-				'Formatted line' => $methodRow->name . '(' . trim($paramStr, ', ') . ');',
+				'parameter count' => count($params),
+				'parameter details' => $params,
+				'return' => $return,
 			);
-			
 		}
 		return $methods;
 	}
-	
+
 }
