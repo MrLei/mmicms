@@ -31,7 +31,13 @@ class Mmi_Json_Rpc_Response {
 	 * @var string
 	 */
 	public $jsonrpc = '2.0';
-	
+
+	/**
+	 * ID odpowiedzi
+	 * @var integer
+	 */
+	public $id;
+
 	/**
 	 * Rezultat
 	 * @var string 
@@ -45,21 +51,25 @@ class Mmi_Json_Rpc_Response {
 	public $error;
 	
 	/**
-	 * ID odpowiedzi
-	 * @var integer
+	 * Ustawia obiekt na podstawie JSON'a
+	 * @param string $data
+	 * @return Mmi_Json_Rpc_Response
 	 */
-	public $id;
+	public function setFromJson($data) {
+		$response = json_decode($data);
+		$this->jsonrpc = isset($response->jsonrpc) ? $response->jsonrpc : null;
+		$this->id = isset($response->id) ? $response->id : null;
+		$this->result = isset($response->result) ? $response->result : null;
+		$this->error = isset($response->error) ? $response->error : null;
+		return $this;
+	}
 	
 	/**
 	 * Konwersja do JSON'a
 	 * @return string
 	 */
 	public function toJson() {
-		$data = array();
-		foreach ($this as $key => $value) {
-			$data[$key] = $value;
-		}
-		return json_encode($data);
+		return json_encode($this);
 	}
 
 }
