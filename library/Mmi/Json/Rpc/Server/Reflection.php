@@ -26,13 +26,21 @@
  */
 class Mmi_Json_Rpc_Server_Reflection {
 
+	/**
+	 * Refleksja klasy głównej
+	 * @var ReflectionClass
+	 */
 	protected $_reflectionClass;
 
 	public function __construct($className) {
 		$class = new $className();
 		$this->_reflectionClass = new ReflectionClass($className);
 	}
-
+	
+	/**
+	 * Pobiera listę metod
+	 * @return array
+	 */
 	public function getMethodList() {
 		$methods = array();
 		foreach ($this->_reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC) as $methodRow) {

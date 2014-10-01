@@ -33,115 +33,104 @@ class Mmi_Json_Rpc_Server {
 	 */
 	public static function handle($className) {
 
-		$response = array(
-			'jsonrpc' => '2.0',
-			'result' => null,
-			'error' => null,
-			'id' => null,
-		);
-
-		//nagłówek json
-		Mmi_Controller_Front::getInstance()->getResponse()->setTypeJson();
-
-		//sprawdzanie poprawności nagłówka
-		if (Mmi_Controller_Front::getInstance()->getRequest()->getContentType() != 'application/json') {
-			$response['error'] = self::_newErrorParse(array(
-					'details' => 'Invalid content-type, "application/json" is required.'
-			));
-			return json_encode($response);
-		}
+		$response = new Mmi_Json_Rpc_Response();
+		$request = new Mmi_Json_Rpc_Request();
 
 		//wczytywanie danych
 		try {
-			$request = json_decode(file_get_contents('php://input'), true);
+			$httpMethod = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_SPECIAL_CHARS);
+			$getRpcVersion = filter_input(INPUT_GET, 'jsonrpc', FILTER_SANITIZE_SPECIAL_CHARS);
+			if ($httpMethod == 'GET' && $getRpcVersion) {
+				$request->jsonrpc = $getRpcVersion;
+				$request->id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_SPECIAL_CHARS);
+				$request->method = filter_input(INPUT_GET, 'method', FILTER_SANITIZE_SPECIAL_CHARS);
+				$request->params = json_decode(filter_input(INPUT_GET, 'params', FILTER_SANITIZE_URL), true);
+			} else {
+				$request = $request->setFromArray(json_decode(file_get_contents('php://input'), true));
+			}
+			if (!is_array($request->params)) {
+				$request->params = array();
+			}
 		} catch (Exception $e) {
-			$response['error'] = self::_newErrorInvalidRequest(array(
+			$response->error = self::_newErrorInvalidRequest(array(
 					'details' => 'Request is not in a JSON format.'
 			));
-			return json_encode($response);
+			return $response->toJson();
 		}
 
-		//brak, lub niewłaściwa wersja jsonrpc
-		if (!isset($request['jsonrpc']) || $request['jsonrpc'] != '2.0') {
-			$response['error'] = self::_newErrorInvalidRequest(array(
+		//niewłaściwa wersja jsonrpc
+		if ($request->jsonrpc != '2.0') {
+			$response->error = self::_newErrorInvalidRequest(array(
 					'details' => 'Missing request "jsonrpc", or not 2.0 version.'
 			));
-			return json_encode($response);
+			return $response->toJson();
 		}
 
 		//brak id
-		if (!isset($request['id'])) {
-			$response['error'] = self::_newErrorInvalidRequest(array(
+		if (!$request->id) {
+			$response->error = self::_newErrorInvalidRequest(array(
 					'details' => 'Missing request "id".'
 			));
-			return json_encode($response);
+			return $response->toJson();
 		}
-		$response['id'] = $request['id'];
-
-		//brak metody
-		if (!isset($request['method'])) {
-			$response['error'] = self::_newErrorInvalidRequest(array(
-					'details' => 'Missing request "method".'
-			));
-			return json_encode($response);
-		}
+		$response->id = $request->id;
 
 		//walidacja nazwy metody
-		if (!preg_match('/^[a-z0-9\-\_]+$/i', $request['method'])) {
-			$response['error'] = self::_newErrorMethodNotFound(array(
-					'details' => 'Method name "' . $request['method'] . '" is invalid in class " ' . $className . '".'
+		if (!preg_match('/^[a-z0-9\-\_]+$/i', $request->method)) {
+			$response->error = self::_newErrorMethodNotFound(array(
+					'details' => 'Method name "' . $request->method . '" is invalid in class " ' . $className . '".'
 			));
-			return json_encode($response);
+			return $response->toJson();
 		}
 
 		//filtrowanie nazwy metody
-		$method = strtolower(Mmi_Controller_Front::getInstance()->getRequest()->getRequestMethod()) . ucfirst($request['method']);
+		$method = strtolower($httpMethod) . ucfirst($request->method);
 
 		//wykonanie metody
 		try {
 			if ($method == 'getMethodList') {
 				$reflection = new Mmi_Json_Rpc_Server_Reflection($className);
-				$response['result'] = $reflection->getMethodList();
-				return json_encode($response);
+				$response->result = $reflection->getMethodList();
+				return $response->toJson();
 			}
 			$object = new $className();
-			$response['result'] = call_user_func_array(array($object, $method), (isset($request['params']) ? $request['params'] : array()));
-			return json_encode($response);
+			$response->result = call_user_func_array(array($object, $method), $request->params);
+			return $response->toJson();
 			//wykonanie nie powiodło się
 		} catch (Mmi_Json_Rpc_Data_Exception $e) {
-			$response['error'] = self::_newError($e->getCode(), $e->getMessage());
-			return json_encode($response);
+			$response->error = self::_newError($e->getCode(), $e->getMessage());
+			return $response->toJson();
 		} catch (Mmi_Json_Rpc_General_Exception $e) {
-			$response['error'] = self::_newError($e->getCode(), $e->getMessage());
-			return json_encode($response);
+			$response->error = self::_newError($e->getCode(), $e->getMessage());
+			return $response->toJson();
 		} catch (Exception $e) {
 			//objekt i metoda istnieją, błąd ilości parametrów
 			if (isset($object) && is_object($object) && method_exists($object, $method) && strpos($e->getMessage(), 'WARNING: Missing argument') !== false && strpos($e->getMessage(), 'and defined') === false) {
-				$response['error'] = self::_newErrorInvalidParams(array(
-						'details' => 'Invalid method "' . $method . '" parameter count (' . count($request['params']) . ') in class "' . $className . '".',
+				$response->error = self::_newErrorInvalidParams(array(
+						'details' => 'Invalid method "' . $method . '" parameter count (' . count($request->params) . ') in class "' . $className . '".',
 				));
-				return json_encode($response);
+				return $response->toJson();
 			}
 			//błąd metody
 			if (isset($object) && is_object($object) && method_exists($object, $method)) {
 				Mmi_Exception_Logger::log($e);
-				$response['error'] = self::_newErrorInternal(array(
+				$response->error = self::_newErrorInternal(array(
 						'details' => 'Method "' . $method . '" failed in class "' . $className . '".'
 				));
 				return json_encode($response);
 			}
 			//brak metody w serwisie
 			if (isset($object)) {
-				$response['error'] = self::_newErrorMethodNotFound(array(
+				$response->error = self::_newErrorMethodNotFound(array(
 						'details' => 'Method "' . $method . '" is not implemented in class "' . $className . '".'
 				));
-				return json_encode($response);
+				return $response->toJson();
 			}
 			//błąd powołania obiektu
-			$response['error'] = self::_newErrorInternal(array(
+			$response->error = self::_newErrorInternal(array(
 					'details' => 'General service error in class "' . $className . '".'
 			));
-			return json_encode($response);
+			return $response->toJson();
 		}
 	}
 
