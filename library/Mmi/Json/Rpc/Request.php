@@ -62,4 +62,12 @@ class Mmi_Json_Rpc_Request {
 		return $this;
 	}
 	
+	/**
+	 * Konwersja do JSON'a
+	 * @return string
+	 */
+	public function toJson() {
+		return json_encode($this);
+	}
+	
 }
