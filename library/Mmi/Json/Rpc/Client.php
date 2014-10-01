@@ -67,11 +67,6 @@ class Mmi_Json_Rpc_Client {
 			throw new Exception('Incorrect method name.');
 		}
 
-		//sprawdzenie parametrów
-		if (!is_array($params)) {
-			$params = array();
-		}
-
 		//walidacja nazwy metody
 		if (!preg_match('/(get|post|put|delete)([a-z0-9\-\_]+)/i', $method, $matches)) {
 			throw new Exception('Method name must start with get, post, put or delete.');
@@ -83,22 +78,22 @@ class Mmi_Json_Rpc_Client {
 		$id = (microtime(true) * 10000);
 
 		//przygotowanie żądania
-		$request = json_encode(array(
-			'jsonrpc' => '2.0',
-			'method' => $method,
-			'params' => array_values($params),
-			'id' => $id,
-		));
+		$request = new Mmi_Json_Rpc_Request();
+		$request->jsonrpc = '2.0';
+		$request->method = $method;
+		$request->params = array_values($params);
+		$request->id = $id;
 
 		//pobieranie odpowiedzi z serwera
 		try {
 			$rawResponse = (string) file_get_contents($this->_url, false, stream_context_create(array('http' => array(
 						'method' => $httpMethod,
 						'header' => array('Content-type: application/json', 'Connection: close'),
-						'content' => $request
+						'content' => $request->toJson()
 			))));
 			$this->_debug($id, $request, $rawResponse, $httpMethod);
-			$response = json_decode($rawResponse);
+			$response = new Mmi_Json_Rpc_Response();
+			$response->setFromJson($rawResponse);
 		} catch (Exception $e) {
 			$message = substr($e->getMessage(), 30 + strpos($e->getMessage(), 'HTTP request failed! '));
 			$message = substr($message, 0, strpos($message, '[') - 2);
