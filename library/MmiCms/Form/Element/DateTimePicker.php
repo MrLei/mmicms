@@ -8,9 +8,9 @@
  * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
  * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
  *
- * Mmi/Form/Element/DateTimePicker.php
- * @category   Mmi
- * @package    Mmi_Form
+ * MmiCms/Form/Element/DateTimePicker.php
+ * @category   MmiCms
+ * @package    MmiCms_Form
  * @subpackage Element
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Ernest Wojciuk <ernest@wojciuk.com>
@@ -20,12 +20,12 @@
 
 /**
  * Klasa elementu wyboru daty i czasu
- * @category   Mmi
- * @package    Mmi_Form
+ * @category   MmiCms
+ * @package    MmiCms_Form
  * @subpackage Element
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Form_Element_DateTimePicker extends Mmi_Form_Element_DatePicker {
+class MmiCms_Form_Element_DateTimePicker extends MmiCms_Form_Element_DatePicker {
 
 	/**
 	 * Buduje pole

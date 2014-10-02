@@ -1,6 +1,6 @@
 <?php
 
-class Cms_Form_Contact extends Mmi_Form {
+class Cms_Form_Contact extends MmiCms_Form {
 
 	protected $_recordName = 'Cms_Model_Contact_Record';
 
