@@ -18,7 +18,7 @@ class Cms_Form_Comment extends Mmi_Form {
 
 
 		if ($this->getAttrib('withRatings') === true) {
-			$this->addElementRatings('stars')
+			$this->addElementText('stars')
 				->setLabel('Oceń artykuł');
 		}
 

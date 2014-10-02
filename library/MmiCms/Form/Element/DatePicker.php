@@ -8,9 +8,9 @@
  * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
  * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
  *
- * Mmi/Form/Element/DatePicker.php
- * @category   Mmi
- * @package    Mmi_Form
+ * MmiCms/Form/Element/DatePicker.php
+ * @category   MmiCms
+ * @package    MmiCms_Form
  * @subpackage Element
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -20,12 +20,12 @@
 
 /**
  * Klasa elementu wyboru daty, można podać opcje: startDate, endDate, format
- * @category   Mmi
- * @package    Mmi_Form
+ * @category   MmiCms
+ * @package    MmiCms_Form
  * @subpackage Element
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
+class MmiCms_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
 
 	/**
 	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora
