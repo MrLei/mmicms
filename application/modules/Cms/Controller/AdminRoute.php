@@ -7,7 +7,7 @@ class Cms_Controller_AdminRoute extends MmiCms_Controller_Admin {
 	}
 
 	public function editAction() {
-		$form = new Cms_Form_Admin_Route($this->_getParam('id'));
+		$form = new Cms_Form_Admin_Route($this->id);
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Poprawnie zapisano trasę', true);
 			$this->_helper->redirector('index', 'adminRoute', 'cms', array(), true);
@@ -15,7 +15,7 @@ class Cms_Controller_AdminRoute extends MmiCms_Controller_Admin {
 	}
 
 	public function deleteAction() {
-		$text = new Cms_Model_Route_Record($this->_getParam('id'));
+		$text = new Cms_Model_Route_Record($this->id);
 		if ($text->delete()) {
 			$this->_helper->messenger('Poprawnie skasowano trasę');
 		}

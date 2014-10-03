@@ -68,7 +68,7 @@ class Mmi_Controller_Action {
 	 * @param mixed $name wartość zmiennej
 	 */
 	public final function __get($name) {
-		return $this->_getParam($name);
+		return $this->_request->getParam($name);
 	}
 
 	/**
@@ -108,15 +108,6 @@ class Mmi_Controller_Action {
 	 */
 	public final function getHelperBroker() {
 		return $this->_helper;
-	}
-
-	/**
-	 * Pobiera parametr z requestu
-	 * @param string $name nazwa parametru
-	 * @return mixed wartość
-	 */
-	protected final function _getParam($name) {
-		return $this->_request->getParam($name);
 	}
 
 	/**

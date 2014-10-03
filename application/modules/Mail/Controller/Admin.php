@@ -7,7 +7,7 @@ class Mail_Controller_Admin extends MmiCms_Controller_Admin {
 	}
 
 	public function deleteAction() {
-		$mail = new Mail_Model_Record($this->_getParam('id'));
+		$mail = new Mail_Model_Record($this->id);
 		if ($mail->delete()) {
 			$this->_helper->messenger('Email został usunięty z kolejki', true);
 		}

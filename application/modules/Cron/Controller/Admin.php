@@ -7,7 +7,7 @@ class Cron_Controller_Admin extends MmiCms_Controller_Admin {
 	}
 
 	public function editAction() {
-		$form = new Cron_Form_Cron($this->_getParam('id'));
+		$form = new Cron_Form_Cron($this->id);
 		if ($form->isSaved ()) {
 			$this->_helper->messenger('Zadanie zapisane poprawnie', true);
 			return $this->_helper->redirector('index', 'admin', 'cron', array(), true);
@@ -15,8 +15,8 @@ class Cron_Controller_Admin extends MmiCms_Controller_Admin {
 	}
 
 	public function deleteAction() {
-		if ($this->_getParam('id')) {
-			$record = Cron_Model_Dao::findPk($this->_getParam('id'));
+		if ($this->id) {
+			$record = Cron_Model_Dao::findPk($this->id);
 		}
 		if ($record && $record->delete()) {
 			$this->_helper->messenger('Zadanie CRON poprawnie usunięte', true);

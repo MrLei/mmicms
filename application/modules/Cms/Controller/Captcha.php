@@ -3,7 +3,7 @@
 class Cms_Controller_Captcha extends Mmi_Controller_Action {
 
 	public function indexAction() {
-		if (!$this->_getParam('name')) {
+		if (!$this->name) {
 			return '';
 		}
 		$characters = array('A','B','C','D','E','F','G','H','J','K','L','M','N','P','R','S','T','U','W','Z');
@@ -44,7 +44,7 @@ class Cms_Controller_Captcha extends Mmi_Controller_Action {
 		}
 
 		$formSession = new Mmi_Session_Namespace('Mmi_Form');
-		$name = 'captcha_' . $this->_getParam('name');
+		$name = 'captcha_' . $this->name;
 		$formSession->$name = $word;
 
 		$pastYear = date('Y')-1;

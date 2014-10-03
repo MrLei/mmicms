@@ -4,12 +4,12 @@ class Cms_Controller_Article extends Mmi_Controller_Action {
 
 	public function indexAction() {
 		//po uri
-		if ($this->_getParam('uri')) {
-			$uri = $this->_getParam('uri');
+		if ($this->uri) {
+			$uri = $this->uri;
 			$cacheKey = 'Cms_Article_' . $uri;
 		//po id
 		} else {
-			$id = intval($this->_getParam('id'));
+			$id = intval($this->id);
 			$cacheKey = 'Cms_Article_' . $id;
 		}
 		if (null === ($article = Default_Registry::$cache->load($cacheKey))) {
@@ -31,7 +31,7 @@ class Cms_Controller_Article extends Mmi_Controller_Action {
 	}
 
 	public function widgetAction() {
-		$uri = $this->_getParam('uri');
+		$uri = $this->uri;
 		$cacheKey = 'Cms_Article_' . $uri;
 		if (null === ($article = Default_Registry::$cache->load($cacheKey))) {
 			$article = Cms_Model_Article_Dao::findFirstByUri($uri);
