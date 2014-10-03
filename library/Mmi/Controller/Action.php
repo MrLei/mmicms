@@ -70,6 +70,14 @@ class Mmi_Controller_Action {
 	public final function __get($name) {
 		return $this->_request->getParam($name);
 	}
+	
+	/**
+	 * Magiczne pobranie zmiennej z requestu
+	 * @param mixed $name wartość zmiennej
+	 */
+	public final function __set($name, $value) {
+		return $this->_request->setParam($name, $value);
+	}
 
 	/**
 	 * Łapacz nieodnalezionej metody
