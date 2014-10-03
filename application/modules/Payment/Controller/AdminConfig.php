@@ -7,16 +7,16 @@ class Payment_Controller_AdminConfig extends MmiCms_Controller_Admin {
 	}
 
 	public function editAction() {
-		$form = new Payment_Form_Admin_Config($this->_getParam('id'));
+		$form = new Payment_Form_Admin_Config($this->id);
 		if ($form->isSaved()) {
-			$offer = new Payment_Model_Config($this->_getParam('id'));
+			$offer = new Payment_Model_Config($this->id);
 			$this->_helper->messenger('Konfiguracja płatności zapisana poprawnie', true);
 			$this->_helper->redirector('index', 'adminConfig', 'payment', array(), true);
 		}
 	}
 
 	public function deleteAction() {
-		$config = new Payment_Model_Config($this->_getParam('id'));
+		$config = new Payment_Model_Config($this->id);
 		try {
 			$config->delete();
 			$this->_helper->messenger('Konfiguracja płatności została usunięta', true);

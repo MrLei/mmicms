@@ -5,7 +5,7 @@ class Cms_Controller_Contact extends Mmi_Controller_Action {
 	public function indexAction() {
 		$namespace = new Mmi_Session_Namespace('contact');
 		$form = new Cms_Form_Contact(null, array(
-			'subjectId' => $this->_getParam('subjectId')
+			'subjectId' => $this->subjectId
 		));
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Wiadomość wysłano poprawnie.', true);

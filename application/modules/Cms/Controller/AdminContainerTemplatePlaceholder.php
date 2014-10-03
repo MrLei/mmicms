@@ -5,15 +5,15 @@ class Cms_Controller_AdminContainerTemplatePlaceholder extends MmiCms_Controller
 	public function indexAction() {
 		$this->view->grid = new Cms_Plugin_ContainerTemplatePlaceholderGrid();
 		//placeholdery tylko dla danego szablonu
-		if ($this->_getParam('templateId')) {
+		if ($this->templateId) {
 			$q = new Mmi_Dao_Query();
-			$q->where('cms_container_template_id')->equals($this->_getParam('templateId'));
+			$q->where('cms_container_template_id')->equals($this->templateId);
 			$this->view->grid->setInitialQuery($q);
 		}
 	}
 
 	public function editAction() {
-		$form = new Cms_Form_Admin_Container_Template_Placeholder($this->_getParam('id'), array('templateId' => $this->_getParam('templateId')));
+		$form = new Cms_Form_Admin_Container_Template_Placeholder($this->id, array('templateId' => $this->templateId));
 		if (!$form->isMine()) {
 			return;
 		}
@@ -25,7 +25,7 @@ class Cms_Controller_AdminContainerTemplatePlaceholder extends MmiCms_Controller
 	}
 
 	public function deleteAction() {
-		$record = Cms_Model_Container_Template_Placeholder_Dao::findPk($this->_getParam('id'));
+		$record = Cms_Model_Container_Template_Placeholder_Dao::findPk($this->id);
 		if ($record && $record->delete()) {
 			$this->_helper->messenger('Poprawnie usunięto placeholder', true);
 		}

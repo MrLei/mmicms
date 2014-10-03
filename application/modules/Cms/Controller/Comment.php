@@ -3,21 +3,21 @@
 class Cms_Controller_Comment extends Mmi_Controller_Action {
 
 	public function indexAction() {
-		if (!$this->_getParam('object')) {
+		if (!$this->object) {
 			return;
 		}
-		if (!$this->_getParam('objectId')) {
+		if (!$this->objectId) {
 			return;
 		}
-		$this->view->comments = Cms_Model_Comment_Dao::findByObject($this->_getParam('object'), $this->_getParam('objectId'), $this->_getParam('descending'));
+		$this->view->comments = Cms_Model_Comment_Dao::findByObject($this->object, $this->objectId, $this->descending);
 		
-		if (!($this->_getParam('allowGuests') || Default_Registry::$auth->hasIdentity())) {
+		if (!($this->allowGuests || Default_Registry::$auth->hasIdentity())) {
 			return;
 		}
 		$form = new Cms_Form_Comment(null, array(
-				'object' => $this->_getParam('object'),
-				'objectId' => $this->_getParam('objectId'),
-				'withRatings' => ($this->_getParam('withRatings')) ? $this->_getParam('withRatings') : false,
+				'object' => $this->object,
+				'objectId' => $this->objectId,
+				'withRatings' => ($this->withRatings) ? $this->withRatings : false,
 			));
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Dodano komentarz', true);

@@ -9,7 +9,7 @@ class Cms_Controller_AdminNavigation extends MmiCms_Controller_Admin {
 	}
 
 	public function editAction() {
-		switch ($this->_getParam('type')) {
+		switch ($this->type) {
 			case 'link':
 				$form = new Cms_Form_Admin_Page_Link($this->id);
 				break;
