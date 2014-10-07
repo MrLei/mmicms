@@ -7,7 +7,7 @@ class Cms_Controller_AdminArticle extends MmiCms_Controller_Admin {
 	}
 
 	public function editAction() {
-		$form = new Cms_Form_Admin_Article($this->_getParam('id'));
+		$form = new Cms_Form_Admin_Article($this->id);
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Artykuł zapisany poprawnie', true);
 			$this->_helper->redirector('index', 'adminArticle', 'cms', array(), true);
@@ -15,7 +15,7 @@ class Cms_Controller_AdminArticle extends MmiCms_Controller_Admin {
 	}
 
 	public function deleteAction() {
-		$record = new Cms_Model_Article_Record($this->_getParam('id'));
+		$record = new Cms_Model_Article_Record($this->id);
 		if ($record->delete()) {
 			$this->_helper->messenger('Poprawnie usunięto artykuł', true);
 		}

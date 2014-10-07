@@ -7,7 +7,7 @@ class Cms_Controller_AdminContainerTemplate extends MmiCms_Controller_Admin {
 	}
 
 	public function editAction() {
-		$form = new Cms_Form_Admin_Container_Template($this->_getParam('id'));
+		$form = new Cms_Form_Admin_Container_Template($this->id);
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Szablon zapisany poprawnie', true);
 			$this->_helper->redirector('index', 'adminContainerTemplate', 'cms', array(), true);
@@ -15,7 +15,7 @@ class Cms_Controller_AdminContainerTemplate extends MmiCms_Controller_Admin {
 	}
 
 	public function deleteAction() {
-		$record = new Cms_Model_Container_Template_Record($this->_getParam('id'));
+		$record = new Cms_Model_Container_Template_Record($this->id);
 		if ($record->delete()) {
 			$this->_helper->messenger('Poprawnie usunięto szablon', true);
 		}

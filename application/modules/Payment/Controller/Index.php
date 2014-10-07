@@ -11,10 +11,10 @@ class Payment_Controller_Index extends Mmi_Controller_Action {
 	}
 
 	public function payAction() {
-		if (!$this->_getParam('id')) {
+		if (!$this->id) {
 			$this->_helper->redirector('index', 'index', 'default', array(), true);
 		}
-		$payment = new Payment_Model_Payment(intval($this->_getParam('id')));
+		$payment = new Payment_Model_Payment(intval($this->id));
 		if ($payment->cms_auth_id != Default_Registry::$auth->getId()) {
 			$this->_helper->redirector('index', 'index', 'default', array(), true);
 		}
@@ -24,7 +24,7 @@ class Payment_Controller_Index extends Mmi_Controller_Action {
 		if (!($payment->getId() > 0)) {
 			$this->_helper->redirector('index', 'index', 'default', array(), true);
 		}
-		if ($this->_getParam('regenerate') > 0) {
+		if ($this->regenerate > 0) {
 			$payment->regenerateSessionId();
 		}
 		$this->view->payment = $payment;

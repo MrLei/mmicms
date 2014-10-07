@@ -8,7 +8,7 @@ class Mail_Controller_AdminServer extends MmiCms_Controller_Admin {
 	}
 
 	public function editAction() {
-		$form = new Mail_Form_Admin_Server($this->_getParam('id'));
+		$form = new Mail_Form_Admin_Server($this->id);
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Zapisano ustawienia serwera', true);
 			$this->_helper->redirector('index', 'adminServer', 'mail', array(), true);
@@ -16,7 +16,7 @@ class Mail_Controller_AdminServer extends MmiCms_Controller_Admin {
 	}
 
 	public function deleteAction() {
-		$server = new Mail_Model_Server_Record($this->_getParam('id'));
+		$server = new Mail_Model_Server_Record($this->id);
 		if ($server->delete()) {
 			$this->_helper->messenger('Usunięto serwer');
 		}

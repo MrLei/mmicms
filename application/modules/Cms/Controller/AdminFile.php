@@ -72,7 +72,7 @@ class Cms_Controller_AdminFile extends MmiCms_Controller_Admin {
 		if (!$this->order) {
 			return $this->view->getTranslate()->_('Przenoszenie nie powiodło się');
 		}
-		parse_str(str_replace(array('&amp;', '&#38;'), '&', $this->_getParam('order')), $order);
+		parse_str(str_replace(array('&amp;', '&#38;'), '&', $this->order), $order);
 		if (!isset($order['item-file'])) {
 			return $this->view->getTranslate()->_('Przenoszenie nie powiodło się');
 		}

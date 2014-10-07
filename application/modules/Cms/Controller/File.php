@@ -3,19 +3,19 @@
 class Cms_Controller_File extends Mmi_Controller_Action {
 
 	public function indexAction() {
-		$this->view->files = Cms_Model_File_Dao::findClassified($this->_getParam('object'), $this->_getParam('objectId'));
+		$this->view->files = Cms_Model_File_Dao::findClassified($this->object, $this->objectId);
 	}
 
 	public function listAction() {
 		Mmi_Controller_Front::getInstance()->getResponse()->setHeader('Content-type', 'application/json');
-		if (!$this->_getParam('object') || !$this->_getParam('objectId') || !$this->_getParam('hash') || !$this->_getParam('t')) {
+		if (!$this->object || !$this->objectId || !$this->hash || !$this->t) {
 			return '';
 		}
-		if ($this->_getParam('hash') != md5(Mmi_Session::getId() . '+' . $this->_getParam('t') . '+' . $this->_getParam('objectId'))) {
+		if ($this->hash != md5(Mmi_Session::getId() . '+' . $this->t . '+' . $this->objectId)) {
 			return '';
 		}
 		$files = array();
-		foreach (Cms_Model_File_Dao::findImages($this->_getParam('object'), $this->_getParam('objectId')) as $file) {
+		foreach (Cms_Model_File_Dao::findImages($this->object, $this->objectId) as $file) {
 			$files[] = array('title' => $file->original, 'value' => $file->getUrl('scale', '600'));
 		}
 		return json_encode($files);
@@ -26,14 +26,14 @@ class Cms_Controller_File extends Mmi_Controller_Action {
 		if (empty($files)) {
 			return '';
 		}
-		if (!$this->_getParam('class')) {
+		if (!$this->class) {
 			return '';
 		}
-		if ($this->_getParam('hash') != md5($this->_getParam('t') . '+' . Mmi_Session::getId() . '+' . $this->_getParam('class'))) {
+		if ($this->hash != md5($this->t . '+' . Mmi_Session::getId() . '+' . $this->class)) {
 			return '';
 		}
-		$object = $this->_getParam('object');
-		$objectId = $this->_getParam('objectId');
+		$object = $this->object;
+		$objectId = $this->objectId;
 		foreach ($files as $currentFile) {
 			Cms_Model_File_Dao::appendFiles($object, $objectId, $currentFile);
 		}
@@ -49,13 +49,13 @@ class Cms_Controller_File extends Mmi_Controller_Action {
 			'module' => 'cms',
 			'controller' => 'file',
 			'action' => 'upload',
-			'class' => $this->_getParam('class'),
+			'class' => $this->class,
 			't' => $t,
-			'object' => $this->_getParam('object'),
-			'objectId' => $this->_getParam('objectId'),
-			'hash' => md5($t . '+' . Mmi_Session::getId() . '+' . $this->_getParam('class'))
+			'object' => $this->object,
+			'objectId' => $this->objectId,
+			'hash' => md5($t . '+' . Mmi_Session::getId() . '+' . $this->class)
 		);
-		$this->view->files = Cms_Model_File_Dao::findClassified($this->_getParam('object'), $this->_getParam('objectId'));
+		$this->view->files = Cms_Model_File_Dao::findClassified($this->object, $this->objectId);
 		$this->view->ajaxParams = $ajaxParams;
 	}
 

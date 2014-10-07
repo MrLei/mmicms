@@ -7,7 +7,7 @@ class Cms_Controller_AdminComment extends MmiCms_Controller_Admin {
 	}
 
 	public function deleteAction() {
-		$comment = new Cms_Model_Comment_Record($this->_getParam('id'));
+		$comment = new Cms_Model_Comment_Record($this->id);
 		if ($comment->delete()) {
 			$this->_helper->messenger('Poprawnie usunięto artykuł', true);
 		}

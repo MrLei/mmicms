@@ -7,10 +7,10 @@ class Payment_Controller_Admin extends MmiCms_Controller_Admin {
 	}
 
 	public function editAction() {
-		if (!($this->_getParam('id') > 0)) {
+		if (!($this->id > 0)) {
 			$this->_helper->redirector('index', 'admin', 'payment', array(), true);
 		}
-		$form = new Payment_Form_Admin_Payment($this->_getParam('id'));
+		$form = new Payment_Form_Admin_Payment($this->id);
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Płatność zapisana poprawnie', true);
 			$this->_helper->redirector('index', 'admin', 'payment', array(), true);
@@ -18,7 +18,7 @@ class Payment_Controller_Admin extends MmiCms_Controller_Admin {
 	}
 
 	public function deleteAction() {
-		$payment = new Payment_Model_Payment($this->_getParam('id'));
+		$payment = new Payment_Model_Payment($this->id);
 		$payment->delete();
 		$this->_helper->messenger('Usunięto płatność', true);
 		$this->_helper->redirector('index', 'admin', 'payment', array(), true);

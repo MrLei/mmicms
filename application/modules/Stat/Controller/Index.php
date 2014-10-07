@@ -3,10 +3,10 @@
 class Stat_Controller_Index extends Mmi_Controller_Action {
 
 	public function hitAction() {
-		if (!$this->_getParam('s')) {
+		if (!$this->s) {
 			return $this->_out(0);
 		}
-		$data = base64_decode($this->_getParam('s'));
+		$data = base64_decode($this->s);
 		$data = explode(',', $data);
 		if (!(isset($data[0])) || preg_replace('/[^a-z_]+/', '', $data[0]) != $data[0]) {
 			return $this->_out(0);
