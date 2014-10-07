@@ -250,11 +250,6 @@ abstract class Mmi_Form {
 			$this->_values = $data;
 		}
 		$this->init();
-		//dołączanie jquery
-		if (!$this->getOption('noJs')) {
-			$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
-			$view->headScript()->appendFile($view->baseUrl . '/library/js/form.js');
-		}
 		//obsługa checkboxów i selectów
 		if (!empty($this->_values)) {
 			foreach ($this->getElements() as $element) {
@@ -387,59 +382,12 @@ abstract class Mmi_Form {
 	}
 
 	/**
-	 * Dodawanie elementu formularza
-	 * @param string $type nazwa typu
-	 * @param string $name nazwa pola
-	 * @param array $options opcje
-	 * @return Mmi_Form_Element_Abstract
-	 */
-	public function addElement($type, $name, array $options = array()) {
-		//automatyczne dodawanie prefiksów do pól subformów
-		if ($this->_isSubForm) {
-			if (strpos($name, $this->_subFormPrefix) === false) {
-				$name = $this->_subFormPrefix . $name;
-			}
-		}
-		$className = 'Mmi_Form_Element_' . ucfirst($type);
-		$this->_elements[$name] = new $className($name, $options);
-		$this->_elements[$name]->setForm($this);
-		return $this->_elements[$name];
-	}
-
-	/**
-	 * Zabezpieczenie spamowe
-	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_Antirobot
-	 */
-	public function addElementAntirobot($name) {
-		return $this->addElement('antirobot', $name);
-	}
-
-	/**
-	 * Autocomplete
-	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_Autocomplete
-	 */
-	public function addElementAutocomplete($name) {
-		return $this->addElement('autocomplete', $name);
-	}
-
-	/**
 	 * Button
 	 * @param string $name nazwa
 	 * @return Mmi_Form_Element_Button
 	 */
 	public function addElementButton($name) {
-		return $this->addElement('button', $name);
-	}
-
-	/**
-	 * Captcha
-	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_Captcha
-	 */
-	public function addElementCaptcha($name) {
-		return $this->addElement('captcha', $name);
+		return $this->addElement(new Mmi_Form_Element_Button($name));
 	}
 
 	/**
@@ -448,34 +396,7 @@ abstract class Mmi_Form {
 	 * @return Mmi_Form_Element_Checkbox
 	 */
 	public function addElementCheckbox($name) {
-		return $this->addElement('checkbox', $name);
-	}
-
-	/**
-	 * Wybór koloru
-	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_ColorPicker
-	 */
-	public function addElementColorPicker($name) {
-		return $this->addElement('colorPicker', $name);
-	}
-
-	/**
-	 * Date picker
-	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_DatePicker
-	 */
-	public function addElementDatePicker($name) {
-		return $this->addElement('datePicker', $name);
-	}
-
-	/**
-	 * Date-time picker
-	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_DateTimePicker
-	 */
-	public function addElementDateTimePicker($name) {
-		return $this->addElement('dateTimePicker', $name);
+		return $this->addElement(new Mmi_Form_Element_Checkbox($name));
 	}
 
 	/**
@@ -484,7 +405,7 @@ abstract class Mmi_Form {
 	 * @return Mmi_Form_Element_File
 	 */
 	public function addElementFile($name) {
-		return $this->addElement('file', $name);
+		return $this->addElement(new Mmi_Form_Element_File($name));
 	}
 
 	/**
@@ -493,7 +414,7 @@ abstract class Mmi_Form {
 	 * @return Mmi_Form_Element_Hidden
 	 */
 	public function addElementHidden($name) {
-		return $this->addElement('hidden', $name);
+		return $this->addElement(new Mmi_Form_Element_Hidden($name));
 	}
 
 	/**
@@ -502,7 +423,7 @@ abstract class Mmi_Form {
 	 * @return Mmi_Form_Element_Label
 	 */
 	public function addElementLabel($name) {
-		return $this->addElement('label', $name);
+		return $this->addElement(new Mmi_Form_Element_Label($name));
 	}
 
 	/**
@@ -511,7 +432,7 @@ abstract class Mmi_Form {
 	 * @return Mmi_Form_Element_MultiCheckbox
 	 */
 	public function addElementMultiCheckbox($name) {
-		return $this->addElement('multiCheckbox', $name);
+		return $this->addElement(new Mmi_Form_Element_MultiCheckbox($name));
 	}
 
 	/**
@@ -520,7 +441,7 @@ abstract class Mmi_Form {
 	 * @return Mmi_Form_Element_Password
 	 */
 	public function addElementPassword($name) {
-		return $this->addElement('password', $name);
+		return $this->addElement(new Mmi_Form_Element_Password($name));
 	}
 
 	/**
@@ -529,34 +450,7 @@ abstract class Mmi_Form {
 	 * @return Mmi_Form_Element_Radio
 	 */
 	public function addElementRadio($name) {
-		return $this->addElement('radio', $name);
-	}
-
-	/**
-	 * Range slider
-	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_RangeSlider
-	 */
-	public function addElementRangeSlider($name) {
-		return $this->addElement('rangeSlider', $name);
-	}
-
-	/**
-	 * Range-time slider
-	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_RangeTimeSlider
-	 */
-	public function addElementRangeTimeSlider($name) {
-		return $this->addElement('rangeTimeSlider', $name);
-	}
-
-	/**
-	 * Ratings
-	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_Ratings
-	 */
-	public function addElementRatings($name) {
-		return $this->addElement('ratings', $name);
+		return $this->addElement(new Mmi_Form_Element_Radio($name));
 	}
 
 	/**
@@ -565,16 +459,7 @@ abstract class Mmi_Form {
 	 * @return Mmi_Form_Element_Select
 	 */
 	public function addElementSelect($name) {
-		return $this->addElement('select', $name);
-	}
-
-	/**
-	 * Slider
-	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_Slider
-	 */
-	public function addElementSlider($name) {
-		return $this->addElement('slider', $name);
+		return $this->addElement(new Mmi_Form_Element_Select($name));
 	}
 
 	/**
@@ -583,7 +468,7 @@ abstract class Mmi_Form {
 	 * @return Mmi_Form_Element_Submit
 	 */
 	public function addElementSubmit($name) {
-		return $this->addElement('submit', $name);
+		return $this->addElement(new Mmi_Form_Element_Submit($name));
 	}
 
 	/**
@@ -592,7 +477,7 @@ abstract class Mmi_Form {
 	 * @return Mmi_Form_Element_Text
 	 */
 	public function addElementText($name) {
-		return $this->addElement('text', $name);
+		return $this->addElement(new Mmi_Form_Element_Text($name));
 	}
 
 	/**
@@ -601,41 +486,15 @@ abstract class Mmi_Form {
 	 * @return Mmi_Form_Element_Textarea
 	 */
 	public function addElementTextarea($name) {
-		return $this->addElement('textarea', $name);
-	}
-
-	/**
-	 * Time slider
-	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_TimeSlider
-	 */
-	public function addElementTimeSlider($name) {
-		return $this->addElement('timeSlider', $name);
-	}
-
-	/**
-	 * TinyMce
-	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_TinyMce
-	 */
-	public function addElementTinyMce($name) {
-		return $this->addElement('tinyMce', $name);
-	}
-
-	/**
-	 * Uploader
-	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_Uploader
-	 */
-	public function addElementUploader($name) {
-		return $this->addElement('uploader', $name);
+		return $this->addElement(new Mmi_Form_Element_Textarea($name));
 	}
 
 	/**
 	 * Dodawanie elementu formularza z gotowego obiektu
 	 * @param Mmi_Form_Element_Abstract $element obiekt elementu formularza
+	 * @return Mmi_Form_Element_Abstract
 	 */
-	public function addElementObject(Mmi_Form_Element_Abstract $element) {
+	public function addElement(Mmi_Form_Element_Abstract $element) {
 		$name = $element->getName();
 		//automatyczne dodawanie prefiksów do pól subformów
 		if ($this->_isSubForm) {
@@ -646,6 +505,7 @@ abstract class Mmi_Form {
 		}
 		$this->_elements[$name] = $element;
 		$this->_elements[$name]->setForm($this);
+		return $element;
 	}
 
 	/**

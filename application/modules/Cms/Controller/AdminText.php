@@ -7,7 +7,7 @@ class Cms_Controller_AdminText extends MmiCms_Controller_Admin {
 	}
 
 	public function editAction() {
-		$form = new Cms_Form_Admin_Text($this->_getParam('id'));
+		$form = new Cms_Form_Admin_Text($this->id);
 		if (!$form->isMine()) {
 			return;
 		}
@@ -31,7 +31,7 @@ class Cms_Controller_AdminText extends MmiCms_Controller_Admin {
 	}
 
 	public function deleteAction() {
-		$text = new Cms_Model_Text_Record($this->_getParam('id'));
+		$text = new Cms_Model_Text_Record($this->id);
 		if ($text->delete()) {
 			$this->_helper->messenger('Poprawnie skasowano tekst', true);
 		}

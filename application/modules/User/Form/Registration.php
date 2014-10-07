@@ -1,6 +1,6 @@
 <?php
 
-class User_Form_Registration extends Mmi_Form {
+class User_Form_Registration extends MmiCms_Form {
 
 	protected $_recordName = 'User_Model_Registration_Record';
 

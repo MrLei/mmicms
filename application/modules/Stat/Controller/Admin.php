@@ -3,9 +3,9 @@
 class Stat_Controller_Admin extends MmiCms_Controller_Admin {
 
 	public function indexAction() {
-		$year = $this->_getParam('year') ? $this->_getParam('year') : date('Y');
-		$month = $this->_getParam('month') ? $this->_getParam('month') : date('m');
-		$form = new Stat_Form_Admin_Object(null, array('object' => $this->_getParam('object'),
+		$year = $this->year ? $this->year : date('Y');
+		$month = $this->month ? $this->month : date('m');
+		$form = new Stat_Form_Admin_Object(null, array('object' => $this->object,
 			'year' => $year,
 			'month' => $month,
 		));
@@ -20,10 +20,10 @@ class Stat_Controller_Admin extends MmiCms_Controller_Admin {
 					'month' => $form->getValue('month'),
 				), true);
 		}
-		if (!$this->_getParam('object') || !$this->_getParam('year') || !$this->_getParam('month')) {
+		if (!$this->object || !$this->year || !$this->month) {
 			return;
 		}
-		$object = $this->_getParam('object');
+		$object = $this->object;
 		$year = intval($year);
 		$month = intval($month);
 		$label = Stat_Model_Label_Dao::findFirstByObject($object);
@@ -83,7 +83,7 @@ class Stat_Controller_Admin extends MmiCms_Controller_Admin {
 	}
 
 	public function editAction() {
-		$form = new Stat_Form_Admin_Label($this->_getParam('id'));
+		$form = new Stat_Form_Admin_Label($this->id);
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Nazwa statystyki została zapisana', true);
 			$this->_helper->redirector('label', 'admin', 'stat', array(), true);
@@ -91,7 +91,7 @@ class Stat_Controller_Admin extends MmiCms_Controller_Admin {
 	}
 
 	public function deleteAction() {
-		$label = new Stat_Model_Label(intval($this->_getParam('id')));
+		$label = new Stat_Model_Label(intval($this->id));
 		$label->delete();
 		$this->_helper->messenger('Nazwa statystyki została usunięta', true);
 		$this->_helper->redirector('label', 'admin', 'stat', array(), true);

@@ -7,7 +7,7 @@ class Embed_Controller_Admin extends MmiCms_Controller_Admin {
 	}
 
 	public function editAction() {
-		$form = new Embed_Form_Admin_Embed($this->_getParam('id'));
+		$form = new Embed_Form_Admin_Embed($this->id);
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Zaktualizowano konfigurację widgeta', true);
 			$this->_helper->redirector('index', 'admin', 'embed', array(), true);
@@ -15,8 +15,8 @@ class Embed_Controller_Admin extends MmiCms_Controller_Admin {
 	}
 
 	public function deleteAction() {
-		if ($this->_getParam('id') > 0) {
-			$embed = new Embed_Model_Admin_Embed($this->_getParam('id'));
+		if ($this->id > 0) {
+			$embed = new Embed_Model_Admin_Embed($this->id);
 			$embed->delete();
 		}
 		$this->_helper->messenger('Usunięto konfigurację widgeta', true);

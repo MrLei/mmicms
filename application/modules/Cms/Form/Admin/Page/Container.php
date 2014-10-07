@@ -1,6 +1,6 @@
 <?php
 
-class Cms_Form_Admin_Page_Container extends Mmi_Form {
+class Cms_Form_Admin_Page_Container extends MmiCms_Form {
 
 	protected $_recordName = 'Cms_Model_Navigation_Record';
 	protected $_recordSaveMethod = 'saveForm';

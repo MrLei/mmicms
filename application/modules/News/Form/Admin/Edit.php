@@ -1,6 +1,6 @@
 <?php
 
-class News_Form_Admin_Edit extends Mmi_Form {
+class News_Form_Admin_Edit extends MmiCms_Form {
 
 	protected $_recordName = 'News_Model_Record';
 

@@ -1,6 +1,6 @@
 <?php
 
-class Cms_Form_Admin_Article extends Mmi_Form {
+class Cms_Form_Admin_Article extends MmiCms_Form {
 
 	protected $_recordName = 'Cms_Model_Article_Record';
 

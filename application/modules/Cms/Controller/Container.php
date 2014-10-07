@@ -3,10 +3,10 @@
 class Cms_Controller_Container extends Mmi_Controller_Action {
 
 	public function displayAction() {
-		if (!$this->_getParam('uri')) {
+		if (!$this->uri) {
 			$this->_helper->redirector('index', 'index', 'default', array(), true);
 		}
-		$container = Cms_Model_Container_Dao::findFirstByUri($this->_getParam('uri'));
+		$container = Cms_Model_Container_Dao::findFirstByUri($this->uri);
 		if ($container === null) {
 			$this->_helper->redirector('index', 'index', 'default', array(), true);
 		}

@@ -11,7 +11,7 @@ class Cms_Controller_AdminContact extends MmiCms_Controller_Admin {
 	}
 
 	public function editSubjectAction() {
-		$form = new Cms_Form_Admin_Contact_Option($this->_getParam('id'));
+		$form = new Cms_Form_Admin_Contact_Option($this->id);
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Poprawnie zapisano temat kontaktu', true);
 			$this->_helper->redirector('subject');
@@ -19,7 +19,7 @@ class Cms_Controller_AdminContact extends MmiCms_Controller_Admin {
 	}
 
 	public function deleteSubjectAction() {
-		$option = new Cms_Model_Contact_Option_Record($this->_getParam('id'));
+		$option = new Cms_Model_Contact_Option_Record($this->id);
 		if ($option->delete()) {
 			$this->_helper->messenger('Poprawnie usunięto temat', true);
 		}
@@ -27,7 +27,7 @@ class Cms_Controller_AdminContact extends MmiCms_Controller_Admin {
 	}
 
 	public function deleteAction() {
-		$contact = new Cms_Model_Contact_Record($this->_getParam('id'));
+		$contact = new Cms_Model_Contact_Record($this->id);
 		if ($contact->delete()) {
 			$this->_helper->messenger('Poprawnie usunięto wiadomość', true);
 		}
@@ -35,7 +35,7 @@ class Cms_Controller_AdminContact extends MmiCms_Controller_Admin {
 	}
 
 	public function editAction() {
-		$form = new Cms_Form_Admin_Contact($this->_getParam('id'));
+		$form = new Cms_Form_Admin_Contact($this->id);
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Wysłano odpowiedź na wiadomość', true);
 			$this->_helper->redirector('index');
