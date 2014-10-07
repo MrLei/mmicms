@@ -138,35 +138,31 @@ class Mmi_Application {
 	}
 
 	/**
-	 * Autoloader klas
-	 * @param string $class nazwa klasy
-	 * @return null
-	 */
-	protected function _loader($class) {
-		$name = explode('_', $class);
-		if (!isset($name[0])) {
-			return;
-		}
-		$namespace = $name[0];
-		switch ($namespace) {
-			case ((substr($namespace, 0, 3) == 'Mmi') ? $namespace : !$namespace):
-			case 'Zend':
-				$path = LIB_PATH . '/' . $namespace;
-				array_shift($name);
-				break;
-			default:
-				$path = APPLICATION_PATH . '/modules';
-		}
-		Mmi_Profiler::event('Autoloaded: ' . $class);
-		include $path . '/' . implode('/', $name) . '.php';
-	}
-	
-	/**
 	 * Inicjuje autoloader
 	 * @return Mmi_Application
 	 */
 	protected function _initAutoloader() {
-		spl_autoload_register(array($this, '_loader'));
+		spl_autoload_register(function ($class) {
+			if (strpos($class, '\\') !== false) {
+				return;
+			}
+			$name = explode('_', $class);
+			if (!isset($name[0])) {
+				return;
+			}
+			$namespace = $name[0];
+			switch ($namespace) {
+				case ((substr($namespace, 0, 3) == 'Mmi') ? $namespace : !$namespace):
+				case 'Zend':
+					$path = LIB_PATH . '/' . $namespace;
+					array_shift($name);
+					break;
+				default:
+					$path = APPLICATION_PATH . '/modules';
+			}
+			Mmi_Profiler::event('Autoloaded: ' . $class);
+			include $path . '/' . implode('/', $name) . '.php';
+		});
 		return $this;
 	}
 
