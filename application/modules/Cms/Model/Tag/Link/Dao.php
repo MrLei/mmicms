@@ -137,7 +137,7 @@ class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
 	public static function getTagString($object, $objectId) {
 		$tagString = '';
 		foreach (self::findTags($object, $objectId) as $tag) {
-			$tagString .= $tag->tag . ',';
+			$tagString .= $tag->cms_tag->tag . ',';
 		}
 		return trim($tagString, ', ');
 	}
