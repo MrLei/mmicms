@@ -261,14 +261,18 @@ class Mmi_Image {
 	 * @return resource obrazek
 	 */
 	protected static function _resource($input) {
-		if (gettype($input) == 'string') {
-			try {
-				return imagecreatefromstring(file_get_contents($input));
-			} catch (Exception $e) {
-				return;
-			}
+		if (gettype($input) == 'resource') {
+			return $input;
 		}
-		return $input;
+		try {
+			if (strlen($input) < 1024) {
+				$input = file_get_contents($input);
+			}
+			return imagecreatefromstring($input);
+		} catch (Exception $e) {
+			Mmi_Exception_Logger::log($e);
+			return;
+		}
 	}
 
 }

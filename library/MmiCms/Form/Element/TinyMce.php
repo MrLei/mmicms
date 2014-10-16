@@ -172,10 +172,9 @@ class MmiCms_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 				" . $toolbarOptions . "
 				" . $themeOptions . "
 				" . $onInit . "
-				autoresize_min_height: 200,
+				autoresize_min_height: 300,
 				image_list: request.baseUrl + '/cms/file/list/object/$object/objectId/$objectId/t/$t/hash/$hash',
 				document_base_url: request.baseUrl,
-				content_css : request.baseUrl + '/$skin/default/css/default.css',
 				convert_urls: false,
 				entity_encoding: 'raw',
 				relative_urls: false,
