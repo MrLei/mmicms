@@ -35,10 +35,29 @@ class Mmi_Lib {
 		foreach (glob($rootName . '/*') as $file) {
 			if ($fileName == basename($file) && is_file($file)) {
 				unlink($file);
-			} elseif (is_dir($file)) {
+				continue;
+			}
+			if (is_dir($file)) {
 				self::unlinkRecursive($fileName, $file);
 			}
 		}
+	}
+	
+	/**
+	 * Usuwa katalog rekurencyjnie
+	 * @param string $dirName nazwa katalogu
+	 */
+	public static function rmdirRecursive($dirName) {
+		foreach (glob($dirName . '/*') as $file) {
+			if (is_file($file)) {
+				unlink($file);
+				continue;
+			} 
+			if (is_dir($file)) {
+				self::rmdirRecursive($file);
+			}
+		}
+		rmdir($dirName);
 	}
 
 	/**
@@ -139,15 +158,14 @@ class Mmi_Lib {
 	 * @param string $data Ciąg wejściowy
 	 * @param string $key Dodatkowy klucz szyfrowania.
 	 */
-	public static function encrypt($data, $key = '', $salt = '') {
-		$key = substr(base64_encode(hash('sha512', sha1($key) . $key . $salt, true)), 10, 26);
+	public static function encrypt($data, $password, $salt = '') {
+		$key = substr(base64_encode(hash('sha512', $password . ':' . sha1($password) . '@Mmi#' . $salt)), 10, 32);
 		//AES - Advanced Encryption Standard
 		$algorithm = MCRYPT_RIJNDAEL_256;
 		$procedure = MCRYPT_MODE_ECB;
 		$iv = mcrypt_create_iv(mcrypt_get_iv_size($algorithm, $procedure), MCRYPT_RAND);
 		$encrypted = mcrypt_encrypt($algorithm, $key, $data, $procedure, $iv);
-		$encrypted = base64_encode($encrypted);
-		return $encrypted;
+		return trim(str_replace(array('+', '/'), array('-', '_'), base64_encode($encrypted)), '=');
 	}
 
 	/**
@@ -155,16 +173,13 @@ class Mmi_Lib {
 	 * @param string $data Ciąg zaszyfrowany
 	 * @param string $key Dodatkowy klucz deszyfrowania.
 	 */
-	public static function decrypt($data, $key = '', $salt = '') {
-		$key = substr(base64_encode(hash('sha512', sha1($key) . $key . $salt, true)), 10, 26);
+	public static function decrypt($data, $password, $salt = '') {
+		$key = substr(base64_encode(hash('sha512', $password . ':' . sha1($password) . '@Mmi#' . $salt)), 10, 32);
 		//AES - Advanced Encryption Standard
 		$algorithm = MCRYPT_RIJNDAEL_256;
 		$procedure = MCRYPT_MODE_ECB;
 		$iv = mcrypt_create_iv(mcrypt_get_iv_size($algorithm, $procedure), MCRYPT_RAND);
-		$data = base64_decode($data);
-		$decrypted = mcrypt_decrypt($algorithm, $key, $data, $procedure, $iv);
-		$decrypted = rtrim($decrypted, "\0");
-		return $decrypted;
+		return rtrim(mcrypt_decrypt($algorithm, $key, base64_decode(str_replace(array('-', '_'), array('+', '/'), $data)), $procedure, $iv), "\0");
 	}
 
 	/**
