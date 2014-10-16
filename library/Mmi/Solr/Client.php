@@ -27,12 +27,37 @@
 class Mmi_Solr_Client {
 
 	public $solrServerUrl = null;
+	protected $_core = null;
 	protected $_method = 'POST';
 	protected $_header = 'Content-type: text/json';
 	protected $_solrMethod = null;
 
-	public function __construct($solrUrl) {
+	public function __construct($solrUrl, $core) {
 		$this->solrServerUrl = $solrUrl;
+		$this->_core = $core;
+	}
+
+	/**
+	 * Metoda odpowiedzialna za reload danego indeksu w przypadku jeżeli zajdą zmiany
+	 * w pliku solrconfig.xml lub schema.xml
+	 * @return string
+	 * @throws Exception
+	 */
+	public function reload() {
+		$this->_solrMethod = 'cores';
+
+		$opts = array(
+			'http' => array('ignore_errors' => true)
+		);
+
+		$context = stream_context_create($opts);
+
+		try {
+			return file_get_contents($this->solrServerUrl . '/admin/' . $this->_solrMethod . '?wt=json&action=reload&core=' . $this->_core, false, $context);
+		} catch (Exception $ex) {
+			throw $ex;
+		}
+
 	}
 
 	/**
@@ -51,7 +76,7 @@ class Mmi_Solr_Client {
 		$context = stream_context_create($opts);
 
 		try {
-			return file_get_contents($this->solrServerUrl . '/' . $this->_solrMethod . '?' . $queryObject->searchUrl(), false, $context);
+			return file_get_contents($this->solrServerUrl . '/' . $this->_core . '/' . $this->_solrMethod . '?' . $queryObject->searchUrl(), false, $context);
 		} catch (Exception $ex) {
 			throw $ex;
 		}
@@ -86,7 +111,7 @@ class Mmi_Solr_Client {
 		$context = stream_context_create($opts);
 
 		try {
-			$response = file_get_contents($this->solrServerUrl . '/' . $this->_solrMethod, false, $context);
+			$response = file_get_contents($this->solrServerUrl . '/' . $this->_core . '/' . $this->_solrMethod, false, $context);
 			$responseObject = json_decode($response);
 			if (!isset($responseObject->error) && $commit) {
 				$this->commit();
@@ -149,7 +174,7 @@ class Mmi_Solr_Client {
 		$context = stream_context_create($opts);
 
 		try {
-			$response = file_get_contents($this->solrServerUrl . '/' . $this->_solrMethod, false, $context);
+			$response = file_get_contents($this->solrServerUrl . '/' . $this->_core . '/' . $this->_solrMethod, false, $context);
 			$responseObject = json_decode($response);
 			if (!isset($responseObject->error) & $commit) {
 				$this->commit();
@@ -182,7 +207,7 @@ class Mmi_Solr_Client {
 		$context = stream_context_create($opts);
 
 		try {
-			$response = file_get_contents($this->solrServerUrl . '/' . $this->_solrMethod . '?commit=true', false, $context);
+			$response = file_get_contents($this->solrServerUrl . '/' . $this->_core . '/' . $this->_solrMethod . '?commit=true', false, $context);
 			$responseObject = json_decode($response);
 			if (!isset($responseObject->error)) {
 				return $response;
