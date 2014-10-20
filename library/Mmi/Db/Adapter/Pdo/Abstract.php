@@ -318,6 +318,9 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	public function update($table, array $data = array(), array $whereBind = array()) {
 		$fields = '';
 		$bind = array();
+		if (empty($data)) {
+			return 1;
+		}
 		foreach ($data as $key => $value) {
 			$fields .= $this->prepareField($key) . ' = ?, ';
 			$bind[] = $value;
