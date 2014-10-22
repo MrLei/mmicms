@@ -32,6 +32,9 @@ class Mmi_Lib {
 	 * @param string $rootName katalog główny
 	 */
 	public static function unlinkRecursive($fileName, $rootName) {
+		if (!file_exists($rootName)) {
+			return;
+		}
 		foreach (glob($rootName . '/*') as $file) {
 			if ($fileName == basename($file) && is_file($file)) {
 				unlink($file);
@@ -48,6 +51,9 @@ class Mmi_Lib {
 	 * @param string $dirName nazwa katalogu
 	 */
 	public static function rmdirRecursive($dirName) {
+		if (!file_exists($dirName)) {
+			return;
+		}
 		foreach (glob($dirName . '/*') as $file) {
 			if (is_file($file)) {
 				unlink($file);
