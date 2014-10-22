@@ -114,6 +114,9 @@ class Mmi_Lib {
 	public static function mimeType($file) {
 		if (function_exists('finfo_open')) {
 			$finfo = finfo_open(FILEINFO_MIME_TYPE);
+			if (strlen($file) > 1024) {
+				return finfo_buffer($finfo, $file);
+			}
 			return finfo_file($finfo, $file);
 		} else {
 			ob_start();
