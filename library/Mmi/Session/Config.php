@@ -65,16 +65,16 @@ class Mmi_Session_Config {
 
 	/**
 	 * Backend obsługujący sesje
-	 * apc | file | memcache
+	 * user | file | memcache
 	 * @var string
 	 */
-	public $handler = 'apc';
+	public $handler = 'user';
 
 	/**
 	 * Ścieżka zapisu sesji
 	 * @var tmp
 	 */
-	public $path;
+	public $path = 'apc';
 
 	/**
 	 * Model autoryzacyjny
