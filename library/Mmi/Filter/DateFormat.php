@@ -33,7 +33,10 @@ class Mmi_Filter_DateFormat extends Mmi_Filter_Abstract {
 	 */
 	public function filter($value) {
 		$format = isset($this->_options[0]) ? $this->_options[0] : 'd.m.Y H:i:s';
-		$timestamp = strtotime($value);
+		$timestamp = $value;
+		if (!is_numeric($value)) {
+			$timestamp = strtotime($value);
+		}
 		return date($format, $timestamp);
 	}
 
