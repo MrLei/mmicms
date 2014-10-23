@@ -115,10 +115,15 @@ class Mmi_Image_Exif {
 	 * @return string
 	 */
 	public function getCreationDate() {
-		if (!isset($this->_exif['DateTime'])) {
-			return;
+		if (isset($this->_exif['DateTimeOriginal']) && substr($this->_exif['DateTimeOriginal'], 0, 4) != '0000') {
+			return date('Y-m-d H:i:s', strtotime($this->_exif['DateTimeOriginal']));
 		}
-		return date('Y-m-d H:i:s', strtotime($this->_exif['DateTime']));
+		if (isset($this->_exif['DateTime']) && substr($this->_exif['DateTime'], 0, 4) != '0000') {
+			return date('Y-m-d H:i:s', strtotime($this->_exif['DateTime']));
+		}
+		if (!isset($this->_exif['FileDateTime']) && substr($this->_exif['DateTime'], 0, 4) != '0000') {
+			return date('Y-m-d H:i:s', strtotime($this->_exif['FileDateTime']));
+		}
 	}
 	
 	/**
@@ -126,7 +131,10 @@ class Mmi_Image_Exif {
 	 * @return integer
 	 */
 	public function getWidth() {
-		return isset($this->_exif['ExifImageWidth']) ? round($this->_exif['ExifImageWidth']) : null;
+		if (isset($this->_exif['ExifImageWidth'])) {
+			return round($this->_exif['ExifImageWidth']);
+		}
+		return isset($this->_exif['COMPUTED']['Width']) ? round($this->_exif['COMPUTED']['Width']) : null;
 	}
 	
 	/**
@@ -134,11 +142,22 @@ class Mmi_Image_Exif {
 	 * @return integer
 	 */
 	public function getHeight() {
-		return isset($this->_exif['ExifImageLength']) ? round($this->_exif['ExifImageLength']) : null;
+		if (isset($this->_exif['ExifImageLength'])) {
+			return round($this->_exif['ExifImageLength']);
+		}
+		return isset($this->_exif['COMPUTED']['Height']) ? round($this->_exif['COMPUTED']['Height']) : null;
 	}
 	
 	/**
-	 * Orientacja 1 - pozioma, 0 - pionowa
+	 * Orientacja
+	 * 1	top	left side
+	 * 2	top	right side
+	 * 3	bottom	right side
+	 * 4	bottom	left side
+	 * 5	left side	top
+	 * 6	right side	top
+	 * 7	right side	bottom
+	 * 8	left side	bottom
 	 * @return integer
 	 */
 	public function getOrientation() {
