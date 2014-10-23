@@ -170,7 +170,13 @@ class Mmi_Lib {
 	public static function encrypt($data, $password, $salt = '') {
 		$key = substr(base64_encode(hash('sha512', $password . ':' . sha1($password) . '@Mmi#' . $salt)), 10, 32);
 		//AES - Advanced Encryption Standard
+		if (!defined('MCRYPT_RIJNDAEL_256')) {
+		   define('MCRYPT_RIJNDAEL_256', 0);
+		}
 		$algorithm = MCRYPT_RIJNDAEL_256;
+		if (!defined('MCRYPT_MODE_ECB')) {
+		   define('MCRYPT_MODE_ECB', 0);
+		}
 		$procedure = MCRYPT_MODE_ECB;
 		$iv = mcrypt_create_iv(mcrypt_get_iv_size($algorithm, $procedure), MCRYPT_RAND);
 		$encrypted = mcrypt_encrypt($algorithm, $key, $data, $procedure, $iv);

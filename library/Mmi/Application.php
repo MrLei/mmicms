@@ -143,6 +143,9 @@ class Mmi_Application {
 	 */
 	protected function _initAutoloader() {
 		spl_autoload_register(function ($class) {
+			if (strpos($class, 'PHPUnit') !== false) {
+				return;
+			}
 			if (strpos($class, '\\') !== false) {
 				return;
 			}
