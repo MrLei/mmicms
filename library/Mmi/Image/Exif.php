@@ -115,13 +115,13 @@ class Mmi_Image_Exif {
 	 * @return string
 	 */
 	public function getCreationDate() {
-		if (isset($this->_exif['DateTimeOriginal'])) {
+		if (isset($this->_exif['DateTimeOriginal']) && substr($this->_exif['DateTimeOriginal'], 0, 4) != '0000') {
 			return date('Y-m-d H:i:s', strtotime($this->_exif['DateTimeOriginal']));
 		}
-		if (isset($this->_exif['DateTime'])) {
+		if (isset($this->_exif['DateTime']) && substr($this->_exif['DateTime'], 0, 4) != '0000') {
 			return date('Y-m-d H:i:s', strtotime($this->_exif['DateTime']));
 		}
-		if (!isset($this->_exif['FileDateTime'])) {
+		if (!isset($this->_exif['FileDateTime']) && substr($this->_exif['DateTime'], 0, 4) != '0000') {
 			return date('Y-m-d H:i:s', strtotime($this->_exif['FileDateTime']));
 		}
 	}
