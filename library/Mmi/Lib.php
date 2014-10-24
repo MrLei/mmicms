@@ -52,7 +52,7 @@ class Mmi_Lib {
 	 */
 	public static function rmdirRecursive($dirName) {
 		if (!file_exists($dirName)) {
-			return;
+			return false;
 		}
 		foreach (glob($dirName . '/*') as $file) {
 			if (is_file($file)) {
@@ -64,6 +64,7 @@ class Mmi_Lib {
 			}
 		}
 		rmdir($dirName);
+		return true;
 	}
 
 	/**
