@@ -70,5 +70,14 @@ class Mmi_Dao_Record_Collection extends ArrayObject {
 	public function toJson() {
 		return json_encode($this->toArray());
 	}
+	
+	/**
+	 * Klonuje całą kolekcję
+	 */
+	public function __clone() {
+		foreach ($this as $key => $record) {
+			$this[$key] = clone $record;
+		}
+	}
 
 }
