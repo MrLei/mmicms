@@ -137,6 +137,9 @@ class Mmi_Dao_Record_Ro {
 	 * @param mixed $value wartość
 	 */
 	public final function __set($name, $value) {
+		if (isset($this->_data[$name]) && $this->_data[$name] === $value) {
+			return;
+		}
 		$this->_modified[$name] = true;
 		return $this->_data[$name] = $value;
 	}

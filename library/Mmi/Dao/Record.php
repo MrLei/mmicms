@@ -108,7 +108,6 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 	 * @return array
 	 */
 	protected final function _truncateToStructure($modifiedOnly = false) {
-		//@TODO: docelowo rzucić tu wyjątek o nadmiarowych danych, w pierwszej fazie zalogować
 		$tableData = array();
 		$dao = $this->_daoClass;
 		$structure = $dao::getTableStructure();
