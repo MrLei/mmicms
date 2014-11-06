@@ -71,8 +71,12 @@ class Mmi_Json_Rpc_Server_Reflection {
 					$params[$param->name]['comment'] = trim($comm[2]);
 				}
 			}
-			if (preg_match('/\@return\s([a-zA-Z\|]+)/', $comment, $return)) {
+			//typ prosty
+			if (preg_match('/\@return\s([a-zA-Z\|_]+)/', $comment, $return)) {
 				$return = $return[1];
+				if (strpos($return, '_') !== false && class_exists($return)) {
+					$return = $this->_classFieldsArrayString($return);
+				}
 			} else {
 				$return = 'string';
 			}
@@ -95,6 +99,16 @@ class Mmi_Json_Rpc_Server_Reflection {
 			);
 		}
 		return $methods;
+	}
+	
+	protected function _classFieldsArrayString($className) {
+		$class = new $className;
+		$classStr = 'array(';
+		//iterator klasy
+		foreach ($class as $field => $value) {
+			$classStr .= $field . ' => ?, ';
+		}
+		return rtrim($classStr, ', ') . ')';
 	}
 
 }
