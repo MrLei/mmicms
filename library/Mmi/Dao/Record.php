@@ -162,6 +162,10 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 			if (!isset($structure[$field])) {
 				continue;
 			}
+			//próba zapisania nullowej wartości do nie nullowej kolumny (ID)
+			if ($value === null && !$structure[$field]['null']) {
+				continue;
+			}
 			$tableData[$field] = $value;
 		}
 		return $tableData;
