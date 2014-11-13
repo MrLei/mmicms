@@ -30,7 +30,7 @@ class Cms_Model_Container_Record extends Mmi_Dao_Record {
 	 *
 	 * @var integer
 	 */
-	public $cms;
+	public $cms_container_template_id;
 
 	public function save() {
 		$uf = new Mmi_Filter_Url();

@@ -96,7 +96,7 @@ class Cms_Model_File_Record extends Mmi_Dao_Record {
 	 *
 	 * @var integer
 	 */
-	public $cms;
+	public $cms_auth_id;
 
 	/**
 	 *

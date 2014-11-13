@@ -12,13 +12,13 @@ class Cms_Model_Comment_Record extends Mmi_Dao_Record {
 	 *
 	 * @var integer
 	 */
-	public $cms;
+	public $cms_auth_id;
 
 	/**
 	 *
 	 * @var integer
 	 */
-	public $parent;
+	public $parent_id;
 
 	/**
 	 *

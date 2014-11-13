@@ -12,7 +12,7 @@ class Cms_Model_Container_Template_Placeholder_Record extends Mmi_Dao_Record {
 	 *
 	 * @var integer
 	 */
-	public $cms;
+	public $cms_container_template_id;
 
 	/**
 	 *

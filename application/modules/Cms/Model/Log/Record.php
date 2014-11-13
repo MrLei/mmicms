@@ -60,14 +60,8 @@ class Cms_Model_Log_Record extends Mmi_Dao_Record {
 	 *
 	 * @var integer
 	 */
-	public $cms;
-	
-	/**
-	 *
-	 * @var integer
-	 */
 	public $cms_auth_id;
-
+	
 	/**
 	 *
 	 * @var string

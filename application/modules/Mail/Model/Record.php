@@ -12,7 +12,7 @@ class Mail_Model_Record extends Mmi_Dao_Record {
 	 *
 	 * @var integer
 	 */
-	public $mail;
+	public $mail_definition_id;
 
 	/**
 	 *
