@@ -182,7 +182,10 @@ class Mmi_Dao_Record_Ro {
 		}
 		foreach ($joinedRows as $table => $rows) {
 			$ro = new Mmi_Dao_Record_Ro();
-			$ro->setFromArray($rows)->clearModified();
+			$ro->setFromArray($rows);
+			if (!in_array($table, $this->_extras)) {
+				$this->_extras[] = $table;
+			}
 			$this->__set($table, $ro);
 		}
 		return $this;
