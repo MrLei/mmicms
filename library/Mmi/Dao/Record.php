@@ -36,6 +36,53 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 	protected $_saveStatus = 0;
 
 	/**
+	 * Magicznie pobiera dane z rekordu
+	 * @param string $name nazwa
+	 * @return mixed
+	 */
+	public final function __get($name) {
+		if (!in_array($name, $this->_extras)) {
+			$this->_invalidFieldException($name);
+		}
+		return isset($this->_data[$name]) ? $this->_data[$name] : null;
+	}
+
+	/**
+	 * Magicznie ustawia dane w rekordzie
+	 * @param string $name nazwa
+	 * @param mixed $value wartość
+	 */
+	public final function __set($name, $value) {
+		if (!in_array($name, $this->_extras)) {
+			$this->_invalidFieldException($name);
+		}
+		return $this->_data[$name] = $value;
+	}
+
+	/**
+	 * Magicznie sprawdza czy istnieje wartość w danych rekordu
+	 * @param string $name
+	 * @return boolean
+	 */
+	public final function __isset($name) {
+		if (!in_array($name, $this->_extras)) {
+			$this->_invalidFieldException($name);
+		}
+		return isset($this->_data[$name]);
+	}
+
+	/**
+	 * Magicznie usuwa zmienną z rekordu
+	 * @param string $name nazwa
+	 */
+	public final function __unset($name) {
+		if (!in_array($name, $this->_extras)) {
+			$this->_invalidFieldException($name);
+		}
+		unset($this->_data[$name]);
+	}
+
+	/**
 	 * Zapis danych do obiektu
 	 * @return bool
 	 */
@@ -64,10 +111,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 		}
 		$dao = $this->_daoClass;
 		$result = $dao::getAdapter()->delete($dao::getTableName(), $this->_pkBind($this->getPk()));
-		if ($result == true) {
-			return true;
-		}
-		return false;
+		return ($result === true) ? true : false;
 	}
 
 	/**
@@ -79,9 +123,9 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 		$table = $dao::getTableName();
 		$result = $dao::getAdapter()->insert($table, $this->_truncateToStructure());
 		//odczyt id z sekwencji
-		if ($result && $this->id === null) {
+		if ($result && property_exists($this, 'id') && $this->id === null) {
 			//@TODO wypełenienie danych z sekwencji dla innych pól niż ID
-			$this->__set('id', $dao::getAdapter()->lastInsertId($dao::getAdapter()->prepareSequenceName($table)));
+			$this->id = $dao::getAdapter()->lastInsertId($dao::getAdapter()->prepareSequenceName($table));
 		}
 		$this->setNew(false);
 		$this->_setSaveStatus(1);
@@ -111,10 +155,14 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 		$tableData = array();
 		$dao = $this->_daoClass;
 		$structure = $dao::getTableStructure();
-		foreach ($this->_data as $field => $value) {
-			if ((!$modifiedOnly || ($modifiedOnly && isset($this->_modified[$field]))) && isset($structure[$field])) {
-				$tableData[$field] = $value;
+		foreach ($this as $field => $value) {
+			if ($modifiedOnly && ($this->_state[$field] === $value)) {
+				continue;
 			}
+			if (!isset($structure[$field])) {
+				continue;
+			}
+			$tableData[$field] = $value;
 		}
 		return $tableData;
 	}
@@ -127,6 +175,15 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 	protected function _setSaveStatus($status) {
 		$this->_saveStatus = $status;
 		return $this;
+	}
+	
+	/**
+	 * Wyrzuca wyjątek błędnego pola
+	 * @param string $fieldName
+	 * @throws Mmi_Dao_Record_Exception
+	 */
+	protected function _invalidFieldException($fieldName) {
+		throw new Mmi_Dao_Record_Exception('Field: ' . $fieldName . ' does not exist or extra field not found in class: ' . get_class($this));
 	}
 
 }

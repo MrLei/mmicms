@@ -1,16 +1,54 @@
 <?php
 
-/**
- * @property integer $id
- * @property string $lang
- * @property string $title
- * @property string $uri
- * @property string $dateAdd
- * @property string $dateModify
- * @property string $text
- * @property integer $noindex
- */
 class Cms_Model_Article_Record extends Mmi_Dao_Record {
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $id;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $lang;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $title;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $uri;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $dateAdd;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $dateModify;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $text;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $noindex;
 
 	public function save() {
 		$this->dateModify = date('Y-m-d H:i:s');

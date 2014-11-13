@@ -1,20 +1,80 @@
 <?php
 
-/**
- * @property integer $id
- * @property string $lang
- * @property string $username
- * @property string $email
- * @property string $password
- * @property string $lastIp
- * @property string $lastLog
- * @property string $lastFailIp
- * @property string $lastFailLog
- * @property integer $failLogCount
- * @property integer $logged
- * @property integer $active
- */
 class Cms_Model_Auth_Record extends Mmi_Dao_Record {
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $id;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $lang;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $username;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $email;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $password;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $lastIp;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $lastLog;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $lastFailIp;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $lastFailLog;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $failLogCount;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $logged;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $active;
+	
+	protected $_extras = array('remember', 'roles');
 
 	public function save() {
 		if ($this->changePassword) {

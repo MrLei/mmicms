@@ -1,30 +1,140 @@
 <?php
 
-/**
- * @property integer $id
- * @property string $lang
- * @property integer $parent_id
- * @property integer $order
- * @property string $module
- * @property string $controller
- * @property string $action
- * @property string $params
- * @property string $label
- * @property string $title
- * @property string $keywords
- * @property string $description
- * @property string $uri
- * @property integer $visible
- * @property integer $https
- * @property integer $absolute
- * @property integer $independent
- * @property integer $nofollow
- * @property integer $blank
- * @property string $dateStart
- * @property string $dateEnd
- * @property integer $active
- */
 class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $id;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $lang;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $parent;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $order;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $module;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $controller;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $action;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $params;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $label;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $title;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $keywords;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $description;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $uri;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $visible;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $https;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $absolute;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $independent;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $nofollow;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $blank;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $dateStart;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $dateEnd;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $active;
+	
+	protected $_extras = array('parent_id');
 
 	public function init() {
 		$this->module = $this->module ? $this->module : 'default';

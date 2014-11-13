@@ -1,20 +1,78 @@
 <?php
 
-/**
- * @property integer $id
- * @property integer $cms_container_id
- * @property integer $cms_container_template_placeholder_id
- * @property string $module
- * @property string $controller
- * @property string $action
- * @property string $params
- * @property int $marginTop
- * @property int $marginLeft
- * @property int $marginRight
- * @property int $marginBottom
- * @property boolean $active
- */
 class Cms_Model_Container_Template_Placeholder_Container_Record extends Mmi_Dao_Record {
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $id;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $cms;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $cms;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $module;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $controller;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $action;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $params;
+
+	/**
+	 *
+	 * @var int
+	 */
+	public $marginTop;
+
+	/**
+	 *
+	 * @var int
+	 */
+	public $marginLeft;
+
+	/**
+	 *
+	 * @var int
+	 */
+	public $marginRight;
+
+	/**
+	 *
+	 * @var int
+	 */
+	public $marginBottom;
+
+	/**
+	 *
+	 * @var boolean
+	 */
+	public $active;
 
 	public function save() {
 		$object = explode('_', $this->object);

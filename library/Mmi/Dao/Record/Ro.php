@@ -27,7 +27,13 @@
 class Mmi_Dao_Record_Ro {
 
 	/**
-	 * Przechowuje dane rekordu
+	 * Lista nazw póla dodatkowe
+	 * @var array
+	 */
+	protected $_extras = array();
+
+	/**
+	 * Przechowuje ekstra dane rekordu
 	 * @var array
 	 */
 	protected $_data = array();
@@ -39,10 +45,10 @@ class Mmi_Dao_Record_Ro {
 	protected $_pk = array('id');
 
 	/**
-	 * Zmodyfikowane klucze
+	 * Stan rekordu przed modyfikacją
 	 * @var array
 	 */
-	protected $_modified = array();
+	protected $_state = array();
 
 	/**
 	 * Nazwa klasy DAO
@@ -73,16 +79,17 @@ class Mmi_Dao_Record_Ro {
 		if (!is_array($result) || !isset($result[0])) {
 			return;
 		}
-		$this->setFromArray($result[0])->clearModified();
-		$this->setNew(false);
-		$this->init();
+		$this->setFromArray($result[0])
+			->clearModified()
+			->setNew(false)
+			->init();
 	}
 
 	/**
 	 * Metoda programisty wykonywana na końcu konstruktora
 	 */
 	public function init() {
-
+		
 	}
 
 	/**
@@ -91,10 +98,7 @@ class Mmi_Dao_Record_Ro {
 	 * @return Mmi_Dao_Record_Ro
 	 */
 	public final function setNew($new) {
-		$this->_new = false;
-		if ($new === true) {
-			$this->_new = true;
-		}
+		$this->_new = ($new === true) ? true : false;
 		return $this;
 	}
 
@@ -104,12 +108,15 @@ class Mmi_Dao_Record_Ro {
 	 */
 	public final function getPk() {
 		if (count($this->_pk) == 1) {
-			return $this->__get($this->_pk[0]);
+			if (!property_exists($this, $this->_pk[0])) {
+				return;
+			}
+			return $this->{$this->_pk[0]};
 		}
 		//klucz wielokrotny
 		$pk = array();
 		foreach ($this->_pk as $name) {
-			$pk[] = $this->__get($name);
+			$pk[] = $this->$name;
 		}
 		return $pk;
 	}
@@ -127,7 +134,7 @@ class Mmi_Dao_Record_Ro {
 	 * @param string $name nazwa
 	 * @return mixed
 	 */
-	public final function __get($name) {
+	public function __get($name) {
 		return isset($this->_data[$name]) ? $this->_data[$name] : null;
 	}
 
@@ -136,11 +143,7 @@ class Mmi_Dao_Record_Ro {
 	 * @param string $name nazwa
 	 * @param mixed $value wartość
 	 */
-	public final function __set($name, $value) {
-		if (isset($this->_data[$name]) && $this->_data[$name] === $value) {
-			return;
-		}
-		$this->_modified[$name] = true;
+	public function __set($name, $value) {
 		return $this->_data[$name] = $value;
 	}
 
@@ -149,7 +152,7 @@ class Mmi_Dao_Record_Ro {
 	 * @param string $name
 	 * @return boolean
 	 */
-	public final function __isset($name) {
+	public function __isset($name) {
 		return isset($this->_data[$name]);
 	}
 
@@ -157,8 +160,7 @@ class Mmi_Dao_Record_Ro {
 	 * Magicznie usuwa zmienną z rekordu
 	 * @param string $name nazwa
 	 */
-	public final function __unset($name) {
-		$this->_modified[$name] = true;
+	public function __unset($name) {
 		unset($this->_data[$name]);
 	}
 
@@ -176,7 +178,7 @@ class Mmi_Dao_Record_Ro {
 				$joinedRows[substr($key, 0, $underline)][substr($key, $underline + 2)] = $value;
 				continue;
 			}
-			$this->__set($key, $value);
+			$this->$key = $value;
 		}
 		foreach ($joinedRows as $table => $rows) {
 			$ro = new Mmi_Dao_Record_Ro();
@@ -193,10 +195,12 @@ class Mmi_Dao_Record_Ro {
 	 */
 	public final function clearModified($field = null) {
 		if ($field === null) {
-			$this->_modified = array();
+			foreach ($this as $name => $value) {
+				$this->_state[$name] = $value;
+			}
 			return $this;
 		}
-		unset($this->_modified[$field]);
+		$this->_state[$field] = $this->$field;
 		return $this;
 	}
 
@@ -210,6 +214,9 @@ class Mmi_Dao_Record_Ro {
 			if ($value instanceof Mmi_Dao_Record_Ro) {
 				$value = $value->toArray();
 			}
+			$array[$name] = $value;
+		}
+		foreach ($this as $name => $value) {
 			$array[$name] = $value;
 		}
 		return $array;

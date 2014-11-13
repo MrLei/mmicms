@@ -1,15 +1,45 @@
 <?php
 
-/**
- * @property integer $id
- * @property integer $cms_role_id
- * @property string $module
- * @property string $controller
- * @property string $action
- * @property string $access
- */
 class Cms_Model_Acl_Record extends Mmi_Dao_Record {
 
+	/**
+	 *
+	 * @var integer
+	 */
+	public $id;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $cms;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $module;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $controller;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $action;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $access;
+	
+	protected $_extras = array('cms_role', 'cms_role_id');
+	
 	public function save() {
 		if ($this->object) {
 			$object = explode(':', $this->object);

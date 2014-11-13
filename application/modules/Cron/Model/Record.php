@@ -1,23 +1,96 @@
 <?php
 
-/**
- * @property integer $id
- * @property integer $active
- * @property string $minute
- * @property string $hour
- * @property string $dayOfMonth
- * @property string $month
- * @property string $dayOfWeek
- * @property string $name
- * @property string $description
- * @property string $module
- * @property string $controller
- * @property string $action
- * @property string $dateAdd
- * @property string $dateModified
- * @property string $dateLastExecute
- */
 class Cron_Model_Record extends Mmi_Dao_Record {
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $id;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $active;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $minute;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $hour;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $dayOfMonth;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $month;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $dayOfWeek;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $name;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $description;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $module;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $controller;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $action;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $dateAdd;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $dateModified;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $dateLastExecute;
 
 	public function save() {
 		if ($this->object) {

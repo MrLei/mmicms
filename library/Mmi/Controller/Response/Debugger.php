@@ -95,7 +95,7 @@ class Mmi_Controller_Response_Debugger {
 		if (null !== $view->_exception) {
 			$html .= '<h2 style="color: #bb0000; margin: 0px; font-size: 14px; text-transform: none;">' . get_class($view->_exception) . ': ' . $view->_exception->getMessage() . '</h2>';
 			$html .= '<p style="margin: 0px; padding: 0px 0px 10px 0px;">' . $view->_exception->getFile() . ' <strong>(' . $view->_exception->getLine() . ')</strong></p>';
-			//$html .= '<pre>' . $view->_exception->getTraceAsString() . '</pre><br />';
+			$html .= '<pre>' . $view->_exception->getTraceAsString() . '</pre><br />';
 		}
 		$extensions = get_loaded_extensions();
 		$classes = get_declared_classes();

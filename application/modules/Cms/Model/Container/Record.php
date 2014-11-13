@@ -1,13 +1,36 @@
 <?php
 
-/**
- * @property integer $id
- * @property string $title
- * @property string $serial
- * @property string $uri
- * @property integer $cms_container_template_id
- */
 class Cms_Model_Container_Record extends Mmi_Dao_Record {
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $id;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $title;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $serial;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $uri;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $cms;
 
 	public function save() {
 		$uf = new Mmi_Filter_Url();

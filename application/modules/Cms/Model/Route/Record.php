@@ -1,14 +1,42 @@
 <?php
 
-/**
- * @property integer $id
- * @property string $pattern
- * @property string $replace
- * @property string $default
- * @property integer $order
- * @property integer $active
- */
 class Cms_Model_Route_Record extends Mmi_Dao_Record {
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $id;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $pattern;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $replace;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $default;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $order;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $active;
 
 	public function save() {
 		Default_Registry::$cache->remove('Mmi_Route');

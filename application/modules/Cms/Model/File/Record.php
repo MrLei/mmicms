@@ -1,26 +1,114 @@
 <?php
 
-/**
- * @property integer $id
- * @property string $class
- * @property string $mimeType
- * @property string $name
- * @property string $original
- * @property string $title
- * @property string $author
- * @property string $source
- * @property integer $size
- * @property string $dateAdd
- * @property string $dateModify
- * @property integer $order
- * @property integer $sticky
- * @property string $object
- * @property integer $objectId
- * @property integer $cms_auth_id
- * @property integer $active
- * @property string $description
- */
 class Cms_Model_File_Record extends Mmi_Dao_Record {
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $id;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $class;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $mimeType;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $name;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $original;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $title;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $author;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $source;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $size;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $dateAdd;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $dateModify;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $order;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $sticky;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $object;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $objectId;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $cms;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $active;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $description;
 
 	/**
 	 * Ustawia plik jako przyklejony w obrębie danego object+objectId

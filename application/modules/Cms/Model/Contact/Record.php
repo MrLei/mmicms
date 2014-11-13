@@ -1,21 +1,72 @@
 <?php
 
-/**
- * @property integer $id
- * @property integer $cms_contact_option_id
- * @property string $dateAdd
- * @property string $text
- * @property string $reply
- * @property integer $cms_auth_id_reply
- * @property string $uri
- * @property string $email
- * @property string $ip
- * @property integer $cms_auth_id
- * @property integer $active
- * @property string $name
- * @property string $phone
- */
 class Cms_Model_Contact_Record extends Mmi_Dao_Record {
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $id;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $dateAdd;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $text;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $reply;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $cms;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $uri;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $email;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $ip;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $active;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $name;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $phone;
 
 	public function _insert() {
 		$this->dateAdd = date('Y-m-d H:i:s');

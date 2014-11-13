@@ -470,7 +470,7 @@ abstract class Mmi_Grid {
 						break;
 				}
 			} else {
-				$fieldData = $rowData->$column['name'];
+				$fieldData = property_exists($rowData, $column['name']) ? $rowData->$column['name'] : null;
 			}
 			$filters = isset($column['filters']) ? $column['filters'] : array();
 			$html .= '<td class="' . $column['type'] . '">';
