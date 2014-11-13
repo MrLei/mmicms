@@ -12,7 +12,7 @@ class Cms_Model_Acl_Record extends Mmi_Dao_Record {
 	 *
 	 * @var integer
 	 */
-	public $cms;
+	public $cms_role_id;
 
 	/**
 	 *
@@ -37,9 +37,9 @@ class Cms_Model_Acl_Record extends Mmi_Dao_Record {
 	 * @var string
 	 */
 	public $access;
-	
-	protected $_extras = array('cms_role', 'cms_role_id');
-	
+    
+    protected $_extras = array('cms_role');
+    
 	public function save() {
 		if ($this->object) {
 			$object = explode(':', $this->object);
