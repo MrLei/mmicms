@@ -177,7 +177,6 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 				$this->action = $params[2];
 				$this->uri = null;
 			}
-			unset($this->object);
 		}
 
 		//wiązanie artykułu

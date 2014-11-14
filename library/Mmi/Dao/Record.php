@@ -42,7 +42,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 	 */
 	public final function __get($name) {
 		if (!in_array($name, $this->_extras)) {
-			$this->_invalidFieldException($name);
+			throw new Mmi_Dao_Record_Exception('Unable to get field: ' . $name . ' does not exist or extra field not found in class: ' . get_class($this));
 		}
 		return isset($this->_data[$name]) ? $this->_data[$name] : null;
 	}
@@ -54,7 +54,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 	 */
 	public final function __set($name, $value) {
 		if (!in_array($name, $this->_extras)) {
-			$this->_invalidFieldException($name);
+			throw new Mmi_Dao_Record_Exception('Unable to set field: ' . $name . ' does not exist or extra field not found in class: ' . get_class($this));
 		}
 		return $this->_data[$name] = $value;
 	}
@@ -66,7 +66,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 	 */
 	public final function __isset($name) {
 		if (!in_array($name, $this->_extras)) {
-			$this->_invalidFieldException($name);
+			throw new Mmi_Dao_Record_Exception('Unable to check field: ' . $name . ' does not exist or extra field not found in class: ' . get_class($this));
 		}
 		return isset($this->_data[$name]);
 	}
@@ -77,7 +77,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 	 */
 	public final function __unset($name) {
 		if (!in_array($name, $this->_extras)) {
-			$this->_invalidFieldException($name);
+			throw new Mmi_Dao_Record_Exception('Unable to unset field: ' . $name . ' does not exist or extra field not found in class: ' . get_class($this));
 		}
 		unset($this->_data[$name]);
 	}
@@ -179,15 +179,6 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 	protected function _setSaveStatus($status) {
 		$this->_saveStatus = $status;
 		return $this;
-	}
-	
-	/**
-	 * Wyrzuca wyjątek błędnego pola
-	 * @param string $fieldName
-	 * @throws Mmi_Dao_Record_Exception
-	 */
-	protected function _invalidFieldException($fieldName) {
-		throw new Mmi_Dao_Record_Exception('Field: ' . $fieldName . ' does not exist or extra field not found in class: ' . get_class($this));
 	}
 
 }
