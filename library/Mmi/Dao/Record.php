@@ -111,7 +111,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 		}
 		$dao = $this->_daoClass;
 		$result = $dao::getAdapter()->delete($dao::getTableName(), $this->_pkBind($this->getPk()));
-		return ($result >= 0) ? true : false;
+		return ($result > 0) ? true : false;
 	}
 
 	/**
