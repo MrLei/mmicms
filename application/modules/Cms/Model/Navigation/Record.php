@@ -133,6 +133,8 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 	 * @var integer
 	 */
 	public $active;
+    
+    protected $_extras = array('object','article_id','container_id');
 
 	public function init() {
 		$this->module = $this->module ? $this->module : 'default';
