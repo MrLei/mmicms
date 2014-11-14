@@ -91,6 +91,8 @@ class Cron_Model_Record extends Mmi_Dao_Record {
 	 * @var string
 	 */
 	public $dateLastExecute;
+    
+    protected $_extras = array('object');
 
 	public function save() {
 		if ($this->object) {
