@@ -1,6 +1,44 @@
 <?php
 class News_Model_Record extends Mmi_Dao_Record {
 
+    /**
+     *
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     *
+     * @var string
+     */
+    public $title;
+    
+    /**
+     *
+     * @var string
+     */
+    public $uri;
+    
+    /**
+     *
+     * @var string
+     */
+    public $lang;
+    
+    /**
+     *
+     * @var string
+     */
+    public $dateModify;
+    
+    /**
+     *
+     * @var string
+     */
+    public $dateAdd;
+    
+    protected $_extras = array('internal');
+    
 	public function save() {
 		$filter = new Mmi_Filter_Url();
 		$uri = $filter->filter($this->title);
