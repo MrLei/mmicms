@@ -52,7 +52,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 	 * @param string $name nazwa
 	 * @param mixed $value wartość
 	 */
-	public final function __set($name, $value) {
+	public function __set($name, $value) {
 		if (!in_array($name, $this->_extras)) {
 			$this->_invalidFieldException($name);
 		}
@@ -64,7 +64,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 	 * @param string $name
 	 * @return boolean
 	 */
-	public final function __isset($name) {
+	public function __isset($name) {
 		if (!in_array($name, $this->_extras)) {
 			$this->_invalidFieldException($name);
 		}
@@ -75,7 +75,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 	 * Magicznie usuwa zmienną z rekordu
 	 * @param string $name nazwa
 	 */
-	public final function __unset($name) {
+	public function __unset($name) {
 		if (!in_array($name, $this->_extras)) {
 			$this->_invalidFieldException($name);
 		}
