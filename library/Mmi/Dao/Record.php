@@ -40,7 +40,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 	 * @param string $name nazwa
 	 * @return mixed
 	 */
-	public final function __get($name) {
+	public function __get($name) {
 		if (!in_array($name, $this->_extras)) {
 			throw new Mmi_Dao_Record_Exception('Unable to get field: ' . $name . ' does not exist or extra field not found in class: ' . get_class($this));
 		}
