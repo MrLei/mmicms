@@ -52,9 +52,8 @@ class Mmi_Dao_Builder {
 			$annotation .= "\t" . ' */' . "\r\n";
 			$annotation .= "\t" . 'public $' . $fieldName . ";\r\n";
 		}
-		$annotation .= "\r\n\t" . 'protected $_extras = array();' . "\r\n";
-		$newRecordFile = preg_replace('/(class [a-zA-Z0-9_]+ extends [a-zA-Z0-9_]+\s\{\r\n)/', '$1' . $annotation, $recordFile);
-		file_put_contents($recordFileName, $newRecordFile);
+		$newRecordFile = preg_replace('/(class [a-zA-Z0-9_]+ extends [a-zA-Z0-9_]+\s\{\r?\n?)/', '$1' . $annotation, $recordFile);
+		var_dump(file_put_contents($recordFileName, $newRecordFile));
 	}
 
 	/**
