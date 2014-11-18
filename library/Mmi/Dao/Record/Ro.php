@@ -27,12 +27,6 @@
 class Mmi_Dao_Record_Ro {
 
 	/**
-	 * Lista nazw póla dodatkowe
-	 * @var array
-	 */
-	protected $_extras = array();
-
-	/**
 	 * Przechowuje ekstra dane rekordu
 	 * @var array
 	 */
@@ -134,7 +128,7 @@ class Mmi_Dao_Record_Ro {
 	 * @param string $name nazwa
 	 * @return mixed
 	 */
-	public function __get($name) {
+	public final function __get($name) {
 		return isset($this->_data[$name]) ? $this->_data[$name] : null;
 	}
 
@@ -143,7 +137,7 @@ class Mmi_Dao_Record_Ro {
 	 * @param string $name nazwa
 	 * @param mixed $value wartość
 	 */
-	public function __set($name, $value) {
+	public final function __set($name, $value) {
 		return $this->_data[$name] = $value;
 	}
 
@@ -152,7 +146,7 @@ class Mmi_Dao_Record_Ro {
 	 * @param string $name
 	 * @return boolean
 	 */
-	public function __isset($name) {
+	public final function __isset($name) {
 		return isset($this->_data[$name]);
 	}
 
@@ -160,7 +154,7 @@ class Mmi_Dao_Record_Ro {
 	 * Magicznie usuwa zmienną z rekordu
 	 * @param string $name nazwa
 	 */
-	public function __unset($name) {
+	public final function __unset($name) {
 		unset($this->_data[$name]);
 	}
 
@@ -183,9 +177,6 @@ class Mmi_Dao_Record_Ro {
 		foreach ($joinedRows as $table => $rows) {
 			$ro = new Mmi_Dao_Record_Ro();
 			$ro->setFromArray($rows);
-			if (!in_array($table, $this->_extras)) {
-				$this->_extras[] = $table;
-			}
 			$this->__set($table, $ro);
 		}
 		return $this;

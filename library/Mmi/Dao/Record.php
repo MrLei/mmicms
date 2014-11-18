@@ -36,53 +36,6 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 	protected $_saveStatus = 0;
 
 	/**
-	 * Magicznie pobiera dane z rekordu
-	 * @param string $name nazwa
-	 * @return mixed
-	 */
-	public function __get($name) {
-		if (!in_array($name, $this->_extras)) {
-			throw new Mmi_Dao_Record_Exception('Unable to get field: ' . $name . ' does not exist or extra field not found in class: ' . get_class($this));
-		}
-		return isset($this->_data[$name]) ? $this->_data[$name] : null;
-	}
-
-	/**
-	 * Magicznie ustawia dane w rekordzie
-	 * @param string $name nazwa
-	 * @param mixed $value wartość
-	 */
-	public function __set($name, $value) {
-		if (!in_array($name, $this->_extras)) {
-			throw new Mmi_Dao_Record_Exception('Unable to set field: ' . $name . ' does not exist or extra field not found in class: ' . get_class($this));
-		}
-		return $this->_data[$name] = $value;
-	}
-
-	/**
-	 * Magicznie sprawdza czy istnieje wartość w danych rekordu
-	 * @param string $name
-	 * @return boolean
-	 */
-	public function __isset($name) {
-		if (!in_array($name, $this->_extras)) {
-			throw new Mmi_Dao_Record_Exception('Unable to check field: ' . $name . ' does not exist or extra field not found in class: ' . get_class($this));
-		}
-		return isset($this->_data[$name]);
-	}
-
-	/**
-	 * Magicznie usuwa zmienną z rekordu
-	 * @param string $name nazwa
-	 */
-	public function __unset($name) {
-		if (!in_array($name, $this->_extras)) {
-			throw new Mmi_Dao_Record_Exception('Unable to unset field: ' . $name . ' does not exist or extra field not found in class: ' . get_class($this));
-		}
-		unset($this->_data[$name]);
-	}
-
-	/**
 	 * Zapis danych do obiektu
 	 * @return bool
 	 */
