@@ -27,7 +27,7 @@
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 class Mmi_Controller_Response_Debugger {
-	
+
 	public function __construct() {
 		$response = Mmi_Controller_Front::getInstance()->getResponse();
 		switch ($response->getType()) {
@@ -70,7 +70,7 @@ class Mmi_Controller_Response_Debugger {
 		$dbg['memory'] = round(memory_get_peak_usage() / (1024 * 1024), 2) . 'MB';
 		return $dbg;
 	}
-	
+
 	public function getHtml() {
 		$preElem = '<pre style="min-width: 450px; margin: 0px 0px 10px 0px; color: #666; background: #eee; padding: 3px; border: 1px solid #666;">';
 		$preElemBreak = '<pre style="white-space: normal; word-wrap: break-word; margin: 0px 0px 10px 0px; color: #666; background: #eee; padding: 3px; border: 1px solid #666;">';
