@@ -109,27 +109,26 @@ class Mmi_Lib {
 
 	/**
 	 * Zwraca mimetype pliku
-	 * @param string $file fizyczny adres pliku
+	 * @param string $fileAddress adres pliku
 	 * @return string
 	 */
-	public static function mimeType($file) {
-		if (function_exists('finfo_open')) {
-			$finfo = finfo_open(FILEINFO_MIME_TYPE);
-			if (strlen($file) > 1024) {
-				return finfo_buffer($finfo, $file);
-			}
-			return finfo_file($finfo, $file);
-		} else {
-			ob_start();
-			system('/usr/bin/file -i -b ' . realpath($file));
-			$type = ob_get_clean();
-			$parts = explode(';', $type);
-			if (isset($parts[0])) {
-				return trim($parts[0]);
-			} else {
-				return 'application/octet-stream';
-			}
+	public static function mimeType($fileAddress) {
+		if (!function_exists('finfo_open')) {
+			throw new Exception('Fileinfo plugin not installed');
 		}
+		return finfo_file(finfo_open(FILEINFO_MIME_TYPE), $fileAddress);
+	}
+	
+	/**
+	 * Zwraca mimetype pliku binarnego
+	 * @param string $binary plik binarny
+	 * @return string
+	 */
+	public static function mimeTypeBinary($binary) {
+		if (!function_exists('finfo_open')) {
+			throw new Exception('Fileinfo plugin not installed');
+		}
+		return finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $binary);
 	}
 
 	/**
