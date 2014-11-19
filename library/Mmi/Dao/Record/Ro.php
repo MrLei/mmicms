@@ -186,7 +186,7 @@ class Mmi_Dao_Record_Ro {
 		foreach ($joinedRows as $table => $rows) {
 			$ro = new Mmi_Dao_Record_Ro();
 			$ro->setFromArray($rows);
-			$this->__set($table, $ro);
+			$this->setOption($table, $ro);
 		}
 		return $this;
 	}
