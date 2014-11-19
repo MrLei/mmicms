@@ -8,35 +8,35 @@ class Cms_Form_Admin_Page_Cms extends MmiCms_Form {
 	public function init() {
 		//menu label
 		$this->addElementText('label')
-				->setLabel('Nazwa w menu')
-				->setRequired()
-				->addValidatorStringLength(2, 64);
+			->setLabel('Nazwa w menu')
+			->setRequired()
+			->addValidatorStringLength(2, 64);
 
 		//opcjonalny tytuł
 		$this->addElementText('title')
-				->setLabel('Tytuł strony (meta/title)')
-				->setDescription('Jeśli nie wypełniony, zostanie użyta nazwa w menu')
-				->addValidatorStringLength(3, 128);
+			->setLabel('Tytuł strony (meta/title)')
+			->setDescription('Jeśli nie wypełniony, zostanie użyta nazwa w menu')
+			->addValidatorStringLength(3, 128);
 
 		//opcjonalny opis
 		$this->addElementTextarea('description')
-				->setLabel('Opis strony (meta/description)')
-				->addValidatorStringLength(3, 1024);
+			->setLabel('Opis strony (meta/description)')
+			->addValidatorStringLength(3, 1024);
 
 		//opcjonalne keywords
 		$this->addElementText('keywords')
-				->setLabel('Słowa kluczowe (meta/keywords)')
-				->addValidatorStringLength(3, 512);
+			->setLabel('Słowa kluczowe (meta/keywords)')
+			->addValidatorStringLength(3, 512);
 
 		$this->addElementCheckbox('independent')
-				->setLabel('Niezależne meta');
+			->setLabel('Niezależne meta');
 
 		//system object
 		$this->addElementSelect('object')
-				->setLabel(Mmi_Controller_Front::getInstance()->getView()->getTranslate()->_('Obiekt CMS'))
-				->setDescription(Mmi_Controller_Front::getInstance()->getView()->getTranslate()->_('Istniejące obiekty CMS'))
-				->setRequired()
-				->setOption('id', 'objectId');
+			->setLabel(Mmi_Controller_Front::getInstance()->getView()->getTranslate()->_('Obiekt CMS'))
+			->setDescription(Mmi_Controller_Front::getInstance()->getView()->getTranslate()->_('Istniejące obiekty CMS'))
+			->setRequired()
+			->setOption('id', 'objectId');
 
 		$reflection = new Admin_Model_Reflection();
 		$object = $this->getElement('object');
@@ -47,54 +47,54 @@ class Cms_Form_Admin_Page_Cms extends MmiCms_Form {
 		}
 		//optional params
 		$this->addElementText('params')
-				->setLabel('Parametry obiektu')
-				->setDescription('Dodatkowe parametry adresu w obiekcie');
+			->setLabel('Parametry obiektu')
+			->setDescription('Dodatkowe parametry adresu w obiekcie');
 
 		$this->addElementCheckbox('absolute')
-				->setLabel('Link bezwzględny');
+			->setLabel('Link bezwzględny');
 
 		$this->addElementSelect('https')
-				->setLabel('Połączenie HTTPS')
-				->setMultiOptions(array(
+			->setLabel('Połączenie HTTPS')
+			->setMultiOptions(array(
 				null => 'bez zmian',
 				'0' => 'wymuś http',
 				'1' => 'wymuś https',
-				));
+		));
 
 		//optional url
 		$this->addElementSelect('visible')
-				->setLabel('Pokazuj w menu')
-				->setMultiOptions(array(
+			->setLabel('Pokazuj w menu')
+			->setMultiOptions(array(
 				1 => 'widoczny',
 				0 => 'ukryty',
-				));
+		));
 
 		$this->addElementCheckbox('nofollow')
-				->setLabel('Atrybut rel="nofollow"');
+			->setLabel('Atrybut rel="nofollow"');
 
 		$this->addElementCheckbox('blank')
-				->setLabel('W nowym oknie');
+			->setLabel('W nowym oknie');
 
 		//pozycja w drzewie
 		$this->addElementSelect('parent_id')
-				->setLabel('Element nadrzędny')
-				->setValue(Mmi_Controller_Front::getInstance()->getRequest()->parent)
-				->setMultiOptions(Cms_Model_Navigation_Dao::getMultiOptions());
+			->setLabel('Element nadrzędny')
+			->setValue(Mmi_Controller_Front::getInstance()->getRequest()->parent)
+			->setMultiOptions(Cms_Model_Navigation_Dao::getMultiOptions());
 
 		$this->addElementDateTimePicker('dateStart')
-				->setLabel('Data i czas włączenia');
+			->setLabel('Data i czas włączenia');
 
 		$this->addElementDateTimePicker('dateEnd')
-				->setLabel('Data i czas wyłączenia');
+			->setLabel('Data i czas wyłączenia');
 
 		$this->addElementCheckbox('active')
-				->setValue(1)
-				->setLabel('Włączony');
+			->setValue(1)
+			->setLabel('Włączony');
 
 		//submit
 		$this->addElementSubmit('submit')
-				->setLabel('Zapisz')
-				->setIgnore();
-
+			->setLabel('Zapisz')
+			->setIgnore();
 	}
+
 }

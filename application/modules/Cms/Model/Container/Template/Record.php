@@ -25,7 +25,7 @@ class Cms_Model_Container_Template_Record extends Mmi_Dao_Record {
 	 * @var string
 	 */
 	public $text;
-	
+
 	public function save() {
 		$uf = new Mmi_Filter_Url();
 		$this->path = DATA_PATH . '/cms-page-template-' . $uf->filter($this->name) . '.tpl';
@@ -35,5 +35,5 @@ class Cms_Model_Container_Template_Record extends Mmi_Dao_Record {
 		}
 		return parent::save();
 	}
-	
+
 }

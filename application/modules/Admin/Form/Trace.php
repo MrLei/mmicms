@@ -9,7 +9,6 @@ class Admin_Form_Trace extends Mmi_Form {
 
 		$this->addElementSubmit('login')
 			->setLabel('Dekoduj');
-
 	}
 
 }

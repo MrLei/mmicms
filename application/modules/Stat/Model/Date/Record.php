@@ -49,5 +49,5 @@ class Stat_Model_Date_Record extends Mmi_Dao_Record {
 	 * @var integer
 	 */
 	public $count;
-	
+
 }

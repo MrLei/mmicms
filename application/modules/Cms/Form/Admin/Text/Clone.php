@@ -6,7 +6,7 @@ class Cms_Form_Admin_Text_Clone extends Mmi_Form {
 	protected $_recordSaveMethod = 'cloneKeys';
 
 	public function init() {
-		
+
 		$langMultiOptions = array();
 		foreach (Default_Registry::$config->application->languages as $lang) {
 			if ($lang == Mmi_Controller_Front::getInstance()->getRequest()->lang) {
@@ -22,6 +22,6 @@ class Cms_Form_Admin_Text_Clone extends Mmi_Form {
 
 		$this->addElementSubmit('submit')
 			->setLabel('klonuj teksty');
-
 	}
+
 }

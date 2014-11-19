@@ -7,20 +7,19 @@ class Stat_Form_Admin_Label extends Mmi_Form {
 	public function init() {
 
 		$this->addElementSelect('object')
-				->setLabel('klucz')
-				->setRequired()
-				->setMultiOptions(Stat_Model_Date_Dao::findUniqueObjects());
+			->setLabel('klucz')
+			->setRequired()
+			->setMultiOptions(Stat_Model_Date_Dao::findUniqueObjects());
 
 		$this->addElementText('label')
-				->setLabel('nazwa statystyki')
-				->setRequired();
+			->setLabel('nazwa statystyki')
+			->setRequired();
 
 		$this->addElementTextarea('description')
-				->setLabel('opis');
+			->setLabel('opis');
 
 		$this->addElementSubmit('submit')
-				->setLabel('zapisz');
-
+			->setLabel('zapisz');
 	}
 
 }

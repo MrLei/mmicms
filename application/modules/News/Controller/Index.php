@@ -14,7 +14,7 @@ class News_Controller_Index extends Mmi_Controller_Action {
 			if ($this->pages % 10 != 0) {
 				$this->_helper->redirector('index', 'index', 'news', array(), true);
 			}
-			$pages = (int)$this->pages;
+			$pages = (int) $this->pages;
 		}
 		$paginator->setRowsPerPage($pages);
 		$paginator->setRowsCount(News_Model_Dao::countActive());

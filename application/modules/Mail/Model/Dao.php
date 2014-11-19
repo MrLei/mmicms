@@ -10,8 +10,8 @@ class Mail_Model_Dao extends Mmi_Dao {
 	 */
 	public static function clean() {
 		$q = self::newQuery()
-			->where('active')->equals(1)
-			->andField('dateAdd')->less(date('Y-m-d H:i:s', strtotime('-1 week')));
+				->where('active')->equals(1)
+				->andField('dateAdd')->less(date('Y-m-d H:i:s', strtotime('-1 week')));
 		return self::find($q)->delete();
 	}
 
@@ -128,10 +128,10 @@ class Mail_Model_Dao extends Mmi_Dao {
 					$record->dateSent = date('Y-m-d H:i:s');
 					$record->save();
 				}
-				$result['success']++;
+				$result['success'] ++;
 			} catch (Exception $e) {
 				Mmi_Exception_Logger::log($e);
-				$result['error']++;
+				$result['error'] ++;
 			}
 		}
 		return $result;

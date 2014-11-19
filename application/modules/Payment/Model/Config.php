@@ -8,7 +8,7 @@ class Payment_Model_Config extends Mmi_Model {
 		if ((!$this->getId() > 0)) {
 			return;
 		}
-		$this->amount = $payment->value*100;
+		$this->amount = $payment->value * 100;
 		$auth = Default_Registry::$auth;
 		$this->email = $auth->getEmail();
 		$profile = new User_Model_Profile($auth->getId());

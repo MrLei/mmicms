@@ -2,32 +2,30 @@
 
 class Embed_Model_Record extends Mmi_Dao_Record {
 
-    /**
-     *
-     * @var integer
-     */
-    public $encodedId;
-    
-    /**
-     *
-     * @var string
-     */
-    public $module;
-    
-    /**
-     *
-     * @var string
-     */
-    public $controller;
-    
-    /**
-     *
-     * @var string
-     */
-    public $action;
-    
-    protected $_extras = array('object');
-    
+	/**
+	 *
+	 * @var integer
+	 */
+	public $encodedId;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $module;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $controller;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $action;
+
 	public function save() {
 		if (!$this->encodedId) {
 			$this->encodedId = 100000000 + rand(0, 899999999);

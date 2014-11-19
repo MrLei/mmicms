@@ -6,9 +6,9 @@ class Cms_Controller_Captcha extends Mmi_Controller_Action {
 		if (!$this->name) {
 			return '';
 		}
-		$characters = array('A','B','C','D','E','F','G','H','J','K','L','M','N','P','R','S','T','U','W','Z');
+		$characters = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'U', 'W', 'Z');
 		$word = '';
-		$numChars = count($characters)-1;
+		$numChars = count($characters) - 1;
 		for ($i = 0; $i < 5; $i++) {
 			$word .= $characters[rand(0, $numChars)];
 		}
@@ -26,17 +26,17 @@ class Cms_Controller_Captcha extends Mmi_Controller_Action {
 		$prevSpace = -5;
 		$prevAngle = 0;
 
-		for( $i = 0; $i<strlen($word); $i++ ) {
-			if( $i%2 != 0 )	{
+		for ($i = 0; $i < strlen($word); $i++) {
+			if ($i % 2 != 0) {
 				$size = rand(32, 36);
 				$height = rand(42, 46);
 				$angle = rand(5, 15);
-				$space = 25+$prevSpace;
-			}	else {
+				$space = 25 + $prevSpace;
+			} else {
 				$size = rand(28, 32);
 				$height = rand(39, 43);
 				$angle = rand(-15, 5);
-				$space = 13+$prevSpace;
+				$space = 13 + $prevSpace;
 			}
 			$prevSpace = $space;
 			$prevAngle = $angle;
@@ -47,7 +47,7 @@ class Cms_Controller_Captcha extends Mmi_Controller_Action {
 		$name = 'captcha_' . $this->name;
 		$formSession->$name = $word;
 
-		$pastYear = date('Y')-1;
+		$pastYear = date('Y') - 1;
 		$this->getResponse()
 			->setHeader('Expires', 'Mon, 15 Dec ' . $pastYear . ' 01:00:00 GMT+0100')
 			->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT')

@@ -46,9 +46,9 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 */
 	public static function findFirstSticky($object, $id, $class = null) {
 		$q = self::newQuery()
-			->where('sticky')->equals(1)
-			->andField('object')->equals($object)
-			->andField('objectId')->equals($id);
+				->where('sticky')->equals(1)
+				->andField('object')->equals($object)
+				->andField('objectId')->equals($id);
 
 		if (null !== $class) {
 			$q->andField('class')->equals($class);
@@ -191,7 +191,7 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Dołącza pliki dla danego object i id przesłane w postaci binarnej
 	 * @param string $object obiekt
@@ -245,8 +245,8 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	public static function move($srcObject, $srcId, $destObject, $destId) {
 		$i = 0;
 		$q = self::newQuery()
-			->where('object')->equals($srcObject)
-			->andField('objectId')->equals($srcId);
+				->where('object')->equals($srcObject)
+				->andField('objectId')->equals($srcId);
 		foreach (self::find($q) as $file) {
 			$file->object = $destObject;
 			$file->objectId = $destId;

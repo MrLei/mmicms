@@ -1,10 +1,11 @@
 <?php
+
 class Cms_Plugin_ArticleGrid extends Mmi_Grid {
 
 	protected $_daoName = 'Cms_Model_Article_Dao';
 
 	public function init() {
-		
+
 		$this->addColumn('text', 'title', array(
 			'label' => 'tytuł',
 		));

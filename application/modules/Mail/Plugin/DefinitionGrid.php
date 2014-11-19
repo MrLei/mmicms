@@ -11,7 +11,7 @@ class Mail_Plugin_DefinitionGrid extends Mmi_Grid {
 		$this->addColumn('text', 'lang', array(
 			'label' => 'język'
 		));
-		
+
 		$this->addColumn('text', 'name', array(
 			'label' => 'nazwa'
 		));
@@ -28,7 +28,7 @@ class Mail_Plugin_DefinitionGrid extends Mmi_Grid {
 			'label' => 'nazwa od'
 		));
 
-		$this->addColumn('text', 'replyTo',	array(
+		$this->addColumn('text', 'replyTo', array(
 			'label' => 'odpowiedz'
 		));
 

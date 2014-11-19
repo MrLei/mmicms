@@ -9,7 +9,7 @@ class News_Plugin_Grid extends Mmi_Grid {
 	public function init() {
 
 		$this->setOption('locked', true);
-		
+
 		$this->addColumn('text', 'lang', array(
 			'label' => 'język'
 		));
@@ -34,6 +34,6 @@ class News_Plugin_Grid extends Mmi_Grid {
 		$this->addColumn('buttons', 'buttons', array(
 			'label' => 'operacje'
 		));
-
 	}
+
 }

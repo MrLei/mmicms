@@ -25,7 +25,7 @@ class Cms_Model_Container_Template_Placeholder_Record extends Mmi_Dao_Record {
 	 * @var string
 	 */
 	public $name;
-	
+
 	public function save() {
 		try {
 			return parent::save();
@@ -33,5 +33,5 @@ class Cms_Model_Container_Template_Placeholder_Record extends Mmi_Dao_Record {
 			return false;
 		}
 	}
-	
+
 }

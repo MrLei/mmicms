@@ -1,6 +1,7 @@
 <?php
+
 class Cms_Plugin_LogGrid extends Mmi_Grid {
-	
+
 	protected $_daoName = 'Cms_Model_Log_Dao';
 
 	public function init() {
@@ -28,6 +29,6 @@ class Cms_Plugin_LogGrid extends Mmi_Grid {
 		$this->addColumn('checkbox', 'success', array(
 			'label' => 'sukces',
 		));
-
 	}
+
 }

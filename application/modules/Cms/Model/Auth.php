@@ -7,13 +7,13 @@ class Cms_Model_Auth implements Mmi_Auth_Model_Interface {
 		$credential = self::getSaltedPasswordHash($credential);
 
 		$qUser = Cms_Model_Auth_Dao::newQuery()
-			->where('username')->equals($identity)
-			->orField('email')->equals($identity);
+				->where('username')->equals($identity)
+				->orField('email')->equals($identity);
 
 		$qPassword = Cms_Model_Auth_Dao::newQuery()
-			->where('password')->equals($credential)
-			->orField('password')->equals($credentialLegacy)
-			->orField('password')->equals(substr($credential, 0, 40));
+				->where('password')->equals($credential)
+				->orField('password')->equals($credentialLegacy)
+				->orField('password')->equals(substr($credential, 0, 40));
 
 		$q = Cms_Model_Auth_Dao::newQuery()
 			->where('active')->equals(1)
@@ -53,9 +53,9 @@ class Cms_Model_Auth implements Mmi_Auth_Model_Interface {
 
 	public static function idAuthenticate($id) {
 		$q = Cms_Model_Auth_Dao::newQuery()
-			->where('id')->equals($id)
-			->orField('username')->equals($id)
-			->orField('email')->equals($id);
+				->where('id')->equals($id)
+				->orField('username')->equals($id)
+				->orField('email')->equals($id);
 		$record = Cms_Model_Auth_Dao::findFirst($q);
 		if ($record === null) {
 			return false;

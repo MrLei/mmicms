@@ -29,14 +29,14 @@ class Cms_Controller_AdminNavigation extends MmiCms_Controller_Admin {
 		if ($form->isSaved()) {
 			return $this->_helper->redirector('index', 'adminNavigation', 'cms', array('id' => $form->getRecord()->parent_id), true);
 		}
-		/*if ($this->id > 0) {
-			$record = Cms_Model_Navigation_Dao::findPk($this->id);
-			if ($this->remove && $record) {
-				$parentId = $record->parent_id;
-				$record->delete();
-				return $this->_helper->redirector('index', 'adminNavigation', 'cms', array('id' => $parentId), true);
-			}
-		}*/
+		/* if ($this->id > 0) {
+		  $record = Cms_Model_Navigation_Dao::findPk($this->id);
+		  if ($this->remove && $record) {
+		  $parentId = $record->parent_id;
+		  $record->delete();
+		  return $this->_helper->redirector('index', 'adminNavigation', 'cms', array('id' => $parentId), true);
+		  }
+		  } */
 		$this->view->pageForm = $form;
 	}
 
@@ -63,4 +63,5 @@ class Cms_Controller_AdminNavigation extends MmiCms_Controller_Admin {
 		Cms_Model_Navigation_Dao::sortBySerial($order['navigation-item']);
 		return '';
 	}
+
 }
