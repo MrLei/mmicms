@@ -113,7 +113,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 				continue;
 			}
 			if (!isset($structure[$field])) {
-				throw new Mmi_Dao_Record_Exception('Field: ' . $field . ' does not exist in database table');
+				continue;
 			}
 			//próba zapisania nullowej wartości do nie nullowej kolumny (ID)
 			if ($value === null && !$structure[$field]['null']) {
