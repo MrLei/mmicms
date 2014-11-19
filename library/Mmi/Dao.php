@@ -272,8 +272,7 @@ class Mmi_Dao {
 		if (static::$_recordName !== null) {
 			return static::$_recordName;
 		}
-		return self::getRecordNameByTable(static::$_tableName);
-		//return substr(get_called_class(), 0, -3) . 'Record';
+		return substr(get_called_class(), 0, -3) . 'Record';
 	}
 	
 	/**
