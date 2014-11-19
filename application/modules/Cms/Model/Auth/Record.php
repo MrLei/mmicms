@@ -75,17 +75,14 @@ class Cms_Model_Auth_Record extends Mmi_Dao_Record {
 	public $active;
 
 	public function save() {
-		if ($this->changePassword) {
-			$this->password = Cms_Model_Auth::getSaltedPasswordHash($this->changePassword);
-		}
-		if ($this->cms_roles) {
-			$roles = $this->cms_roles;
+		if ($this->getOption('changePassword')) {
+			$this->password = Cms_Model_Auth::getSaltedPasswordHash($this->getOption('changePassword'));
 		}
 		if (!parent::save()) {
 			return false;
 		}
-		if (isset($roles)) {
-			Cms_Model_Auth_Role_Dao::grant($this->id, $roles);
+		if ($this->getOption('cms_roles')) {
+			Cms_Model_Auth_Role_Dao::grant($this->id, $this->getOption('cms_roles'));
 		}
 		return true;
 	}
@@ -94,10 +91,10 @@ class Cms_Model_Auth_Record extends Mmi_Dao_Record {
 		if (!($this->id > 0)) {
 			return false;
 		}
-		if ($this->changePassword != $this->confirmPassword) {
+		if ($this->getOption('changePassword') != $this->getOption('confirmPassword')) {
 			return false;
 		}
-		$this->password = Cms_Model_Auth::getSaltedPasswordHash($this->changePassword);
+		$this->password = Cms_Model_Auth::getSaltedPasswordHash($this->getOption('changePassword'));
 		return $this->save();
 	}
 
@@ -108,12 +105,12 @@ class Cms_Model_Auth_Record extends Mmi_Dao_Record {
 			$this->_setSaveStatus(-1);
 			return false;
 		}
-		if ($this->changePassword != $this->confirmPassword) {
+		if ($this->getOption('changePassword') != $this->getOption('confirmPassword')) {
 			$this->_setSaveStatus(-2);
 			return false;
 		}
 		$auth = new self($record->id);
-		$auth->password = Cms_Model_Auth::getSaltedPasswordHash($this->changePassword);
+		$auth->password = Cms_Model_Auth::getSaltedPasswordHash($this->getOption('changePassword'));
 		return $auth->save();
 	}
 
