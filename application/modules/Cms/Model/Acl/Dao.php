@@ -28,7 +28,7 @@ class Cms_Model_Acl_Dao extends Mmi_Dao {
 		$q = self::newQuery()
 				->join('cms_role')->on('cms_role_id');
 		$aclData = Cms_Model_Acl_Dao::find($q);
-		foreach ($aclData as $aclRule) {
+		foreach ($aclData as $aclRule) { /* @var $aclData Cms_Model_Acl_Record */
 			$resource = '';
 			if ($aclRule->module) {
 				$resource .= $aclRule->module . ':';
@@ -41,7 +41,7 @@ class Cms_Model_Acl_Dao extends Mmi_Dao {
 			}
 			$access = $aclRule->access;
 			if ($access == 'allow' || $access == 'deny') {
-				$acl->$access($aclRule->cms_role->name, trim($resource, ':'));
+				$acl->$access($aclRule->getJoined('cms_role')->getOption('name'), trim($resource, ':'));
 			}
 		}
 		return $acl;

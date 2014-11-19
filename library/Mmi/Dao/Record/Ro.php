@@ -25,14 +25,18 @@
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 class Mmi_Dao_Record_Ro {
-	
-	public $test;
 
 	/**
 	 * Przechowuje ekstra opcje rekordu
 	 * @var array
 	 */
 	protected $_options = array();
+	
+	/**
+	 * Przechowuje dołączone dane (JOIN)
+	 * @var array
+	 */
+	protected $_joined = array();
 
 	/**
 	 * Nazwa identyfikatora
@@ -162,7 +166,16 @@ class Mmi_Dao_Record_Ro {
 		$this->_options[$name] = $value;
 		return $this;
 	}
-	
+
+	/**
+	 * Pobiera dołączony rekord (JOIN)
+	 * @param string $tableName
+	 * @return Mmi_Dao_Record_Ro
+	 */
+	public final function getJoined($tableName) {
+		return isset($this->_joined[$tableName]) ? $this->_joined[$tableName] : null;
+	}
+
 	/**
 	 * Ustawia dane w obiekcie na podstawie tabeli
 	 * @param array $row tabela z danymi
@@ -186,7 +199,7 @@ class Mmi_Dao_Record_Ro {
 		foreach ($joinedRows as $table => $rows) {
 			$ro = new Mmi_Dao_Record_Ro();
 			$ro->setFromArray($rows);
-			$this->setOption($table, $ro);
+			$this->_joined[$table] = $ro;
 		}
 		return $this;
 	}
