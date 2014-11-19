@@ -196,10 +196,11 @@ class Mmi_Dao_Record_Ro {
 			}
 			$this->setOption($key, $value);
 		}
-		foreach ($joinedRows as $table => $rows) {
-			$ro = new Mmi_Dao_Record_Ro();
-			$ro->setFromArray($rows);
-			$this->_joined[$table] = $ro;
+		foreach ($joinedRows as $tableName => $rows) {
+			$recordName = Mmi_Dao::getRecordNameByTable($tableName);
+			$record = new $recordName;
+			$record->setFromArray($rows);
+			$this->_joined[$tableName] = $record;
 		}
 		return $this;
 	}

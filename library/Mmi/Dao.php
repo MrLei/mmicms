@@ -272,7 +272,26 @@ class Mmi_Dao {
 		if (static::$_recordName !== null) {
 			return static::$_recordName;
 		}
-		return substr(get_called_class(), 0, -3) . 'Record';
+		return self::getRecordNameByTable(static::$_tableName);
+		//return substr(get_called_class(), 0, -3) . 'Record';
+	}
+	
+	/**
+	 * Zwraca nazwę rekordu dla podanej tabeli
+	 * @param string $tableName
+	 * @return string
+	 */
+	public static final function getRecordNameByTable($tableName) {
+		$tableArray = explode('_', $tableName);
+		$firstElement = $tableArray[0];
+		array_shift($tableArray);
+		array_unshift($tableArray, $firstElement, 'Model');
+		$tableArray[] = 'Record';
+		$targetTable = array();
+		foreach ($tableArray as $key => $element) {
+			$targetTable[$key] = ucfirst($element);
+		}
+		return implode('_', $targetTable);
 	}
 
 	/**
