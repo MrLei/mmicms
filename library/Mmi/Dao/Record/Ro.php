@@ -31,7 +31,7 @@ class Mmi_Dao_Record_Ro {
 	 * @var array
 	 */
 	protected $_options = array();
-	
+
 	/**
 	 * Przechowuje dołączone dane (JOIN)
 	 * @var array
