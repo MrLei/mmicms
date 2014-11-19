@@ -41,7 +41,7 @@ class Cms_Model_Acl_Dao extends Mmi_Dao {
 			}
 			$access = $aclRule->access;
 			if ($access == 'allow' || $access == 'deny') {
-				$acl->$access($aclRule->getJoined('cms_role')->getOption('name'), trim($resource, ':'));
+				$acl->$access($aclRule->getJoined('cms_role')->name, trim($resource, ':'));
 			}
 		}
 		return $acl;
