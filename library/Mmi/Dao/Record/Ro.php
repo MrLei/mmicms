@@ -25,12 +25,14 @@
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 class Mmi_Dao_Record_Ro {
+	
+	public $test;
 
 	/**
-	 * Przechowuje ekstra dane rekordu
+	 * Przechowuje ekstra opcje rekordu
 	 * @var array
 	 */
-	protected $_data = array();
+	protected $_options = array();
 
 	/**
 	 * Nazwa identyfikatora
@@ -129,7 +131,7 @@ class Mmi_Dao_Record_Ro {
 	 * @return mixed
 	 */
 	public final function __get($name) {
-		return isset($this->_data[$name]) ? $this->_data[$name] : null;
+		throw new Mmi_Dao_Record_Exception('Unable to get field: ' . $name);
 	}
 
 	/**
@@ -138,33 +140,36 @@ class Mmi_Dao_Record_Ro {
 	 * @param mixed $value wartość
 	 */
 	public final function __set($name, $value) {
-		return $this->_data[$name] = $value;
+		throw new Mmi_Dao_Record_Exception('Unable to set field: ' . $name);
 	}
 
 	/**
-	 * Magicznie sprawdza czy istnieje wartość w danych rekordu
+	 * Ustawia opcję w rekordzie
 	 * @param string $name
-	 * @return boolean
+	 * @return mixed
 	 */
-	public final function __isset($name) {
-		return isset($this->_data[$name]);
+	public final function getOption($name) {
+		return isset($this->_options[$name]) ? $this->_options[$name] : null;
 	}
 
 	/**
-	 * Magicznie usuwa zmienną z rekordu
-	 * @param string $name nazwa
+	 * Ustawia opcję w rekordzie
+	 * @param string $name
+	 * @param mixed $value
+	 * @return Mmi_Dao_Record_Ro
 	 */
-	public final function __unset($name) {
-		unset($this->_data[$name]);
+	public final function setOption($name, $value) {
+		$this->_options[$name] = $value;
+		return $this;
 	}
-
+	
 	/**
 	 * Ustawia dane w obiekcie na podstawie tabeli
 	 * @param array $row tabela z danymi
 	 * @param bool $fromDb czy z bazy danych
 	 * @return Mmi_Dao_Record_Ro
 	 */
-	public function setFromArray(array $row = array()) {
+	public final function setFromArray(array $row = array()) {
 		$joinedRows = array();
 		foreach ($row as $key => $value) {
 			$underline = strpos($key, '__');
@@ -172,7 +177,11 @@ class Mmi_Dao_Record_Ro {
 				$joinedRows[substr($key, 0, $underline)][substr($key, $underline + 2)] = $value;
 				continue;
 			}
-			$this->$key = $value;
+			if (property_exists($this, $key)) {
+				$this->$key = $value;
+				continue;
+			}
+			$this->setOption($key, $value);
 		}
 		foreach ($joinedRows as $table => $rows) {
 			$ro = new Mmi_Dao_Record_Ro();
@@ -204,7 +213,7 @@ class Mmi_Dao_Record_Ro {
 	 */
 	public function toArray() {
 		$array = array();
-		foreach ($this->_data as $name => $value) {
+		foreach ($this->_options as $name => $value) {
 			if ($value instanceof Mmi_Dao_Record_Ro) {
 				$value = $value->toArray();
 			}

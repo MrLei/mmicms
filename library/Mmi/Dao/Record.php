@@ -113,7 +113,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 				continue;
 			}
 			if (!isset($structure[$field])) {
-				continue;
+				throw new Mmi_Dao_Record_Exception('Field: ' . $field . ' does not exist in database table');
 			}
 			//próba zapisania nullowej wartości do nie nullowej kolumny (ID)
 			if ($value === null && !$structure[$field]['null']) {
@@ -129,7 +129,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 	 * @param int $status status
 	 * @return Mmi_Dao_Record
 	 */
-	protected function _setSaveStatus($status) {
+	protected final function _setSaveStatus($status) {
 		$this->_saveStatus = $status;
 		return $this;
 	}
