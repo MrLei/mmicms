@@ -228,6 +228,9 @@ class Mmi_Dao_Record_Ro {
 	public function toArray() {
 		$array = array();
 		foreach ($this->_options as $name => $value) {
+			$array[$name] = $value;
+		}
+		foreach ($this->_joined as $name => $value) {
 			if ($value instanceof Mmi_Dao_Record_Ro) {
 				$value = $value->toArray();
 			}
