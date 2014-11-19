@@ -7,10 +7,10 @@ class Cms_Form_Admin_Role extends Mmi_Form {
 	public function init() {
 
 		$this->addElementText('role')
-				->addValidatorStringLength(3, 64);
+			->addValidatorStringLength(3, 64);
 
 		$this->addElementSubmit('submit')
-				->setLabel('utwórz rolę');
-
+			->setLabel('utwórz rolę');
 	}
+
 }

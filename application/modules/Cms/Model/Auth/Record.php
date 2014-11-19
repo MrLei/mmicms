@@ -73,8 +73,6 @@ class Cms_Model_Auth_Record extends Mmi_Dao_Record {
 	 * @var integer
 	 */
 	public $active;
-	
-	protected $_extras = array('remember', 'roles', 'cms_roles', 'changePassword', 'confirmPassword', 'regulations');
 
 	public function save() {
 		if ($this->changePassword) {

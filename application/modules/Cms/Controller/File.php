@@ -40,7 +40,7 @@ class Cms_Controller_File extends Mmi_Controller_Action {
 		return $this->view->widget('cms', 'file', 'uploader', array(
 				'object' => $object,
 				'objectId' => $objectId
-			));
+		));
 	}
 
 	public function uploaderAction() {

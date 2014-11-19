@@ -91,8 +91,6 @@ class Cron_Model_Record extends Mmi_Dao_Record {
 	 * @var string
 	 */
 	public $dateLastExecute;
-    
-    protected $_extras = array('object');
 
 	public function save() {
 		if ($this->object) {
@@ -109,7 +107,7 @@ class Cron_Model_Record extends Mmi_Dao_Record {
 		}
 		$this->dateModified = date('Y-m-d H:i:s');
 		return parent::save();
-	}	
+	}
 
 	protected function _insert() {
 		$this->dateAdd = date('Y-m-d H:i:s');

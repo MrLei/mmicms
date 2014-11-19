@@ -13,5 +13,5 @@ class Cms_Model_Tag_Record extends Mmi_Dao_Record {
 	 * @var string
 	 */
 	public $tag;
-	
+
 }

@@ -14,4 +14,5 @@ class Cms_Model_Route_Dao extends Mmi_Dao {
 		}
 		return $texts;
 	}
+
 }

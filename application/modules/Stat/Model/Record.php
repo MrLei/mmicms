@@ -25,5 +25,5 @@ class Stat_Model_Record extends Mmi_Dao_Record {
 	 * @var string
 	 */
 	public $dateTime;
-	
+
 }

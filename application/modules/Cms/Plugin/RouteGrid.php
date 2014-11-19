@@ -1,4 +1,5 @@
 <?php
+
 class Cms_Plugin_RouteGrid extends Mmi_Grid {
 
 	protected $_daoName = 'Cms_Model_Route_Dao';
@@ -8,7 +9,7 @@ class Cms_Plugin_RouteGrid extends Mmi_Grid {
 		$q = new Mmi_Dao_Query();
 		$this->setInitialQuery($q->orderAsc('order'));
 		$this->setOption('rows', 100);
-		
+
 		$this->addColumn('text', 'pattern', array(
 			'label' => 'wzorzec',
 		));
@@ -16,7 +17,7 @@ class Cms_Plugin_RouteGrid extends Mmi_Grid {
 		$this->addColumn('text', 'replace', array(
 			'label' => 'tabela zamian',
 		));
-		
+
 		$this->addColumn('text', 'default', array(
 			'label' => 'tabela wartości domyślnych',
 		));

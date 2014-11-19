@@ -1,4 +1,5 @@
 <?php
+
 class Cms_Plugin_TextGrid extends Mmi_Grid {
 
 	protected $_daoName = 'Cms_Model_Text_Dao';
@@ -10,7 +11,7 @@ class Cms_Plugin_TextGrid extends Mmi_Grid {
 		$q = new Mmi_Dao_Query();
 		$this->setInitialQuery($q->orderAsc('key'));
 		$this->setOption('rows', 100);
-		
+
 		$this->addColumn('text', 'lang', array(
 			'label' => 'język'
 		));
@@ -24,7 +25,7 @@ class Cms_Plugin_TextGrid extends Mmi_Grid {
 			'sortable' => false,
 			'seekable' => false
 		));
-		
+
 		$this->addColumn('text', 'dateModify', array(
 			'label' => 'data modyfikacji',
 		));

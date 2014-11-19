@@ -29,7 +29,6 @@ class Payment_Plugin_ConfigGrid extends Mmi_Grid {
 		$this->addColumn('buttons', 'buttons', array(
 			'label' => 'operacje'
 		));
-		
 	}
 
 }

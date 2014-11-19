@@ -13,7 +13,7 @@ class Cms_Controller_Container extends Mmi_Controller_Action {
 		$action = new Mmi_Controller_Action_Helper_Action();
 		foreach ($container->placeholders as $placeholder) { /* @var $placeholder Cms_Model_Container_Template_Placeholder_Container_Record */
 			$params = array();
-			
+
 			parse_str($placeholder->params, $params);
 			$content = $action->action($placeholder->module, $placeholder->controller, $placeholder->action, $params, true);
 			$package = '<div style="margin:';

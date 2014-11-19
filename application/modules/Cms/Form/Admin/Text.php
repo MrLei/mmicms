@@ -14,6 +14,6 @@ class Cms_Form_Admin_Text extends Mmi_Form {
 
 		$this->addElementSubmit('submit')
 			->setLabel('zapisz tekst');
-
 	}
+
 }

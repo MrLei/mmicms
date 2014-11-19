@@ -1,10 +1,11 @@
 <?php
+
 class Admin_Model_Reflection {
 
 	public function getActions() {
 		$structure = array();
 		foreach (glob(APPLICATION_PATH . '/modules/*') as $module) {
-			$moduleName  = substr($module, strrpos($module, '/') + 1);
+			$moduleName = substr($module, strrpos($module, '/') + 1);
 			foreach (glob($module . '/Controller/*.php') as $controller) {
 				$var = file_get_contents($controller);
 				$controllerName = substr($controller, strrpos($controller, '/') + 1, -4);
@@ -14,10 +15,10 @@ class Admin_Model_Reflection {
 						$moduleName = strtolower($moduleName);
 						$controllerName[0] = strtolower($controllerName[0]);
 						$structure[] = array(
-						'path' => trim($moduleName . '_' . $controllerName  . '_' . $action, '_ '),
-						'module' => $moduleName,
-						'controller' => $controllerName,
-						'action' => $action
+							'path' => trim($moduleName . '_' . $controllerName . '_' . $action, '_ '),
+							'module' => $moduleName,
+							'controller' => $controllerName,
+							'action' => $action
 						);
 					}
 				}
@@ -29,7 +30,7 @@ class Admin_Model_Reflection {
 	public function getOptionsWildcard() {
 		$structure = array();
 		foreach (glob(APPLICATION_PATH . '/modules/*') as $module) {
-			$moduleName  = substr($module, strrpos($module, '/') + 1);
+			$moduleName = substr($module, strrpos($module, '/') + 1);
 			foreach (glob($module . '/Controller/*.php') as $controller) {
 				$var = file_get_contents($controller);
 				$controllerName = substr($controller, strrpos($controller, '/') + 1, -4);

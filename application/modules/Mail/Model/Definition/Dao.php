@@ -13,15 +13,15 @@ class Mail_Model_Definition_Dao extends Mmi_Dao {
 		self::_langQuery($q);
 		return parent::find($q);
 	}
-	
+
 	public static function findFirstLang($q) {
 		self::_langQuery($q);
 		return parent::findFirst($q);
 	}
-	
+
 	public static function findFirstLangByName($name) {
 		$q = self::newQuery()
-			->where('name')->equals($name);
+				->where('name')->equals($name);
 		return self::findFirstLang($q);
 	}
 

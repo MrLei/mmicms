@@ -6,7 +6,7 @@ class Cms_Model_Auth_Dao extends Mmi_Dao {
 
 	public static function findFirstByEmail($email) {
 		$q = self::newQuery()
-			->where('email')->equals($email);
+				->where('email')->equals($email);
 		return self::findFirst($q);
 	}
 

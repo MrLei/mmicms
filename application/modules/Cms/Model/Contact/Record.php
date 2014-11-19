@@ -8,12 +8,12 @@ class Cms_Model_Contact_Record extends Mmi_Dao_Record {
 	 */
 	public $id;
 
-    /**
-     * 
-     * @var integer
-     */
-    public $cms_contact_option_id;
-    
+	/**
+	 * 
+	 * @var integer
+	 */
+	public $cms_contact_option_id;
+
 	/**
 	 *
 	 * @var string
@@ -55,13 +55,13 @@ class Cms_Model_Contact_Record extends Mmi_Dao_Record {
 	 * @var string
 	 */
 	public $ip;
-    
-    /**
-     * 
-     * @var integer
-     */
-    public $cms_auth_id;
-    
+
+	/**
+	 * 
+	 * @var integer
+	 */
+	public $cms_auth_id;
+
 	/**
 	 *
 	 * @var integer

@@ -14,10 +14,10 @@ class Stat_Controller_Admin extends MmiCms_Controller_Admin {
 				$this->_helper->redirector('index', 'admin', 'stat', array('object' => $form->getValue('object'),
 					'year' => $form->getValue('year'),
 					'month' => $form->getValue('month'),
-				), true);
+					), true);
 			}
 			$this->_helper->redirector('index', 'admin', 'stat', array('year' => $form->getValue('year'),
-					'month' => $form->getValue('month'),
+				'month' => $form->getValue('month'),
 				), true);
 		}
 		if (!$this->object || !$this->year || !$this->month) {
@@ -39,43 +39,43 @@ class Stat_Controller_Admin extends MmiCms_Controller_Admin {
 
 		//staty dzienne
 		$this->view->dailyChart = Stat_Model_Date_Dao::flotCode('dailyChart', array(
-			array('object' => $label->object,
-				'label' => $label->label . ': ' . $this->view->_('dni'),
-				'data' => Stat_Model_Date_Dao::toDate($object, null, $year, $month, $day)
-			),
-			array('object' => $label->object,
-				'label' => $this->view->_('Poprzedni miesiąc: dni'),
-				'data' => Stat_Model_Date_Dao::toDate($object, null, $prevYear, $prevMonth, $day)
-			)
-		), 'lines', true);
+				array('object' => $label->object,
+					'label' => $label->label . ': ' . $this->view->_('dni'),
+					'data' => Stat_Model_Date_Dao::toDate($object, null, $year, $month, $day)
+				),
+				array('object' => $label->object,
+					'label' => $this->view->_('Poprzedni miesiąc: dni'),
+					'data' => Stat_Model_Date_Dao::toDate($object, null, $prevYear, $prevMonth, $day)
+				)
+				), 'lines', true);
 		//staty miesięczne
 		$this->view->monthlyChart = Stat_Model_Date_Dao::flotCode('monthlyChart', array(
-			array('object' => $label->object,
-				'label' => $label->label . ': ' . $this->view->_('miesiące'),
-				'data' => Stat_Model_Date_Dao::monthly($object, null, $year)
-			)
-		), 'bars');
+				array('object' => $label->object,
+					'label' => $label->label . ': ' . $this->view->_('miesiące'),
+					'data' => Stat_Model_Date_Dao::monthly($object, null, $year)
+				)
+				), 'bars');
 		//staty roczne
 		$this->view->yearlyChart = Stat_Model_Date_Dao::flotCode('yearlyChart', array(
-			array('object' => $label->object,
-				'label' => $label->label . ': ' . $this->view->_('lata'),
-				'data' => Stat_Model_Date_Dao::yearly($object, null)
-			)
-		), 'bars');
+				array('object' => $label->object,
+					'label' => $label->label . ': ' . $this->view->_('lata'),
+					'data' => Stat_Model_Date_Dao::yearly($object, null)
+				)
+				), 'bars');
 		//rozkład godzinowy
 		$this->view->avgHourlyChart = Stat_Model_Date_Dao::flotCode('avgHourlyChart', array(
-			array('object' => $label->object,
-				'label' => $label->label . ': ' . $this->view->_('rozkład godzinowy'),
-				'data' => Stat_Model_Date_Dao::avgHourly($object, null, $year, $month)
-			)
-		), 'bars');
+				array('object' => $label->object,
+					'label' => $label->label . ': ' . $this->view->_('rozkład godzinowy'),
+					'data' => Stat_Model_Date_Dao::avgHourly($object, null, $year, $month)
+				)
+				), 'bars');
 		//rozkład godzinowy
 		$this->view->avgHourlyAllChart = Stat_Model_Date_Dao::flotCode('avgHourlyAllChart', array(
-			array('object' => $label->object,
-				'label' => $label->label . ': ' . $this->view->_('rozkład ogólny'),
-				'data' => Stat_Model_Date_Dao::avgHourly($object, null, null, null)
-			)
-		), 'bars');
+				array('object' => $label->object,
+					'label' => $label->label . ': ' . $this->view->_('rozkład ogólny'),
+					'data' => Stat_Model_Date_Dao::avgHourly($object, null, null, null)
+				)
+				), 'bars');
 	}
 
 	public function labelAction() {
