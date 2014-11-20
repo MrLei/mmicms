@@ -2,52 +2,13 @@
 
 class Cms_Model_Article_Record extends Mmi_Dao_Record {
 
-	/**
-	 *
-	 * @var integer
-	 */
 	public $id;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $lang;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $title;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $uri;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $dateAdd;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $dateModify;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $text;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $noindex;
 
 	public function save() {

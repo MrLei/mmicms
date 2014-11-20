@@ -2,16 +2,7 @@
 
 class Cms_Model_Role_Record extends Mmi_Dao_Record {
 
-	/**
-	 *
-	 * @var integer
-	 */
 	public $id;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $name;
 
 	public function save() {

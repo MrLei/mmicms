@@ -2,94 +2,20 @@
 
 class Cron_Model_Record extends Mmi_Dao_Record {
 
-	/**
-	 *
-	 * @var integer
-	 */
 	public $id;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $active;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $minute;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $hour;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $dayOfMonth;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $month;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $dayOfWeek;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $name;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $description;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $module;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $controller;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $action;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $dateAdd;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $dateModified;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $dateLastExecute;
 
 	public function save() {

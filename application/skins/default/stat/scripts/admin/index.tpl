@@ -25,35 +25,35 @@
 	</div>
 </div>
 {if $label}
-<div class="content-box">
-	<div class="content-box-header">
-		<h3>{#Statystyki dzienne#}</h3>
-		<div class="clear"></div>
+	<div class="content-box">
+		<div class="content-box-header">
+			<h3>{#Statystyki dzienne#}</h3>
+			<div class="clear"></div>
+		</div>
+		<div class="content-box-content clearfix">
+			<div id="dailyChart" class="chart"></div>
+		</div>
 	</div>
-	<div class="content-box-content clearfix">
-		<div id="dailyChart" class="chart"></div>
-	</div>
-</div>
 
-<div class="content-box">
-	<div class="content-box-header">
-		<h3>{#Statystyki miesięczne#} / {#roczne#}</h3>
-		<div class="clear"></div>
+	<div class="content-box">
+		<div class="content-box-header">
+			<h3>{#Statystyki miesięczne#} / {#roczne#}</h3>
+			<div class="clear"></div>
+		</div>
+		<div class="content-box-content clearfix">
+			<div id="monthlyChart" class="chart"></div>
+			<div id="yearlyChart" class="chart"></div>
+		</div>
 	</div>
-	<div class="content-box-content clearfix">
-		<div id="monthlyChart" class="chart"></div>
-		<div id="yearlyChart" class="chart"></div>
-	</div>
-</div>
 
-<div class="content-box">
-	<div class="content-box-header">
-		<h3>{#Rozkład godzinowy bieżący miesiąc#} / {#rozkład godzinowy od początku#}</h3>
-		<div class="clear"></div>
+	<div class="content-box">
+		<div class="content-box-header">
+			<h3>{#Rozkład godzinowy bieżący miesiąc#} / {#rozkład godzinowy od początku#}</h3>
+			<div class="clear"></div>
+		</div>
+		<div class="content-box-content clearfix">
+			<div id="avgHourlyChart" class="chart"></div>
+			<div id="avgHourlyAllChart" class="chart"></div>
+		</div>
 	</div>
-	<div class="content-box-content clearfix">
-		<div id="avgHourlyChart" class="chart"></div>
-		<div id="avgHourlyAllChart" class="chart"></div>
-	</div>
-</div>
 {/if}

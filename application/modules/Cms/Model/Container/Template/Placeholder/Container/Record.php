@@ -2,76 +2,17 @@
 
 class Cms_Model_Container_Template_Placeholder_Container_Record extends Mmi_Dao_Record {
 
-	/**
-	 *
-	 * @var integer
-	 */
 	public $id;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $cms_container_id;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $cms_container_template_placeholder_id;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $module;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $controller;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $action;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $params;
-
-	/**
-	 *
-	 * @var int
-	 */
 	public $marginTop;
-
-	/**
-	 *
-	 * @var int
-	 */
 	public $marginLeft;
-
-	/**
-	 *
-	 * @var int
-	 */
 	public $marginRight;
-
-	/**
-	 *
-	 * @var int
-	 */
 	public $marginBottom;
-
-	/**
-	 *
-	 * @var boolean
-	 */
 	public $active;
 
 	public function save() {

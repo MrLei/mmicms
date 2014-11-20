@@ -15,11 +15,11 @@
 		<th>{#Opis błędu#}</th>
 		<td>
 			{if $request->error < 200}
-			{#Wprowadzono niepełne dane, spróbuj ponownie#}.
+				{#Wprowadzono niepełne dane, spróbuj ponownie#}.
 			{elseif $request->error < 599 && $request->error >= 500}
-			{#Brak autoryzacji, płatność nie może być zrealizowana, spróbuj ponownie#}.
+				{#Brak autoryzacji, płatność nie może być zrealizowana, spróbuj ponownie#}.
 			{else}
-			{#System płatności internetowych przeciążony, spróbuj ponownie później#}...
+				{#System płatności internetowych przeciążony, spróbuj ponownie później#}...
 			{/if}
 		</td>
 	</tr>
