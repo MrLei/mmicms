@@ -174,7 +174,20 @@ class Mmi_Dao {
 		$q = ($q === null) ? self::newQuery() : $q;
 		$compile = $q->queryCompilation();
 		$result = self::getAdapter()->select(static::$_tableName, $compile->bind, array(), 1, 0, array('MAX(' . self::getAdapter()->prepareField($keyName) . ')'), $compile->joinSchema);
-		return isset($result[0]) ? current($result[0]) : 0;
+		return isset($result[0]) ? current($result[0]) : null;
+	}
+	
+	/**
+	 * Pobiera wartość minimalną ze zbioru rekordów
+	 * @param string $keyName nazwa klucza
+	 * @param Mmi_Dao_Query $q Obiekt zapytania
+	 * @return array mixed wartość minimalna
+	 */
+	public static final function findMin($keyName, Mmi_Dao_Query $q = null) {
+		$q = ($q === null) ? self::newQuery() : $q;
+		$compile = $q->queryCompilation();
+		$result = self::getAdapter()->select(static::$_tableName, $compile->bind, array(), 1, 0, array('MIN(' . self::getAdapter()->prepareField($keyName) . ')'), $compile->joinSchema);
+		return isset($result[0]) ? current($result[0]) : null;
 	}
 
 	/**
