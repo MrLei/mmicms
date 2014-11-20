@@ -46,10 +46,6 @@ class Mmi_Dao_Builder {
 			throw new Exception('Mmi_Dao_Builder: no table found, or table invalid in ' . $dao);
 		}
 		foreach ($structure as $fieldName => $fieldDetails) {
-			$annotation .= "\r\n\t" . '/**' . "\r\n";
-			$annotation .= "\t" . ' *' . "\r\n";
-			$annotation .= "\t" . ' * @var ' . self::_convertDataType($fieldDetails['dataType']) . "\r\n";
-			$annotation .= "\t" . ' */' . "\r\n";
 			$annotation .= "\t" . 'public $' . $fieldName . ";\r\n";
 		}
 		$newRecordFile = preg_replace('/(class [a-zA-Z0-9_]+ extends [a-zA-Z0-9_]+\s\{\r?\n?)/', '$1' . $annotation, $recordFile);

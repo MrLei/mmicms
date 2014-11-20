@@ -109,7 +109,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 		$dao = $this->_daoClass;
 		$structure = $dao::getTableStructure();
 		foreach ($this as $field => $value) {
-			if ($modifiedOnly && isset($this->_state[$field]) && ($this->_state[$field] === $value)) {
+			if ($modifiedOnly && $this->isModified($field)) {
 				continue;
 			}
 			if (!isset($structure[$field])) {

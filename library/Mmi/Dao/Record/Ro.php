@@ -220,6 +220,15 @@ class Mmi_Dao_Record_Ro {
 		$this->_state[$field] = $this->$field;
 		return $this;
 	}
+	
+	/**
+	 * Zwraca czy zmodyfikowano pole
+	 * @param string $field nazwa pola
+	 * @return boolean
+	 */
+	public final function isModified($field) {
+		return isset($this->_state[$field]) && ($this->_state[$field] === $this->$field);
+	}
 
 	/**
 	 * Zwraca dane z obiektu w postaci tablicy
