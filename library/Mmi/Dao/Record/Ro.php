@@ -182,7 +182,7 @@ class Mmi_Dao_Record_Ro {
 	 * @param bool $fromDb czy z bazy danych
 	 * @return Mmi_Dao_Record_Ro
 	 */
-	public final function setFromArray(array $row = array()) {
+	public function setFromArray(array $row = array()) {
 		$joinedRows = array();
 		foreach ($row as $key => $value) {
 			$underline = strpos($key, '__');
