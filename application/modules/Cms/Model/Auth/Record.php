@@ -2,76 +2,17 @@
 
 class Cms_Model_Auth_Record extends Mmi_Dao_Record {
 
-	/**
-	 *
-	 * @var integer
-	 */
 	public $id;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $lang;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $username;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $email;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $password;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $lastIp;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $lastLog;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $lastFailIp;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $lastFailLog;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $failLogCount;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $logged;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $active;
 
 	public function save() {

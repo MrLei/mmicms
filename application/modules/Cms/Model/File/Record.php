@@ -2,112 +2,23 @@
 
 class Cms_Model_File_Record extends Mmi_Dao_Record {
 
-	/**
-	 *
-	 * @var integer
-	 */
 	public $id;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $class;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $mimeType;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $name;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $original;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $title;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $author;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $source;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $size;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $dateAdd;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $dateModify;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $order;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $sticky;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $object;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $objectId;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $cms_auth_id;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $active;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $description;
 
 	/**

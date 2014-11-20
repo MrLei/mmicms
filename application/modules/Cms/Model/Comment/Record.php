@@ -2,70 +2,16 @@
 
 class Cms_Model_Comment_Record extends Mmi_Dao_Record {
 
-	/**
-	 *
-	 * @var integer
-	 */
 	public $id;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $cms_auth_id;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $parent_id;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $dateAdd;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $title;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $text;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $signature;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $ip;
-
-	/**
-	 *
-	 * @var float
-	 */
 	public $stars;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $object;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $objectId;
 
 	protected function _insert() {

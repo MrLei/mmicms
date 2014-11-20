@@ -2,10 +2,6 @@
 
 class Cms_Model_Contact_Record extends Mmi_Dao_Record {
 
-	/**
-	 *
-	 * @var integer
-	 */
 	public $id;
 
 	/**
@@ -13,47 +9,12 @@ class Cms_Model_Contact_Record extends Mmi_Dao_Record {
 	 * @var integer
 	 */
 	public $cms_contact_option_id;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $dateAdd;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $text;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $reply;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $cms_auth_id_reply;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $uri;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $email;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $ip;
 
 	/**
@@ -61,23 +22,8 @@ class Cms_Model_Contact_Record extends Mmi_Dao_Record {
 	 * @var integer
 	 */
 	public $cms_auth_id;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $active;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $name;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $phone;
 
 	public function _insert() {

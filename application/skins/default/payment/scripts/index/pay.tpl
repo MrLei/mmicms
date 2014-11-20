@@ -13,7 +13,7 @@
 	</tr>
 </table>
 <div id="payBanks">
-<form action="https://www.platnosci.pl/paygw/UTF/NewPayment" method="POST" name="payform">
+	<form action="https://www.platnosci.pl/paygw/UTF/NewPayment" method="POST" name="payform">
 		<input type="hidden"name="first_name" value="{$paymentConfig->name}" />
 		<input type="hidden"name="last_name" value="{$paymentConfig->surname}" />
 		<input type="hidden"name="email" value="{$paymentConfig->email}" />
@@ -30,6 +30,6 @@
 			PlnDrawRadioImg(5);
 		</script>
 		<input class="submit button" type="submit" value="{#zapłać teraz#}">
-</form>
-<script language="JavaScript" type="text/javascript">document.forms['payform'].js.value=1;</script>
+	</form>
+	<script language="JavaScript" type="text/javascript">document.forms['payform'].js.value = 1;</script>
 </div>

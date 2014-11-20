@@ -2,136 +2,27 @@
 
 class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 
-	/**
-	 *
-	 * @var integer
-	 */
 	public $id;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $lang;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $parent_id;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $order;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $module;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $controller;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $action;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $params;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $label;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $title;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $keywords;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $description;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $uri;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $visible;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $https;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $absolute;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $independent;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $nofollow;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $blank;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $dateStart;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $dateEnd;
-
-	/**
-	 *
-	 * @var integer
-	 */
 	public $active;
 
 	public function init() {

@@ -227,7 +227,7 @@ class Mmi_Dao_Record_Ro {
 	 * @return boolean
 	 */
 	public final function isModified($field) {
-		return isset($this->_state[$field]) && ($this->_state[$field] !== $this->$field);
+		return isset($this->_state[$field]) && ($this->_state[$field] != $this->$field);
 	}
 
 	/**

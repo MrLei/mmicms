@@ -2,28 +2,9 @@
 
 class Cms_Model_Container_Template_Record extends Mmi_Dao_Record {
 
-	/**
-	 *
-	 * @var integer
-	 */
 	public $id;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $name;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $path;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $text;
 
 	public function save() {
