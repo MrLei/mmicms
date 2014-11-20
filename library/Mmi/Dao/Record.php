@@ -109,10 +109,10 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 		$dao = $this->_daoClass;
 		$structure = $dao::getTableStructure();
 		foreach ($this as $field => $value) {
-			if ($modifiedOnly && !$this->isModified($field)) {
+			if (!isset($structure[$field])) {
 				continue;
 			}
-			if (!isset($structure[$field])) {
+			if ($modifiedOnly && !$this->isModified($field)) {
 				continue;
 			}
 			//próba zapisania nullowej wartości do nie nullowej kolumny (ID)
