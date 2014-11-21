@@ -37,7 +37,7 @@ class Cms_Controller_AdminFile extends MmiCms_Controller_Admin {
 			return '';
 		}
 		if ($this->hash != $file->getHashName()) {
-				return json_encode(array('error' => 'Brak pliku'));
+			return json_encode(array('error' => 'Brak pliku'));
 		}
 		return $file->toJson();
 	}

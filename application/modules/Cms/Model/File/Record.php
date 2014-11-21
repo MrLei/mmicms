@@ -1,26 +1,25 @@
 <?php
 
-/**
- * @property integer $id
- * @property string $class
- * @property string $mimeType
- * @property string $name
- * @property string $original
- * @property string $title
- * @property string $author
- * @property string $source
- * @property integer $size
- * @property string $dateAdd
- * @property string $dateModify
- * @property integer $order
- * @property integer $sticky
- * @property string $object
- * @property integer $objectId
- * @property integer $cms_auth_id
- * @property integer $active
- * @property string $description
- */
 class Cms_Model_File_Record extends Mmi_Dao_Record {
+
+	public $id;
+	public $class;
+	public $mimeType;
+	public $name;
+	public $original;
+	public $title;
+	public $author;
+	public $source;
+	public $size;
+	public $dateAdd;
+	public $dateModify;
+	public $order;
+	public $sticky;
+	public $object;
+	public $objectId;
+	public $cms_auth_id;
+	public $active;
+	public $description;
 
 	/**
 	 * Ustawia plik jako przyklejony w obrębie danego object+objectId
@@ -32,9 +31,9 @@ class Cms_Model_File_Record extends Mmi_Dao_Record {
 		}
 		//wyłącza sticky na innych plikach dla tego object+objectId
 		$q = Cms_Model_File_Dao::newQuery()
-			->where('sticky')->equals(1)
-			->andField('object')->equals($this->object)
-			->andField('objectId')->equals($this->objectId);
+				->where('sticky')->equals(1)
+				->andField('object')->equals($this->object)
+				->andField('objectId')->equals($this->objectId);
 		foreach (Cms_Model_File_Dao::find($q) as $related) {
 			$related->sticky = 0;
 			$related->save();
@@ -65,7 +64,7 @@ class Cms_Model_File_Record extends Mmi_Dao_Record {
 		}
 		return DATA_PATH . '/' . $this->name[0] . $this->name[1] . $this->name[2] . '/' . $this->name;
 	}
-	
+
 	/**
 	 * Zwraca binarną zawartość pliku
 	 * @return mixed

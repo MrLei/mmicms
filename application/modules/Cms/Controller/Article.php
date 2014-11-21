@@ -7,7 +7,7 @@ class Cms_Controller_Article extends Mmi_Controller_Action {
 		if ($this->uri) {
 			$uri = $this->uri;
 			$cacheKey = 'Cms_Article_' . $uri;
-		//po id
+			//po id
 		} else {
 			$id = intval($this->id);
 			$cacheKey = 'Cms_Article_' . $id;

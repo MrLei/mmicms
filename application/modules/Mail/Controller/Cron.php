@@ -1,4 +1,5 @@
 <?php
+
 class Mail_Controller_Cron extends Mmi_Controller_Action {
 
 	public function sendAction() {

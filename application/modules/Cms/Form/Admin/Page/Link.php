@@ -8,28 +8,28 @@ class Cms_Form_Admin_Page_Link extends MmiCms_Form {
 	public function init() {
 		//menu label
 		$this->addElementText('label')
-				->setLabel('Tekst linku (href-text)')
-				->setRequired()
-				->addValidatorStringLength(2, 64);
+			->setLabel('Tekst linku (href-text)')
+			->setRequired()
+			->addValidatorStringLength(2, 64);
 
 		//optional url
 		$this->addElementText('uri')
-				->setLabel('Adres strony')
-				->setDescription('w formacie http://...')
-				->setRequired()
-				->addValidatorStringLength(6, 255);
+			->setLabel('Adres strony')
+			->setDescription('w formacie http://...')
+			->setRequired()
+			->addValidatorStringLength(6, 255);
 
 		//menu label
 		$this->addElementText('title')
-				->setLabel('Tytuł linku');
+			->setLabel('Tytuł linku');
 
 		//optional url
 		$this->addElementSelect('visible')
-				->setLabel('Pokazuj w menu')
-				->setMultiOptions(array(
+			->setLabel('Pokazuj w menu')
+			->setMultiOptions(array(
 				1 => 'widoczny',
 				0 => 'ukryty',
-				));
+		));
 
 		$this->addElementCheckbox('nofollow')
 			->setLabel('Atrybut rel="nofollow"');
@@ -56,7 +56,6 @@ class Cms_Form_Admin_Page_Link extends MmiCms_Form {
 		//submit
 		$this->addElementSubmit('submit')
 			->setLabel('Zapisz');
-
 	}
 
 	public function prepareSaveData(array $data = array()) {

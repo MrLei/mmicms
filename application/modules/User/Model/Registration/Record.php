@@ -7,10 +7,7 @@ class User_Model_Registration_Record extends Cms_Model_Auth_Record {
 			return false;
 		}
 		$this->changePassword = $this->password;
-		unset($this->password);
 		$this->lang = 'pl';
-		unset($this->regulations);
-		unset($this->confirmPassword);
 		return parent::save();
 	}
 

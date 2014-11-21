@@ -30,7 +30,7 @@ class Embed_Controller_Index extends Mmi_Controller_Action {
 			return '';
 		}
 	}
-	
+
 	public function siteAction() {
 		
 	}

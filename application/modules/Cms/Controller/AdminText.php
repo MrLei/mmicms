@@ -17,7 +17,7 @@ class Cms_Controller_AdminText extends MmiCms_Controller_Admin {
 		}
 		$this->_helper->messenger('Błąd zapisu tekstu, tekst o tym kluczu już istnieje', false);
 	}
-	
+
 	public function cloneAction() {
 		$form = new Cms_Form_Admin_Text_Clone();
 		if (!$form->isMine()) {

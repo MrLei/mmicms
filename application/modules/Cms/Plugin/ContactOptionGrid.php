@@ -9,7 +9,7 @@ class Cms_Plugin_ContactOptionGrid extends Mmi_Grid {
 		$this->addColumn('text', 'name', array(
 			'label' => 'temat pytania'
 		));
-		
+
 		$this->addColumn('text', 'sendTo', array(
 			'label' => 'prześlij na e-mail'
 		));

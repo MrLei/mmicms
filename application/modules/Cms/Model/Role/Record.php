@@ -1,14 +1,12 @@
 <?php
 
-/**
- * @property integer $id
- * @property string $name
- */
 class Cms_Model_Role_Record extends Mmi_Dao_Record {
-	
+
+	public $id;
+	public $name;
+
 	public function save() {
 		$this->name = $this->role;
-		unset($this->role);
 		if (!parent::save()) {
 			return false;
 		}
