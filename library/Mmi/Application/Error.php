@@ -76,7 +76,7 @@ class Mmi_Application_Error {
 	 * @return boolean
 	 */
 	public static function exceptionHandler(Exception $exception) {
-		ob_clean();
+//		ob_clean();
 		Mmi_Exception_Logger::log($exception);
 		$response = Mmi_Controller_Front::getInstance()->getResponse();
 		try {

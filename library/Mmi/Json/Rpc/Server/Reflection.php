@@ -82,6 +82,10 @@ class Mmi_Json_Rpc_Server_Reflection {
 			}
 			$paramStr = '';
 			foreach ($params as $param => $data) {
+				if (!isset($data['type'])) {
+					$paramStr .= ' $' . $param . ', ';
+					continue;
+				}
 				if (substr($data['type'], 0, 5) == 'array') {
 					$data['type'] = 'array';
 				}

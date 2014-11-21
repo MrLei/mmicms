@@ -27,7 +27,7 @@
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 class Mmi_Controller_Response_Debugger {
-	
+
 	public function __construct() {
 		$response = Mmi_Controller_Front::getInstance()->getResponse();
 		switch ($response->getType()) {
@@ -70,7 +70,7 @@ class Mmi_Controller_Response_Debugger {
 		$dbg['memory'] = round(memory_get_peak_usage() / (1024 * 1024), 2) . 'MB';
 		return $dbg;
 	}
-	
+
 	public function getHtml() {
 		$preElem = '<pre style="min-width: 450px; margin: 0px 0px 10px 0px; color: #666; background: #eee; padding: 3px; border: 1px solid #666;">';
 		$preElemBreak = '<pre style="white-space: normal; word-wrap: break-word; margin: 0px 0px 10px 0px; color: #666; background: #eee; padding: 3px; border: 1px solid #666;">';
@@ -95,7 +95,7 @@ class Mmi_Controller_Response_Debugger {
 		if (null !== $view->_exception) {
 			$html .= '<h2 style="color: #bb0000; margin: 0px; font-size: 14px; text-transform: none;">' . get_class($view->_exception) . ': ' . $view->_exception->getMessage() . '</h2>';
 			$html .= '<p style="margin: 0px; padding: 0px 0px 10px 0px;">' . $view->_exception->getFile() . ' <strong>(' . $view->_exception->getLine() . ')</strong></p>';
-			//$html .= '<pre>' . $view->_exception->getTraceAsString() . '</pre><br />';
+			$html .= '<pre>' . $view->_exception->getTraceAsString() . '</pre><br />';
 		}
 		$extensions = get_loaded_extensions();
 		$classes = get_declared_classes();

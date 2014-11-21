@@ -34,7 +34,7 @@ class Mmi_Form_Element_Submit extends Mmi_Form_Element_Abstract {
 	 */
 	public function __construct($name, array $options = array()) {
 		if (!isset($options['ignore'])) {
-			$this->setIgnore();
+			$options['ignore'] = true;
 		}
 		$this->setRenderingOrder(array('fetchField', 'fetchErrors', 'fetchCustomHtml'));
 		parent::__construct($name, $options);

@@ -1,20 +1,19 @@
 <?php
 
-/**
- * @property integer $id
- * @property string $lang
- * @property integer $mail_server_id
- * @property string $name
- * @property string $replyTo
- * @property string $fromName
- * @property string $subject
- * @property string $message
- * @property integer $html
- * @property string $dateAdd
- * @property string $dateModify
- * @property integer $active
- */
 class Mail_Model_Definition_Record extends Mmi_Dao_Record {
+
+	public $id;
+	public $lang;
+	public $mail_server_id;
+	public $name;
+	public $replyTo;
+	public $fromName;
+	public $subject;
+	public $message;
+	public $html;
+	public $dateAdd;
+	public $dateModify;
+	public $active;
 
 	protected function _update() {
 		$this->dateModify = date('Y-m-d H:i:s');

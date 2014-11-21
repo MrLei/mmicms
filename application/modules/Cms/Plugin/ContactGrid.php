@@ -1,7 +1,7 @@
 <?php
 
 class Cms_Plugin_ContactGrid extends Mmi_Grid {
-	
+
 	protected $_daoName = 'Cms_Model_Contact_Dao';
 	protected $_daoGetMethod = 'findDefaults';
 	protected $_daoCountMethod = 'countDefaults';
@@ -9,32 +9,32 @@ class Cms_Plugin_ContactGrid extends Mmi_Grid {
 	public function init() {
 
 		$this->addColumn('custom', 'id', array(
-				'label' => 'ticket',
-				'value' => '#{$rowData->id}'
+			'label' => 'ticket',
+			'value' => '#{$rowData->id}'
 		));
 		$this->addColumn('text', 'dateAdd', array(
-				'label' => 'data dodania'
+			'label' => 'data dodania'
 		));
 		$this->addColumn('text', 'dateAdd', array(
-				'label' => 'data dodania'
+			'label' => 'data dodania'
 		));
 		$this->addColumn('text', 'text', array(
-				'label' => 'zapytanie'
+			'label' => 'zapytanie'
 		));
 		$this->addColumn('text', 'email', array(
-				'label' => 'e-mail'
+			'label' => 'e-mail'
 		));
 
 		$this->addColumn('text', 'uri', array(
-				'label' => 'strona wejściowa'
+			'label' => 'strona wejściowa'
 		));
 
 		$this->addColumn('text', 'ip', array(
-				'label' => 'ip'
+			'label' => 'ip'
 		));
 
 		$this->addColumn('checkbox', 'active', array(
-				'label' => 'czeka'
+			'label' => 'czeka'
 		));
 
 		$this->addColumn('buttons', 'buttons', array(
@@ -43,8 +43,7 @@ class Cms_Plugin_ContactGrid extends Mmi_Grid {
 				'delete' => Mmi_Controller_Front::getInstance()->getView()->baseUrl . '/cms/adminContact/delete/id/%id%',
 				'edit' => Mmi_Controller_Front::getInstance()->getView()->baseUrl . '/cms/adminContact/edit/id/%id%'
 			)
-
 		));
-
 	}
+
 }

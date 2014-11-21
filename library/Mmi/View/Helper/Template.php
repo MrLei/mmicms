@@ -35,11 +35,11 @@ class Mmi_View_Helper_Template extends Mmi_View_Helper_Abstract {
 	 */
 	public function template($input) {
 
-		//keszowane renderowanie szablonu
+		//buforowanie renderowanie szablonu
 		$input = preg_replace_callback('/\{\'(.[^\']+)\'\}/', array(&$this, '_render'), $input);
 
 		/**
-		 * obsługa klamer
+		 * obsługa klamr
 		 * obsługa zakończeń linii windows
 		 * komentarzy
 		 */
@@ -57,13 +57,13 @@ class Mmi_View_Helper_Template extends Mmi_View_Helper_Abstract {
 			'*/ ?>',
 			), $input);
 
-		//keszowane linkowanie aplikacji
+		//buforowanie linkowanie aplikacji
 		$input = preg_replace_callback('/\{@([\*]+)?(.[^@\^]+)?[\^]?(.[^@\^]+)?@\}/', array(&$this, '_url'), $input);
 
-		//keszowane tłumaczeń
+		//buforowanie tłumaczeń
 		$input = preg_replace_callback('/\{\#(.[^#]+)#\}/', array(&$this, '_translate'), $input);
 
-		//keszowane wstawień tekstów statycznych
+		//buforowanie wstawień tekstów statycznych
 		$input = preg_replace_callback('/\{\=(.[^=]+)\=\}/', array(&$this, '_text'), $input);
 
 		//filtry na zmiennych (filtry widoku)

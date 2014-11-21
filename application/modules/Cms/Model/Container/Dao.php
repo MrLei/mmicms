@@ -15,8 +15,8 @@ class Cms_Model_Container_Dao extends Mmi_Dao {
 		if ($template === null) {
 			return null;
 		}
-		$container->placeholders = Cms_Model_Container_Template_Placeholder_Container_Dao::findByContainerId($container->id);
-		$container->template = $template;
+		$container->setOption('placeholders', Cms_Model_Container_Template_Placeholder_Container_Dao::findByContainerId($container->id));
+		$container->setOption('template', $template);
 		return $container;
 	}
 

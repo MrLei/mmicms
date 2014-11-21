@@ -7,31 +7,31 @@ class Mail_Form_Admin_Server extends Mmi_Form {
 	public function init() {
 
 		$this->addElementText('address')
-				->setLabel('Adres serwera SMTP');
+			->setLabel('Adres serwera SMTP');
 
 		$this->addElementSelect('ssl')
-				->setLabel('Rodzaj połączenia')
-				->setRequired()
-				->setMultiOptions(array('plain' => 'plain', 'tls' => 'tls', 'ssl' => 'ssl'));
+			->setLabel('Rodzaj połączenia')
+			->setRequired()
+			->setMultiOptions(array('plain' => 'plain', 'tls' => 'tls', 'ssl' => 'ssl'));
 
 		$this->addElementText('port')
-				->setLabel('Port')
-				->setRequired()
-				->setValue(25)
-				->setDescription('Plain: 25, SSL: 465');
+			->setLabel('Port')
+			->setRequired()
+			->setValue(25)
+			->setDescription('Plain: 25, SSL: 465');
 
 		$this->addElementText('username')
-				->setLabel('Nazwa użytkownika');
+			->setLabel('Nazwa użytkownika');
 
 		$this->addElementText('password')
-				->setLabel('Hasło użytkownika');
+			->setLabel('Hasło użytkownika');
 
 		$this->addElementText('from')
-				->setLabel('Domyślny adres od');
+			->setLabel('Domyślny adres od');
 
 		//submit
 		$this->addElementSubmit('submit')
-				->setLabel('Zapisz');
-
+			->setLabel('Zapisz');
 	}
+
 }

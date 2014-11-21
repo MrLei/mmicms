@@ -52,9 +52,9 @@ class Cron_Model_Job {
 	 * @param Cron_Model_Record $record
 	 */
 	protected static function _getToExecute($record) {
-		return self::_valueMatch(date('i'), $record->minute) && 
+		return self::_valueMatch(date('i'), $record->minute) &&
 			self::_valueMatch(date('H'), $record->hour) &&
-			self::_valueMatch(date('d'), $record->dayOfMonth) && 
+			self::_valueMatch(date('d'), $record->dayOfMonth) &&
 			self::_valueMatch(date('m'), $record->month) &&
 			self::_valueMatch(date('N'), $record->dayOfWeek);
 	}

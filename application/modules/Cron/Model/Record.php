@@ -1,23 +1,22 @@
 <?php
 
-/**
- * @property integer $id
- * @property integer $active
- * @property string $minute
- * @property string $hour
- * @property string $dayOfMonth
- * @property string $month
- * @property string $dayOfWeek
- * @property string $name
- * @property string $description
- * @property string $module
- * @property string $controller
- * @property string $action
- * @property string $dateAdd
- * @property string $dateModified
- * @property string $dateLastExecute
- */
 class Cron_Model_Record extends Mmi_Dao_Record {
+
+	public $id;
+	public $active;
+	public $minute;
+	public $hour;
+	public $dayOfMonth;
+	public $month;
+	public $dayOfWeek;
+	public $name;
+	public $description;
+	public $module;
+	public $controller;
+	public $action;
+	public $dateAdd;
+	public $dateModified;
+	public $dateLastExecute;
 
 	public function save() {
 		if ($this->object) {
@@ -34,7 +33,7 @@ class Cron_Model_Record extends Mmi_Dao_Record {
 		}
 		$this->dateModified = date('Y-m-d H:i:s');
 		return parent::save();
-	}	
+	}
 
 	protected function _insert() {
 		$this->dateAdd = date('Y-m-d H:i:s');

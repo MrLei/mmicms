@@ -1,4 +1,5 @@
 <?php
+
 class Cms_Plugin_ContainerGrid extends Mmi_Grid {
 
 	protected $_daoName = 'Cms_Model_Container_Dao';

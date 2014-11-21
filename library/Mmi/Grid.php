@@ -457,20 +457,20 @@ abstract class Mmi_Grid {
 				$fieldData = '???';
 				switch (count($path)) {
 					case 2:
-						$fieldData = $rowData->$path[0]->$path[1];
+						$fieldData = $rowData->getJoined($path[0])->$path[1];
 						break;
 					case 3:
-						$fieldData = $rowData->$path[0]->$path[1]->$path[2];
+						$fieldData = $rowData->getJoined($path[1])->$path[2];
 						break;
 					case 4:
-						$fieldData = $rowData->$path[0]->$path[1]->$path[2]->$path[3];
+						$fieldData = $rowData->getJoined($path[2])->$path[3];
 						break;
 					case 5:
-						$fieldData = $rowData->$path[0]->$path[1]->$path[2]->$path[3]->$path[4];
+						$fieldData = $rowData->getJoined($path[3])->$path[4];
 						break;
 				}
 			} else {
-				$fieldData = $rowData->$column['name'];
+				$fieldData = property_exists($rowData, $column['name']) ? $rowData->$column['name'] : null;
 			}
 			$filters = isset($column['filters']) ? $column['filters'] : array();
 			$html .= '<td class="' . $column['type'] . '">';

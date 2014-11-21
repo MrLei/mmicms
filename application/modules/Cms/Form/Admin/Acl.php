@@ -16,11 +16,10 @@ class Cms_Form_Admin_Acl extends Mmi_Form {
 			->setMultiOptions(array(
 				'allow' => 'dozwolone',
 				'deny' => 'zabronione'
-			));
+		));
 
 		$this->addElementSubmit('submit')
 			->setLabel('dodaj regułę');
-
 	}
 
 }

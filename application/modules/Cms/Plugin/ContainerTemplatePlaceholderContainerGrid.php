@@ -31,11 +31,10 @@ class Cms_Plugin_ContainerTemplatePlaceholderContainerGrid extends Mmi_Grid {
 		$this->addColumn('buttons', 'buttons', array(
 			'label' => 'operacje',
 			'links' => array(
-				'edit' => $this->_view->url(array('id' => '%id%', 'action' => 'edit', 'controller' => 'adminContainerTemplatePlaceholderContainer' , 'containerId' => $this->_request->containerId)),
+				'edit' => $this->_view->url(array('id' => '%id%', 'action' => 'edit', 'controller' => 'adminContainerTemplatePlaceholderContainer', 'containerId' => $this->_request->containerId)),
 				'delete' => $this->_view->url(array('id' => '%id%', 'action' => 'delete', 'controller' => 'adminContainerTemplatePlaceholderContainer')),
 			)
 		));
-
 	}
 
 }

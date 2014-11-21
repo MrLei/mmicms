@@ -33,7 +33,7 @@ class User_Model_Api {
 		$auth->confirmPassword = $newPassword;
 		return $auth->changePassword();
 	}
-	
+
 	/**
 	 * Pomoc
 	 * @param string $method

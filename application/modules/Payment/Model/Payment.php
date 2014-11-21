@@ -14,7 +14,7 @@ class Payment_Model_Payment extends Mmi_Model {
 
 	public function getAllAccepted() {
 		return $this->getAll(array(
-			array('status', 3)
+				array('status', 3)
 		));
 	}
 
@@ -66,15 +66,15 @@ class Payment_Model_Payment extends Mmi_Model {
 		$payments = $this->getAll(array(
 			'status', 1
 		));
-		$ts = microtime(true)*10000;
+		$ts = microtime(true) * 10000;
 		foreach ($payments as $payment) {
 			$auth = new Cms_Model_Auth($payment->cms_auth_id);
 			$config = new Payment_Model_Config($payment->payment_config_id);
-			$result = $client->get($config->shopId, $payment->sessionId, $ts, md5($config->shopId . $payment->sessionId . (string)$ts . $config->key1));
-			$valueMatch = (100*$payment->value) == $result->transAmount;
+			$result = $client->get($config->shopId, $payment->sessionId, $ts, md5($config->shopId . $payment->sessionId . (string) $ts . $config->key1));
+			$valueMatch = (100 * $payment->value) == $result->transAmount;
 			$signatureMatch = ($result->transSig == md5($config->shopId . $payment->sessionId . $payment->id . $result->transStatus . $result->transAmount . $result->transDesc . $result->transTs . $config->key2));
 			if (!$signatureMatch) {
-				$effect['errors']++;
+				$effect['errors'] ++;
 				continue;
 			}
 			$payment->dateEnd = date('Y-m-d H:i:s');
@@ -83,7 +83,7 @@ class Payment_Model_Payment extends Mmi_Model {
 				$payment->save();
 				Mail_Model_Mail::pushEmail('payment_rejected', $auth->email, $payment->toArray());
 				Stat_Model_Stat::hit('payment_rejected');
-				$effect['rejected']++;
+				$effect['rejected'] ++;
 				continue;
 			}
 			if ($result->transStatus == 99) {
@@ -92,7 +92,7 @@ class Payment_Model_Payment extends Mmi_Model {
 				$payment->save();
 				Mail_Model_Mail::pushEmail('payment_accepted', $auth->email, $payment->toArray());
 				Stat_Model_Stat::hit('payment_accepted');
-				$effect['accepted']++;
+				$effect['accepted'] ++;
 				continue;
 			}
 		}

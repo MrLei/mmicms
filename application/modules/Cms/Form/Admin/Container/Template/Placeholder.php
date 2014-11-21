@@ -9,7 +9,7 @@ class Cms_Form_Admin_Container_Template_Placeholder extends Mmi_Form {
 		if (!$this->getRecord()->cms_container_template_id) {
 			$this->getRecord()->cms_container_template_id = $this->getOption('templateId');
 		}
-		
+
 		$this->addElementText('name')
 			->setLabel('nazwa placeholder')
 			->setRequired()

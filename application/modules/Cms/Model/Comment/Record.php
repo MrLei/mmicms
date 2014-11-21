@@ -1,19 +1,18 @@
 <?php
 
-/**
- * @property integer $id
- * @property integer $cms_auth_id
- * @property integer $parent_id
- * @property string $dateAdd
- * @property string $title
- * @property string $text
- * @property string $signature
- * @property string $ip
- * @property float $stars
- * @property string $object
- * @property integer $objectId
- */
 class Cms_Model_Comment_Record extends Mmi_Dao_Record {
+
+	public $id;
+	public $cms_auth_id;
+	public $parent_id;
+	public $dateAdd;
+	public $title;
+	public $text;
+	public $signature;
+	public $ip;
+	public $stars;
+	public $object;
+	public $objectId;
 
 	protected function _insert() {
 		$this->dateAdd = date('Y-m-d H:i:s');

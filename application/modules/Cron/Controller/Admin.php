@@ -1,4 +1,5 @@
 <?php
+
 class Cron_Controller_Admin extends MmiCms_Controller_Admin {
 
 	public function indexAction() {
@@ -8,7 +9,7 @@ class Cron_Controller_Admin extends MmiCms_Controller_Admin {
 
 	public function editAction() {
 		$form = new Cron_Form_Cron($this->id);
-		if ($form->isSaved ()) {
+		if ($form->isSaved()) {
 			$this->_helper->messenger('Zadanie zapisane poprawnie', true);
 			return $this->_helper->redirector('index', 'admin', 'cron', array(), true);
 		}

@@ -40,7 +40,7 @@ class Payment_Plugin_Grid extends Mmi_Grid {
 			),
 			'label' => 'status'
 		));
-		
+
 		$this->addColumn('buttons', 'buttons', array(
 			'label' => 'operacje'
 		));

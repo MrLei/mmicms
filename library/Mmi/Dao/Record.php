@@ -64,10 +64,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 		}
 		$dao = $this->_daoClass;
 		$result = $dao::getAdapter()->delete($dao::getTableName(), $this->_pkBind($this->getPk()));
-		if ($result == true) {
-			return true;
-		}
-		return false;
+		return ($result > 0) ? true : false;
 	}
 
 	/**
@@ -79,9 +76,9 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 		$table = $dao::getTableName();
 		$result = $dao::getAdapter()->insert($table, $this->_truncateToStructure());
 		//odczyt id z sekwencji
-		if ($result && $this->id === null) {
+		if ($result && property_exists($this, 'id') && $this->id === null) {
 			//@TODO wypełenienie danych z sekwencji dla innych pól niż ID
-			$this->__set('id', $dao::getAdapter()->lastInsertId($dao::getAdapter()->prepareSequenceName($table)));
+			$this->id = $dao::getAdapter()->lastInsertId($dao::getAdapter()->prepareSequenceName($table));
 		}
 		$this->setNew(false);
 		$this->_setSaveStatus(1);
@@ -111,10 +108,18 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 		$tableData = array();
 		$dao = $this->_daoClass;
 		$structure = $dao::getTableStructure();
-		foreach ($this->_data as $field => $value) {
-			if ((!$modifiedOnly || ($modifiedOnly && isset($this->_modified[$field]))) && isset($structure[$field])) {
-				$tableData[$field] = $value;
+		foreach ($this as $field => $value) {
+			if (!isset($structure[$field])) {
+				continue;
 			}
+			if ($modifiedOnly && !$this->isModified($field)) {
+				continue;
+			}
+			//próba zapisania nullowej wartości do nie nullowej kolumny (ID)
+			if ($value === null && !$structure[$field]['null']) {
+				continue;
+			}
+			$tableData[$field] = $value;
 		}
 		return $tableData;
 	}
@@ -124,7 +129,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 	 * @param int $status status
 	 * @return Mmi_Dao_Record
 	 */
-	protected function _setSaveStatus($status) {
+	protected final function _setSaveStatus($status) {
 		$this->_saveStatus = $status;
 		return $this;
 	}

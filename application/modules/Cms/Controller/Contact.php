@@ -16,8 +16,8 @@ class Cms_Controller_Contact extends Mmi_Controller_Action {
 			}
 			$namespace->unsetAll();
 			$this->_helper->redirector()->gotoUrl($link);
-		} elseif(Mmi_Controller_Front::getInstance()->getEnvironment()->httpReferer)  {
-			$namespace->referer =  Mmi_Controller_Front::getInstance()->getEnvironment()->httpReferer;
+		} elseif (Mmi_Controller_Front::getInstance()->getEnvironment()->httpReferer) {
+			$namespace->referer = Mmi_Controller_Front::getInstance()->getEnvironment()->httpReferer;
 		}
 	}
 

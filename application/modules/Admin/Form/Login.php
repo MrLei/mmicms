@@ -18,7 +18,6 @@ class Admin_Form_Login extends Mmi_Form {
 
 		$this->addElementSubmit('login')
 			->setLabel('Zaloguj się');
-
 	}
 
 }

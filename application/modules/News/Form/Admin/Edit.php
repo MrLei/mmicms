@@ -36,7 +36,7 @@ class News_Form_Admin_Edit extends MmiCms_Form {
 			->setMultiOptions(array(
 				1 => 'włączony',
 				0 => 'wyłączony',
-			));
+		));
 
 		$this->addElementUploader('uploader')
 			->setLabel('Dołącz pliki');

@@ -7,18 +7,18 @@ class Cms_Form_Admin_Container extends Mmi_Form {
 	public function init() {
 
 		$this->addElementText('title')
-				->setLabel('tytuł')
-				->setRequired()
-				->addValidatorNotEmpty();
+			->setLabel('tytuł')
+			->setRequired()
+			->addValidatorNotEmpty();
 
 		$this->addElementSelect('cms_container_template_id')
-				->setLabel('szablon strony')
-				->setMultiOptions(Cms_Model_Container_Template_Dao::findPairs('id', 'name'))
-				->setRequired()
-				->addValidatorNotEmpty();
+			->setLabel('szablon strony')
+			->setMultiOptions(Cms_Model_Container_Template_Dao::findPairs('id', 'name'))
+			->setRequired()
+			->addValidatorNotEmpty();
 
 		$this->addElementSubmit('submit')
 			->setLabel('zapisz stronę');
-
 	}
+
 }

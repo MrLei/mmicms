@@ -10,7 +10,7 @@ class Mail_Model_Server_Dao extends Mmi_Dao {
 	 */
 	public static function findPairsActive() {
 		$q = self::newQuery()
-			->where('active')->equals(1);
+				->where('active')->equals(1);
 		$rows = self::find($q);
 		$pairs = array();
 		foreach ($rows as $row) {

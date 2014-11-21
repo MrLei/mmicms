@@ -1,14 +1,42 @@
 <?php
 
-/**
- * @property integer $id
- * @property integer $cms_role_id
- * @property string $module
- * @property string $controller
- * @property string $action
- * @property string $access
- */
 class Cms_Model_Acl_Record extends Mmi_Dao_Record {
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $id;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $cms_role_id;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $module;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $controller;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $action;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $access;
 
 	public function save() {
 		if ($this->object) {
@@ -16,7 +44,6 @@ class Cms_Model_Acl_Record extends Mmi_Dao_Record {
 			$this->module = isset($object[0]) ? strtolower($object[0]) : null;
 			$this->controller = isset($object[1]) ? strtolower($object[1]) : null;
 			$this->action = isset($object[2]) ? strtolower($object[2]) : null;
-			unset($this->object);
 		}
 		$this->_clearCache();
 		return parent::save();

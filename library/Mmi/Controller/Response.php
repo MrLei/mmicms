@@ -261,10 +261,18 @@ class Mmi_Controller_Response {
 	 */
 	public function setType($type, $replace = false) {
 		$type = strtolower($type);
+		//skrócona forma
 		if (array_key_exists($type, $this->_contentTypes)) {
 			$this->_type = $type;
 			return $this->setHeader('Content-type', $this->_contentTypes[$type], $replace);
 		}
+		//forma pełna
+		if (false !== ($arrayType = array_search($type, $this->_contentTypes))) {
+			$this->_type = $arrayType;
+			return $this->setHeader('Content-type', $this->_contentTypes[$arrayType], $replace);
+		}
+		//nie znaleziony
+		$this->_type = $type;
 		return $this->setHeader('Content-type', $type, $replace);
 	}
 	

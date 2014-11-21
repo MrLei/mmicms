@@ -28,7 +28,6 @@ class Admin_Form_Password extends Mmi_Form {
 
 		$this->addElementSubmit('change')
 			->setLabel('Zmień hasło');
-
 	}
 
 	public function lateInit() {

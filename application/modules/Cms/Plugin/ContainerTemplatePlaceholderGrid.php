@@ -16,11 +16,10 @@ class Cms_Plugin_ContainerTemplatePlaceholderGrid extends Mmi_Grid {
 		$this->addColumn('buttons', 'buttons', array(
 			'label' => 'operacje',
 			'links' => array(
-				'edit' => $this->_view->url(array('id' => '%id%', 'action' => 'edit', 'controller' => 'adminContainerTemplatePlaceholder' , 'templateId' => $this->_request->templateId)),
+				'edit' => $this->_view->url(array('id' => '%id%', 'action' => 'edit', 'controller' => 'adminContainerTemplatePlaceholder', 'templateId' => $this->_request->templateId)),
 				'delete' => $this->_view->url(array('id' => '%id%', 'action' => 'delete', 'controller' => 'adminContainerTemplatePlaceholder')),
 			)
 		));
-
 	}
 
 }

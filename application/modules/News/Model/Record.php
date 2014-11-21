@@ -1,5 +1,66 @@
 <?php
+
 class News_Model_Record extends Mmi_Dao_Record {
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $id;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $lang;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $title;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $lead;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $text;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $dateAdd;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $dateModify;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $uri;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $internal;
+
+	/**
+	 *
+	 * @var integer
+	 */
+	public $visible;
 
 	public function save() {
 		$filter = new Mmi_Filter_Url();
@@ -18,7 +79,7 @@ class News_Model_Record extends Mmi_Dao_Record {
 	}
 
 	public function getFirstImage() {
-		 return Cms_Model_File_Dao::findFirstImage('news', $this->id);
+		return Cms_Model_File_Dao::findFirstImage('news', $this->id);
 	}
 
 	protected function _insert() {

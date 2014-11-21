@@ -4,8 +4,8 @@
 		<title>{#Przerwa techniczna#}</title>
 		<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
 	</head>
-<body>
-	<h1>{#Przerwa techniczna#}</h1>
-	{content()}
-</body>
+	<body>
+		<h1>{#Przerwa techniczna#}</h1>
+		{content()}
+	</body>
 </html>

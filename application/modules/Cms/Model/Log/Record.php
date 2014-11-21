@@ -1,18 +1,17 @@
 <?php
 
-/**
- * @property integer $id
- * @property string $url
- * @property string $ip
- * @property string $browser
- * @property string $operation
- * @property string $object
- * @property integer $objectId
- * @property string $data
- * @property integer $success
- * @property integer $cms_auth_id
- * @property string $dateTime
- */
 class Cms_Model_Log_Record extends Mmi_Dao_Record {
+
+	public $id;
+	public $url;
+	public $ip;
+	public $browser;
+	public $operation;
+	public $object;
+	public $objectId;
+	public $data;
+	public $success;
+	public $cms_auth_id;
+	public $dateTime;
 
 }

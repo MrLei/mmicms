@@ -4,8 +4,8 @@
 <div style="margin-top: 30px">
 	<p><h3>Aktualne wpisy:</h3>
 	<p>
-	{$i = 0}
-	{foreach $items as $item}
-	{$i++}{$i}. {$item.data}<br>
-	{/foreach}
+		{$i = 0}
+		{foreach $items as $item}
+			{$i++}{$i}. {$item.data}<br>
+		{/foreach}
 </div>

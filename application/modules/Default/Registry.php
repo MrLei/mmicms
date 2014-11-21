@@ -9,4 +9,3 @@ class Default_Registry extends MmiCms_Registry {
 	public static $config;
 
 }
-

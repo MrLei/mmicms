@@ -1,6 +1,7 @@
 <?php
+
 class Cms_Plugin_AuthGrid extends Mmi_Grid {
-	
+
 	protected $_daoName = 'Cms_Model_Auth_Dao';
 
 	public function init() {
@@ -38,6 +39,6 @@ class Cms_Plugin_AuthGrid extends Mmi_Grid {
 		$this->addColumn('buttons', 'buttons', array(
 			'label' => 'operacje'
 		));
-
 	}
+
 }

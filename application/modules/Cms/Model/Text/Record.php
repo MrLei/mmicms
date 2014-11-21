@@ -1,13 +1,12 @@
 <?php
 
-/**
- * @property integer $id
- * @property string $lang
- * @property string $key
- * @property string $content
- * @property string $dateModify
- */
 class Cms_Model_Text_Record extends Mmi_Dao_Record {
+
+	public $id;
+	public $lang;
+	public $key;
+	public $content;
+	public $dateModify;
 
 	public function save() {
 		$this->dateModify = date('Y-m-d H:i:s');

@@ -37,19 +37,19 @@ class Mmi_Dao_Builder {
 		$dao = $record->getDaoClassName();
 		$recordFileName = APPLICATION_PATH . '/modules/' . implode('/', $pathValues) . '.php';
 		$recordFile = file_get_contents($recordFileName);
-		if (strpos($recordFile, '@property') !== false) {
-			throw new Exception('Mmi_Dao_Builder: annotation present in ' . $recordFileName);
+		if (strpos($recordFile, 'public $') !== false) {
+			throw new Exception('Mmi_Dao_Builder: variable present in ' . $recordFileName);
 		}
-		$annotation = '/**' . "\n";
+		$annotation = '';
 		$structure = $dao::getTableStructure();
 		if (empty($structure)) {
 			throw new Exception('Mmi_Dao_Builder: no table found, or table invalid in ' . $dao);
 		}
 		foreach ($structure as $fieldName => $fieldDetails) {
-			$annotation .= ' * @property ' . self::_convertDataType($fieldDetails['dataType']) . ' $' . $fieldName . "\n";
+			$annotation .= "\t" . 'public $' . $fieldName . ";\r\n";
 		}
-		$annotation .= ' */' . "\r\n";
-		file_put_contents($recordFileName, str_replace('class ' . $recordClass, $annotation . 'class ' . $recordClass, $recordFile));
+		$newRecordFile = preg_replace('/(class [a-zA-Z0-9_]+ extends [a-zA-Z0-9_]+\s\{\r?\n?)/', '$1' . $annotation, $recordFile);
+		var_dump(file_put_contents($recordFileName, $newRecordFile));
 	}
 
 	/**
