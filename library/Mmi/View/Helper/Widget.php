@@ -39,7 +39,10 @@ class Mmi_View_Helper_Widget extends Mmi_View_Helper_Abstract {
 	 */
 	public function widget($module, $controller, $action = 'index', array $params = array()) {
 		$actionHelper = new Mmi_Controller_Action_Helper_Action();
-		return $actionHelper->action($module, $controller, $action, $params, true);
+		$isLayoutDisabled = $this->view->isLayoutDisabled();
+		$actionResult = $actionHelper->action($module, $controller, $action, $params, true);
+		$this->view->setLayoutDisabled($isLayoutDisabled);
+		return $actionResult;
 	}
 
 }

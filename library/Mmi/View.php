@@ -337,7 +337,7 @@ class Mmi_View {
 	 * @return \Mmi_View
 	 */
 	public function setLayoutDisabled($disabled = true) {
-		$this->_layoutDisabled = $disabled;
+		$this->_layoutDisabled = ($disabled === true) ? true : false;
 		return $this;
 	}
 	
