@@ -124,9 +124,26 @@ class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
 	 */
 	public function tableInfo($tableName, $schema = null) {
 		return $this->_associateTableMeta($this->fetchAll('SELECT "column_name" as "name", "data_type" AS "dataType", "character_maximum_length" AS "maxLength", "is_nullable" AS "null", "column_default" AS "default" FROM INFORMATION_SCHEMA.COLUMNS WHERE "table_name" = :name AND "table_schema" = :schema ORDER BY "ordinal_position"', array(
-			':name' => $tableName,
-			':schema' => ($schema) ? $schema : ($this->_config->schema ? $this->_config->schema : $this->_config->name)
+					':name' => $tableName,
+					':schema' => ($schema) ? $schema : ($this->_config->schema ? $this->_config->schema : $this->_config->name)
 		)));
+	}
+
+	/**
+	 * Listuje tabele w schemacie bazy danych
+	 * @param string $schema
+	 * @return array
+	 */
+	public function tableList($schema = null) {
+		$list = $this->fetchAll('SELECT table_name as name
+			FROM information_schema.tables
+			WHERE table_schema = :schema
+			ORDER BY table_name', array(':schema' => ($schema) ? $schema : ($this->_config->schema ? $this->_config->schema : $this->_config->name)));
+		$tables = array();
+		foreach ($list as $row) {
+			$tables[] = $row['name'];
+		}
+		return $tables;
 	}
 
 	/**
