@@ -30,7 +30,6 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 			$request->setControllerName('error');
 			$request->setActionName('index');
 		}
-
 		//brak komponentu (moduł + kontroler + akcja)
 		$components = Mmi_Controller_Front::getInstance()->getStructure('module');
 		if (!isset($components[$request->getModuleName()][$request->getControllerName()][$request->getActionName()])) {

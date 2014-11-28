@@ -27,96 +27,234 @@
 class Mmi_Dao_Builder {
 
 	/**
-	 * Zapisuje annotację w kodzie klasy rekordu
-	 * @param Mmi_Dao_Record_Ro $record
+	 * Renderuje DAO, Record i Query dla podanej nazwy tabeli
+	 * @param string $tableName
 	 * @throws Exception
 	 */
-	public static function annotateRecord(Mmi_Dao_Record_Ro $record) {
-		$recordClass = get_class($record);
-		$pathValues = explode('_', $recordClass);
-		$dao = $record->getDaoClassName();
-		$recordFileName = APPLICATION_PATH . '/modules/' . implode('/', $pathValues) . '.php';
-		$recordFile = file_get_contents($recordFileName);
-		if (strpos($recordFile, 'public $') !== false) {
-			throw new Exception('Mmi_Dao_Builder: variable present in ' . $recordFileName);
+	public static function buildFromTableName($tableName) {
+		self::_updateDao($tableName);
+		self::_updateQueryField($tableName);
+		self::_updateQueryJoin($tableName);
+		self::_updateQuery($tableName);
+		self::_updateRecord($tableName);
+	}
+
+	protected static function _updateDao($tableName) {
+		$pathPrefix = self::_getPathPrefixByTableName($tableName);
+		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
+		$className = $classPrefix . '_Dao';
+		$path = $pathPrefix . '/Dao.php';
+		self::_mkdirRecursive($path);
+		if (file_exists($path)) {
+			echo 'DAO exists.';
+			return;
 		}
-		$annotation = '';
-		$structure = $dao::getTableStructure();
-		if (empty($structure)) {
-			throw new Exception('Mmi_Dao_Builder: no table found, or table invalid in ' . $dao);
-		}
-		foreach ($structure as $fieldName => $fieldDetails) {
-			$annotation .= "\t" . 'public $' . $fieldName . ";\r\n";
-		}
-		$newRecordFile = preg_replace('/(class [a-zA-Z0-9_]+ extends [a-zA-Z0-9_]+\s\{\r?\n?)/', '$1' . $annotation, $recordFile);
-		var_dump(file_put_contents($recordFileName, $newRecordFile));
+		$daoCode = '<?php' . "\n\n" .
+			'class ' .
+			$className .
+			' extends Mmi_Dao {' .
+			"\n\n\t" .
+			'protected static $_tableName = \'' .
+			$tableName . '\';' .
+			"\n\n" .
+			'}';
+		file_put_contents($path, $daoCode);
 	}
 
 	/**
-	 * Renderuje DAO i Record dla podanej nazwy tabeli
-	 * @param type $tableName
+	 * Tworzy, lub aktualizuje rekord
+	 * @param string $tableName
+	 */
+	protected static function _updateRecord($tableName) {
+		$pathPrefix = self::_getPathPrefixByTableName($tableName);
+		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
+		$className = $classPrefix . '_Record';
+		$daoClassName = $classPrefix . '_Dao';
+		$path = $pathPrefix . '/Record.php';
+		self::_mkdirRecursive($path);
+		$recordCode = '<?php' . "\n\n" .
+			'class ' .
+			$className .
+			' extends Mmi_Dao_Record {' .
+			"\n\n" .
+			'}';
+		if (file_exists($path)) {
+			$recordCode = file_get_contents($path);
+		}
+		if (strpos($recordCode, 'public $') !== false) {
+			echo 'RECORD exists.';
+			return;
+		}
+		$variables = '';
+		$structure = $daoClassName::getTableStructure();
+		if (empty($structure)) {
+			throw new Exception('Mmi_Dao_Builder: no table found, or table invalid in ' . $daoClassName);
+		}
+		foreach ($structure as $fieldName => $fieldDetails) {
+			$variables .= "\t" . 'public $' . $fieldName . ";\n";
+		}
+		$recordCode = preg_replace('/(class [a-zA-Z0-9_]+ extends [a-zA-Z0-9_]+\s\{?\n?)/', '$1' . $variables, $recordCode);
+		file_put_contents($path, $recordCode);
+	}
+
+	protected static function _updateQueryField($tableName) {
+		$pathPrefix = self::_getPathPrefixByTableName($tableName);
+		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
+		$className = $classPrefix . '_Query_Field';
+		$queryClassName = $classPrefix . '_Query';
+		$path = $pathPrefix . '/Query/Field.php';
+		self::_mkdirRecursive($path);
+		$queryCode = '<?php' . "\n\n" .
+			'/**' . "\n" .
+			' * @method ' . $queryClassName . ' equals() equals($value)' . "\n" .
+			' * @method ' . $queryClassName . ' notEquals() notEquals($value)' . "\n" .
+			' * @method ' . $queryClassName . ' greater() greater($value)' . "\n" .
+			' * @method ' . $queryClassName . ' less() less($value)' . "\n" .
+			' * @method ' . $queryClassName . ' greaterOrEquals() greaterOrEquals($value)' . "\n" .
+			' * @method ' . $queryClassName . ' lessOrEquals() lessOrEquals($value)' . "\n" .
+			' * @method ' . $queryClassName . ' like() like($value)' . "\n" .
+			' * @method ' . $queryClassName . ' ilike() ilike($value)' . "\n" .
+			' */' . "\n" .
+			'class ' .
+			$className .
+			' extends Mmi_Dao_Query_Field {' .
+			"\n\n" .
+			'}';
+		file_put_contents($path, $queryCode);
+	}
+
+	protected static function _updateQueryJoin($tableName) {
+		$pathPrefix = self::_getPathPrefixByTableName($tableName);
+		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
+		$className = $classPrefix . '_Query_Join';
+		$queryClassName = $classPrefix . '_Query';
+		$path = $pathPrefix . '/Query/Join.php';
+		self::_mkdirRecursive($path);
+		$queryCode = '<?php' . "\n\n" .
+			'/**' . "\n" .
+			' * @method ' . $queryClassName . ' on() on($localKeyName, $joinedKeyName = \'id\')' . "\n" .
+			' */' . "\n" .
+			'class ' .
+			$className .
+			' extends Mmi_Dao_Query_Join {' .
+			"\n\n" .
+			'}';
+		file_put_contents($path, $queryCode);
+	}
+
+	/**
+	 * Tworzy, lub aktualizuje zapytanie
+	 * @param string $tableName
+	 */
+	protected static function _updateQuery($tableName) {
+		$pathPrefix = self::_getPathPrefixByTableName($tableName);
+		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
+		$className = $classPrefix . '_Query';
+		$daoClassName = $classPrefix . '_Dao';
+		$path = $pathPrefix . '/Query.php';
+		$queryCode = '<?php' . "\n\n" .
+			'/**' . "\n" .
+			' * @method ' . $className . ' limit() limit($limit = null)' . "\n" .
+			' * @method ' . $className . ' offset() offset($offset = null)' . "\n" .
+			' * @method ' . $className . ' orderAsc() orderAsc($fieldName, $tableName = null)' . "\n" .
+			' * @method ' . $className . ' orderDesc() orderDesc($fieldName, $tableName = null)' . "\n" .
+			' * @method ' . $className . ' andQuery() andQuery(Mmi_Dao_Query $query)' . "\n" .
+			' * @method ' . $className . ' whereQuery() whereQuery(Mmi_Dao_Query $query)' . "\n" .
+			' * @method ' . $className . ' orQuery() orQuery(Mmi_Dao_Query $query)' . "\n" .
+			' * @method ' . $className . ' andField() andField($fieldName, $tableName = null)' . "\n" .
+			' * @method ' . $className . ' where() where($fieldName, $tableName = null)' . "\n" .
+			' * @method ' . $className . ' orField() orField($fieldName, $tableName = null)' . "\n" .
+			' * @method ' . $className . ' resetOrder() resetOrder()' . "\n" .
+			' * @method ' . $className . ' resetWhere() resetWhere()' . "\n" .
+			' */' . "\n" .
+			'class ' .
+			$className .
+			' extends Mmi_Dao_Query {' .
+			"\n\n" .
+			'}';
+		$methods = '';
+		$structure = $daoClassName::getTableStructure();
+		if (empty($structure)) {
+			throw new Exception('Mmi_Dao_Builder: no table found, or table invalid in ' . $daoClassName);
+		}
+		foreach ($structure as $fieldName => $fieldDetails) {
+			$methods .= self::_queryMethod('where', $fieldName, $tableName);
+			$methods .= self::_queryMethod('andField', $fieldName, $tableName);
+			$methods .= self::_queryMethod('orField', $fieldName, $tableName);
+			$methods .= self::_queryMethod('orderAsc', $fieldName, $tableName);
+			$methods .= self::_queryMethod('orderDesc', $fieldName, $tableName);
+		}
+		$methods .= self::_queryJoinMethod($tableName);
+		$queryCode = preg_replace('/(class [a-zA-Z0-9_]+ extends [a-zA-Z0-9_]+\s\{?\n?)/', '$1' . $methods, $queryCode);
+		file_put_contents($path, $queryCode);
+	}
+
+	protected static function _queryMethod($prefix, $fieldName, $tableName) {
+		$fieldClass = self::_getClassNamePrefixByTableName($tableName) . '_Query_Field';
+		return "\n\t" . '/**' . "\n" .
+			"\t" . ' * @return ' . $fieldClass . "\n" .
+			"\t" . ' */' . "\n" .
+			"\t" . 'public function ' . $prefix . ucfirst($fieldName) . "() {\n"
+			. "\t\t" . 'return $this->' .  $prefix . '(\'' . $fieldName . '\');' . "\n"
+			. "\t}\n";
+	}
+
+	protected static function _queryJoinMethod($tableName) {
+		$joinClass = self::_getClassNamePrefixByTableName($tableName) . '_Query_Join';
+		return "\n\t" . '/**' . "\n" .
+			"\t" . ' * @param string $tableName nazwa tabeli' . "\n" .
+			"\t" . ' * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć' . "\n" .
+			"\t" . ' * @return ' . $joinClass . "\n" .
+			"\t" . ' */' . "\n" .
+			"\t" . 'public function join($tableName, $targetTableName = null)' . " {\n"
+			. "\t\t" . 'return parent::join($tableName, $targetTableName);' . "\n"
+			. "\t}\n\n" .
+			"\t" . '/**' . "\n" .
+			"\t" . ' * @param string $tableName nazwa tabeli' . "\n" .
+			"\t" . ' * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć' . "\n" .
+			"\t" . ' * @return ' . $joinClass . "\n" .
+			"\t" . ' */' . "\n" .
+			"\t" . 'public function joinLeft($tableName, $targetTableName = null)' . " {\n"
+			. "\t\t" . 'return parent::joinLeft($tableName, $targetTableName);' . "\n"
+			. "\t}\n";
+	}
+
+	/**
+	 * Pobiera prefix ścieżki po nazwie tabeli
+	 * @param string $tableName
+	 * @return string
 	 * @throws Exception
 	 */
-	public static function renderDaoRecord($tableName) {
+	protected static function _getPathPrefixByTableName($tableName) {
 		$table = explode('_', $tableName);
 		if (!isset($table[0])) {
 			throw new Exception('Mmi_Dao_Builder: invalid table name');
 		}
 		$baseDir = APPLICATION_PATH . '/modules/' . ucfirst($table[0]) . '/Model/';
-		$className = ucfirst($table[0]) . '_Model_';
-		if (!file_exists(APPLICATION_PATH . '/modules/' . ucfirst($table[0]))) {
-			mkdir(rtrim(APPLICATION_PATH . '/modules/' . ucfirst($table[0]), '/'));
-		}
-		if (!file_exists($baseDir)) {
-			mkdir(rtrim($baseDir, '/'));
-		}
 		unset($table[0]);
 		foreach ($table as $subFolder) {
 			$baseDir .= ucfirst($subFolder) . '/';
+		}
+		return rtrim($baseDir, '/');
+	}
+
+	/**
+	 * Pobiera prefix klasy obiektu
+	 * @param string $tableName
+	 * @return string
+	 * @throws Exception
+	 */
+	protected static function _getClassNamePrefixByTableName($tableName) {
+		$table = explode('_', $tableName);
+		if (!isset($table[0])) {
+			throw new Exception('Mmi_Dao_Builder: invalid table name');
+		}
+		$className = ucfirst($table[0]) . '_Model_';
+		unset($table[0]);
+		foreach ($table as $subFolder) {
 			$className .= ucfirst($subFolder) . '_';
-			if (!file_exists($baseDir)) {
-				mkdir(rtrim($baseDir, '/'));
-			}
 		}
-
-		$daoFileName = $baseDir . 'Dao.php';
-		$recordFileName = $baseDir . 'Record.php';
-		$daoClassName = $className . 'Dao';
-		$recordClassName = $className . 'Record';
-
-		if (file_exists($daoFileName)) {
-			throw new Exception('Mmi_Dao_Builder: dao exists ' . $daoClassName);
-		}
-
-		if (file_exists($recordFileName)) {
-			throw new Exception('Mmi_Dao_Builder: record exists ' . $recordClassName);
-		}
-
-		$daoCode = '<?php' . "\r\n\r\n" .
-			'class ' .
-			$className . 'Dao' .
-			' extends Mmi_Dao {' .
-			"\r\n\r\n\t" .
-			'protected static $_tableName = \'' .
-			$tableName . '\';' .
-			"\r\n\r\n" .
-			'}';
-		file_put_contents($daoFileName, $daoCode);
-
-		$recordCode = '<?php' . "\r\n\r\n" .
-			'class ' .
-			$recordClassName .
-			' extends Mmi_Dao_Record {' .
-			"\r\n\r\n" .
-			'}';
-		file_put_contents($recordFileName, $recordCode);
-		try {
-			self::annotateRecord(new $recordClassName());
-		} catch (Exception $e) {
-			unlink($daoFileName);
-			unlink($recordFileName);
-			throw $e;
-		}
+		return rtrim($className, '_');
 	}
 
 	/**
@@ -144,6 +282,19 @@ class Mmi_Dao_Builder {
 				return 'float';
 		}
 		return 'string';
+	}
+
+	protected static function _mkdirRecursive($path) {
+		$dirPath = dirname($path);
+		$dirs = explode('/', $dirPath);
+		$currentDir = '';
+		foreach ($dirs as $dir) {
+			$currentDir .= $dir . '/';
+			if (file_exists($currentDir)) {
+				continue;
+			}
+			mkdir($currentDir);
+		}
 	}
 
 }

@@ -56,6 +56,13 @@ class Mmi_Dao {
 	 * @var string
 	 */
 	protected static $_recordName;
+	
+	/**
+	 * Nazwa klasy zapytania (jeśli nie podana ustalana jest automatycznie według konwencji)
+	 * Przykład konwencji: News_Model_Dao -> News_Model_Query (tabela w DB news)
+	 * @var string
+	 */
+	protected static $_queryName;
 
 	/**
 	 * Zabezpieczony konstruktor
@@ -289,6 +296,17 @@ class Mmi_Dao {
 	}
 	
 	/**
+	 * Zwraca nazwę klasy zapytania
+	 * @return string
+	 */
+	public static final function getQueryName() {
+		if (static::$_queryName !== null) {
+			return static::$_queryName;
+		}
+		return substr(get_called_class(), 0, -3) . 'Query';
+	}
+	
+	/**
 	 * Zwraca nazwę rekordu dla podanej tabeli
 	 * @param string $tableName
 	 * @return string
@@ -311,7 +329,8 @@ class Mmi_Dao {
 	 * @return \Mmi_Dao_Query
 	 */
 	public static final function newQuery() {
-		return new Mmi_Dao_Query();
+		$queryClassName = self::getQueryName();
+		return new $queryClassName();
 	}
 
 	/**

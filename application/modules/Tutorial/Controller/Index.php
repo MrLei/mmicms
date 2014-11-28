@@ -13,7 +13,7 @@ class Tutorial_Controller_Index extends Mmi_Controller_Action {
 
 	public function simpleFormAction() {
 		$form = new Tutorial_Form_Test();
-		$this->view->items = Tutorial_Model_SimpleForm_Dao::find()->toArray();
+		$this->view->items = Tutorial_Model_Dao::find()->toArray();
 		if ($form->isSaved()) {
 			return $this->_helper->redirector('thankYou', 'index', 'tutorial', array(), true);
 		}

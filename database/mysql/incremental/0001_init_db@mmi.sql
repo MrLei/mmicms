@@ -414,6 +414,13 @@ CREATE TABLE `stat_label` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
+CREATE TABLE tutorial
+(
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `data` varchar(128),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
 INSERT INTO `cms_role` (`id`, `name`) VALUES
 (1,	'guest'),
 (2,	'member'),

@@ -437,57 +437,6 @@ CREATE INDEX news_uri_idx
 
 ALTER SEQUENCE news_id_seq OWNED BY news.id;
 
-CREATE TABLE payment (
-    id integer NOT NULL,
-    payment_config_id integer NOT NULL,
-    cms_auth_id integer NOT NULL,
-    text text,
-    value real DEFAULT 0 NOT NULL,
-    ip character varying(16),
-    "sessionId" character varying(32),
-    "dateAdd" timestamp without time zone NOT NULL,
-    "dateEnd" timestamp without time zone,
-    type character varying(2),
-    status smallint DEFAULT 1 NOT NULL
-);
-
-
-CREATE TABLE payment_config (
-    id integer NOT NULL,
-    name character varying(32) NOT NULL,
-    "shopId" integer NOT NULL,
-    "transactionKey" character varying(32) NOT NULL,
-    key1 character varying(32) NOT NULL,
-    key2 character varying(32),
-    active smallint DEFAULT 1 NOT NULL
-);
-
-
-CREATE SEQUENCE payment_config_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE payment_config_id_seq OWNED BY payment_config.id;
-
-SELECT pg_catalog.setval('payment_config_id_seq', 1, false);
-
-
-CREATE SEQUENCE payment_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE payment_id_seq OWNED BY payment.id;
-
-SELECT pg_catalog.setval('payment_id_seq', 1, false);
-
 CREATE TABLE stat (
     id integer NOT NULL,
     object character varying(50) NOT NULL,
@@ -1110,3 +1059,11 @@ CREATE INDEX cms_container_template_placeholder_contain_cms_container_id_idx
   USING btree
   (cms_container_id);
 
+CREATE TABLE tutorial
+(
+  id serial NOT NULL,
+  data character varying(128)
+)
+WITH (
+  OIDS=FALSE
+);

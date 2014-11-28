@@ -399,40 +399,6 @@ CREATE TABLE news (
 
 CREATE INDEX news_uri_idx ON news (uri);
 
-CREATE TABLE payment (
-    id INTEGER PRIMARY KEY,
-    payment_config_id integer NOT NULL,
-    cms_auth_id integer NOT NULL,
-    text text,
-    value real DEFAULT 0 NOT NULL,
-    ip character varying(16),
-    "sessionId" character varying(32),
-    "dateAdd" DATETIME NOT NULL,
-    "dateEnd" DATETIME,
-    type character varying(2),
-    status smallint DEFAULT 1 NOT NULL,
-	FOREIGN KEY (cms_auth_id) REFERENCES cms_auth (id),
-	FOREIGN KEY (payment_config_id) REFERENCES payment_config(id)
-);
-
-CREATE INDEX fki_payment_cms_auth_id_fkey ON payment (cms_auth_id);
-CREATE INDEX fki_payment_payment_config_id_fkey ON payment (payment_config_id);
-CREATE INDEX "payment_dateAdd_idx" ON payment ("dateAdd");
-CREATE INDEX "payment_dateEnd_idx" ON payment ("dateEnd");
-CREATE INDEX payment_status_idx ON payment (status);
-
-CREATE TABLE payment_config (
-    id INTEGER PRIMARY KEY,
-    name character varying(32) NOT NULL,
-    "shopId" integer NOT NULL,
-    "transactionKey" character varying(32) NOT NULL,
-    key1 character varying(32) NOT NULL,
-    key2 character varying(32),
-    active smallint DEFAULT 1 NOT NULL
-);
-
-CREATE UNIQUE INDEX payment_config_name_idx ON payment_config ("name");
-
 CREATE TABLE stat
 (
   id INTEGER PRIMARY KEY,
@@ -463,6 +429,12 @@ CREATE TABLE stat_label
   object character varying(32) NOT NULL,
   label character varying(48) NOT NULL,
   description text
+);
+
+CREATE TABLE tutorial
+(
+  id INTEGER PRIMARY KEY,
+  data character varying(128)
 );
 
 CREATE UNIQUE INDEX stat_label_lang_object_idx ON stat_label (lang, "object");
