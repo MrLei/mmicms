@@ -75,6 +75,13 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @return array
 	 */
 	abstract public function tableInfo($tableName, $schema = null);
+	
+	/**
+	 * Listuje tabele w schemacie bazy danych
+	 * @param string $schema
+	 * @return array
+	 */
+	abstract public function tableList($schema = null);
 
 	/**
 	 * Tworzy konstrukcję sprawdzającą null w silniku bazy danych

@@ -372,7 +372,7 @@ class News_Model_Query extends Mmi_Dao_Query {
 	 * @return News_Model_Query_Join
 	 */
 	public function join($tableName, $targetTableName = null) {
-		return $this->join($tableName, $targetTableName);
+		return parent::join($tableName, $targetTableName);
 	}
 
 	/**
@@ -381,7 +381,7 @@ class News_Model_Query extends Mmi_Dao_Query {
 	 * @return News_Model_Query_Join
 	 */
 	public function joinLeft($tableName, $targetTableName = null) {
-		return $this->joinLeft($tableName, $targetTableName);
+		return parent::joinLeft($tableName, $targetTableName);
 	}
 
 }

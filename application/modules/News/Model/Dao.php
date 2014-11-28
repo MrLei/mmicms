@@ -1,12 +1,11 @@
 <?php
 
 /**
- * @method News_Model_Query newQuery() newQuery() Zapytanie
+ * @method News_Model_Query newQuery() newQuery()
  */
 class News_Model_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'news';
-	protected static $_queryName = 'News_Model_Query';
 
 	public static function countLang($q) {
 		self::_langQuery($q);

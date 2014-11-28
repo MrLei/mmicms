@@ -43,12 +43,9 @@ class Mmi_Dao_Builder {
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
 		$className = $classPrefix . '_Dao';
+		$queryClassName = $classPrefix . '_Query';
 		$path = $pathPrefix . '/Dao.php';
 		self::_mkdirRecursive($path);
-		if (file_exists($path)) {
-			echo 'DAO exists.';
-			return;
-		}
 		$daoCode = '<?php' . "\n\n" .
 			'class ' .
 			$className .
@@ -58,6 +55,17 @@ class Mmi_Dao_Builder {
 			$tableName . '\';' .
 			"\n\n" .
 			'}';
+		if (file_exists($path)) {
+			$daoCode = file_get_contents($path);
+		}
+		$annotation = '/**' . "\n" .
+			' * @method ' . $queryClassName . ' newQuery() newQuery()' . "\n" .
+			' */' . "\n";
+		if (strpos($daoCode, '* @method ' . $queryClassName) !== false) {
+			echo 'DAO completed.';
+			return;
+		}
+		$daoCode = preg_replace('/(class [a-zA-Z0-9_]+ extends [a-zA-Z0-9_]+\s\{?\n?)/', $annotation . '$1' , $daoCode);
 		file_put_contents($path, $daoCode);
 	}
 
@@ -81,17 +89,21 @@ class Mmi_Dao_Builder {
 		if (file_exists($path)) {
 			$recordCode = file_get_contents($path);
 		}
-		if (strpos($recordCode, 'public $') !== false) {
-			echo 'RECORD exists.';
-			return;
-		}
-		$variables = '';
 		$structure = $daoClassName::getTableStructure();
 		if (empty($structure)) {
 			throw new Exception('Mmi_Dao_Builder: no table found, or table invalid in ' . $daoClassName);
 		}
+		$variables = "\n";
 		foreach ($structure as $fieldName => $fieldDetails) {
 			$variables .= "\t" . 'public $' . $fieldName . ";\n";
+		}
+		if (strpos($recordCode, $variables) !== false) {
+			echo 'RECORD completed.';
+			return;
+		}
+		if (strpos($recordCode, 'public $')) {
+			throw new Exception('RECORD fields invalid');
+			return;
 		}
 		$recordCode = preg_replace('/(class [a-zA-Z0-9_]+ extends [a-zA-Z0-9_]+\s\{?\n?)/', '$1' . $variables, $recordCode);
 		file_put_contents($path, $recordCode);
