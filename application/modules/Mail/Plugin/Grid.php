@@ -6,8 +6,8 @@ class Mail_Plugin_Grid extends Mmi_Grid {
 
 	public function init() {
 
-		$q = new Mmi_Dao_Query();
-		$this->setInitialQuery($q->orderDesc('id'));
+		$q = new Mail_Model_Query();
+		$this->setInitialQuery($q->orderDescId());
 
 		$this->addColumn('checkbox', 'active', array(
 			'label' => 'Wysłany',

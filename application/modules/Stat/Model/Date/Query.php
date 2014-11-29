@@ -16,6 +16,10 @@
  */
 class Stat_Model_Date_Query extends Mmi_Dao_Query {
 
+	public function __construct() {
+		return parent::__construct('Stat_Model_Date_Dao');
+	}
+
 	/**
 	 * @return Stat_Model_Date_Query_Field
 	 */

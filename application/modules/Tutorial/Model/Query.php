@@ -16,6 +16,10 @@
  */
 class Tutorial_Model_Query extends Mmi_Dao_Query {
 
+	public function __construct() {
+		return parent::__construct('Tutorial_Model_Dao');
+	}
+
 	/**
 	 * @return Tutorial_Model_Query_Field
 	 */

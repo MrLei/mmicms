@@ -15,12 +15,14 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 	public $keywords;
 	public $description;
 	public $uri;
-	public $independent;
-	public $nofollow;
-	public $blank;
 	public $visible;
 	public $dateStart;
 	public $dateEnd;
+	public $absolute;
+	public $independent;
+	public $nofollow;
+	public $blank;
+	public $https;
 	public $active;
 
 	public function init() {

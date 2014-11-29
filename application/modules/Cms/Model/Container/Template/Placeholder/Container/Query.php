@@ -16,6 +16,10 @@
  */
 class Cms_Model_Container_Template_Placeholder_Container_Query extends Mmi_Dao_Query {
 
+	public function __construct() {
+		return parent::__construct('Cms_Model_Container_Template_Placeholder_Container_Dao');
+	}
+
 	/**
 	 * @return Cms_Model_Container_Template_Placeholder_Container_Query_Field
 	 */

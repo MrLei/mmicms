@@ -190,7 +190,8 @@ class Mmi_Dao_Record_Ro {
 				$joinedRows[substr($key, 0, $underline)][substr($key, $underline + 2)] = $value;
 				continue;
 			}
-			$field = $this->_convertUnderscoreToCamelcase($key);
+			$dao = $this->_daoClass;
+			$field = $dao::convertUnderscoreToCamelcase($key);
 			if (property_exists($this, $field)) {
 				$this->$field = $value;
 				continue;
@@ -279,28 +280,6 @@ class Mmi_Dao_Record_Ro {
 			$bind[] = array($column, $values[$index]);
 		}
 		return $bind;
-	}
-
-	/**
-	 * Konwertuje podkreślenia na camelcase
-	 * @param string $value
-	 * @return string
-	 */
-	protected final function _convertUnderscoreToCamelcase($value) {
-		return preg_replace_callback('/\_([a-z0-9])/', function ($matches) {
-			return ucfirst($matches[1]);
-		}, $value);
-	}
-
-	/**
-	 * Konwertuje camelcase na podkreślenia
-	 * @param string $value
-	 * @return string
-	 */
-	protected final function _convertCamelcaseToUnderscore($value) {
-		return preg_replace_callback('/([A-Z])/', function ($matches) {
-			return '_' . lcfirst($matches[1]);
-		}, $value);
 	}
 
 }

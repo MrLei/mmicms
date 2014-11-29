@@ -31,12 +31,20 @@ class Mmi_Dao_Query {
 	 * @var Mmi_Dao_Query_Compile
 	 */
 	protected $_compile;
+	
+	/**
+	 * Nazwa klasy DAO
+	 * @var string
+	 */
+	protected $_daoClassName;
 
 	/**
 	 * Konstruktor tworzy nowe skompilowane zapytanie
+	 * @param string $daoClassName nazwa klasy DAO
 	 */
-	public function __construct() {
+	public function __construct($daoClassName) {
 		$this->_compile = new Mmi_Dao_Query_Compile();
+		$this->_daoClassName = $daoClassName;
 	}
 
 	/**
@@ -66,7 +74,7 @@ class Mmi_Dao_Query {
 	 * @return Mmi_Dao_Query
 	 */
 	public function orderAsc($fieldName, $tableName = null) {
-		$this->_compile->order[] = array($fieldName, 'ASC', $tableName);
+		$this->_compile->order[] = array($this->_prepareField($fieldName, $tableName), 'ASC', $tableName);
 		return $this;
 	}
 
@@ -77,7 +85,8 @@ class Mmi_Dao_Query {
 	 * @return Mmi_Dao_Query
 	 */
 	public function orderDesc($fieldName, $tableName = null) {
-		$this->_compile->order[] = array($fieldName, 'DESC', $tableName);
+
+		$this->_compile->order[] = array($this->_prepareField($fieldName, $tableName), 'DESC', $tableName);
 		return $this;
 	}
 
@@ -125,7 +134,7 @@ class Mmi_Dao_Query {
 	 * @return Mmi_Dao_Query_Field
 	 */
 	public function andField($fieldName, $tableName = null) {
-		return new Mmi_Dao_Query_Field($this, $fieldName, $tableName, 'AND');
+		return new Mmi_Dao_Query_Field($this, $this->_prepareField($fieldName, $tableName), $tableName, 'AND');
 	}
 
 	/**
@@ -145,7 +154,7 @@ class Mmi_Dao_Query {
 	 * @return Mmi_Dao_Query_Field
 	 */
 	public function orField($fieldName, $tableName = null) {
-		return new Mmi_Dao_Query_Field($this, $fieldName, $tableName, 'OR');
+		return new Mmi_Dao_Query_Field($this, $this->_prepareField($fieldName, $tableName), $tableName, 'OR');
 	}
 
 	/**
@@ -200,6 +209,25 @@ class Mmi_Dao_Query {
 	public function resetWhere() {
 		$this->_compile->bind = array();
 		return $this;
+	}
+	
+	/**
+	 * Przygotowuje nazwę pola do zapytania, konwertuje camelcase na podkreślenia
+	 * @param string $fieldName
+	 * @param string $tableName
+	 * @return string
+	 * @throws Exception
+	 */
+	protected final function _prepareField($fieldName, $tableName = null) {
+		$dao = $this->_daoClassName;
+		if ($dao::fieldInTable($fieldName)) {
+			return $fieldName;
+		}
+		$convertedFieldName = $dao::convertCamelcaseToUnderscore($fieldName);
+		if ($dao::fieldInTable($convertedFieldName)) {
+			return $convertedFieldName;
+		}
+		throw new Exception(get_called_class() . ': "' . $fieldName . '" not found in ' . ($tableName !== null ? '"' . $tableName . '" table' : '"' . $dao::getTableName() . '"' . ' table'));
 	}
 
 }

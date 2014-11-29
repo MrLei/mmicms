@@ -32,6 +32,9 @@ class Mmi_Dao_Builder {
 	 * @throws Exception
 	 */
 	public static function buildFromTableName($tableName) {
+		if ($tableName == 'DB_CHANGELOG') {
+			return;
+		}
 		self::_updateDao($tableName);
 		self::_updateQueryField($tableName);
 		self::_updateQueryJoin($tableName);
@@ -95,7 +98,7 @@ class Mmi_Dao_Builder {
 		}
 		$variables = "\n";
 		foreach ($structure as $fieldName => $fieldDetails) {
-			$variables .= "\t" . 'public $' . self::_convertUnderscoreToCamelcase($fieldName) . ";\n";
+			$variables .= "\t" . 'public $' . $daoClassName::convertUnderscoreToCamelcase($fieldName) . ";\n";
 		}
 		if (strpos(preg_replace('/\r\n/', "\n", $recordCode), $variables) !== false) {
 			echo 'RECORD for: ' . $tableName . ' completed.';
@@ -188,6 +191,9 @@ class Mmi_Dao_Builder {
 		if (empty($structure)) {
 			throw new Exception('Mmi_Dao_Builder: no table ' . $tableName . ' found, or table invalid in ' . $daoClassName);
 		}
+		$methods .= "\n\t" . 'public function __construct()' . " {\n"
+			. "\t\t" . 'return parent::__construct(\'' . $daoClassName. '\');' . "\n"
+			. "\t}\n";
 		foreach ($structure as $fieldName => $fieldDetails) {
 			$methods .= self::_queryMethod('where', $fieldName, $tableName);
 			$methods .= self::_queryMethod('andField', $fieldName, $tableName);
@@ -306,12 +312,6 @@ class Mmi_Dao_Builder {
 			}
 			mkdir($currentDir);
 		}
-	}
-	
-	protected static function _convertUnderscoreToCamelcase($value) {
-		return preg_replace_callback('/\_([a-z0-9])/', function ($matches) {
-			return ucfirst($matches[1]);
-		}, $value);
 	}
 
 }

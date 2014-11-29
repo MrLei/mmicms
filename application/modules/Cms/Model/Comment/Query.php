@@ -16,6 +16,10 @@
  */
 class Cms_Model_Comment_Query extends Mmi_Dao_Query {
 
+	public function __construct() {
+		return parent::__construct('Cms_Model_Comment_Dao');
+	}
+
 	/**
 	 * @return Cms_Model_Comment_Query_Field
 	 */

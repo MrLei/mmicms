@@ -16,6 +16,10 @@
  */
 class Mail_Model_Server_Query extends Mmi_Dao_Query {
 
+	public function __construct() {
+		return parent::__construct('Mail_Model_Server_Dao');
+	}
+
 	/**
 	 * @return Mail_Model_Server_Query_Field
 	 */

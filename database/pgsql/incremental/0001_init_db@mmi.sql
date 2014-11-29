@@ -245,7 +245,8 @@ CREATE TABLE cms_navigation (
 	absolute smallint NOT NULL DEFAULT 0,
 	independent smallint NOT NULL DEFAULT 0,
 	nofollow smallint NOT NULL DEFAULT 0,
-	blank smallint NOT NULL DEFAULT 0
+	blank smallint NOT NULL DEFAULT 0,
+	active smallint NOT NULL DEFAULT 1
 );
 
 CREATE SEQUENCE cms_navigation_id_seq
