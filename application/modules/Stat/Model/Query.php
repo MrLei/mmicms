@@ -16,6 +16,10 @@
  */
 class Stat_Model_Query extends Mmi_Dao_Query {
 
+	public function __construct() {
+		return parent::__construct('Stat_Model_Dao');
+	}
+
 	/**
 	 * @return Stat_Model_Query_Field
 	 */

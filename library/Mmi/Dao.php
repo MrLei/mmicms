@@ -31,6 +31,12 @@ class Mmi_Dao {
 	 * @var string
 	 */
 	protected static $_tableName;
+	
+	/**
+	 * Przechowuje strukturę bazy danych
+	 * @var array
+	 */
+	protected static $_tableStructure = array();
 
 	/**
 	 * Adapter DB
@@ -68,7 +74,29 @@ class Mmi_Dao {
 	 * Zabezpieczony konstruktor
 	 */
 	private final function __construct() {
-		
+		throw new Exception('DAO should be called statically');
+	}
+	
+	/**
+	 * Konwertuje podkreślenia na camelcase
+	 * @param string $value
+	 * @return string
+	 */
+	public static final function convertUnderscoreToCamelcase($value) {
+		return preg_replace_callback('/\_([a-z0-9])/', function ($matches) {
+			return ucfirst($matches[1]);
+		}, $value);
+	}
+
+	/**
+	 * Konwertuje camelcase na podkreślenia
+	 * @param string $value
+	 * @return string
+	 */
+	public static final function convertCamelcaseToUnderscore($value) {
+		return preg_replace_callback('/([A-Z])/', function ($matches) {
+			return '_' . lcfirst($matches[1]);
+		}, $value);
 	}
 
 	/**
@@ -266,6 +294,9 @@ class Mmi_Dao {
 		if ($tableName === null) {
 			$tableName = static::$_tableName;
 		}
+		if (isset(self::$_tableStructure[$tableName])) {
+			return self::$_tableStructure[$tableName];
+		} 
 		$cacheKey = 'Dao_structure_' . self::getAdapter()->getConfig()->name . '_' . $tableName;
 		if (static::$_cache !== null && (null !== ($structure = static::$_cache->load($cacheKey)))) {
 			return $structure;
@@ -274,7 +305,19 @@ class Mmi_Dao {
 		if (static::$_cache !== null) {
 			static::$_cache->save($structure, $cacheKey, 28800);
 		}
+		self::$_tableStructure[$tableName] = $structure;
 		return $structure;
+	}
+	
+	/**
+	 * Zwraca obecność pola w tabeli
+	 * @param string $fieldName nazwa pola
+	 * @param string $tableName opcjonalna nazwa tabeli
+	 * @return boolean
+	 */
+	public static final function fieldInTable($fieldName, $tableName = null) {
+		$structure = self::getTableStructure($tableName);
+		return isset($structure[$fieldName]);
 	}
 
 	/**
@@ -342,7 +385,7 @@ class Mmi_Dao {
 	 */
 	public static final function newQuery() {
 		$queryClassName = self::getQueryName();
-		return new $queryClassName();
+		return new $queryClassName(get_called_class());
 	}
 
 	/**

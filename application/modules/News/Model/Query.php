@@ -16,6 +16,10 @@
  */
 class News_Model_Query extends Mmi_Dao_Query {
 
+	public function __construct() {
+		return parent::__construct('News_Model_Dao');
+	}
+
 	/**
 	 * @return News_Model_Query_Field
 	 */

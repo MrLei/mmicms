@@ -16,6 +16,10 @@
  */
 class Cron_Model_Query extends Mmi_Dao_Query {
 
+	public function __construct() {
+		return parent::__construct('Cron_Model_Dao');
+	}
+
 	/**
 	 * @return Cron_Model_Query_Field
 	 */

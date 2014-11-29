@@ -243,12 +243,14 @@ CREATE TABLE cms_navigation (
     keywords text,
     description text,
     uri text,
-	independent smallint DEFAULT 0 NOT NULL,
-	nofollow smallint DEFAULT 0 NOT NULL,
-	blank smallint DEFAULT 0 NOT NULL,
     visible smallint DEFAULT 0 NOT NULL,
 	"dateStart" DATETIME,
 	"dateEnd" DATETIME,
+    "absolute" smallint DEFAULT 1 NOT NULL,
+    "independent" smallint DEFAULT 0 NOT NULL,
+    "nofollow" smallint DEFAULT 0 NOT NULL,
+	"blank" smallint DEFAULT 0 NOT NULL,
+	https smallint DEFAULT 1 NOT NULL,
 	active smallint DEFAULT 1 NOT NULL
 );
 

@@ -32,7 +32,7 @@ class Mail_Plugin_DefinitionGrid extends Mmi_Grid {
 			'label' => 'odpowiedz'
 		));
 
-		$this->addColumn('text', 'mail_server_id', array(
+		$this->addColumn('text', 'mailServerId', array(
 			'label' => 'id połączenia'
 		));
 
