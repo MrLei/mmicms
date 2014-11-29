@@ -92,7 +92,8 @@ class Mmi_Dao {
 		$q = ($q === null) ? self::newQuery() : $q;
 		$compile = $q->queryCompilation();
 		$result = self::getAdapter()->select(static::$_tableName, $compile->bind, $compile->order, $compile->limit, $compile->offset, self::_getFields($compile->joinSchema), $compile->joinSchema);
-		$collection = new Mmi_Dao_Record_Collection();
+		$collectionName = self::getCollectionName();
+		$collection = new $collectionName();
 		$recordName = self::getRecordName();
 		foreach ($result as $row) {
 			$record = new $recordName();
@@ -293,6 +294,17 @@ class Mmi_Dao {
 			return static::$_recordName;
 		}
 		return substr(get_called_class(), 0, -3) . 'Record';
+	}
+	
+	/**
+	 * Zwraca nazwę klasy zapytania
+	 * @return string
+	 */
+	public static final function getCollectionName() {
+		if (static::$_collectionName !== null) {
+			return static::$_collectionName;
+		}
+		return substr(get_called_class(), 0, -3) . 'Record_Collection';
 	}
 	
 	/**

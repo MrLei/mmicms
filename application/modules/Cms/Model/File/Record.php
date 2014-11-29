@@ -17,9 +17,8 @@ class Cms_Model_File_Record extends Mmi_Dao_Record {
 	public $sticky;
 	public $object;
 	public $objectId;
-	public $cms_auth_id;
+	public $cmsAuthId;
 	public $active;
-	public $description;
 
 	/**
 	 * Ustawia plik jako przyklejony w obrębie danego object+objectId

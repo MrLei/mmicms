@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @method Stat_Model_Query newQuery() newQuery()
+ */
 class Stat_Model_Dao extends Mmi_Dao {
 
 	public static $_tableName = 'stat';

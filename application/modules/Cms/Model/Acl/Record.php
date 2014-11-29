@@ -2,40 +2,11 @@
 
 class Cms_Model_Acl_Record extends Mmi_Dao_Record {
 
-	/**
-	 *
-	 * @var integer
-	 */
 	public $id;
-
-	/**
-	 *
-	 * @var integer
-	 */
-	public $cms_role_id;
-
-	/**
-	 *
-	 * @var string
-	 */
+	public $cmsRoleId;
 	public $module;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $controller;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $action;
-
-	/**
-	 *
-	 * @var string
-	 */
 	public $access;
 
 	public function save() {

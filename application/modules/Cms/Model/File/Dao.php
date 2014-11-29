@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @method Cms_Model_File_Query newQuery() newQuery()
+ */
 class Cms_Model_File_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_file';

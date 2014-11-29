@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @method Mail_Model_Server_Query newQuery() newQuery()
+ */
 class Mail_Model_Server_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'mail_server';

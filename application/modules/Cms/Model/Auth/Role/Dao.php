@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @method Cms_Model_Auth_Role_Query newQuery() newQuery()
+ */
 class Cms_Model_Auth_Role_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_auth_role';
@@ -23,8 +26,8 @@ class Cms_Model_Auth_Role_Dao extends Mmi_Dao {
 		self::find($q)->delete();
 		foreach ($roles as $roleId) {
 			$record = new Cms_Model_Auth_Role_Record();
-			$record->cms_auth_id = $cmsAuthId;
-			$record->cms_role_id = $roleId;
+			$record->cmsAuthId = $cmsAuthId;
+			$record->cmsRoleId = $roleId;
 			$record->save();
 		}
 	}

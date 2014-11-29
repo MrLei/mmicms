@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @method Cms_Model_Contact_Query newQuery() newQuery()
+ */
 class Cms_Model_Contact_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_contact';
