@@ -3,17 +3,17 @@
 class Cms_Model_Container_Template_Placeholder_Container_Record extends Mmi_Dao_Record {
 
 	public $id;
-	public $cms_container_id;
-	public $cms_container_template_placeholder_id;
+	public $cmsContainerId;
+	public $cmsContainerTemplatePlaceholderId;
 	public $module;
 	public $controller;
 	public $action;
 	public $params;
+	public $active;
 	public $marginTop;
-	public $marginLeft;
 	public $marginRight;
 	public $marginBottom;
-	public $active;
+	public $marginLeft;
 
 	public function save() {
 		$object = explode('_', $this->object);

@@ -11,7 +11,7 @@ class Cms_Model_Log_Record extends Mmi_Dao_Record {
 	public $objectId;
 	public $data;
 	public $success;
-	public $cms_auth_id;
+	public $cmsAuthId;
 	public $dateTime;
 
 }

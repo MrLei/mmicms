@@ -4,7 +4,7 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 
 	public $id;
 	public $lang;
-	public $parent_id;
+	public $parentId;
 	public $order;
 	public $module;
 	public $controller;
@@ -15,12 +15,10 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 	public $keywords;
 	public $description;
 	public $uri;
-	public $visible;
-	public $https;
-	public $absolute;
 	public $independent;
 	public $nofollow;
 	public $blank;
+	public $visible;
 	public $dateStart;
 	public $dateEnd;
 	public $active;

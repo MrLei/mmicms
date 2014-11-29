@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @method Cms_Model_Log_Query newQuery() newQuery()
+ */
 class Cms_Model_Log_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_log';

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @method Cms_Model_Navigation_Query newQuery() newQuery()
+ */
 class Cms_Model_Navigation_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_navigation';
@@ -45,7 +48,7 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 		self::_langQuery($q);
 		$objectArray = self::find($q)->toObjectArray();
 		foreach ($objectArray as $key => $record) {/* @var $record Cms_Model_Navigation_Record */
-			if ($record->parent_id != 0) {
+			if ($record->parentId != 0) {
 				continue;
 			}
 			$element = Mmi_Navigation_Config::newElement($record->id);
@@ -74,7 +77,7 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 
 	protected static function _buildChildren(Cms_Model_Navigation_Record $record, Mmi_Navigation_Config_Element $element, array $objectArray) {
 		foreach ($objectArray as $key => $child) {/* @var $child Cms_Model_Navigation_Record */
-			if ($child->parent_id != $record->id) {
+			if ($child->parentId != $record->id) {
 				continue;
 			}
 			$childElement = Mmi_Navigation_Config::newElement($child->id);

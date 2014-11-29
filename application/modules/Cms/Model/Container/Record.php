@@ -6,7 +6,7 @@ class Cms_Model_Container_Record extends Mmi_Dao_Record {
 	public $title;
 	public $serial;
 	public $uri;
-	public $cms_container_template_id;
+	public $cmsContainerTemplateId;
 
 	public function save() {
 		$uf = new Mmi_Filter_Url();

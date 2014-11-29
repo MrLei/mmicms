@@ -185,17 +185,19 @@ class Mmi_Dao_Record_Ro {
 	public function setFromArray(array $row = array()) {
 		$joinedRows = array();
 		foreach ($row as $key => $value) {
-			$underline = strpos($key, '__');
-			if (false !== $underline) {
+			//przyjęcie pól z joinów
+			if (false !== ($underline = strpos($key, '__'))) {
 				$joinedRows[substr($key, 0, $underline)][substr($key, $underline + 2)] = $value;
 				continue;
 			}
-			if (property_exists($this, $key)) {
-				$this->$key = $value;
+			$field = $this->_convertUnderscoreToCamelcase($key);
+			if (property_exists($this, $field)) {
+				$this->$field = $value;
 				continue;
 			}
-			$this->setOption($key, $value);
+			$this->setOption($field, $value);
 		}
+		//podpięcie joinów pod główny rekord
 		foreach ($joinedRows as $tableName => $rows) {
 			$recordName = Mmi_Dao::getRecordNameByTable($tableName);
 			$record = new $recordName;
@@ -220,7 +222,7 @@ class Mmi_Dao_Record_Ro {
 		$this->_state[$field] = $this->$field;
 		return $this;
 	}
-	
+
 	/**
 	 * Zwraca czy zmodyfikowano pole
 	 * @param string $field nazwa pola
@@ -277,6 +279,28 @@ class Mmi_Dao_Record_Ro {
 			$bind[] = array($column, $values[$index]);
 		}
 		return $bind;
+	}
+
+	/**
+	 * Konwertuje podkreślenia na camelcase
+	 * @param string $value
+	 * @return string
+	 */
+	protected final function _convertUnderscoreToCamelcase($value) {
+		return preg_replace_callback('/\_([a-z0-9])/', function ($matches) {
+			return ucfirst($matches[1]);
+		}, $value);
+	}
+
+	/**
+	 * Konwertuje camelcase na podkreślenia
+	 * @param string $value
+	 * @return string
+	 */
+	protected final function _convertCamelcaseToUnderscore($value) {
+		return preg_replace_callback('/([A-Z])/', function ($matches) {
+			return '_' . lcfirst($matches[1]);
+		}, $value);
 	}
 
 }

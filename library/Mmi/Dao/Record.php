@@ -110,7 +110,10 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 		$structure = $dao::getTableStructure();
 		foreach ($this as $field => $value) {
 			if (!isset($structure[$field])) {
-				continue;
+				$field = $this->_convertCamelcaseToUnderscore($field);
+				if (!isset($structure[$field])) {
+					continue;
+				}
 			}
 			if ($modifiedOnly && !$this->isModified($field)) {
 				continue;

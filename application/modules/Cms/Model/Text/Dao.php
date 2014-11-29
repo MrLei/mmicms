@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @method Cms_Model_Text_Query newQuery() newQuery()
+ */
 class Cms_Model_Text_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_text';
