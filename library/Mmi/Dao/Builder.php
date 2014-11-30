@@ -96,16 +96,19 @@ class Mmi_Dao_Builder {
 		if (empty($structure)) {
 			throw new Exception('Mmi_Dao_Builder: no table found, or table invalid in ' . $daoClassName);
 		}
-		$variables = "\n";
+		$variableString = "\n";
 		foreach ($structure as $fieldName => $fieldDetails) {
-			$variables .= "\t" . 'public $' . $daoClassName::convertUnderscoreToCamelcase($fieldName) . ";\n";
+			$variables[] = $daoClassName::convertUnderscoreToCamelcase($fieldName);
+			$variableString .= "\t" . 'public $' . $daoClassName::convertUnderscoreToCamelcase($fieldName) . ";\n";
 		}
-		if (strpos(preg_replace('/\r\n/', "\n", $recordCode), $variables) !== false) {
+		if (preg_match_all('/\tpublic \$([a-zA-Z0-9]+)[\;|\s\=]/', $recordCode, $codeVariables) && isset($codeVariables[1])) {
+			$diffRecord = array_diff($codeVariables[1], $variables);
+			$diffDb = array_diff($variables, $codeVariables[1]);
+			if (!empty($diffRecord) || !empty($diffDb)) {
+				throw new Exception('RECORD for: "' . $tableName . '" has invalid fields: ' . implode(', ', $diffRecord) . ', and missing: ' .  implode(',', $diffDb));
+			}
 			echo 'RECORD for: ' . $tableName . ' completed.';
 			return;
-		}
-		if (strpos($recordCode, 'public $')) {
-			throw new Exception('RECORD for: ' . $tableName . ' has invalid fields');
 		}
 		$recordCode = preg_replace('/(class [a-zA-Z0-9_]+ extends [a-zA-Z0-9_]+\s\{?\r?\n?)/', '$1' . $variables, $recordCode);
 		file_put_contents($path, $recordCode);
