@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @method News_Model_Query newQuery() newQuery()
+ * @method News_Model_Query newQuery() newQuery() Nowe zapytanie
  */
 class News_Model_Dao extends Mmi_Dao {
 
