@@ -176,6 +176,27 @@ class Mmi_Dao_Query {
 	public function joinLeft($tableName, $targetTableName = null) {
 		return new Mmi_Dao_Query_Join($this, $tableName, 'LEFT JOIN', $targetTableName);
 	}
+	
+	/**
+	 * Pobiera wszystkie rekordy i zwraca ich kolekcję
+	 * @param Mmi_Dao_Query $q Obiekt zapytania
+	 * @return Mmi_Dao_Record_Collection
+	 */
+	public final function find() {
+		$compile = $this->queryCompilation();
+		$dao = $this->_daoClassName;
+		$result = $dao::getAdapter()->select($dao::getTableName(), $compile->bind, $compile->order, $compile->limit, $compile->offset, $this->_getFields($compile->joinSchema), $compile->joinSchema);
+		$collectionName = $dao::getCollectionName();
+		$collection = new $collectionName();
+		$recordName = $dao::getRecordName();
+		foreach ($result as $row) {
+			$record = new $recordName();
+			/* @var $record Mmi_Dao_Record */
+			$record->setFromArray($row)->clearModified()->setNew(false);
+			$collection->append($record);
+		}
+		return $collection;
+	}
 
 	/**
 	 * Zwraca skompilowane zapytanie
@@ -228,6 +249,30 @@ class Mmi_Dao_Query {
 			return $convertedFieldName;
 		}
 		throw new Exception(get_called_class() . ': "' . $fieldName . '" not found in ' . ($tableName !== null ? '"' . $tableName . '" table' : '"' . $dao::getTableName() . '"' . ' table'));
+	}
+	
+	/**
+	 * Zwraca pola do selecta
+	 * @param array $joinSchema
+	 * @return string
+	 */
+	protected function _getFields($joinSchema) {
+		if (empty($joinSchema)) {
+			return array('*');
+		}
+		$fields = array();
+		$mainStructure = $dao::getTableStructure();
+		foreach ($mainStructure as $field => $info) {
+			$fields[] = $dao::getTableName() . '.' . $field;
+		}
+		foreach ($joinSchema as $tableName => $schema) {
+			unset($schema);
+			$structure = $dao::getTableStructure($tableName);
+			foreach ($structure as $field => $info) {
+				$fields[] = $tableName . '.' . $field . ' AS ' . $tableName . '__' . $field;
+			}
+		}
+		return $fields;
 	}
 
 }
