@@ -110,7 +110,7 @@ class Mmi_Dao_Builder {
 			echo 'RECORD for: ' . $tableName . ' completed.';
 			return;
 		}
-		$recordCode = preg_replace('/(class [a-zA-Z0-9_]+ extends [a-zA-Z0-9_]+\s\{?\r?\n?)/', '$1' . $variables, $recordCode);
+		$recordCode = preg_replace('/(class [a-zA-Z0-9_]+ extends [a-zA-Z0-9_]+\s\{?\r?\n?)/', '$1' . $variableString, $recordCode);
 		file_put_contents($path, $recordCode);
 	}
 

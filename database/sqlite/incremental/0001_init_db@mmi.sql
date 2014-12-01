@@ -97,6 +97,8 @@ CREATE TABLE cms_contact (
     reply text,
     cms_auth_id_reply integer,
     uri character varying(255),
+	"name" character varying(255),
+	phone character varying(255),
     email character varying(128) NOT NULL,
     ip character varying(16),
     cms_auth_id integer,
