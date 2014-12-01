@@ -98,8 +98,8 @@ class Mmi_Dao_Builder {
 		}
 		$variableString = "\n";
 		foreach ($structure as $fieldName => $fieldDetails) {
-			$variables[] = $daoClassName::convertUnderscoreToCamelcase($fieldName);
-			$variableString .= "\t" . 'public $' . $daoClassName::convertUnderscoreToCamelcase($fieldName) . ";\n";
+			$variables[] = Mmi_Dao::convertUnderscoreToCamelcase($fieldName);
+			$variableString .= "\t" . 'public $' . Mmi_Dao::convertUnderscoreToCamelcase($fieldName) . ";\n";
 		}
 		if (preg_match_all('/\tpublic \$([a-zA-Z0-9]+)[\;|\s\=]/', $recordCode, $codeVariables) && isset($codeVariables[1])) {
 			$diffRecord = array_diff($codeVariables[1], $variables);
@@ -198,7 +198,7 @@ class Mmi_Dao_Builder {
 			. "\t\t" . 'return parent::__construct(\'' . $daoClassName. '\');' . "\n"
 			. "\t}\n";
 		foreach ($structure as $fieldName => $fieldDetails) {
-			$fieldName = $daoClassName::convertUnderscoreToCamelcase($fieldName);
+			$fieldName = Mmi_Dao::convertUnderscoreToCamelcase($fieldName);
 			$methods .= self::_queryMethod('where', $fieldName, $tableName);
 			$methods .= self::_queryMethod('andField', $fieldName, $tableName);
 			$methods .= self::_queryMethod('orField', $fieldName, $tableName);

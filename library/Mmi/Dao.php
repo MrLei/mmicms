@@ -139,7 +139,7 @@ class Mmi_Dao {
 	/**
 	 * Ustawia adapter bazodanowy
 	 * @param Mmi_Db_Adapter_Pdo_Abstract $adapter
-	 * @return \Mmi_Db_Adapter_Pdo_Abstract
+	 * @return Mmi_Db_Adapter_Pdo_Abstract
 	 */
 	public static final function setAdapter(Mmi_Db_Adapter_Pdo_Abstract $adapter) {
 		static::$_adapter = $adapter;
