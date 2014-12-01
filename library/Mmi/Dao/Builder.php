@@ -62,7 +62,7 @@ class Mmi_Dao_Builder {
 			$daoCode = file_get_contents($path);
 		}
 		$annotation = '/**' . "\n" .
-			' * @method ' . $queryClassName . ' newQuery() newQuery()' . "\n" .
+			' * @method ' . $className . ' newQuery() newQuery()' . "\n" .
 			' */' . "\n";
 		if (strpos($daoCode, '* @method ' . $queryClassName) !== false) {
 			echo 'DAO completed.';

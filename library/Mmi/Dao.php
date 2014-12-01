@@ -100,58 +100,6 @@ class Mmi_Dao {
 	}
 
 	/**
-	 * Zwraca ilość rekordów o podanych parametrach
-	 * @param Mmi_Dao_Query $q Obiekt zapytania
-	 * @return int
-	 */
-	public static final function count(Mmi_Dao_Query $q = null) {
-		$q = ($q === null) ? self::newQuery() : $q;
-		$compile = $q->queryCompilation();
-		$result = self::getAdapter()->select(static::$_tableName, $compile->bind, array(), null, null, array('COUNT(*)'), $compile->joinSchema);
-		return isset($result[0]) ? current($result[0]) : 0;
-	}
-
-	/**
-	 * Pobiera wszystkie rekordy i zwraca ich kolekcję
-	 * @param Mmi_Dao_Query $q Obiekt zapytania
-	 * @return Mmi_Dao_Record_Collection
-	 */
-	public static final function find(Mmi_Dao_Query $q = null) {
-		$q = ($q === null) ? self::newQuery() : $q;
-		$compile = $q->queryCompilation();
-		$result = self::getAdapter()->select(static::$_tableName, $compile->bind, $compile->order, $compile->limit, $compile->offset, self::_getFields($compile->joinSchema), $compile->joinSchema);
-		$collectionName = self::getCollectionName();
-		$collection = new $collectionName();
-		$recordName = self::getRecordName();
-		foreach ($result as $row) {
-			$record = new $recordName();
-			/* @var $record Mmi_Dao_Record */
-			$record->setFromArray($row)->clearModified()->setNew(false);
-			$collection->append($record);
-		}
-		return $collection;
-	}
-
-	/**
-	 * Pobiera obiekt pierwszy ze zbioru
-	 * @param Mmi_Dao_Query $q Obiekt zapytania
-	 * @return Mmi_Dao_Record_Ro
-	 */
-	public static final function findFirst(Mmi_Dao_Query $q = null) {
-		$q = ($q === null) ? self::newQuery() : $q;
-		$compile = $q->queryCompilation();
-		$result = self::getAdapter()->select(static::$_tableName, $compile->bind, $compile->order, 1, $compile->offset, self::_getFields($compile->joinSchema), $compile->joinSchema);
-		if (!is_array($result) || !isset($result[0])) {
-			return null;
-		}
-		$recordName = self::getRecordName();
-		/* @var $record Mmi_Dao_Record_Ro */
-		$record = new $recordName;
-		$record->setFromArray($result[0])->clearModified()->setNew(false);
-		return $record;
-	}
-
-	/**
 	 * Pobiera obiekt po kluczu głównym
 	 * @param mixed $id identyfikator
 	 * @return Mmi_Dao_Record_Ro
@@ -172,75 +120,6 @@ class Mmi_Dao {
 	public static final function findOrCreatePk($id) {
 		$recordName = self::getRecordName();
 		return new $recordName($id);
-	}
-
-	/**
-	 * Pobiera tabelę asocjacyjną klucz => wartość
-	 * @param string $keyName nazwa klucza
-	 * @param string $valueName nazwa wartości
- 	 * @param Mmi_Dao_Query $q Obiekt zapytania
-	 * @return array tablica klucz wartość
-	 */
-	public static final function findPairs($keyName, $valueName, Mmi_Dao_Query $q = null) {
-		$q = ($q === null) ? self::newQuery() : $q;
-		$compile = $q->queryCompilation();
-		$data = self::getAdapter()->select(static::$_tableName, $compile->bind, $compile->order, $compile->limit, $compile->offset, array($keyName, $valueName), $compile->joinSchema);
-		$kv = array();
-		foreach ($data as $line) {
-			if (count($line) == 1) {
-				$value = current($line);
-				if (is_array($value) && count($value) == 2) {
-					$kv[$value[0]] = $value[1];
-					continue;
-				}
-				continue;
-			}
-			$kv[current($line)] = next($line);
-		}
-		return $kv;
-	}
-
-	/**
-	 * Pobiera wartość maksymalną ze zbioru rekordów
-	 * @param string $keyName nazwa klucza
-	 * @param Mmi_Dao_Query $q Obiekt zapytania
-	 * @return array mixed wartość maksymalna
-	 */
-	public static final function findMax($keyName, Mmi_Dao_Query $q = null) {
-		$q = ($q === null) ? self::newQuery() : $q;
-		$compile = $q->queryCompilation();
-		$result = self::getAdapter()->select(static::$_tableName, $compile->bind, array(), 1, 0, array('MAX(' . self::getAdapter()->prepareField($keyName) . ')'), $compile->joinSchema);
-		return isset($result[0]) ? current($result[0]) : null;
-	}
-	
-	/**
-	 * Pobiera wartość minimalną ze zbioru rekordów
-	 * @param string $keyName nazwa klucza
-	 * @param Mmi_Dao_Query $q Obiekt zapytania
-	 * @return array mixed wartość minimalna
-	 */
-	public static final function findMin($keyName, Mmi_Dao_Query $q = null) {
-		$q = ($q === null) ? self::newQuery() : $q;
-		$compile = $q->queryCompilation();
-		$result = self::getAdapter()->select(static::$_tableName, $compile->bind, array(), 1, 0, array('MIN(' . self::getAdapter()->prepareField($keyName) . ')'), $compile->joinSchema);
-		return isset($result[0]) ? current($result[0]) : null;
-	}
-
-	/**
-	 * Pobiera unikalne wartości ze zbioru rekordów
-	 * @param string $keyName nazwa klucza
-	 * @param Mmi_Dao_Query $q Obiekt zapytania
-	 * @return array mixed wartość maksymalna
-	 */
-	public static final function findUnique($keyName, Mmi_Dao_Query $q = null) {
-		$q = ($q === null) ? self::newQuery() : $q;
-		$compile = $q->queryCompilation();
-		$data = self::getAdapter()->select(static::$_tableName, $compile->bind, $compile->order, $compile->limit, $compile->offset, array('DISTINCT(' . self::getAdapter()->prepareField($keyName) . ')'), $compile->joinSchema);
-		$result = array();
-		foreach ($data as $line) {
-			$result[] = current($line);
-		}
-		return $result;
 	}
 
 	/**
@@ -399,30 +278,6 @@ class Mmi_Dao {
 	public static final function newQuery() {
 		$queryClassName = self::getQueryName();
 		return new $queryClassName(get_called_class());
-	}
-
-	/**
-	 * Zwraca pola do selecta
-	 * @param array $joinSchema
-	 * @return string
-	 */
-	protected static function _getFields($joinSchema) {
-		if (empty($joinSchema)) {
-			return array('*');
-		}
-		$fields = array();
-		$mainStructure = self::getTableStructure();
-		foreach ($mainStructure as $field => $info) {
-			$fields[] = self::getTableName() . '.' . $field;
-		}
-		foreach ($joinSchema as $tableName => $schema) {
-			unset($schema);
-			$structure = self::getTableStructure($tableName);
-			foreach ($structure as $field => $info) {
-				$fields[] = $tableName . '.' . $field . ' AS ' . $tableName . '__' . $field;
-			}
-		}
-		return $fields;
 	}
 
 }
