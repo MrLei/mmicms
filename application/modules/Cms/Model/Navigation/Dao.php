@@ -42,11 +42,12 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 	 * @param Mmi_Navigation_Config $config
 	 */
 	public static function decorateConfiguration(Mmi_Navigation_Config $config) {
-		$q = self::newQuery()
-			->orderAsc('parent_id')
-			->orderAsc('order');
-		self::_langQuery($q);
-		$objectArray = self::find($q)->toObjectArray();
+		$objectArray = self::_langQuery(self::newQuery()
+				->orderAsc('parent_id')
+				->orderAsc('order')
+			)
+			->find()
+			->toObjectArray();
 		foreach ($objectArray as $key => $record) {/* @var $record Cms_Model_Navigation_Record */
 			if ($record->parentId != 0) {
 				continue;

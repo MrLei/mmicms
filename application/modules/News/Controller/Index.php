@@ -17,18 +17,24 @@ class News_Controller_Index extends Mmi_Controller_Action {
 			$pages = (int) $this->pages;
 		}
 		$paginator->setRowsPerPage($pages);
-		$paginator->setRowsCount(News_Model_Dao::countActive());
-		$this->view->news = News_Model_Dao::findActive($paginator->getLimit(), $paginator->getOffset());
+		$paginator->setRowsCount(News_Model_Dao::activeQuery()->count());
+		$this->view->news = News_Model_Dao::activeQuery()
+			->limit($paginator->getLimit())
+			->offset($paginator->getOffset())
+			->find();
 		$this->view->paginator = $paginator;
 	}
 
 	public function topAction() {
 		$limit = $this->limit ? intval($this->limit) : 5;
-		$this->view->news = News_Model_Dao::findActive($limit);
+		$this->view->news = News_Model_Dao::activeQuery()
+			->limit($limit)
+			->find();
 	}
 
 	public function displayAction() {
-		$this->view->item = News_Model_Dao::findFirstActiveByUri($this->uri);
+		$this->view->item = News_Model_Dao::activeByUriQuery($this->uri)
+			->findFirst();
 		if ($this->view->item === null) {
 			$this->_helper->redirector('index', 'index', 'news', array(), true);
 		}
