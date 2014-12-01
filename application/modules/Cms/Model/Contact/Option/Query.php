@@ -91,6 +91,41 @@ class Cms_Model_Contact_Option_Query extends Mmi_Dao_Query {
 	}
 
 	/**
+	 * @return Cms_Model_Contact_Option_Query_Field
+	 */
+	public function whereSendTo() {
+		return $this->where('sendTo');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Option_Query_Field
+	 */
+	public function andFieldSendTo() {
+		return $this->andField('sendTo');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Option_Query_Field
+	 */
+	public function orFieldSendTo() {
+		return $this->orField('sendTo');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Option_Query_Field
+	 */
+	public function orderAscSendTo() {
+		return $this->orderAsc('sendTo');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Option_Query_Field
+	 */
+	public function orderDescSendTo() {
+		return $this->orderDesc('sendTo');
+	}
+
+	/**
 	 * @param string $tableName nazwa tabeli
 	 * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć
 	 * @return Cms_Model_Contact_Option_Query_Join

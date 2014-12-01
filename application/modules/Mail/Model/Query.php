@@ -58,36 +58,36 @@ class Mail_Model_Query extends Mmi_Dao_Query {
 	/**
 	 * @return Mail_Model_Query_Field
 	 */
-	public function whereMail_definition_id() {
-		return $this->where('mail_definition_id');
+	public function whereMailDefinitionId() {
+		return $this->where('mailDefinitionId');
 	}
 
 	/**
 	 * @return Mail_Model_Query_Field
 	 */
-	public function andFieldMail_definition_id() {
-		return $this->andField('mail_definition_id');
+	public function andFieldMailDefinitionId() {
+		return $this->andField('mailDefinitionId');
 	}
 
 	/**
 	 * @return Mail_Model_Query_Field
 	 */
-	public function orFieldMail_definition_id() {
-		return $this->orField('mail_definition_id');
+	public function orFieldMailDefinitionId() {
+		return $this->orField('mailDefinitionId');
 	}
 
 	/**
 	 * @return Mail_Model_Query_Field
 	 */
-	public function orderAscMail_definition_id() {
-		return $this->orderAsc('mail_definition_id');
+	public function orderAscMailDefinitionId() {
+		return $this->orderAsc('mailDefinitionId');
 	}
 
 	/**
 	 * @return Mail_Model_Query_Field
 	 */
-	public function orderDescMail_definition_id() {
-		return $this->orderDesc('mail_definition_id');
+	public function orderDescMailDefinitionId() {
+		return $this->orderDesc('mailDefinitionId');
 	}
 
 	/**

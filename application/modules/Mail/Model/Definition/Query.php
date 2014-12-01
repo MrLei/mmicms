@@ -93,36 +93,36 @@ class Mail_Model_Definition_Query extends Mmi_Dao_Query {
 	/**
 	 * @return Mail_Model_Definition_Query_Field
 	 */
-	public function whereMail_server_id() {
-		return $this->where('mail_server_id');
+	public function whereMailServerId() {
+		return $this->where('mailServerId');
 	}
 
 	/**
 	 * @return Mail_Model_Definition_Query_Field
 	 */
-	public function andFieldMail_server_id() {
-		return $this->andField('mail_server_id');
+	public function andFieldMailServerId() {
+		return $this->andField('mailServerId');
 	}
 
 	/**
 	 * @return Mail_Model_Definition_Query_Field
 	 */
-	public function orFieldMail_server_id() {
-		return $this->orField('mail_server_id');
+	public function orFieldMailServerId() {
+		return $this->orField('mailServerId');
 	}
 
 	/**
 	 * @return Mail_Model_Definition_Query_Field
 	 */
-	public function orderAscMail_server_id() {
-		return $this->orderAsc('mail_server_id');
+	public function orderAscMailServerId() {
+		return $this->orderAsc('mailServerId');
 	}
 
 	/**
 	 * @return Mail_Model_Definition_Query_Field
 	 */
-	public function orderDescMail_server_id() {
-		return $this->orderDesc('mail_server_id');
+	public function orderDescMailServerId() {
+		return $this->orderDesc('mailServerId');
 	}
 
 	/**

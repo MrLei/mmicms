@@ -338,36 +338,36 @@ class Cms_Model_Log_Query extends Mmi_Dao_Query {
 	/**
 	 * @return Cms_Model_Log_Query_Field
 	 */
-	public function whereCms_auth_id() {
-		return $this->where('cms_auth_id');
+	public function whereCmsAuthId() {
+		return $this->where('cmsAuthId');
 	}
 
 	/**
 	 * @return Cms_Model_Log_Query_Field
 	 */
-	public function andFieldCms_auth_id() {
-		return $this->andField('cms_auth_id');
+	public function andFieldCmsAuthId() {
+		return $this->andField('cmsAuthId');
 	}
 
 	/**
 	 * @return Cms_Model_Log_Query_Field
 	 */
-	public function orFieldCms_auth_id() {
-		return $this->orField('cms_auth_id');
+	public function orFieldCmsAuthId() {
+		return $this->orField('cmsAuthId');
 	}
 
 	/**
 	 * @return Cms_Model_Log_Query_Field
 	 */
-	public function orderAscCms_auth_id() {
-		return $this->orderAsc('cms_auth_id');
+	public function orderAscCmsAuthId() {
+		return $this->orderAsc('cmsAuthId');
 	}
 
 	/**
 	 * @return Cms_Model_Log_Query_Field
 	 */
-	public function orderDescCms_auth_id() {
-		return $this->orderDesc('cms_auth_id');
+	public function orderDescCmsAuthId() {
+		return $this->orderDesc('cmsAuthId');
 	}
 
 	/**

@@ -93,36 +93,36 @@ class Cms_Model_Navigation_Query extends Mmi_Dao_Query {
 	/**
 	 * @return Cms_Model_Navigation_Query_Field
 	 */
-	public function whereParent_id() {
-		return $this->where('parent_id');
+	public function whereParentId() {
+		return $this->where('parentId');
 	}
 
 	/**
 	 * @return Cms_Model_Navigation_Query_Field
 	 */
-	public function andFieldParent_id() {
-		return $this->andField('parent_id');
+	public function andFieldParentId() {
+		return $this->andField('parentId');
 	}
 
 	/**
 	 * @return Cms_Model_Navigation_Query_Field
 	 */
-	public function orFieldParent_id() {
-		return $this->orField('parent_id');
+	public function orFieldParentId() {
+		return $this->orField('parentId');
 	}
 
 	/**
 	 * @return Cms_Model_Navigation_Query_Field
 	 */
-	public function orderAscParent_id() {
-		return $this->orderAsc('parent_id');
+	public function orderAscParentId() {
+		return $this->orderAsc('parentId');
 	}
 
 	/**
 	 * @return Cms_Model_Navigation_Query_Field
 	 */
-	public function orderDescParent_id() {
-		return $this->orderDesc('parent_id');
+	public function orderDescParentId() {
+		return $this->orderDesc('parentId');
 	}
 
 	/**
@@ -513,71 +513,36 @@ class Cms_Model_Navigation_Query extends Mmi_Dao_Query {
 	/**
 	 * @return Cms_Model_Navigation_Query_Field
 	 */
-	public function whereDateStart() {
-		return $this->where('dateStart');
+	public function whereHttps() {
+		return $this->where('https');
 	}
 
 	/**
 	 * @return Cms_Model_Navigation_Query_Field
 	 */
-	public function andFieldDateStart() {
-		return $this->andField('dateStart');
+	public function andFieldHttps() {
+		return $this->andField('https');
 	}
 
 	/**
 	 * @return Cms_Model_Navigation_Query_Field
 	 */
-	public function orFieldDateStart() {
-		return $this->orField('dateStart');
+	public function orFieldHttps() {
+		return $this->orField('https');
 	}
 
 	/**
 	 * @return Cms_Model_Navigation_Query_Field
 	 */
-	public function orderAscDateStart() {
-		return $this->orderAsc('dateStart');
+	public function orderAscHttps() {
+		return $this->orderAsc('https');
 	}
 
 	/**
 	 * @return Cms_Model_Navigation_Query_Field
 	 */
-	public function orderDescDateStart() {
-		return $this->orderDesc('dateStart');
-	}
-
-	/**
-	 * @return Cms_Model_Navigation_Query_Field
-	 */
-	public function whereDateEnd() {
-		return $this->where('dateEnd');
-	}
-
-	/**
-	 * @return Cms_Model_Navigation_Query_Field
-	 */
-	public function andFieldDateEnd() {
-		return $this->andField('dateEnd');
-	}
-
-	/**
-	 * @return Cms_Model_Navigation_Query_Field
-	 */
-	public function orFieldDateEnd() {
-		return $this->orField('dateEnd');
-	}
-
-	/**
-	 * @return Cms_Model_Navigation_Query_Field
-	 */
-	public function orderAscDateEnd() {
-		return $this->orderAsc('dateEnd');
-	}
-
-	/**
-	 * @return Cms_Model_Navigation_Query_Field
-	 */
-	public function orderDescDateEnd() {
-		return $this->orderDesc('dateEnd');
+	public function orderDescHttps() {
+		return $this->orderDesc('https');
 	}
 
 	/**
@@ -723,36 +688,71 @@ class Cms_Model_Navigation_Query extends Mmi_Dao_Query {
 	/**
 	 * @return Cms_Model_Navigation_Query_Field
 	 */
-	public function whereHttps() {
-		return $this->where('https');
+	public function whereDateStart() {
+		return $this->where('dateStart');
 	}
 
 	/**
 	 * @return Cms_Model_Navigation_Query_Field
 	 */
-	public function andFieldHttps() {
-		return $this->andField('https');
+	public function andFieldDateStart() {
+		return $this->andField('dateStart');
 	}
 
 	/**
 	 * @return Cms_Model_Navigation_Query_Field
 	 */
-	public function orFieldHttps() {
-		return $this->orField('https');
+	public function orFieldDateStart() {
+		return $this->orField('dateStart');
 	}
 
 	/**
 	 * @return Cms_Model_Navigation_Query_Field
 	 */
-	public function orderAscHttps() {
-		return $this->orderAsc('https');
+	public function orderAscDateStart() {
+		return $this->orderAsc('dateStart');
 	}
 
 	/**
 	 * @return Cms_Model_Navigation_Query_Field
 	 */
-	public function orderDescHttps() {
-		return $this->orderDesc('https');
+	public function orderDescDateStart() {
+		return $this->orderDesc('dateStart');
+	}
+
+	/**
+	 * @return Cms_Model_Navigation_Query_Field
+	 */
+	public function whereDateEnd() {
+		return $this->where('dateEnd');
+	}
+
+	/**
+	 * @return Cms_Model_Navigation_Query_Field
+	 */
+	public function andFieldDateEnd() {
+		return $this->andField('dateEnd');
+	}
+
+	/**
+	 * @return Cms_Model_Navigation_Query_Field
+	 */
+	public function orFieldDateEnd() {
+		return $this->orField('dateEnd');
+	}
+
+	/**
+	 * @return Cms_Model_Navigation_Query_Field
+	 */
+	public function orderAscDateEnd() {
+		return $this->orderAsc('dateEnd');
+	}
+
+	/**
+	 * @return Cms_Model_Navigation_Query_Field
+	 */
+	public function orderDescDateEnd() {
+		return $this->orderDesc('dateEnd');
 	}
 
 	/**

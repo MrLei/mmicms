@@ -58,36 +58,36 @@ class Cms_Model_Contact_Query extends Mmi_Dao_Query {
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function whereCms_contact_option_id() {
-		return $this->where('cms_contact_option_id');
+	public function whereCmsContactOptionId() {
+		return $this->where('cmsContactOptionId');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function andFieldCms_contact_option_id() {
-		return $this->andField('cms_contact_option_id');
+	public function andFieldCmsContactOptionId() {
+		return $this->andField('cmsContactOptionId');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function orFieldCms_contact_option_id() {
-		return $this->orField('cms_contact_option_id');
+	public function orFieldCmsContactOptionId() {
+		return $this->orField('cmsContactOptionId');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function orderAscCms_contact_option_id() {
-		return $this->orderAsc('cms_contact_option_id');
+	public function orderAscCmsContactOptionId() {
+		return $this->orderAsc('cmsContactOptionId');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function orderDescCms_contact_option_id() {
-		return $this->orderDesc('cms_contact_option_id');
+	public function orderDescCmsContactOptionId() {
+		return $this->orderDesc('cmsContactOptionId');
 	}
 
 	/**
@@ -198,36 +198,36 @@ class Cms_Model_Contact_Query extends Mmi_Dao_Query {
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function whereCms_auth_id_reply() {
-		return $this->where('cms_auth_id_reply');
+	public function whereCmsAuthIdReply() {
+		return $this->where('cmsAuthIdReply');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function andFieldCms_auth_id_reply() {
-		return $this->andField('cms_auth_id_reply');
+	public function andFieldCmsAuthIdReply() {
+		return $this->andField('cmsAuthIdReply');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function orFieldCms_auth_id_reply() {
-		return $this->orField('cms_auth_id_reply');
+	public function orFieldCmsAuthIdReply() {
+		return $this->orField('cmsAuthIdReply');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function orderAscCms_auth_id_reply() {
-		return $this->orderAsc('cms_auth_id_reply');
+	public function orderAscCmsAuthIdReply() {
+		return $this->orderAsc('cmsAuthIdReply');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function orderDescCms_auth_id_reply() {
-		return $this->orderDesc('cms_auth_id_reply');
+	public function orderDescCmsAuthIdReply() {
+		return $this->orderDesc('cmsAuthIdReply');
 	}
 
 	/**
@@ -263,76 +263,6 @@ class Cms_Model_Contact_Query extends Mmi_Dao_Query {
 	 */
 	public function orderDescUri() {
 		return $this->orderDesc('uri');
-	}
-
-	/**
-	 * @return Cms_Model_Contact_Query_Field
-	 */
-	public function whereName() {
-		return $this->where('name');
-	}
-
-	/**
-	 * @return Cms_Model_Contact_Query_Field
-	 */
-	public function andFieldName() {
-		return $this->andField('name');
-	}
-
-	/**
-	 * @return Cms_Model_Contact_Query_Field
-	 */
-	public function orFieldName() {
-		return $this->orField('name');
-	}
-
-	/**
-	 * @return Cms_Model_Contact_Query_Field
-	 */
-	public function orderAscName() {
-		return $this->orderAsc('name');
-	}
-
-	/**
-	 * @return Cms_Model_Contact_Query_Field
-	 */
-	public function orderDescName() {
-		return $this->orderDesc('name');
-	}
-
-	/**
-	 * @return Cms_Model_Contact_Query_Field
-	 */
-	public function wherePhone() {
-		return $this->where('phone');
-	}
-
-	/**
-	 * @return Cms_Model_Contact_Query_Field
-	 */
-	public function andFieldPhone() {
-		return $this->andField('phone');
-	}
-
-	/**
-	 * @return Cms_Model_Contact_Query_Field
-	 */
-	public function orFieldPhone() {
-		return $this->orField('phone');
-	}
-
-	/**
-	 * @return Cms_Model_Contact_Query_Field
-	 */
-	public function orderAscPhone() {
-		return $this->orderAsc('phone');
-	}
-
-	/**
-	 * @return Cms_Model_Contact_Query_Field
-	 */
-	public function orderDescPhone() {
-		return $this->orderDesc('phone');
 	}
 
 	/**
@@ -408,36 +338,36 @@ class Cms_Model_Contact_Query extends Mmi_Dao_Query {
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function whereCms_auth_id() {
-		return $this->where('cms_auth_id');
+	public function whereCmsAuthId() {
+		return $this->where('cmsAuthId');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function andFieldCms_auth_id() {
-		return $this->andField('cms_auth_id');
+	public function andFieldCmsAuthId() {
+		return $this->andField('cmsAuthId');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function orFieldCms_auth_id() {
-		return $this->orField('cms_auth_id');
+	public function orFieldCmsAuthId() {
+		return $this->orField('cmsAuthId');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function orderAscCms_auth_id() {
-		return $this->orderAsc('cms_auth_id');
+	public function orderAscCmsAuthId() {
+		return $this->orderAsc('cmsAuthId');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function orderDescCms_auth_id() {
-		return $this->orderDesc('cms_auth_id');
+	public function orderDescCmsAuthId() {
+		return $this->orderDesc('cmsAuthId');
 	}
 
 	/**
@@ -473,6 +403,76 @@ class Cms_Model_Contact_Query extends Mmi_Dao_Query {
 	 */
 	public function orderDescActive() {
 		return $this->orderDesc('active');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Query_Field
+	 */
+	public function whereName() {
+		return $this->where('name');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Query_Field
+	 */
+	public function andFieldName() {
+		return $this->andField('name');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Query_Field
+	 */
+	public function orFieldName() {
+		return $this->orField('name');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Query_Field
+	 */
+	public function orderAscName() {
+		return $this->orderAsc('name');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Query_Field
+	 */
+	public function orderDescName() {
+		return $this->orderDesc('name');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Query_Field
+	 */
+	public function wherePhone() {
+		return $this->where('phone');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Query_Field
+	 */
+	public function andFieldPhone() {
+		return $this->andField('phone');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Query_Field
+	 */
+	public function orFieldPhone() {
+		return $this->orField('phone');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Query_Field
+	 */
+	public function orderAscPhone() {
+		return $this->orderAsc('phone');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Query_Field
+	 */
+	public function orderDescPhone() {
+		return $this->orderDesc('phone');
 	}
 
 	/**
