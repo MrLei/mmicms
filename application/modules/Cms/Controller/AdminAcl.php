@@ -3,7 +3,7 @@
 class Cms_Controller_AdminAcl extends MmiCms_Controller_Admin {
 
 	public function indexAction() {
-		$this->view->roles = Cms_Model_Role_Dao::find();
+		$this->view->roles = Cms_Model_Role_Dao::newQuery()->find();
 		if ($this->roleId) {
 			$this->view->rules = Cms_Model_Acl_Dao::findPairsByRoleId($this->roleId);
 			$reflection = new Admin_Model_Reflection();

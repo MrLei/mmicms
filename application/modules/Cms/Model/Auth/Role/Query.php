@@ -58,71 +58,71 @@ class Cms_Model_Auth_Role_Query extends Mmi_Dao_Query {
 	/**
 	 * @return Cms_Model_Auth_Role_Query_Field
 	 */
-	public function whereCms_auth_id() {
-		return $this->where('cms_auth_id');
+	public function whereCmsAuthId() {
+		return $this->where('cmsAuthId');
 	}
 
 	/**
 	 * @return Cms_Model_Auth_Role_Query_Field
 	 */
-	public function andFieldCms_auth_id() {
-		return $this->andField('cms_auth_id');
+	public function andFieldCmsAuthId() {
+		return $this->andField('cmsAuthId');
 	}
 
 	/**
 	 * @return Cms_Model_Auth_Role_Query_Field
 	 */
-	public function orFieldCms_auth_id() {
-		return $this->orField('cms_auth_id');
+	public function orFieldCmsAuthId() {
+		return $this->orField('cmsAuthId');
 	}
 
 	/**
 	 * @return Cms_Model_Auth_Role_Query_Field
 	 */
-	public function orderAscCms_auth_id() {
-		return $this->orderAsc('cms_auth_id');
+	public function orderAscCmsAuthId() {
+		return $this->orderAsc('cmsAuthId');
 	}
 
 	/**
 	 * @return Cms_Model_Auth_Role_Query_Field
 	 */
-	public function orderDescCms_auth_id() {
-		return $this->orderDesc('cms_auth_id');
+	public function orderDescCmsAuthId() {
+		return $this->orderDesc('cmsAuthId');
 	}
 
 	/**
 	 * @return Cms_Model_Auth_Role_Query_Field
 	 */
-	public function whereCms_role_id() {
-		return $this->where('cms_role_id');
+	public function whereCmsRoleId() {
+		return $this->where('cmsRoleId');
 	}
 
 	/**
 	 * @return Cms_Model_Auth_Role_Query_Field
 	 */
-	public function andFieldCms_role_id() {
-		return $this->andField('cms_role_id');
+	public function andFieldCmsRoleId() {
+		return $this->andField('cmsRoleId');
 	}
 
 	/**
 	 * @return Cms_Model_Auth_Role_Query_Field
 	 */
-	public function orFieldCms_role_id() {
-		return $this->orField('cms_role_id');
+	public function orFieldCmsRoleId() {
+		return $this->orField('cmsRoleId');
 	}
 
 	/**
 	 * @return Cms_Model_Auth_Role_Query_Field
 	 */
-	public function orderAscCms_role_id() {
-		return $this->orderAsc('cms_role_id');
+	public function orderAscCmsRoleId() {
+		return $this->orderAsc('cmsRoleId');
 	}
 
 	/**
 	 * @return Cms_Model_Auth_Role_Query_Field
 	 */
-	public function orderDescCms_role_id() {
-		return $this->orderDesc('cms_role_id');
+	public function orderDescCmsRoleId() {
+		return $this->orderDesc('cmsRoleId');
 	}
 
 	/**

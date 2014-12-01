@@ -163,36 +163,36 @@ class Cms_Model_Container_Query extends Mmi_Dao_Query {
 	/**
 	 * @return Cms_Model_Container_Query_Field
 	 */
-	public function whereCms_container_template_id() {
-		return $this->where('cms_container_template_id');
+	public function whereCmsContainerTemplateId() {
+		return $this->where('cmsContainerTemplateId');
 	}
 
 	/**
 	 * @return Cms_Model_Container_Query_Field
 	 */
-	public function andFieldCms_container_template_id() {
-		return $this->andField('cms_container_template_id');
+	public function andFieldCmsContainerTemplateId() {
+		return $this->andField('cmsContainerTemplateId');
 	}
 
 	/**
 	 * @return Cms_Model_Container_Query_Field
 	 */
-	public function orFieldCms_container_template_id() {
-		return $this->orField('cms_container_template_id');
+	public function orFieldCmsContainerTemplateId() {
+		return $this->orField('cmsContainerTemplateId');
 	}
 
 	/**
 	 * @return Cms_Model_Container_Query_Field
 	 */
-	public function orderAscCms_container_template_id() {
-		return $this->orderAsc('cms_container_template_id');
+	public function orderAscCmsContainerTemplateId() {
+		return $this->orderAsc('cmsContainerTemplateId');
 	}
 
 	/**
 	 * @return Cms_Model_Container_Query_Field
 	 */
-	public function orderDescCms_container_template_id() {
-		return $this->orderDesc('cms_container_template_id');
+	public function orderDescCmsContainerTemplateId() {
+		return $this->orderDesc('cmsContainerTemplateId');
 	}
 
 	/**
