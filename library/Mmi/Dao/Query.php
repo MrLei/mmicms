@@ -178,6 +178,17 @@ class Mmi_Dao_Query {
 	}
 	
 	/**
+	 * Pobiera ilość rekordów
+	 * @return int
+	 */
+	public final function count() {
+		$compile = $this->queryCompilation();
+		$dao = $this->_daoClassName;
+		$result = $dao::getAdapter()->select($dao::getTableName(), $compile->bind, array(), null, null, array('COUNT(*)'), $compile->joinSchema);
+		return isset($result[0]) ? current($result[0]) : 0;
+	}
+	
+	/**
 	 * Pobiera wszystkie rekordy i zwraca ich kolekcję
 	 * @param Mmi_Dao_Query $q Obiekt zapytania
 	 * @return Mmi_Dao_Record_Collection
@@ -196,17 +207,6 @@ class Mmi_Dao_Query {
 			$collection->append($record);
 		}
 		return $collection;
-	}
-	
-	/**
-	 * Pobiera ilość rekordów
-	 * @return int
-	 */
-	public final function count() {
-		$compile = $this->queryCompilation();
-		$dao = $this->_daoClassName;
-		$result = $dao::getAdapter()->select($dao::getTableName(), $compile->bind, array(), null, null, array('COUNT(*)'), $compile->joinSchema);
-		return isset($result[0]) ? current($result[0]) : 0;
 	}
 	
 	/**
@@ -257,7 +257,7 @@ class Mmi_Dao_Query {
 	 * Pobiera wartość maksymalną z kolumny
 	 * @param string $keyName nazwa klucza
 	 * @param Mmi_Dao_Query $q Obiekt zapytania
-	 * @return array mixed wartość maksymalna
+	 * @return string wartość maksymalna
 	 */
 	public final function findMax($keyName) {
 		$compile = $this->queryCompilation();
@@ -270,7 +270,7 @@ class Mmi_Dao_Query {
 	 * Pobiera wartość minimalną z kolumny
 	 * @param string $keyName nazwa klucza
 	 * @param Mmi_Dao_Query $q Obiekt zapytania
-	 * @return array mixed wartość minimalna
+	 * @return string wartość minimalna
 	 */
 	public final function findMin($keyName) {
 		$compile = $this->queryCompilation();
@@ -282,7 +282,7 @@ class Mmi_Dao_Query {
 	/**
 	 * Pobiera unikalne wartości kolumny
 	 * @param string $keyName nazwa klucza
-	 * @return array mixed wartość maksymalna
+	 * @return array mixed wartości unikalne
 	 */
 	public final function findUnique($keyName) {
 		$compile = $this->queryCompilation();

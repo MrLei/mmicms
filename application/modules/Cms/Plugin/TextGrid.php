@@ -8,8 +8,8 @@ class Cms_Plugin_TextGrid extends Mmi_Grid {
 
 	public function init() {
 
-		$q = new Mmi_Dao_Query();
-		$this->setInitialQuery($q->orderAsc('key'));
+		$q = new Cms_Model_Text_Query();
+		$this->setInitialQuery($q->orderAscKey());
 		$this->setOption('rows', 100);
 
 		$this->addColumn('text', 'lang', array(
