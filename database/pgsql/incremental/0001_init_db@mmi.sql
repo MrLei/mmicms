@@ -545,10 +545,6 @@ ALTER TABLE ONLY mail_server ALTER COLUMN id SET DEFAULT nextval('mail_server_id
 
 ALTER TABLE ONLY news ALTER COLUMN id SET DEFAULT nextval('news_id_seq'::regclass);
 
-ALTER TABLE ONLY payment ALTER COLUMN id SET DEFAULT nextval('payment_id_seq'::regclass);
-
-ALTER TABLE ONLY payment_config ALTER COLUMN id SET DEFAULT nextval('payment_config_id_seq'::regclass);
-
 ALTER TABLE ONLY stat ALTER COLUMN id SET DEFAULT nextval('stat_id_seq'::regclass);
 
 ALTER TABLE ONLY stat_date ALTER COLUMN id SET DEFAULT nextval('stat_date_id_seq'::regclass);
@@ -650,16 +646,6 @@ ALTER TABLE ONLY mail_server
 
 ALTER TABLE ONLY news
     ADD CONSTRAINT news_pkey PRIMARY KEY (id);
-
-
-
-ALTER TABLE ONLY payment_config
-    ADD CONSTRAINT payment_config_pkey PRIMARY KEY (id);
-
-
-
-ALTER TABLE ONLY payment
-    ADD CONSTRAINT payment_pkey PRIMARY KEY (id);
 
 
 
@@ -793,23 +779,11 @@ CREATE INDEX fki_mail_definition_mail_server_id_fkey ON mail_definition USING bt
 
 CREATE INDEX fki_mail_mail_definition_id_fkey ON mail USING btree (mail_definition_id);
 
-CREATE INDEX fki_payment_cms_auth_id_fkey ON payment USING btree (cms_auth_id);
-
-CREATE INDEX fki_payment_payment_config_id_fkey ON payment USING btree (payment_config_id);
-
 CREATE INDEX mail_active_idx ON mail USING btree (active);
 
 CREATE INDEX mail_definition_lang_name_idx ON mail_definition USING btree (lang, name);
 
 CREATE INDEX mail_type_idx ON mail USING btree (type);
-
-CREATE UNIQUE INDEX payment_config_name_idx ON payment_config USING btree (name);
-
-CREATE INDEX "payment_dateAdd_idx" ON payment USING btree ("dateAdd");
-
-CREATE INDEX "payment_dateEnd_idx" ON payment USING btree ("dateEnd");
-
-CREATE INDEX payment_status_idx ON payment USING btree (status);
 
 CREATE INDEX stat_date_hour_day_month_year_idx ON stat_date USING btree (hour, day, month, year);
 
@@ -849,12 +823,6 @@ ALTER TABLE ONLY mail_definition
 
 ALTER TABLE ONLY mail
     ADD CONSTRAINT mail_mail_definition_id_fkey FOREIGN KEY (mail_definition_id) REFERENCES mail_definition(id);
-
-ALTER TABLE ONLY payment
-    ADD CONSTRAINT payment_cms_auth_id_fkey FOREIGN KEY (cms_auth_id) REFERENCES cms_auth(id);
-
-ALTER TABLE ONLY payment
-    ADD CONSTRAINT payment_payment_config_id_fkey FOREIGN KEY (payment_config_id) REFERENCES payment_config(id);
 
 REVOKE ALL ON SEQUENCE cms_article_id_seq FROM PUBLIC;
 

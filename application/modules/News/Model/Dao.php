@@ -13,14 +13,12 @@ class News_Model_Dao extends Mmi_Dao {
 	 */
 	public static function langQuery() {
 		if (!Mmi_Controller_Front::getInstance()->getRequest()->lang) {
-			return new News_Model_Query();
+			return self::newQuery();
 		}
-		$query = new News_Model_Query();
-		$query
-			->whereLang()->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
-			->orFieldLang()->equals(null)
-			->orderDescLang();
-		return $query;
+		return self::newQuery()
+				->whereLang()->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
+				->orFieldLang()->equals(null)
+				->orderDescLang();
 	}
 
 	/**
