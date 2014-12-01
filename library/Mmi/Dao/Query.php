@@ -197,6 +197,103 @@ class Mmi_Dao_Query {
 		}
 		return $collection;
 	}
+	
+	/**
+	 * Pobiera ilość rekordów
+	 * @return int
+	 */
+	public static final function count() {
+		$compile = $this->queryCompilation();
+		$dao = $this->_daoClassName;
+		$result = self::getAdapter()->select($dao::getTableName(), $compile->bind, array(), null, null, array('COUNT(*)'), $compile->joinSchema);
+		return isset($result[0]) ? current($result[0]) : 0;
+	}
+	
+	/**
+	 * Pobiera obiekt pierwszy ze zbioru
+	 * @param Mmi_Dao_Query $q Obiekt zapytania
+	 * @return Mmi_Dao_Record_Ro
+	 */
+	public static final function findFirst() {
+		$compile = $this->queryCompilation();
+		$dao = $this->_daoClassName;
+		$result = self::getAdapter()->select($dao::getTableName(), $compile->bind, $compile->order, 1, $compile->offset, $this->_getFields($compile->joinSchema), $compile->joinSchema);
+		if (!is_array($result) || !isset($result[0])) {
+			return null;
+		}
+		$recordName = $dao::getRecordName();
+		/* @var $record Mmi_Dao_Record_Ro */
+		$record = new $recordName;
+		$record->setFromArray($result[0])->clearModified()->setNew(false);
+		return $record;
+	}
+	
+	/**
+	 * Zwraca tablicę asocjacyjną (pary)
+	 * @param string $keyName
+	 * @param string $valueName
+	 * @return array
+	 */
+	public static final function findPairs($keyName, $valueName) {
+		$compile = $this->queryCompilation();
+		$dao = $this->_daoClassName;
+		$data = self::getAdapter()->select($dao::getTableName(), $compile->bind, $compile->order, $compile->limit, $compile->offset, array($keyName, $valueName), $compile->joinSchema);
+		$kv = array();
+		foreach ($data as $line) {
+			if (count($line) == 1) {
+				$value = current($line);
+				if (is_array($value) && count($value) == 2) {
+					$kv[$value[0]] = $value[1];
+					continue;
+				}
+				continue;
+			}
+			$kv[current($line)] = next($line);
+		}
+		return $kv;
+	}
+	
+	/**
+	 * Pobiera wartość maksymalną z kolumny
+	 * @param string $keyName nazwa klucza
+	 * @param Mmi_Dao_Query $q Obiekt zapytania
+	 * @return array mixed wartość maksymalna
+	 */
+	public static final function findMax($keyName) {
+		$compile = $this->queryCompilation();
+		$dao = $this->_daoClassName;
+		$result = self::getAdapter()->select($dao::getTableName(), $compile->bind, array(), 1, 0, array('MAX(' . $dao::getAdapter()->prepareField($keyName) . ')'), $compile->joinSchema);
+		return isset($result[0]) ? current($result[0]) : null;
+	}
+	
+	/**
+	 * Pobiera wartość minimalną z kolumny
+	 * @param string $keyName nazwa klucza
+	 * @param Mmi_Dao_Query $q Obiekt zapytania
+	 * @return array mixed wartość minimalna
+	 */
+	public static final function findMin($keyName) {
+		$compile = $this->queryCompilation();
+		$dao = $this->_daoClassName;
+		$result = self::getAdapter()->select($dao::getTableName(), $compile->bind, array(), 1, 0, array('MIN(' . $dao::getAdapter()->prepareField($keyName) . ')'), $compile->joinSchema);
+		return isset($result[0]) ? current($result[0]) : null;
+	}
+	
+	/**
+	 * Pobiera unikalne wartości kolumny
+	 * @param string $keyName nazwa klucza
+	 * @return array mixed wartość maksymalna
+	 */
+	public static final function findUnique($keyName) {
+		$compile = $this->queryCompilation();
+		$dao = $this->_daoClassName;
+		$data = self::getAdapter()->select($dao::getTableName(), $compile->bind, $compile->order, $compile->limit, $compile->offset, array('DISTINCT(' . $dao::getAdapter()->prepareField($keyName) . ')'), $compile->joinSchema);
+		$result = array();
+		foreach ($data as $line) {
+			$result[] = current($line);
+		}
+		return $result;
+	}
 
 	/**
 	 * Zwraca skompilowane zapytanie
@@ -261,6 +358,7 @@ class Mmi_Dao_Query {
 			return array('*');
 		}
 		$fields = array();
+		$dao = $this->_daoClassName;
 		$mainStructure = $dao::getTableStructure();
 		foreach ($mainStructure as $field => $info) {
 			$fields[] = $dao::getTableName() . '.' . $field;
