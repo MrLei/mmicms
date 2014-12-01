@@ -191,7 +191,7 @@ class Mmi_Dao_Record_Ro {
 				continue;
 			}
 			$dao = $this->_daoClass;
-			$field = $dao::convertUnderscoreToCamelcase($key);
+			$field = Mmi_Dao::convertUnderscoreToCamelcase($key);
 			if (property_exists($this, $field)) {
 				$this->$field = $value;
 				continue;
