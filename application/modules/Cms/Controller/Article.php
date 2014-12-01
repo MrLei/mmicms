@@ -14,7 +14,7 @@ class Cms_Controller_Article extends Mmi_Controller_Action {
 		}
 		if (null === ($article = Default_Registry::$cache->load($cacheKey))) {
 			if (isset($uri)) {
-				$article = Cms_Model_Article_Dao::findFirstByUri($uri);
+				$article = Cms_Model_Article_Dao::byUriQuery($uri)->findFirst();
 			} else {
 				$article = Cms_Model_Article_Dao::findPk($id);
 			}
