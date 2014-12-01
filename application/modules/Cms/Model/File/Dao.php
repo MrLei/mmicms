@@ -14,13 +14,12 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 * @return array
 	 */
 	public static function findClassified($object, $objectId) {
-		$q = self::newQuery()
-			->where('objectId')->equals($objectId)
-			->andField('object')->equals($object)
-			->andField('active')->equals(1)
-			->orderAsc('order');
-
-		$files = self::find($q);
+		$files = self::newQuery()
+			->whereObjectId()->equals($objectId)
+			->andFieldObject()->equals($object)
+			->andFieldActive()->equals(1)
+			->orderAscOrder()
+			->find();
 
 		$classes = array('image' => array(), 'other' => array());
 		foreach ($files AS $file) {
