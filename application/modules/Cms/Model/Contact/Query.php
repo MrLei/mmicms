@@ -268,6 +268,76 @@ class Cms_Model_Contact_Query extends Mmi_Dao_Query {
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
+	public function whereName() {
+		return $this->where('name');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Query_Field
+	 */
+	public function andFieldName() {
+		return $this->andField('name');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Query_Field
+	 */
+	public function orFieldName() {
+		return $this->orField('name');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Query_Field
+	 */
+	public function orderAscName() {
+		return $this->orderAsc('name');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Query_Field
+	 */
+	public function orderDescName() {
+		return $this->orderDesc('name');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Query_Field
+	 */
+	public function wherePhone() {
+		return $this->where('phone');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Query_Field
+	 */
+	public function andFieldPhone() {
+		return $this->andField('phone');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Query_Field
+	 */
+	public function orFieldPhone() {
+		return $this->orField('phone');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Query_Field
+	 */
+	public function orderAscPhone() {
+		return $this->orderAsc('phone');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Query_Field
+	 */
+	public function orderDescPhone() {
+		return $this->orderDesc('phone');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Query_Field
+	 */
 	public function whereEmail() {
 		return $this->where('email');
 	}
