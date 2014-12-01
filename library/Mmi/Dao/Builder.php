@@ -167,6 +167,8 @@ class Mmi_Dao_Builder {
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
 		$className = $classPrefix . '_Query';
+		$recordClassName = $classPrefix . '_Record';
+		$collectionClassName = 'Mmi_Dao_Record_Collection';
 		$daoClassName = $classPrefix . '_Dao';
 		$path = $pathPrefix . '/Query.php';
 		$queryCode = '<?php' . "\n\n" .
@@ -183,6 +185,8 @@ class Mmi_Dao_Builder {
 			' * @method ' . $className . ' orField() orField($fieldName, $tableName = null)' . "\n" .
 			' * @method ' . $className . ' resetOrder() resetOrder()' . "\n" .
 			' * @method ' . $className . ' resetWhere() resetWhere()' . "\n" .
+			' * @method ' . $collectionClassName . ' find() find()' . "\n" .
+			' * @method ' . $recordClassName . ' findFirst() findFirst()' . "\n" .
 			' */' . "\n" .
 			'class ' .
 			$className .

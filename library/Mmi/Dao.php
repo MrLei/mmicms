@@ -273,7 +273,7 @@ class Mmi_Dao {
 
 	/**
 	 * Zwraca nowy obiekt zapytania
-	 * @return \Mmi_Dao_Query
+	 * @return Mmi_Dao_Query
 	 */
 	public static final function newQuery() {
 		$queryClassName = self::getQueryName();

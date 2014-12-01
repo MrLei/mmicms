@@ -8,7 +8,7 @@ class News_Model_Dao extends Mmi_Dao {
 	protected static $_tableName = 'news';
 
 	/**
-	 * 
+	 * Zapytanie językowe
 	 * @return News_Model_Query
 	 */
 	public static function langQuery() {
@@ -16,13 +16,14 @@ class News_Model_Dao extends Mmi_Dao {
 			return self::newQuery();
 		}
 		return self::newQuery()
-				->whereLang()->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
-				->orFieldLang()->equals(null)
-				->orderDescLang();
+				->andQuery(self::newQuery()
+					->whereLang()->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
+					->orFieldLang()->equals(null)
+					->orderDescLang());
 	}
 
 	/**
-	 * 
+	 * Zapytanie o aktywne
 	 * @return News_Model_Query
 	 */
 	public static function activeQuery() {
@@ -32,6 +33,7 @@ class News_Model_Dao extends Mmi_Dao {
 	}
 
 	/**
+	 * Zapytanie o aktywne po uri
 	 * @param string $uri
 	 * @return News_Model_Query
 	 */
@@ -41,7 +43,7 @@ class News_Model_Dao extends Mmi_Dao {
 	}
 
 	/**
-	 * 
+	 * Zapytanie po uri
 	 * @param string $uri
 	 * @return News_Model_Query
 	 */
