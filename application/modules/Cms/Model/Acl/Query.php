@@ -58,36 +58,36 @@ class Cms_Model_Acl_Query extends Mmi_Dao_Query {
 	/**
 	 * @return Cms_Model_Acl_Query_Field
 	 */
-	public function whereCms_role_id() {
-		return $this->where('cms_role_id');
+	public function whereCmsRoleId() {
+		return $this->where('cmsRoleId');
 	}
 
 	/**
 	 * @return Cms_Model_Acl_Query_Field
 	 */
-	public function andFieldCms_role_id() {
-		return $this->andField('cms_role_id');
+	public function andFieldCmsRoleId() {
+		return $this->andField('cmsRoleId');
 	}
 
 	/**
 	 * @return Cms_Model_Acl_Query_Field
 	 */
-	public function orFieldCms_role_id() {
-		return $this->orField('cms_role_id');
+	public function orFieldCmsRoleId() {
+		return $this->orField('cmsRoleId');
 	}
 
 	/**
 	 * @return Cms_Model_Acl_Query_Field
 	 */
-	public function orderAscCms_role_id() {
-		return $this->orderAsc('cms_role_id');
+	public function orderAscCmsRoleId() {
+		return $this->orderAsc('cmsRoleId');
 	}
 
 	/**
 	 * @return Cms_Model_Acl_Query_Field
 	 */
-	public function orderDescCms_role_id() {
-		return $this->orderDesc('cms_role_id');
+	public function orderDescCmsRoleId() {
+		return $this->orderDesc('cmsRoleId');
 	}
 
 	/**

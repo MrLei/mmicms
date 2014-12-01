@@ -58,36 +58,36 @@ class Cms_Model_Tag_Link_Query extends Mmi_Dao_Query {
 	/**
 	 * @return Cms_Model_Tag_Link_Query_Field
 	 */
-	public function whereCms_tag_id() {
-		return $this->where('cms_tag_id');
+	public function whereCmsTagId() {
+		return $this->where('cmsTagId');
 	}
 
 	/**
 	 * @return Cms_Model_Tag_Link_Query_Field
 	 */
-	public function andFieldCms_tag_id() {
-		return $this->andField('cms_tag_id');
+	public function andFieldCmsTagId() {
+		return $this->andField('cmsTagId');
 	}
 
 	/**
 	 * @return Cms_Model_Tag_Link_Query_Field
 	 */
-	public function orFieldCms_tag_id() {
-		return $this->orField('cms_tag_id');
+	public function orFieldCmsTagId() {
+		return $this->orField('cmsTagId');
 	}
 
 	/**
 	 * @return Cms_Model_Tag_Link_Query_Field
 	 */
-	public function orderAscCms_tag_id() {
-		return $this->orderAsc('cms_tag_id');
+	public function orderAscCmsTagId() {
+		return $this->orderAsc('cmsTagId');
 	}
 
 	/**
 	 * @return Cms_Model_Tag_Link_Query_Field
 	 */
-	public function orderDescCms_tag_id() {
-		return $this->orderDesc('cms_tag_id');
+	public function orderDescCmsTagId() {
+		return $this->orderDesc('cmsTagId');
 	}
 
 	/**

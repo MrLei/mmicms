@@ -58,36 +58,36 @@ class Cms_Model_Contact_Query extends Mmi_Dao_Query {
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function whereCms_contact_option_id() {
-		return $this->where('cms_contact_option_id');
+	public function whereCmsContactOptionId() {
+		return $this->where('cmsContactOptionId');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function andFieldCms_contact_option_id() {
-		return $this->andField('cms_contact_option_id');
+	public function andFieldCmsContactOptionId() {
+		return $this->andField('cmsContactOptionId');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function orFieldCms_contact_option_id() {
-		return $this->orField('cms_contact_option_id');
+	public function orFieldCmsContactOptionId() {
+		return $this->orField('cmsContactOptionId');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function orderAscCms_contact_option_id() {
-		return $this->orderAsc('cms_contact_option_id');
+	public function orderAscCmsContactOptionId() {
+		return $this->orderAsc('cmsContactOptionId');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function orderDescCms_contact_option_id() {
-		return $this->orderDesc('cms_contact_option_id');
+	public function orderDescCmsContactOptionId() {
+		return $this->orderDesc('cmsContactOptionId');
 	}
 
 	/**
@@ -198,36 +198,36 @@ class Cms_Model_Contact_Query extends Mmi_Dao_Query {
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function whereCms_auth_id_reply() {
-		return $this->where('cms_auth_id_reply');
+	public function whereCmsAuthIdReply() {
+		return $this->where('cmsAuthIdReply');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function andFieldCms_auth_id_reply() {
-		return $this->andField('cms_auth_id_reply');
+	public function andFieldCmsAuthIdReply() {
+		return $this->andField('cmsAuthIdReply');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function orFieldCms_auth_id_reply() {
-		return $this->orField('cms_auth_id_reply');
+	public function orFieldCmsAuthIdReply() {
+		return $this->orField('cmsAuthIdReply');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function orderAscCms_auth_id_reply() {
-		return $this->orderAsc('cms_auth_id_reply');
+	public function orderAscCmsAuthIdReply() {
+		return $this->orderAsc('cmsAuthIdReply');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function orderDescCms_auth_id_reply() {
-		return $this->orderDesc('cms_auth_id_reply');
+	public function orderDescCmsAuthIdReply() {
+		return $this->orderDesc('cmsAuthIdReply');
 	}
 
 	/**
@@ -408,36 +408,36 @@ class Cms_Model_Contact_Query extends Mmi_Dao_Query {
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function whereCms_auth_id() {
-		return $this->where('cms_auth_id');
+	public function whereCmsAuthId() {
+		return $this->where('cmsAuthId');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function andFieldCms_auth_id() {
-		return $this->andField('cms_auth_id');
+	public function andFieldCmsAuthId() {
+		return $this->andField('cmsAuthId');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function orFieldCms_auth_id() {
-		return $this->orField('cms_auth_id');
+	public function orFieldCmsAuthId() {
+		return $this->orField('cmsAuthId');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function orderAscCms_auth_id() {
-		return $this->orderAsc('cms_auth_id');
+	public function orderAscCmsAuthId() {
+		return $this->orderAsc('cmsAuthId');
 	}
 
 	/**
 	 * @return Cms_Model_Contact_Query_Field
 	 */
-	public function orderDescCms_auth_id() {
-		return $this->orderDesc('cms_auth_id');
+	public function orderDescCmsAuthId() {
+		return $this->orderDesc('cmsAuthId');
 	}
 
 	/**

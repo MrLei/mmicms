@@ -93,36 +93,36 @@ class Cms_Model_Navigation_Query extends Mmi_Dao_Query {
 	/**
 	 * @return Cms_Model_Navigation_Query_Field
 	 */
-	public function whereParent_id() {
-		return $this->where('parent_id');
+	public function whereParentId() {
+		return $this->where('parentId');
 	}
 
 	/**
 	 * @return Cms_Model_Navigation_Query_Field
 	 */
-	public function andFieldParent_id() {
-		return $this->andField('parent_id');
+	public function andFieldParentId() {
+		return $this->andField('parentId');
 	}
 
 	/**
 	 * @return Cms_Model_Navigation_Query_Field
 	 */
-	public function orFieldParent_id() {
-		return $this->orField('parent_id');
+	public function orFieldParentId() {
+		return $this->orField('parentId');
 	}
 
 	/**
 	 * @return Cms_Model_Navigation_Query_Field
 	 */
-	public function orderAscParent_id() {
-		return $this->orderAsc('parent_id');
+	public function orderAscParentId() {
+		return $this->orderAsc('parentId');
 	}
 
 	/**
 	 * @return Cms_Model_Navigation_Query_Field
 	 */
-	public function orderDescParent_id() {
-		return $this->orderDesc('parent_id');
+	public function orderDescParentId() {
+		return $this->orderDesc('parentId');
 	}
 
 	/**
