@@ -198,6 +198,7 @@ class Mmi_Dao_Builder {
 			. "\t\t" . 'return parent::__construct(\'' . $daoClassName. '\');' . "\n"
 			. "\t}\n";
 		foreach ($structure as $fieldName => $fieldDetails) {
+			$fieldName = $daoClassName::convertUnderscoreToCamelcase($fieldName);
 			$methods .= self::_queryMethod('where', $fieldName, $tableName);
 			$methods .= self::_queryMethod('andField', $fieldName, $tableName);
 			$methods .= self::_queryMethod('orField', $fieldName, $tableName);
