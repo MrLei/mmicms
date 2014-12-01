@@ -118,6 +118,7 @@ CREATE INDEX fki_cms_contact_cms_contact_option_id_fkey ON cms_contact (cms_cont
 
 CREATE TABLE cms_contact_option (
     id INTEGER PRIMARY KEY,
+	sendTo uri character varying(255),
     name character varying(64) NOT NULL
 );
 

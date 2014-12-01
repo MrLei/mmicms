@@ -58,41 +58,6 @@ class Cms_Model_Contact_Option_Query extends Mmi_Dao_Query {
 	/**
 	 * @return Cms_Model_Contact_Option_Query_Field
 	 */
-	public function whereName() {
-		return $this->where('name');
-	}
-
-	/**
-	 * @return Cms_Model_Contact_Option_Query_Field
-	 */
-	public function andFieldName() {
-		return $this->andField('name');
-	}
-
-	/**
-	 * @return Cms_Model_Contact_Option_Query_Field
-	 */
-	public function orFieldName() {
-		return $this->orField('name');
-	}
-
-	/**
-	 * @return Cms_Model_Contact_Option_Query_Field
-	 */
-	public function orderAscName() {
-		return $this->orderAsc('name');
-	}
-
-	/**
-	 * @return Cms_Model_Contact_Option_Query_Field
-	 */
-	public function orderDescName() {
-		return $this->orderDesc('name');
-	}
-
-	/**
-	 * @return Cms_Model_Contact_Option_Query_Field
-	 */
 	public function whereSendTo() {
 		return $this->where('sendTo');
 	}
@@ -123,6 +88,41 @@ class Cms_Model_Contact_Option_Query extends Mmi_Dao_Query {
 	 */
 	public function orderDescSendTo() {
 		return $this->orderDesc('sendTo');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Option_Query_Field
+	 */
+	public function whereName() {
+		return $this->where('name');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Option_Query_Field
+	 */
+	public function andFieldName() {
+		return $this->andField('name');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Option_Query_Field
+	 */
+	public function orFieldName() {
+		return $this->orField('name');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Option_Query_Field
+	 */
+	public function orderAscName() {
+		return $this->orderAsc('name');
+	}
+
+	/**
+	 * @return Cms_Model_Contact_Option_Query_Field
+	 */
+	public function orderDescName() {
+		return $this->orderDesc('name');
 	}
 
 	/**
