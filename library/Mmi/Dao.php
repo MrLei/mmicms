@@ -310,6 +310,19 @@ class Mmi_Dao {
 	}
 	
 	/**
+	 * Resetuje struktury tabel i usuwa cache
+	 * @return boolean
+	 */
+	public static final function resetTableStructures() {
+		foreach (self::getAdapter()->tableList() as $tableName) {
+			$cacheKey = 'Dao_structure_' . self::getAdapter()->getConfig()->name . '_' . $tableName;
+			static::$_cache->remove($cacheKey);
+		}
+		self::$_tableStructure = array();
+		return true;
+	}
+	
+	/**
 	 * Zwraca obecność pola w tabeli
 	 * @param string $fieldName nazwa pola
 	 * @param string $tableName opcjonalna nazwa tabeli
