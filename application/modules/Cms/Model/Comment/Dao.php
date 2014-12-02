@@ -1,16 +1,13 @@
 <?php
 
-/**
- * @method Cms_Model_Comment_Query newQuery() newQuery()
- */
 class Cms_Model_Comment_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_comment';
 
 	public static function findByObject($object, $objectId, $descending = false) {
-		$q = self::newQuery()
-			->where('object')->equals($object)
-			->andField('objectId')->equals($objectId)
+		$q = Cms_Model_Comment_Query::factory()
+			->whereObject()->equals($object)
+			->andFieldObjectId()->equals($objectId)
 			->limit(100);
 
 		if ($descending) {
@@ -18,14 +15,14 @@ class Cms_Model_Comment_Dao extends Mmi_Dao {
 		} else {
 			$q->orderAsc('dateAdd');
 		}
-		return self::find($q);
+		return $q->find();
 	}
 
 	public static function countByObject($object, $objectId) {
-		$q = self::newQuery()
-				->where('object')->equals($object)
-				->andField('objectId')->equals($objectId);
-		return self::count($q);
+		return Cms_Model_Comment_Query::factory()
+				->whereObject()->equals($object)
+				->andFieldObjectId()->equals($objectId)
+				->count();
 	}
 
 }

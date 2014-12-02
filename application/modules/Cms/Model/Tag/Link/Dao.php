@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @method Cms_Model_Tag_Link_Query newQuery() newQuery()
- */
 class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_tag_link';
@@ -49,11 +46,12 @@ class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
 	 * @return boolean
 	 */
 	public static function unTag($tagId, $object, $objectId = null) {
-		$q = self::newQuery()
-				->where('cms_tag_id')->equals($tagId)
-				->andField('object')->equals($object)
-				->andField('objectId')->equals($objectId);
-		return self::find($q)->delete();
+		return Cms_Model_Tag_Link_Query::factory()
+				->whereCmsTagId()->equals($tagId)
+				->andFieldObject()->equals($object)
+				->andFieldObjectId()->equals($objectId)
+				->find()
+				->delete();
 	}
 
 	/**
@@ -78,10 +76,11 @@ class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
 	 * @return int ilość usuniętych
 	 */
 	public static function clearTags($object, $objectId = null) {
-		$q = self::newQuery()
-				->where('object')->equals($object)
-				->andField('objectId')->equals($objectId);
-		return self::find($q)->delete();
+		return Cms_Model_Tag_Link_Query::factory()
+				->whereObject()->equals($object)
+				->andFieldObjectId()->equals($objectId)
+				->find()
+				->delete();
 	}
 
 	/**
@@ -129,12 +128,13 @@ class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
 	 * @return Mmi_Dao_Record_Collection
 	 */
 	public static function findTags($object, $objectId = null) {
-		$q = self::newQuery()
+		return Cms_Model_Tag_Link_Query::factory()
 			->join('cms_tag')->on('cms_tag_id')
-			->where('object')->equals($object)
-			->andField('objectId')->equals($objectId)
-			->orderAsc('tag', 'cms_tag');
-		return self::find($q);
+			->whereObject()->equals($object)
+			->andFieldObjectId()->equals($objectId)
+			->orderAsc('tag', 'cms_tag')
+			
+			->find();
 	}
 
 	public static function getTagString($object, $objectId) {
@@ -150,16 +150,14 @@ class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
 	 * @return Mmi_Dao_Collection
 	 */
 	public static function findActiveMdsCountriesByTag($tag) {
-
-		$q = self::newQuery()
+		return Cms_Model_Tag_Link_Query::factory()
 			->join('cms_tag')->on('cms_tag_id')
 			->join('mds_country')->on('objectId')
 			->where('object', 'cms_tag_link')->equals('mdsCountry')
 			->andField('tag', 'cms_tag')->equals(trim($tag))
 			->andField('active', 'mds_country')->equals(true)
-			->orderAsc('name', 'mds_country');
-
-		return self::find($q);
+			->orderAsc('name', 'mds_country')
+			->find();
 	}
 
 	/**
@@ -167,17 +165,15 @@ class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
 	 * @return Mmi_Dao_Collection
 	 */
 	public static function findActiveMdsRegionsByTagAndMdsCountryId($tag, $mdsCountryId) {
-
-		$q = self::newQuery()
+		return Cms_Model_Tag_Link_Query::factory()
 			->join('cms_tag')->on('cms_tag_id')
 			->join('mds_region')->on('objectId')
 			->where('object', 'cms_tag_link')->equals('mdsRegion')
 			->andField('tag', 'cms_tag')->equals(trim($tag))
 			->andField('active', 'mds_region')->equals(true)
 			->andField('mds_country_id', 'mds_region')->equals($mdsCountryId)
-			->orderAsc('name', 'mds_region');
-
-		return self::find($q);
+			->orderAsc('name', 'mds_region')
+			->find();
 	}
 
 }

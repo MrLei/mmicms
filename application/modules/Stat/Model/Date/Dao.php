@@ -1,20 +1,17 @@
 <?php
 
-/**
- * @method Stat_Model_Date_Query newQuery() newQuery()
- */
 class Stat_Model_Date_Dao extends Mmi_Dao {
 
 	public static $_tableName = 'stat_date';
 
 	public static function findUniqueObjects() {
-		$q = self::newQuery()
-			->where('hour')->equals(null)
-			->andField('day')->equals(null)
-			->andField('month')->equals(null)
-			->andField('objectId')->equals(null)
-			->orderAsc('object');
-		$all = self::find($q);
+		$all = Stat_Model_Date_Query::factory()
+			->whereHour()->equals(null)
+			->andFieldDay()->equals(null)
+			->andFieldMonth()->equals(null)
+			->andFieldObjectId()->equals(null)
+			->orderAscObject()
+			->find();
 		$objects = array();
 		foreach ($all as $object) {
 			if (!isset($objects[$object->object])) {
@@ -223,21 +220,20 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 	}
 
 	protected static function _getRows($object, $objectId, $year = null, $month = null, $day = null, $hour = null) {
-		$q = self::newQuery()
-				->where('object')->equals($object)
-				->andField('objectId')->equals($objectId);
+		$q = Stat_Model_Date_Query::factory()
+				->whereObject()->equals($object)
+				->andFieldObjectId()->equals($objectId);
 
 		self::_bindParam($q, 'year', $year);
 		self::_bindParam($q, 'month', $month);
 		self::_bindParam($q, 'day', $day);
 		self::_bindParam($q, 'hour', $hour);
 
-		$q->orderAsc('day')
+		return $q->orderAsc('day')
 			->orderAsc('month')
 			->orderAsc('year')
-			->orderAsc('hour');
-
-		return self::find($q);
+			->orderAsc('hour')
+			->find();
 	}
 
 	protected static function _bindParam(Mmi_Dao_Query $q, $name, $value) {

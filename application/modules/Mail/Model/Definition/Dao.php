@@ -1,42 +1,43 @@
 <?php
 
-/**
- * @method Mail_Model_Definition_Query newQuery() newQuery()
- */
 class Mail_Model_Definition_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'mail_definition';
 
-	public static function countLang($q) {
-		self::_langQuery($q);
-		return self::count($q);
+	public static function countLang(Mmi_Dao_Query $q) {
+		return self::langQuery()
+			->andQuery($q)
+			->count();
 	}
 
-	public static function findLang($q) {
-		self::_langQuery($q);
-		return parent::find($q);
+	public static function findLang(Mmi_Dao_Query $q) {
+		return self::langQuery()
+			->andQuery($q)
+			->find();
 	}
 
-	public static function findFirstLang($q) {
-		self::_langQuery($q);
-		return parent::findFirst($q);
+	public static function langQuery() {
+		if (!Mmi_Controller_Front::getInstance()->getRequest()->lang) {
+			return Mail_Model_Definition_Query::factory();
+		}
+		return Mail_Model_Definition_Query::factory()
+			->andQuery(Mail_Model_Definition_Query::factory()
+				->whereLang()->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
+				->orFieldLang()->equals(null)
+				->orderDescLang()
+		);
+	}
+
+	public static function findFirstLang(Mmi_Dao_Query $q) {
+		return self::langQuery()
+			->andQuery($q)
+			->findFirst();
 	}
 
 	public static function findFirstLangByName($name) {
-		$q = self::newQuery()
-				->where('name')->equals($name);
+		$q = Mail_Model_Definition_Query::factory()
+				->whereName()->equals($name);
 		return self::findFirstLang($q);
-	}
-
-	protected static function _langQuery(Mmi_Dao_Query $q) {
-		if (!Mmi_Controller_Front::getInstance()->getRequest()->lang) {
-			return $q;
-		}
-		$subQ = self::newQuery()
-			->where('lang')->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
-			->orField('lang')->equals(null)
-			->orderDesc('lang');
-		return $q->andQuery($subQ);
 	}
 
 }

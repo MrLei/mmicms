@@ -21,11 +21,10 @@ foreach (glob(BASE_PATH . '/database/' . Default_Registry::$config->db->driver .
 
 		//pobranie rekordu
 		try {
-			$dc = MmiCms_Model_Changelog_Dao::findFirstByFilename(basename($file));
+			$dc = MmiCms_Model_Changelog_Dao::byFilenameQuery(basename($file))->findFirst();
 		} catch (Exception $e) {
 			$dc = null;
 		}
-
 		if ($dc === null) {
 			//brak restore
 			$dc = new MmiCms_Model_Changelog_Record();

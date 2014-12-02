@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @method Mail_Model_Query newQuery() newQuery()
- */
 class Mail_Model_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'mail';
@@ -12,10 +9,11 @@ class Mail_Model_Dao extends Mmi_Dao {
 	 * @return int ilość usuniętych
 	 */
 	public static function clean() {
-		$q = self::newQuery()
-				->where('active')->equals(1)
-				->andField('dateAdd')->less(date('Y-m-d H:i:s', strtotime('-1 week')));
-		return self::find($q)->delete();
+		return Mail_Model_Query::factory()
+				->whereActive()->equals(1)
+				->andFieldDateAdd()->less(date('Y-m-d H:i:s', strtotime('-1 week')))
+				->find()
+				->delete();
 	}
 
 	/**
@@ -74,14 +72,14 @@ class Mail_Model_Dao extends Mmi_Dao {
 	public static function send() {
 		$result = array('error' => 0, 'success' => 0);
 
-		$q = self::newQuery()
+		$emails = Mail_Model_Query::factory()
 			->join('mail_definition')->on('mail_definition_id')
 			->join('mail_server', 'mail_definition')->on('mail_server_id')
-			->where('active')->equals(0)
-			->andField('dateSendAfter')->lessOrEquals(date('Y-m-d H:i:s'))
-			->orderAsc('dateSendAfter');
+			->whereActive()->equals(0)
+			->andFieldDateSendAfter()->lessOrEquals(date('Y-m-d H:i:s'))
+			->orderAscDateSendAfter()
+			->find();
 
-		$emails = Mail_Model_Dao::find($q);
 		if (count($emails) == 0) {
 			return $result;
 		}
