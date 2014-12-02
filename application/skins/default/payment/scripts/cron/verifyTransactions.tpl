@@ -1,1 +1,0 @@
-{if $result['accepted'] + $result['rejected'] + $result['errors']}ACCEPTED: {$result['accepted']}, REJECTED: {$result['rejected']}, ERRORS: {$result['errors']}{/if}
