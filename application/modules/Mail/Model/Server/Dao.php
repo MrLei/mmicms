@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @method Mail_Model_Server_Query newQuery() newQuery()
- */
 class Mail_Model_Server_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'mail_server';
@@ -12,9 +9,9 @@ class Mail_Model_Server_Dao extends Mmi_Dao {
 	 * @return array lista
 	 */
 	public static function findPairsActive() {
-		$q = self::newQuery()
-				->where('active')->equals(1);
-		$rows = self::find($q);
+		$rows = Mail_Model_Server_Query::factory()
+			->whereActive()->equals(1)
+			->find();
 		$pairs = array();
 		foreach ($rows as $row) {
 			$pairs[$row->id] = $row->address . ':' . $row->port . ' (' . $row->username . ')';

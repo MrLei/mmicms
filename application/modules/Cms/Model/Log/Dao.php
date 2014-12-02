@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @method Cms_Model_Log_Query newQuery() newQuery()
- */
 class Cms_Model_Log_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_log';
@@ -51,9 +48,10 @@ class Cms_Model_Log_Dao extends Mmi_Dao {
 	}
 
 	public static function clean($months = 24) {
-		$q = self::newQuery()
-				->where('dateTime')->less(date('Y-m-d H:i:s', strtotime('-' . $months . ' month')));
-		return self::find($q)->delete();
+		return Cms_Model_Log_Query::factory()
+				->whereDateTime()->less(date('Y-m-d H:i:s', strtotime('-' . $months . ' month')))
+				->find()
+				->delete();
 	}
 
 }

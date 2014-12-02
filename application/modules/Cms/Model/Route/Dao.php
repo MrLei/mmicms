@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @method Cms_Model_Route_Query newQuery() newQuery()
- */
 class Cms_Model_Route_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_route';

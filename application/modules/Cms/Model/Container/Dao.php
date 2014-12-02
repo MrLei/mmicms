@@ -1,16 +1,13 @@
 <?php
 
-/**
- * @method Cms_Model_Container_Query newQuery() newQuery()
- */
 class Cms_Model_Container_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_container';
 
 	public static function findFirstByUri($uri) {
-		$q = self::newQuery()
-				->where('uri')->equals($uri);
-		$container = self::findFirst($q);
+		$container = Cms_Model_Container_Query::factory()
+			->whereUri()->equals($uri)
+			->findFirst();
 		if ($container === null) {
 			return null;
 		}

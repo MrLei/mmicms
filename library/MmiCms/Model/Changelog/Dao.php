@@ -3,12 +3,15 @@
 class MmiCms_Model_Changelog_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'DB_CHANGELOG';
-	protected static $_queryName = 'Mmi_Dao_Query';
 
-	public static function findFirstByFilename($filename) {
-		$q = self::newQuery()
+	/**
+	 * 
+	 * @param string $filename
+	 * @return MmiCms_Model_Changelog_Query
+	 */
+	public static function byFilenameQuery($filename) {
+		return Mmi_Dao_Query::factory('MmiCms_Model_Changelog_Dao')
 			->where('filename')->equals($filename);
-		return self::findFirst($q);
 	}
 
 }
