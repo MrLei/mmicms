@@ -610,11 +610,11 @@ abstract class Mmi_Grid {
 		if ($this->_initialQuery instanceof Mmi_Dao_Query) {
 			$q = $this->_initialQuery;
 		} else {
-			$q = new Mmi_Dao_Query($this->_daoName);
+			$q = Mmi_Dao_Query::factory($this->_daoName);
 		}
 		//nakładanie filtrów na query
 		foreach ($this->_options['filter'] as $field => $value) {
-			$subQ = new Mmi_Dao_Query($this->_daoName);
+			$subQ = Mmi_Dao_Query::factory($this->_daoName);
 			$type = 'text';
 			foreach ($this->_columns as $column) {
 				if ($column['name'] == $field) {

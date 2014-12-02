@@ -12,7 +12,7 @@ class Cms_Form_Admin_Contact extends Mmi_Form {
 				->setDisabled()
 				->setIgnore()
 				->setValue($this->getOption('subjectId'))
-				->setMultiOptions(Cms_Model_Contact_Option_Dao::findPairs('id', 'name', Cms_Model_Contact_Option_Dao::newQuery()->orderAsc('name')))
+				->setMultiOptions(Cms_Model_Contact_Option_Dao::findPairs('id', 'name', Cms_Model_Contact_Option_Query::factory()->orderAsc('name')))
 				->setLabel('temat zapytania');
 		}
 

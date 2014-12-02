@@ -13,11 +13,16 @@
  * @method News_Model_Query orField() orField($fieldName, $tableName = null)
  * @method News_Model_Query resetOrder() resetOrder()
  * @method News_Model_Query resetWhere() resetWhere()
+ * @method Mmi_Dao_Record_Collection find() find()
+ * @method News_Model_Record findFirst() findFirst()
  */
 class News_Model_Query extends Mmi_Dao_Query {
 
-	public function __construct() {
-		return parent::__construct('News_Model_Dao');
+	/**
+	 * @return News_Model_Query
+	 */
+	public static function factory($daoClassName = null) {
+		return new self($daoClassName);
 	}
 
 	/**

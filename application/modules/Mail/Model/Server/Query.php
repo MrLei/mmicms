@@ -13,11 +13,16 @@
  * @method Mail_Model_Server_Query orField() orField($fieldName, $tableName = null)
  * @method Mail_Model_Server_Query resetOrder() resetOrder()
  * @method Mail_Model_Server_Query resetWhere() resetWhere()
+ * @method Mmi_Dao_Record_Collection find() find()
+ * @method Mail_Model_Server_Record findFirst() findFirst()
  */
 class Mail_Model_Server_Query extends Mmi_Dao_Query {
 
-	public function __construct() {
-		return parent::__construct('Mail_Model_Server_Dao');
+	/**
+	 * @return Mail_Model_Server_Query
+	 */
+	public static function factory($daoClassName = null) {
+		return new self($daoClassName);
 	}
 
 	/**

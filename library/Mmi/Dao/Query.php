@@ -37,14 +37,29 @@ class Mmi_Dao_Query {
 	 * @var string
 	 */
 	protected $_daoClassName;
-
+	
 	/**
 	 * Konstruktor tworzy nowe skompilowane zapytanie
 	 * @param string $daoClassName nazwa klasy DAO
 	 */
-	public function __construct($daoClassName) {
+	protected final function __construct($daoClassName = null) {
 		$this->_compile = new Mmi_Dao_Query_Compile();
-		$this->_daoClassName = $daoClassName;
+		if ($daoClassName !== null) {
+			$this->_daoClassName = $daoClassName;
+			return;
+		}
+		if ($this->_daoClassName !== null) {
+			return;
+		}
+		$this->_daoClassName = substr(get_called_class(), 0, -5) . 'Dao';
+	}
+	
+	/**
+	 * Zwraca instancję siebie
+	 * @return self
+	 */
+	public static function factory($daoClassName = null) {
+		return new self($daoClassName);
 	}
 
 	/**

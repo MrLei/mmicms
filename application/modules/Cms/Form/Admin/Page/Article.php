@@ -24,7 +24,7 @@ class Cms_Form_Admin_Page_Article extends MmiCms_Form {
 
 		$this->addElementSelect('article_id')
 			->setLabel('Artykuł')
-			->setMultiOptions(array(null => '---') + Cms_Model_Article_Dao::findPairs('id', 'title', Cms_Model_Article_Dao::newQuery()->orderAsc('title')));
+			->setMultiOptions(array(null => '---') + Cms_Model_Article_Dao::findPairs('id', 'title', Cms_Model_Article_Query::factory()->orderAsc('title')));
 
 		$this->addElementCheckbox('absolute')
 			->setLabel('Link bezwzględny');

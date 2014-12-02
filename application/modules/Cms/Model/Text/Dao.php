@@ -1,24 +1,21 @@
 <?php
 
-/**
- * @method Cms_Model_Text_Query newQuery() newQuery()
- */
 class Cms_Model_Text_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_text';
 	protected static $_texts = array();
 
 	public static function findByLang($lang) {
-		return self::newQuery()
-				->where('lang')->equals($lang)
+		return Cms_Model_Text_Query::factory()
+				->whereLang()->equals($lang)
 				->find();
 	}
 
 	public static function findFirstByKeyLang($key, $lang) {
-		$q = self::newQuery()
-				->where('lang')->equals($lang)
-				->andField('key')->equals($key);
-		return self::findFirst($q);
+		return Cms_Model_Text_Query::factory()
+				->whereLang()->equals($lang)
+				->andFieldKey()->equals($key)
+				->findFirst();
 	}
 
 	public static function countLang($q) {
@@ -28,7 +25,7 @@ class Cms_Model_Text_Dao extends Mmi_Dao {
 
 	public static function findLang($q) {
 		return self::_langQuery($q)
-			->find();
+				->find();
 	}
 
 	public static function textByKeyLang($key, $lang) {
@@ -50,7 +47,7 @@ class Cms_Model_Text_Dao extends Mmi_Dao {
 	protected static function _initDictionary() {
 		if (null === (self::$_texts = Default_Registry::$cache->load('Cms_Text'))) {
 			self::$_texts = array();
-			foreach (self::newQuery()->find() as $text) {
+			foreach (Cms_Model_Text_Query::factory()->find() as $text) {
 				if ($text->lang === null) {
 					self::$_texts['none'][$text->key] = $text->content;
 					continue;
@@ -65,10 +62,10 @@ class Cms_Model_Text_Dao extends Mmi_Dao {
 		if (!Mmi_Controller_Front::getInstance()->getRequest()->lang) {
 			return $q;
 		}
-		$subQ = self::newQuery()
-			->where('lang')->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
-			->orField('lang')->equals(null)
-			->orderDesc('lang');
+		$subQ = Cms_Model_Text_Query::factory()
+			->whereLang()->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
+			->orFieldLang()->equals(null)
+			->orderDescLang();
 		return $q->andQuery($subQ);
 	}
 

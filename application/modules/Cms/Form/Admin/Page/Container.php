@@ -32,7 +32,7 @@ class Cms_Form_Admin_Page_Container extends MmiCms_Form {
 		$this->addElementCheckbox('independent')
 			->setLabel('Niezależne meta');
 
-		$options = array(null => '---') + Cms_Model_Container_Dao::findPairs('id', 'title', Cms_Model_Container_Dao::newQuery()->orderAsc('title'));
+		$options = array(null => '---') + Cms_Model_Container_Dao::findPairs('id', 'title', Cms_Model_Container_Query::factory()->orderAsc('title'));
 
 		$this->addElementSelect('container_id')
 			->setLabel('Strona CMS')

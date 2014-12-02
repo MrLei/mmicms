@@ -13,11 +13,16 @@
  * @method Cms_Model_Auth_Role_Query orField() orField($fieldName, $tableName = null)
  * @method Cms_Model_Auth_Role_Query resetOrder() resetOrder()
  * @method Cms_Model_Auth_Role_Query resetWhere() resetWhere()
+ * @method Mmi_Dao_Record_Collection find() find()
+ * @method Cms_Model_Auth_Role_Record findFirst() findFirst()
  */
 class Cms_Model_Auth_Role_Query extends Mmi_Dao_Query {
 
-	public function __construct() {
-		return parent::__construct('Cms_Model_Auth_Role_Dao');
+	/**
+	 * @return Cms_Model_Auth_Role_Query
+	 */
+	public static function factory($daoClassName = null) {
+		return new self($daoClassName);
 	}
 
 	/**

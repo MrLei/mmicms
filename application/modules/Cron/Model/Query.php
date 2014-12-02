@@ -13,11 +13,16 @@
  * @method Cron_Model_Query orField() orField($fieldName, $tableName = null)
  * @method Cron_Model_Query resetOrder() resetOrder()
  * @method Cron_Model_Query resetWhere() resetWhere()
+ * @method Mmi_Dao_Record_Collection find() find()
+ * @method Cron_Model_Record findFirst() findFirst()
  */
 class Cron_Model_Query extends Mmi_Dao_Query {
 
-	public function __construct() {
-		return parent::__construct('Cron_Model_Dao');
+	/**
+	 * @return Cron_Model_Query
+	 */
+	public static function factory($daoClassName = null) {
+		return new self($daoClassName);
 	}
 
 	/**

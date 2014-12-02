@@ -13,11 +13,16 @@
  * @method Cms_Model_Text_Query orField() orField($fieldName, $tableName = null)
  * @method Cms_Model_Text_Query resetOrder() resetOrder()
  * @method Cms_Model_Text_Query resetWhere() resetWhere()
+ * @method Mmi_Dao_Record_Collection find() find()
+ * @method Cms_Model_Text_Record findFirst() findFirst()
  */
 class Cms_Model_Text_Query extends Mmi_Dao_Query {
 
-	public function __construct() {
-		return parent::__construct('Cms_Model_Text_Dao');
+	/**
+	 * @return Cms_Model_Text_Query
+	 */
+	public static function factory($daoClassName = null) {
+		return new self($daoClassName);
 	}
 
 	/**

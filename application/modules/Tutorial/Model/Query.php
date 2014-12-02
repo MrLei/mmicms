@@ -13,11 +13,16 @@
  * @method Tutorial_Model_Query orField() orField($fieldName, $tableName = null)
  * @method Tutorial_Model_Query resetOrder() resetOrder()
  * @method Tutorial_Model_Query resetWhere() resetWhere()
+ * @method Mmi_Dao_Record_Collection find() find()
+ * @method Tutorial_Model_Record findFirst() findFirst()
  */
 class Tutorial_Model_Query extends Mmi_Dao_Query {
 
-	public function __construct() {
-		return parent::__construct('Tutorial_Model_Dao');
+	/**
+	 * @return Tutorial_Model_Query
+	 */
+	public static function factory($daoClassName = null) {
+		return new self($daoClassName);
 	}
 
 	/**

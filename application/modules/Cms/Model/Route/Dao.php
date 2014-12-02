@@ -12,9 +12,9 @@ class Cms_Model_Route_Dao extends Mmi_Dao {
 	 * @return Cms_Model_Route_Query
 	 */
 	public static function activeQuery() {
-		return self::newQuery()
-			->where('active')->equals(1)
-			->orderAsc('order');
+		return Cms_Model_Route_Query::factory()
+			->whereActive()->equals(1)
+			->orderAscOrder();
 	}
 
 	public static function findActive() {

@@ -13,11 +13,16 @@
  * @method Stat_Model_Label_Query orField() orField($fieldName, $tableName = null)
  * @method Stat_Model_Label_Query resetOrder() resetOrder()
  * @method Stat_Model_Label_Query resetWhere() resetWhere()
+ * @method Mmi_Dao_Record_Collection find() find()
+ * @method Stat_Model_Label_Record findFirst() findFirst()
  */
 class Stat_Model_Label_Query extends Mmi_Dao_Query {
 
-	public function __construct() {
-		return parent::__construct('Stat_Model_Label_Dao');
+	/**
+	 * @return Stat_Model_Label_Query
+	 */
+	public static function factory($daoClassName = null) {
+		return new self($daoClassName);
 	}
 
 	/**

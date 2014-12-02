@@ -1,17 +1,14 @@
 <?php
 
-/**
- * @method Cms_Model_Auth_Role_Query newQuery() newQuery()
- */
 class Cms_Model_Auth_Role_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_auth_role';
 
 	public static function findPairsRolesByAuthId($authId) {
-		$q = self::newQuery()
-				->where('cms_auth_id')->equals($authId)
-				->join('cms_role')->on('cms_role_id');
-		return self::findPairs('cms_role_id', 'name', $q);
+		return Cms_Model_Auth_Role_Query::factory()
+			->whereCmsAuthId()->equals($authId)
+			->join('cms_role')->on('cms_role_id')
+			->findPairs('cms_role_id', 'name');
 	}
 
 	public static function findRolesIdByAuthId($authId) {

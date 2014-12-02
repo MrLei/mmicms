@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @method Cms_Model_File_Query newQuery() newQuery()
- */
 class Cms_Model_File_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_file';
@@ -47,15 +44,15 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 * @return Cms_Model_File_Record
 	 */
 	public static function findFirstSticky($object, $id, $class = null) {
-		$q = self::newQuery()
-				->where('sticky')->equals(1)
-				->andField('object')->equals($object)
-				->andField('objectId')->equals($id);
-
+		$sticky = self::newQuery()
+			->whereSticky()->equals(1)
+			->andFieldObject()->equals($object)
+			->andFieldObjectId()->equals($id);
+			
 		if (null !== $class) {
-			$q->andField('class')->equals($class);
+			$sticky->andFieldClass()->equals($class);
 		}
-		return self::findFirst($q);
+		return $sticky->findFirst();
 	}
 
 	/**
@@ -273,5 +270,5 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 		}
 		return true;
 	}
-
+	
 }

@@ -1,16 +1,13 @@
 <?php
 
-/**
- * @method Cms_Model_Acl_Query newQuery() newQuery()
- */
 class Cms_Model_Acl_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_acl';
 
 	public static function findPairsByRoleId($role) {
 		$rules = array();
-		$data = self::newQuery()
-			->where('cms_role_id')->equals($role)
+		$data = Cms_Model_Acl_Query::factory()
+			->whereCmsRoleId()->equals($role)
 			->find();
 		foreach ($data as $item) {
 			if ($item->action) {
@@ -26,7 +23,7 @@ class Cms_Model_Acl_Dao extends Mmi_Dao {
 
 	public static function setupAcl() {
 		$acl = new Mmi_Acl();
-		$aclData = self::newQuery()
+		$aclData = Cms_Model_Acl_Query::factory()
 			->join('cms_role')->on('cms_role_id')
 			->find();
 		foreach ($aclData as $aclRule) { /* @var $aclData Cms_Model_Acl_Record */

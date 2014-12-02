@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 /**
  * Mmi
@@ -59,16 +59,9 @@ class Mmi_Dao_Builder {
 			"\n\n" .
 			'}';
 		if (file_exists($path)) {
-			$daoCode = file_get_contents($path);
-		}
-		$annotation = '/**' . "\n" .
-			' * @method ' . $className . ' newQuery() newQuery()' . "\n" .
-			' */' . "\n";
-		if (strpos($daoCode, '* @method ' . $queryClassName) !== false) {
 			echo 'DAO completed.';
 			return;
 		}
-		$daoCode = preg_replace('/(class [a-zA-Z0-9_]+ extends [a-zA-Z0-9_]+\s\{?\n?)/', $annotation . '$1' , $daoCode);
 		file_put_contents($path, $daoCode);
 	}
 
@@ -198,8 +191,12 @@ class Mmi_Dao_Builder {
 		if (empty($structure)) {
 			throw new Exception('Mmi_Dao_Builder: no table ' . $tableName . ' found, or table invalid in ' . $daoClassName);
 		}
-		$methods .= "\n\t" . 'public function __construct()' . " {\n"
-			. "\t\t" . 'return parent::__construct(\'' . $daoClassName. '\');' . "\n"
+		$methods .= "\n"
+			. "\t" . '/**' . "\n"
+			. "\t" . ' * @return ' . $className . "\n"
+			. "\t" . ' */' . "\n"
+			. "\t" . 'public static function factory($daoClassName = null)' . " {\n"
+			. "\t\t" . 'return new self($daoClassName);' . "\n"
 			. "\t}\n";
 		foreach ($structure as $fieldName => $fieldDetails) {
 			$fieldName = Mmi_Dao::convertUnderscoreToCamelcase($fieldName);

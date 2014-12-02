@@ -1,19 +1,16 @@
 <?php
 
-/**
- * @method Cms_Model_Navigation_Query newQuery() newQuery()
- */
 class Cms_Model_Navigation_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_navigation';
 
 	public static function findFirstByArticleUri($uri) {
-		$q = self::newQuery()
-				->where('module')->equals('cms')
-				->andField('controller')->equals('article')
-				->andField('action')->equals('index')
-				->andField('params')->equals('uri=' . $uri);
-		return self::findFirst($q);
+		return Cms_Model_Navigation_Query::factory()
+				->whereModule()->equals('cms')
+				->andFieldController()->equals('article')
+				->andFieldAction()->equals('index')
+				->andFieldParams()->equals('uri=' . $uri)
+				->findFirst();
 	}
 
 	public static function findLastByParentId($parentId) {
@@ -42,9 +39,9 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 	 * @param Mmi_Navigation_Config $config
 	 */
 	public static function decorateConfiguration(Mmi_Navigation_Config $config) {
-		$objectArray = self::_langQuery(self::newQuery()
-				->orderAsc('parent_id')
-				->orderAsc('order')
+		$objectArray = self::_langQuery(Cms_Model_Navigation_Query::factory()
+				->orderAscParentId()
+				->orderAscOrder()
 			)
 			->find()
 			->toObjectArray();
@@ -128,7 +125,7 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 		if (!Mmi_Controller_Front::getInstance()->getRequest()->lang) {
 			return $q;
 		}
-		$subQ = self::newQuery()
+		$subQ = Cms_Model_Navigation_Query::factory()
 			->where('lang')->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
 			->orField('lang')->equals(null)
 			->orderDesc('lang');
