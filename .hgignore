@@ -4,5 +4,6 @@
 ^application/modules/Default/Config/Local\.php$
 ^nbproject$
 application/modules/Test
+application/skins/default/test
 library/Zend
 database/sample.sqlite
