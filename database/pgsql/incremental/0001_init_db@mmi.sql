@@ -856,7 +856,6 @@ CREATE INDEX cms_route_order_idx
 
 ALTER TABLE cms_navigation ADD COLUMN "dateStart" timestamp without time zone;
 ALTER TABLE cms_navigation ADD COLUMN "dateEnd" timestamp without time zone;
-ALTER TABLE cms_navigation ADD COLUMN active smallint NOT NULL DEFAULT 1;
 
 CREATE INDEX cms_navigation_datestart_idx
   ON cms_navigation
