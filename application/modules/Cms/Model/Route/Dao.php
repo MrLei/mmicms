@@ -15,11 +15,11 @@ class Cms_Model_Route_Dao extends Mmi_Dao {
 	}
 
 	public static function findActive() {
-		$texts = array();
-		foreach (self::activeQuery()->find() as $text) {
-			$texts[] = $text->toRouteArray();
+		$routes = array();
+		foreach (self::activeQuery()->find() as $route) {
+			$routes[] = $route->toRouteArray();
 		}
-		return $texts;
+		return $routes;
 	}
 
 }
