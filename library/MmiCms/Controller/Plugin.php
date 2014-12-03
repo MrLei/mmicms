@@ -17,9 +17,10 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		
 		//route z cms
 		if (null === ($routes = Default_Registry::$cache->load('Mmi_Route'))) {
-			$routes = Cms_Model_Route_Dao::findActive();
+			$routes = Cms_Model_Route_Dao::activeQuery()->find();
 			Default_Registry::$cache->save($routes, 'Mmi_Route', 86400);
 		}
+		
 	}
 
 	public function preDispatch(Mmi_Controller_Request $request) {

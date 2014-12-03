@@ -129,7 +129,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	/**
 	 * Ustawia obiekt nawigatora
 	 * @param Mmi_Navigation $navigation
-	 * @return \Mmi_Navigation
+	 * @return Mmi_Navigation
 	 */
 	public static function setNavigation(Mmi_Navigation $navigation) {
 		self::$_navigation = $navigation;
@@ -139,7 +139,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	/**
 	 * Ustawia obiekt autoryzacji
 	 * @param Mmi_Auth $auth
-	 * @return \Mmi_Auth
+	 * @return Mmi_Auth
 	 */
 	public static function setAuth(Mmi_Auth $auth) {
 		self::$_auth = $auth;
@@ -149,7 +149,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	/**
 	 * Ustawia obiekt ACL
 	 * @param Mmi_Acl $acl
-	 * @return \Mmi_Acl
+	 * @return Mmi_Acl
 	 */
 	public static function setAcl(Mmi_Acl $acl) {
 		self::$_acl = $acl;

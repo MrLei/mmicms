@@ -56,7 +56,7 @@ class Mmi_Controller_Action_Helper_Messenger extends Mmi_Controller_Action_Helpe
 	/**
 	 * Ustawia translator
 	 * @param Mmi_Translate $translate
-	 * @return \Mmi_Controller_Action_Helper_Messenger
+	 * @return Mmi_Controller_Action_Helper_Messenger
 	 */
 	public function setTranslate(Mmi_Translate $translate) {
 		$this->_translate = $translate;
