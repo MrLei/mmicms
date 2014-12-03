@@ -48,5 +48,5 @@ class News_Model_Dao extends Mmi_Dao {
 		return self::langQuery()
 				->whereUri()->equals($uri);
 	}
-
+	
 }

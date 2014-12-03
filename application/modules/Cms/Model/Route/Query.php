@@ -8,9 +8,9 @@
  * @method Cms_Model_Route_Query andQuery() andQuery(Mmi_Dao_Query $query)
  * @method Cms_Model_Route_Query whereQuery() whereQuery(Mmi_Dao_Query $query)
  * @method Cms_Model_Route_Query orQuery() orQuery(Mmi_Dao_Query $query)
- * @method Cms_Model_Route_Query andField() andField($fieldName, $tableName = null)
- * @method Cms_Model_Route_Query where() where($fieldName, $tableName = null)
- * @method Cms_Model_Route_Query orField() orField($fieldName, $tableName = null)
+ * @method Cms_Model_Route_Query_Field andField() andField($fieldName, $tableName = null)
+ * @method Cms_Model_Route_Query_Field where() where($fieldName, $tableName = null)
+ * @method Cms_Model_Route_Query_Field orField() orField($fieldName, $tableName = null)
  * @method Cms_Model_Route_Query resetOrder() resetOrder()
  * @method Cms_Model_Route_Query resetWhere() resetWhere()
  * @method Mmi_Dao_Record_Collection find() find()
@@ -22,7 +22,7 @@ class Cms_Model_Route_Query extends Mmi_Dao_Query {
 	 * @return Cms_Model_Route_Query
 	 */
 	public static function factory($daoClassName = null) {
-		return new Cms_Model_Route_Query($daoClassName);
+		return new self($daoClassName);
 	}
 
 	/**

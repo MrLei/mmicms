@@ -160,6 +160,7 @@ class Mmi_Dao_Builder {
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
 		$className = $classPrefix . '_Query';
+		$fieldClassName = $classPrefix . '_Query_Field';
 		$recordClassName = $classPrefix . '_Record';
 		$collectionClassName = 'Mmi_Dao_Record_Collection';
 		$daoClassName = $classPrefix . '_Dao';
@@ -173,9 +174,9 @@ class Mmi_Dao_Builder {
 			' * @method ' . $className . ' andQuery() andQuery(Mmi_Dao_Query $query)' . "\n" .
 			' * @method ' . $className . ' whereQuery() whereQuery(Mmi_Dao_Query $query)' . "\n" .
 			' * @method ' . $className . ' orQuery() orQuery(Mmi_Dao_Query $query)' . "\n" .
-			' * @method ' . $className . ' andField() andField($fieldName, $tableName = null)' . "\n" .
-			' * @method ' . $className . ' where() where($fieldName, $tableName = null)' . "\n" .
-			' * @method ' . $className . ' orField() orField($fieldName, $tableName = null)' . "\n" .
+			' * @method ' . $fieldClassName . ' andField() andField($fieldName, $tableName = null)' . "\n" .
+			' * @method ' . $fieldClassName . ' where() where($fieldName, $tableName = null)' . "\n" .
+			' * @method ' . $fieldClassName . ' orField() orField($fieldName, $tableName = null)' . "\n" .
 			' * @method ' . $className . ' resetOrder() resetOrder()' . "\n" .
 			' * @method ' . $className . ' resetWhere() resetWhere()' . "\n" .
 			' * @method ' . $collectionClassName . ' find() find()' . "\n" .
