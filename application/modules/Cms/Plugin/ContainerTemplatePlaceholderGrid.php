@@ -5,6 +5,9 @@ class Cms_Plugin_ContainerTemplatePlaceholderGrid extends Mmi_Grid {
 	protected $_daoName = 'Cms_Model_Container_Template_Placeholder_Dao';
 
 	public function init() {
+		
+		$this->setQuery(Cms_Model_Container_Template_Placeholder_Query::factory());
+		
 		$this->addColumn('text', 'name', array(
 			'label' => 'nazwa placeholdera',
 		));

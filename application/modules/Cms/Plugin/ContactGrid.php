@@ -2,11 +2,9 @@
 
 class Cms_Plugin_ContactGrid extends Mmi_Grid {
 
-	protected $_daoName = 'Cms_Model_Contact_Dao';
-	protected $_daoGetMethod = 'findDefaults';
-	protected $_daoCountMethod = 'countDefaults';
-
 	public function init() {
+		
+		$this->setQuery(Cms_Model_Contact_Query::factory());
 
 		$this->addColumn('custom', 'id', array(
 			'label' => 'ticket',

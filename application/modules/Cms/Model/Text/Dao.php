@@ -5,27 +5,35 @@ class Cms_Model_Text_Dao extends Mmi_Dao {
 	protected static $_tableName = 'cms_text';
 	protected static $_texts = array();
 
-	public static function findByLang($lang) {
+	/**
+	 * Zapytanie po langu z requesta
+	 * @return Cms_Model_Text_Query
+	 */
+	public static function langQuery() {
+		if (!Mmi_Controller_Front::getInstance()->getRequest()->lang) {
+			return Cms_Model_Text_Query::factory();
+		}
 		return Cms_Model_Text_Query::factory()
-				->whereLang()->equals($lang)
-				->find();
+				->andQuery(Cms_Model_Text_Query::factory()
+					->whereLang()->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
+					->orFieldLang()->equals(null)
+					->orderDescLang());
+	}
+	
+	/**
+	 * 
+	 * @param string $lang
+	 * @return Cms_Model_Text_Query
+	 */
+	public static function byLangQuery($lang) {
+		return Cms_Model_Text_Query::factory()
+				->whereLang()->equals($lang);
 	}
 
 	public static function findFirstByKeyLang($key, $lang) {
-		return Cms_Model_Text_Query::factory()
-				->whereLang()->equals($lang)
+		return self::byLangQuery($lang)
 				->andFieldKey()->equals($key)
 				->findFirst();
-	}
-
-	public static function countLang($q) {
-		self::_langQuery($q);
-		return self::count($q);
-	}
-
-	public static function findLang($q) {
-		return self::_langQuery($q)
-				->find();
 	}
 
 	public static function textByKeyLang($key, $lang) {
@@ -56,17 +64,6 @@ class Cms_Model_Text_Dao extends Mmi_Dao {
 			}
 			Default_Registry::$cache->save(self::$_texts, 'Cms_Text', 86400);
 		}
-	}
-
-	protected static function _langQuery(Mmi_Dao_Query $q) {
-		if (!Mmi_Controller_Front::getInstance()->getRequest()->lang) {
-			return $q;
-		}
-		$subQ = Cms_Model_Text_Query::factory()
-			->whereLang()->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
-			->orFieldLang()->equals(null)
-			->orderDescLang();
-		return $q->andQuery($subQ);
 	}
 
 }
