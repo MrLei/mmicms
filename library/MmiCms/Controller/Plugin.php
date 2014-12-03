@@ -20,7 +20,7 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 			$routes = Cms_Model_Route_Dao::activeQuery()->find();
 			Default_Registry::$cache->save($routes, 'Mmi_Route', 86400);
 		}
-		
+		Cms_Model_Route_Dao::updateRouterConfig(Mmi_Controller_Front::getInstance()->getRouter()->getConfig());
 	}
 
 	public function preDispatch(Mmi_Controller_Request $request) {

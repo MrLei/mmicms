@@ -10,8 +10,8 @@ class Cms_Model_Acl_Record extends Mmi_Dao_Record {
 	public $access;
 
 	public function save() {
-		if ($this->object) {
-			$object = explode(':', $this->object);
+		if ($this->getOption('object')) {
+			$object = explode(':', $this->getOption('object'));
 			$this->module = isset($object[0]) ? strtolower($object[0]) : null;
 			$this->controller = isset($object[1]) ? strtolower($object[1]) : null;
 			$this->action = isset($object[2]) ? strtolower($object[2]) : null;
