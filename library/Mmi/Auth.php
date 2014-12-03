@@ -71,7 +71,7 @@ class Mmi_Auth {
 	/**
 	 * Ustawia sól
 	 * @param string $salt
-	 * @return \Mmi_Auth
+	 * @return Mmi_Auth
 	 */
 	public function setSalt($salt) {
 		$this->_salt = $salt;
@@ -102,7 +102,7 @@ class Mmi_Auth {
 
 	/**
 	 * Usuwa pamięć o automatycznym logowaniu użytkownika
-	 * @return \Mmi_Auth
+	 * @return Mmi_Auth
 	 */
 	public function forgetMe() {
 		$cookie = new Mmi_Http_Cookie();
@@ -166,7 +166,7 @@ class Mmi_Auth {
 	/**
 	 * Ustawia nazwę modelu
 	 * @param string $modelName
-	 * @return \Mmi_Auth
+	 * @return Mmi_Auth
 	 */
 	public function setModelName($modelName) {
 		$this->_modelName = $modelName;
@@ -184,7 +184,7 @@ class Mmi_Auth {
 	/**
 	 * Ustawia identyfikator do autoryzacji (np. login)
 	 * @param string $identity identyfikator
-	 * @return \Mmi_Auth
+	 * @return Mmi_Auth
 	 */
 	public function setIdentity($identity) {
 		$this->_identity = $identity;
@@ -194,7 +194,7 @@ class Mmi_Auth {
 	/**
 	 * Ustawia ciąg uwierzytelniający do autoryzacji (np. hasło)
 	 * @param string $credential ciąg uwierzytelniający
-	 * @return \Mmi_Auth
+	 * @return Mmi_Auth
 	 */
 	public function setCredential($credential) {
 		$this->_credential = $credential;
@@ -204,7 +204,7 @@ class Mmi_Auth {
 	/**
 	 * Czyści tożsamość
 	 * @param bool $cookies czyści także ciastka zapamiętujące użytkownika
-	 * @return \Mmi_Auth
+	 * @return Mmi_Auth
 	 */
 	public function clearIdentity($cookies = true) {
 		if ($cookies) {

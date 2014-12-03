@@ -150,7 +150,7 @@ class Mmi_Dao {
 	/**
 	 * Ustawia obiekt cache
 	 * @param Mmi_Cache $cache
-	 * @return \Mmi_Cache
+	 * @return Mmi_Cache
 	 */
 	public static final function setCache(Mmi_Cache $cache) {
 		static::$_cache = $cache;

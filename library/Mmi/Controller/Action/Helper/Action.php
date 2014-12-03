@@ -43,7 +43,7 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 	/**
 	 * Ustawia obiekt ACL
 	 * @param Mmi_Acl $acl
-	 * @return \Mmi_Acl
+	 * @return Mmi_Acl
 	 */
 	public static function setAcl(Mmi_Acl $acl) {
 		self::$_acl = $acl;
@@ -53,7 +53,7 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 	/**
 	 * Ustawia obiekt autoryzacji
 	 * @param Mmi_Auth $auth
-	 * @return \Mmi_Auth
+	 * @return Mmi_Auth
 	 */
 	public static function setAuth(Mmi_Auth $auth) {
 		self::$_auth = $auth;
