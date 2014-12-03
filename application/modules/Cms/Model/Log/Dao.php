@@ -15,7 +15,7 @@ class Cms_Model_Log_Dao extends Mmi_Dao {
 		$env = Mmi_Controller_Front::getInstance()->getEnvironment();
 		if (Mmi_Session::namespaceIsset('Auth')) {
 			$authNamespace = new Mmi_Session_Namespace('Auth');
-			$record->cms_auth_id = $authNamespace->id;
+			$record->cmsAuthId = $authNamespace->id;
 		}
 		$record->url = $env->requestUri;
 		$record->ip = $env->remoteAddress;

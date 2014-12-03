@@ -7,26 +7,25 @@ class Cms_Model_Auth implements Mmi_Auth_Model_Interface {
 		$credential = self::getSaltedPasswordHash($credential);
 
 		$qUser = Cms_Model_Auth_Query::factory()
-				->where('username')->equals($identity)
-				->orField('email')->equals($identity);
+				->whereUsername()->equals($identity)
+				->orFieldEmail()->equals($identity);
 
 		$qPassword = Cms_Model_Auth_Query::factory()
-				->where('password')->equals($credential)
-				->orField('password')->equals($credentialLegacy)
-				->orField('password')->equals(substr($credential, 0, 40));
+				->wherePassword()->equals($credential)
+				->orFieldPassword()->equals($credentialLegacy)
+				->orFieldPassword()->equals(substr($credential, 0, 40));
 
-		$q = Cms_Model_Auth_Query::factory()
-			->where('active')->equals(1)
+		$record = Cms_Model_Auth_Query::factory()
+			->whereActive()->equals(1)
 			->andQuery($qUser)
-			->andQuery($qPassword);
-
-		$record = Cms_Model_Auth_Dao::findFirst($q);
+			->andQuery($qPassword)
+			->findFirst();
 
 		if ($record === null) {
-			$q = Cms_Model_Auth_Query::factory()
-				->where('active')->equals(1)
-				->andQuery($qUser);
-			$record = Cms_Model_Auth_Dao::findFirst($q);
+			$record = Cms_Model_Auth_Query::factory()
+				->whereActive()->equals(1)
+				->andQuery($qUser)
+				->findFirst();
 			if ($record !== null) {
 				$record->lastFailIp = Mmi_Controller_Front::getInstance()->getEnvironment()->remoteAddress;
 				$record->lastFailLog = date('Y-m-d H:i:s');
@@ -44,7 +43,7 @@ class Cms_Model_Auth implements Mmi_Auth_Model_Interface {
 		Cms_Model_Log_Dao::add('login', array(
 			'object' => 'cms_auth',
 			'objectId' => $record->id,
-			'cms_auth_id' => $record->id,
+			'cmsAuthId' => $record->id,
 			'success' => true,
 			'message' => 'LOGGED: ' . $record->username
 		));
@@ -70,7 +69,7 @@ class Cms_Model_Auth implements Mmi_Auth_Model_Interface {
 		Cms_Model_Log_Dao::add('login', array(
 			'object' => 'cms_auth',
 			'objectId' => $record->id,
-			'cms_auth_id' => $record->id,
+			'cmsAuthId' => $record->id,
 			'success' => true,
 			'message' => 'LOGGED (ID): ' . $record->username
 		));
