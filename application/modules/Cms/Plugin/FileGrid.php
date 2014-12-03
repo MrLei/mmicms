@@ -2,9 +2,9 @@
 
 class Cms_Plugin_FileGrid extends Mmi_Grid {
 
-	protected $_daoName = 'Cms_Model_File_Dao';
-
 	public function init() {
+		
+		$this->setQuery(Cms_Model_File_Query::factory());
 
 		$this->addColumn('custom', 'thumb', array(
 			'label' => 'miniatura',
