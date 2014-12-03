@@ -10,7 +10,7 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 * @param int $objectId id obiektu
 	 * @return array
 	 */
-	public static function findClassified($object, $objectId) {
+	public static function getClassified($object, $objectId) {
 		$files = Cms_Model_File_Query::factory()
 			->whereObjectId()->equals($objectId)
 			->andFieldObject()->equals($object)
@@ -26,12 +26,6 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 			} else {
 				$classes['other'][] = $file;
 			}
-		}
-		if (empty($classes['image'])) {
-			unset($classes['image']);
-		}
-		if (empty($classes['other'])) {
-			unset($classes['other']);
 		}
 		return $classes;
 	}
