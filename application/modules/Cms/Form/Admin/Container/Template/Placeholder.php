@@ -6,8 +6,8 @@ class Cms_Form_Admin_Container_Template_Placeholder extends Mmi_Form {
 
 	public function init() {
 
-		if (!$this->getRecord()->cms_container_template_id) {
-			$this->getRecord()->cms_container_template_id = $this->getOption('templateId');
+		if (!$this->getRecord()->cmsContainerTemplateId) {
+			$this->getRecord()->cmsContainerTemplateId = $this->getOption('templateId');
 		}
 
 		$this->addElementText('name')

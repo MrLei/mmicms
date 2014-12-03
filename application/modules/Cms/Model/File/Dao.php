@@ -150,7 +150,7 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 			$record->dateModify = date('Y-m-d');
 			$record->object = $object;
 			$record->objectId = $id;
-			$record->cms_auth_id = Default_Registry::$auth->getId();
+			$record->cmsAuthId = Default_Registry::$auth->getId();
 			$record->active = 1;
 			$record->save();
 		}
@@ -184,7 +184,7 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 			$record->dateModify = date('Y-m-d H:i:s');
 			$record->object = $object;
 			$record->objectId = $id;
-			$record->cms_auth_id = Default_Registry::$auth->getId();
+			$record->cmsAuthId = Default_Registry::$auth->getId();
 			$record->active = 1;
 			$record->save();
 		}

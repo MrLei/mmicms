@@ -36,8 +36,8 @@ class Cms_Model_Log_Dao extends Mmi_Dao {
 				$record->objectId = $data['objectId'];
 				unset($data['objectId']);
 			}
-			if (isset($data['cms_auth_id']) && !$record->cms_auth_id) {
-				$record->cms_auth_id = $data['cms_auth_id'];
+			if (isset($data['cms_auth_id']) && !$record->cmsAuthId) {
+				$record->cmsAuthId = $data['cms_auth_id'];
 				unset($data['cms_auth_id']);
 			}
 			if (!empty($data)) {

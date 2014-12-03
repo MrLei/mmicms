@@ -38,7 +38,7 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 
 			$article = Cms_Model_Article_Dao::findFirstByUri($params['uri']);
 			if ($article !== null) {
-				$this->article_id = $article->id;
+				$this->articleId = $article->id;
 			}
 		}
 		if ($this->module == 'cms' && $this->controller == 'container' && $this->action == 'display') {
@@ -48,7 +48,7 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 			}
 			$container = Cms_Model_Container_Dao::findFirstByUri($params['uri']);
 			if ($container !== null) {
-				$this->container_id = $container->id;
+				$this->containerId = $container->id;
 			}
 		}
 	}
@@ -56,11 +56,11 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 	public function saveForm() {
 		//ustawianie domyślnego języka
 		$this->lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
-		if ($this->parent_id === null) {
-			$this->parent_id = 0;
+		if ($this->parentId === null) {
+			$this->parentId = 0;
 		}
 		//konwersja obiektu na moduł/kontroler/akcja
-		if ($this->object) {
+		if ($this->getOption('object')) {
 			$params = explode('_', $this->object);
 			if (count($params) == 3) {
 				$this->module = $params[0];
@@ -71,8 +71,8 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 		}
 
 		//wiązanie artykułu
-		if ($this->article_id) {
-			$article = new Cms_Model_Article_Record($this->article_id);
+		if ($this->getOption('article_id')) {
+			$article = new Cms_Model_Article_Record($this->articleId);
 			$this->module = 'cms';
 			$this->controller = 'article';
 			$this->action = 'index';
@@ -81,8 +81,8 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 		}
 
 		//wiązanie kontenera
-		if ($this->container_id) {
-			$container = new Cms_Model_Container_Record($this->container_id);
+		if ($this->getOption('container_id')) {
+			$container = new Cms_Model_Container_Record($this->containerId);
 			$this->module = 'cms';
 			$this->controller = 'container';
 			$this->action = 'display';
@@ -104,8 +104,8 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 
 	public function _insert() {
 		//dodawanie na końcu listy
-		if ($this->parent_id) {
-			$lastElement = Cms_Model_Navigation_Dao::findLastByParentId($this->parent_id);
+		if ($this->parentId) {
+			$lastElement = Cms_Model_Navigation_Dao::findLastByParentId($this->parentId);
 			$this->order = 0;
 			if ($lastElement !== null) {
 				$this->order = $lastElement->order + 1;

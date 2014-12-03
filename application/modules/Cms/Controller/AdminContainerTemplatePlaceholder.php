@@ -19,7 +19,7 @@ class Cms_Controller_AdminContainerTemplatePlaceholder extends MmiCms_Controller
 		}
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Placeholder zapisany poprawnie', true);
-			$this->_helper->redirector('edit', 'adminContainerTemplate', 'cms', array('id' => $form->getRecord()->cms_container_template_id), true);
+			$this->_helper->redirector('edit', 'adminContainerTemplate', 'cms', array('id' => $form->getRecord()->cmsContainerTemplateId), true);
 		}
 		$this->_helper->messenger('Placeholder o tym samym kluczu już istnieje', false);
 	}
@@ -29,7 +29,7 @@ class Cms_Controller_AdminContainerTemplatePlaceholder extends MmiCms_Controller
 		if ($record && $record->delete()) {
 			$this->_helper->messenger('Poprawnie usunięto placeholder', true);
 		}
-		$this->_helper->redirector('edit', 'adminContainerTemplate', 'cms', array('id' => $record->cms_container_template_id), true);
+		$this->_helper->redirector('edit', 'adminContainerTemplate', 'cms', array('id' => $record->cmsContainerTemplateId), true);
 	}
 
 }

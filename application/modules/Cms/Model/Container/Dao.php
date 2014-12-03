@@ -11,7 +11,7 @@ class Cms_Model_Container_Dao extends Mmi_Dao {
 		if ($container === null) {
 			return null;
 		}
-		$template = Cms_Model_Container_Template_Dao::findPk($container->cms_container_template_id);
+		$template = Cms_Model_Container_Template_Dao::findPk($container->cmsContainerTemplateId);
 		if ($template === null) {
 			return null;
 		}

@@ -14,7 +14,7 @@ class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
 	public static function tag($tagId, $object, $objectId = null) {
 		try {
 			$record = new Cms_Model_Tag_Link_Record();
-			$record->cms_tag_id = $tagId;
+			$record->cmsTagId = $tagId;
 			$record->object = $object;
 			$record->objectId = $objectId;
 			return $record->save();
