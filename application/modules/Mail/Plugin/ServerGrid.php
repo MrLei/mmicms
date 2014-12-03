@@ -2,9 +2,10 @@
 
 class Mail_Plugin_ServerGrid extends Mmi_Grid {
 
-	protected $_daoName = 'Mail_Model_Server_Dao';
-
 	public function init() {
+		
+		$this->setQuery(Mail_Model_Server_Query::factory()
+			->orderDescId());
 
 		$this->addColumn('text', 'address', array(
 			'label' => 'Adres serwera',

@@ -2,9 +2,9 @@
 
 class Stat_Plugin_LabelGrid extends Mmi_Grid {
 
-	protected $_daoName = 'Stat_Model_Label_Dao';
-
 	public function init() {
+		
+		$this->setQuery(Stat_Model_Label_Query::factory());
 
 		$this->addColumn('text', 'object', array(
 			'label' => 'klucz'

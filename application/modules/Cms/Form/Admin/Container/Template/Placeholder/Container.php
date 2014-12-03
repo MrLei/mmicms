@@ -6,15 +6,15 @@ class Cms_Form_Admin_Container_Template_Placeholder_Container extends Mmi_Form {
 
 	public function init() {
 
-		if (!$this->getRecord()->cms_container_id) {
-			$this->getRecord()->cms_container_id = $this->getOption('containerId');
+		if (!$this->getRecord()->cmsContainerId) {
+			$this->getRecord()->cmsContainerId = $this->getOption('containerId');
 		}
-		$container = Cms_Model_Container_Dao::findPk($this->getRecord()->cms_container_id);
+		$container = Cms_Model_Container_Dao::findPk($this->getRecord()->cmsContainerId);
 
 		$this->addElementSelect('cms_container_template_placeholder_id')
 			->setLabel('nazwa placeholdera')
 			->setRequired()
-			->setMultiOptions(Cms_Model_Container_Template_Placeholder_Dao::findPairsByTemplateId('id', 'name', $container->cms_container_template_id))
+			->setMultiOptions(Cms_Model_Container_Template_Placeholder_Dao::findPairsByTemplateId('id', 'name', $container->cmsContainerTemplateId))
 			->addValidatorNotEmpty();
 
 		$value = null;

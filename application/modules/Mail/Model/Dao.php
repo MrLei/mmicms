@@ -38,7 +38,7 @@ class Mail_Model_Dao extends Mmi_Dao {
 			return false;
 		}
 		$mail = new Mail_Model_Record();
-		$mail->mail_definition_id = $def->id;
+		$mail->mailDefinitionId = $def->id;
 		$mail->to = $to;
 		$mail->fromName = !(null === $fromName) ? $fromName : $def->fromName;
 		$mail->replyTo = !(null === $replyTo) ? $replyTo : $def->replyTo;
@@ -94,9 +94,9 @@ class Mail_Model_Dao extends Mmi_Dao {
 			if ($email->getJoined('mail_server')->ssl != 'plain') {
 				$config['ssl'] = $email->getJoined('mail_server')->ssl;
 			}
-			if (!isset($transport[$email->mail_server_id])) {
+			if (!isset($transport[$email->mailServerId])) {
 				//@TODO: przepisać do ZF2
-				$transport[$email->mail_server_id] = new Zend_Mail_Transport_Smtp($email->getJoined('mail_server')->address, $config);
+				$transport[$email->mailServerId] = new Zend_Mail_Transport_Smtp($email->getJoined('mail_server')->address, $config);
 			}
 			//@TODO: przepisać do ZF2
 			$mail = new Zend_Mail('utf-8');
@@ -121,7 +121,7 @@ class Mail_Model_Dao extends Mmi_Dao {
 				}
 			}
 			try {
-				if ($mail->send($transport[$email->mail_server_id])) {
+				if ($mail->send($transport[$email->mailServerId])) {
 					$record = new Mail_Model_Record();
 					$record->setNew(false);
 					$record->id = $email->id;
