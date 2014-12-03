@@ -10,11 +10,6 @@
 class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 
 	public function routeStartup(Mmi_Controller_Request $request) {
-		/*foreach (Default_Registry::$db->tableList() as $tableName) {
-			Mmi_Dao_Builder::buildFromTableName($tableName);
-		}
-		exit;*/
-		
 		//route z cms
 		if (null === ($routes = Default_Registry::$cache->load('Mmi_Route'))) {
 			$routes = Cms_Model_Route_Dao::activeQuery()->find();
