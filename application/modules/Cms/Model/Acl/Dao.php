@@ -4,7 +4,7 @@ class Cms_Model_Acl_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_acl';
 
-	public static function findPairsByRoleId($role) {
+	public static function getMultioptionsByRoleId($role) {
 		$rules = array();
 		$data = Cms_Model_Acl_Query::factory()
 			->whereCmsRoleId()->equals($role)
