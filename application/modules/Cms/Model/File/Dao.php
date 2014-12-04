@@ -15,8 +15,7 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 			->whereActive()->equals(1)
 			->find();
 		$classes = array('image' => array(), 'other' => array());
-		foreach ($files AS $file) {
-			$file->hash = $file->getHashName();
+		foreach ($files AS $file) { /* @var $file Cms_Model_File_Record */
 			if ($file->class == 'image') {
 				$classes['image'][] = $file;
 			} else {

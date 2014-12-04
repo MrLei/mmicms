@@ -11,7 +11,7 @@ class Cms_Form_Contact extends MmiCms_Form {
 		if (!$this->getOption('subjectId')) {
 			$this->addElementSelect('cms_contact_option_id')
 				->setLabel('Wybierz temat')
-				->setMultiOptions(Cms_Model_Contact_Option_Query::factory()->orderAscName()->findPairs('id', 'name'))
+				->setMultiOptions(Cms_Model_Contact_Option_Dao::getMultioptions())
 				->addValidatorInteger();
 		}
 
