@@ -4,18 +4,10 @@ class Mail_Model_Definition_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'mail_definition';
 
-	public static function countLang(Mmi_Dao_Query $q) {
-		return self::langQuery()
-			->andQuery($q)
-			->count();
-	}
-
-	public static function findLang(Mmi_Dao_Query $q) {
-		return self::langQuery()
-			->andQuery($q)
-			->find();
-	}
-
+	/**
+	 * 
+	 * @return Mail_Model_Definition_Query
+	 */
 	public static function langQuery() {
 		if (!Mmi_Controller_Front::getInstance()->getRequest()->lang) {
 			return Mail_Model_Definition_Query::factory();
@@ -27,17 +19,15 @@ class Mail_Model_Definition_Dao extends Mmi_Dao {
 				->orderDescLang()
 		);
 	}
-
-	public static function findFirstLang(Mmi_Dao_Query $q) {
+	
+	/**
+	 * 
+	 * @param string $name
+	 * @return Mail_Model_Definition_Query
+	 */
+	public static function langByNameQuery($name) {
 		return self::langQuery()
-			->andQuery($q)
-			->findFirst();
-	}
-
-	public static function findFirstLangByName($name) {
-		$q = Mail_Model_Definition_Query::factory()
-				->whereName()->equals($name);
-		return self::findFirstLang($q);
+			->whereName()->equals($name);
 	}
 
 }

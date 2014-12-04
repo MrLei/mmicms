@@ -29,11 +29,16 @@ class Cms_Model_Text_Dao extends Mmi_Dao {
 		return Cms_Model_Text_Query::factory()
 				->whereLang()->equals($lang);
 	}
-
-	public static function findFirstByKeyLang($key, $lang) {
+	
+	/**
+	 * 
+	 * @param string $key
+	 * @param string $lang
+	 * @return Cms_Model_Text_Query
+	 */
+	public static function byKeyLangQuery($key, $lang) {
 		return self::byLangQuery($lang)
-				->andFieldKey()->equals($key)
-				->findFirst();
+				->andFieldKey()->equals($key);
 	}
 
 	public static function textByKeyLang($key, $lang) {

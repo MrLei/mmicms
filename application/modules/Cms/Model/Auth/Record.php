@@ -22,8 +22,8 @@ class Cms_Model_Auth_Record extends Mmi_Dao_Record {
 		if (!parent::save()) {
 			return false;
 		}
-		if ($this->getOption('cms_roles')) {
-			Cms_Model_Auth_Role_Dao::grant($this->id, $this->getOption('cms_roles'));
+		if ($this->getOption('cmsRoles')) {
+			Cms_Model_Auth_Role_Dao::grant($this->id, $this->getOption('cmsRoles'));
 		}
 		return true;
 	}

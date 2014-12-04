@@ -3,23 +3,19 @@
 class Cms_Model_Auth_Role_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_auth_role';
-
-	public static function findPairsRolesByAuthId($authId) {
+	
+	public static function byAuthIdQuery($authId) {
 		return Cms_Model_Auth_Role_Query::factory()
-				->whereCmsAuthId()->equals($authId)
-				->join('cms_role')->on('cms_role_id')
-				->findPairs('cms_role_id', 'name');
+			->whereCmsAuthId()->equals($authId);
 	}
 
-	public static function findRolesIdByAuthId($authId) {
-		return Cms_Model_Auth_Role_Query::factory()
-				->whereCmsAuthId()->equals($authId)
-				->findPairs('cms_role_id', 'cms_role_id');
+	public static function joinedRolebyAuthId($authId) {
+		return self::byAuthIdQuery($authId)
+				->join('cms_role')->on('cms_role_id');
 	}
 
 	public static function grant($cmsAuthId, array $roles) {
-		Cms_Model_Auth_Role_Query::factory()
-			->whereCmsAuthId()->equals($cmsAuthId)
+		self::byAuthIdQuery($cmsAuthId)
 			->find()
 			->delete();
 

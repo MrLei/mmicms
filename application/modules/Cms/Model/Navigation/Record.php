@@ -36,7 +36,8 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 				return $this;
 			}
 
-			$article = Cms_Model_Article_Dao::findFirstByUri($params['uri']);
+			$article = Cms_Model_Article_Dao::byUriQuery($params['uri'])
+				->findFirst();
 			if ($article !== null) {
 				$this->articleId = $article->id;
 			}
@@ -105,7 +106,8 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 	public function _insert() {
 		//dodawanie na końcu listy
 		if ($this->parentId) {
-			$lastElement = Cms_Model_Navigation_Dao::findLastByParentId($this->parentId);
+			$lastElement = Cms_Model_Navigation_Dao::descByParentIdQuery($this->parentId)
+				->findFirst();
 			$this->order = 0;
 			if ($lastElement !== null) {
 				$this->order = $lastElement->order + 1;
@@ -115,7 +117,9 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 	}
 
 	public function delete() {
-		Cms_Model_Navigation_Dao::findByParentId($this->id)->delete();
+		Cms_Model_Navigation_Dao::byParentIdQuery($this->id)
+			->find()
+			->delete();
 		$this->_clearCache();
 		return parent::delete();
 	}

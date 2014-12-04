@@ -15,7 +15,7 @@ class Cms_Controller_File extends Mmi_Controller_Action {
 			return '';
 		}
 		$files = array();
-		foreach (Cms_Model_File_Dao::findImages($this->object, $this->objectId) as $file) {
+		foreach (Cms_Model_File_Dao::imagesByObjectQuery($this->object, $this->objectId)->find() as $file) {
 			$files[] = array('title' => $file->original, 'value' => $file->getUrl('scalex', '990'));
 		}
 		return json_encode($files);

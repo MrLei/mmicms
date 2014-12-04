@@ -37,7 +37,7 @@ class Cms_Model_Auth implements Mmi_Auth_Model_Interface {
 				'message' => 'LOGIN FAILED: ' . $identity));
 			return false;
 		}
-		$record->setOption('roles', Cms_Model_Auth_Role_Dao::findPairsRolesByAuthId($record->id));
+		$record->setOption('roles', Cms_Model_Auth_Role_Dao::joinedRolebyAuthId($record->id)->findPairs('cms_role_id', 'name'));
 		$record->lastIp = Mmi_Controller_Front::getInstance()->getEnvironment()->remoteAddress;
 		$record->lastLog = date('Y-m-d H:i:s');
 		Cms_Model_Log_Dao::add('login', array(
@@ -59,11 +59,11 @@ class Cms_Model_Auth implements Mmi_Auth_Model_Interface {
 				->where('id')->equals($id)
 				->orField('username')->equals($id)
 				->orField('email')->equals($id);
-		$record = Cms_Model_Auth_Dao::findFirst($q);
+		$record = Cms_Model_Auth_Query::factory()->findFirst();
 		if ($record === null) {
 			return false;
 		}
-		$record->setOption('roles', Cms_Model_Auth_Role_Dao::findPairsRolesByAuthId($record->id));
+		$record->setOption('roles', Cms_Model_Auth_Role_Dao::joinedRolebyAuthId($record->id)->findPairs('cms_role_id', 'name'));
 		$record->lastIp = Mmi_Controller_Front::getInstance()->getEnvironment()->remoteAddress;
 		$record->lastLog = date('Y-m-d H:i:s');
 		Cms_Model_Log_Dao::add('login', array(

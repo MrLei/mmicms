@@ -4,10 +4,14 @@ class Stat_Model_Label_Dao extends Mmi_Dao {
 
 	public static $_tableName = 'stat_label';
 
-	public static function findFirstByObject($object) {
+	/**
+	 * 
+	 * @param string $object
+	 * @return Stat_Model_Label_Query
+	 */
+	public static function byObjectQuery($object) {
 		return Stat_Model_Label_Query::factory()
-				->whereObject()->equals($object)
-				->findFirst();
+				->whereObject()->equals($object);
 	}
 
 }

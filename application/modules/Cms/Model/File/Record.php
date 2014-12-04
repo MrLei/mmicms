@@ -29,11 +29,7 @@ class Cms_Model_File_Record extends Mmi_Dao_Record {
 			return false;
 		}
 		//wyłącza sticky na innych plikach dla tego object+objectId
-		$q = Cms_Model_File_Query::factory()
-				->where('sticky')->equals(1)
-				->andField('object')->equals($this->object)
-				->andField('objectId')->equals($this->objectId);
-		foreach (Cms_Model_File_Dao::find($q) as $related) {
+		foreach (Cms_Model_File_Dao::stickyByObjectQuery($this->object, $this->objectId)->find() as $related) {
 			$related->sticky = 0;
 			$related->save();
 		}

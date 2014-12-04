@@ -11,13 +11,9 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 * @return array
 	 */
 	public static function getClassified($object, $objectId) {
-		$files = Cms_Model_File_Query::factory()
-			->whereObjectId()->equals($objectId)
-			->andFieldObject()->equals($object)
-			->andFieldActive()->equals(1)
-			->orderAscOrder()
+		$files = self::byObjectQuery($object, $objectId)
+			->whereActive()->equals(1)
 			->find();
-
 		$classes = array('image' => array(), 'other' => array());
 		foreach ($files AS $file) {
 			$file->hash = $file->getHashName();
@@ -29,83 +25,55 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 		}
 		return $classes;
 	}
-
+	
 	/**
-	 * Zwraca pierwszy przyklejony plik
+	 * 
 	 * @param string $object
-	 * @param integer $id
-	 * @param string $class
-	 * @return Cms_Model_File_Record
+	 * @param string $objectId
+	 * @return Cms_Model_File_Query
 	 */
-	public static function findFirstSticky($object, $id, $class = null) {
-		$sticky = Cms_Model_File_Query::factory()
-			->whereSticky()->equals(1)
-			->andFieldObject()->equals($object)
-			->andFieldObjectId()->equals($id);
-			
-		if (null !== $class) {
-			$sticky->andFieldClass()->equals($class);
-		}
-		return $sticky->findFirst();
-	}
-
-	/**
-	 * Zwraca pierwszy obraz
-	 * @param string $object
-	 * @param integer $id
-	 * @return Cms_Model_File_Record
-	 */
-	public static function findFirstImage($object, $id) {
-		return Cms_Model_File_Query::factory()
-			->whereObject()->equals($object)
-			->andFieldObjectId()->equals($id)
-			->andFieldClass()->equals('image')
-			->orderAscOrder()
-			->findFirst();
-	}
-
-	/**
-	 * Zwraca kolecję modeli pliku z obrazami dla podanego obiektu i jego id
-	 * @param string $object
-	 * @param integer $id
-	 * @return Mmi_Dao_Collection
-	 */
-	public static function findImages($object = null, $id = null) {
-		return Cms_Model_File_Query::factory()
-			->whereObject()->equals($object)
-			->andFieldObjectId()->equals($id)
-			->andFieldClass()->equals('image')
-			->orderAscOrder()
-			->find();
-	}
-
-	/**
-	 * Zwraca kolecję modeli pliku z nie-obrazami dla podanego obiektu i jego id
-	 * @param string $object
-	 * @param integer $id
-	 * @return Mmi_Dao_Collection
-	 */
-	public static function findNotImages($object = null, $id = null) {
-		return Cms_Model_File_Query::factory()
-			->whereObject()->equals($object)
-			->andFieldObjectId()->equals($id)
-			->andFieldClass()->notEquals('image')
-			->orderAscOrder()
-			->find();
-	}
-
-	/**
-	 * Znajduje po obiekcie i id obiektu
-	 * @param string $object
-	 * @param int $objectId
-	 * @return Mmi_Dao_Collection
-	 */
-	public static function findByObjectId($object, $objectId) {
+	public static function byObjectQuery($object = null, $objectId = null) {
 		return Cms_Model_File_Query::factory()
 			->whereObject()->equals($object)
 			->andFieldObjectId()->equals($objectId)
-			->orderAscOrder()
-			->find();
+			->orderAscOrder();
+	}
+	
+	/**
+	 * 
+	 * @param string $object
+	 * @param string $objectId
+	 * @return Cms_Model_File_Query
+	 */
+	public static function imagesByObjectQuery($object = null, $objectId = null) {
+		return self::byObjectQuery($object, $objectId)
+			->whereClass()->equals('image');
+	}
+
+	/**
+	 * 
+	 * @param string $object
+	 * @param string $objectId
+	 * @return Cms_Model_File_Query
+	 */
+	public static function stickyByObjectQuery($object = null, $objectId = null, $class = null) {
+		$q = self::byObjectQuery($object, $objectId)
+			->whereSticky()->equals(1);
+		if (null !== $class) {
+			$q->andFieldClass()->equals($class);
+		}
+		return $q;
+	}
+	
+	/**
+	 * 
+	 * @param string $object
+	 * @param string $objectId
+	 * @return Cms_Model_File_Query
+	 */
+	public static function notImagesByObjectQuery($object = null, $objectId = null) {
+		return self::byObjectQuery($object, $objectId)
+			->whereClass()->notEquals('image');
 	}
 
 	/**
@@ -237,10 +205,7 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 */
 	public static function move($srcObject, $srcId, $destObject, $destId) {
 		$i = 0;
-		$q = Cms_Model_File_Query::factory()
-				->whereObject()->equals($srcObject)
-				->andFieldObjectId()->equals($srcId);
-		foreach ($q->find() as $file) {
+		foreach (self::byObjectQuery($srcObject, $srcId)->find() as $file) {
 			$file->object = $destObject;
 			$file->objectId = $destId;
 			$file->save();

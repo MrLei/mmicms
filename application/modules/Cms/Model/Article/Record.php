@@ -22,7 +22,8 @@ class Cms_Model_Article_Record extends Mmi_Dao_Record {
 	}
 
 	public function delete() {
-		$article = Cms_Model_Navigation_Dao::findFirstByArticleUri($this->uri);
+		$article = Cms_Model_Navigation_Dao::byArticleUriQuery($this->uri)
+			->findFirst();
 		if ($article !== null) {
 			$article->delete();
 		}
@@ -34,7 +35,7 @@ class Cms_Model_Article_Record extends Mmi_Dao_Record {
 		if (null !== ($image = Default_Registry::$cache->load($cacheKey))) {
 			return $image;
 		}
-		$image = Cms_Model_File_Dao::findFirstImage('cmsarticle', $this->id);
+		$image = Cms_Model_File_Dao::imagesByObjectQuery('cmsarticle', $this->id)->findFirst();
 		Default_Registry::$cache->save($image, $cacheKey, 3600);
 		return $image;
 	}
