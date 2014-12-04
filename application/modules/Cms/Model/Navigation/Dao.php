@@ -4,34 +4,62 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_navigation';
 
-	public static function findFirstByArticleUri($uri) {
+	/**
+	 * 
+	 * @return Cms_Model_Navigation_Query
+	 */
+	public static function langQuery() {
+		if (!Mmi_Controller_Front::getInstance()->getRequest()->lang) {
+			return Cms_Model_Navigation_Query::factory();
+		}
+		return Cms_Model_Navigation_Query::factory()
+				->andQuery(Cms_Model_Navigation_Query::factory()
+					->whereLang()->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
+					->orFieldLang()->equals(null)
+					->orderDescLang());
+	}
+
+	/**
+	 * 
+	 * @param string $uri
+	 * @return Cms_Model_Navigation_Query
+	 */
+	public static function byArticleUriQuery($uri) {
 		return Cms_Model_Navigation_Query::factory()
 				->whereModule()->equals('cms')
 				->andFieldController()->equals('article')
 				->andFieldAction()->equals('index')
-				->andFieldParams()->equals('uri=' . $uri)
-				->findFirst();
+				->andFieldParams()->equals('uri=' . $uri);
 	}
 
-	public static function findLastByParentId($parentId) {
+	/**
+	 * 
+	 * @param type $parentId
+	 * @return Cms_Model_Navigation_Query
+	 */
+	public static function byParentIdQuery($parentId) {
 		return Cms_Model_Navigation_Query::factory()
-				->whereParentId()->equals($parentId)
-				->orderDescOrder()
-				->findFirst();
+				->whereParentId()->equals($parentId);
 	}
 
-	public static function findByParentId($parentId) {
-		return Cms_Model_Navigation_Query::factory()
-				->whereParentId()->equals($parentId)
-				->find();
+	/**
+	 * 
+	 * @param type $parentId
+	 * @return Cms_Model_Navigation_Query
+	 */
+	public static function descByParentIdQuery($parentId) {
+		return self::byParentIdQuery($parentId)
+				->orderDescOrder();
 	}
 
+	/**
+	 * 
+	 * @return array
+	 */
 	public static function getMultiOptions() {
-		$q = Cms_Model_Navigation_Query::factory()
-			->orderAscParentId()
-			->orderAscOrder();
-		self::_langQuery($q);
-		return array(null => '---') + $q->findPairs('id', 'label');
+		return array(null => '---') + self::langQuery()
+				->orderAscParentId()
+				->orderAscOrder()->findPairs('id', 'label');
 	}
 
 	/**
@@ -39,10 +67,9 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 	 * @param Mmi_Navigation_Config $config
 	 */
 	public static function decorateConfiguration(Mmi_Navigation_Config $config) {
-		$objectArray = self::_langQuery(Cms_Model_Navigation_Query::factory()
-				->orderAscParentId()
-				->orderAscOrder()
-			)
+		$objectArray = self::langQuery()
+			->orderAscParentId()
+			->orderAscOrder()
 			->find()
 			->toObjectArray();
 		foreach ($objectArray as $key => $record) {/* @var $record Cms_Model_Navigation_Record */
@@ -119,17 +146,6 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 			->setVisible($record->visible ? true : false)
 		;
 		return $element;
-	}
-
-	protected static function _langQuery(Mmi_Dao_Query $q) {
-		if (!Mmi_Controller_Front::getInstance()->getRequest()->lang) {
-			return $q;
-		}
-		$subQ = Cms_Model_Navigation_Query::factory()
-			->whereLang()->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
-			->orFieldLang()->equals(null)
-			->orderDescLang();
-		return $q->andQuery($subQ);
 	}
 
 }

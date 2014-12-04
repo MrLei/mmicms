@@ -72,7 +72,7 @@ class Cms_Model_Container_Record extends Mmi_Dao_Record {
 	public function delete() {
 		Default_Registry::$cache->remove('Cms_Container_' . $this->uri);
 
-		$container = Cms_Model_Navigation_Dao::findFirstByArticleUri($this->uri);
+		$container = Cms_Model_Navigation_Dao::byArticleUriQuery($this->uri)->findFirst();
 
 		if ($container !== null) {
 			$container->delete();

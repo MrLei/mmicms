@@ -31,7 +31,8 @@ class News_Model_Record extends Mmi_Dao_Record {
 	}
 
 	public function getFirstImage() {
-		return Cms_Model_File_Dao::findFirstImage('news', $this->id);
+		return Cms_Model_File_Dao::imagesByObjectQuery('news', $this->id)
+				->findFirst();
 	}
 
 	protected function _insert() {
@@ -40,7 +41,9 @@ class News_Model_Record extends Mmi_Dao_Record {
 	}
 
 	public function delete() {
-		Cms_Model_File_Dao::findByObjectId('news', $this->getPk())->delete();
+		Cms_Model_File_Dao::imagesByObjectQuery('news', $this->getPk())
+			->find()
+			->delete();
 		return parent::delete();
 	}
 
