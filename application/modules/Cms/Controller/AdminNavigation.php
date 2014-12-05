@@ -16,9 +16,6 @@ class Cms_Controller_AdminNavigation extends MmiCms_Controller_Admin {
 			case 'folder':
 				$form = new Cms_Form_Admin_Page_Folder($this->id);
 				break;
-			case 'container':
-				$form = new Cms_Form_Admin_Page_Container($this->id);
-				break;
 			case 'simple':
 				$form = new Cms_Form_Admin_Page_Article($this->id);
 				break;
