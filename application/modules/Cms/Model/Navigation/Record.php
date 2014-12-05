@@ -42,16 +42,6 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 				$this->articleId = $article->id;
 			}
 		}
-		if ($this->module == 'cms' && $this->controller == 'container' && $this->action == 'display') {
-			parse_str($this->params, $params);
-			if (!isset($params['uri']) || !$params['uri']) {
-				return $this;
-			}
-			$container = Cms_Model_Container_Dao::findFirstByUri($params['uri']);
-			if ($container !== null) {
-				$this->containerId = $container->id;
-			}
-		}
 	}
 
 	public function saveForm() {
@@ -78,16 +68,6 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 			$this->controller = 'article';
 			$this->action = 'index';
 			$this->params = 'uri=' . $article->uri;
-			$this->uri = null;
-		}
-
-		//wiązanie kontenera
-		if ($this->getOption('container_id')) {
-			$container = new Cms_Model_Container_Record($this->containerId);
-			$this->module = 'cms';
-			$this->controller = 'container';
-			$this->action = 'display';
-			$this->params = 'uri=' . $container->uri;
 			$this->uri = null;
 		}
 
