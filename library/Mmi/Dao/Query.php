@@ -100,7 +100,6 @@ class Mmi_Dao_Query {
 	 * @return Mmi_Dao_Query
 	 */
 	public function orderDesc($fieldName, $tableName = null) {
-
 		$this->_compile->order[] = array($this->_prepareField($fieldName, $tableName), 'DESC', $tableName);
 		return $this;
 	}
@@ -173,7 +172,7 @@ class Mmi_Dao_Query {
 	}
 
 	/**
-	 * Łączy tabelę
+	 * Dołącza tabelę tabelę
 	 * @param string $tableName nazwa tabeli
 	 * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć
 	 * @return Mmi_Dao_Query_Join
@@ -183,7 +182,7 @@ class Mmi_Dao_Query {
 	}
 
 	/**
-	 * Łączy tabelę złączeniem lewym
+	 * Dołącza tabelę złączeniem lewym
 	 * @param string $tableName nazwa tabeli
 	 * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć
 	 * @return Mmi_Dao_Query_Join
@@ -366,7 +365,7 @@ class Mmi_Dao_Query {
 	/**
 	 * Zwraca pola do selecta
 	 * @param array $joinSchema
-	 * @return string
+	 * @return array
 	 */
 	protected function _getFields($joinSchema) {
 		if (empty($joinSchema)) {

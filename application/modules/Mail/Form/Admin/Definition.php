@@ -15,7 +15,7 @@ class Mail_Form_Admin_Definition extends Mmi_Form {
 		$this->addElementSelect('mail_server_id')
 			->setLabel('Połącznie')
 			->setRequired()
-			->setMultiOptions(Mail_Model_Server_Dao::findPairsActive());
+			->setMultiOptions(Mail_Model_Server_Dao::getMultioptions());
 
 		$this->addElementText('subject')
 			->setLabel('Tytuł')

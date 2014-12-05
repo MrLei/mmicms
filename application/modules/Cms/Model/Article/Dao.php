@@ -13,5 +13,12 @@ class Cms_Model_Article_Dao extends Mmi_Dao {
 		return Cms_Model_Article_Query::factory()
 				->whereUri()->equals($uri);
 	}
-	
+
+	public static function getMultioptions() {
+		return array(null => '---') +
+				Cms_Model_Article_Query::factory()
+				->orderAscTitle()
+				->findPairs('id', 'title');
+	}
+
 }
