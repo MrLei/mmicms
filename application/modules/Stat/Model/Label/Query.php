@@ -13,7 +13,7 @@
  * @method Stat_Model_Label_Query_Field orField() orField($fieldName, $tableName = null)
  * @method Stat_Model_Label_Query resetOrder() resetOrder()
  * @method Stat_Model_Label_Query resetWhere() resetWhere()
- * @method Mmi_Dao_Record_Collection find() find()
+ * @method Stat_Model_Label_Record[] find() find()
  * @method Stat_Model_Label_Record findFirst() findFirst()
  */
 class Stat_Model_Label_Query extends Mmi_Dao_Query {

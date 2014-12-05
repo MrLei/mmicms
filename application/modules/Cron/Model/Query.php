@@ -13,7 +13,7 @@
  * @method Cron_Model_Query_Field orField() orField($fieldName, $tableName = null)
  * @method Cron_Model_Query resetOrder() resetOrder()
  * @method Cron_Model_Query resetWhere() resetWhere()
- * @method Mmi_Dao_Record_Collection find() find()
+ * @method Cron_Model_Record[] find() find()
  * @method Cron_Model_Record findFirst() findFirst()
  */
 class Cron_Model_Query extends Mmi_Dao_Query {

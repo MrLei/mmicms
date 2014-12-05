@@ -13,7 +13,7 @@
  * @method Cms_Model_Tag_Link_Query_Field orField() orField($fieldName, $tableName = null)
  * @method Cms_Model_Tag_Link_Query resetOrder() resetOrder()
  * @method Cms_Model_Tag_Link_Query resetWhere() resetWhere()
- * @method Mmi_Dao_Record_Collection find() find()
+ * @method Cms_Model_Tag_Link_Record[] find() find()
  * @method Cms_Model_Tag_Link_Record findFirst() findFirst()
  */
 class Cms_Model_Tag_Link_Query extends Mmi_Dao_Query {

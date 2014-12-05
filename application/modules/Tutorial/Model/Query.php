@@ -13,7 +13,7 @@
  * @method Tutorial_Model_Query_Field orField() orField($fieldName, $tableName = null)
  * @method Tutorial_Model_Query resetOrder() resetOrder()
  * @method Tutorial_Model_Query resetWhere() resetWhere()
- * @method Mmi_Dao_Record_Collection find() find()
+ * @method Tutorial_Model_Record[] find() find()
  * @method Tutorial_Model_Record findFirst() findFirst()
  */
 class Tutorial_Model_Query extends Mmi_Dao_Query {

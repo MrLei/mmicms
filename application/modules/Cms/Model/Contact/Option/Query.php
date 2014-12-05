@@ -13,7 +13,7 @@
  * @method Cms_Model_Contact_Option_Query_Field orField() orField($fieldName, $tableName = null)
  * @method Cms_Model_Contact_Option_Query resetOrder() resetOrder()
  * @method Cms_Model_Contact_Option_Query resetWhere() resetWhere()
- * @method Mmi_Dao_Record_Collection find() find()
+ * @method Cms_Model_Contact_Option_Record[] find() find()
  * @method Cms_Model_Contact_Option_Record findFirst() findFirst()
  */
 class Cms_Model_Contact_Option_Query extends Mmi_Dao_Query {

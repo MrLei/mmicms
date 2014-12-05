@@ -162,7 +162,6 @@ class Mmi_Dao_Builder {
 		$className = $classPrefix . '_Query';
 		$fieldClassName = $classPrefix . '_Query_Field';
 		$recordClassName = $classPrefix . '_Record';
-		$collectionClassName = 'Mmi_Dao_Record_Collection';
 		$daoClassName = $classPrefix . '_Dao';
 		$path = $pathPrefix . '/Query.php';
 		$queryCode = '<?php' . "\n\n" .
@@ -179,7 +178,7 @@ class Mmi_Dao_Builder {
 			' * @method ' . $fieldClassName . ' orField() orField($fieldName, $tableName = null)' . "\n" .
 			' * @method ' . $className . ' resetOrder() resetOrder()' . "\n" .
 			' * @method ' . $className . ' resetWhere() resetWhere()' . "\n" .
-			' * @method ' . $collectionClassName . ' find() find()' . "\n" .
+			' * @method ' . $recordClassName . '[] find() find()' . "\n" .
 			' * @method ' . $recordClassName . ' findFirst() findFirst()' . "\n" .
 			' */' . "\n" .
 			'class ' .
