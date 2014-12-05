@@ -13,7 +13,7 @@
  * @method Cms_Model_Log_Query_Field orField() orField($fieldName, $tableName = null)
  * @method Cms_Model_Log_Query resetOrder() resetOrder()
  * @method Cms_Model_Log_Query resetWhere() resetWhere()
- * @method Mmi_Dao_Record_Collection find() find()
+ * @method Cms_Model_Log_Record[] find() find()
  * @method Cms_Model_Log_Record findFirst() findFirst()
  */
 class Cms_Model_Log_Query extends Mmi_Dao_Query {

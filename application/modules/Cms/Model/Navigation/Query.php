@@ -13,7 +13,7 @@
  * @method Cms_Model_Navigation_Query_Field orField() orField($fieldName, $tableName = null)
  * @method Cms_Model_Navigation_Query resetOrder() resetOrder()
  * @method Cms_Model_Navigation_Query resetWhere() resetWhere()
- * @method Mmi_Dao_Record_Collection find() find()
+ * @method Cms_Model_Navigation_Record[] find() find()
  * @method Cms_Model_Navigation_Record findFirst() findFirst()
  */
 class Cms_Model_Navigation_Query extends Mmi_Dao_Query {

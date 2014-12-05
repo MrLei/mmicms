@@ -13,7 +13,7 @@
  * @method Stat_Model_Date_Query_Field orField() orField($fieldName, $tableName = null)
  * @method Stat_Model_Date_Query resetOrder() resetOrder()
  * @method Stat_Model_Date_Query resetWhere() resetWhere()
- * @method Mmi_Dao_Record_Collection find() find()
+ * @method Stat_Model_Date_Record[] find() find()
  * @method Stat_Model_Date_Record findFirst() findFirst()
  */
 class Stat_Model_Date_Query extends Mmi_Dao_Query {

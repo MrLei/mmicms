@@ -13,7 +13,7 @@
  * @method Mail_Model_Server_Query_Field orField() orField($fieldName, $tableName = null)
  * @method Mail_Model_Server_Query resetOrder() resetOrder()
  * @method Mail_Model_Server_Query resetWhere() resetWhere()
- * @method Mmi_Dao_Record_Collection find() find()
+ * @method Mail_Model_Server_Record[] find() find()
  * @method Mail_Model_Server_Record findFirst() findFirst()
  */
 class Mail_Model_Server_Query extends Mmi_Dao_Query {
