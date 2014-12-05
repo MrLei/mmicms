@@ -161,6 +161,7 @@ class Mmi_Dao_Builder {
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
 		$className = $classPrefix . '_Query';
 		$fieldClassName = $classPrefix . '_Query_Field';
+		$joinClassName = $classPrefix . '_Query_Join';
 		$recordClassName = $classPrefix . '_Record';
 		$daoClassName = $classPrefix . '_Dao';
 		$path = $pathPrefix . '/Query.php';
@@ -173,11 +174,13 @@ class Mmi_Dao_Builder {
 			' * @method ' . $className . ' andQuery() andQuery(Mmi_Dao_Query $query)' . "\n" .
 			' * @method ' . $className . ' whereQuery() whereQuery(Mmi_Dao_Query $query)' . "\n" .
 			' * @method ' . $className . ' orQuery() orQuery(Mmi_Dao_Query $query)' . "\n" .
+			' * @method ' . $className . ' resetOrder() resetOrder()' . "\n" .
+			' * @method ' . $className . ' resetWhere() resetWhere()' . "\n" .
 			' * @method ' . $fieldClassName . ' andField() andField($fieldName, $tableName = null)' . "\n" .
 			' * @method ' . $fieldClassName . ' where() where($fieldName, $tableName = null)' . "\n" .
 			' * @method ' . $fieldClassName . ' orField() orField($fieldName, $tableName = null)' . "\n" .
-			' * @method ' . $className . ' resetOrder() resetOrder()' . "\n" .
-			' * @method ' . $className . ' resetWhere() resetWhere()' . "\n" .
+			' * @method ' . $joinClassName . ' join() join($tableName, $targetTableName = null)' . "\n" .
+			' * @method ' . $joinClassName . ' joinLeft() joinLeft($tableName, $targetTableName = null)' . "\n" .
 			' * @method ' . $recordClassName . '[] find() find()' . "\n" .
 			' * @method ' . $recordClassName . ' findFirst() findFirst()' . "\n" .
 			' */' . "\n" .
@@ -206,7 +209,6 @@ class Mmi_Dao_Builder {
 			$methods .= self::_queryMethod('orderAsc', $fieldName, $tableName);
 			$methods .= self::_queryMethod('orderDesc', $fieldName, $tableName);
 		}
-		$methods .= self::_queryJoinMethod($tableName);
 		$queryCode = preg_replace('/(class [a-zA-Z0-9_]+ extends [a-zA-Z0-9_]+\s\{?\n?)/', '$1' . $methods, $queryCode);
 		file_put_contents($path, $queryCode);
 	}
@@ -218,26 +220,6 @@ class Mmi_Dao_Builder {
 			"\t" . ' */' . "\n" .
 			"\t" . 'public function ' . $prefix . ucfirst($fieldName) . "() {\n"
 			. "\t\t" . 'return $this->' .  $prefix . '(\'' . $fieldName . '\');' . "\n"
-			. "\t}\n";
-	}
-
-	protected static function _queryJoinMethod($tableName) {
-		$joinClass = self::_getClassNamePrefixByTableName($tableName) . '_Query_Join';
-		return "\n\t" . '/**' . "\n" .
-			"\t" . ' * @param string $tableName nazwa tabeli' . "\n" .
-			"\t" . ' * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć' . "\n" .
-			"\t" . ' * @return ' . $joinClass . "\n" .
-			"\t" . ' */' . "\n" .
-			"\t" . 'public function join($tableName, $targetTableName = null)' . " {\n"
-			. "\t\t" . 'return parent::join($tableName, $targetTableName);' . "\n"
-			. "\t}\n\n" .
-			"\t" . '/**' . "\n" .
-			"\t" . ' * @param string $tableName nazwa tabeli' . "\n" .
-			"\t" . ' * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć' . "\n" .
-			"\t" . ' * @return ' . $joinClass . "\n" .
-			"\t" . ' */' . "\n" .
-			"\t" . 'public function joinLeft($tableName, $targetTableName = null)' . " {\n"
-			. "\t\t" . 'return parent::joinLeft($tableName, $targetTableName);' . "\n"
 			. "\t}\n";
 	}
 

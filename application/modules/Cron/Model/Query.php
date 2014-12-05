@@ -8,11 +8,13 @@
  * @method Cron_Model_Query andQuery() andQuery(Mmi_Dao_Query $query)
  * @method Cron_Model_Query whereQuery() whereQuery(Mmi_Dao_Query $query)
  * @method Cron_Model_Query orQuery() orQuery(Mmi_Dao_Query $query)
+ * @method Cron_Model_Query resetOrder() resetOrder()
+ * @method Cron_Model_Query resetWhere() resetWhere()
  * @method Cron_Model_Query_Field andField() andField($fieldName, $tableName = null)
  * @method Cron_Model_Query_Field where() where($fieldName, $tableName = null)
  * @method Cron_Model_Query_Field orField() orField($fieldName, $tableName = null)
- * @method Cron_Model_Query resetOrder() resetOrder()
- * @method Cron_Model_Query resetWhere() resetWhere()
+ * @method Cron_Model_Query_Join join() join($tableName, $targetTableName = null)
+ * @method Cron_Model_Query_Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method Cron_Model_Record[] find() find()
  * @method Cron_Model_Record findFirst() findFirst()
  */
@@ -548,24 +550,6 @@ class Cron_Model_Query extends Mmi_Dao_Query {
 	 */
 	public function orderDescDateLastExecute() {
 		return $this->orderDesc('dateLastExecute');
-	}
-
-	/**
-	 * @param string $tableName nazwa tabeli
-	 * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć
-	 * @return Cron_Model_Query_Join
-	 */
-	public function join($tableName, $targetTableName = null) {
-		return parent::join($tableName, $targetTableName);
-	}
-
-	/**
-	 * @param string $tableName nazwa tabeli
-	 * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć
-	 * @return Cron_Model_Query_Join
-	 */
-	public function joinLeft($tableName, $targetTableName = null) {
-		return parent::joinLeft($tableName, $targetTableName);
 	}
 
 }

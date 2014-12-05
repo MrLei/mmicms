@@ -67,7 +67,7 @@ class Mmi_Dao_Query {
 	 * @param int $limit
 	 * @return Mmi_Dao_Query
 	 */
-	public function limit($limit = null) {
+	public final function limit($limit = null) {
 		$this->_compile->limit = $limit;
 		return $this;
 	}
@@ -77,7 +77,7 @@ class Mmi_Dao_Query {
 	 * @param int $offset
 	 * @return Mmi_Dao_Query
 	 */
-	public function offset($offset = null) {
+	public final function offset($offset = null) {
 		$this->_compile->offset = $offset;
 		return $this;
 	}
@@ -88,7 +88,7 @@ class Mmi_Dao_Query {
 	 * @param string $tableName opcjonalna nazwa tabeli źródłowej
 	 * @return Mmi_Dao_Query
 	 */
-	public function orderAsc($fieldName, $tableName = null) {
+	public final function orderAsc($fieldName, $tableName = null) {
 		$this->_compile->order[] = array($this->_prepareField($fieldName, $tableName), 'ASC', $tableName);
 		return $this;
 	}
@@ -99,7 +99,7 @@ class Mmi_Dao_Query {
 	 * @param string $tableName opcjonalna nazwa tabeli źródłowej
 	 * @return Mmi_Dao_Query
 	 */
-	public function orderDesc($fieldName, $tableName = null) {
+	public final function orderDesc($fieldName, $tableName = null) {
 		$this->_compile->order[] = array($this->_prepareField($fieldName, $tableName), 'DESC', $tableName);
 		return $this;
 	}
@@ -109,13 +109,8 @@ class Mmi_Dao_Query {
 	 * @param Mmi_Dao_Query $query
 	 * @return Mmi_Dao_Query
 	 */
-	public function andQuery(Mmi_Dao_Query $query) {
-		$bind = $query->queryCompilation()->bind;
-		if (empty($bind)) {
-			return $this;
-		}
-		$this->_compile->bind[] = array($bind, 'AND');
-		return $this;
+	public final function andQuery(Mmi_Dao_Query $query) {
+		return $this->_mergeQueries($query, true);
 	}
 
 	/**
@@ -123,7 +118,7 @@ class Mmi_Dao_Query {
 	 * @param Mmi_Dao_Query $query
 	 * @return Mmi_Dao_Query
 	 */
-	public function whereQuery(Mmi_Dao_Query $query) {
+	public final function whereQuery(Mmi_Dao_Query $query) {
 		return $this->andQuery($query);
 	}
 
@@ -132,13 +127,8 @@ class Mmi_Dao_Query {
 	 * @param Mmi_Dao_Query $query
 	 * @return Mmi_Dao_Query
 	 */
-	public function orQuery(Mmi_Dao_Query $query) {
-		$bind = $query->queryCompilation()->bind;
-		if (empty($bind)) {
-			return $this;
-		}
-		$this->_compile->bind[] = array($bind, 'OR');
-		return $this;
+	public final function orQuery(Mmi_Dao_Query $query) {
+		return $this->_mergeQueries($query, false);
 	}
 
 	/**
@@ -147,7 +137,7 @@ class Mmi_Dao_Query {
 	 * @param string $tableName opcjonalna nazwa tabeli źródłowej
 	 * @return Mmi_Dao_Query_Field
 	 */
-	public function andField($fieldName, $tableName = null) {
+	public final function andField($fieldName, $tableName = null) {
 		return new Mmi_Dao_Query_Field($this, $this->_prepareField($fieldName, $tableName), $tableName, 'AND');
 	}
 
@@ -157,7 +147,7 @@ class Mmi_Dao_Query {
 	 * @param string $tableName opcjonalna nazwa tabeli źródłowej
 	 * @return Mmi_Dao_Query_Field
 	 */
-	public function where($fieldName, $tableName = null) {
+	public final function where($fieldName, $tableName = null) {
 		return $this->andField($fieldName, $tableName);
 	}
 
@@ -167,7 +157,7 @@ class Mmi_Dao_Query {
 	 * @param string $tableName opcjonalna nazwa tabeli źródłowej
 	 * @return Mmi_Dao_Query_Field
 	 */
-	public function orField($fieldName, $tableName = null) {
+	public final function orField($fieldName, $tableName = null) {
 		return new Mmi_Dao_Query_Field($this, $this->_prepareField($fieldName, $tableName), $tableName, 'OR');
 	}
 
@@ -177,7 +167,7 @@ class Mmi_Dao_Query {
 	 * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć
 	 * @return Mmi_Dao_Query_Join
 	 */
-	public function join($tableName, $targetTableName = null) {
+	public final function join($tableName, $targetTableName = null) {
 		return new Mmi_Dao_Query_Join($this, $tableName, 'JOIN', $targetTableName);
 	}
 
@@ -187,7 +177,7 @@ class Mmi_Dao_Query {
 	 * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć
 	 * @return Mmi_Dao_Query_Join
 	 */
-	public function joinLeft($tableName, $targetTableName = null) {
+	public final function joinLeft($tableName, $targetTableName = null) {
 		return new Mmi_Dao_Query_Join($this, $tableName, 'LEFT JOIN', $targetTableName);
 	}
 	
@@ -313,7 +303,7 @@ class Mmi_Dao_Query {
 	 * Zwraca skompilowane zapytanie
 	 * @return Mmi_Dao_Query_Compile
 	 */
-	public function queryCompilation() {
+	public final function queryCompilation() {
 		return $this->_compile;
 	}
 
@@ -321,7 +311,7 @@ class Mmi_Dao_Query {
 	 * Zwraca skrót MD5 zapytania
 	 * @return string
 	 */
-	public function queryCompilationMd5() {
+	public final function queryCompilationMd5() {
 		return md5(print_r($this->_compile, true));
 	}
 	
@@ -329,7 +319,7 @@ class Mmi_Dao_Query {
 	 * Resetuje sortowanie w zapytaniu
 	 * @return Mmi_Dao_Query
 	 */
-	public function resetOrder() {
+	public final function resetOrder() {
 		$this->_compile->order = array();
 		return $this;
 	}
@@ -338,7 +328,7 @@ class Mmi_Dao_Query {
 	 * Resetuje warunki w zapytaniu
 	 * @return Mmi_Dao_Query
 	 */
-	public function resetWhere() {
+	public final function resetWhere() {
 		$this->_compile->bind = array();
 		return $this;
 	}
@@ -367,7 +357,7 @@ class Mmi_Dao_Query {
 	 * @param array $joinSchema
 	 * @return array
 	 */
-	protected function _getFields($joinSchema) {
+	protected final function _getFields($joinSchema) {
 		if (empty($joinSchema)) {
 			return array('*');
 		}
@@ -385,6 +375,28 @@ class Mmi_Dao_Query {
 			}
 		}
 		return $fields;
+	}
+	
+	/**
+	 * Łączy query
+	 * @param boolean $type
+	 * @return Mmi_Dao_Query
+	 */
+	protected final function _mergeQueries(Mmi_Dao_Query $query, $and = true) {
+		$compilation = $query->queryCompilation();
+		//sumowanie lub iloczyn bind
+		if (!empty($compilation->bind)) {
+			$this->_compile->bind[] = array($compilation->bind, $and ? 'AND' : 'OR');
+		}
+		//suma joinów query nadrzędnej i podrzędnej
+		if (!empty($compilation->joinSchema)) {
+			$this->_compile->joinSchema = array_merge($this->_compile->joinSchema, $compilation->joinSchema);
+		}
+		//suma orderów query nadrzędnej i podrzędnej
+		if (!empty($compilation->order)) {
+			$this->_compile->order = array_merge($this->_compile->order, $compilation->order);
+		}
+		return $this;
 	}
 
 }

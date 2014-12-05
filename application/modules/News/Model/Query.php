@@ -8,11 +8,13 @@
  * @method News_Model_Query andQuery() andQuery(Mmi_Dao_Query $query)
  * @method News_Model_Query whereQuery() whereQuery(Mmi_Dao_Query $query)
  * @method News_Model_Query orQuery() orQuery(Mmi_Dao_Query $query)
+ * @method News_Model_Query resetOrder() resetOrder()
+ * @method News_Model_Query resetWhere() resetWhere()
  * @method News_Model_Query_Field andField() andField($fieldName, $tableName = null)
  * @method News_Model_Query_Field where() where($fieldName, $tableName = null)
  * @method News_Model_Query_Field orField() orField($fieldName, $tableName = null)
- * @method News_Model_Query resetOrder() resetOrder()
- * @method News_Model_Query resetWhere() resetWhere()
+ * @method News_Model_Query_Join join() join($tableName, $targetTableName = null)
+ * @method News_Model_Query_Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method News_Model_Record[] find() find()
  * @method News_Model_Record findFirst() findFirst()
  */
@@ -373,24 +375,6 @@ class News_Model_Query extends Mmi_Dao_Query {
 	 */
 	public function orderDescVisible() {
 		return $this->orderDesc('visible');
-	}
-
-	/**
-	 * @param string $tableName nazwa tabeli
-	 * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć
-	 * @return News_Model_Query_Join
-	 */
-	public function join($tableName, $targetTableName = null) {
-		return parent::join($tableName, $targetTableName);
-	}
-
-	/**
-	 * @param string $tableName nazwa tabeli
-	 * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć
-	 * @return News_Model_Query_Join
-	 */
-	public function joinLeft($tableName, $targetTableName = null) {
-		return parent::joinLeft($tableName, $targetTableName);
 	}
 
 }

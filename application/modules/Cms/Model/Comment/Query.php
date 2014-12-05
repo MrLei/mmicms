@@ -8,11 +8,13 @@
  * @method Cms_Model_Comment_Query andQuery() andQuery(Mmi_Dao_Query $query)
  * @method Cms_Model_Comment_Query whereQuery() whereQuery(Mmi_Dao_Query $query)
  * @method Cms_Model_Comment_Query orQuery() orQuery(Mmi_Dao_Query $query)
+ * @method Cms_Model_Comment_Query resetOrder() resetOrder()
+ * @method Cms_Model_Comment_Query resetWhere() resetWhere()
  * @method Cms_Model_Comment_Query_Field andField() andField($fieldName, $tableName = null)
  * @method Cms_Model_Comment_Query_Field where() where($fieldName, $tableName = null)
  * @method Cms_Model_Comment_Query_Field orField() orField($fieldName, $tableName = null)
- * @method Cms_Model_Comment_Query resetOrder() resetOrder()
- * @method Cms_Model_Comment_Query resetWhere() resetWhere()
+ * @method Cms_Model_Comment_Query_Join join() join($tableName, $targetTableName = null)
+ * @method Cms_Model_Comment_Query_Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method Cms_Model_Comment_Record[] find() find()
  * @method Cms_Model_Comment_Record findFirst() findFirst()
  */
@@ -408,24 +410,6 @@ class Cms_Model_Comment_Query extends Mmi_Dao_Query {
 	 */
 	public function orderDescObjectId() {
 		return $this->orderDesc('objectId');
-	}
-
-	/**
-	 * @param string $tableName nazwa tabeli
-	 * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć
-	 * @return Cms_Model_Comment_Query_Join
-	 */
-	public function join($tableName, $targetTableName = null) {
-		return parent::join($tableName, $targetTableName);
-	}
-
-	/**
-	 * @param string $tableName nazwa tabeli
-	 * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć
-	 * @return Cms_Model_Comment_Query_Join
-	 */
-	public function joinLeft($tableName, $targetTableName = null) {
-		return parent::joinLeft($tableName, $targetTableName);
 	}
 
 }
