@@ -211,16 +211,16 @@ class Mmi_Dao_Query {
 		$compile = $this->queryCompilation();
 		$dao = $this->_daoClassName;
 		$result = $dao::getAdapter()->select($dao::getTableName(), $compile->bind, $compile->order, $compile->limit, $compile->offset, $this->_getFields($compile->joinSchema), $compile->joinSchema);
-		$collectionName = $dao::getCollectionName();
-		$collection = new $collectionName();
 		$recordName = $dao::getRecordName();
+		$records = array();
 		foreach ($result as $row) {
 			$record = new $recordName();
 			/* @var $record Mmi_Dao_Record */
 			$record->setFromArray($row)->clearModified()->setNew(false);
-			$collection->append($record);
+			$records[] = $record;
 		}
-		return $collection;
+		$collectionName = $dao::getCollectionName();
+		return new $collectionName($records);
 	}
 	
 	/**
