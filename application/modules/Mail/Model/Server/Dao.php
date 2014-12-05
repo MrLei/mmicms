@@ -8,7 +8,7 @@ class Mail_Model_Server_Dao extends Mmi_Dao {
 	 * Pobiera aktywne serwery do listy
 	 * @return array lista
 	 */
-	public static function findPairsActive() {
+	public static function getMultioptions() {
 		$rows = Mail_Model_Server_Query::factory()
 			->whereActive()->equals(1)
 			->find();

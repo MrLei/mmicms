@@ -17,11 +17,12 @@ class Cms_Model_Route_Dao extends Mmi_Dao {
 	/**
 	 * Aktualizuje konfigurację routera
 	 * @param Mmi_Controller_Router_Config $config
+	 * @param Mmi_Dao_Record_Collection $routes
 	 * @return Mmi_Controller_Router_Config
 	 */
-	public static function updateRouterConfig(Mmi_Controller_Router_Config $config) {
+	public static function updateRouterConfig(Mmi_Controller_Router_Config $config, Mmi_Dao_Record_Collection $routes) {
 		$i = 0;
-		foreach (self::activeQuery()->find() as $route) { /* @var $route Cms_Model_Route_Record */
+		foreach ($routes as $route) { /* @var $route Cms_Model_Route_Record */
 			$i++;
 			$route = $route->toRouteArray();
 			$config->setRoute('cms-' . $i, $route['pattern'], $route['replace'], $route['default']);

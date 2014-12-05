@@ -4,7 +4,7 @@ class Stat_Model_Date_Dao extends Mmi_Dao {
 
 	public static $_tableName = 'stat_date';
 
-	public static function findUniqueObjects() {
+	public static function getUniqueObjects() {
 		$all = Stat_Model_Date_Query::factory()
 			->whereHour()->equals(null)
 			->andFieldDay()->equals(null)

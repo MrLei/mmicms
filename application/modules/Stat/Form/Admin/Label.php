@@ -9,7 +9,7 @@ class Stat_Form_Admin_Label extends Mmi_Form {
 		$this->addElementSelect('object')
 			->setLabel('klucz')
 			->setRequired()
-			->setMultiOptions(Stat_Model_Date_Dao::findUniqueObjects());
+			->setMultiOptions(Stat_Model_Date_Dao::getUniqueObjects());
 
 		$this->addElementText('label')
 			->setLabel('nazwa statystyki')
