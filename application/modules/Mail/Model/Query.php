@@ -8,11 +8,13 @@
  * @method Mail_Model_Query andQuery() andQuery(Mmi_Dao_Query $query)
  * @method Mail_Model_Query whereQuery() whereQuery(Mmi_Dao_Query $query)
  * @method Mail_Model_Query orQuery() orQuery(Mmi_Dao_Query $query)
+ * @method Mail_Model_Query resetOrder() resetOrder()
+ * @method Mail_Model_Query resetWhere() resetWhere()
  * @method Mail_Model_Query_Field andField() andField($fieldName, $tableName = null)
  * @method Mail_Model_Query_Field where() where($fieldName, $tableName = null)
  * @method Mail_Model_Query_Field orField() orField($fieldName, $tableName = null)
- * @method Mail_Model_Query resetOrder() resetOrder()
- * @method Mail_Model_Query resetWhere() resetWhere()
+ * @method Mail_Model_Query_Join join() join($tableName, $targetTableName = null)
+ * @method Mail_Model_Query_Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method Mail_Model_Record[] find() find()
  * @method Mail_Model_Record findFirst() findFirst()
  */
@@ -478,24 +480,6 @@ class Mail_Model_Query extends Mmi_Dao_Query {
 	 */
 	public function orderDescActive() {
 		return $this->orderDesc('active');
-	}
-
-	/**
-	 * @param string $tableName nazwa tabeli
-	 * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć
-	 * @return Mail_Model_Query_Join
-	 */
-	public function join($tableName, $targetTableName = null) {
-		return parent::join($tableName, $targetTableName);
-	}
-
-	/**
-	 * @param string $tableName nazwa tabeli
-	 * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć
-	 * @return Mail_Model_Query_Join
-	 */
-	public function joinLeft($tableName, $targetTableName = null) {
-		return parent::joinLeft($tableName, $targetTableName);
 	}
 
 }

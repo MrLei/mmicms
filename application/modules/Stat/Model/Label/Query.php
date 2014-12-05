@@ -8,11 +8,13 @@
  * @method Stat_Model_Label_Query andQuery() andQuery(Mmi_Dao_Query $query)
  * @method Stat_Model_Label_Query whereQuery() whereQuery(Mmi_Dao_Query $query)
  * @method Stat_Model_Label_Query orQuery() orQuery(Mmi_Dao_Query $query)
+ * @method Stat_Model_Label_Query resetOrder() resetOrder()
+ * @method Stat_Model_Label_Query resetWhere() resetWhere()
  * @method Stat_Model_Label_Query_Field andField() andField($fieldName, $tableName = null)
  * @method Stat_Model_Label_Query_Field where() where($fieldName, $tableName = null)
  * @method Stat_Model_Label_Query_Field orField() orField($fieldName, $tableName = null)
- * @method Stat_Model_Label_Query resetOrder() resetOrder()
- * @method Stat_Model_Label_Query resetWhere() resetWhere()
+ * @method Stat_Model_Label_Query_Join join() join($tableName, $targetTableName = null)
+ * @method Stat_Model_Label_Query_Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method Stat_Model_Label_Record[] find() find()
  * @method Stat_Model_Label_Record findFirst() findFirst()
  */
@@ -198,24 +200,6 @@ class Stat_Model_Label_Query extends Mmi_Dao_Query {
 	 */
 	public function orderDescDescription() {
 		return $this->orderDesc('description');
-	}
-
-	/**
-	 * @param string $tableName nazwa tabeli
-	 * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć
-	 * @return Stat_Model_Label_Query_Join
-	 */
-	public function join($tableName, $targetTableName = null) {
-		return parent::join($tableName, $targetTableName);
-	}
-
-	/**
-	 * @param string $tableName nazwa tabeli
-	 * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć
-	 * @return Stat_Model_Label_Query_Join
-	 */
-	public function joinLeft($tableName, $targetTableName = null) {
-		return parent::joinLeft($tableName, $targetTableName);
 	}
 
 }
