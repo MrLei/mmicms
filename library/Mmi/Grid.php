@@ -104,10 +104,6 @@ abstract class Mmi_Grid {
 		$this->_id = strtolower(substr($class, strrpos($class, '_') + 1));
 		$this->setOptions($options);
 		$this->init();
-		//sprawdzanie query
-		if (!($this->_daoQuery instanceof Mmi_Dao_Query)) {
-			throw new Exception('Mmi_Grid: invalid DAO Query object supplied');
-		}
 		$this->_renderStarted = false;
 	}
 
@@ -245,6 +241,10 @@ abstract class Mmi_Grid {
 	 * @return string
 	 */
 	public function render() {
+		//sprawdzanie query
+		if (!($this->_daoQuery instanceof Mmi_Dao_Query)) {
+			throw new Exception('Mmi_Grid: invalid DAO Query object supplied');
+		}
 		$html = '<form id="' . $this->_id . '"><table class="striped ' . $this->_options['class'] . '">';
 		$html .= $this->renderHead();
 		$html .= '<tbody id="' . $this->_id . '_body">';
