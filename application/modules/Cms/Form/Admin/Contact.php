@@ -8,7 +8,7 @@ class Cms_Form_Admin_Contact extends Mmi_Form {
 	public function init() {
 
 		if (!$this->getOption('subjectId')) {
-			$this->addElementSelect('cms_contact_option_id')
+			$this->addElementSelect('cmsContactOptionId')
 				->setDisabled()
 				->setIgnore()
 				->setValue($this->getOption('subjectId'))
