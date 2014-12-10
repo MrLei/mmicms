@@ -94,7 +94,7 @@ class Mmi_Dao_Builder {
 			$variables[] = Mmi_Dao::convertUnderscoreToCamelcase($fieldName);
 			$variableString .= "\t" . 'public $' . Mmi_Dao::convertUnderscoreToCamelcase($fieldName) . ";\n";
 		}
-		if (preg_match_all('/\tpublic \$([a-zA-Z0-9]+)[\;|\s\=]/', $recordCode, $codeVariables) && isset($codeVariables[1])) {
+		if (preg_match_all('/\tpublic \$([a-zA-Z0-9\_]+)[\;|\s\=]/', $recordCode, $codeVariables) && isset($codeVariables[1])) {
 			$diffRecord = array_diff($codeVariables[1], $variables);
 			$diffDb = array_diff($variables, $codeVariables[1]);
 			if (!empty($diffRecord) || !empty($diffDb)) {
