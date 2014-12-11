@@ -176,6 +176,14 @@ abstract class Mmi_Grid {
 		$this->_daoQuery = $query;
 		return $this;
 	}
+	
+	/**
+	 * Zwraca obiekt zapytania filtrującego
+	 * @return Mmi_Dao_Query
+	 */
+	public function getQuery() {
+		return $this->_daoQuery;
+	}
 
 	/**
 	 * Dodaje kolumnę
