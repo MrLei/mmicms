@@ -342,7 +342,7 @@ class Mmi_Dao_Query {
 	 */
 	protected final function _prepareField($fieldName, $tableName = null) {
 		$dao = $this->_daoClassName;
-		if ($dao::fieldInTable($fieldName, $tableName)) {
+		if ($dao::fieldInTable($fieldName, $tableName) || $fieldName == 'RAND()') {
 			return $fieldName;
 		}
 		$convertedFieldName = Mmi_Dao::convertCamelcaseToUnderscore($fieldName);
