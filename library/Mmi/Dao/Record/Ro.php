@@ -75,7 +75,7 @@ class Mmi_Dao_Record_Ro {
 		}
 		//wczytanie danych do rekordu jeśli jest stworzony po ID
 		$dao = $this->_daoClass;
-		$result = $dao::getAdapter()->select($dao::getTableName(), $this->_pkBind($pk), array(), 1);
+		$result = $dao::getAdapter()->select($dao::getTableName(), $this->_pkWhere(), '', 1, null, '*', array(), $this->_pkBind($pk));
 		if (!is_array($result) || !isset($result[0])) {
 			return;
 		}
@@ -277,9 +277,21 @@ class Mmi_Dao_Record_Ro {
 			if (!array_key_exists($index, $values)) {
 				throw new Exception('Mmi_Dao_Record_Ro: Invalid primary key values: ' . $column . ' not found in ' . print_r($values, true) . $this->_daoClass);
 			}
-			$bind[] = array($column, $values[$index]);
+			$bind[] = $values[$index];
 		}
 		return $bind;
+	}
+
+	/**
+	 * Zwraca where
+	 * @return array tablica bind
+	 */
+	protected final function _pkWhere() {
+		$where = 'WHERE ';
+		foreach ($this->_pk as $column) {
+			$where .= '?, ';
+		}
+		return rtrim($where, ', ');
 	}
 
 }
