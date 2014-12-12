@@ -70,7 +70,7 @@ class Mmi_Dao_Query_Field {
 	 * @return Mmi_Dao_Query
 	 */
 	public function equals($value) {
-		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, '=', $this->_logic, $this->_tableName);
+		$this->_query->getQueryCompile()->bind[] = array($this->_fieldName, $value, '=', $this->_logic, $this->_tableName);
 		return $this->_query;
 	}
 
@@ -80,7 +80,7 @@ class Mmi_Dao_Query_Field {
 	 * @return Mmi_Dao_Query
 	 */
 	public function notEquals($value) {
-		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, '<>', $this->_logic, $this->_tableName);
+		$this->_query->getQueryCompile()->bind[] = array($this->_fieldName, $value, '<>', $this->_logic, $this->_tableName);
 		return $this->_query;
 	}
 
@@ -90,7 +90,7 @@ class Mmi_Dao_Query_Field {
 	 * @return Mmi_Dao_Query
 	 */
 	public function greater($value) {
-		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, '>', $this->_logic, $this->_tableName);
+		$this->_query->getQueryCompile()->bind[] = array($this->_fieldName, $value, '>', $this->_logic, $this->_tableName);
 		return $this->_query;
 	}
 
@@ -100,7 +100,7 @@ class Mmi_Dao_Query_Field {
 	 * @return Mmi_Dao_Query
 	 */
 	public function less($value) {
-		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, '<', $this->_logic, $this->_tableName);
+		$this->_query->getQueryCompile()->bind[] = array($this->_fieldName, $value, '<', $this->_logic, $this->_tableName);
 		return $this->_query;
 	}
 
@@ -110,7 +110,7 @@ class Mmi_Dao_Query_Field {
 	 * @return Mmi_Dao_Query
 	 */
 	public function greaterOrEquals($value) {
-		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, '>=', $this->_logic, $this->_tableName);
+		$this->_query->getQueryCompile()->bind[] = array($this->_fieldName, $value, '>=', $this->_logic, $this->_tableName);
 		return $this->_query;
 	}
 
@@ -120,7 +120,7 @@ class Mmi_Dao_Query_Field {
 	 * @return Mmi_Dao_Query
 	 */
 	public function lessOrEquals($value) {
-		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, '<=', $this->_logic, $this->_tableName);
+		$this->_query->getQueryCompile()->bind[] = array($this->_fieldName, $value, '<=', $this->_logic, $this->_tableName);
 		return $this->_query;
 	}
 
@@ -130,7 +130,7 @@ class Mmi_Dao_Query_Field {
 	 * @return Mmi_Dao_Query
 	 */
 	public function like($value) {
-		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, 'LIKE', $this->_logic, $this->_tableName);
+		$this->_query->getQueryCompile()->bind[] = array($this->_fieldName, $value, 'LIKE', $this->_logic, $this->_tableName);
 		return $this->_query;
 	}
 
@@ -140,7 +140,7 @@ class Mmi_Dao_Query_Field {
 	 * @return Mmi_Dao_Query
 	 */
 	public function ilike($value) {
-		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, 'ILIKE', $this->_logic, $this->_tableName);
+		$this->_query->getQueryCompile()->bind[] = array($this->_fieldName, $value, 'ILIKE', $this->_logic, $this->_tableName);
 		return $this->_query;
 	}
 
