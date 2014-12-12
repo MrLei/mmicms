@@ -36,11 +36,7 @@ class News_Model_Dao extends Mmi_Dao {
 	 */
 	public static function activeByUriQuery($uri) {
 		return self::activeQuery()
-				->whereId()->equals(array(1, 2, 3))
-				->orFieldId()->equals(null)
-			->andFieldUri()->ilike('test')
-				->andFieldUri()->equals($uri)
-				->orFieldUri()->equals('test');
+				->whereUri()->equals($uri);
 	}
 
 	/**
