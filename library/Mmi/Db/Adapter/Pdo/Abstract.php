@@ -75,7 +75,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @return array
 	 */
 	abstract public function tableInfo($tableName, $schema = null);
-	
+
 	/**
 	 * Listuje tabele w schemacie bazy danych
 	 * @param string $schema
@@ -129,20 +129,18 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	}
 
 	/**
-	 * Magiczne wywołanie metod z PDO
-	 * @param string $method nazwa metody
-	 * @param array $params tablica z parametrami
-	 * @return mixed
+	 * Nieistniejące metody
+	 * @param string $method
+	 * @param array $params
+	 * @throws Mmi_Db_Exception
 	 */
 	public final function __call($method, $params) {
-		if (!$this->_connected) {
-			$this->connect();
-		}
-		return call_user_func_array(array($this->_pdo, $method), $params);
+		throw new Mmi_Db_Exception(get_class($this) . ': method not found: ' . $method);
 	}
 
 	/**
 	 * Tworzy połączenie z bazą danych
+	 * @return Mmi_Db_Adapter_Pdo_Abstract
 	 */
 	public function connect() {
 		if ($this->_config->profiler) {
@@ -152,6 +150,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 			$this->_config->driver . ':host=' . $this->_config->host . ';port=' . $this->_config->port . ';dbname=' . $this->_config->name, $this->_config->user, $this->_config->password, array(PDO::ATTR_PERSISTENT => $this->_config->persistent)
 		);
 		$this->_connected = true;
+		return $this;
 	}
 
 	/**
@@ -185,6 +184,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @see PDO::execute()
 	 * @param string $sql zapytanie
 	 * @param array $bind tabela w formacie akceptowanym przez PDO::prepare()
+	 * @throws Mmi_Db_Exception
 	 * @return PDO_Statement
 	 */
 	public final function query($sql, array $bind = array()) {
@@ -195,8 +195,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 		$statement = $this->_pdo->prepare($sql);
 		if (!$statement) {
 			$error = $this->_pdo->errorInfo();
-			$error = isset($error[2]) ? $error[2] : $error[0];
-			throw new Exception('DB exception: ' . $error . ' --- ' . $sql);
+			throw new Mmi_Db_Exception(get_class($this) . ': ' . (isset($error[2]) ? $error[2] : $error[0]) . ' --- ' . $sql);
 		}
 		foreach ($bind as $key => $param) {
 			$type = PDO::PARAM_STR;
@@ -213,14 +212,10 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 		if ($result != 1) {
 			$error = $statement->errorInfo();
 			$error = isset($error[2]) ? $error[2] : $error[0];
-			throw new Exception('DB exception: ' . $error . ' --- ' . $sql);
+			throw new Mmi_Db_Exception(get_class($this) . ': ' . $error . ' --- ' . $sql);
 		}
 		if ($this->_config->profiler) {
-			$qs = $statement->queryString;
-			if (!empty($bind)) {
-				$qs .= "\n(" . http_build_query($bind) . ')';
-			}
-			Mmi_Db_Profiler::event($qs, microtime(true) - $start);
+			Mmi_Db_Profiler::eventQuery($statement, $bind, microtime(true) - $start);
 		}
 		return $statement;
 	}
@@ -363,7 +358,8 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @param array $joinSchema schemat połączeń
 	 * @return array
 	 */
-	public function select($table, array $whereBind = array(), array $orderBind = array(), $limit = null, $offset = null, array $fields = array('*'), array $joinSchema = array()) {
+	public function select($table, array $whereBind = array(), $orderBind = array(), $limit = null, $offset = null, array $fields = array('*'), array $joinSchema = array()) {
+		var_dump($orderBind);
 		$where = $this->_parseWhereBind($whereBind, $table);
 		$sql = 'SELECT ' . $this->_prepareSelectFields($fields) . ' FROM ' . $this->prepareTable($table);
 		if (!empty($joinSchema)) {
@@ -484,7 +480,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 		}
 		foreach ($bind as $rule) {
 			if (!isset($rule[0])) {
-				throw new Exception('Invalid order, missing name');
+				throw new Mmi_Db_Exception(get_class($this) . ': Invalid order, missing name');
 			}
 			$orderTable = isset($rule[2]) ? $rule[2] : $table;
 			if ($orderTable !== null) {

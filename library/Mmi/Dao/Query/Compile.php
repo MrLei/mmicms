@@ -47,12 +47,16 @@ class Mmi_Dao_Query_Compile {
 	 */
 	public $joinSchema = array();
 
+	public $where;
+	
+	public $from;
+	
 	/**
 	 * Limit
 	 * @var int
 	 */
 	public $limit;
-	
+
 	/**
 	 * Offset
 	 * @var int
