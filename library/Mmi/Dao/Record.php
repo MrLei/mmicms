@@ -63,7 +63,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 			return false;
 		}
 		$dao = $this->_daoClass;
-		$result = $dao::getAdapter()->delete($dao::getTableName(), $this->_pkBind($this->getPk()));
+		$result = $dao::getAdapter()->delete($dao::getTableName(), $this->_pkWhere(), $this->_pkBind($this->getPk()));
 		return ($result > 0) ? true : false;
 	}
 
@@ -91,7 +91,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 	 */
 	protected function _update() {
 		$dao = $this->_daoClass;
-		$result = $dao::getAdapter()->update($dao::getTableName(), $this->_truncateToStructure(true), $this->_pkBind($this->getPk()));
+		$result = $dao::getAdapter()->update($dao::getTableName(), $this->_truncateToStructure(true), $this->_pkWhere(), $this->_pkBind($this->getPk()));
 		$this->_setSaveStatus(0);
 		if ($result > 0) {
 			$this->_setSaveStatus(1);

@@ -136,7 +136,7 @@ class Mmi_Dao_Query {
 	 * @return Mmi_Dao_Query_Field
 	 */
 	public final function andField($fieldName, $tableName = null) {
-		return new Mmi_Dao_Query_Field($this, $this->_prepareField($fieldName, $tableName), $tableName, 'AND');
+		return new Mmi_Dao_Query_Field($this, $this->_prepareField($fieldName, $tableName), 'AND');
 	}
 
 	/**
@@ -156,7 +156,7 @@ class Mmi_Dao_Query {
 	 * @return Mmi_Dao_Query_Field
 	 */
 	public final function orField($fieldName, $tableName = null) {
-		return new Mmi_Dao_Query_Field($this, $this->_prepareField($fieldName, $tableName), $tableName, 'OR');
+		return new Mmi_Dao_Query_Field($this, $this->_prepareField($fieldName, $tableName), 'OR');
 	}
 
 	/**
@@ -184,9 +184,8 @@ class Mmi_Dao_Query {
 	 * @return int
 	 */
 	public final function count() {
-		$compile = $this->getQueryCompile();
 		$dao = $this->_daoClassName;
-		$result = $dao::getAdapter()->select($dao::getTableName(), $compile->bind, array(), null, null, array('COUNT(*)'), $compile->joinSchema);
+		$result = $dao::getAdapter()->select($dao::getTableName(), $this->_compile->where, '', null, null, 'COUNT(*)', $this->_compile->joinSchema, $this->_compile->bind);
 		return isset($result[0]) ? current($result[0]) : 0;
 	}
 	
@@ -196,9 +195,8 @@ class Mmi_Dao_Query {
 	 * @return Mmi_Dao_Record_Collection
 	 */
 	public final function find() {
-		$compile = $this->getQueryCompile();
 		$dao = $this->_daoClassName;
-		$result = $dao::getAdapter()->select($dao::getTableName(), $compile->bind, $compile->order, $compile->limit, $compile->offset, $this->_getFields($compile->joinSchema), $compile->joinSchema);
+		$result = $dao::getAdapter()->select($dao::getTableName(), $this->_compile->where, $this->_compile->order, $this->_compile->limit, $this->_compile->offset, $this->_getFields($this->_compile->joinSchema), $this->_compile->joinSchema, $this->_compile->bind);
 		$recordName = $dao::getRecordName();
 		$records = array();
 		foreach ($result as $row) {
@@ -217,9 +215,8 @@ class Mmi_Dao_Query {
 	 * @return Mmi_Dao_Record_Ro
 	 */
 	public final function findFirst() {
-		$compile = $this->getQueryCompile();
 		$dao = $this->_daoClassName;
-		$result = $dao::getAdapter()->select($dao::getTableName(), $compile->bind, $compile->order, 1, $compile->offset, $this->_getFields($compile->joinSchema), $compile->joinSchema);
+		$result = $dao::getAdapter()->select($dao::getTableName(), $this->_compile->where, $this->_compile->order, 1, $this->_compile->offset, $this->_getFields($this->_compile->joinSchema), $this->_compile->joinSchema, $this->_compile->bind);
 		if (!is_array($result) || !isset($result[0])) {
 			return null;
 		}
@@ -237,9 +234,10 @@ class Mmi_Dao_Query {
 	 * @return array
 	 */
 	public final function findPairs($keyName, $valueName) {
-		$compile = $this->getQueryCompile();
 		$dao = $this->_daoClassName;
-		$data = $dao::getAdapter()->select($dao::getTableName(), $compile->bind, $compile->order, $compile->limit, $compile->offset, array($keyName, $valueName), $compile->joinSchema);
+		/* @var $db Mmi_Db_Adapter_Pdo_Abstract */
+		$db = $dao::getAdapter();
+		$data = $dao::getAdapter()->select($dao::getTableName(), $this->_compile->where, $this->_compile->order, $this->_compile->limit, $this->_compile->offset, $db->prepareField($keyName) . ', ' . $db->prepareField($valueName), $this->_compile->joinSchema, $this->_compile->bind);
 		$kv = array();
 		foreach ($data as $line) {
 			if (count($line) == 1) {
@@ -262,9 +260,8 @@ class Mmi_Dao_Query {
 	 * @return string wartość maksymalna
 	 */
 	public final function findMax($keyName) {
-		$compile = $this->getQueryCompile();
 		$dao = $this->_daoClassName;
-		$result = $dao::getAdapter()->select($dao::getTableName(), $compile->bind, array(), 1, 0, array('MAX(' . $dao::getAdapter()->prepareField($keyName) . ')'), $compile->joinSchema);
+		$result = $dao::getAdapter()->select($dao::getTableName(), $this->_compile->where, '', 1, 0, 'MAX(' . $dao::getAdapter()->prepareField($keyName) . ')', $this->_compile->joinSchema, $this->_compile->bind);
 		return isset($result[0]) ? current($result[0]) : null;
 	}
 	
@@ -275,9 +272,8 @@ class Mmi_Dao_Query {
 	 * @return string wartość minimalna
 	 */
 	public final function findMin($keyName) {
-		$compile = $this->getQueryCompile();
 		$dao = $this->_daoClassName;
-		$result = $dao::getAdapter()->select($dao::getTableName(), $compile->bind, array(), 1, 0, array('MIN(' . $dao::getAdapter()->prepareField($keyName) . ')'), $compile->joinSchema);
+		$result = $dao::getAdapter()->select($dao::getTableName(), $this->_compile->where, '', 1, 0, 'MIN(' . $dao::getAdapter()->prepareField($keyName) . ')', $this->_compile->joinSchema, $this->_compile->bind);
 		return isset($result[0]) ? current($result[0]) : null;
 	}
 	
@@ -287,9 +283,8 @@ class Mmi_Dao_Query {
 	 * @return array mixed wartości unikalne
 	 */
 	public final function findUnique($keyName) {
-		$compile = $this->getQueryCompile();
 		$dao = $this->_daoClassName;
-		$data = $dao::getAdapter()->select($dao::getTableName(), $compile->bind, $compile->order, $compile->limit, $compile->offset, array('DISTINCT(' . $dao::getAdapter()->prepareField($keyName) . ')'), $compile->joinSchema);
+		$data = $dao::getAdapter()->select($dao::getTableName(), $this->_compile->where, $this->_compile->order, $this->_compile->limit, $this->_compile->offset, 'DISTINCT(' . $dao::getAdapter()->prepareField($keyName) . ')', $this->_compile->joinSchema, $this->_compile->bind);
 		$result = array();
 		foreach ($data as $line) {
 			$result[] = current($line);
@@ -314,11 +309,19 @@ class Mmi_Dao_Query {
 	}
 	
 	/**
+	 * Zwraca nazwę klasy DAO
+	 * @return string
+	 */
+	public final function getDaoClassName() {
+		return $this->_daoClassName;
+	}
+	
+	/**
 	 * Resetuje sortowanie w zapytaniu
 	 * @return Mmi_Dao_Query
 	 */
 	public final function resetOrder() {
-		$this->_compile->order = array();
+		$this->_compile->order = '';
 		return $this;
 	}
 	
@@ -327,6 +330,7 @@ class Mmi_Dao_Query {
 	 * @return Mmi_Dao_Query
 	 */
 	public final function resetWhere() {
+		$this->_compile->where = '';
 		$this->_compile->bind = array();
 		return $this;
 	}
@@ -340,30 +344,20 @@ class Mmi_Dao_Query {
 	 */
 	protected final function _prepareField($fieldName, $tableName = null) {
 		$dao = $this->_daoClassName;
+		/* @var $db Mmi_Db_Adapter_Pdo_Abstract */
 		$db = $dao::getAdapter();
+		$tablePrefix = $db->prepareTable(($tableName === null) ? $dao::getTableName() : $tableName);
 		if ($dao::fieldInTable($fieldName, $tableName) || $fieldName == 'RAND()') {
-			return $db->prepareField($fieldName);
+			return $tablePrefix . '.' . $db->prepareField($fieldName);
 		}
 		/* @var $db Mmi_Db_Adapter_Pdo_Abstract */
 		$convertedFieldName = Mmi_Dao::convertCamelcaseToUnderscore($fieldName);
 		if ($dao::fieldInTable($convertedFieldName, $tableName)) {
-			return $db->prepareField($convertedFieldName);
+			return $tablePrefix . '.' . $db->prepareField($convertedFieldName);
 		}
 		throw new Exception(get_called_class() . ': "' . $fieldName . '" not found in ' . ($tableName !== null ? '"' . $tableName . '" table' : '"' . $dao::getTableName() . '"' . ' table'));
 	}
 
-	/**
-	 * Przygotowuje nazwę tabeli
-	 * @param string $tableName
-	 * @return string
-	 */
-	protected final function _prepareTable($tableName) {
-		$dao = $this->_daoClassName;
-		/* @var $db Mmi_Db_Adapter_Pdo_Abstract */
-		$db = $dao::getAdapter();
-		return $db->prepareTable($tableName);
-	}
-	
 	/**
 	 * Przygotowuje order
 	 * @param string $fieldName
@@ -377,9 +371,6 @@ class Mmi_Dao_Query {
 		} else {
 			$this->_compile->order .= ', ';
 		}
-		if ($tableName !== null) {
-			$this->_compile->order .= $this->_prepareTable($tableName) . '.';
-		}
 		$this->_compile->order .= $this->_prepareField($fieldName, $tableName) . ' ' . ($asc ? 'ASC' : 'DESC');
 		return $this;
 	}
@@ -387,26 +378,30 @@ class Mmi_Dao_Query {
 	/**
 	 * Zwraca pola do selecta
 	 * @param array $joinSchema
-	 * @return array
+	 * @return string
 	 */
 	protected final function _getFields($joinSchema) {
 		if (empty($joinSchema)) {
-			return array('*');
+			return '*';
 		}
-		$fields = array();
+		$fields = '';
 		$dao = $this->_daoClassName;
+		/* @var $db Mmi_Db_Adapter_Pdo_Abstract */
+		$db = $dao::getAdapter();
 		$mainStructure = $dao::getTableStructure();
-		foreach ($mainStructure as $field => $info) {
-			$fields[] = $dao::getTableName() . '.' . $field;
+		$table = $db->prepareTable($dao::getTableName());
+		foreach ($mainStructure as $fieldName => $info) {
+			$fields .=  $table. '.' . $db->prepareField($fieldName) . ', ';
 		}
 		foreach ($joinSchema as $tableName => $schema) {
 			unset($schema);
 			$structure = $dao::getTableStructure($tableName);
-			foreach ($structure as $field => $info) {
-				$fields[] = $tableName . '.' . $field . ' AS ' . $tableName . '__' . $field;
+			$joinedTable = $db->prepareTable($tableName);
+			foreach ($structure as $fieldName => $info) {
+				$fields .= $joinedTable . '.' . $db->prepareField($fieldName) . ' AS ' . $db->prepareField($tableName . '__' . $fieldName) . ', ';
 			}
 		}
-		return $fields;
+		return rtrim($fields, ', ');
 	}
 	
 	/**
