@@ -18,11 +18,11 @@ jQuery(document).ready(function($){
 	});
 
 	$('ul.menu li').hover(function(){
-		$(this).find('ul:first').stop(true, true).fadeIn('fast');
+		$(this).find('ul:first').stop(true, true).fadeIn(50);
 		$(this).addClass('hover');
 	},
 	function(){
-		$(this).find('ul').stop(true, true).fadeOut('slow');
+		$(this).find('ul').stop(true, true).fadeOut(100);
 		$(this).removeClass('hover');
 	});
 
