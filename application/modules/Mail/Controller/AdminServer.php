@@ -17,8 +17,16 @@ class Mail_Controller_AdminServer extends MmiCms_Controller_Admin {
 
 	public function deleteAction() {
 		$server = new Mail_Model_Server_Record($this->id);
-		if ($server->delete()) {
-			$this->_helper->messenger('Usunięto serwer');
+		try {
+			if ($server && $server->delete()) {
+				$this->_helper->messenger('Usunięto serwer');
+			}
+		} catch (Exception $e) {
+			if (stripos($e->getMessage(), 'DB exception') !== false) {
+				$this->_helper->messenger('Nie można usunąć serwera, istnieją powiązane szablony', false);
+			} else {
+				throw $e;
+			}
 		}
 		$this->_helper->redirector('index', 'adminServer', 'mail', array(), true);
 	}

@@ -55,7 +55,7 @@ class Mail_Model_Dao extends Mmi_Dao {
 				'type' => Mmi_Lib::mimeType($filePath)
 			);
 		}
-		$mail->attachments = serialize($tmpFiles);
+		$mail->setOption('attachments', serialize($tmpFiles));
 		$view = Mmi_Controller_Front::getInstance()->getView();
 		foreach ($params as $key => $value) {
 			$view->$key = $value;
@@ -95,9 +95,9 @@ class Mail_Model_Dao extends Mmi_Dao {
 			if ($email->getJoined('mail_server')->ssl != 'plain') {
 				$config['ssl'] = $email->getJoined('mail_server')->ssl;
 			}
-			if (!isset($transport[$email->mailServerId])) {
+			if (!isset($transport[$email->getOption('mailServerId')])) {
 				//@TODO: przepisać do ZF2
-				$transport[$email->mailServerId] = new Zend_Mail_Transport_Smtp($email->getJoined('mail_server')->address, $config);
+				$transport[$email->getOption('mailServerId')] = new Zend_Mail_Transport_Smtp($email->getJoined('mail_server')->address, $config);
 			}
 			//@TODO: przepisać do ZF2
 			$mail = new Zend_Mail('utf-8');
@@ -111,7 +111,7 @@ class Mail_Model_Dao extends Mmi_Dao {
 				$mail->setReplyTo($email->replyTo);
 			}
 			$mail->setSubject($email->subject);
-			$attachments = unserialize($email->attachments);
+			$attachments = unserialize($email->getOption('attachments'));
 			if (!empty($attachments)) {
 				foreach ($attachments as $fileName => $file) {
 					if (!isset($file['content']) || !isset($file['type'])) {
@@ -122,7 +122,7 @@ class Mail_Model_Dao extends Mmi_Dao {
 				}
 			}
 			try {
-				if ($mail->send($transport[$email->mailServerId])) {
+				if ($mail->send($transport[$email->getOption('mailServerId')])) {
 					$record = new Mail_Model_Record();
 					$record->setNew(false);
 					$record->id = $email->id;
