@@ -182,7 +182,7 @@ class Mmi_Dao_Query_Field {
 	 * @return string
 	 */
 	protected function _generateBindKey($fieldName) {
-		$bindKey = preg_replace('/[^a-z0-9]/i', '', $fieldName);
+		$bindKey = preg_replace('/[^a-z]/i', '', $fieldName);
 		while (isset($this->_query->getQueryCompile()->bind[$bindKey])) {
 			$bindKey .= '_';			
 		}

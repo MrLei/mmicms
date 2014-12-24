@@ -90,7 +90,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @return string
 	 */
 	abstract public function prepareNullCheck($fieldName, $positive = true);
-	
+
 	/**
 	 * Tworzy konstrukcję sprawdzającą ILIKE, jeśli dostępna w silniku
 	 * @param string $fieldName nazwa pola
@@ -345,33 +345,29 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @return integer
 	 */
 	public function delete($table, $where = '', array $whereBind = array()) {
-		return $this->query('DELETE FROM ' . $this->prepareTable($table) . ' ' .  $where, $whereBind)
+		return $this->query('DELETE FROM ' . $this->prepareTable($table) . ' ' . $where, $whereBind)
 				->rowCount();
 	}
 
 	/**
 	 * Pobieranie rekordów
-	 * @param string $table nazwa tabeli
-	 * @param string $where warunek w postaci zagnieżdżonego bind
-	 * @param string $order sortowanie w postaci zagnieżdżonego bind
+	 * @param string $fields pola do wybrania
+	 * @param string $from część zapytania po FROM
+	 * @param string $where warunek
+	 * @param string $order sortowanie
 	 * @param int $limit limit
 	 * @param int $offset ofset
-	 * @param array $fields pola do wybrania
-	 * @param array $joinSchema schemat połączeń
+	 * @param array $whereBind parametry
 	 * @return array
 	 */
-	public function select($table, $where = '', $order = '', $limit = null, $offset = null, $fields = '*', array $joinSchema = array(), array $whereBind = array()) {
-		$sql = 'SELECT ' . $fields . ' FROM ' . $this->prepareTable($table);
-		if (!empty($joinSchema)) {
-			foreach ($joinSchema as $joinTable => $condition) {
-				$targetTable = isset($condition[2]) ? $condition[2] : $table;
-				$joinType = isset($condition[3]) ? $condition[3] : 'JOIN';
-				$sql .= ' ' . $joinType . ' ' . $this->prepareTable($joinTable) . ' ON ' .
-					$this->prepareTable($joinTable) . '.' . $this->prepareField($condition[0]) .
-					' = ' . $this->prepareTable($targetTable) . '.' . $this->prepareField($condition[1]);
-			}
-		}
-		$sql .= ' ' . $where . ' ' . $order . $this->prepareLimit($limit, $offset);
+	public function select($fields = '*', $from = '', $where = '', $order = '', $limit = null, $offset = null, array $whereBind = array()) {
+		$sql = 'SELECT' .
+			' ' . $fields . 
+			' FROM' . 
+			' ' . $from . 
+			' ' . $where . 
+			' ' . $order . 
+			' ' . $this->prepareLimit($limit, $offset);
 		return $this->fetchAll($sql, $whereBind);
 	}
 
@@ -434,9 +430,9 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 			return;
 		}
 		if ($offset > 0) {
-			return ' LIMIT ' . intval($offset) . ', ' . intval($limit);
+			return 'LIMIT ' . intval($offset) . ', ' . intval($limit);
 		}
-		return ' LIMIT ' . intval($limit);
+		return 'LIMIT ' . intval($limit);
 	}
 
 	/**
