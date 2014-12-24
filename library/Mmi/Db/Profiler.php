@@ -23,7 +23,6 @@
  * @package    Mmi_Db
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 class Mmi_Db_Profiler extends Mmi_Profiler {
 
 	/**
@@ -49,5 +48,19 @@ class Mmi_Db_Profiler extends Mmi_Profiler {
 	 * @var boolean
 	 */
 	protected static $_enabled = true;
+	
+	/**
+	 * Event query
+	 * @param PDOStatement $statement
+	 * @param array $bind
+	 * @param float $elapsed
+	 */
+	public static function eventQuery(PDOStatement $statement, array $bind, $elapsed = null) {
+		$qs = $statement->queryString;
+		if (!empty($bind)) {
+			$qs .= "\n(" . http_build_query($bind) . ')';
+		}
+		return parent::event($qs, $elapsed);
+	}
 
 }
