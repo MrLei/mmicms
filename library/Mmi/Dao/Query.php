@@ -433,6 +433,10 @@ class Mmi_Dao_Query {
 			$connector = $this->_compile->where ? ($and ? ' AND (' : ' OR (') : 'WHERE (';
 			$this->_compile->where .=  $connector . substr($compilation->where, 6) . ')';
 		}
+		//@TODO: mogą pojawić się duplikaty pól
+		if (!empty($compilation->bind)) {
+			$this->_compile->bind = array_merge($compilation->bind, $this->_compile->bind);
+		}
 		//suma joinów query nadrzędnej i podrzędnej
 		if (!empty($compilation->joinSchema)) {
 			$this->_compile->joinSchema = array_merge($this->_compile->joinSchema, $compilation->joinSchema);
