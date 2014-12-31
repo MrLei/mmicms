@@ -136,7 +136,7 @@ class Mmi_Dao_Query_Field {
 	 */
 	protected function _prepareQuery($value, $condition = '=') {
 		//tworzenie binda
-		$bindKey = $this->_generateBindKey($this->_fieldName);
+		$bindKey = $this->_generateBindKey();
 		if (!is_array($value) && null !== $value) {
 			$this->_query->getQueryCompile()->bind[$bindKey] = $value;
 		}
@@ -158,7 +158,7 @@ class Mmi_Dao_Query_Field {
 			$fields = '';
 			$i = 1;
 			foreach ($value as $arg) {
-				$bk = $this->_generateBindKey($bindKey . $i);
+				$bk = $this->_generateBindKey();
 				$this->_query->getQueryCompile()->bind[$bk] = $arg;
 				$fields .= ':' . $bk . ', ';
 				$i++;
@@ -175,18 +175,14 @@ class Mmi_Dao_Query_Field {
 		$this->_query->getQueryCompile()->where .= $this->_fieldName . ' ' . $condition . ' :' . $bindKey;
 		return $this->_query;
 	}
-	
+
 	/**
 	 * Generuje unikalne klucze binda
-	 * @param string $fieldName
+	 * @param string $key
 	 * @return string
 	 */
-	protected function _generateBindKey($fieldName) {
-		$bindKey = preg_replace('/[^a-z]/i', '', $fieldName);
-		while (isset($this->_query->getQueryCompile()->bind[$bindKey])) {
-			$bindKey .= '_';			
-		}
-		return $bindKey;
+	protected function _generateBindKey() {
+		return str_replace(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), array('g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p'), md5(microtime(true) . '' . rand(0, 1000)));
 	}
 
 }
