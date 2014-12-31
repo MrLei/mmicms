@@ -433,7 +433,7 @@ class Mmi_Dao_Query {
 			$connector = $this->_compile->where ? ($and ? ' AND (' : ' OR (') : 'WHERE (';
 			$this->_compile->where .=  $connector . substr($compilation->where, 6) . ')';
 		}
-		//@TODO: mogą pojawić się duplikaty pól
+		//łączenie wartości
 		if (!empty($compilation->bind)) {
 			$this->_compile->bind = array_merge($compilation->bind, $this->_compile->bind);
 		}
