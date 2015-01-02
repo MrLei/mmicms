@@ -56,11 +56,17 @@ class Mmi_Db_Profiler extends Mmi_Profiler {
 	 * @param float $elapsed
 	 */
 	public static function eventQuery(PDOStatement $statement, array $bind, $elapsed = null) {
-		$qs = $statement->queryString;
-		if (!empty($bind)) {
-			$qs .= "\n(" . http_build_query($bind) . ')';
+		if (!static::$_enabled) {
+			return;
 		}
-		return parent::event($qs, $elapsed);
+		$keys = array_keys($bind);
+		//likwidacja dwukropków
+		$keys[] = ':';
+		$values = array_values($bind);
+		array_walk($values, function (&$v) {
+			$v = '\'' . $v . '\'';
+		});
+		return parent::event(str_replace($keys, $values, $statement->queryString), $elapsed);
 	}
 
 }

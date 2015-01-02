@@ -182,7 +182,7 @@ class Mmi_Dao_Query_Field {
 	 * @return string
 	 */
 	protected function _generateBindKey() {
-		return str_replace(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), array('g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p'), md5(microtime(true) . '' . rand(0, 1000)));
+		return str_replace(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'), mt_rand(100000, 999999));
 	}
 
 }
