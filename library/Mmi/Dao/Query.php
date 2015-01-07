@@ -411,8 +411,9 @@ class Mmi_Dao_Query {
 		if (empty($this->_compile->joinSchema)) {
 			return $table;
 		}
+		$baseTable = $table;
 		foreach ($this->_compile->joinSchema as $joinTable => $condition) {
-			$targetTable = isset($condition[2]) ? $condition[2] : $table;
+			$targetTable = isset($condition[2]) ? $condition[2] : $baseTable;
 			$joinType = isset($condition[3]) ? $condition[3] : 'JOIN';
 			$table .= ' ' . $joinType . ' ' . $db->prepareTable($joinTable) . ' ON ' .
 				$db->prepareTable($joinTable) . '.' . $db->prepareField($condition[0]) .

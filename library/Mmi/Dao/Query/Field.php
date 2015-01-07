@@ -136,7 +136,7 @@ class Mmi_Dao_Query_Field {
 	 */
 	protected function _prepareQuery($value, $condition = '=') {
 		//tworzenie binda
-		$bindKey = $this->_generateBindKey();
+		$bindKey = Mmi_Db_Adapter_Pdo_Abstract::generateRandomBindKey();
 		if (!is_array($value) && null !== $value) {
 			$this->_query->getQueryCompile()->bind[$bindKey] = $value;
 		}
@@ -158,7 +158,7 @@ class Mmi_Dao_Query_Field {
 			$fields = '';
 			$i = 1;
 			foreach ($value as $arg) {
-				$bk = $this->_generateBindKey();
+				$bk = Mmi_Db_Adapter_Pdo_Abstract::generateRandomBindKey();
 				$this->_query->getQueryCompile()->bind[$bk] = $arg;
 				$fields .= ':' . $bk . ', ';
 				$i++;
@@ -174,15 +174,6 @@ class Mmi_Dao_Query_Field {
 		//zwykłe porównanie
 		$this->_query->getQueryCompile()->where .= $this->_fieldName . ' ' . $condition . ' :' . $bindKey;
 		return $this->_query;
-	}
-
-	/**
-	 * Generuje unikalne klucze binda
-	 * @param string $key
-	 * @return string
-	 */
-	protected function _generateBindKey() {
-		return str_replace(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'), mt_rand(100000, 999999));
 	}
 
 }

@@ -68,5 +68,5 @@ class Mmi_Db_Profiler extends Mmi_Profiler {
 		});
 		return parent::event(str_replace($keys, $values, $statement->queryString), $elapsed);
 	}
-
+	
 }
