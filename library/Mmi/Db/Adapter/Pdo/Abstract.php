@@ -331,10 +331,11 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 			return 1;
 		}
 		foreach ($data as $key => $value) {
-			$fields .= $this->prepareField($key) . ' = ?, ';
-			$bind[] = $value;
+			$bindKey = self::generateRandomBindKey();
+			$fields .= $this->prepareField($key) . ' = :' . $bindKey . ', ';
+			$bind[$bindKey] = $value;
 		}
-		$sql = 'UPDATE ' . $this->prepareTable($table) . ' SET ' . rtrim($fields, ', ') . $where;
+		$sql = 'UPDATE ' . $this->prepareTable($table) . ' SET ' . rtrim($fields, ', ') . ' ' . $where;
 		return $this->query($sql, array_merge($bind, $whereBind))->rowCount();
 	}
 
@@ -451,6 +452,14 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 			);
 		}
 		return $associativeMeta;
+	}
+	
+	/**
+	 * Zwraca losowy klucz do binda
+	 * @return string
+	 */
+	public static function generateRandomBindKey() {
+		return str_replace(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'), mt_rand(100000, 999999));
 	}
 
 }
