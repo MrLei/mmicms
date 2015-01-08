@@ -115,8 +115,16 @@ class Mmi_Db_Adapter_Pdo_Mysql extends Mmi_Db_Adapter_Pdo_Abstract {
 	 * @return string 
 	 */
 	public function prepareNullCheck($fieldName, $positive = true) {
-		$positive = $positive ? '' : '!';
-		return $positive . 'ISNULL(' . $fieldName . ')';
+		return ($positive ? '' : '!') . 'ISNULL(' . $fieldName . ')';
+	}
+
+	/**
+	 * Tworzy konstrukcję sprawdzającą ILIKE, jeśli dostępna w silniku
+	 * @param string $fieldName nazwa pola
+	 * @return string
+	 */
+	public function prepareIlike($fieldName) {
+		return $fieldName . ' LIKE';
 	}
 
 }
