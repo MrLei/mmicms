@@ -63,7 +63,8 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 			return false;
 		}
 		$dao = $this->_daoClass;
-		$result = $dao::getAdapter()->delete($dao::getTableName(), $this->_pkBind($this->getPk()));
+		$bindKey = Mmi_Db_Adapter_Pdo_Abstract::generateRandomBindKey();
+		$result = $dao::getAdapter()->delete($dao::getTableName(), $this->_pkWhere($bindKey), array($bindKey => $this->getPk()));
 		return ($result > 0) ? true : false;
 	}
 
@@ -76,9 +77,8 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 		$table = $dao::getTableName();
 		$result = $dao::getAdapter()->insert($table, $this->_truncateToStructure());
 		//odczyt id z sekwencji
-		if ($result && property_exists($this, 'id') && $this->id === null) {
-			//@TODO wypełenienie danych z sekwencji dla innych pól niż ID
-			$this->id = $dao::getAdapter()->lastInsertId($dao::getAdapter()->prepareSequenceName($table));
+		if ($result && property_exists($this, $this->_pk) && $this->{$this->_pk} === null) {
+			$this->{$this->_pk} = $dao::getAdapter()->lastInsertId($dao::getAdapter()->prepareSequenceName($table));
 		}
 		$this->setNew(false);
 		$this->_setSaveStatus(1);
@@ -91,7 +91,8 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 	 */
 	protected function _update() {
 		$dao = $this->_daoClass;
-		$result = $dao::getAdapter()->update($dao::getTableName(), $this->_truncateToStructure(true), $this->_pkBind($this->getPk()));
+		$bindKey = Mmi_Db_Adapter_Pdo_Abstract::generateRandomBindKey();
+		$result = $dao::getAdapter()->update($dao::getTableName(), $this->_truncateToStructure(true), $this->_pkWhere($bindKey), array($bindKey => $this->getPk()));
 		$this->_setSaveStatus(0);
 		if ($result > 0) {
 			$this->_setSaveStatus(1);
