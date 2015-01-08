@@ -269,7 +269,7 @@ class Mmi_Controller_Request {
 	/**
 	 * Ustawia moduł
 	 * @param string $value
-	 * @return \Mmi_Controller_Request
+	 * @return Mmi_Controller_Request
 	 */
 	public function setModuleName($value) {
 		$this->setParam('module', $value);
@@ -279,7 +279,7 @@ class Mmi_Controller_Request {
 	/**
 	 * Ustawia kontroler
 	 * @param string $value
-	 * @return \Mmi_Controller_Request
+	 * @return Mmi_Controller_Request
 	 */
 	public function setControllerName($value) {
 		$this->setParam('controller', $value);
@@ -289,7 +289,7 @@ class Mmi_Controller_Request {
 	/**
 	 * Ustawia akcję
 	 * @param string $value
-	 * @return \Mmi_Controller_Request
+	 * @return Mmi_Controller_Request
 	 */
 	public function setActionName($value) {
 		$this->setParam('action', $value);
@@ -299,7 +299,7 @@ class Mmi_Controller_Request {
 	/**
 	 * Ustawia nazwę skóry
 	 * @param string $value
-	 * @return \Mmi_Controller_Request
+	 * @return Mmi_Controller_Request
 	 */
 	public function setSkinName($value) {
 		$this->setParam('skin', $value);

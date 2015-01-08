@@ -82,7 +82,7 @@ class Mmi_Db_Adapter_Pdo_Mysql extends Mmi_Db_Adapter_Pdo_Abstract {
 	/**
 	 * Zwraca informację o kolumnach tabeli
 	 * @param string $tableName nazwa tabeli
-	 * @param array $schema schemat
+	 * @param array $schema schemat nie istotny w MySQL
 	 * @return array
 	 */
 	public function tableInfo($tableName, $schema = null) {
@@ -90,6 +90,22 @@ class Mmi_Db_Adapter_Pdo_Mysql extends Mmi_Db_Adapter_Pdo_Abstract {
 			':name' => $tableName,
 			':schema' => ($schema) ? $schema : $this->_config->name
 		)));
+	}
+	
+	/**
+	 * Listuje tabele w schemacie bazy danych
+	 * @param string $schema nie istotny w MySQL
+	 * @return array
+	 */
+	public function tableList($schema = null) {
+		$list = $this->fetchAll('SHOW TABLES;');
+		$tables = array();
+		foreach ($list as $row) {
+			foreach ($row as $name) {
+				$tables[] = $name;
+			}
+		}
+		return $tables;
 	}
 
 	/**
@@ -99,8 +115,16 @@ class Mmi_Db_Adapter_Pdo_Mysql extends Mmi_Db_Adapter_Pdo_Abstract {
 	 * @return string 
 	 */
 	public function prepareNullCheck($fieldName, $positive = true) {
-		$positive = $positive ? '' : '!';
-		return $positive . 'ISNULL(' . $fieldName . ')';
+		return ($positive ? '' : '!') . 'ISNULL(' . $fieldName . ')';
+	}
+
+	/**
+	 * Tworzy konstrukcję sprawdzającą ILIKE, jeśli dostępna w silniku
+	 * @param string $fieldName nazwa pola
+	 * @return string
+	 */
+	public function prepareIlike($fieldName) {
+		return $fieldName . ' LIKE';
 	}
 
 }

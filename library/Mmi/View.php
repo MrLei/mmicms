@@ -155,7 +155,7 @@ class Mmi_View {
 	/**
 	 * Ustawia obiekt request
 	 * @param Mmi_Controller_Request $request
-	 * @return \Mmi_View
+	 * @return Mmi_View
 	 */
 	public function setRequest(Mmi_Controller_Request $request) {
 		$this->request = $request;
@@ -168,7 +168,7 @@ class Mmi_View {
 	/**
 	 * Ustawia translator
 	 * @param Mmi_Translate $translate
-	 * @return \Mmi_View
+	 * @return Mmi_View
 	 */
 	public function setTranslate(Mmi_Translate $translate) {
 		$this->_translate = $translate;
@@ -178,7 +178,7 @@ class Mmi_View {
 	/**
 	 * Ustawia obiekt cache
 	 * @param Mmi_Cache $cache
-	 * @return \Mmi_View
+	 * @return Mmi_View
 	 */
 	public function setCache(Mmi_Cache $cache) {
 		$this->_cache = $cache;
@@ -188,7 +188,7 @@ class Mmi_View {
 	/**
 	 * Ustawia opcję zawsze kompiluj szablony
 	 * @param boolean $compile
-	 * @return \Mmi_View
+	 * @return Mmi_View
 	 */
 	public function setAlwaysCompile($compile = true) {
 		$this->_alwaysCompile = $compile;
@@ -198,7 +198,7 @@ class Mmi_View {
 	/**
 	 * Ustawia bazowy url
 	 * @param string $baseUrl
-	 * @return \Mmi_View
+	 * @return Mmi_View
 	 */
 	public function setBaseUrl($baseUrl) {
 		$this->baseUrl = $baseUrl;
@@ -277,7 +277,7 @@ class Mmi_View {
 	 * Ustawia placeholder
 	 * @param string $name nazwa
 	 * @param string $content zawartość
-	 * @return \Mmi_View
+	 * @return Mmi_View
 	 */
 	public function setPlaceholder($name, $content) {
 		$this->_placeholders[$name] = $content;
@@ -334,7 +334,7 @@ class Mmi_View {
 	/**
 	 * Ustawia wyłączenie layoutu
 	 * @param boolean $disabled wyłączony
-	 * @return \Mmi_View
+	 * @return Mmi_View
 	 */
 	public function setLayoutDisabled($disabled = true) {
 		$this->_layoutDisabled = ($disabled === true) ? true : false;

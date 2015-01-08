@@ -22,8 +22,8 @@ class Cms_Model_Auth_Record extends Mmi_Dao_Record {
 		if (!parent::save()) {
 			return false;
 		}
-		if ($this->getOption('cms_roles')) {
-			Cms_Model_Auth_Role_Dao::grant($this->id, $this->getOption('cms_roles'));
+		if ($this->getOption('cmsRoles')) {
+			Cms_Model_Auth_Role_Dao::grant($this->id, $this->getOption('cmsRoles'));
 		}
 		return true;
 	}
@@ -41,7 +41,7 @@ class Cms_Model_Auth_Record extends Mmi_Dao_Record {
 
 	public function changePasswordByUser() {
 		$auth = new Cms_Model_Auth();
-		$record = $auth->authenticate($this->identity, $this->password);
+		$record = $auth->authenticate($this->getOption('identity'), $this->password);
 		if ($record === false) {
 			$this->_setSaveStatus(-1);
 			return false;
@@ -50,9 +50,9 @@ class Cms_Model_Auth_Record extends Mmi_Dao_Record {
 			$this->_setSaveStatus(-2);
 			return false;
 		}
-		$auth = new self($record->id);
-		$auth->password = Cms_Model_Auth::getSaltedPasswordHash($this->getOption('changePassword'));
-		return $auth->save();
+		$authRecord = new self($record->id);
+		$authRecord->password = Cms_Model_Auth::getSaltedPasswordHash($this->getOption('changePassword'));
+		return $authRecord->save();
 	}
 
 	public function login() {

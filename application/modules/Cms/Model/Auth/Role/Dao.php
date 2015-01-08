@@ -3,28 +3,26 @@
 class Cms_Model_Auth_Role_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_auth_role';
-
-	public static function findPairsRolesByAuthId($authId) {
-		$q = self::newQuery()
-				->where('cms_auth_id')->equals($authId)
-				->join('cms_role')->on('cms_role_id');
-		return self::findPairs('cms_role_id', 'name', $q);
+	
+	public static function byAuthIdQuery($authId) {
+		return Cms_Model_Auth_Role_Query::factory()
+			->whereCmsAuthId()->equals($authId);
 	}
 
-	public static function findRolesIdByAuthId($authId) {
-		$q = self::newQuery()
-				->where('cms_auth_id')->equals($authId);
-		return self::findPairs('cms_role_id', 'cms_role_id', $q);
+	public static function joinedRolebyAuthId($authId) {
+		return self::byAuthIdQuery($authId)
+				->join('cms_role')->on('cms_role_id');
 	}
 
 	public static function grant($cmsAuthId, array $roles) {
-		$q = self::newQuery()
-				->where('cms_auth_id')->equals($cmsAuthId);
-		self::find($q)->delete();
+		self::byAuthIdQuery($cmsAuthId)
+			->find()
+			->delete();
+
 		foreach ($roles as $roleId) {
 			$record = new Cms_Model_Auth_Role_Record();
-			$record->cms_auth_id = $cmsAuthId;
-			$record->cms_role_id = $roleId;
+			$record->cmsAuthId = $cmsAuthId;
+			$record->cmsRoleId = $roleId;
 			$record->save();
 		}
 	}

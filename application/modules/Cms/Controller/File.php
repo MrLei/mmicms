@@ -3,7 +3,7 @@
 class Cms_Controller_File extends Mmi_Controller_Action {
 
 	public function indexAction() {
-		$this->view->files = Cms_Model_File_Dao::findClassified($this->object, $this->objectId);
+		$this->view->files = Cms_Model_File_Dao::getClassified($this->object, $this->objectId);
 	}
 
 	public function listAction() {
@@ -15,7 +15,7 @@ class Cms_Controller_File extends Mmi_Controller_Action {
 			return '';
 		}
 		$files = array();
-		foreach (Cms_Model_File_Dao::findImages($this->object, $this->objectId) as $file) {
+		foreach (Cms_Model_File_Dao::imagesByObjectQuery($this->object, $this->objectId)->find() as $file) {
 			$files[] = array('title' => $file->original, 'value' => $file->getUrl('scalex', '990'));
 		}
 		return json_encode($files);
@@ -55,7 +55,7 @@ class Cms_Controller_File extends Mmi_Controller_Action {
 			'objectId' => $this->objectId,
 			'hash' => md5($t . '+' . Mmi_Session::getId() . '+' . $this->class)
 		);
-		$this->view->files = Cms_Model_File_Dao::findClassified($this->object, $this->objectId);
+		$this->view->files = Cms_Model_File_Dao::getClassified($this->object, $this->objectId);
 		$this->view->ajaxParams = $ajaxParams;
 	}
 

@@ -128,12 +128,26 @@ class Mmi_Db_Adapter_Pdo_Sqlite extends Mmi_Db_Adapter_Pdo_Abstract {
 	/**
 	 * Zwraca informację o kolumnach tabeli
 	 * @param string $tableName nazwa tabeli
-	 * @param array $schema schemat
+	 * @param array $schema nie istotny w MySQL
 	 * @return array
 	 */
 	public function tableInfo($tableName, $schema = null) {
 		//schema nie jest używane w sqlite
 		return $this->_associateTableMeta($this->fetchAll('PRAGMA table_info(' . $this->prepareTable($tableName) . ')'));
+	}
+	
+	/**
+	 * Listuje tabele w schemacie bazy danych
+	 * @param string $schema nie istotny w Sqlite
+	 * @return array
+	 */
+	public function tableList($schema = null) {
+		$list = $this->fetchAll('SELECT name FROM sqlite_master WHERE type=\'table\'');
+		$tables = array();
+		foreach ($list as $row) {
+			$tables[] = $row['name'];
+		}
+		return $tables;
 	}
 
 	/**
@@ -148,13 +162,22 @@ class Mmi_Db_Adapter_Pdo_Sqlite extends Mmi_Db_Adapter_Pdo_Abstract {
 		}
 		return $fieldName . ' is not null';
 	}
+	
+	/**
+	 * Tworzy konstrukcję sprawdzającą ILIKE, jeśli dostępna w silniku
+	 * @param string $fieldName nazwa pola
+	 * @return string
+	 */
+	public function prepareIlike($fieldName) {
+		return $fieldName . ' LIKE';
+	}
 
 	/**
 	 * Konwertuje do tabeli asocjacyjnej meta dane tabel
 	 * @param array $meta meta data
 	 * @return array
 	 */
-	protected function _associateTableMeta($meta) {
+	protected function _associateTableMeta(array $meta) {
 		$associativeMeta = array();
 		foreach ($meta as $column) {
 			$associativeMeta[$column['name']] = array(

@@ -9,7 +9,9 @@ class Cms_Controller_Comment extends Mmi_Controller_Action {
 		if (!$this->objectId) {
 			return;
 		}
-		$this->view->comments = Cms_Model_Comment_Dao::findByObject($this->object, $this->objectId, $this->descending);
+		$this->view->comments = Cms_Model_Comment_Dao::byObjectQuery($this->object, $this->objectId, $this->descending)
+			->limit(100)
+			->find();
 
 		if (!($this->allowGuests || Default_Registry::$auth->hasIdentity())) {
 			return;

@@ -26,8 +26,8 @@ class Cms_Model_Text_Record extends Mmi_Dao_Record {
 
 	public function cloneKeys() {
 		$lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
-		foreach (Cms_Model_Text_Dao::findByLang($this->source) as $record) {/* @var $record Cms_Model_Text_Record */
-			if (Cms_Model_Text_Dao::findFirstByKeyLang($record->key, $lang) !== null) {
+		foreach (Cms_Model_Text_Dao::byLangQuery($this->source)->find() as $record) {/* @var $record Cms_Model_Text_Record */
+			if (Cms_Model_Text_Dao::byKeyLangQuery($record->key, $lang)->findFirst() !== null) {
 				continue;
 			}
 			$r = new self();

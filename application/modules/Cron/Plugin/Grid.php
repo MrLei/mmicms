@@ -2,9 +2,9 @@
 
 class Cron_Plugin_Grid extends Mmi_Grid {
 
-	protected $_daoName = 'Cron_Model_Dao';
-
 	public function init() {
+		
+		$this->setQuery(Cron_Model_Query::factory());
 
 		$this->addColumn('text', 'name', array(
 			'label' => 'Nazwa',

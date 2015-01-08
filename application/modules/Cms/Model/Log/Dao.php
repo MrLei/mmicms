@@ -15,7 +15,7 @@ class Cms_Model_Log_Dao extends Mmi_Dao {
 		$env = Mmi_Controller_Front::getInstance()->getEnvironment();
 		if (Mmi_Session::namespaceIsset('Auth')) {
 			$authNamespace = new Mmi_Session_Namespace('Auth');
-			$record->cms_auth_id = $authNamespace->id;
+			$record->cmsAuthId = $authNamespace->id;
 		}
 		$record->url = $env->requestUri;
 		$record->ip = $env->remoteAddress;
@@ -36,8 +36,8 @@ class Cms_Model_Log_Dao extends Mmi_Dao {
 				$record->objectId = $data['objectId'];
 				unset($data['objectId']);
 			}
-			if (isset($data['cms_auth_id']) && !$record->cms_auth_id) {
-				$record->cms_auth_id = $data['cms_auth_id'];
+			if (isset($data['cms_auth_id']) && !$record->cmsAuthId) {
+				$record->cmsAuthId = $data['cms_auth_id'];
 				unset($data['cms_auth_id']);
 			}
 			if (!empty($data)) {
@@ -48,9 +48,10 @@ class Cms_Model_Log_Dao extends Mmi_Dao {
 	}
 
 	public static function clean($months = 24) {
-		$q = self::newQuery()
-				->where('dateTime')->less(date('Y-m-d H:i:s', strtotime('-' . $months . ' month')));
-		return self::find($q)->delete();
+		return Cms_Model_Log_Query::factory()
+				->whereDateTime()->less(date('Y-m-d H:i:s', strtotime('-' . $months . ' month')))
+				->find()
+				->delete();
 	}
 
 }

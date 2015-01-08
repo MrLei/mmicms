@@ -4,7 +4,7 @@ class Mail_Model_Definition_Record extends Mmi_Dao_Record {
 
 	public $id;
 	public $lang;
-	public $mail_server_id;
+	public $mailServerId;
 	public $name;
 	public $replyTo;
 	public $fromName;

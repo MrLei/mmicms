@@ -123,71 +123,37 @@ class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
 	 * @return array
 	 */
 	public function tableInfo($tableName, $schema = null) {
-		return $this->_associateTableMeta($this->fetchAll('SELECT "column_name" as "name", "data_type" AS "dataType", "character_maximum_length" AS "maxLength", "is_nullable" AS "null", "column_default" AS "default" FROM INFORMATION_SCHEMA.COLUMNS WHERE "table_name" = :name AND "table_schema" = :schema ORDER BY "ordinal_position"', array(
-			':name' => $tableName,
-			':schema' => ($schema) ? $schema : ($this->_config->schema ? $this->_config->schema : $this->_config->name)
-		)));
+		$tableInfo = $this->fetchAll('SELECT "column_name" as "name", "data_type" AS "dataType", "character_maximum_length" AS "maxLength", "is_nullable" AS "null", "column_default" AS "default" FROM INFORMATION_SCHEMA.COLUMNS WHERE "table_name" = :name AND "table_schema" = :schema ORDER BY "ordinal_position"', array(
+					':name' => $tableName,
+					':schema' => ($schema) ? $schema : ($this->_config->schema ? $this->_config->schema : $this->_config->name)
+		));
+		return $this->_associateTableMeta($tableInfo);
 	}
 
 	/**
-	 * Analizuje i zwraca wynik parsowania jednego poziomu bind
-	 * @param array $rule reguła np. array(array('id', 2), array(user, 3))
-	 * @param array $params referencja do budowanego bind'a z wartościami
-	 * @param string $table nazwa tabeli
-	 * @return string ciąg SQL
+	 * Listuje tabele w schemacie bazy danych
+	 * @param string $schema
+	 * @return array
 	 */
-	protected function _parseWhereBindLevel(array $rule, array &$params = array(), $table = null) {
-		$where = '';
-		$table = isset($rule[4]) ? $rule[4] : $table;
-		if ($table !== null) {
-			$table = $this->prepareTable($table) . '.';
+	public function tableList($schema = null) {
+		$list = $this->fetchAll('SELECT table_name as name
+			FROM information_schema.tables
+			WHERE table_schema = :schema
+			ORDER BY table_name', array(':schema' => ($schema) ? $schema : ($this->_config->schema ? $this->_config->schema : $this->_config->name)));
+		$tables = array();
+		foreach ($list as $row) {
+			$tables[] = $row['name'];
 		}
-		if (!isset($rule[3]) || $rule[3] != 'OR') {
-			$rule[3] = 'AND';
-		}
-
-		$rule[2] = isset($rule[2]) ? $rule[2] : '=';
-
-		if ($rule[2] == '!=') {
-			$rule[2] = '<>';
-		}
-		if (!array_key_exists('1', $rule)) {
-			return $where;
-		}
-		if ($rule[1] === null) {
-			$negation = !(isset($rule[2]) && $rule[2] == '<>');
-			return ' ' . $rule[3] . ' ' . $this->prepareNullCheck($table . $this->prepareField($rule[0]), $negation) . ' ';
-		}
-		$where .= ' ' . $rule[3];
-
-		if ($rule[2] == 'LIKE') {
-			$rule[2] = 'ILIKE';
-		}
-		if ($rule[2] == 'ILIKE') {
-			$where .= ' CAST(' . $table . $this->prepareField($rule[0]) . ' AS text)';
-		} else {
-			$where .= ' ' . $table . $this->prepareField($rule[0]);
-		}
-
-		if (is_array($rule[1])) {
-			if ($rule[2] == '<>') {
-				$rule[2] = 'NOT IN';
-			} else {
-				$rule[2] = 'IN';
-			}
-			$where .= ' ' . $rule[2] . ' (';
-			foreach ($rule[1] as $arg) {
-				$where .= '?, ';
-				$params[] = $arg;
-			}
-			$where = rtrim($where, ' ),');
-			$where .= ')';
-			return $where;
-		}
-
-		$where .= ' ' . $rule[2] . ' ?';
-		$params[] = $rule[1];
-		return $where;
+		return $tables;
+	}
+	
+	/**
+	 * Tworzy konstrukcję sprawdzającą ILIKE, jeśli dostępna w silniku
+	 * @param string $fieldName nazwa pola
+	 * @return string
+	 */
+	public function prepareIlike($fieldName) {
+		return 'CAST(' . $fieldName . ') AS text ILIKE';
 	}
 
 }

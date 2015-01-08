@@ -12,9 +12,10 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 	public function routeStartup(Mmi_Controller_Request $request) {
 		//route z cms
 		if (null === ($routes = Default_Registry::$cache->load('Mmi_Route'))) {
-			$routes = Cms_Model_Route_Dao::findActive();
+			$routes = Cms_Model_Route_Dao::activeQuery()->find();
 			Default_Registry::$cache->save($routes, 'Mmi_Route', 86400);
 		}
+		Cms_Model_Route_Dao::updateRouterConfig(Mmi_Controller_Front::getInstance()->getRouter()->getConfig(), $routes);
 	}
 
 	public function preDispatch(Mmi_Controller_Request $request) {
@@ -30,7 +31,6 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 			$request->setControllerName('error');
 			$request->setActionName('index');
 		}
-
 		//brak komponentu (moduł + kontroler + akcja)
 		$components = Mmi_Controller_Front::getInstance()->getStructure('module');
 		if (!isset($components[$request->getModuleName()][$request->getControllerName()][$request->getActionName()])) {

@@ -9,9 +9,9 @@ class Cms_Form_Contact extends MmiCms_Form {
 		$this->setSecured();
 
 		if (!$this->getOption('subjectId')) {
-			$this->addElementSelect('cms_contact_option_id')
+			$this->addElementSelect('cmsContactOptionId')
 				->setLabel('Wybierz temat')
-				->setMultiOptions(Cms_Model_Contact_Option_Dao::findPairs('id', 'name', Cms_Model_Contact_Option_Dao::newQuery()->orderAsc('name')))
+				->setMultiOptions(Cms_Model_Contact_Option_Dao::getMultioptions())
 				->addValidatorInteger();
 		}
 
@@ -39,7 +39,7 @@ class Cms_Form_Contact extends MmiCms_Form {
 
 	public function prepareSaveData(array $data = array()) {
 		if ($this->getOption('subjectId') > 0) {
-			$data['cms_contact_option_id'] = $this->getOption('subjectId');
+			$data['cmsContactOptionId'] = $this->getOption('subjectId');
 		}
 		return $data;
 	}

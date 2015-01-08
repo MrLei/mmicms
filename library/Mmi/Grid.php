@@ -41,28 +41,10 @@ abstract class Mmi_Grid {
 	protected $_id;
 
 	/**
-	 * Nazwa DAO
-	 * @var string
-	 */
-	protected $_daoName;
-
-	/**
-	 * Nazwa metody wywoływanej w DAO
-	 * @var string
-	 */
-	protected $_daoGetMethod = 'find';
-
-	/**
-	 * Nazwa metoda zliczania w DAO
-	 * @var string
-	 */
-	protected $_daoCountMethod = 'count';
-
-	/**
-	 * Filtracja startowa
+	 * Zapytanie filtrujące
 	 * @var Mmi_Dao_Query
 	 */
-	protected $_initialQuery;
+	protected $_daoQuery;
 
 	/**
 	 * Przechowuje kolumny
@@ -121,9 +103,6 @@ abstract class Mmi_Grid {
 		$class = get_class($this);
 		$this->_id = strtolower(substr($class, strrpos($class, '_') + 1));
 		$this->setOptions($options);
-		if ($this->_daoName === null) {
-			throw new exception('Dao name for grid not specified');
-		}
 		$this->init();
 		$this->_renderStarted = false;
 	}
@@ -153,14 +132,6 @@ abstract class Mmi_Grid {
 	 * Abstrakcyjna funkcja użytkownika, do nadpisania przy tworzeniu nowego grida
 	 */
 	public abstract function init();
-
-	/**
-	 * Zwraca nazwę DAO
-	 * @return string
-	 */
-	public function getDaoName() {
-		return $this->_daoName;
-	}
 
 	/**
 	 * Ustawia wszystkie opcje
@@ -201,9 +172,17 @@ abstract class Mmi_Grid {
 	 * @param Mmi_Dao_Query $query
 	 * @return Mmi_Grid
 	 */
-	public function setInitialQuery(Mmi_Dao_Query $query) {
-		$this->_initialQuery = $query;
+	public function setQuery(Mmi_Dao_Query $query) {
+		$this->_daoQuery = $query;
 		return $this;
+	}
+	
+	/**
+	 * Zwraca obiekt zapytania filtrującego
+	 * @return Mmi_Dao_Query
+	 */
+	public function getQuery() {
+		return $this->_daoQuery;
 	}
 
 	/**
@@ -270,6 +249,10 @@ abstract class Mmi_Grid {
 	 * @return string
 	 */
 	public function render() {
+		//sprawdzanie query
+		if (!($this->_daoQuery instanceof Mmi_Dao_Query)) {
+			throw new Exception('Mmi_Grid: invalid DAO Query object supplied');
+		}
 		$html = '<form id="' . $this->_id . '"><table class="striped ' . $this->_options['class'] . '">';
 		$html .= $this->renderHead();
 		$html .= '<tbody id="' . $this->_id . '_body">';
@@ -606,15 +589,10 @@ abstract class Mmi_Grid {
 	 * Ustawia dane dla grid'a
 	 */
 	protected function _setDefaultData() {
-		//ustawianie query inicjującej
-		if ($this->_initialQuery instanceof Mmi_Dao_Query) {
-			$q = $this->_initialQuery;
-		} else {
-			$q = new Mmi_Dao_Query();
-		}
+		$queryClass = get_class($this->_daoQuery);
 		//nakładanie filtrów na query
 		foreach ($this->_options['filter'] as $field => $value) {
-			$subQ = new Mmi_Dao_Query();
+			$subQ = $queryClass::factory();
 			$type = 'text';
 			foreach ($this->_columns as $column) {
 				if ($column['name'] == $field) {
@@ -632,14 +610,14 @@ abstract class Mmi_Grid {
 				$field = $fld[1];
 			}
 			if ($type == 'select' || $type == 'checkbox') {
-				$q->andField($field, $table)->equals($value);
+				$this->_daoQuery->andField($field, $table)->equals($value);
 			} else {
-				$q->andField($field, $table)->like('%' . $value . '%');
+				$this->_daoQuery->andField($field, $table)->like('%' . $value . '%');
 			}
 		}
 		//nakładanie sortów
 		if (!empty($this->_options['order'])) {
-			$q->resetOrder();
+			$this->_daoQuery->resetOrder();
 		}
 		foreach ($this->_options['order'] as $field => $value) {
 			$table = null;
@@ -652,23 +630,19 @@ abstract class Mmi_Grid {
 				$field = $fld[1];
 			}
 			if ($value == 'ASC') {
-				$q->orderAsc($field, $table);
+				$this->_daoQuery->orderAsc($field, $table);
 			} else {
-				$q->orderDesc($field, $table);
+				$this->_daoQuery->orderDesc($field, $table);
 			}
 		}
 
 		//nakładanie limitu
-		$q->limit($this->_options['rows']);
+		$this->_daoQuery->limit($this->_options['rows']);
 		//nakładanie offsetu
-		$q->offset(($this->_options['page'] - 1) * $this->_options['rows']);
+		$this->_daoQuery->offset(($this->_options['page'] - 1) * $this->_options['rows']);
 
-		$dao = $this->_daoName;
-		$get = $this->_daoGetMethod;
-		$count = $this->_daoCountMethod;
-
-		$this->_dataCount = $dao::$count($q);
-		$this->_data = $dao::$get($q);
+		$this->_dataCount = $this->_daoQuery->count();
+		$this->_data = $this->_daoQuery->find();
 	}
 
 	/**

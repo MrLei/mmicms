@@ -2,9 +2,9 @@
 
 class Cms_Plugin_TagGrid extends Mmi_Grid {
 
-	protected $_daoName = 'Cms_Model_Tag_Dao';
-
 	public function init() {
+		
+		$this->setQuery(Cms_Model_Tag_Query::factory());
 		$this->setOption('locked', true);
 
 		$this->addColumn('text', 'tag', array(

@@ -16,9 +16,6 @@ class Cms_Controller_AdminNavigation extends MmiCms_Controller_Admin {
 			case 'folder':
 				$form = new Cms_Form_Admin_Page_Folder($this->id);
 				break;
-			case 'container':
-				$form = new Cms_Form_Admin_Page_Container($this->id);
-				break;
 			case 'simple':
 				$form = new Cms_Form_Admin_Page_Article($this->id);
 				break;
@@ -27,12 +24,12 @@ class Cms_Controller_AdminNavigation extends MmiCms_Controller_Admin {
 				break;
 		}
 		if ($form->isSaved()) {
-			return $this->_helper->redirector('index', 'adminNavigation', 'cms', array('id' => $form->getRecord()->parent_id), true);
+			return $this->_helper->redirector('index', 'adminNavigation', 'cms', array('id' => $form->getRecord()->parentId), true);
 		}
 		/* if ($this->id > 0) {
 		  $record = Cms_Model_Navigation_Dao::findPk($this->id);
 		  if ($this->remove && $record) {
-		  $parentId = $record->parent_id;
+		  $parentId = $record->parentId;
 		  $record->delete();
 		  return $this->_helper->redirector('index', 'adminNavigation', 'cms', array('id' => $parentId), true);
 		  }
@@ -48,7 +45,7 @@ class Cms_Controller_AdminNavigation extends MmiCms_Controller_Admin {
 		if ($record !== null) {
 			$record->delete();
 		}
-		return $this->_helper->redirector('index', 'adminNavigation', 'cms', array('id' => $record->parent_id), true);
+		return $this->_helper->redirector('index', 'adminNavigation', 'cms', array('id' => $record->parentId), true);
 	}
 
 	public function sortAction() {

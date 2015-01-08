@@ -27,9 +27,9 @@
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  * 
  * Metody wywoływane magicznie przez __call
- * @method null redirector() redirector($action = null, $controller = null, $module = null, array $params = array(), $reset = false) Helper przekierowań
- * @method null messenger() messenger($message, $type = null, array $variables = array()) Helper wiadomości
- * @method null action() action($moduleName = 'default', $controllerName = 'index', $actionName = 'index', array $params = array()) Helper akcji
+ * @method Mmi_Controller_Action_Helper_Redirector redirector() redirector($action = null, $controller = null, $module = null, array $params = array(), $reset = false) Helper przekierowań
+ * @method Mmi_Controller_Action_Helper_Messenger messenger() messenger($message, $type = null, array $variables = array()) Helper wiadomości
+ * @method Mmi_Controller_Action_Helper_Action action() action($moduleName = 'default', $controllerName = 'index', $actionName = 'index', array $params = array()) Helper akcji
  */
 class Mmi_Controller_Action_HelperBroker {
 

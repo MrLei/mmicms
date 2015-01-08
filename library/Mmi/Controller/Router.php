@@ -59,7 +59,7 @@ class Mmi_Controller_Router {
 	/**
 	 *
 	 * @param Mmi_Controller_Router_Config $config
-	 * @param string $defaultLang domyślny język
+	 * @param string $defaultLanguage domyślny język
 	 * @param string $defaultSkin domyślna skóra
 	 */
 	public function __construct(Mmi_Controller_Router_Config $config, $defaultLanguage = null, $defaultSkin = 'default') {
@@ -81,11 +81,20 @@ class Mmi_Controller_Router {
 		$this->_baseUrl = isset($this->_baseUrl) ? '/' . trim($this->_baseUrl, '/') : '';
 		$this->_url = rtrim($this->_url, '/');
 	}
+	
+	/**
+	 * Pobiera konfigurację routera
+	 * @return Mmi_Controller_Router_Config
+	 */
+	public function getConfig() {
+		return $this->_config;
+	}
 
+	/**
+	 * Pobiera trasy
+	 * @return array
+	 */
 	public function getRoutes() {
-		if ($this->_config === null) {
-			return array();
-		}
 		return $this->_config->getRoutes();
 	}
 

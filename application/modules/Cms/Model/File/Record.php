@@ -17,9 +17,8 @@ class Cms_Model_File_Record extends Mmi_Dao_Record {
 	public $sticky;
 	public $object;
 	public $objectId;
-	public $cms_auth_id;
+	public $cmsAuthId;
 	public $active;
-	public $description;
 
 	/**
 	 * Ustawia plik jako przyklejony w obrębie danego object+objectId
@@ -30,11 +29,7 @@ class Cms_Model_File_Record extends Mmi_Dao_Record {
 			return false;
 		}
 		//wyłącza sticky na innych plikach dla tego object+objectId
-		$q = Cms_Model_File_Dao::newQuery()
-				->where('sticky')->equals(1)
-				->andField('object')->equals($this->object)
-				->andField('objectId')->equals($this->objectId);
-		foreach (Cms_Model_File_Dao::find($q) as $related) {
+		foreach (Cms_Model_File_Dao::stickyByObjectQuery($this->object, $this->objectId)->find() as $related) {
 			$related->sticky = 0;
 			$related->save();
 		}

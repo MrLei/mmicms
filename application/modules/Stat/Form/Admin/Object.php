@@ -7,7 +7,7 @@ class Stat_Form_Admin_Object extends Mmi_Form {
 		$this->addElementSelect('object')
 			->setLabel('statystyka')
 			->setValue($this->getOption('object'))
-			->setMultiOptions(array(null => '---') + Stat_Model_Label_Dao::findPairs('object', 'label', Stat_Model_Label_Dao::newQuery()->orderAsc('label')));
+			->setMultiOptions(array(null => '---') + Stat_Model_Label_Query::factory()->orderAsc('label')->findPairs('object', 'label'));
 
 		$this->addElementSelect('year')
 			->setLabel('rok')
