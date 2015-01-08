@@ -27,36 +27,46 @@
 class Mmi_Dao_Query_Compile {
 	
 	/**
-	 * Bind kompatybilny z Mmi_Db_Adapter_Pdo_Abstract
-	 * @see Mmi_Db_Adapter_Pdo_Abstract
+	 * Część FROM zapytania
+	 * @var string
+	 */
+	public $from;
+
+	/**
+	 * Część WHERE zapytania
+	 * @var string
+	 */
+	public $where;
+	
+	/**
+	 * Część ORDER zapytania
+	 * @var string
+	 */
+	public $order = '';
+	
+	/**
+	 * Tablica wartości where dla PDO::prepare()
+	 * @see PDO::prepare()
 	 * @var array
 	 */
 	public $bind = array();
 	
 	/**
-	 * Order kompatybilny z Mmi_Db_Adapter_Pdo_Abstract
-	 * @see Mmi_Db_Adapter_Pdo_Abstract
-	 * @var array
-	 */
-	public $order = array();
-
-	/**
-	 * Schemat połączeń kompatybilny z Mmi_Db_Adapter_Pdo_Abstract
-	 * @see Mmi_Db_Adapter_Pdo_Abstract
-	 * @var array
-	 */
-	public $joinSchema = array();
-
-	/**
 	 * Limit
 	 * @var int
 	 */
 	public $limit;
-	
+
 	/**
 	 * Offset
 	 * @var int
 	 */
 	public $offset;
+	
+	/**
+	 * Schemat połączeńs
+	 * @var array
+	 */
+	public $joinSchema = array();
 	
 }

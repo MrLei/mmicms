@@ -71,7 +71,7 @@ class Mmi_Dao_Query_Join {
 	 * @return Mmi_Dao_Query
 	 */
 	public function on($localKeyName, $joinedKeyName = 'id') {
-		$this->_query->queryCompilation()->joinSchema[$this->_tableName] = array($joinedKeyName, $localKeyName, $this->_targetTableName, $this->_type);
+		$this->_query->getQueryCompile()->joinSchema[$this->_tableName] = array($joinedKeyName, $localKeyName, $this->_targetTableName, $this->_type);
 		return $this->_query;
 	}
 
