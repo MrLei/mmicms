@@ -3,8 +3,8 @@
 class Cms_Model_Comment_Record extends Mmi_Dao_Record {
 
 	public $id;
-	public $cms_auth_id;
-	public $parent_id;
+	public $cmsAuthId;
+	public $parentId;
 	public $dateAdd;
 	public $title;
 	public $text;
@@ -19,7 +19,7 @@ class Cms_Model_Comment_Record extends Mmi_Dao_Record {
 		$auth = Default_Registry::$auth;
 		if ($auth->hasIdentity()) {
 			$this->signature = $auth->getUsername();
-			$this->cms_auth_id = $auth->getId();
+			$this->cmsAuthId = $auth->getId();
 		} else {
 			$this->signature = '~' . $this->signature;
 			$this->ip = Mmi_Controller_Front::getInstance()->getEnvironment()->remoteAddress;

@@ -97,6 +97,8 @@ CREATE TABLE cms_contact (
     reply text,
     cms_auth_id_reply integer,
     uri character varying(255),
+	"name" character varying(255),
+	phone character varying(255),
     email character varying(128) NOT NULL,
     ip character varying(16),
     cms_auth_id integer,
@@ -116,62 +118,9 @@ CREATE INDEX fki_cms_contact_cms_contact_option_id_fkey ON cms_contact (cms_cont
 
 CREATE TABLE cms_contact_option (
     id INTEGER PRIMARY KEY,
+	sendTo uri character varying(255),
     name character varying(64) NOT NULL
 );
-
-CREATE TABLE cms_container_template
-(
-  id INTEGER PRIMARY KEY,
-  name character varying(32),
-  path character varying(128),
-  text text
-);
-
-CREATE TABLE cms_container
-(
-  id INTEGER PRIMARY KEY,
-  title character varying(160),
-  serial text,
-  uri character varying(160),
-  cms_container_template_id integer,
-  FOREIGN KEY (cms_container_template_id) REFERENCES cms_container_template (id) ON UPDATE CASCADE ON DELETE CASCADE
-);
-
-CREATE INDEX cms_container_uri_idx ON cms_container(uri);
-CREATE INDEX fki_cms_container_cms_container_template ON cms_container(cms_container_template_id);
-
-CREATE TABLE cms_container_template_placeholder
-(
-  id INTEGER PRIMARY KEY,
-  cms_container_template_id integer NOT NULL,
-  placeholder character varying(32) NOT NULL,
-  name text,
-  FOREIGN KEY (cms_container_template_id) REFERENCES cms_container_template (id) ON UPDATE CASCADE ON DELETE CASCADE
-);
-
-CREATE UNIQUE INDEX cms_container_template_placeholder_template_id_placeholder ON cms_container_template_placeholder (cms_container_template_id, placeholder);
-CREATE INDEX cms_container_template_placeholde_cms_container_template_id_idx ON cms_container_template_placeholder (cms_container_template_id);
-
-CREATE TABLE cms_container_template_placeholder_container
-(
-  id INTEGER PRIMARY KEY,
-  cms_container_id integer NOT NULL,
-  cms_container_template_placeholder_id integer NOT NULL,
-  module character varying(32) NOT NULL,
-  controller character varying(32) NOT NULL,
-  action character varying(32) NOT NULL,
-  params text,
-  active boolean NOT NULL DEFAULT true,
-  "marginTop" integer,
-  "marginRight" integer,
-  "marginBottom" integer,
-  "marginLeft" integer,
-  FOREIGN KEY (cms_container_template_placeholder_id) REFERENCES cms_container_template_placeholder (id) ON UPDATE CASCADE ON DELETE CASCADE,
-  FOREIGN KEY (cms_container_id) REFERENCES cms_container (id) ON UPDATE CASCADE ON DELETE CASCADE
-);
-
-CREATE INDEX cms_container_template_placeh_cms_container_template_placeh_idx ON cms_container_template_placeholder_container (cms_container_template_placeholder_id);
-CREATE INDEX cms_container_template_placeholder_contain_cms_container_id_idx ON cms_container_template_placeholder_container (cms_container_id);
 
 CREATE TABLE cms_file (
     id INTEGER PRIMARY KEY,
@@ -243,12 +192,14 @@ CREATE TABLE cms_navigation (
     keywords text,
     description text,
     uri text,
-	independent smallint DEFAULT 0 NOT NULL,
-	nofollow smallint DEFAULT 0 NOT NULL,
-	blank smallint DEFAULT 0 NOT NULL,
     visible smallint DEFAULT 0 NOT NULL,
 	"dateStart" DATETIME,
 	"dateEnd" DATETIME,
+    "absolute" smallint DEFAULT 1 NOT NULL,
+    "independent" smallint DEFAULT 0 NOT NULL,
+    "nofollow" smallint DEFAULT 0 NOT NULL,
+	"blank" smallint DEFAULT 0 NOT NULL,
+	https smallint DEFAULT 1 NOT NULL,
 	active smallint DEFAULT 1 NOT NULL
 );
 
@@ -399,40 +350,6 @@ CREATE TABLE news (
 
 CREATE INDEX news_uri_idx ON news (uri);
 
-CREATE TABLE payment (
-    id INTEGER PRIMARY KEY,
-    payment_config_id integer NOT NULL,
-    cms_auth_id integer NOT NULL,
-    text text,
-    value real DEFAULT 0 NOT NULL,
-    ip character varying(16),
-    "sessionId" character varying(32),
-    "dateAdd" DATETIME NOT NULL,
-    "dateEnd" DATETIME,
-    type character varying(2),
-    status smallint DEFAULT 1 NOT NULL,
-	FOREIGN KEY (cms_auth_id) REFERENCES cms_auth (id),
-	FOREIGN KEY (payment_config_id) REFERENCES payment_config(id)
-);
-
-CREATE INDEX fki_payment_cms_auth_id_fkey ON payment (cms_auth_id);
-CREATE INDEX fki_payment_payment_config_id_fkey ON payment (payment_config_id);
-CREATE INDEX "payment_dateAdd_idx" ON payment ("dateAdd");
-CREATE INDEX "payment_dateEnd_idx" ON payment ("dateEnd");
-CREATE INDEX payment_status_idx ON payment (status);
-
-CREATE TABLE payment_config (
-    id INTEGER PRIMARY KEY,
-    name character varying(32) NOT NULL,
-    "shopId" integer NOT NULL,
-    "transactionKey" character varying(32) NOT NULL,
-    key1 character varying(32) NOT NULL,
-    key2 character varying(32),
-    active smallint DEFAULT 1 NOT NULL
-);
-
-CREATE UNIQUE INDEX payment_config_name_idx ON payment_config ("name");
-
 CREATE TABLE stat
 (
   id INTEGER PRIMARY KEY,
@@ -463,6 +380,12 @@ CREATE TABLE stat_label
   object character varying(32) NOT NULL,
   label character varying(48) NOT NULL,
   description text
+);
+
+CREATE TABLE tutorial
+(
+  id INTEGER PRIMARY KEY,
+  data character varying(128)
 );
 
 CREATE UNIQUE INDEX stat_label_lang_object_idx ON stat_label (lang, "object");

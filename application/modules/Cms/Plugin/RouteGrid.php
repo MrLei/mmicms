@@ -2,12 +2,11 @@
 
 class Cms_Plugin_RouteGrid extends Mmi_Grid {
 
-	protected $_daoName = 'Cms_Model_Route_Dao';
-
 	public function init() {
 
-		$q = new Mmi_Dao_Query();
-		$this->setInitialQuery($q->orderAsc('order'));
+		$this->setQuery(Cms_Model_Route_Query::factory()
+			->orderAscOrder());
+		
 		$this->setOption('rows', 100);
 
 		$this->addColumn('text', 'pattern', array(

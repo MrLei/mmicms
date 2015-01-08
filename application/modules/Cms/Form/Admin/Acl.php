@@ -6,7 +6,7 @@ class Cms_Form_Admin_Acl extends Mmi_Form {
 
 	public function init() {
 
-		$this->_record->cms_role_id = Mmi_Controller_Front::getInstance()->getRequest()->roleId;
+		$this->getRecord()->cmsRoleId = Mmi_Controller_Front::getInstance()->getRequest()->roleId;
 		$reflection = new Admin_Model_Reflection();
 
 		$this->addElementSelect('object')

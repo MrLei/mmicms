@@ -17,8 +17,16 @@ class Mail_Controller_AdminDefinition extends MmiCms_Controller_Admin {
 
 	public function deleteAction() {
 		$definition = new Mail_Model_Definition_Record($this->id);
-		if ($definition->delete()) {
-			$this->_helper->messenger('Poprawnie skasowano definicję maila');
+		try {
+			if ($definition && $definition->delete()) {
+				$this->_helper->messenger('Poprawnie skasowano definicję maila');
+			}
+		} catch (Exception $e) {
+			if (stripos($e->getMessage(), 'DB exception') !== false) {
+				$this->_helper->messenger('Nie można usunąć definicji maila, istnieją powiazane wiadomosci w kolejce', false);
+			} else {
+				throw $e;
+			}
 		}
 		return $this->_helper->redirector('index', 'adminDefinition', 'mail', array(), true);
 	}

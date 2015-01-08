@@ -2,11 +2,9 @@
 
 class Mail_Plugin_DefinitionGrid extends Mmi_Grid {
 
-	protected $_daoName = 'Mail_Model_Definition_Dao';
-	protected $_daoGetMethod = 'findLang';
-	protected $_daoCountMethod = 'countLang';
-
 	public function init() {
+		
+		$this->setQuery(Mail_Model_Definition_Dao::langQuery());
 
 		$this->addColumn('text', 'lang', array(
 			'label' => 'język'
@@ -32,7 +30,7 @@ class Mail_Plugin_DefinitionGrid extends Mmi_Grid {
 			'label' => 'odpowiedz'
 		));
 
-		$this->addColumn('text', 'mail_server_id', array(
+		$this->addColumn('text', 'mailServerId', array(
 			'label' => 'id połączenia'
 		));
 

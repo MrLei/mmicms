@@ -54,7 +54,7 @@ class Mmi_Form_Element_File extends Mmi_Form_Element_Abstract {
 	/**
 	 * Ustawia, że pole wielokrotne
 	 * @param int $count ile plików
-	 * @return \Mmi_Form_Element_File
+	 * @return Mmi_Form_Element_File
 	 */
 	public function setMultiple($count = 2) {
 		if (substr($this->getName(), -2) == '[]') {

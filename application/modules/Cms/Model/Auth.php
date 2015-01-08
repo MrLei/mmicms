@@ -6,27 +6,26 @@ class Cms_Model_Auth implements Mmi_Auth_Model_Interface {
 		$credentialLegacy = sha1($credential);
 		$credential = self::getSaltedPasswordHash($credential);
 
-		$qUser = Cms_Model_Auth_Dao::newQuery()
-				->where('username')->equals($identity)
-				->orField('email')->equals($identity);
+		$qUser = Cms_Model_Auth_Query::factory()
+				->whereUsername()->equals($identity)
+				->orFieldEmail()->equals($identity);
 
-		$qPassword = Cms_Model_Auth_Dao::newQuery()
-				->where('password')->equals($credential)
-				->orField('password')->equals($credentialLegacy)
-				->orField('password')->equals(substr($credential, 0, 40));
+		$qPassword = Cms_Model_Auth_Query::factory()
+				->wherePassword()->equals($credential)
+				->orFieldPassword()->equals($credentialLegacy)
+				->orFieldPassword()->equals(substr($credential, 0, 40));
 
-		$q = Cms_Model_Auth_Dao::newQuery()
-			->where('active')->equals(1)
+		$record = Cms_Model_Auth_Query::factory()
+			->whereActive()->equals(1)
 			->andQuery($qUser)
-			->andQuery($qPassword);
-
-		$record = Cms_Model_Auth_Dao::findFirst($q);
+			->andQuery($qPassword)
+			->findFirst();
 
 		if ($record === null) {
-			$q = Cms_Model_Auth_Dao::newQuery()
-				->where('active')->equals(1)
-				->andQuery($qUser);
-			$record = Cms_Model_Auth_Dao::findFirst($q);
+			$record = Cms_Model_Auth_Query::factory()
+				->whereActive()->equals(1)
+				->andQuery($qUser)
+				->findFirst();
 			if ($record !== null) {
 				$record->lastFailIp = Mmi_Controller_Front::getInstance()->getEnvironment()->remoteAddress;
 				$record->lastFailLog = date('Y-m-d H:i:s');
@@ -38,13 +37,13 @@ class Cms_Model_Auth implements Mmi_Auth_Model_Interface {
 				'message' => 'LOGIN FAILED: ' . $identity));
 			return false;
 		}
-		$record->setOption('roles', Cms_Model_Auth_Role_Dao::findPairsRolesByAuthId($record->id));
+		$record->setOption('roles', Cms_Model_Auth_Role_Dao::joinedRolebyAuthId($record->id)->findPairs('cms_role_id', 'name'));
 		$record->lastIp = Mmi_Controller_Front::getInstance()->getEnvironment()->remoteAddress;
 		$record->lastLog = date('Y-m-d H:i:s');
 		Cms_Model_Log_Dao::add('login', array(
 			'object' => 'cms_auth',
 			'objectId' => $record->id,
-			'cms_auth_id' => $record->id,
+			'cmsAuthId' => $record->id,
 			'success' => true,
 			'message' => 'LOGGED: ' . $record->username
 		));
@@ -56,21 +55,21 @@ class Cms_Model_Auth implements Mmi_Auth_Model_Interface {
 	}
 
 	public static function idAuthenticate($id) {
-		$q = Cms_Model_Auth_Dao::newQuery()
+		$q = Cms_Model_Auth_Query::factory()
 				->where('id')->equals($id)
 				->orField('username')->equals($id)
 				->orField('email')->equals($id);
-		$record = Cms_Model_Auth_Dao::findFirst($q);
+		$record = Cms_Model_Auth_Query::factory()->findFirst();
 		if ($record === null) {
 			return false;
 		}
-		$record->setOption('roles', Cms_Model_Auth_Role_Dao::findPairsRolesByAuthId($record->id));
+		$record->setOption('roles', Cms_Model_Auth_Role_Dao::joinedRolebyAuthId($record->id)->findPairs('cms_role_id', 'name'));
 		$record->lastIp = Mmi_Controller_Front::getInstance()->getEnvironment()->remoteAddress;
 		$record->lastLog = date('Y-m-d H:i:s');
 		Cms_Model_Log_Dao::add('login', array(
 			'object' => 'cms_auth',
 			'objectId' => $record->id,
-			'cms_auth_id' => $record->id,
+			'cmsAuthId' => $record->id,
 			'success' => true,
 			'message' => 'LOGGED (ID): ' . $record->username
 		));

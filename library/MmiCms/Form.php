@@ -54,6 +54,15 @@ abstract class MmiCms_Form extends Mmi_Form {
 	}
 
 	/**
+	 * Date picker
+	 * @param string $name nazwa
+	 * @return Mmi_Form_Element_DatePicker
+	 */
+	public function addElementDatePicker($name) {
+		return $this->addElement(new MmiCms_Form_Element_DatePicker($name));
+	}
+
+	/**
 	 * Date-time picker
 	 * @param string $name nazwa
 	 * @return Mmi_Form_Element_DateTimePicker

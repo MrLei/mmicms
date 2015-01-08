@@ -19,8 +19,8 @@ class Cron_Model_Record extends Mmi_Dao_Record {
 	public $dateLastExecute;
 
 	public function save() {
-		if ($this->object) {
-			$params = explode('_', $this->object);
+		if ($this->getOption('object')) {
+			$params = explode('_', $this->getOption('object'));
 			if (count($params) == 3) {
 				$this->module = $params[0] != 'default' ? $params[0] : null;
 				$this->controller = $params[1];

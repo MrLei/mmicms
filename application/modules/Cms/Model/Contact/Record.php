@@ -3,25 +3,15 @@
 class Cms_Model_Contact_Record extends Mmi_Dao_Record {
 
 	public $id;
-
-	/**
-	 * 
-	 * @var integer
-	 */
-	public $cms_contact_option_id;
+	public $cmsContactOptionId;
 	public $dateAdd;
 	public $text;
 	public $reply;
-	public $cms_auth_id_reply;
+	public $cmsAuthIdReply;
 	public $uri;
 	public $email;
 	public $ip;
-
-	/**
-	 * 
-	 * @var integer
-	 */
-	public $cms_auth_id;
+	public $cmsAuthId;
 	public $active;
 	public $name;
 	public $phone;
@@ -32,12 +22,12 @@ class Cms_Model_Contact_Record extends Mmi_Dao_Record {
 		$this->active = 1;
 		$auth = Default_Registry::$auth;
 		if ($auth->hasIdentity()) {
-			$this->cms_auth_id = $auth->getId();
+			$this->cmsAuthId = $auth->getId();
 		}
 		$namespace = new Mmi_Session_Namespace('contact');
 		$this->uri = $namespace->referer;
 		//wysyłka do maila zdefiniowanego w opcjach
-		$option = new Cms_Model_Contact_Option_Record($this->cms_contact_option_id);
+		$option = new Cms_Model_Contact_Option_Record($this->cmsContactOptionId);
 		if ($option->sendTo) {
 			Mail_Model_Dao::pushEmail('admin_cms_contact', $option->sendTo, array('contact' => $this), null, $this->email);
 		}
@@ -51,7 +41,7 @@ class Cms_Model_Contact_Record extends Mmi_Dao_Record {
 			'replyText' => $this->reply
 		));
 		$this->active = 0;
-		$this->cms_auth_id_reply = Default_Registry::$auth->getId();
+		$this->cmsAuthIdReply = Default_Registry::$auth->getId();
 		return $this->save();
 	}
 

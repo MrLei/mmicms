@@ -75,56 +75,6 @@ CREATE TABLE `cms_auth_role` (
   CONSTRAINT `cms_auth_role_ibfk_2` FOREIGN KEY (`cms_role_id`) REFERENCES `cms_role` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-CREATE TABLE `cms_container_template`
-(
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(32),
-  `path` varchar(128),
-  `text` text,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
-
-CREATE TABLE cms_container
-(
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` character varying(160),
-  `serial` text,
-  `uri` character varying(160),
-  `cms_container_template_id` int(11),
-  PRIMARY KEY (`id`),
-  CONSTRAINT `cms_container_ibfk_1` FOREIGN KEY (cms_container_template_id) REFERENCES cms_container_template (id) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
-
-CREATE TABLE cms_container_template_placeholder
-(
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cms_container_template_id` int(11) NOT NULL,
-  `placeholder` varchar(32) NOT NULL,
-  `name` text,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `cms_container_template_id_placeholder` (`cms_container_template_id`,`placeholder`),
-  CONSTRAINT `cms_container_template_placeholder_ibfk_1` FOREIGN KEY (cms_container_template_id) REFERENCES cms_container_template (id) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
-
-CREATE TABLE cms_container_template_placeholder_container
-(
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cms_container_id` int(11) NOT NULL,
-  `cms_container_template_placeholder_id` int(11) NOT NULL,
-  `module` varchar(32) NOT NULL,
-  `controller` varchar(32) NOT NULL,
-  `action` varchar(32) NOT NULL,
-  `params` text,
-  `active` boolean NOT NULL DEFAULT true,
-  `marginTop` integer,
-  `marginRight` integer,
-  `marginBottom` integer,
-  `marginLeft` integer,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `cms_container_template_placeholder_container_ibfk_1` FOREIGN KEY (cms_container_template_placeholder_id) REFERENCES cms_container_template_placeholder (id) ON UPDATE CASCADE ON DELETE CASCADE,
-  CONSTRAINT `cms_container_template_placeholder_container_ibfk_2` FOREIGN KEY (cms_container_id) REFERENCES cms_container (id) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
-
 CREATE TABLE cms_tag
 (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -411,6 +361,13 @@ CREATE TABLE `stat_label` (
   `object` varchar(32) COLLATE utf8_polish_ci NOT NULL,
   `label` varchar(48) COLLATE utf8_polish_ci NOT NULL,
   `description` text COLLATE utf8_polish_ci,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+CREATE TABLE tutorial
+(
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `data` varchar(128),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 

@@ -2,9 +2,7 @@
 
 class Tutorial_Form_Test extends Mmi_Form {
 
-	protected $_recordName = 'Tutorial_Model_SimpleForm_Record';
-
-//	protected $_recordSaveMethod = 'saveWithPerson';
+	protected $_recordName = 'Tutorial_Model_Record';
 
 	public function init() {
 

@@ -4,34 +4,62 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 
 	protected static $_tableName = 'cms_navigation';
 
-	public static function findFirstByArticleUri($uri) {
-		$q = self::newQuery()
-				->where('module')->equals('cms')
-				->andField('controller')->equals('article')
-				->andField('action')->equals('index')
-				->andField('params')->equals('uri=' . $uri);
-		return self::findFirst($q);
+	/**
+	 * 
+	 * @return Cms_Model_Navigation_Query
+	 */
+	public static function langQuery() {
+		if (!Mmi_Controller_Front::getInstance()->getRequest()->lang) {
+			return Cms_Model_Navigation_Query::factory();
+		}
+		return Cms_Model_Navigation_Query::factory()
+				->andQuery(Cms_Model_Navigation_Query::factory()
+					->whereLang()->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
+					->orFieldLang()->equals(null)
+					->orderDescLang());
 	}
 
-	public static function findLastByParentId($parentId) {
-		$q = self::newQuery()
-			->where('parent_id')->equals($parentId)
-			->orderDesc('order');
-		return self::findFirst($q);
+	/**
+	 * 
+	 * @param string $uri
+	 * @return Cms_Model_Navigation_Query
+	 */
+	public static function byArticleUriQuery($uri) {
+		return Cms_Model_Navigation_Query::factory()
+				->whereModule()->equals('cms')
+				->andFieldController()->equals('article')
+				->andFieldAction()->equals('index')
+				->andFieldParams()->equals('uri=' . $uri);
 	}
 
-	public static function findByParentId($parentId) {
-		$q = self::newQuery()
-				->where('parent_id')->equals($parentId);
-		return self::find($q);
+	/**
+	 * 
+	 * @param type $parentId
+	 * @return Cms_Model_Navigation_Query
+	 */
+	public static function byParentIdQuery($parentId) {
+		return Cms_Model_Navigation_Query::factory()
+				->whereParentId()->equals($parentId);
 	}
 
+	/**
+	 * 
+	 * @param type $parentId
+	 * @return Cms_Model_Navigation_Query
+	 */
+	public static function descByParentIdQuery($parentId) {
+		return self::byParentIdQuery($parentId)
+				->orderDescOrder();
+	}
+
+	/**
+	 * 
+	 * @return array
+	 */
 	public static function getMultiOptions() {
-		$q = self::newQuery()
-			->orderAsc('parent_id')
-			->orderAsc('order');
-		self::_langQuery($q);
-		return array(null => '---') + self::findPairs('id', 'label', $q);
+		return array(null => '---') + self::langQuery()
+				->orderAscParentId()
+				->orderAscOrder()->findPairs('id', 'label');
 	}
 
 	/**
@@ -39,13 +67,13 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 	 * @param Mmi_Navigation_Config $config
 	 */
 	public static function decorateConfiguration(Mmi_Navigation_Config $config) {
-		$q = self::newQuery()
-			->orderAsc('parent_id')
-			->orderAsc('order');
-		self::_langQuery($q);
-		$objectArray = self::find($q)->toObjectArray();
+		$objectArray = self::langQuery()
+			->orderAscParentId()
+			->orderAscOrder()
+			->find()
+			->toObjectArray();
 		foreach ($objectArray as $key => $record) {/* @var $record Cms_Model_Navigation_Record */
-			if ($record->parent_id != 0) {
+			if ($record->parentId != 0) {
 				continue;
 			}
 			$element = Mmi_Navigation_Config::newElement($record->id);
@@ -74,7 +102,7 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 
 	protected static function _buildChildren(Cms_Model_Navigation_Record $record, Mmi_Navigation_Config_Element $element, array $objectArray) {
 		foreach ($objectArray as $key => $child) {/* @var $child Cms_Model_Navigation_Record */
-			if ($child->parent_id != $record->id) {
+			if ($child->parentId != $record->id) {
 				continue;
 			}
 			$childElement = Mmi_Navigation_Config::newElement($child->id);
@@ -118,17 +146,6 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 			->setVisible($record->visible ? true : false)
 		;
 		return $element;
-	}
-
-	protected static function _langQuery(Mmi_Dao_Query $q) {
-		if (!Mmi_Controller_Front::getInstance()->getRequest()->lang) {
-			return $q;
-		}
-		$subQ = self::newQuery()
-			->where('lang')->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
-			->orField('lang')->equals(null)
-			->orderDesc('lang');
-		return $q->andQuery($subQ);
 	}
 
 }

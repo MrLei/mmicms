@@ -38,7 +38,7 @@ class Mmi_Controller_Router_Config {
 	 * @param string $pattern wyrażenie regularne lub plain
 	 * @param array $replace tablica zastąpień
 	 * @param array $default tablica wartości domyślnych
-	 * @return \Mmi_Controller_Router_Config
+	 * @return Mmi_Controller_Router_Config
 	 */
 	public function setRoute($name, $pattern, array $replace = array(), array $default = array()) {
 		$route = new Mmi_Controller_Router_Config_Route();

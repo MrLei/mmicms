@@ -20,8 +20,11 @@ foreach (glob(BASE_PATH . '/database/' . Default_Registry::$config->db->driver .
 		Default_Registry::$db->selectSchema($schemaName);
 
 		//pobranie rekordu
-		$dc = MmiCms_Model_Changelog_Dao::findFirstByFilename(basename($file));
-
+		try {
+			$dc = MmiCms_Model_Changelog_Dao::byFilenameQuery(basename($file))->findFirst();
+		} catch (Exception $e) {
+			$dc = null;
+		}
 		if ($dc === null) {
 			//brak restore
 			$dc = new MmiCms_Model_Changelog_Record();
@@ -49,6 +52,7 @@ foreach (glob(BASE_PATH . '/database/' . Default_Registry::$config->db->driver .
 		exit;
 	}
 	//tworzenie wpisu
+	MmiCms_Model_Changelog_Dao::resetTableStructures();
 	$dc->filename = $baseFileName;
 	$dc->md5 = $md5file;
 	$dc->save();

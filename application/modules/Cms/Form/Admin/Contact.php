@@ -8,11 +8,11 @@ class Cms_Form_Admin_Contact extends Mmi_Form {
 	public function init() {
 
 		if (!$this->getOption('subjectId')) {
-			$this->addElementSelect('cms_contact_option_id')
+			$this->addElementSelect('cmsContactOptionId')
 				->setDisabled()
 				->setIgnore()
 				->setValue($this->getOption('subjectId'))
-				->setMultiOptions(Cms_Model_Contact_Option_Dao::findPairs('id', 'name', Cms_Model_Contact_Option_Dao::newQuery()->orderAsc('name')))
+				->setMultiOptions(Cms_Model_Contact_Option_Dao::getMultioptions())
 				->setLabel('temat zapytania');
 		}
 

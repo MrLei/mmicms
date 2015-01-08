@@ -245,7 +245,8 @@ CREATE TABLE cms_navigation (
 	absolute smallint NOT NULL DEFAULT 0,
 	independent smallint NOT NULL DEFAULT 0,
 	nofollow smallint NOT NULL DEFAULT 0,
-	blank smallint NOT NULL DEFAULT 0
+	blank smallint NOT NULL DEFAULT 0,
+	active smallint NOT NULL DEFAULT 1
 );
 
 CREATE SEQUENCE cms_navigation_id_seq
@@ -437,57 +438,6 @@ CREATE INDEX news_uri_idx
 
 ALTER SEQUENCE news_id_seq OWNED BY news.id;
 
-CREATE TABLE payment (
-    id integer NOT NULL,
-    payment_config_id integer NOT NULL,
-    cms_auth_id integer NOT NULL,
-    text text,
-    value real DEFAULT 0 NOT NULL,
-    ip character varying(16),
-    "sessionId" character varying(32),
-    "dateAdd" timestamp without time zone NOT NULL,
-    "dateEnd" timestamp without time zone,
-    type character varying(2),
-    status smallint DEFAULT 1 NOT NULL
-);
-
-
-CREATE TABLE payment_config (
-    id integer NOT NULL,
-    name character varying(32) NOT NULL,
-    "shopId" integer NOT NULL,
-    "transactionKey" character varying(32) NOT NULL,
-    key1 character varying(32) NOT NULL,
-    key2 character varying(32),
-    active smallint DEFAULT 1 NOT NULL
-);
-
-
-CREATE SEQUENCE payment_config_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE payment_config_id_seq OWNED BY payment_config.id;
-
-SELECT pg_catalog.setval('payment_config_id_seq', 1, false);
-
-
-CREATE SEQUENCE payment_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE payment_id_seq OWNED BY payment.id;
-
-SELECT pg_catalog.setval('payment_id_seq', 1, false);
-
 CREATE TABLE stat (
     id integer NOT NULL,
     object character varying(50) NOT NULL,
@@ -595,10 +545,6 @@ ALTER TABLE ONLY mail_server ALTER COLUMN id SET DEFAULT nextval('mail_server_id
 
 ALTER TABLE ONLY news ALTER COLUMN id SET DEFAULT nextval('news_id_seq'::regclass);
 
-ALTER TABLE ONLY payment ALTER COLUMN id SET DEFAULT nextval('payment_id_seq'::regclass);
-
-ALTER TABLE ONLY payment_config ALTER COLUMN id SET DEFAULT nextval('payment_config_id_seq'::regclass);
-
 ALTER TABLE ONLY stat ALTER COLUMN id SET DEFAULT nextval('stat_id_seq'::regclass);
 
 ALTER TABLE ONLY stat_date ALTER COLUMN id SET DEFAULT nextval('stat_date_id_seq'::regclass);
@@ -700,16 +646,6 @@ ALTER TABLE ONLY mail_server
 
 ALTER TABLE ONLY news
     ADD CONSTRAINT news_pkey PRIMARY KEY (id);
-
-
-
-ALTER TABLE ONLY payment_config
-    ADD CONSTRAINT payment_config_pkey PRIMARY KEY (id);
-
-
-
-ALTER TABLE ONLY payment
-    ADD CONSTRAINT payment_pkey PRIMARY KEY (id);
 
 
 
@@ -843,23 +779,11 @@ CREATE INDEX fki_mail_definition_mail_server_id_fkey ON mail_definition USING bt
 
 CREATE INDEX fki_mail_mail_definition_id_fkey ON mail USING btree (mail_definition_id);
 
-CREATE INDEX fki_payment_cms_auth_id_fkey ON payment USING btree (cms_auth_id);
-
-CREATE INDEX fki_payment_payment_config_id_fkey ON payment USING btree (payment_config_id);
-
 CREATE INDEX mail_active_idx ON mail USING btree (active);
 
 CREATE INDEX mail_definition_lang_name_idx ON mail_definition USING btree (lang, name);
 
 CREATE INDEX mail_type_idx ON mail USING btree (type);
-
-CREATE UNIQUE INDEX payment_config_name_idx ON payment_config USING btree (name);
-
-CREATE INDEX "payment_dateAdd_idx" ON payment USING btree ("dateAdd");
-
-CREATE INDEX "payment_dateEnd_idx" ON payment USING btree ("dateEnd");
-
-CREATE INDEX payment_status_idx ON payment USING btree (status);
 
 CREATE INDEX stat_date_hour_day_month_year_idx ON stat_date USING btree (hour, day, month, year);
 
@@ -900,12 +824,6 @@ ALTER TABLE ONLY mail_definition
 ALTER TABLE ONLY mail
     ADD CONSTRAINT mail_mail_definition_id_fkey FOREIGN KEY (mail_definition_id) REFERENCES mail_definition(id);
 
-ALTER TABLE ONLY payment
-    ADD CONSTRAINT payment_cms_auth_id_fkey FOREIGN KEY (cms_auth_id) REFERENCES cms_auth(id);
-
-ALTER TABLE ONLY payment
-    ADD CONSTRAINT payment_payment_config_id_fkey FOREIGN KEY (payment_config_id) REFERENCES payment_config(id);
-
 REVOKE ALL ON SEQUENCE cms_article_id_seq FROM PUBLIC;
 
 ALTER TABLE cms_contact ADD COLUMN name character varying(64);
@@ -938,7 +856,6 @@ CREATE INDEX cms_route_order_idx
 
 ALTER TABLE cms_navigation ADD COLUMN "dateStart" timestamp without time zone;
 ALTER TABLE cms_navigation ADD COLUMN "dateEnd" timestamp without time zone;
-ALTER TABLE cms_navigation ADD COLUMN active smallint NOT NULL DEFAULT 1;
 
 CREATE INDEX cms_navigation_datestart_idx
   ON cms_navigation
@@ -1000,113 +917,3 @@ CREATE INDEX cms_tag_link_object_objectId_idx
   ("object", "objectId" );
 
 ALTER TABLE cms_article ADD COLUMN noindex smallint NOT NULL DEFAULT 0;
-
--- Table: cms_container_template
-
--- DROP TABLE cms_container_template;
-
-CREATE TABLE cms_container_template
-(
-  id serial NOT NULL,
-  name character varying(32),
-  path character varying(128),
-  text text,
-  CONSTRAINT cms_container_template_pkey PRIMARY KEY (id)
-)
-WITH (
-  OIDS=FALSE
-);
-
--- Table: cms_container
-
--- DROP TABLE cms_container;
-
-CREATE TABLE cms_container
-(
-  id serial NOT NULL,
-  title character varying(160),
-  serial text,
-  uri character varying(160),
-  cms_container_template_id integer,
-  CONSTRAINT cms_container_pkey PRIMARY KEY (id),
-  CONSTRAINT cms_container_cms_container_template FOREIGN KEY (cms_container_template_id)
-      REFERENCES cms_container_template (id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE
-)
-WITH (
-  OIDS=FALSE
-);
-
-CREATE INDEX cms_container_uri_idx
-  ON cms_container
-  USING btree
-  (uri COLLATE pg_catalog."default");
-
-
-CREATE INDEX fki_cms_container_cms_container_template
-  ON cms_container
-  USING btree
-  (cms_container_template_id);
-
-
-CREATE TABLE cms_container_template_placeholder
-(
-  id serial NOT NULL,
-  cms_container_template_id integer NOT NULL,
-  placeholder character varying(32) NOT NULL,
-  name text,
-  CONSTRAINT cms_container_template_placeholder_pkey PRIMARY KEY (id),
-  CONSTRAINT cms_container_template_placehold_cms_container_template_id_fkey FOREIGN KEY (cms_container_template_id)
-      REFERENCES cms_container_template (id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE,
-  CONSTRAINT cms_container_template_placeh_cms_container_template_id_pla_key UNIQUE (cms_container_template_id, placeholder)
-)
-WITH (
-  OIDS=FALSE
-);
-
-
-CREATE INDEX cms_container_template_placeholde_cms_container_template_id_idx
-  ON cms_container_template_placeholder
-  USING btree
-  (cms_container_template_id);
-
-
-CREATE TABLE cms_container_template_placeholder_container
-(
-  id serial NOT NULL,
-  cms_container_id integer NOT NULL,
-  cms_container_template_placeholder_id integer NOT NULL,
-  module character varying(32) NOT NULL,
-  controller character varying(32) NOT NULL,
-  action character varying(32) NOT NULL,
-  params text,
-  active boolean NOT NULL DEFAULT true,
-  "marginTop" integer,
-  "marginRight" integer,
-  "marginBottom" integer,
-  "marginLeft" integer,
-  CONSTRAINT cms_container_template_placeholder_container_pkey PRIMARY KEY (id),
-  CONSTRAINT cms_container_template_placeh_cms_container_template_place_fkey FOREIGN KEY (cms_container_template_placeholder_id)
-      REFERENCES cms_container_template_placeholder (id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE,
-  CONSTRAINT cms_container_template_placeholder_contai_cms_container_id_fkey FOREIGN KEY (cms_container_id)
-      REFERENCES cms_container (id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE
-)
-WITH (
-  OIDS=FALSE
-);
-
-
-CREATE INDEX cms_container_template_placeh_cms_container_template_placeh_idx
-  ON cms_container_template_placeholder_container
-  USING btree
-  (cms_container_template_placeholder_id);
-
-
-CREATE INDEX cms_container_template_placeholder_contain_cms_container_id_idx
-  ON cms_container_template_placeholder_container
-  USING btree
-  (cms_container_id);
-

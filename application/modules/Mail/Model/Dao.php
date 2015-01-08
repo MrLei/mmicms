@@ -9,10 +9,11 @@ class Mail_Model_Dao extends Mmi_Dao {
 	 * @return int ilość usuniętych
 	 */
 	public static function clean() {
-		$q = self::newQuery()
-				->where('active')->equals(1)
-				->andField('dateAdd')->less(date('Y-m-d H:i:s', strtotime('-1 week')));
-		return self::find($q)->delete();
+		return Mail_Model_Query::factory()
+				->whereActive()->equals(1)
+				->andFieldDateAdd()->less(date('Y-m-d H:i:s', strtotime('-1 week')))
+				->find()
+				->delete();
 	}
 
 	/**
@@ -28,7 +29,8 @@ class Mail_Model_Dao extends Mmi_Dao {
 	 * @return int id zapisanego rekordu
 	 */
 	public static function pushEmail($name, $to, array $params = array(), $fromName = null, $replyTo = null, $subject = null, $sendAfter = null, array $attachments = array()) {
-		$def = Mail_Model_Definition_Dao::findFirstLangByName($name);
+		$def = Mail_Model_Definition_Dao::langByNameQuery($name)
+			->findFirst();
 		if ($def === null) {
 			return false;
 		}
@@ -37,7 +39,7 @@ class Mail_Model_Dao extends Mmi_Dao {
 			return false;
 		}
 		$mail = new Mail_Model_Record();
-		$mail->mail_definition_id = $def->id;
+		$mail->mailDefinitionId = $def->id;
 		$mail->to = $to;
 		$mail->fromName = !(null === $fromName) ? $fromName : $def->fromName;
 		$mail->replyTo = !(null === $replyTo) ? $replyTo : $def->replyTo;
@@ -53,7 +55,7 @@ class Mail_Model_Dao extends Mmi_Dao {
 				'type' => Mmi_Lib::mimeType($filePath)
 			);
 		}
-		$mail->attachments = serialize($tmpFiles);
+		$mail->setOption('attachments', serialize($tmpFiles));
 		$view = Mmi_Controller_Front::getInstance()->getView();
 		foreach ($params as $key => $value) {
 			$view->$key = $value;
@@ -71,14 +73,14 @@ class Mail_Model_Dao extends Mmi_Dao {
 	public static function send() {
 		$result = array('error' => 0, 'success' => 0);
 
-		$q = self::newQuery()
+		$emails = Mail_Model_Query::factory()
 			->join('mail_definition')->on('mail_definition_id')
 			->join('mail_server', 'mail_definition')->on('mail_server_id')
-			->where('active')->equals(0)
-			->andField('dateSendAfter')->lessOrEquals(date('Y-m-d H:i:s'))
-			->orderAsc('dateSendAfter');
+			->whereActive()->equals(0)
+			->andFieldDateSendAfter()->lessOrEquals(date('Y-m-d H:i:s'))
+			->orderAscDateSendAfter()
+			->find();
 
-		$emails = Mail_Model_Dao::find($q);
 		if (count($emails) == 0) {
 			return $result;
 		}
@@ -93,9 +95,9 @@ class Mail_Model_Dao extends Mmi_Dao {
 			if ($email->getJoined('mail_server')->ssl != 'plain') {
 				$config['ssl'] = $email->getJoined('mail_server')->ssl;
 			}
-			if (!isset($transport[$email->mail_server_id])) {
+			if (!isset($transport[$email->getOption('mailServerId')])) {
 				//@TODO: przepisać do ZF2
-				$transport[$email->mail_server_id] = new Zend_Mail_Transport_Smtp($email->getJoined('mail_server')->address, $config);
+				$transport[$email->getOption('mailServerId')] = new Zend_Mail_Transport_Smtp($email->getJoined('mail_server')->address, $config);
 			}
 			//@TODO: przepisać do ZF2
 			$mail = new Zend_Mail('utf-8');
@@ -109,7 +111,7 @@ class Mail_Model_Dao extends Mmi_Dao {
 				$mail->setReplyTo($email->replyTo);
 			}
 			$mail->setSubject($email->subject);
-			$attachments = unserialize($email->attachments);
+			$attachments = unserialize($email->getOption('attachments'));
 			if (!empty($attachments)) {
 				foreach ($attachments as $fileName => $file) {
 					if (!isset($file['content']) || !isset($file['type'])) {
@@ -120,7 +122,7 @@ class Mail_Model_Dao extends Mmi_Dao {
 				}
 			}
 			try {
-				if ($mail->send($transport[$email->mail_server_id])) {
+				if ($mail->send($transport[$email->getOption('mailServerId')])) {
 					$record = new Mail_Model_Record();
 					$record->setNew(false);
 					$record->id = $email->id;

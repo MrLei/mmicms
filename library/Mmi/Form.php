@@ -858,7 +858,7 @@ abstract class Mmi_Form {
 	/**
 	 * Ustawia, czy form jest subformem.
 	 * @param bool $yes
-	 * @return \Mmi_Form
+	 * @return Mmi_Form
 	 */
 	public function setIsSubForm($yes = true) {
 		$this->_isSubForm = (bool) $yes;
@@ -947,7 +947,7 @@ abstract class Mmi_Form {
 	/**
 	 * Ustawia nazwę kolumny do zapisu powiązania z formularzem rodzicem.
 	 * @param string $name
-	 * @return \Mmi_Form
+	 * @return Mmi_Form
 	 */
 	public function setParentFormColumnName($name) {
 		$this->_parentFormColumnName = $name;

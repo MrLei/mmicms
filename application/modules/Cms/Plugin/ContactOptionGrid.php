@@ -2,9 +2,9 @@
 
 class Cms_Plugin_ContactOptionGrid extends Mmi_Grid {
 
-	protected $_daoName = 'Cms_Model_Contact_Option_Dao';
-
 	public function init() {
+		
+		$this->setQuery(Cms_Model_Contact_Option_Query::factory());
 
 		$this->addColumn('text', 'name', array(
 			'label' => 'temat pytania'

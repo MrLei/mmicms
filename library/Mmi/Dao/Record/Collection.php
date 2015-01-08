@@ -25,7 +25,7 @@
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 class Mmi_Dao_Record_Collection extends ArrayObject {
-
+	
 	/**
 	 * Kasuje całą kolekcję obiektów
 	 * @return integer ilość usuniętych obiektów
