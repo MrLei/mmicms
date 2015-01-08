@@ -33,12 +33,6 @@ class Mmi_Dao_Query_Field {
 	protected $_fieldName;
 
 	/**
-	 * Nazwa tabeli
-	 * @var string
-	 */
-	protected $_tableName;
-
-	/**
 	 * Kwantyfikator łączenia AND lub OR
 	 * @var string
 	 */
@@ -54,13 +48,11 @@ class Mmi_Dao_Query_Field {
 	 * Ustawia parametry pola
 	 * @param Mmi_Dao_Query $query zapytanie nadrzędne
 	 * @param string $fieldName nazwa pola
-	 * @param string $tableName nazwa tabeli
 	 * @param string $logic kwantyfikator łączenia AND lub OR
 	 */
-	public function __construct(Mmi_Dao_Query $query, $fieldName, $tableName, $logic = 'AND') {
+	public function __construct(Mmi_Dao_Query $query, $fieldName, $logic = 'AND') {
 		$this->_fieldName = $fieldName;
-		$this->_tableName = $tableName;
-		$this->_logic = $logic;
+		$this->_logic = ($logic == 'OR') ? 'OR' : 'AND';
 		$this->_query = $query;
 	}
 
@@ -70,8 +62,7 @@ class Mmi_Dao_Query_Field {
 	 * @return Mmi_Dao_Query
 	 */
 	public function equals($value) {
-		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, '=', $this->_logic, $this->_tableName);
-		return $this->_query;
+		return $this->_prepareQuery($value, '=');
 	}
 
 	/**
@@ -80,8 +71,7 @@ class Mmi_Dao_Query_Field {
 	 * @return Mmi_Dao_Query
 	 */
 	public function notEquals($value) {
-		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, '<>', $this->_logic, $this->_tableName);
-		return $this->_query;
+		return $this->_prepareQuery($value, '<>');
 	}
 
 	/**
@@ -90,8 +80,7 @@ class Mmi_Dao_Query_Field {
 	 * @return Mmi_Dao_Query
 	 */
 	public function greater($value) {
-		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, '>', $this->_logic, $this->_tableName);
-		return $this->_query;
+		return $this->_prepareQuery($value, '>');
 	}
 
 	/**
@@ -100,8 +89,7 @@ class Mmi_Dao_Query_Field {
 	 * @return Mmi_Dao_Query
 	 */
 	public function less($value) {
-		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, '<', $this->_logic, $this->_tableName);
-		return $this->_query;
+		return $this->_prepareQuery($value, '<');
 	}
 
 	/**
@@ -110,8 +98,7 @@ class Mmi_Dao_Query_Field {
 	 * @return Mmi_Dao_Query
 	 */
 	public function greaterOrEquals($value) {
-		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, '>=', $this->_logic, $this->_tableName);
-		return $this->_query;
+		return $this->_prepareQuery($value, '>=');
 	}
 
 	/**
@@ -120,8 +107,7 @@ class Mmi_Dao_Query_Field {
 	 * @return Mmi_Dao_Query
 	 */
 	public function lessOrEquals($value) {
-		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, '<=', $this->_logic, $this->_tableName);
-		return $this->_query;
+		return $this->_prepareQuery($value, '<=');
 	}
 
 	/**
@@ -130,8 +116,7 @@ class Mmi_Dao_Query_Field {
 	 * @return Mmi_Dao_Query
 	 */
 	public function like($value) {
-		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, 'LIKE', $this->_logic, $this->_tableName);
-		return $this->_query;
+		return $this->_prepareQuery($value, 'LIKE');
 	}
 
 	/**
@@ -140,7 +125,54 @@ class Mmi_Dao_Query_Field {
 	 * @return Mmi_Dao_Query
 	 */
 	public function ilike($value) {
-		$this->_query->queryCompilation()->bind[] = array($this->_fieldName, $value, 'ILIKE', $this->_logic, $this->_tableName);
+		return $this->_prepareQuery($value, 'ILIKE');
+	}
+
+	/**
+	 * Przygotowuje zapytanie
+	 * @param mixed $value
+	 * @param string $condition
+	 * @return Mmi_Dao_Query
+	 */
+	protected function _prepareQuery($value, $condition = '=') {
+		//tworzenie binda
+		$bindKey = Mmi_Db_Adapter_Pdo_Abstract::generateRandomBindKey();
+		if (!is_array($value) && null !== $value) {
+			$this->_query->getQueryCompile()->bind[$bindKey] = $value;
+		}
+		if ($this->_query->getQueryCompile()->where == '') {
+			$this->_query->getQueryCompile()->where = 'WHERE ';
+		} else {
+			$this->_query->getQueryCompile()->where .= ' ' . $this->_logic . ' ';
+		}
+		$dao = $this->_query->getDaoClassName();
+		/* @var $db Mmi_Db_Adapter_Pdo_Abstract */
+		$db = $dao::getAdapter();
+		//sprawdzenie wartości null
+		if (null === $value) {
+			$this->_query->getQueryCompile()->where .= $db->prepareNullCheck($this->_fieldName, ($condition == '='));
+			return $this->_query;
+		}
+		//sprawdzenie typów tabelarycznych
+		if (is_array($value)) {
+			$fields = '';
+			$i = 1;
+			foreach ($value as $arg) {
+				$bk = Mmi_Db_Adapter_Pdo_Abstract::generateRandomBindKey();
+				$this->_query->getQueryCompile()->bind[$bk] = $arg;
+				$fields .= ':' . $bk . ', ';
+				$i++;
+			}
+			$this->_query->getQueryCompile()->where .= $this->_fieldName . ' ' . ($condition == '<>' ? 'NOT IN' : 'IN') . '(' . trim($fields, ', ') . ')';
+			return $this->_query;
+		}
+		//ilike
+		if ('ILIKE' == $condition) {
+			$this->_query->getQueryCompile()->where .= $db->prepareIlike($this->_fieldName) . ' :' . $bindKey;
+			return $this->_query;
+		}
+		//zwykłe porównanie
+		$this->_query->getQueryCompile()->where .= $this->_fieldName . ' ' . $condition . ' :' . $bindKey;
 		return $this->_query;
 	}
 

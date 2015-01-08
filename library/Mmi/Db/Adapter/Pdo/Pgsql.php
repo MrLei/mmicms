@@ -146,66 +146,14 @@ class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
 		}
 		return $tables;
 	}
-
+	
 	/**
-	 * Analizuje i zwraca wynik parsowania jednego poziomu bind
-	 * @param array $rule reguła np. array(array('id', 2), array(user, 3))
-	 * @param array $params referencja do budowanego bind'a z wartościami
-	 * @param string $table nazwa tabeli
-	 * @return string ciąg SQL
+	 * Tworzy konstrukcję sprawdzającą ILIKE, jeśli dostępna w silniku
+	 * @param string $fieldName nazwa pola
+	 * @return string
 	 */
-	protected function _parseWhereBindLevel(array $rule, array &$params = array(), $table = null) {
-		$where = '';
-		$table = isset($rule[4]) ? $rule[4] : $table;
-		if ($table !== null) {
-			$table = $this->prepareTable($table) . '.';
-		}
-		if (!isset($rule[3]) || $rule[3] != 'OR') {
-			$rule[3] = 'AND';
-		}
-
-		$rule[2] = isset($rule[2]) ? $rule[2] : '=';
-
-		if ($rule[2] == '!=') {
-			$rule[2] = '<>';
-		}
-		if (!array_key_exists('1', $rule)) {
-			return $where;
-		}
-		if ($rule[1] === null) {
-			$negation = !(isset($rule[2]) && $rule[2] == '<>');
-			return ' ' . $rule[3] . ' ' . $this->prepareNullCheck($table . $this->prepareField($rule[0]), $negation) . ' ';
-		}
-		$where .= ' ' . $rule[3];
-
-		if ($rule[2] == 'LIKE') {
-			$rule[2] = 'ILIKE';
-		}
-		if ($rule[2] == 'ILIKE') {
-			$where .= ' CAST(' . $table . $this->prepareField($rule[0]) . ' AS text)';
-		} else {
-			$where .= ' ' . $table . $this->prepareField($rule[0]);
-		}
-
-		if (is_array($rule[1])) {
-			if ($rule[2] == '<>') {
-				$rule[2] = 'NOT IN';
-			} else {
-				$rule[2] = 'IN';
-			}
-			$where .= ' ' . $rule[2] . ' (';
-			foreach ($rule[1] as $arg) {
-				$where .= '?, ';
-				$params[] = $arg;
-			}
-			$where = rtrim($where, ' ),');
-			$where .= ')';
-			return $where;
-		}
-
-		$where .= ' ' . $rule[2] . ' ?';
-		$params[] = $rule[1];
-		return $where;
+	public function prepareIlike($fieldName) {
+		return 'CAST(' . $fieldName . ') AS text ILIKE';
 	}
 
 }

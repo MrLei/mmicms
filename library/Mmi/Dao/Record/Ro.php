@@ -42,7 +42,7 @@ class Mmi_Dao_Record_Ro {
 	 * Nazwa identyfikatora
 	 * @var string
 	 */
-	protected $_pk = array('id');
+	protected $_pk = 'id';
 
 	/**
 	 * Stan rekordu przed modyfikacją
@@ -75,7 +75,8 @@ class Mmi_Dao_Record_Ro {
 		}
 		//wczytanie danych do rekordu jeśli jest stworzony po ID
 		$dao = $this->_daoClass;
-		$result = $dao::getAdapter()->select($dao::getTableName(), $this->_pkBind($pk), array(), 1);
+		$bindKey = Mmi_Db_Adapter_Pdo_Abstract::generateRandomBindKey();
+		$result = $dao::getAdapter()->select('*', $dao::getTableName(), $this->_pkWhere($bindKey), '', 1, null, array($bindKey => $pk));
 		if (!is_array($result) || !isset($result[0])) {
 			return;
 		}
@@ -107,18 +108,10 @@ class Mmi_Dao_Record_Ro {
 	 * @return mixed klucz główny
 	 */
 	public final function getPk() {
-		if (count($this->_pk) == 1) {
-			if (!property_exists($this, $this->_pk[0])) {
-				return;
-			}
-			return $this->{$this->_pk[0]};
+		if (!property_exists($this, $this->_pk)) {
+			return;
 		}
-		//klucz wielokrotny
-		$pk = array();
-		foreach ($this->_pk as $name) {
-			$pk[] = $this->$name;
-		}
-		return $pk;
+		return $this->{$this->_pk};
 	}
 
 	/**
@@ -239,9 +232,6 @@ class Mmi_Dao_Record_Ro {
 	 */
 	public function toArray() {
 		$array = array();
-		foreach ($this->_options as $name => $value) {
-			$array[$name] = $value;
-		}
 		foreach ($this->_joined as $name => $value) {
 			if ($value instanceof Mmi_Dao_Record_Ro) {
 				$value = $value->toArray();
@@ -249,6 +239,9 @@ class Mmi_Dao_Record_Ro {
 			$array[$name] = $value;
 		}
 		foreach ($this as $name => $value) {
+			if ($name[0] == '_') {
+				continue;
+			}
 			$array[$name] = $value;
 		}
 		return $array;
@@ -261,25 +254,15 @@ class Mmi_Dao_Record_Ro {
 	public function toJson() {
 		return json_encode($this->toArray());
 	}
-
+	
 	/**
-	 * Zwraca bind do klucza głównego dla podanej tabeli wartości
-	 * @param array $values
-	 * @return array tablica bind
-	 * @throws Exception
+	 * WHERE po kluczu tabeli
+	 * @param string $bindKey nazwa do binda
+	 * @return string
 	 */
-	protected final function _pkBind($values) {
-		if (!is_array($values)) {
-			$values = array($values);
-		}
-		$bind = array();
-		foreach ($this->_pk as $index => $column) {
-			if (!array_key_exists($index, $values)) {
-				throw new Exception('Mmi_Dao_Record_Ro: Invalid primary key values: ' . $column . ' not found in ' . print_r($values, true) . $this->_daoClass);
-			}
-			$bind[] = array($column, $values[$index]);
-		}
-		return $bind;
+	protected function _pkWhere($bindKey) {
+		$dao = $this->_daoClass;
+		return 'WHERE ' . $dao::getAdapter()->prepareField($this->_pk) . ' = :' . $bindKey;
 	}
 
 }
