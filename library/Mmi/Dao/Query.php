@@ -284,7 +284,7 @@ class Mmi_Dao_Query {
 	 */
 	public final function findUnique($keyName) {
 		$dao = $this->_daoClassName;
-		$data = $dao::getAdapter()->select('DISTINCT(' . $dao::getAdapter()->prepareField($keyName) . ')', $this->_prepareFrom(), $this->_compile->where, $this->_compile->order, 1, null, $this->_compile->bind);
+		$data = $dao::getAdapter()->select('DISTINCT(' . $dao::getAdapter()->prepareField($keyName) . ')', $this->_prepareFrom(), $this->_compile->where, $this->_compile->order, null, null, $this->_compile->bind);
 		$result = array();
 		foreach ($data as $line) {
 			$result[] = current($line);
