@@ -75,7 +75,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @return array
 	 */
 	abstract public function tableInfo($tableName, $schema = null);
-	
+
 	/**
 	 * Listuje tabele w schemacie bazy danych
 	 * @param string $schema
@@ -90,6 +90,13 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @return string
 	 */
 	abstract public function prepareNullCheck($fieldName, $positive = true);
+
+	/**
+	 * Tworzy konstrukcję sprawdzającą ILIKE, jeśli dostępna w silniku
+	 * @param string $fieldName nazwa pola
+	 * @return string
+	 */
+	abstract public function prepareIlike($fieldName);
 
 	/**
 	 * Ustawia schemat
@@ -129,29 +136,28 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	}
 
 	/**
-	 * Magiczne wywołanie metod z PDO
-	 * @param string $method nazwa metody
-	 * @param array $params tablica z parametrami
-	 * @return mixed
+	 * Nieistniejące metody
+	 * @param string $method
+	 * @param array $params
+	 * @throws Mmi_Db_Exception
 	 */
 	public final function __call($method, $params) {
-		if (!$this->_connected) {
-			$this->connect();
-		}
-		return call_user_func_array(array($this->_pdo, $method), $params);
+		throw new Mmi_Db_Exception(get_called_class() . ': method not found: ' . $method);
 	}
 
 	/**
 	 * Tworzy połączenie z bazą danych
+	 * @return Mmi_Db_Adapter_Pdo_Abstract
 	 */
 	public function connect() {
 		if ($this->_config->profiler) {
-			Mmi_Db_Profiler::event('CONNECT WITH: ' . get_class($this), 0);
+			Mmi_Db_Profiler::event('CONNECT WITH: ' . get_called_class(), 0);
 		}
 		$this->_pdo = new PDO(
 			$this->_config->driver . ':host=' . $this->_config->host . ';port=' . $this->_config->port . ';dbname=' . $this->_config->name, $this->_config->user, $this->_config->password, array(PDO::ATTR_PERSISTENT => $this->_config->persistent)
 		);
 		$this->_connected = true;
+		return $this;
 	}
 
 	/**
@@ -185,6 +191,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @see PDO::execute()
 	 * @param string $sql zapytanie
 	 * @param array $bind tabela w formacie akceptowanym przez PDO::prepare()
+	 * @throws Mmi_Db_Exception
 	 * @return PDO_Statement
 	 */
 	public final function query($sql, array $bind = array()) {
@@ -195,8 +202,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 		$statement = $this->_pdo->prepare($sql);
 		if (!$statement) {
 			$error = $this->_pdo->errorInfo();
-			$error = isset($error[2]) ? $error[2] : $error[0];
-			throw new Exception('DB exception: ' . $error . ' --- ' . $sql);
+			throw new Mmi_Db_Exception(get_called_class() . ': ' . (isset($error[2]) ? $error[2] : $error[0]) . ' --- ' . $sql);
 		}
 		foreach ($bind as $key => $param) {
 			$type = PDO::PARAM_STR;
@@ -213,14 +219,10 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 		if ($result != 1) {
 			$error = $statement->errorInfo();
 			$error = isset($error[2]) ? $error[2] : $error[0];
-			throw new Exception('DB exception: ' . $error . ' --- ' . $sql);
+			throw new Mmi_Db_Exception(get_called_class() . ': ' . $error . ' --- ' . $sql);
 		}
 		if ($this->_config->profiler) {
-			$qs = $statement->queryString;
-			if (!empty($bind)) {
-				$qs .= "\n(" . http_build_query($bind) . ')';
-			}
-			Mmi_Db_Profiler::event($qs, microtime(true) - $start);
+			Mmi_Db_Profiler::eventQuery($statement, $bind, microtime(true) - $start);
 		}
 		return $statement;
 	}
@@ -322,22 +324,19 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @param array $whereBind warunek w postaci zagnieżdżonego bind
 	 * @return integer
 	 */
-	public function update($table, array $data = array(), array $whereBind = array()) {
+	public function update($table, array $data = array(), $where = '', array $whereBind = array()) {
 		$fields = '';
 		$bind = array();
 		if (empty($data)) {
 			return 1;
 		}
 		foreach ($data as $key => $value) {
-			$fields .= $this->prepareField($key) . ' = ?, ';
-			$bind[] = $value;
+			$bindKey = self::generateRandomBindKey();
+			$fields .= $this->prepareField($key) . ' = :' . $bindKey . ', ';
+			$bind[$bindKey] = $value;
 		}
-		$where = $this->_parseWhereBind($whereBind, $table);
-		$sql = 'UPDATE ' . $this->prepareTable($table) . ' SET ' . rtrim($fields, ', ') . $where['sql'];
-		foreach ($where['bind'] as $rule) {
-			$bind[] = $rule;
-		}
-		return $this->query($sql, $bind)->rowCount();
+		$sql = 'UPDATE ' . $this->prepareTable($table) . ' SET ' . rtrim($fields, ', ') . ' ' . $where;
+		return $this->query($sql, array_merge($bind, $whereBind))->rowCount();
 	}
 
 	/**
@@ -346,37 +345,31 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @param array $whereBind warunek w postaci zagnieżdżonego bind
 	 * @return integer
 	 */
-	public function delete($table, array $whereBind = array()) {
-		$where = $this->_parseWhereBind($whereBind, $table);
-		$sql = 'DELETE FROM ' . $this->prepareTable($table) . $where['sql'];
-		return $this->query($sql, $where['bind'])->rowCount();
+	public function delete($table, $where = '', array $whereBind = array()) {
+		return $this->query('DELETE FROM ' . $this->prepareTable($table) . ' ' . $where, $whereBind)
+				->rowCount();
 	}
 
 	/**
 	 * Pobieranie rekordów
-	 * @param string $table nazwa tabeli
-	 * @param array $whereBind warunek w postaci zagnieżdżonego bind
-	 * @param array $orderBind sortowanie w postaci zagnieżdżonego bind
+	 * @param string $fields pola do wybrania
+	 * @param string $from część zapytania po FROM
+	 * @param string $where warunek
+	 * @param string $order sortowanie
 	 * @param int $limit limit
 	 * @param int $offset ofset
-	 * @param array $fields pola do wybrania
-	 * @param array $joinSchema schemat połączeń
+	 * @param array $whereBind parametry
 	 * @return array
 	 */
-	public function select($table, array $whereBind = array(), array $orderBind = array(), $limit = null, $offset = null, array $fields = array('*'), array $joinSchema = array()) {
-		$where = $this->_parseWhereBind($whereBind, $table);
-		$sql = 'SELECT ' . $this->_prepareSelectFields($fields) . ' FROM ' . $this->prepareTable($table);
-		if (!empty($joinSchema)) {
-			foreach ($joinSchema as $joinTable => $condition) {
-				$targetTable = isset($condition[2]) ? $condition[2] : $table;
-				$joinType = isset($condition[3]) ? $condition[3] : 'JOIN';
-				$sql .= ' ' . $joinType . ' ' . $this->prepareTable($joinTable) . ' ON ' .
-					$this->prepareTable($joinTable) . '.' . $this->prepareField($condition[0]) .
-					' = ' . $this->prepareTable($targetTable) . '.' . $this->prepareField($condition[1]);
-			}
-		}
-		$sql .= $where['sql'] . $this->_parseOrderBind($orderBind, $table) . $this->prepareLimit($limit, $offset);
-		return $this->fetchAll($sql, $where['bind']);
+	public function select($fields = '*', $from = '', $where = '', $order = '', $limit = null, $offset = null, array $whereBind = array()) {
+		$sql = 'SELECT' .
+			' ' . $fields . 
+			' FROM' . 
+			' ' . $from . 
+			' ' . $where . 
+			' ' . $order . 
+			' ' . $this->prepareLimit($limit, $offset);
+		return $this->fetchAll($sql, $whereBind);
 	}
 
 	/**
@@ -438,173 +431,9 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 			return;
 		}
 		if ($offset > 0) {
-			return ' LIMIT ' . intval($offset) . ', ' . intval($limit);
+			return 'LIMIT ' . intval($offset) . ', ' . intval($limit);
 		}
-		return ' LIMIT ' . intval($limit);
-	}
-
-	/**
-	 * Przygotowuje pola do metody select (quotowanie)
-	 * @param array $selectedFields pola
-	 * @return string
-	 */
-	protected function _prepareSelectFields(array $fields = array('*')) {
-		$fieldString = '';
-		foreach ($fields as $field) {
-			if (false !== ($asPosition = strpos($field, 'AS'))) {
-				$originalField = $field;
-				$field = substr($field, 0, $asPosition - 1);
-			}
-			if ($field == '*' || (strpos($field, '(') !== false && strpos($field, ')'))) {
-				$fieldString = $field;
-				break;
-			} elseif (false !== ($dotPosition = strpos($field, '.'))) {
-				$fieldString .= $this->prepareTable(substr($field, 0, $dotPosition)) . '.' . $this->prepareField(substr($field, $dotPosition + 1));
-			} else {
-				$fieldString .= $this->prepareField($field);
-			}
-			if (false !== $asPosition) {
-				$fieldString .= ' AS ' . $this->prepareField(substr($originalField, $asPosition + 3));
-			}
-			$fieldString .= ', ';
-		}
-		return rtrim($fieldString, ', ');
-	}
-
-	/**
-	 * Parsuje bind i tworzy ORDER
-	 * @param array $bind tabela w postaci: pole, ASC lub DESC
-	 * @param string $table nazwa tabeli
-	 * @return string ciąg SQL
-	 */
-	protected function _parseOrderBind(array $bind = array(), $table = null) {
-		$order = '';
-		if (isset($bind[0]) && !is_array($bind[0])) {
-			$bind = array($bind);
-		}
-		foreach ($bind as $rule) {
-			if (!isset($rule[0])) {
-				throw new Exception('Invalid order, missing name');
-			}
-			$orderTable = isset($rule[2]) ? $rule[2] : $table;
-			if ($orderTable !== null) {
-				$orderTable = $this->prepareTable($orderTable) . '.';
-			}
-
-			if (isset(static::$_orderFunctions[$rule[0]])) {
-				$order .= static::$_orderFunctions[$rule[0]];
-			} else {
-				switch (isset($rule[1]) ? $rule[1] : 'ASC') {
-					case 'DESC':
-						$order .= ', ' . $orderTable . $this->prepareField($rule[0]) . ' DESC';
-						break;
-					case 'ASC':
-					default:
-						$order .= ', ' . $orderTable . $this->prepareField($rule[0]) . ' ASC';
-				}
-			}
-		}
-		$order = trim($order, ', ');
-		return $order ? ' ORDER BY ' . $order : '';
-	}
-
-	/**
-	 * Parsuje bind i tworzy warunek WHERE
-	 * @param array $bind tabela w postaci: pole, wartość, relacja ('=','<','>','>=','<=', 'LIKE', 'IN'), typ relacji (AND|OR)
-	 * domyślna relacja: =, domyśny typ relacji: AND
-	 * @param string $table nazwa tabeli
-	 * @return array array('sql' => ..., 'bind' => array)
-	 */
-	protected function _parseWhereBind(array $bind = array(), $table = null) {
-		$params = array();
-		$where = $this->_parseWhereBindRecursive($bind, $params, $table);
-		return array(
-			'sql' => ($where ? ' WHERE ' . $where : ''),
-			'bind' => $params
-		);
-	}
-
-	/**
-	 * Tworzy rekursywnie warunek WHERE na podstawie zagnieżdżonego bind'a
-	 * @param array $bind tabela w postaci: pole, wartość, relacja ('=','<','>','>=','<=', 'LIKE', 'IN'), typ relacji (AND|OR)
-	 * @param array $params referencja do budowanego bind'a z wartościami
-	 * @param string $table nazwa tabeli
-	 * @return string ciąg SQL
-	 */
-	protected function _parseWhereBindRecursive(array $bind, array &$params = array(), $table = null) {
-		$where = '';
-		if (isset($bind[0]) && is_string($bind[0])) {
-			$where .= $this->_parseWhereBindLevel($bind, $params, $table);
-		} else {
-			foreach ($bind as $rule) {
-				if (isset($rule[0]) && is_string($rule[0])) {
-					$where .= $this->_parseWhereBindLevel($rule, $params, $table);
-				} elseif (!empty($rule)) {
-					$glue = 'AND';
-					$count = count($rule);
-					if ($count > 0 && is_string($rule[$count - 1])) {
-						$glue = $rule[$count - 1];
-						array_pop($rule);
-					}
-					$where .= ' ' . $glue . ' (';
-					$where .= $this->_parseWhereBindRecursive($rule, $params, $table);
-					$where .= ')';
-				}
-			}
-		}
-		return trim($where, 'ANDOR ');
-	}
-
-	/**
-	 * Analizuje i zwraca wynik parsowania jednego poziomu bind
-	 * @param array $rule reguła np. array(array('id', 2), array(user, 3))
-	 * @param array $params referencja do budowanego bind'a z wartościami
-	 * @param string $table nazwa tabeli
-	 * @return string ciąg SQL
-	 */
-	protected function _parseWhereBindLevel(array $rule, array &$params = array(), $table = null) {
-		$where = '';
-		$table = isset($rule[4]) ? $rule[4] : $table;
-		if ($table !== null) {
-			$table = $this->prepareTable($table) . '.';
-		}
-		if (!isset($rule[3]) || $rule[3] != 'OR') {
-			$rule[3] = 'AND';
-		}
-
-		$rule[2] = isset($rule[2]) ? $rule[2] : '=';
-
-		if ($rule[2] == '!=') {
-			$rule[2] = '<>';
-		}
-		if (!array_key_exists('1', $rule)) {
-			return $where;
-		}
-		if ($rule[1] === null) {
-			$negation = !(isset($rule[2]) && $rule[2] == '<>');
-			return ' ' . $rule[3] . ' ' . $this->prepareNullCheck($table . $this->prepareField($rule[0]), $negation) . ' ';
-		}
-		$where .= ' ' . $rule[3];
-		$where .= ' ' . $table . $this->prepareField($rule[0]);
-
-		if (is_array($rule[1])) {
-			$rule[2] = 'IN';
-			if ($rule[2] == '<>') {
-				$rule[2] = 'NOT IN';
-			}
-			$where .= ' ' . $rule[2] . ' (';
-			foreach ($rule[1] as $arg) {
-				$where .= '?, ';
-				$params[] = $arg;
-			}
-			$where = rtrim($where, ' ),');
-			$where .= ')';
-			return $where;
-		}
-
-		$where .= ' ' . $rule[2] . ' ?';
-		$params[] = $rule[1];
-		return $where;
+		return 'LIMIT ' . intval($limit);
 	}
 
 	/**
@@ -612,7 +441,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @param array $meta meta data
 	 * @return array
 	 */
-	protected function _associateTableMeta($meta) {
+	protected function _associateTableMeta(array $meta) {
 		$associativeMeta = array();
 		foreach ($meta as $column) {
 			$associativeMeta[$column['name']] = array(
@@ -623,6 +452,14 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 			);
 		}
 		return $associativeMeta;
+	}
+	
+	/**
+	 * Zwraca losowy klucz do binda
+	 * @return string
+	 */
+	public static function generateRandomBindKey() {
+		return str_replace(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'), mt_rand(100000, 999999));
 	}
 
 }

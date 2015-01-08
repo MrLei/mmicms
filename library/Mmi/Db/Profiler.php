@@ -23,7 +23,6 @@
  * @package    Mmi_Db
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 class Mmi_Db_Profiler extends Mmi_Profiler {
 
 	/**
@@ -49,5 +48,25 @@ class Mmi_Db_Profiler extends Mmi_Profiler {
 	 * @var boolean
 	 */
 	protected static $_enabled = true;
-
+	
+	/**
+	 * Event query
+	 * @param PDOStatement $statement
+	 * @param array $bind
+	 * @param float $elapsed
+	 */
+	public static function eventQuery(PDOStatement $statement, array $bind, $elapsed = null) {
+		if (!static::$_enabled) {
+			return;
+		}
+		$keys = array_keys($bind);
+		//likwidacja dwukropków
+		$keys[] = ':';
+		$values = array_values($bind);
+		array_walk($values, function (&$v) {
+			$v = '\'' . $v . '\'';
+		});
+		return parent::event(str_replace($keys, $values, $statement->queryString), $elapsed);
+	}
+	
 }
