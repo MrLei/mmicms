@@ -72,7 +72,7 @@ class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
 	public function prepareField($fieldName) {
 		//dla postgresql "
 		if (strpos($fieldName, '"') === false) {
-			return '"' . $fieldName . '"';
+			return '"' . str_replace('.', '"."', $fieldName) . '"';
 		}
 		return $fieldName;
 	}
