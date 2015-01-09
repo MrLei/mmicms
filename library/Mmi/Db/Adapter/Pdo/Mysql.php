@@ -64,7 +64,7 @@ class Mmi_Db_Adapter_Pdo_Mysql extends Mmi_Db_Adapter_Pdo_Abstract {
 	public function prepareField($fieldName) {
 		//dla mysql `
 		if (strpos($fieldName, '`') === false) {
-			return '`' . $fieldName . '`';
+			return '`' . str_replace('.', '`.`', $fieldName) . '`';
 		}
 		return $fieldName;
 	}
