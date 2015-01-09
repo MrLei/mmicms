@@ -110,7 +110,7 @@ class Mmi_Db_Adapter_Pdo_Sqlite extends Mmi_Db_Adapter_Pdo_Abstract {
 	public function prepareField($fieldName) {
 		//dla sqlite "
 		if (strpos($fieldName, '"') === false) {
-			return '"' . $fieldName . '"';
+			return '"' . str_replace('.', '"."', $fieldName) . '"';
 		}
 		return $fieldName;
 	}
