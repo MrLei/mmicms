@@ -16,7 +16,7 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 				->andQuery(Cms_Model_Navigation_Query::factory()
 					->whereLang()->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
 					->orFieldLang()->equals(null)
-					->orderDescLang());
+					);
 	}
 
 	/**
