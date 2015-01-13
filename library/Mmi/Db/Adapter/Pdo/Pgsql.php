@@ -153,7 +153,7 @@ class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
 	 * @return string
 	 */
 	public function prepareIlike($fieldName) {
-		return 'CAST(' . $fieldName . ') AS text ILIKE';
+		return 'CAST(' . $fieldName . ' AS text) ILIKE';
 	}
 
 }
