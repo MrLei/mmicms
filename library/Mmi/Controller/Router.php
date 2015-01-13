@@ -81,7 +81,7 @@ class Mmi_Controller_Router {
 		$this->_baseUrl = isset($this->_baseUrl) ? '/' . trim($this->_baseUrl, '/') : '';
 		$this->_url = rtrim($this->_url, '/');
 	}
-	
+
 	/**
 	 * Pobiera konfigurację routera
 	 * @return Mmi_Controller_Router_Config
@@ -103,7 +103,6 @@ class Mmi_Controller_Router {
 	 * @return Mmi_Controller_Request
 	 */
 	public function processRequest(Mmi_Controller_Request $request) {
-
 		$request->setParams($this->decodeUrl($this->_url));
 		$request->setParams($this->_decodeGet());
 		return $request;
@@ -296,7 +295,7 @@ class Mmi_Controller_Router {
 		}
 		return $input;
 	}
-	
+
 	/**
 	 * Stosuje istniejące trasy dla danego url
 	 * @param Mmi_Controller_Router_Config_Route $route

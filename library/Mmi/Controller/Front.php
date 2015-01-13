@@ -219,7 +219,7 @@ class Mmi_Controller_Front {
 	 * Uruchamianie metody routeStartup na zarejestrowanych pluginach
 	 */
 	public function routeStartup() {
-		foreach ($this->_plugins AS $plugin) {
+		foreach ($this->_plugins as $plugin) {
 			$plugin->routeStartup($this->_request);
 		}
 	}
@@ -228,7 +228,7 @@ class Mmi_Controller_Front {
 	 * Uruchamianie metody preDispatch na zarejestrowanych pluginach
 	 */
 	public function preDispatch() {
-		foreach ($this->_plugins AS $plugin) {
+		foreach ($this->_plugins as $plugin) {
 			$plugin->preDispatch($this->_request);
 		}
 	}
@@ -237,7 +237,7 @@ class Mmi_Controller_Front {
 	 * Uruchamianie metody postDispatch na zarejestrowanych pluginach
 	 */
 	public function postDispatch() {
-		foreach ($this->_plugins AS $plugin) {
+		foreach ($this->_plugins as $plugin) {
 			$plugin->postDispatch($this->_request);
 		}
 	}
@@ -250,9 +250,11 @@ class Mmi_Controller_Front {
 		$this->routeStartup();
 		Mmi_Profiler::event('Plugins route startup');
 
-		//stosowanie routingu
-		$this->getRouter()->processRequest($this->getRequest());
-		Mmi_Profiler::event('Routes applied');
+		//stosowanie routingu jeśli request jest pusty
+		if (!$this->_request->getModuleName()) {
+			$this->getRouter()->processRequest($this->_request);
+			Mmi_Profiler::event('Routes applied');
+		}
 
 		//wpięcie dla pluginów przed dispatchem
 		$this->preDispatch();
