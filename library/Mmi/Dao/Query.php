@@ -444,7 +444,11 @@ class Mmi_Dao_Query {
 		}
 		//łączenie order
 		if ($compilation->order) {
-			$this->_compile->order .= substr($compilation->order, 9);
+			if (substr($this->_compile->order, 0, 8) == 'ORDER BY' && substr($compilation->order, 0, 8) == 'ORDER BY') {
+				$this->_compile->order .= ', ' . substr($compilation->order, 9);
+			} else {
+				$this->_compile->order .= $compilation->order;
+			}
 		}
 		return $this;
 	}
