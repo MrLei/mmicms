@@ -19,7 +19,6 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 	}
 
 	public function preDispatch(Mmi_Controller_Request $request) {
-
 		//niepoprawny język
 		if ($request->__get('lang') && !in_array($request->__get('lang'), Default_Registry::$config->application->languages)) {
 			Mmi_Controller_Front::getInstance()->getResponse()->setCodeNotFound();
