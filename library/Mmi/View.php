@@ -321,13 +321,28 @@ class Mmi_View {
 	public function renderDirectly($input) {
 		$prev = ob_get_contents();
 		ob_clean();
-		$destFile = TMP_PATH . '/compile/temp_' . rand(0, 100000000000) . '.php';
-		file_put_contents($destFile, $this->template($input));
-		include $destFile;
+		$hash = md5($input);
+		Mmi_Profiler::event('View direct build: ' . $hash);
+		if (!$this->_locale && $this->_translate !== null) {
+			$this->_locale = $this->_translate->getLocale();
+		}
+		$compileName = $this->_locale . '_direct_' . $hash . '.php';
+		$destFile = TMP_PATH . '/compile/' . $compileName;
+		if ($this->_alwaysCompile) {
+			file_put_contents($destFile, $this->template($input, $destFile));
+			include $destFile;
+		} else {
+			try {
+				include $destFile;
+			} catch (Exception $e) {
+				file_put_contents($destFile, $this->template($input, $destFile));
+				include $destFile;
+			}
+		}
 		$data = ob_get_contents();
 		ob_clean();
 		echo $prev;
-		unlink($destFile);
+		Mmi_Profiler::event('View direct fetched: ' . $hash);
 		return $data;
 	}
 
