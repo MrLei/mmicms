@@ -230,6 +230,38 @@ CREATE TABLE cms_route
 CREATE INDEX cms_route_active_idx ON cms_route (active);
 CREATE INDEX cms_route_order_idx ON cms_route ("order");
 
+CREATE TABLE cms_page
+(
+  id INTEGER PRIMARY KEY,
+  name character varying,
+  cms_navigation_id integer NOT NULL,
+  cms_route_id integer NOT NULL,
+  text text,
+  active boolean,
+  "dateAdd" DATETIME,
+  "dateModify" DATETIME,
+  FOREIGN KEY (cms_navigation_id) REFERENCES cms_navigation(id) ON UPDATE CASCADE ON DELETE RESTRICT,
+  FOREIGN KEY (cms_route_id) REFERENCES cms_route(id) ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+CREATE INDEX fki_cms_page_cms_navigation_id ON cms_page (cms_navigation_id);
+CREATE INDEX fki_cms_page_cms_route_id ON cms_page (cms_route_id);
+
+CREATE TABLE cms_page_widget
+(
+  id INTEGER PRIMARY KEY,
+  name character varying,
+  module character varying(64),
+  controller character varying(64),
+  action character varying(64),
+  params character varying,
+  active boolean,
+  cms_auth_id integer DEFAULT NULL,
+  FOREIGN KEY (cms_auth_id) REFERENCES cms_auth (id) ON UPDATE SET NULL ON DELETE SET NULL
+);
+
+CREATE INDEX fki_cms_page_widget_cms_auth_id ON cms_page_widget (cms_auth_id);
+
 CREATE TABLE cms_tag
 (
   id INTEGER PRIMARY KEY,
