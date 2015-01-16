@@ -9,7 +9,7 @@
  * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
  * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
  *
- * Mmi/Db/Adapter/Pdo/Pgsql.php
+ * Mmi/Db/Adapter/Pdo/Oci.php
  * @category   Mmi
  * @package    Mmi_Db
  * @subpackage Adapter
@@ -20,7 +20,7 @@
  */
 
 /**
- * Klasa adaptera PostgreSQL
+ * Klasa adaptera Oracle SQL
  * @category   Mmi
  * @package    Mmi_Db
  * @subpackage Adapter
@@ -33,35 +33,29 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 	 * @param string $schemaName nazwa schematu
 	 */
 	public function selectSchema($schemaName) {
+		//oracle nie obsługuje schematów - bazy są selectowane po nazwie użytkownika; owner = schema
 		$this->_config->schema = $schemaName;
-		$this->query('SET search_path TO "' . $schemaName . '"');
 	}
 
 	/**
 	 * Ustawia domyślne parametry dla importu (długie zapytania)
 	 */
 	public function setDefaultImportParams() {
-		return $this->exec('SET statement_timeout = 0;
-			SET client_encoding = \'UTF8\';
-			SET standard_conforming_strings = on;
-			SET check_function_bodies = false;
-			SET client_min_messages = warning;
-			SET default_with_oids = false;
-			SET default_tablespace = \'\';
-		');
+		//dostępne parametry - query: SHOW PARAMETERS
+		
 	}
 
 	/**
 	 * Tworzy połączenie z bazą danych
 	 */
 	public function connect() {
-		$this->_config->port = $this->_config->port ? $this->_config->port : 1521;
+		$this->_config->port = $this->_config->port ? $this->_config->port : 5432;
 		$this->_config->charset = $this->_config->charset ? $this->_config->charset : 'utf8';
 		parent::connect();
 		if ($this->_config->schema) {
 			$this->selectSchema($this->_config->schema);
 		}
-		$this->query('SET client_encoding = ' . $this->_config->charset);
+		$this->query('ALTER SESSION SET NLS_TIMESTAMP_FORMAT = "YYYY-MM-DD HH24:MI:SS"');
 	}
 
 	/**
@@ -70,7 +64,7 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 	 * @return string
 	 */
 	public function prepareField($fieldName) {
-		//dla postgresql "
+		//dla oracle "
 		if (strpos($fieldName, '"') === false) {
 			return '"' . str_replace('.', '"."', $fieldName) . '"';
 		}
@@ -83,8 +77,57 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 	 * @return string
 	 */
 	public function prepareTable($tableName) {
-		//dla postgresql "
+		//dla oracle tak jak pola
 		return $this->prepareField($tableName);
+	}
+
+	/**
+	 * Pobieranie rekordów
+	 * @param string $fields pola do wybrania
+	 * @param string $from część zapytania po FROM
+	 * @param string $where warunek
+	 * @param string $order sortowanie
+	 * @param int $limit limit
+	 * @param int $offset ofset
+	 * @param array $whereBind parametry
+	 * @return array
+	 */
+	public function select($fields = '*', $from = '', $where = '', $order = '', $limit = null, $offset = null, array $whereBind = array()) {
+		$sql = 'SELECT' .
+			' ' . $fields . 
+			' FROM' . 
+			' ' . $from . 
+			' ' . $where . 
+			' ' . $order;
+		
+		if ($limit > 0) {
+			$sql = 'SELECT * FROM (' . $sql . ') WHERE ROWNUM  <= ' . intval($limit);
+		}
+		
+		if ($offset > 0) {
+			$sql = 'SELECT * FROM (SELECT a.*, ROWNUM rnum FROM (' . $sql . ')' .
+				' A WHERE ROWNUM <= ' . (intval($limit) + intval($offset)) . ')' .
+				' WHERE rnum  > ' . intval($offset);
+		}
+		
+		return $this->fetchAll($sql, $whereBind);
+	}
+	
+	/**
+	 * Zwraca ostatnio wstawione ID
+	 * @param string $name opcjonalnie nazwa serii (ważne w PostgreSQL)
+	 * @return mixed
+	 */
+	public function lastInsertId($name = null) {
+		if (!$this->_connected) {
+			$this->connect();
+		}
+		$lastID = "-1";
+		$resp = $this->fetchAll('SELECT "' . $name . '".CURRVAL FROM DUAL');
+		foreach ($resp as $column) {
+			$lastID = $column['CURRVAL'];
+		}
+		return $lastID;
 	}
 
 	/**
@@ -94,13 +137,8 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 	 * @return string
 	 */
 	public function prepareLimit($limit = null, $offset = null) {
-		if (!($limit > 0)) {
-			return;
-		}
-		if ($offset > 0) {
-			return ' LIMIT ' . intval($limit) . ' OFFSET ' . intval($offset);
-		}
-		return ' LIMIT ' . intval($limit);
+		//oracle nie obsługuje funkcji limit
+		return "";
 	}
 
 	/**
@@ -111,9 +149,9 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 	 */
 	public function prepareNullCheck($fieldName, $positive = true) {
 		if ($positive) {
-			return $fieldName . ' ISNULL';
+			return $fieldName . ' IS NULL';
 		}
-		return $fieldName . ' NOTNULL';
+		return $fieldName . ' IS NOT NULL';
 	}
 
 	/**
@@ -123,10 +161,13 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 	 * @return array
 	 */
 	public function tableInfo($tableName, $schema = null) {
-		$tableInfo = $this->fetchAll('SELECT "column_name" as "name", "data_type" AS "dataType", "character_maximum_length" AS "maxLength", "is_nullable" AS "null", "column_default" AS "default" FROM INFORMATION_SCHEMA.COLUMNS WHERE "table_name" = :name AND "table_schema" = :schema ORDER BY "ordinal_position"', array(
+		$tableInfo = $this->fetchAll('SELECT "COLUMN_NAME" as "name", "DATA_TYPE" AS "dataType", "DATA_LENGTH" AS "maxLength", "NULLABLE" AS "null", "DATA_DEFAULT" AS "default" 
+			FROM "ALL_TAB_COLS" 
+			WHERE "TABLE_NAME" = :name AND "OWNER" = :schema
+			ORDER BY "COLUMN_ID"', array(
 					':name' => $tableName,
 					':schema' => ($schema) ? $schema : ($this->_config->schema ? $this->_config->schema : $this->_config->name)
-		));
+			));
 		return $this->_associateTableMeta($tableInfo);
 	}
 
@@ -136,10 +177,12 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 	 * @return array
 	 */
 	public function tableList($schema = null) {
-		$list = $this->fetchAll('SELECT table_name as name
-			FROM information_schema.tables
-			WHERE table_schema = :schema
-			ORDER BY table_name', array(':schema' => ($schema) ? $schema : ($this->_config->schema ? $this->_config->schema : $this->_config->name)));
+		$list = $this->fetchAll('SELECT "TABLE_NAME" as "name" 
+			FROM SYS.ALL_TABLES 
+			WHERE "OWNER" = \':schema\' 
+			ORDER BY "TABLE_NAME"', array(
+				':schema' => ($schema) ? $schema : ($this->_config->schema ? $this->_config->schema : $this->_config->name))
+			);
 		$tables = array();
 		foreach ($list as $row) {
 			$tables[] = $row['name'];
@@ -153,7 +196,25 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 	 * @return string
 	 */
 	public function prepareIlike($fieldName) {
-		return 'CAST(' . $fieldName . ') AS text ILIKE';
+		return 'CAST(' . $fieldName . ' AS text) ILIKE';
+	}
+	
+	/**
+	 * Konwertuje do tabeli asocjacyjnej meta dane tabel
+	 * @param array $meta meta data
+	 * @return array
+	 */
+	protected function _associateTableMeta(array $meta) {
+		$associativeMeta = array();
+		foreach ($meta as $column) {
+			$associativeMeta[$column['name']] = array(
+				'dataType' => $column['dataType'],
+				'maxLength' => $column['maxLength'],
+				'null' => ($column['null'] == 'Y') ? true : false,
+				'default' => $column['default']
+			);
+		}
+		return $associativeMeta;
 	}
 
 }
