@@ -918,32 +918,6 @@ CREATE INDEX cms_tag_link_object_objectId_idx
 
 ALTER TABLE cms_article ADD COLUMN noindex smallint NOT NULL DEFAULT 0;
 
-CREATE TABLE cms_page
-(
-  id serial NOT NULL,
-  name character varying,
-  cms_navigation_id integer NOT NULL,
-  cms_route_id integer NOT NULL,
-  text text,
-  active boolean,
-  "dateAdd" timestamp without time zone,
-  "dateModify" timestamp without time zone,
-  CONSTRAINT cms_page_pkey PRIMARY KEY (id),
-  CONSTRAINT cms_navigation_id FOREIGN KEY (cms_navigation_id)
-      REFERENCES cms_navigation (id) MATCH SIMPLE
-      ON UPDATE RESTRICT ON DELETE CASCADE,
-  CONSTRAINT cms_route_id FOREIGN KEY (cms_route_id)
-      REFERENCES cms_route (id) MATCH SIMPLE
-      ON UPDATE RESTRICT ON DELETE CASCADE
-)
-WITH (
-  OIDS=FALSE
-);
-
-CREATE INDEX fki_cms_navigation_id ON cms_page USING btree (cms_navigation_id);
-
-CREATE INDEX fki_cms_route_id ON cms_page USING btree (cms_route_id);
-
 CREATE TABLE cms_page_widget
 (
   id serial NOT NULL,
@@ -953,8 +927,31 @@ CREATE TABLE cms_page_widget
   action character varying(64),
   params character varying,
   active boolean,
+  CONSTRAINT cms_page_widget_pkey PRIMARY KEY (id)
+
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE cms_page
+(
+  id serial NOT NULL,
+  name character varying,
+  cms_navigation_id integer NOT NULL,
+  cms_route_id integer NOT NULL,
+  text text,
+  active boolean,
   cms_auth_id integer DEFAULT NULL,
-  CONSTRAINT cms_page_widget_pkey PRIMARY KEY (id),
+  "dateAdd" timestamp without time zone,
+  "dateModify" timestamp without time zone,
+  CONSTRAINT cms_page_pkey PRIMARY KEY (id),
+  CONSTRAINT cms_navigation_id FOREIGN KEY (cms_navigation_id)
+      REFERENCES cms_navigation (id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT cms_route_id FOREIGN KEY (cms_route_id)
+      REFERENCES cms_route (id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE,
   CONSTRAINT cms_auth_id FOREIGN KEY (cms_auth_id)
       REFERENCES cms_auth (id) MATCH SIMPLE
       ON UPDATE SET NULL ON DELETE SET NULL
@@ -963,5 +960,6 @@ WITH (
   OIDS=FALSE
 );
 
-CREATE INDEX fki_cms_auth_id ON cms_page_widget USING btree (cms_auth_id);
-
+CREATE INDEX fki_cms_navigation_id ON cms_page USING btree (cms_navigation_id);
+CREATE INDEX fki_cms_route_id ON cms_page USING btree (cms_route_id);
+CREATE INDEX fki_cms_auth_id ON cms_page USING btree (cms_auth_id);
