@@ -44,8 +44,29 @@ class Cms_Model_Page_Record extends Mmi_Dao_Record {
 		$this->cmsAuthId = Default_Registry::$auth->getId();
 		$this->save();
 		$navigationRecord->params = 'id=' . $this->id;
+		if (!$navigationRecord->order) {
+			$navigationRecord->order = 10000;
+		}
 		$routeRecord->replace = 'module=cms&controller=page&action=index&id=' . $this->id;
+		if (!$routeRecord->order) {
+			$routeRecord->order = 10000;
+		}
 		return $navigationRecord->save() && $routeRecord->save();
+	}
+	
+	public function delete() {
+		if (!parent::delete()) {
+			return false;
+		}
+		$navigationRecord = Cms_Model_Navigation_Dao::findPk($this->cmsNavigationId);
+		if ($navigationRecord !== null) {
+			$navigationRecord->delete();
+		}
+		$routeRecord = Cms_Model_Route_Dao::findPk($this->cmsRouteId);
+		if ($routeRecord !== null) {
+			$routeRecord->delete();
+		}
+		return true;
 	}
 	
 	protected function _insert() {

@@ -1,6 +1,6 @@
 <?php
 
-class Cms_Form_Admin_Page_Edit extends MmiCms_Form {
+class Cms_Form_Admin_Page extends MmiCms_Form {
 
 	protected $_recordName = 'Cms_Model_Page_Record';
 	protected $_recordSaveMethod = 'saveForm';
@@ -16,6 +16,7 @@ class Cms_Form_Admin_Page_Edit extends MmiCms_Form {
 		//adres url do routera
 		$this->addElementText('address')
 			->setLabel('Adres strony')
+			->addFilter('url')
 			->addValidatorStringLength(2, 128)
 			->setRequired();
 
@@ -30,7 +31,8 @@ class Cms_Form_Admin_Page_Edit extends MmiCms_Form {
 			->addValidatorStringLength(3, 1024);
 
 		$this->addElementCheckbox('active')
-			->setLabel('Aktywna');
+			->setLabel('Aktywna')
+			->setValue(true);
 
 		//@TODO: do testów
 		$this->addElementTextarea('text')
