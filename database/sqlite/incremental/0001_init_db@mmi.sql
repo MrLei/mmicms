@@ -242,8 +242,8 @@ CREATE TABLE cms_page
   "dateModify" DATETIME,
   cms_auth_id integer DEFAULT NULL,
   FOREIGN KEY (cms_auth_id) REFERENCES cms_auth (id) ON UPDATE SET NULL ON DELETE SET NULL,
-  FOREIGN KEY (cms_navigation_id) REFERENCES cms_navigation(id) ON UPDATE CASCADE ON DELETE RESTRICT,
-  FOREIGN KEY (cms_route_id) REFERENCES cms_route(id) ON UPDATE CASCADE ON DELETE RESTRICT
+  FOREIGN KEY (cms_navigation_id) REFERENCES cms_navigation(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (cms_route_id) REFERENCES cms_route(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE INDEX fki_cms_page_cms_navigation_id ON cms_page (cms_navigation_id);

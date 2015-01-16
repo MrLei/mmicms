@@ -33,7 +33,7 @@ class Mmi_Db_Adapter_Pdo_Mysql extends Mmi_Db_Adapter_Pdo_Abstract {
 	 * @param string $schemaName nazwa schematu
 	 */
 	public function selectSchema($schemaName) {
-		$this->query('USE `' . $schemaName . '`');
+
 	}
 
 	/**
@@ -82,13 +82,13 @@ class Mmi_Db_Adapter_Pdo_Mysql extends Mmi_Db_Adapter_Pdo_Abstract {
 	/**
 	 * Zwraca informację o kolumnach tabeli
 	 * @param string $tableName nazwa tabeli
-	 * @param array $schema schemat nie istotny w MySQL
+	 * @param array $schema schemat nieistotny w MySQL
 	 * @return array
 	 */
 	public function tableInfo($tableName, $schema = null) {
 		return $this->_associateTableMeta($this->fetchAll('SELECT `column_name` as `name`, `data_type` AS `dataType`, `character_maximum_length` AS `maxLength`, `is_nullable` AS `null`, `column_default` AS `default`, `extra` AS `extra`, `column_key` AS `column_key` FROM INFORMATION_SCHEMA.COLUMNS WHERE `table_name` = :name AND `table_schema` = :schema ORDER BY `ordinal_position`', array(
 			':name' => $tableName,
-			':schema' => ($schema) ? $schema : $this->_config->name
+			':schema' => $this->_config->name
 		)));
 	}
 	
