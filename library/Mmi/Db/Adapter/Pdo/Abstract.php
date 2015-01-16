@@ -232,7 +232,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @param string $name opcjonalnie nazwa serii (ważne w PostgreSQL)
 	 * @return mixed
 	 */
-	public final function lastInsertId($name = null) {
+	public function lastInsertId($name = null) {
 		if (!$this->_connected) {
 			$this->connect();
 		}
