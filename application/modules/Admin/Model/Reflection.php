@@ -51,4 +51,22 @@ class Admin_Model_Reflection {
 		return $structure;
 	}
 
+	public function getOptionsWidget() {
+		$structure = array();
+		foreach (glob(APPLICATION_PATH . '/modules/*') as $module) {
+			$moduleName = substr($module, strrpos($module, '/') + 1);
+			foreach (glob($module . '/Controller/*.php') as $controller) {
+				$var = file_get_contents($controller);
+				$controllerName = substr($controller, strrpos($controller, '/') + 1, -4);
+				if (preg_match_all('/function ([a-zA-Z0-9]+ComponentAction)\(/', $var, $actions) && isset($actions[1])) {
+					foreach ($actions[1] as $action) {
+						$action = substr($action, 0, -6);
+						$structure[$moduleName . ':' . $controllerName . ':' . $action] = $moduleName . ' - ' . $controllerName . ' - ' . $action;
+					}
+				}
+			}
+		}
+		return $structure;
+	}
+
 }
