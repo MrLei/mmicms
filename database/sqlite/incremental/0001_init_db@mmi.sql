@@ -240,12 +240,15 @@ CREATE TABLE cms_page
   active boolean,
   "dateAdd" DATETIME,
   "dateModify" DATETIME,
-  FOREIGN KEY (cms_navigation_id) REFERENCES cms_navigation(id) ON UPDATE CASCADE ON DELETE RESTRICT,
-  FOREIGN KEY (cms_route_id) REFERENCES cms_route(id) ON UPDATE CASCADE ON DELETE RESTRICT
+  cms_auth_id integer DEFAULT NULL,
+  FOREIGN KEY (cms_auth_id) REFERENCES cms_auth (id) ON UPDATE SET NULL ON DELETE SET NULL,
+  FOREIGN KEY (cms_navigation_id) REFERENCES cms_navigation(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (cms_route_id) REFERENCES cms_route(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE INDEX fki_cms_page_cms_navigation_id ON cms_page (cms_navigation_id);
 CREATE INDEX fki_cms_page_cms_route_id ON cms_page (cms_route_id);
+CREATE INDEX fki_cms_page_cms_auth_id ON cms_page (cms_auth_id);
 
 CREATE TABLE cms_page_widget
 (
@@ -255,12 +258,8 @@ CREATE TABLE cms_page_widget
   controller character varying(64),
   action character varying(64),
   params character varying,
-  active boolean,
-  cms_auth_id integer DEFAULT NULL,
-  FOREIGN KEY (cms_auth_id) REFERENCES cms_auth (id) ON UPDATE SET NULL ON DELETE SET NULL
+  active boolean
 );
-
-CREATE INDEX fki_cms_page_widget_cms_auth_id ON cms_page_widget (cms_auth_id);
 
 CREATE TABLE cms_tag
 (
