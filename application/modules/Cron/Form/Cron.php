@@ -49,6 +49,7 @@ class Cron_Form_Cron extends Mmi_Form {
 			->setLabel('Obiekt CMS')
 			->setDescription('Istniejące obiekty CMS')
 			->setRequired()
+			->addValidatorNotEmpty()
 			->setOption('id', 'objectId')
 			->setValue($value);
 
