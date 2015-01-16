@@ -29,7 +29,7 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 		$this->module = $this->module ? $this->module : 'default';
 		$this->controller = $this->controller ? $this->controller : 'index';
 		$this->action = $this->action ? $this->action : 'index';
-		$this->object = $this->module . '_' . $this->controller . '_' . $this->action;
+		$this->setOption('object', $this->module . '_' . $this->controller . '_' . $this->action);
 		if ($this->module == 'cms' && $this->controller == 'article' && $this->action == 'index') {
 			parse_str($this->params, $params);
 			if (!isset($params['uri']) || !$params['uri']) {
@@ -52,7 +52,7 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 		}
 		//konwersja obiektu na moduł/kontroler/akcja
 		if ($this->getOption('object')) {
-			$params = explode('_', $this->object);
+			$params = explode('_', $this->getOption('object'));
 			if (count($params) == 3) {
 				$this->module = $params[0];
 				$this->controller = $params[1];
