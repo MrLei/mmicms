@@ -36,6 +36,15 @@ class Cms_Form_Admin_Page_Edit extends MmiCms_Form {
 		$this->addElementTextarea('text')
 			->setLabel('Treść szablonu (do testów)');
 
+		//ustawianie pól nawigatora i routera
+		if ($this->getRecord()->cmsNavigationId && (null !== ($nr = Cms_Model_Navigation_Dao::findPk($this->getRecord()->cmsNavigationId)))) {
+			$this->getElement('title')->setValue($nr->title);
+			$this->getElement('description')->setValue($nr->description);
+		}
+		if ($this->getRecord()->cmsRouteId && (null !== ($rr = Cms_Model_Route_Dao::findPk($this->getRecord()->cmsRouteId)))) {
+			$this->getElement('address')->setValue($rr->pattern);
+		}
+
 		//submit
 		$this->addElementSubmit('submit')
 			->setLabel('Zapisz')

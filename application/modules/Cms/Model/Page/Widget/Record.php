@@ -9,7 +9,6 @@ class Cms_Model_Page_Widget_Record extends Mmi_Dao_Record {
 	public $action;
 	public $params;
 	public $active;
-	public $cmsAuthId;
 
 	public function save() {
 		if ($this->getOption('widget')) {
