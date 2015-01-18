@@ -3,11 +3,11 @@
 class Cms_Form_Admin_Page_Widget extends Mmi_Form {
 
 	protected $_recordName = 'Cms_Model_Page_Widget_Record';
-	
+
 	public function init() {
 
 		$reflection = new Admin_Model_Reflection();
-		
+
 		$this->addElementText('name')
 			->setLabel('Nazwa widgetu');
 
@@ -17,9 +17,12 @@ class Cms_Form_Admin_Page_Widget extends Mmi_Form {
 
 		$this->addElementText('params')
 			->setLabel('Domyślne parametry');
-		
+
+		$this->addElementCheckbox('active')
+			->setLabel('Aktywny');
+
 		$this->addElementSubmit('submit')
-			->setLabel('dodaj widget');
+			->setLabel('Zapisz');
 	}
 
 }
