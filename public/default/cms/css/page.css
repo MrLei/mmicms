@@ -1,0 +1,28 @@
+#cms-page-composer-toolkit {
+	left: 0;
+	top: 0;
+	width: 100px;
+	height: 100px;
+	position: fixed;
+	background: #000;
+}
+
+.section {
+	min-height: 200px;
+	background: #eee;
+}
+
+div.placeholder {
+	min-height: 200px;
+	margin: 10px;
+	background: #ddd;
+}
+
+div.placeholder > * {
+	display: none;
+}
+
+div.holder {
+	margin: 10px;
+	background: #ccc;
+}
