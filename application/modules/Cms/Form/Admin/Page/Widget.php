@@ -13,7 +13,8 @@ class Cms_Form_Admin_Page_Widget extends Mmi_Form {
 
 		$this->addElementSelect('widget')
 			->setMultiOptions(array_merge(array('' => ''), $reflection->getOptionsWidget()))
-			->setLabel('Wybierz widget');
+			->setLabel('Wybierz widget')
+			->setValue($this->getOption('widget'));
 
 		$this->addElementText('params')
 			->setLabel('Domyślne parametry');

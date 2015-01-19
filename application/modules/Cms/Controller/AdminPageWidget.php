@@ -8,8 +8,14 @@ class Cms_Controller_AdminPageWidget extends Mmi_Controller_Action {
 
 	public function editAction() {
 		$widget = Cms_Model_Page_Widget_Dao::findPk($this->id);
-
-		$widgetForm = new Cms_Form_Admin_Page_Widget($widget);
+		
+		if ($widget !== null) {
+			$this->widget = ucfirst($widget->module) . ':' . ucfirst($widget->controller) . ':' . $widget->action;
+		}
+		
+		$widgetForm = new Cms_Form_Admin_Page_Widget($widget, array(
+			'widget' => $this->widget
+		));
 
 		if ($widgetForm->isSaved()) {
 			$this->_helper->messenger('Widget zapisany poprawnie');
