@@ -226,7 +226,7 @@ div.placeholder.stretch {
 
 .placeholder > .section {
 	width: 100%;
-	-webkit-align-sefl: stretch;
+	-webkit-align-self: stretch;
 	align-self: stretch;
 }
 

@@ -35,6 +35,7 @@ class Cms_Controller_AdminPage extends MmiCms_Controller_Admin {
 		$widgetList = $widgetSectionStart . $widgetOption . $widgetSectionStop;
 		
 		$this->view->headLink()->appendStyleSheet($this->view->baseUrl . '/default/cms/css/page.css');
+		//$this->view->headLink()->appendStyleSheet($this->view->baseUrl . '/library/css/ui.css');
 		$this->view->headScript()->prependFile($this->view->baseUrl . '/library/js/jquery/jquery.js');
 		$this->view->headScript()->appendFile($this->view->baseUrl . '/library/js/jquery/ui.js');
 		$this->view->headScript()->appendFile($this->view->baseUrl . '/default/cms/js/page.js');

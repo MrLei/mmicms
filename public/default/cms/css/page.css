@@ -7,22 +7,51 @@
 	background: #000;
 }
 
-.section {
+#cms-page-composer.compose .section {
 	min-height: 200px;
 	background: #eee;
+	margin: 10px 0;
+	padding: 10px 0;
 }
 
-div.placeholder {
-	min-height: 200px;
-	margin: 10px;
+#cms-page-composer.compose .placeholder {
+	position: relative;
+	min-height: 100px;
 	background: #ddd;
 }
 
-div.placeholder > * {
+#cms-page-composer.compose .placeholder > * {
 	display: none;
 }
 
-div.holder {
-	margin: 10px;
-	background: #ccc;
+#cms-page-composer.compose .placeholder > .ui-resizable-handle {
+	display: block;
+}
+
+#cms-page-composer.compose .holder {
+	background: #bbb;
+}
+
+.ui-resizable-w {
+	cursor: w-resize;
+	width: 7px;
+	background: #00cc00;
+	left: 0px;
+	top: 0;
+	height: 100%;
+}
+
+.ui-resizable-e {
+	cursor: e-resize;
+	background: #0000cc;
+	width: 7px;
+	right: 5px;
+	top: 0;
+	height: 100%;
+}
+
+.ui-resizable-handle {
+position: absolute;
+font-size: .1px;
+display: block;
 }
