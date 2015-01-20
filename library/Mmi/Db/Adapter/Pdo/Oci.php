@@ -51,11 +51,15 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 	public function connect() {
 		$this->_config->port = $this->_config->port ? $this->_config->port : 5432;
 		$this->_config->charset = $this->_config->charset ? $this->_config->charset : 'utf8';
-		parent::connect();
-		if ($this->_config->schema) {
-			$this->selectSchema($this->_config->schema);
+		if ($this->_config->profiler) {
+			Mmi_Db_Profiler::event('CONNECT WITH: ' . get_called_class(), 0);
 		}
+		$this->_pdo = new PDO(
+			$this->_config->driver . ':host=' . $this->_config->host . ';port=' . $this->_config->port . ';dbname=' . $this->_config->name . ';charset=' . $this->_config->charset, $this->_config->user, $this->_config->password, array(PDO::ATTR_PERSISTENT => $this->_config->persistent)
+		);
 		$this->query('ALTER SESSION SET NLS_TIMESTAMP_FORMAT = "YYYY-MM-DD HH24:MI:SS"');
+		$this->_connected = true;
+		return $this;
 	}
 
 	/**
@@ -82,6 +86,25 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 	}
 
 	/**
+	 * Aktualizacja rekordów
+	 * @param string $table nazwa tabeli
+	 * @param array $data tabela w postaci: klucz => wartość
+	 * @param array $whereBind warunek w postaci zagnieżdżonego bind
+	 * @return integer
+	 */
+	public function update($table, array $data = array(), $where = '', array $whereBind = array()) {
+		$fields = '';
+		if (empty($data)) {
+			return 1;
+		}
+		foreach ($data as $key => $value) {
+			$fields .= $this->prepareField($key) . ' = \' ' . $value . '\', ';
+		}
+		$sql = 'UPDATE ' . $this->prepareTable($table) . ' SET ' . rtrim($fields, ', ') . ' ' . $where;
+		return $this->query($sql, $whereBind)->rowCount();
+	}
+
+	/**
 	 * Pobieranie rekordów
 	 * @param string $fields pola do wybrania
 	 * @param string $from część zapytania po FROM
@@ -96,7 +119,7 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 		$sql = 'SELECT' .
 			' ' . $fields . 
 			' FROM' . 
-			' ' . $from . 
+			' ' . $this->prepareField($from) . 
 			' ' . $where . 
 			' ' . $order;
 		
@@ -128,6 +151,54 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 			$lastID = $column['CURRVAL'];
 		}
 		return $lastID;
+	}
+	
+	/**
+	 * Zwraca wszystkie rekordy (rządki)
+	 * @param string $sql zapytanie
+	 * @param array $bind tabela w formacie akceptowanym przez PDO::prepare()
+	 * @return array
+	 */
+	public function fetchAll($sql, array $bind = array()) {
+		return $this->_resolveStreams($this->query($sql, $bind)->fetchAll(PDO::FETCH_NAMED));
+	}
+	
+	/**
+	 * Zwraca pierwszy rekord (rządek)
+	 * @param string $sql zapytanie
+	 * @param array $bind tabela w formacie akceptowanym przez PDO::prepare()
+	 * @return array
+	 */
+	public function fetchRow($sql, array $bind = array()) {
+		return $this->_resolveStreams($this->query($sql, $bind)->fetch(PDO::FETCH_NAMED));
+	}
+
+	/**
+	 * Zwraca pojedynczą wartość (krotkę)
+	 * @param string $sql zapytanie
+	 * @param array $bind tabela w formacie akceptowanym przez PDO::prepare()
+	 * @return array
+	 */
+	public function fetchOne($sql, array $bind = array()) {
+		return $this->_resolveStreams($this->query($sql, $bind)->fetch(PDO::FETCH_NUM));
+	}
+	
+	private function _resolveStreams($fetchedData) {
+		$return = array();
+		foreach($fetchedData as $rows) {
+			if(!empty($rows)) {
+				$col = array();
+				foreach($rows as $colName => $colVal) {
+					if(is_resource($colVal)) {
+						$col[$colName] = stream_get_contents($colVal);
+					} else {
+						$col[$colName] = $colVal;
+					}
+				}
+				$return[] = $col;
+			}
+		}
+		return $return;
 	}
 
 	/**
