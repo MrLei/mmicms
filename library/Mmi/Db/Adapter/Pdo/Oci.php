@@ -57,8 +57,8 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 		$this->_pdo = new PDO(
 			$this->_config->driver . ':host=' . $this->_config->host . ';port=' . $this->_config->port . ';dbname=' . $this->_config->name . ';charset=' . $this->_config->charset, $this->_config->user, $this->_config->password, array(PDO::ATTR_PERSISTENT => $this->_config->persistent)
 		);
-		$this->query('ALTER SESSION SET NLS_TIMESTAMP_FORMAT = "YYYY-MM-DD HH24:MI:SS"');
 		$this->_connected = true;
+		$this->query('ALTER SESSION SET NLS_TIMESTAMP_FORMAT = "YYYY-MM-DD HH24:MI:SS"');
 		return $this;
 	}
 
