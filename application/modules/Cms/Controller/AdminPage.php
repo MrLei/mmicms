@@ -20,20 +20,20 @@ class Cms_Controller_AdminPage extends MmiCms_Controller_Admin {
 			$this->_helper->redirector('index', 'adminPage', 'cms', array(), true);
 		}
 		/* @var $page Cms_Model_Page_Record */
-		
+
 		//lista aktywnych widgetow do widoku
 		$widgets = Cms_Model_Page_Widget_Dao::activeQuery()->find();
 
-		$widgetSectionStart = '<section id="cms-page-composer-toolkit" style="position: fixed; left: 5px; top: 5px; width: 150px; padding: 8px; background: rgba(22, 155, 213, 0.15); border: 1px solid #c2c2c2; border-radius: 10px; font-size: 11px; line-height: 15px">Widgety:<br>';
+		$widgetSectionStart = '<section id="cms-page-composer-toolkit" style="position: fixed; left: 5px; bottom: 5px; width: 150px; padding: 8px; background: rgba(22, 155, 213, 0.15); border: 1px solid #c2c2c2; border-radius: 10px; font-size: 11px; line-height: 15px">Widgety:<br>';
 		$widgetOption = '';
 		foreach ($widgets as $widget) {
 			$widgetOption .= '<a href="/' . $widget->module . "/" . $widget->controller . "/" . $widget->action . '"><i style="display: inline-block; margin-right: 5px"></i>' . $widget->name . '</a><br/>';
 		};
 		/* @var $widget Cms_Model_Page_Widget_Record */
-		$widgetSectionStop = '</section>';
-		
-		$widgetList = $widgetSectionStart . $widgetOption . $widgetSectionStop;
-		
+		$widgetSectionEnd = '</section>';
+
+		$widgetList = $widgetSectionStart . $widgetOption . $widgetSectionEnd;
+
 		$this->view->headLink()->appendStyleSheet($this->view->baseUrl . '/default/cms/css/page.css');
 		//$this->view->headLink()->appendStyleSheet($this->view->baseUrl . '/library/css/ui.css');
 		$this->view->headScript()->prependFile($this->view->baseUrl . '/library/js/jquery/jquery.js');
