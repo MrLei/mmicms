@@ -117,6 +117,7 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 	public function prepareField($fieldName) {
 		//dla oracle "
 		if (strpos($fieldName, '"') === false) {
+			$fieldName = substr($fieldName, 0, 30); //maksymalna długość nazwy pola w oracle
 			return '"' . str_replace('.', '"."', $fieldName) . '"';
 		}
 		return $fieldName;
