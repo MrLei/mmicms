@@ -63,6 +63,53 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 	}
 
 	/**
+	 * Wydaje zapytanie PDO prepare, execute
+	 * rzuca wyjątki
+	 * @see PDO::prepare()
+	 * @see PDO::execute()
+	 * @param string $sql zapytanie
+	 * @param array $bind tabela w formacie akceptowanym przez PDO::prepare()
+	 * @throws Mmi_Db_Exception
+	 * @return PDO_Statement
+	 */
+	public function query($sql, array $bind = array()) {
+		if (!$this->_connected) {
+			$this->connect();
+		}
+		$start = microtime(true);
+		$statement = $this->_pdo->prepare($sql);
+		if (!$statement) {
+			$error = $this->_pdo->errorInfo();
+			throw new Mmi_Db_Exception(get_called_class() . ': ' . (isset($error[2]) ? $error[2] : $error[0]) . ' --- ' . $sql);
+		}
+		$values = array();
+		foreach ($bind as $key => $param) {
+			$type = PDO::PARAM_STR;
+			if (is_int($key)) {
+				$key = $key + 1;
+			}
+			$values[$key] = array("value" => $param, "length" => strlen($param));
+			if (is_bool($param)) {
+				$type = PDO::PARAM_BOOL;
+				$statement->bindParam($key, $values[$key]["value"], $type);
+			} else {
+				$statement->bindParam($key, $values[$key]["value"], $type, $values[$key]["length"]);
+			}
+		}
+		$result = $statement->execute();
+		$statement->result = $result;
+		if ($result != 1) {
+			$error = $statement->errorInfo();
+			$error = isset($error[2]) ? $error[2] : $error[0];
+			throw new Mmi_Db_Exception(get_called_class() . ': ' . $error . ' --- ' . $sql);
+		}
+		if ($this->_config->profiler) {
+			Mmi_Db_Profiler::eventQuery($statement, $bind, microtime(true) - $start);
+		}
+		return $statement;
+	}
+
+	/**
 	 * Otacza nazwę pola odpowiednimi znacznikami
 	 * @param string $fieldName nazwa pola
 	 * @return string
@@ -83,25 +130,6 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 	public function prepareTable($tableName) {
 		//dla oracle tak jak pola
 		return $this->prepareField($tableName);
-	}
-
-	/**
-	 * Aktualizacja rekordów
-	 * @param string $table nazwa tabeli
-	 * @param array $data tabela w postaci: klucz => wartość
-	 * @param array $whereBind warunek w postaci zagnieżdżonego bind
-	 * @return integer
-	 */
-	public function update($table, array $data = array(), $where = '', array $whereBind = array()) {
-		$fields = '';
-		if (empty($data)) {
-			return 1;
-		}
-		foreach ($data as $key => $value) {
-			$fields .= $this->prepareField($key) . ' = \' ' . $value . '\', ';
-		}
-		$sql = 'UPDATE ' . $this->prepareTable($table) . ' SET ' . rtrim($fields, ', ') . ' ' . $where;
-		return $this->query($sql, $whereBind)->rowCount();
 	}
 
 	/**

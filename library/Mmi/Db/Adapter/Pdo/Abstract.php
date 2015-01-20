@@ -194,7 +194,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @throws Mmi_Db_Exception
 	 * @return PDO_Statement
 	 */
-	public final function query($sql, array $bind = array()) {
+	public function query($sql, array $bind = array()) {
 		if (!$this->_connected) {
 			$this->connect();
 		}
