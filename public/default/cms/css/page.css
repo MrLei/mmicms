@@ -16,52 +16,61 @@
 	display: inline-block; 
 	margin-right: 5px
 }
+
+#cms-page-composer.compose {
+	min-height: 200px;
+}
 		
 #cms-page-composer.compose .section {
-    min-height: 200px;
+	cursor: crosshair;
+	height: 200px;
     background: #eee;
-	margin: 10px 0;
-    padding: 10px 0;
+    padding: 10px;
+	margin: 0 0 3px 0;
+	border-radius: 15px;
+	width: calc(100% - 20px);
+}
+
+#cms-page-composer.compose .section .section {
+	height: calc(50% - 20px);
 }
 
 #cms-page-composer.compose .placeholder {
+	box-shadow: 0px 0px 10px #bbb;
+	border-radius: 15px;
     position: relative;
-	min-height: 100px;
+	height: 100%;
 	background: #ddd;
 }
 
 #cms-page-composer.compose .placeholder > * {
-    display: none;
+    visibility: hidden;
 }
 
-#cms-page-composer.compose .placeholder > .ui-resizable-handle {
-	display: block;
+#cms-page-composer.compose .placeholder > .ui-resizable-handle, #cms-page-composer.compose .placeholder > .section {
+	visibility: visible;
 }
+
 
 #cms-page-composer.compose .holder {
     background: #bbb;
 }
 
-.ui-resizable-w {
-    cursor: w-resize;
-	width: 7px;
-	background: #00cc00;
-	left: 0px;
-    top: 0;
-    height: 100%;
-}
-
-.ui-resizable-e {
-    cursor: e-resize;
-	background: #0000cc;
-	width: 7px;
-	right: 5px;
-    top: 0;
-    height: 100%;
-}
-
-.ui-resizable-handle {
-    position: absolute;
-    font-size: .1px;
+#cms-page-composer.compose .ui-resizable-handle {
+	position: absolute;
 	display: block;
+	width: 7px;
+	background: #ccc;
+    height: 100%;
+	top: 0;
+}
+
+#cms-page-composer.compose .ui-resizable-handle:hover {
+	background: #bbb;
+}
+
+#cms-page-composer.compose .ui-resizable-e {
+	border-radius: 0 10px 10px 0 ;
+	cursor: e-resize;
+	right: 0;
 }
