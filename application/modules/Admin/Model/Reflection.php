@@ -58,7 +58,7 @@ class Admin_Model_Reflection {
 			foreach (glob($module . '/Controller/*.php') as $controller) {
 				$var = file_get_contents($controller);
 				$controllerName = substr($controller, strrpos($controller, '/') + 1, -4);
-				if (preg_match_all('/function ([a-zA-Z0-9]+ComponentAction)\(/', $var, $actions) && isset($actions[1])) {
+				if (preg_match_all('/function ([a-zA-Z0-9]+WidgetAction)\(/', $var, $actions) && isset($actions[1])) {
 					foreach ($actions[1] as $action) {
 						$action = substr($action, 0, -6);
 						$structure[$moduleName . ':' . $controllerName . ':' . $action] = $moduleName . ' - ' . $controllerName . ' - ' . $action;
