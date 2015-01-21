@@ -6,7 +6,6 @@ class Cms_Model_Role_Record extends Mmi_Dao_Record {
 	public $name;
 
 	public function save() {
-		$this->name = $this->role;
 		if (!parent::save()) {
 			return false;
 		}

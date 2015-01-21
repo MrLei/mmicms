@@ -46,10 +46,28 @@ foreach (glob(BASE_PATH . '/database/' . Default_Registry::$config->db->driver .
 	}
 
 	//import danych
-	$result = Default_Registry::$db->getPdo()->exec(file_get_contents($file));
-	if ($result === false) {
-		var_dump(Default_Registry::$db->getPdo()->errorInfo());
-		exit;
+	if(Default_Registry::$config->db->driver != "oci") {
+		$result = Default_Registry::$db->getPdo()->exec(file_get_contents($file));
+		if ($result === false) {
+			var_dump(Default_Registry::$db->getPdo()->errorInfo());
+			exit;
+		}
+	} else {
+		$fileContent = file_get_contents($file);
+		$statements = explode("/* NEXT STATEMENT */", $fileContent);
+		foreach ($statements as $statement) {
+			$statement = trim($statement);
+			$statement = rtrim($statement, "/");
+			$statement = rtrim($statement, ";");
+			if(empty($statement)) {
+				continue;
+			}
+			$result = Default_Registry::$db->getPdo()->exec($statement);
+			if ($result === false) {
+				var_dump(Default_Registry::$db->getPdo()->errorInfo());
+				exit;
+			}
+		}
 	}
 	//tworzenie wpisu
 	MmiCms_Model_Changelog_Dao::resetTableStructures();
