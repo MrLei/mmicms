@@ -24,22 +24,18 @@ class Cms_Controller_AdminPage extends MmiCms_Controller_Admin {
 		//lista aktywnych widgetow do widoku
 		$widgets = Cms_Model_Page_Widget_Dao::activeQuery()->find();
 
-		$widgetSectionStart = '<section id="cms-page-composer-toolkit" style="position: fixed; left: 5px; bottom: 5px; width: 150px; padding: 8px; background: rgba(22, 155, 213, 0.15); border: 1px solid #c2c2c2; border-radius: 10px; font-size: 11px; line-height: 15px">Widgety:<br>';
 		$widgetOption = '';
 		foreach ($widgets as $widget) {
-			$widgetOption .= '<a href="/' . $widget->module . "/" . $widget->controller . "/" . $widget->action . '"><i style="display: inline-block; margin-right: 5px"></i>' . $widget->name . '</a><br/>';
+			$widgetOption .= '<a href="/' . $widget->module . "/" . $widget->controller . "/" . $widget->action . '"><i id="cms-page-composer-toolkit-option"></i>' . $widget->name . '</a><br/>';
 		};
 		/* @var $widget Cms_Model_Page_Widget_Record */
-		$widgetSectionEnd = '</section>';
-
-		$widgetList = $widgetSectionStart . $widgetOption . $widgetSectionEnd;
 
 		$this->view->headLink()->appendStyleSheet($this->view->baseUrl . '/default/cms/css/page.css');
 		//$this->view->headLink()->appendStyleSheet($this->view->baseUrl . '/library/css/ui.css');
 		$this->view->headScript()->prependFile($this->view->baseUrl . '/library/js/jquery/jquery.js');
 		$this->view->headScript()->appendFile($this->view->baseUrl . '/library/js/jquery/ui.js');
 		$this->view->headScript()->appendFile($this->view->baseUrl . '/default/cms/js/page.js');
-		$this->view->setPlaceholder('content', $widgetList . '<div id="cms-page-composer">' . $this->view->renderDirectly($page->text) . '</div>');
+		$this->view->setPlaceholder('content', '<div id="cms-page-composer-toolkit">Widgety:<br>' . $widgetOption . '</div><div id="cms-page-composer">' . $this->view->renderDirectly($page->text) . '</div>');
 		return $this->view->renderLayout($this->view->skin, 'cms', 'page');
 	}
 

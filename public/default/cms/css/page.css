@@ -1,27 +1,37 @@
 #cms-page-composer-toolkit {
-	left: 0;
-	top: 0;
-	width: 100px;
-	height: 100px;
-	position: fixed;
-	background: #000;
+    position: fixed;
+    left: 5px;
+    bottom: 5px;
+    width: 150px;
+    height: 150px;
+    padding: 8px;
+    background: rgba(22, 155, 213, 0.15);
+    border: 1px solid #c2c2c2;
+    border-radius: 10px;
+    font-size: 11px;
+    line-height: 15px;
 }
 
+#cms-page-composer-toolkit-option {
+	display: inline-block; 
+	margin-right: 5px
+}
+		
 #cms-page-composer.compose .section {
-	min-height: 200px;
-	background: #eee;
+    min-height: 200px;
+    background: #eee;
 	margin: 10px 0;
-	padding: 10px 0;
+    padding: 10px 0;
 }
 
 #cms-page-composer.compose .placeholder {
-	position: relative;
+    position: relative;
 	min-height: 100px;
 	background: #ddd;
 }
 
 #cms-page-composer.compose .placeholder > * {
-	display: none;
+    display: none;
 }
 
 #cms-page-composer.compose .placeholder > .ui-resizable-handle {
@@ -29,29 +39,29 @@
 }
 
 #cms-page-composer.compose .holder {
-	background: #bbb;
+    background: #bbb;
 }
 
 .ui-resizable-w {
-	cursor: w-resize;
+    cursor: w-resize;
 	width: 7px;
 	background: #00cc00;
 	left: 0px;
-	top: 0;
-	height: 100%;
+    top: 0;
+    height: 100%;
 }
 
 .ui-resizable-e {
-	cursor: e-resize;
+    cursor: e-resize;
 	background: #0000cc;
 	width: 7px;
 	right: 5px;
-	top: 0;
-	height: 100%;
+    top: 0;
+    height: 100%;
 }
 
 .ui-resizable-handle {
-position: absolute;
-font-size: .1px;
-display: block;
+    position: absolute;
+    font-size: .1px;
+	display: block;
 }
