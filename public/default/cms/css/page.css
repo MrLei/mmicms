@@ -12,35 +12,43 @@
     line-height: 15px;
 }
 
+#cms-page-composer-toolkit .fix-button {
+	position: absolute;
+	cursor: pointer;
+	right: 10px;
+	top: 10px;
+	font-size: 20px;
+}
+
 #cms-page-composer-toolkit-option {
-	display: inline-block; 
-	margin-right: 5px
+    display: inline-block;
+    margin-right: 5px
 }
 
 #cms-page-composer.compose {
-	min-height: 200px;
+    min-height: 200px;
 }
-		
+
 #cms-page-composer.compose .section {
-	cursor: crosshair;
-	height: 200px;
+    cursor: crosshair;
+    height: 200px;
     background: #eee;
     padding: 10px;
-	margin: 0 0 3px 0;
-	border-radius: 15px;
-	width: calc(100% - 20px);
+    margin: 0 0 3px 0;
+    border-radius: 15px;
+    width: calc(100% - 20px);
 }
 
 #cms-page-composer.compose .section .section {
-	height: calc(50% - 20px);
+    height: calc(50% - 20px);
 }
 
 #cms-page-composer.compose .placeholder {
-	box-shadow: 0px 0px 10px #bbb;
-	border-radius: 15px;
+    box-shadow: 0px 0px 10px #bbb;
+    border-radius: 15px;
     position: relative;
-	height: 100%;
-	background: #ddd;
+    height: 100%;
+    background: #ddd;
 }
 
 #cms-page-composer.compose .placeholder > * {
@@ -48,7 +56,7 @@
 }
 
 #cms-page-composer.compose .placeholder > .ui-resizable-handle, #cms-page-composer.compose .placeholder > .section {
-	visibility: visible;
+    visibility: visible;
 }
 
 
@@ -57,20 +65,24 @@
 }
 
 #cms-page-composer.compose .ui-resizable-handle {
-	position: absolute;
-	display: block;
-	width: 7px;
-	background: #ccc;
+    position: absolute;
+    display: block;
+    width: 7px;
+    background: #ccc;
     height: 100%;
-	top: 0;
+    top: 0;
 }
 
 #cms-page-composer.compose .ui-resizable-handle:hover {
-	background: #bbb;
+    background: #bbb;
 }
 
 #cms-page-composer.compose .ui-resizable-e {
-	border-radius: 0 10px 10px 0 ;
-	cursor: e-resize;
-	right: 0;
+    border-radius: 0 10px 10px 0 ;
+    cursor: e-resize;
+    right: 0;
+}
+
+.drag {
+	z-index: 100;
 }

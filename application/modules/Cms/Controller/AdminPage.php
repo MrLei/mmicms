@@ -26,13 +26,14 @@ class Cms_Controller_AdminPage extends MmiCms_Controller_Admin {
 
 		$this->view->widgetOption = '';
 		foreach ($widgets as $widget) {
-			$this->view->widgetOption .= '<a href="/' . $widget->module . "/" . $widget->controller . "/" . $widget->action . '"><i id="cms-page-composer-toolkit-option"></i>' . $widget->name . '</a><br/>';
+			$this->view->widgetOption .= '<div id="cms-page-composer-toolkit-option" class="drag" data-widget="module='. $widget->module . "&controller=" . $widget->controller . "&action=" . $widget->action . '&params=' . $widget->params . '">- ' . $widget->name . '</div><br/>';
 		};
 		/* @var $widget Cms_Model_Page_Widget_Record */
 		$this->view->headScript()->prependFile($this->view->baseUrl . '/library/js/jquery/jquery.js');
 		$this->view->headScript()->appendFile($this->view->baseUrl . '/library/js/jquery/ui.js');
 		$this->view->headScript()->appendFile($this->view->baseUrl . '/default/cms/js/page.js');
 		$this->view->headLink()->appendStyleSheet($this->view->baseUrl . '/default/cms/css/page.css');
+		$this->view->headLink()->appendStyleSheet($this->view->baseUrl . '/default/cms/css/fonts/fontawesome/css/font-awesome.css');
 		$this->view->headStyle()->appendStyleFile('default/cms/css/page.css');
 		$this->view->setPlaceholder('content', $this->view->render(APPLICATION_PATH . '/skins/default/cms/scripts/adminPage/toolkit.tpl') .
 			'<div id="cms-page-composer">' . $this->view->renderDirectly($page->text) . '</div>');
