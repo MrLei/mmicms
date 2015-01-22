@@ -31,22 +31,14 @@ CMSADMIN.composer = function () {
 			}
 		});
 
-		root.sortable({
+		root.find('div.placeholder').addBack().sortable({
 			items: '> section',
 			opacity: 0.5,
 			axis: 'y',
 			tolerance: 'pointer',
 			placeholder: 'holder section'
 		});
-
-		root.find('div.placeholder').sortable({
-			items: '> section',
-			opacity: 0.5,
-			axis: 'y',
-			tolerance: 'pointer',
-			placeholder: 'holder section'
-		});
-
+		
 		root.find('div.placeholder').resizable({
 			handles: 'e',
 			create: function (event, ui) {
@@ -69,13 +61,13 @@ CMSADMIN.composer = function () {
 				$(this).removeAttr('data-pool-excluded');
 			}
 		});
-
-		root.find('> .section > div.placeholder').droppable({
+		
+		root.find('> .section > div.placeholder').addBack().droppable({
 			accept: '.template-section',
 			greedy: true,
 			tolerance: 'pointer',
 			drop: function (event, ui) {
-				$(this).prepend('<section class="section"></section>');
+				$(this).append('<section class="section"></section>');
 				unbind();
 				bind();
 			}
