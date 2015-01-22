@@ -36,7 +36,7 @@ class Cms_Controller_AdminPage extends MmiCms_Controller_Admin {
 		$this->view->headLink()->appendStyleSheet($this->view->baseUrl . '/default/cms/css/fonts/fontawesome/css/font-awesome.css');
 		$this->view->headStyle()->appendStyleFile('default/cms/css/page.css');
 		$this->view->setPlaceholder('content', $this->view->render(APPLICATION_PATH . '/skins/default/cms/scripts/adminPage/toolkit.tpl') .
-			'<div id="cms-page-composer">' . $this->view->renderDirectly($page->text) . '</div>');
+			'<div class="cms-page-composer">' . $this->view->renderDirectly($page->text) . '</div>');
 		return $this->view->renderLayout($this->view->skin, 'cms', 'page');
 	}
 
