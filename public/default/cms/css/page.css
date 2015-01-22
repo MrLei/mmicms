@@ -26,7 +26,9 @@
 }
 
 .cms-page-composer.compose {
+	border: 1px dashed #ccc;
     min-height: 200px;
+	padding: 10px;
 }
 
 .cms-page-composer.compose .section {
