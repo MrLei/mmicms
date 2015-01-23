@@ -1,28 +1,43 @@
 #cms-page-composer-toolkit {
+	z-index: 91;
     position: fixed;
-    left: 5px;
-    bottom: 5px;
-    width: 150px;
-    height: 150px;
-    padding: 8px;
-    background: rgba(22, 155, 213, 0.15);
-    border: 1px solid #c2c2c2;
-    border-radius: 10px;
+    left: 0;
+    bottom: 40%;
+    width: 160px;
+    padding: 10px;
+    background: #bbb;
+    border-radius: 0 10px 10px 0;
     font-size: 11px;
-    line-height: 15px;
 }
 
-#cms-page-composer-toolkit .fix-button {
-	position: absolute;
-	cursor: pointer;
-	right: 10px;
-	top: 10px;
-	font-size: 20px;
+#cms-page-composer-toolkit .template {
+	border-radius: 2px;
+	margin: 0 0 5px 0;
+	z-index: 92;
+	padding: 10px;
+	font-weight: bold;
 }
 
-#cms-page-composer-toolkit-option {
-    display: inline-block;
-    margin-right: 5px
+#cms-page-composer-toolkit .template.drag-section {
+	background: #eee;
+	color: #000;
+}
+
+#cms-page-composer-toolkit .template.drag-placeholder {
+	background: #ddd;
+	color: #000;
+}
+
+#cms-page-composer-toolkit .template.drag-widget {
+	background: #fff;
+	color: #000;
+}
+
+#cms-page-composer-toolkit button {
+	float: right;
+	margin: 10px 0 0 0;
+	font-size: 14px;
+	padding: 10px;
 }
 
 .cms-page-composer.compose {
@@ -49,6 +64,19 @@
     background: #ddd;
 }
 
+.cms-page-composer.compose .placeholder .widget {
+    box-shadow: 0px 0px 10px #bbb;
+    border-radius: 15px;
+    position: relative;
+    min-height: 200px;
+	width: 100%;
+    background: #fff;
+	color: #000;
+	text-align: center;
+	font-size: 20px;
+	line-height: 20px;
+}
+
 .cms-page-composer.compose .placeholder > * {
     visibility: hidden;
 	height: 0;
@@ -57,7 +85,7 @@
 	padding: 0;
 }
 
-.cms-page-composer.compose .placeholder > .ui-resizable-handle, .cms-page-composer.compose .placeholder > .section {
+.cms-page-composer.compose .placeholder > .widget, .cms-page-composer.compose .placeholder > .ui-resizable-handle, .cms-page-composer.compose .placeholder > .section {
     visibility: visible;
 }
 
@@ -86,11 +114,8 @@
 }
 
 .cms-page-composer.compose .ui-resizable-e {
+	z-index: 0;
     border-radius: 0 10px 10px 0 ;
     cursor: e-resize;
     right: 0;
-}
-
-.drag {
-	z-index: 100;
 }
