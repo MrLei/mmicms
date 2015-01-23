@@ -6,7 +6,7 @@ class Cms_Form_Admin_Role extends Mmi_Form {
 
 	public function init() {
 
-		$this->addElementText('role')
+		$this->addElementText('name')
 			->addValidatorStringLength(3, 64);
 
 		$this->addElementSubmit('submit')

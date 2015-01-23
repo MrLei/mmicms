@@ -240,6 +240,41 @@ class Cms_Model_Page_Query extends Mmi_Dao_Query {
 	/**
 	 * @return Cms_Model_Page_Query_Field
 	 */
+	public function whereCmsAuthId() {
+		return $this->where('cmsAuthId');
+	}
+
+	/**
+	 * @return Cms_Model_Page_Query_Field
+	 */
+	public function andFieldCmsAuthId() {
+		return $this->andField('cmsAuthId');
+	}
+
+	/**
+	 * @return Cms_Model_Page_Query_Field
+	 */
+	public function orFieldCmsAuthId() {
+		return $this->orField('cmsAuthId');
+	}
+
+	/**
+	 * @return Cms_Model_Page_Query_Field
+	 */
+	public function orderAscCmsAuthId() {
+		return $this->orderAsc('cmsAuthId');
+	}
+
+	/**
+	 * @return Cms_Model_Page_Query_Field
+	 */
+	public function orderDescCmsAuthId() {
+		return $this->orderDesc('cmsAuthId');
+	}
+
+	/**
+	 * @return Cms_Model_Page_Query_Field
+	 */
 	public function whereDateAdd() {
 		return $this->where('dateAdd');
 	}
