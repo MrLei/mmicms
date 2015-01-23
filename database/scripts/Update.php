@@ -32,7 +32,7 @@ foreach (glob(BASE_PATH . '/database/' . Default_Registry::$config->db->driver .
 			//restore istnieje md5 zgodne
 			echo 'INCREMENTAL PRESENT: ' . $baseFileName . "\n";
 			continue;
-		} else  {
+		} else {
 			//restore istnieje md5 niezgodne
 			echo 'INVALID MD5: ' . $baseFileName . ' --- VALID: ' . $md5file . " --- IMPORT TERMINATED!\n";
 			break;
