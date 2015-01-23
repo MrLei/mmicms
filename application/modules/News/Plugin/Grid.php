@@ -3,7 +3,7 @@
 class News_Plugin_Grid extends Mmi_Grid {
 
 	public function init() {
-		
+
 		$this->setQuery(News_Model_Query::factory());
 
 		$this->setOption('locked', true);
