@@ -62,19 +62,25 @@ CMSADMIN.composer = function () {
 			}
 		});
 		
-		root.find('> .section > div.placeholder').addBack().droppable({
-			accept: '.template-section',
+		root.find('> .section > div.placeholder, > .section > div.placeholder > .section > div.placeholder').addBack().droppable({
+			accept: '.template.drag-section, .template.drag-widget',
 			greedy: true,
 			tolerance: 'pointer',
 			drop: function (event, ui) {
-				$(this).append('<section class="section"></section>');
+				//jeśli upuszczamy widget w placeholder i w placeholderze brak sekcji
+				if ($(this).hasClass('placeholder') && ui.draggable.hasClass('drag-widget') && $(this).find('> .section').size() === 0 && $(this).find('> .widget').size() === 0) {
+					$(this).append('<div class="widget" data-widget="' + ui.draggable.attr('data-widget') + '">' + ui.draggable.html() + '</section>');
+				}
+				if (ui.draggable.hasClass('drag-section') && $(this).find('> .widget').size() === 0 && ($(this).parent().parent().hasClass('compose') || $(this).hasClass('compose'))) {
+					$(this).append('<section class="section"></section>');
+				}
 				unbind();
 				bind();
 			}
 		});
-
+		
 		root.find('.section').droppable({
-			accept: '.template-placeholder',
+			accept: '.template.drag-placeholder',
 			greedy: true,
 			tolerance: 'pointer',
 			drop: function (event, ui) {
@@ -82,14 +88,13 @@ CMSADMIN.composer = function () {
 				if (freeSpace <= 0) {
 					return false;
 				}
-				console.log(freeSpace);
 				$(this).append('<div class="placeholder span-' + freeSpace + '-of-12"></div>');
 				unbind();
 				bind();
 			}
 		});
 
-		root.find('.section, div.placeholder').on('dblclick', function () {
+		root.find('.section, div.placeholder, div.widget').on('dblclick', function () {
 			$(this).remove();
 			return false;
 		});
@@ -104,11 +109,10 @@ CMSADMIN.composer = function () {
 			return;
 		}
 		root.removeClass('compose');
-		root.find('.section, div.placeholder').off('dblclick');
-		root.sortable().sortable('destroy');
-		root.find('div.placeholder, .section').sortable().sortable('destroy');
+		root.find('.section, div.placeholder, div.widget').off('dblclick');
+		root.find('div.placeholder, .section').addBack().sortable().sortable('destroy');
 		root.find('div.placeholder').resizable().resizable('destroy');
-		root.find('div.placeholder, .section').droppable().droppable('destroy');
+		root.find('div.placeholder, .section').addBack().droppable().droppable('destroy');
 	};
 	that.unbind = unbind;
 	
@@ -139,11 +143,11 @@ $(document).ready(function () {
 	
 	CMSADMIN.composer.bind();
 
-	$('.fix-button').click(function () {
+	$('.preview').click(function () {
 		CMSADMIN.composer.toggle();
 	});
-	
-	$('.drag').draggable({
+
+	$('.template').draggable({
 		revert: true,
 		snap: true
 	});
