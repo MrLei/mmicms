@@ -392,10 +392,11 @@ CREATE TABLE cms_page
   text text,
   active boolean,
   cms_auth_id integer DEFAULT NULL,
-  "dateAdd"  datetime DEFAULT NULL,
-  "dateModify" datetime DEFAULT NULL,
+  `dateAdd`  datetime DEFAULT NULL,
+  `dateModify` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
   CONSTRAINT `cms_page_ibfk_1` FOREIGN KEY (`cms_navigation_id`) REFERENCES cms_navigation(`id`) ON UPDATE CASCADE ON DELETE CASCADE,
-  CONSTRAINT `cms_page_ibfk_2` FOREIGN KEY (`cms_route_id`) REFERENCES cms_route (`id`) ON UPDATE RESTRICT ON DELETE CASCADE,
+  CONSTRAINT `cms_page_ibfk_2` FOREIGN KEY (`cms_route_id`) REFERENCES cms_route (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
   CONSTRAINT `cms_page_ibfk_3` FOREIGN KEY (`cms_auth_id`) REFERENCES cms_auth (`id`) ON UPDATE SET NULL ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
