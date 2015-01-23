@@ -194,7 +194,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @throws Mmi_Db_Exception
 	 * @return PDO_Statement
 	 */
-	public final function query($sql, array $bind = array()) {
+	public function query($sql, array $bind = array()) {
 		if (!$this->_connected) {
 			$this->connect();
 		}
@@ -232,7 +232,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @param string $name opcjonalnie nazwa serii (ważne w PostgreSQL)
 	 * @return mixed
 	 */
-	public final function lastInsertId($name = null) {
+	public function lastInsertId($name = null) {
 		if (!$this->_connected) {
 			$this->connect();
 		}
@@ -245,7 +245,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @param array $bind tabela w formacie akceptowanym przez PDO::prepare()
 	 * @return array
 	 */
-	public final function fetchAll($sql, array $bind = array()) {
+	public function fetchAll($sql, array $bind = array()) {
 		return $this->query($sql, $bind)->fetchAll(PDO::FETCH_NAMED);
 	}
 
@@ -255,7 +255,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @param array $bind tabela w formacie akceptowanym przez PDO::prepare()
 	 * @return array
 	 */
-	public final function fetchRow($sql, array $bind = array()) {
+	public function fetchRow($sql, array $bind = array()) {
 		return $this->query($sql, $bind)->fetch(PDO::FETCH_NAMED);
 	}
 
@@ -265,7 +265,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @param array $bind tabela w formacie akceptowanym przez PDO::prepare()
 	 * @return array
 	 */
-	public final function fetchOne($sql, array $bind = array()) {
+	public function fetchOne($sql, array $bind = array()) {
 		return $this->query($sql, $bind)->fetch(PDO::FETCH_NUM);
 	}
 
