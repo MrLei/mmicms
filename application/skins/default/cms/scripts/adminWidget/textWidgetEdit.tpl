@@ -4,6 +4,6 @@
 		<div class="clear"></div>
 	</div>
 	<div class="content-box-content clearfix">
-		{$form}
+		{$textForm}
 	</div>
 </div>
