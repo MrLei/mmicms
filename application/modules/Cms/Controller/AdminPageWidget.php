@@ -27,7 +27,7 @@ class Cms_Controller_AdminPageWidget extends Mmi_Controller_Action {
 		$record = Cms_Model_Page_Widget_Dao::findPk($this->id);
 		if ($record !== null && $record->delete()) {
 			$this->_helper->messenger('Widget zostal usuniety');
-		};
+		}
 		$this->_helper->redirector('index', 'adminPageWidget', 'cms', array(), true);
 	}
 
