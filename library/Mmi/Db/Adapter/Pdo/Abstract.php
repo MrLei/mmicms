@@ -245,7 +245,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @param array $bind tabela w formacie akceptowanym przez PDO::prepare()
 	 * @return array
 	 */
-	public function fetchAll($sql, array $bind = array()) {
+	public final function fetchAll($sql, array $bind = array()) {
 		return $this->query($sql, $bind)->fetchAll(PDO::FETCH_NAMED);
 	}
 
@@ -255,7 +255,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @param array $bind tabela w formacie akceptowanym przez PDO::prepare()
 	 * @return array
 	 */
-	public function fetchRow($sql, array $bind = array()) {
+	public final function fetchRow($sql, array $bind = array()) {
 		return $this->query($sql, $bind)->fetch(PDO::FETCH_NAMED);
 	}
 
@@ -265,7 +265,7 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * @param array $bind tabela w formacie akceptowanym przez PDO::prepare()
 	 * @return array
 	 */
-	public function fetchOne($sql, array $bind = array()) {
+	public final function fetchOne($sql, array $bind = array()) {
 		return $this->query($sql, $bind)->fetch(PDO::FETCH_NUM);
 	}
 
