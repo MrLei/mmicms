@@ -7,25 +7,18 @@ class Cms_Plugin_PageWidgetGrid extends Mmi_Grid {
 		$this->setQuery(Cms_Model_Page_Widget_Query::factory()
 				->orderAscId());
 
-		$this->addColumn('text', 'name', array(
-			'label' => 'Nazwa',
-		));
+		$this->addColumn('text', 'name', [
+			'label' => 'Nazwa'
+		]);
 
-		$this->addColumn('text', 'module', array(
-			'label' => 'Moduł'
-		));
-
-		$this->addColumn('text', 'controller', array(
-			'label' => 'Kontroler'
-		));
-
-		$this->addColumn('text', 'action', array(
-			'label' => 'Akcja'
-		));
-
-		$this->addColumn('text', 'params', array(
-			'label' => 'Parametry'
-		));
+		$this->addColumn('custom', 'Object', [
+			'label' => 'Moduł - Kontroler - Akcja',
+			'value' => '{$rowData->module} - {$rowData->controller} - {$rowData->action}'
+		]);
+		
+		$this->addColumn('text', 'params', [
+			'label' => 'Domyślne parametry'
+		]);
 
 		$this->addColumn('checkbox', 'active', array(
 			'label' => 'Aktywny'

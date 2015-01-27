@@ -21,4 +21,9 @@ class Cms_Model_Page_Widget_Record extends Mmi_Dao_Record {
 		return parent::save();
 	}	
 	
+	public function isExistWidgetEdit($action) {
+		$structure = Mmi_Structure::getStructure();
+		return array_key_exists($action . 'Edit', $structure['module']['cms']['adminWidget']);
+	}
+	
 }

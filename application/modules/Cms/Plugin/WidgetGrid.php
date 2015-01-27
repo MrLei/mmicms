@@ -15,7 +15,7 @@ class Cms_Plugin_WidgetGrid extends Mmi_Grid {
 			'label' => 'Zawartość widgetów',
 			'seekable' => false,
 			'sortable' => false,
-			'value' => '<a class="button" href="' . $this->_view->baseUrl . '/cms/adminWidget/%action%Edit/' . '">Przejdź</a>'
+			'value' => '{if $rowData->isExistWidgetEdit($rowData->action)}<a class="button small" href="' . $this->_view->baseUrl . '/cms/adminWidget/%action%Edit/' . '">Przejdź</a>{/if}'
 		]);
 	}
 

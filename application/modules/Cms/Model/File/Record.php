@@ -118,6 +118,9 @@ class Cms_Model_File_Record extends Mmi_Dao_Record {
 	 */
 	protected function _scaler($inputFile, $outputFile, $scaleType, $scale) {
 		switch ($scaleType) {
+			case 'default':
+				$imgRes = Mmi_Image::inputToResource($inputFile);
+				break;
 			case 'scale':
 				$v = explode('x', $scale);
 				if (count($v) == 1 && is_numeric($v[0]) && intval($v[0]) > 0) {
