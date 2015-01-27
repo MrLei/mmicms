@@ -29,7 +29,11 @@ class Cms_Controller_AdminWidget extends MmiCms_Controller_Admin {
 	}
 
 	public function pictureWidgetEditAction() {
-		
+		$form = new Cms_Form_Admin_Widget_Picture();
+		if ($form->isSaved()) {
+			$this->_helper->messenger('Zawartość została dodana do widgetu');
+			$this->_helper->redirector('pictureWidgetEdit', 'adminWidget', 'cms', array(), true);
+		}
 	}
 
 }

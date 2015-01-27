@@ -26,6 +26,10 @@
  */
 class Mmi_Image {
 	
+	public static function inputToResource($input) {
+		return self::_resource($input);
+	}
+	
 	/**
 	 * Skaluje i przycina obrazek tak aby pasował do podanych wymiarów, zachowuje proporcje
 	 * @param mixed $input wejście

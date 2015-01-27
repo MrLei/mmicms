@@ -3,11 +3,12 @@
 		<h3>{#Treści widgetu Text#}</h3>
 		<div class="clear"></div>
 	</div>
-	<div class="content-box-content clearfix">
-		{$grid}
-	</div>
-                {if $request->id}Edytujesz zawartość o ID = {$textId}{/if}
+	{if $request->id}Edytujesz zawartość o ID = {$textId}{/if}
 	<div class="content-box-content clearfix">
 		{$textForm}
+	</div>
+	<div class="content-box-content clearfix">
+		Dostępne treści:
+		{$grid}
 	</div>
 </div>
