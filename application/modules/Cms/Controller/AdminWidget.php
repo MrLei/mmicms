@@ -29,11 +29,20 @@ class Cms_Controller_AdminWidget extends MmiCms_Controller_Admin {
 	}
 
 	public function pictureWidgetEditAction() {
+		$this->view->grid = new Cms_Plugin_PictureWidgetGrid();
+
 		$form = new Cms_Form_Admin_Widget_Picture();
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Zawartość została dodana do widgetu');
 			$this->_helper->redirector('pictureWidgetEdit', 'adminWidget', 'cms', array(), true);
 		}
+	}
+
+	public function pictureWidgetDeleteAction() {
+		if (null !== ($record = Cms_Model_Widget_Picture_Dao::findPk($this->id)) && $record->delete()) {
+			$this->_helper->messenger('Zawartość usunięta poprawnie');
+		}
+		$this->_helper->redirector('pictureWidgetEdit', 'adminWidget', 'cms', array(), true);
 	}
 
 }

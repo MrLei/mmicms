@@ -6,4 +6,7 @@
 	<div class="content-box-content clearfix">
 		{$pictureForm}
 	</div>
+	<div class="content-box-content clearfix">
+		{$grid}
+	</div>
 </div>
