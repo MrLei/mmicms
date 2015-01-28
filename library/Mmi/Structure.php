@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -36,7 +37,7 @@ class Mmi_Structure {
 			'library' => self::_libraryStructure()
 		);
 	}
-	
+
 	/**
 	 * Zwraca dostępne komponenty aplikacyjne w systemie
 	 * @return array
@@ -46,23 +47,23 @@ class Mmi_Structure {
 		foreach (glob(APPLICATION_PATH . '/modules/*') as $module) {
 			$moduleName = substr($module, strrpos($module, '/') + 1);
 			$moduleName[0] = strtolower($moduleName[0]);
-			foreach (glob($module . '/Controller/Helper/*.php') as $helper) {
+			foreach (($glob = glob($module . '/Controller/Helper/*.php')) ? $glob : [] as $helper) {
 				$helperName = substr($helper, strrpos($helper, '/') + 1, -4);
 				$components[$moduleName]['Controller']['Helper'][$helperName] = 1;
 			}
-			foreach (glob($module . '/View/Helper/*.php') as $helper) {
+			foreach (($glob = glob($module . '/View/Helper/*.php')) ? $glob : [] as $helper) {
 				$helperName = substr($helper, strrpos($helper, '/') + 1, -4);
 				$components[$moduleName]['View']['Helper'][$helperName] = 1;
 			}
-			foreach (glob($module . '/Filter/*.php') as $filter) {
+			foreach (($glob = glob($module . '/Filter/*.php')) ? $glob : [] as $filter) {
 				$filterName = substr($filter, strrpos($filter, '/') + 1, -4);
 				$components[$moduleName]['Filter'][$filterName] = 1;
 			}
-			foreach (glob($module . '/Validate/*.php') as $validator) {
+			foreach (($glob = glob($module . '/Validate/*.php')) ? $glob : [] as $validator) {
 				$validatorName = substr($validator, strrpos($validator, '/') + 1, -4);
 				$components[$moduleName]['Validate'][$validatorName] = 1;
 			}
-			foreach (glob($module . '/Controller/*.php') as $controller) {
+			foreach (($glob = glob($module . '/Controller/*.php')) ? $glob : [] as $controller) {
 				$controllerName = substr($controller, strrpos($controller, '/') + 1, -4);
 				$controllerName[0] = strtolower($controllerName[0]);
 				$controllerContent = file_get_contents($controller);
@@ -78,26 +79,26 @@ class Mmi_Structure {
 		}
 		return $components;
 	}
-	
+
 	/**
 	 * Zwraca dostępne layouty i templaty w skórach
 	 * @return array
 	 */
 	private static function _skinStructure() {
 		$components = array();
-		foreach (glob(APPLICATION_PATH . '/skins/*') as $skin) {
+		foreach (($glob = glob(APPLICATION_PATH . '/skins/*')) ? $glob : [] as $skin) {
 			$skinName = substr($skin, strrpos($skin, '/') + 1);
-			foreach(glob($skin . '/*') as $module) {
+			foreach (($glob = glob($skin . '/*')) ? $glob : [] as $module) {
 				$moduleName = substr($module, strrpos($module, '/') + 1);
 				if (file_exists($module . '/scripts/layout.tpl')) {
 					$components[$skinName][$moduleName]['layout'] = 1;
 				}
-				foreach(glob($module . '/scripts/*') as $script) {
+				foreach (($glob = glob($module . '/scripts/*')) ? $glob : [] as $script) {
 					$scriptName = substr($script, strrpos($script, '/') + 1);
 					if (file_exists($script . '/layout.tpl')) {
 						$components[$skinName][$moduleName][$scriptName]['layout'] = 1;
 					}
-					foreach(glob($script . '/*') as $action) {
+					foreach (($glob = glob($script . '/*')) ? $glob : [] as $action) {
 						if ($action == 'layout.tpl') {
 							$components[$skinName][$moduleName][$scriptName]['layout'] = 1;
 						} else {
@@ -111,40 +112,39 @@ class Mmi_Structure {
 		}
 		return $components;
 	}
-	
+
 	/**
 	 * Zwraca dostępne helpery i filtry w bibliotekach
 	 * @return array
 	 */
 	private static function _libraryStructure() {
 		$components = array();
-		foreach (glob(LIB_PATH . '/*') as $lib) {
+		foreach (($glob = glob(LIB_PATH . '/*')) ? $glob : [] as $lib) {
 			$libName = substr($lib, strrpos($lib, '/') + 1);
 			if ($libName == 'Zend') {
 				continue;
 			}
-			foreach(glob($lib . '/View/Helper/*.php') as $helper) {
+			foreach (($glob = glob($lib . '/View/Helper/*.php')) ? $glob : [] as $helper) {
 				$helperName = substr($helper, strrpos($helper, '/') + 1, -4);
 				if ($helperName == 'Abstract') {
 					continue;
 				}
 				$components[$libName]['View']['Helper'][$helperName] = 1;
 			}
-			foreach(glob($lib . '/Filter/*.php') as $filter) {
+			foreach (($glob = glob($lib . '/Filter/*.php')) ? $glob : [] as $filter) {
 				$filterName = substr($filter, strrpos($filter, '/') + 1, -4);
 				if ($filterName == 'Abstract') {
 					continue;
 				}
 				$components[$libName]['Filter'][$filterName] = 1;
 			}
-			foreach(glob($lib . '/Validate/*.php') as $validator) {
+			foreach (($glob = glob($lib . '/Validate/*.php')) ? $glob : [] as $validator) {
 				$validatorName = substr($validator, strrpos($validator, '/') + 1, -4);
 				if ($validatorName == 'Abstract') {
 					continue;
 				}
 				$components[$libName]['Validate'][$validatorName] = 1;
 			}
-			
 		}
 		return $components;
 	}
