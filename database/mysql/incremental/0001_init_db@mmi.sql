@@ -5,15 +5,15 @@ CREATE TABLE `DB_CHANGELOG` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `cms_role` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` integer NOT NULL AUTO_INCREMENT,
   `name` varchar(32) COLLATE utf8_polish_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `cms_acl` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cms_role_id` int(11) NOT NULL,
+  `id` integer NOT NULL AUTO_INCREMENT,
+  `cms_role_id` integer NOT NULL,
   `module` varchar(32) COLLATE utf8_polish_ci DEFAULT NULL,
   `controller` varchar(32) COLLATE utf8_polish_ci DEFAULT NULL,
   `action` varchar(32) COLLATE utf8_polish_ci DEFAULT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE `cms_acl` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `cms_article` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` integer NOT NULL AUTO_INCREMENT,
   `lang` varchar(2) COLLATE utf8_polish_ci DEFAULT NULL,
   `title` varchar(160) COLLATE utf8_polish_ci NOT NULL,
   `uri` varchar(160) COLLATE utf8_polish_ci NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE `cms_article` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `cms_auth` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` integer NOT NULL AUTO_INCREMENT,
   `lang` varchar(2) COLLATE utf8_polish_ci DEFAULT NULL,
   `username` varchar(128) COLLATE utf8_polish_ci NOT NULL,
   `email` varchar(128) COLLATE utf8_polish_ci NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE `cms_auth` (
   `lastLog` datetime DEFAULT NULL,
   `lastFailIp` varchar(16) COLLATE utf8_polish_ci DEFAULT NULL,
   `lastFailLog` datetime DEFAULT NULL,
-  `failLogCount` int(11) DEFAULT '0',
+  `failLogCount` integer DEFAULT '0',
   `logged` tinyint DEFAULT '0',
   `active` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
@@ -65,9 +65,9 @@ CREATE TABLE `cms_auth` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `cms_auth_role` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cms_auth_id` int(11) NOT NULL,
-  `cms_role_id` int(11) NOT NULL,
+  `id` integer NOT NULL AUTO_INCREMENT,
+  `cms_auth_id` integer NOT NULL,
+  `cms_role_id` integer NOT NULL,
   PRIMARY KEY (`id`),
   KEY `cms_auth_id` (`cms_auth_id`),
   KEY `cms_role_id` (`cms_role_id`),
@@ -77,7 +77,7 @@ CREATE TABLE `cms_auth_role` (
 
 CREATE TABLE cms_tag
 (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` integer NOT NULL AUTO_INCREMENT,
   tag varchar(64) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `tag` (`tag`)
@@ -85,8 +85,8 @@ CREATE TABLE cms_tag
 
 CREATE TABLE cms_tag_link
 (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  cms_tag_id int(11) NOT NULL,
+  `id` integer NOT NULL AUTO_INCREMENT,
+  cms_tag_id integer NOT NULL,
   `object` varchar(32) NOT NULL,
   `objectId` integer NOT NULL,
   PRIMARY KEY (`id`),
@@ -95,9 +95,9 @@ CREATE TABLE cms_tag_link
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `cms_comment` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cms_auth_id` int(11) DEFAULT NULL,
-  `parent_id` int(11) DEFAULT '0',
+  `id` integer NOT NULL AUTO_INCREMENT,
+  `cms_auth_id` integer DEFAULT NULL,
+  `parent_id` integer DEFAULT '0',
   `dateAdd` datetime NOT NULL,
   `title` varchar(128) COLLATE utf8_polish_ci DEFAULT NULL,
   `text` text COLLATE utf8_polish_ci NOT NULL,
@@ -105,7 +105,7 @@ CREATE TABLE `cms_comment` (
   `ip` varchar(16) COLLATE utf8_polish_ci DEFAULT NULL,
   `stars` double DEFAULT '0',
   `object` varchar(32) COLLATE utf8_polish_ci NOT NULL,
-  `objectId` int(11) NOT NULL,
+  `objectId` integer NOT NULL,
   PRIMARY KEY (`id`),
   KEY `dateAdd` (`dateAdd`),
   KEY `object` (`object`,`objectId`),
@@ -116,16 +116,16 @@ CREATE TABLE `cms_comment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `cms_contact` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cms_contact_option_id` int(11) NOT NULL,
+  `id` integer NOT NULL AUTO_INCREMENT,
+  `cms_contact_option_id` integer NOT NULL,
   `dateAdd` datetime DEFAULT NULL,
   `text` text COLLATE utf8_polish_ci,
   `reply` text COLLATE utf8_polish_ci,
-  `cms_auth_id_reply` int(11) DEFAULT NULL,
+  `cms_auth_id_reply` integer DEFAULT NULL,
   `uri` varchar(255) COLLATE utf8_polish_ci DEFAULT NULL,
   `email` varchar(128) COLLATE utf8_polish_ci NOT NULL,
   `ip` varchar(16) COLLATE utf8_polish_ci DEFAULT NULL,
-  `cms_auth_id` int(11) DEFAULT NULL,
+  `cms_auth_id` integer DEFAULT NULL,
   `active` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `active` (`active`),
@@ -138,14 +138,14 @@ CREATE TABLE `cms_contact` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `cms_contact_option` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` integer NOT NULL AUTO_INCREMENT,
   `name` varchar(64) COLLATE utf8_polish_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `cms_file` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` integer NOT NULL AUTO_INCREMENT,
   `class` varchar(32) COLLATE utf8_polish_ci DEFAULT NULL,
   `mimeType` varchar(32) COLLATE utf8_polish_ci DEFAULT NULL,
   `name` varchar(45) COLLATE utf8_polish_ci DEFAULT NULL,
@@ -156,11 +156,11 @@ CREATE TABLE `cms_file` (
   `size` bigint(20) DEFAULT NULL,
   `dateAdd` datetime DEFAULT NULL,
   `dateModify` datetime DEFAULT NULL,
-  `order` int(11) DEFAULT NULL,
+  `order` integer DEFAULT NULL,
   `sticky` tinyint DEFAULT NULL,
   `object` varchar(32) COLLATE utf8_polish_ci DEFAULT NULL,
-  `objectId` int(11) DEFAULT NULL,
-  `cms_auth_id` int(11) DEFAULT NULL,
+  `objectId` integer DEFAULT NULL,
+  `cms_auth_id` integer DEFAULT NULL,
   `active` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `active` (`active`),
@@ -177,16 +177,16 @@ CREATE TABLE `cms_file` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `cms_log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` integer NOT NULL AUTO_INCREMENT,
   `url` varchar(255) COLLATE utf8_polish_ci DEFAULT NULL,
   `ip` varchar(16) COLLATE utf8_polish_ci DEFAULT NULL,
   `browser` varchar(255) COLLATE utf8_polish_ci DEFAULT NULL,
   `operation` varchar(32) COLLATE utf8_polish_ci DEFAULT NULL,
   `object` varchar(32) COLLATE utf8_polish_ci DEFAULT NULL,
-  `objectId` int(11) DEFAULT NULL,
+  `objectId` integer DEFAULT NULL,
   `data` text COLLATE utf8_polish_ci,
   `success` tinyint NOT NULL DEFAULT '0',
-  `cms_auth_id` int(11) DEFAULT NULL,
+  `cms_auth_id` integer DEFAULT NULL,
   `dateTime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `dateTime` (`dateTime`),
@@ -199,10 +199,10 @@ CREATE TABLE `cms_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `cms_navigation` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` integer NOT NULL AUTO_INCREMENT,
   `lang` varchar(2) COLLATE utf8_polish_ci DEFAULT NULL,
-  `parent_id` int(11) NOT NULL DEFAULT '0',
-  `order` int(11) NOT NULL DEFAULT '0',
+  `parent_id` integer NOT NULL DEFAULT '0',
+  `order` integer NOT NULL DEFAULT '0',
   `module` varchar(64) COLLATE utf8_polish_ci DEFAULT NULL,
   `controller` varchar(64) COLLATE utf8_polish_ci DEFAULT NULL,
   `action` varchar(64) COLLATE utf8_polish_ci DEFAULT NULL,
@@ -228,17 +228,17 @@ CREATE TABLE `cms_navigation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `cms_route` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` integer NOT NULL AUTO_INCREMENT,
   `pattern` varchar(255) COLLATE utf8_polish_ci DEFAULT NULL,
   `replace` text COLLATE utf8_polish_ci,
   `default` text COLLATE utf8_polish_ci,
-  `order` int(11) NOT NULL DEFAULT '0',
+  `order` integer NOT NULL DEFAULT '0',
   `active` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `cms_text` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` integer NOT NULL AUTO_INCREMENT,
   `lang` varchar(2) COLLATE utf8_polish_ci DEFAULT NULL,
   `key` varchar(32) COLLATE utf8_polish_ci DEFAULT NULL,
   `content` text COLLATE utf8_polish_ci,
@@ -248,7 +248,7 @@ CREATE TABLE `cms_text` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `cron` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` integer NOT NULL AUTO_INCREMENT,
   `active` tinyint NOT NULL DEFAULT '0',
   `minute` varchar(50) COLLATE utf8_polish_ci NOT NULL,
   `hour` varchar(50) COLLATE utf8_polish_ci NOT NULL,
@@ -268,8 +268,8 @@ CREATE TABLE `cron` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `mail` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `mail_definition_id` int(11) NOT NULL,
+  `id` integer NOT NULL AUTO_INCREMENT,
+  `mail_definition_id` integer NOT NULL,
   `fromName` varchar(64) COLLATE utf8_polish_ci DEFAULT NULL,
   `to` varchar(255) COLLATE utf8_polish_ci DEFAULT NULL,
   `replyTo` varchar(64) COLLATE utf8_polish_ci DEFAULT NULL,
@@ -288,9 +288,9 @@ CREATE TABLE `mail` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `mail_definition` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` integer NOT NULL AUTO_INCREMENT,
   `lang` varchar(2) COLLATE utf8_polish_ci DEFAULT NULL,
-  `mail_server_id` int(11) NOT NULL,
+  `mail_server_id` integer NOT NULL,
   `name` varchar(32) COLLATE utf8_polish_ci DEFAULT NULL,
   `replyTo` varchar(64) COLLATE utf8_polish_ci DEFAULT NULL,
   `fromName` varchar(64) COLLATE utf8_polish_ci DEFAULT NULL,
@@ -306,7 +306,7 @@ CREATE TABLE `mail_definition` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `mail_server` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` integer NOT NULL AUTO_INCREMENT,
   `address` varchar(64) COLLATE utf8_polish_ci NOT NULL,
   `port` tinyint NOT NULL DEFAULT '25',
   `username` varchar(64) COLLATE utf8_polish_ci DEFAULT NULL,
@@ -320,7 +320,7 @@ CREATE TABLE `mail_server` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `news` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` integer NOT NULL AUTO_INCREMENT,
   `lang` varchar(2) COLLATE utf8_polish_ci DEFAULT NULL,
   `title` varchar(255) COLLATE utf8_polish_ci NOT NULL,
   `lead` text COLLATE utf8_polish_ci,
@@ -334,29 +334,29 @@ CREATE TABLE `news` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `stat` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` integer NOT NULL AUTO_INCREMENT,
   `object` varchar(50) COLLATE utf8_polish_ci NOT NULL,
-  `objectId` int(11) DEFAULT NULL,
+  `objectId` integer DEFAULT NULL,
   `dateTime` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `stat_date` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `hour` smallint(6) DEFAULT NULL,
-  `day` smallint(6) DEFAULT NULL,
-  `month` smallint(6) DEFAULT NULL,
-  `year` smallint(6) DEFAULT NULL,
+  `id` integer NOT NULL AUTO_INCREMENT,
+  `hour` smallint DEFAULT NULL,
+  `day` smallint DEFAULT NULL,
+  `month` smallint DEFAULT NULL,
+  `year` smallint DEFAULT NULL,
   `object` varchar(32) COLLATE utf8_polish_ci DEFAULT NULL,
-  `objectId` int(11) DEFAULT NULL,
-  `count` int(11) NOT NULL DEFAULT '0',
+  `objectId` integer DEFAULT NULL,
+  `count` integer NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `hour` (`hour`,`day`,`month`,`year`),
   KEY `object` (`object`,`objectId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `stat_label` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` integer NOT NULL AUTO_INCREMENT,
   `lang` varchar(2) COLLATE utf8_polish_ci DEFAULT NULL,
   `object` varchar(32) COLLATE utf8_polish_ci NOT NULL,
   `label` varchar(48) COLLATE utf8_polish_ci NOT NULL,
@@ -366,14 +366,14 @@ CREATE TABLE `stat_label` (
 
 CREATE TABLE tutorial
 (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` integer NOT NULL AUTO_INCREMENT,
   `data` varchar(128),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE cms_page_widget
 (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` integer NOT NULL AUTO_INCREMENT,
   name varchar(128),
   module varchar(64),
   controller varchar(64),
@@ -385,7 +385,7 @@ CREATE TABLE cms_page_widget
 
 CREATE TABLE cms_page
 (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` integer NOT NULL AUTO_INCREMENT,
   name varchar(128),
   cms_navigation_id integer NOT NULL,
   cms_route_id integer NOT NULL,
@@ -399,6 +399,18 @@ CREATE TABLE cms_page
   CONSTRAINT `cms_page_ibfk_2` FOREIGN KEY (`cms_route_id`) REFERENCES cms_route (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
   CONSTRAINT `cms_page_ibfk_3` FOREIGN KEY (`cms_auth_id`) REFERENCES cms_auth (`id`) ON UPDATE SET NULL ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+CREATE TABLE cms_widget_text
+(
+  `id` integer NOT NULL AUTO_INCREMENT,
+  `data` text
+);
+
+CREATE TABLE cms_widget_picture
+(
+  `id` integer NOT NULL AUTO_INCREMENT,
+  `dateAdd` datetime
+);
 
 INSERT INTO `cms_role` (`id`, `name`) VALUES
 (1,	'guest'),

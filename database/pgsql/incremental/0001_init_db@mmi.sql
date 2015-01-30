@@ -963,3 +963,23 @@ WITH (
 CREATE INDEX fki_cms_navigation_id ON cms_page USING btree (cms_navigation_id);
 CREATE INDEX fki_cms_route_id ON cms_page USING btree (cms_route_id);
 CREATE INDEX fki_cms_auth_id ON cms_page USING btree (cms_auth_id);
+
+CREATE TABLE cms_widget_text
+(
+  id serial NOT NULL,
+  data text,
+  CONSTRAINT cms_widget_text_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE cms_widget_picture
+(
+  id serial NOT NULL,
+  "dateAdd" timestamp without time zone,
+  CONSTRAINT cms_widget_picture_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
