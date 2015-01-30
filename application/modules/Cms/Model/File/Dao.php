@@ -24,7 +24,7 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 		}
 		return $classes;
 	}
-	
+
 	/**
 	 * 
 	 * @param string $object
@@ -33,11 +33,11 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 */
 	public static function byObjectQuery($object = null, $objectId = null) {
 		return Cms_Model_File_Query::factory()
-			->whereObject()->equals($object)
-			->andFieldObjectId()->equals($objectId)
-			->orderAscOrder();
+				->whereObject()->equals($object)
+				->andFieldObjectId()->equals($objectId)
+				->orderAscOrder();
 	}
-	
+
 	/**
 	 * 
 	 * @param string $object
@@ -46,7 +46,7 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 */
 	public static function imagesByObjectQuery($object = null, $objectId = null) {
 		return self::byObjectQuery($object, $objectId)
-			->whereClass()->equals('image');
+				->whereClass()->equals('image');
 	}
 
 	/**
@@ -57,13 +57,13 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 */
 	public static function stickyByObjectQuery($object = null, $objectId = null, $class = null) {
 		$q = self::byObjectQuery($object, $objectId)
-			->whereSticky()->equals(1);
+				->whereSticky()->equals(1);
 		if (null !== $class) {
 			$q->andFieldClass()->equals($class);
 		}
 		return $q;
 	}
-	
+
 	/**
 	 * 
 	 * @param string $object
@@ -72,7 +72,7 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 */
 	public static function notImagesByObjectQuery($object = null, $objectId = null) {
 		return self::byObjectQuery($object, $objectId)
-			->whereClass()->notEquals('image');
+				->whereClass()->notEquals('image');
 	}
 
 	/**
@@ -83,37 +83,39 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 * @return Cms_Model_File_Dao
 	 */
 	public static function appendFiles($object, $id = null, array $files = array()) {
-		foreach ($files as $file) {
-			$record = new Cms_Model_File_Record();
-			$name = md5(microtime(true) . $file['tmp_name']) . substr($file['name'], strrpos($file['name'], '.'));
-			$dir = DATA_PATH . '/' . $name[0] . $name[1] . $name[2];
-			if (!file_exists($dir)) {
-				mkdir($dir, 0777, true);
+		foreach ($files as $fileSet) {
+			foreach ($fileSet as $file) {
+				$record = new Cms_Model_File_Record();
+				$name = md5(microtime(true) . $file['tmp_name']) . substr($file['name'], strrpos($file['name'], '.'));
+				$dir = DATA_PATH . '/' . $name[0] . $name[1] . $name[2];
+				if (!file_exists($dir)) {
+					mkdir($dir, 0777, true);
+				}
+				chmod($file['tmp_name'], 0664);
+				copy($file['tmp_name'], $dir . '/' . $name);
+				$class = explode('/', $file['type']);
+				if (isset($file['title'])) {
+					$record->title = $file['title'];
+				}
+				if (isset($file['author'])) {
+					$record->author = $file['author'];
+				}
+				if (isset($file['source'])) {
+					$record->source = $file['source'];
+				}
+				$record->class = $class[0];
+				$record->mimeType = $file['type'];
+				$record->name = $name;
+				$record->original = $file['name'];
+				$record->size = $file['size'];
+				$record->dateAdd = date('Y-m-d');
+				$record->dateModify = date('Y-m-d');
+				$record->object = $object;
+				$record->objectId = $id;
+				$record->cmsAuthId = Default_Registry::$auth->getId();
+				$record->active = 1;
+				$record->save();
 			}
-			chmod($file['tmp_name'], 0664);
-			copy($file['tmp_name'], $dir . '/' . $name);
-			$class = explode('/', $file['type']);
-			if (isset($file['title'])) {
-				$record->title = $file['title'];
-			}
-			if (isset($file['author'])) {
-				$record->author = $file['author'];
-			}
-			if (isset($file['source'])) {
-				$record->source = $file['source'];
-			}
-			$record->class = $class[0];
-			$record->mimeType = $file['type'];
-			$record->name = $name;
-			$record->original = $file['name'];
-			$record->size = $file['size'];
-			$record->dateAdd = date('Y-m-d');
-			$record->dateModify = date('Y-m-d');
-			$record->object = $object;
-			$record->objectId = $id;
-			$record->cmsAuthId = Default_Registry::$auth->getId();
-			$record->active = 1;
-			$record->save();
 		}
 		return true;
 	}
@@ -228,5 +230,5 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 		}
 		return true;
 	}
-	
+
 }

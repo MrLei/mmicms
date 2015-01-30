@@ -1,1 +1,3 @@
-<img src="{$imageUrl}">
+{if ($imageUrl)}
+	<img src="{$imageUrl}">
+{/if}
