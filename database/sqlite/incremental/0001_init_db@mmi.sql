@@ -413,13 +413,25 @@ CREATE TABLE stat_label
   description text
 );
 
+CREATE UNIQUE INDEX stat_label_lang_object_idx ON stat_label (lang, "object");
+
 CREATE TABLE tutorial
 (
   id INTEGER PRIMARY KEY,
   data character varying(128)
 );
 
-CREATE UNIQUE INDEX stat_label_lang_object_idx ON stat_label (lang, "object");
+CREATE TABLE cms_widget_text
+(
+  id INTEGER PRIMARY KEY,
+  data text
+);
+
+CREATE TABLE cms_widget_picture
+(
+  id INTEGER PRIMARY KEY,
+  "dateAdd" DATETIME
+);
 
 INSERT INTO cms_role (id, name) VALUES (1, 'guest');
 INSERT INTO cms_role (id, name) VALUES (2, 'member');

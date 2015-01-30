@@ -148,19 +148,20 @@ CMSADMIN.composer = function () {
 	that.toggle = toggle;
 
 	save = function () {
+		unbind();
 		compilationRoot.html(composerRoot.html());
 		compilationRoot.find('.placeholder').each(function () {
-			$(this).html('{widget(' + $(this).find('.widget').attr('data-widget') + ')}');
+			if ($(this).find('.widget').attr('data-widget') !== undefined) {
+				$(this).html('{widget(' + $(this).find('.widget').attr('data-widget') + ')}');
+			}
 		});
-
 		$.ajax({
 			type: 'POST',
 			url: saveEndpoint,
 			data: {id: request.id, data: compilationRoot.html()}
-		}).done(function (msg) {
-			alert("Data Saved: " + msg);
+		}).done(function () {
+			bind();
 		});
-
 	};
 
 	takenSpaceInSection = function (element) {
