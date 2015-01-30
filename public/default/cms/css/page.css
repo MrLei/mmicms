@@ -1,4 +1,4 @@
-#cms-page-composer-toolkit {
+.cms-page-composer-toolkit {
 	z-index: 91;
     position: fixed;
     left: 0;
@@ -10,7 +10,7 @@
     font-size: 11px;
 }
 
-#cms-page-composer-toolkit .template {
+.cms-page-composer-toolkit .template {
 	border-radius: 2px;
 	margin: 0 0 5px 0;
 	z-index: 92;
@@ -18,22 +18,22 @@
 	font-weight: bold;
 }
 
-#cms-page-composer-toolkit .template.drag-section {
+.cms-page-composer-toolkit .template.drag-section {
 	background: #eee;
 	color: #000;
 }
 
-#cms-page-composer-toolkit .template.drag-placeholder {
+.cms-page-composer-toolkit .template.drag-placeholder {
 	background: #ddd;
 	color: #000;
 }
 
-#cms-page-composer-toolkit .template.drag-widget {
+.cms-page-composer-toolkit .template.drag-widget {
 	background: #fff;
 	color: #000;
 }
 
-#cms-page-composer-toolkit button {
+.cms-page-composer-toolkit button {
 	float: right;
 	margin: 10px 0 0 0;
 	font-size: 14px;
@@ -118,4 +118,8 @@
     border-radius: 0 10px 10px 0 ;
     cursor: e-resize;
     right: 0;
+}
+
+.cms-page-composer-compilation {
+	display: none;
 }

@@ -3,25 +3,48 @@ var CMSADMIN = CMSADMIN || {};
 
 CMSADMIN.composer = function () {
 	"use strict";
-	
+
 	var that = {},
 			init,
 			bind,
 			unbind,
 			toggle,
+			save,
 			takenSpaceInSection,
-			root;
-	
+			composerRoot,
+			toolkitRoot,
+			compilationRoot,
+			saveEndpoint;
+
 	init = function () {
-		 root = $('.cms-page-composer');
-		 return that;
+		composerRoot = $('.cms-page-composer');
+		toolkitRoot = $('.cms-page-composer-toolkit');
+		compilationRoot = $('.cms-page-composer-compilation');
+		saveEndpoint = request.baseUrl + '/cms/adminPage/update';
+
+		toolkitRoot.find('.template').draggable({
+			revert: true,
+			snap: false
+		});
+
+		toolkitRoot.find('.preview').click(function () {
+			toggle();
+		});
+
+		toolkitRoot.find('.save').click(function () {
+			save();
+		});
+
+		bind();
+
+		return that;
 	};
 	that.init = init;
 
 	bind = function () {
 
-		root.find('.section').sortable({
-			items: '> div.placeholder',
+		composerRoot.find('.section').sortable({
+			items: '> .placeholder',
 			opacity: 0.5,
 			axis: 'x',
 			tolerance: 'pointer',
@@ -31,15 +54,15 @@ CMSADMIN.composer = function () {
 			}
 		});
 
-		root.find('div.placeholder').addBack().sortable({
+		composerRoot.find('.placeholder').addBack().sortable({
 			items: '> section',
 			opacity: 0.5,
 			axis: 'y',
 			tolerance: 'pointer',
 			placeholder: 'holder section'
 		});
-		
-		root.find('div.placeholder').resizable({
+
+		composerRoot.find('.placeholder').resizable({
 			handles: 'e',
 			create: function (event, ui) {
 				$(this).resizable('option', 'grid', $(this).parent().width() / 12);
@@ -49,8 +72,8 @@ CMSADMIN.composer = function () {
 				var currentWidth = Math.round($(this).width() / ($(this).parent().width() / 12));
 
 				//czyszczenie css po obliczeniach na podstawie rozmiaru
-				$(this).parent().find('div.placeholder').removeAttr('data-current');
-				$(this).parent().find('div.placeholder').removeAttr('style');
+				$(this).parent().find('.placeholder').removeAttr('data-current');
+				$(this).parent().find('.placeholder').removeAttr('style');
 				$(this).attr('data-pool-excluded', '1');
 
 				//przestawienie szerokości jeśli > 1 i nie przepełnia puli
@@ -61,8 +84,8 @@ CMSADMIN.composer = function () {
 				$(this).removeAttr('data-pool-excluded');
 			}
 		});
-		
-		root.find('> .section > div.placeholder, > .section > div.placeholder > .section > div.placeholder').addBack().droppable({
+
+		composerRoot.find('> .section > .placeholder, > .section > .placeholder > .section > .placeholder').addBack().droppable({
 			accept: '.template.drag-section, .template.drag-widget',
 			greedy: true,
 			tolerance: 'pointer',
@@ -78,8 +101,8 @@ CMSADMIN.composer = function () {
 				bind();
 			}
 		});
-		
-		root.find('.section').droppable({
+
+		composerRoot.find('.section').droppable({
 			accept: '.template.drag-placeholder',
 			greedy: true,
 			tolerance: 'pointer',
@@ -94,45 +117,61 @@ CMSADMIN.composer = function () {
 			}
 		});
 
-		root.find('.section, div.placeholder, div.widget').on('dblclick', function () {
+		composerRoot.find('.section, .placeholder, .widget').on('dblclick', function () {
 			$(this).remove();
 			return false;
 		});
 
-		root.addClass('compose');
+		composerRoot.addClass('compose');
 
 	};
 	that.bind = bind;
 
 	unbind = function () {
-		if (!root.hasClass('compose')) {
+		if (!composerRoot.hasClass('compose')) {
 			return;
 		}
-		root.removeClass('compose');
-		root.find('.section, div.placeholder, div.widget').off('dblclick');
-		root.find('div.placeholder, .section').addBack().sortable().sortable('destroy');
-		root.find('div.placeholder').resizable().resizable('destroy');
-		root.find('div.placeholder, .section').addBack().droppable().droppable('destroy');
+		composerRoot.removeClass('compose');
+		composerRoot.find('.section, .placeholder, .widget').off('dblclick');
+		composerRoot.find('.placeholder, .section').addBack().sortable().sortable('destroy');
+		composerRoot.find('.placeholder').resizable().resizable('destroy');
+		composerRoot.find('.placeholder, .section').addBack().droppable().droppable('destroy');
 	};
 	that.unbind = unbind;
-	
-	takenSpaceInSection = function (element) {
-		var pool = 0;
-		element.find('> div.placeholder').each(function () {
-			if (!($(this).attr('data-pool-excluded') === '1')) {
-				pool = pool + parseInt($(this).attr('class').match(/span\-([1-9]|10|11|12)\-of\-12/)[1]);
-			}
-		});
-		return pool;
-	}
-	
+
 	toggle = function () {
-		if (!root.hasClass('compose')) {
+		if (!composerRoot.hasClass('compose')) {
 			return bind();
 		}
 		return unbind();
 	};
 	that.toggle = toggle;
+
+	save = function () {
+		compilationRoot.html(composerRoot.html());
+		compilationRoot.find('.placeholder').each(function () {
+			$(this).html('{widget(' + $(this).find('.widget').attr('data-widget') + ')}');
+		});
+
+		$.ajax({
+			type: 'POST',
+			url: saveEndpoint,
+			data: {id: request.id, data: compilationRoot.html()}
+		}).done(function (msg) {
+			alert("Data Saved: " + msg);
+		});
+
+	};
+
+	takenSpaceInSection = function (element) {
+		var pool = 0;
+		element.find('> .placeholder').each(function () {
+			if (!($(this).attr('data-pool-excluded') === '1')) {
+				pool = pool + parseInt($(this).attr('class').match(/span\-([1-9]|10|11|12)\-of\-12/)[1]);
+			}
+		});
+		return pool;
+	};
 
 	return that;
 };
@@ -140,16 +179,5 @@ CMSADMIN.composer = function () {
 $(document).ready(function () {
 
 	CMSADMIN.composer = CMSADMIN.composer().init();
-	
-	CMSADMIN.composer.bind();
-
-	$('.preview').click(function () {
-		CMSADMIN.composer.toggle();
-	});
-
-	$('.template').draggable({
-		revert: true,
-		snap: true
-	});
 
 });
