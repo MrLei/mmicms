@@ -1,4 +1,3 @@
-
 var CMSADMIN = CMSADMIN || {};
 
 CMSADMIN.composer = function () {

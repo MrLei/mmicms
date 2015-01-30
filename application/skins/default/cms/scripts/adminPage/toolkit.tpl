@@ -11,3 +11,6 @@
 	<button class="icon-save save"> {#zapisz#}</button>
 </div>
 <div class="cms-page-composer-compilation"></div>
+<div class="cms-page-composer-configurator">
+	<div class="box"></div>
+</div>
