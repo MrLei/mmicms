@@ -42,6 +42,8 @@ CMSADMIN.composer = function () {
 
 	bind = function () {
 
+		$('html').css({'width': '952px', 'margin': '0 auto'});
+
 		composerRoot.find('.section').sortable({
 			items: '> .placeholder',
 			opacity: 0.5,
@@ -130,6 +132,7 @@ CMSADMIN.composer = function () {
 		if (!composerRoot.hasClass('compose')) {
 			return;
 		}
+		$('html').removeAttr('style');
 		composerRoot.removeClass('compose');
 		composerRoot.find('.section, .placeholder, .widget').off('dblclick');
 		composerRoot.find('.placeholder, .section').addBack().sortable().sortable('destroy');
