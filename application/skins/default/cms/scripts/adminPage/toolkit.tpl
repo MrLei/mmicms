@@ -3,7 +3,7 @@
     <div class="template drag-placeholder">{#Kolumna#}</div>
 	<hr />
 	{foreach $widgets as $widget}
-	<div class="template drag-widget" data-widget="'{$widget->module}', '{$widget->controller}', '{$widget->action}', array({$widget->params}">
+	<div class="template drag-widget" data-widget="'{$widget->module}', '{$widget->controller}', '{$widget->action}', array({$widget->params})">
 		{$widget->name}
 	</div>
 	{/foreach}
