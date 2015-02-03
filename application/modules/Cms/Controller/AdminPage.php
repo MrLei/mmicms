@@ -53,11 +53,32 @@ class Cms_Controller_AdminPage extends MmiCms_Controller_Admin {
 		if ($page === null) {
 			return json_encode(array('success' => 0));
 		}
-		$page->text = $post['data'];
+		$page->text = htmlspecialchars_decode($post['data']);
 		$page->save();
 		return json_encode(array('success' => 1));
 	}
 
+	public function loadAction() {
+		$this->view->setLayoutDisabled();
+		$this->getResponse()->setDebug(false);
+		$post = $this->getRequest()->getPost();
+		if (!isset($post['id'])) {
+			return json_encode(array('success' => 0));
+		}
+		$page = Cms_Model_Page_Query::factory()
+			->whereId()->equals($post['id'])
+			->findFirst();
+		if ($page === null) {
+			return json_encode(array('sucess' => 0));
+		} 
+		$data = $page->text;
+		
+		//parsowanie widgetow do postaci zjadalnej przez composer
+		$parsed = preg_replace('/\{widget\(([a-zA-Z1-9\'\,\s\(\=\>]+\))\)\}/', '<div class="widget" data-widget="$1">Widget</div>', $data);
+		
+		return $parsed;
+	}
+		
 	public function deleteAction() {
 		if (null !== ($record = Cms_Model_Page_Dao::findPk($this->id)) && $record->delete()) {
 			$this->_helper->messenger('Strona usunięta poprawnie');
