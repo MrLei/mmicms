@@ -8,18 +8,21 @@ CMSADMIN.composer = function () {
 			bind,
 			unbind,
 			toggle,
+			load,
 			save,
 			takenSpaceInSection,
 			composerRoot,
 			toolkitRoot,
 			compilationRoot,
-			saveEndpoint;
+			saveEndpoint,
+			loadEndpoint;
 
 	init = function () {
 		composerRoot = $('.cms-page-composer');
 		toolkitRoot = $('.cms-page-composer-toolkit');
 		compilationRoot = $('.cms-page-composer-compilation');
 		saveEndpoint = request.baseUrl + '/cms/adminPage/update';
+		loadEndpoint = request.baseUrl + '/cms/adminPage/load';
 
 		toolkitRoot.find('.template').draggable({
 			revert: true,
@@ -33,17 +36,21 @@ CMSADMIN.composer = function () {
 		toolkitRoot.find('.save').click(function () {
 			save();
 		});
-
+		
+		load();
+		
 		bind();
 
 		return that;
 	};
 	that.init = init;
 
+	// przypinanie sortowania, zmiany rozmiaru, upuszczania do elementow composera
 	bind = function () {
 
 		$('html').css({'width': '952px', 'margin': '0 auto'});
 
+		// sortowanie placeholderow w poziomie
 		composerRoot.find('.section').sortable({
 			items: '> .placeholder',
 			opacity: 0.5,
@@ -55,6 +62,7 @@ CMSADMIN.composer = function () {
 			}
 		});
 
+		// sortowanie sekcji w pionie
 		composerRoot.find('.placeholder').addBack().sortable({
 			items: '> section',
 			opacity: 0.5,
@@ -63,6 +71,7 @@ CMSADMIN.composer = function () {
 			placeholder: 'holder section'
 		});
 
+		// zmiana rozmiaru placeholderow
 		composerRoot.find('.placeholder').resizable({
 			handles: 'e',
 			create: function (event, ui) {
@@ -86,6 +95,7 @@ CMSADMIN.composer = function () {
 			}
 		});
 
+		// placeholdery do drugiego poziomu sa upuszczalne dla widgetow i sekcji
 		composerRoot.find('> .section > .placeholder, > .section > .placeholder > .section > .placeholder').addBack().droppable({
 			accept: '.template.drag-section, .template.drag-widget',
 			greedy: true,
@@ -103,6 +113,7 @@ CMSADMIN.composer = function () {
 			}
 		});
 
+		// upuszczalna sekcja dla placeholdera i ustawienie rozmiaru upuszczanego placeholdera
 		composerRoot.find('.section').droppable({
 			accept: '.template.drag-placeholder',
 			greedy: true,
@@ -118,16 +129,19 @@ CMSADMIN.composer = function () {
 			}
 		});
 
+		// usuwanie widgetu, placeholdera lub sekcji po dwukrotnych kliknieciu
 		composerRoot.find('.section, .placeholder, .widget').on('dblclick', function () {
 			$(this).remove();
 			return false;
 		});
 
+		// dodanie klasy composera
 		composerRoot.addClass('compose');
 
 	};
 	that.bind = bind;
 
+	// odpinanie zdarzen composera, tzn. podglad ulozonej strony
 	unbind = function () {
 		if (!composerRoot.hasClass('compose')) {
 			return;
@@ -141,6 +155,7 @@ CMSADMIN.composer = function () {
 	};
 	that.unbind = unbind;
 
+	// wlaczanie/wylaczanie podgladu
 	toggle = function () {
 		if (!composerRoot.hasClass('compose')) {
 			return bind();
@@ -149,6 +164,7 @@ CMSADMIN.composer = function () {
 	};
 	that.toggle = toggle;
 
+	// przesyłanie ajax'em struktury layoutu do bazy
 	save = function () {
 		unbind();
 		compilationRoot.html(composerRoot.html());
@@ -165,7 +181,20 @@ CMSADMIN.composer = function () {
 			bind();
 		});
 	};
+	
+	// pobieranie struktury layoutu z bazy do edycji
+	load = function () {
+		$.ajax({
+			type: 'POST',
+			url: loadEndpoint,
+			data: {id: request.id},
+			success: function(result) {
+				compilationRoot.html(result);
+			}
+		});
+	};
 
+	// ile miejsca zajete w sekcji
 	takenSpaceInSection = function (element) {
 		var pool = 0;
 		element.find('> .placeholder').each(function () {
@@ -182,5 +211,5 @@ CMSADMIN.composer = function () {
 $(document).ready(function () {
 
 	CMSADMIN.composer = CMSADMIN.composer().init();
-
+	
 });
