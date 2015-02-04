@@ -33,7 +33,7 @@ class Cms_Controller_AdminPage extends MmiCms_Controller_Admin {
 		$this->view->headLink()->appendStyleSheet($this->view->baseUrl . '/default/cms/css/page.css');
 		$this->view->headStyle()->appendStyleFile('default/cms/css/page.css');
 		
-		$withWidgets = preg_replace('/(\{widget\(([a-zA-Z1-9\'\,\s\(\=\>]+\))\)\})/', '<div class="composer-widget" data-widget="$2">Widget</div>$1', $page->text);
+		$withWidgets = preg_replace('/(\{widget\(([a-zA-Z1-9\'\,\s\(\=\>]+\))\)\})/', '<div class="composer-widget" data-widget="$2">$2</div>$1', $page->text);
 
 		//ustawianie contentu
 		$this->view->setPlaceholder('content', $this->view->render(APPLICATION_PATH . '/skins/default/cms/scripts/adminPage/toolkit.tpl') .
