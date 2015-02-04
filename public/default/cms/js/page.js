@@ -13,7 +13,7 @@ CMSADMIN.composer = function () {
 			composerRoot,
 			toolkitRoot,
 			compilationRoot,
-			saveEndpoint,
+			saveEndpoint
 
 	init = function () {
 		composerRoot = $('.cms-page-composer');
@@ -57,7 +57,7 @@ CMSADMIN.composer = function () {
 
 		// wysrodkowuje widok klockow
 		composerRoot.parent().css({'width': '952px', 'margin': '0 auto'});
-		
+
 		// chowa pokazuje widgety
 		composerRoot.find('.composer-widget').show();
 
@@ -142,7 +142,11 @@ CMSADMIN.composer = function () {
 
 		// usuwanie widgetu, placeholdera lub sekcji po dwukrotnych kliknieciu
 		composerRoot.find('.section, .placeholder, .composer-widget').on('dblclick', function () {
-			$(this).remove();
+			if ($(this).hasClass('composer-widget')) {
+				$(this).parent().empty();
+			} else {
+				$(this).remove();
+			}
 			return false;
 		});
 
