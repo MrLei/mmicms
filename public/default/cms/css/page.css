@@ -128,7 +128,7 @@
 	display: none;
 }
 
-.cms-page-composer-configurator {
+/*.cms-page-composer-configurator {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -144,4 +144,4 @@
 
 .cms-page-composer-configurator .box {
 	background: #fff;
-}
+}*/

@@ -9,16 +9,19 @@ CMSADMIN.composer = function () {
 			unbind,
 			toggle,
 			save,
+			configurator,
 			takenSpaceInSection,
 			composerRoot,
 			toolkitRoot,
 			compilationRoot,
-			saveEndpoint
+			configuratorRoot,
+			saveEndpoint;
 
 	init = function () {
 		composerRoot = $('.cms-page-composer');
 		toolkitRoot = $('.cms-page-composer-toolkit');
 		compilationRoot = $('.cms-page-composer-compilation');
+		configuratorRoot = $('.cms-page-composer-configurator');
 		saveEndpoint = request.baseUrl + '/cms/adminPage/update';
 
 		toolkitRoot.find('.template').draggable({
@@ -114,7 +117,8 @@ CMSADMIN.composer = function () {
 			drop: function (event, ui) {
 				//jeśli upuszczamy widget w placeholder i w placeholderze brak sekcji
 				if ($(this).hasClass('placeholder') && ui.draggable.hasClass('drag-widget') && $(this).find('> .section').size() === 0 && $(this).find('> .composer-widget').size() === 0) {
-					$(this).append('<div class="composer-widget" data-widget="' + ui.draggable.attr('data-widget') + '">' + ui.draggable.html() + '</section>');
+					$(this).append('<div class="composer-widget" data-widget="' + ui.draggable.attr('data-widget') + '">' + ui.draggable.attr('data-widget') + '</section>');
+					configurator($(this));
 				}
 				if (ui.draggable.hasClass('drag-section') && $(this).find('> .composer-widget').size() === 0 && ($(this).parent().parent().hasClass('compose') || $(this).hasClass('compose'))) {
 					$(this).append('<section class="section ' + ui.draggable.attr('options') + '"></section>');
@@ -195,6 +199,19 @@ CMSADMIN.composer = function () {
 			data: {id: request.id, data: compilationRoot.html()}
 		}).done(function () {
 			bind();
+		});
+	};
+
+	configurator = function (placeholder) {
+		configuratorRoot.dialog({
+			autoOpen: true,
+			height: 500,
+			width: 500,
+			modal: true,
+			resizable: false
+//			close: function () {
+//				placeholder.empty();
+//			}
 		});
 	};
 
