@@ -8,25 +8,34 @@ CMSADMIN.composer = function () {
 			bind,
 			unbind,
 			toggle,
-			load,
 			save,
 			takenSpaceInSection,
 			composerRoot,
 			toolkitRoot,
 			compilationRoot,
 			saveEndpoint,
-			loadEndpoint;
 
 	init = function () {
 		composerRoot = $('.cms-page-composer');
 		toolkitRoot = $('.cms-page-composer-toolkit');
 		compilationRoot = $('.cms-page-composer-compilation');
 		saveEndpoint = request.baseUrl + '/cms/adminPage/update';
-		loadEndpoint = request.baseUrl + '/cms/adminPage/load';
 
 		toolkitRoot.find('.template').draggable({
 			revert: true,
 			snap: false
+		});
+
+		toolkitRoot.find('input:radio[name="wrapper"]').change(function () {
+			toolkitRoot.find('.template.drag-section').attr('options', $(this).val());
+		});
+
+		toolkitRoot.find('input:radio[name="align"]').change(function () {
+			var position = $(this).val();
+			if (toolkitRoot.find('input:checkbox[name="stretch"]').is(':checked')) {
+				position += ' stretch';
+			}
+			toolkitRoot.find('.template.drag-placeholder').attr('options', position);
 		});
 
 		toolkitRoot.find('.preview').click(function () {
@@ -36,9 +45,7 @@ CMSADMIN.composer = function () {
 		toolkitRoot.find('.save').click(function () {
 			save();
 		});
-		
-		load();
-		
+
 		bind();
 
 		return that;
@@ -48,7 +55,11 @@ CMSADMIN.composer = function () {
 	// przypinanie sortowania, zmiany rozmiaru, upuszczania do elementow composera
 	bind = function () {
 
-		$('html').css({'width': '952px', 'margin': '0 auto'});
+		// wysrodkowuje widok klockow
+		composerRoot.parent().css({'width': '952px', 'margin': '0 auto'});
+		
+		// chowa pokazuje widgety
+		composerRoot.find('.composer-widget').show();
 
 		// sortowanie placeholderow w poziomie
 		composerRoot.find('.section').sortable({
@@ -102,11 +113,11 @@ CMSADMIN.composer = function () {
 			tolerance: 'pointer',
 			drop: function (event, ui) {
 				//jeśli upuszczamy widget w placeholder i w placeholderze brak sekcji
-				if ($(this).hasClass('placeholder') && ui.draggable.hasClass('drag-widget') && $(this).find('> .section').size() === 0 && $(this).find('> .widget').size() === 0) {
-					$(this).append('<div class="widget" data-widget="' + ui.draggable.attr('data-widget') + '">' + ui.draggable.html() + '</section>');
+				if ($(this).hasClass('placeholder') && ui.draggable.hasClass('drag-widget') && $(this).find('> .section').size() === 0 && $(this).find('> .composer-widget').size() === 0) {
+					$(this).append('<div class="composer-widget" data-widget="' + ui.draggable.attr('data-widget') + '">' + ui.draggable.html() + '</section>');
 				}
-				if (ui.draggable.hasClass('drag-section') && $(this).find('> .widget').size() === 0 && ($(this).parent().parent().hasClass('compose') || $(this).hasClass('compose'))) {
-					$(this).append('<section class="section"></section>');
+				if (ui.draggable.hasClass('drag-section') && $(this).find('> .composer-widget').size() === 0 && ($(this).parent().parent().hasClass('compose') || $(this).hasClass('compose'))) {
+					$(this).append('<section class="section ' + ui.draggable.attr('options') + '"></section>');
 				}
 				unbind();
 				bind();
@@ -123,14 +134,14 @@ CMSADMIN.composer = function () {
 				if (freeSpace <= 0) {
 					return false;
 				}
-				$(this).append('<div class="placeholder span-' + freeSpace + '-of-12"></div>');
+				$(this).append('<div class="placeholder span-' + freeSpace + '-of-12 ' + ui.draggable.attr('options') + '"></div>');
 				unbind();
 				bind();
 			}
 		});
 
 		// usuwanie widgetu, placeholdera lub sekcji po dwukrotnych kliknieciu
-		composerRoot.find('.section, .placeholder, .widget').on('dblclick', function () {
+		composerRoot.find('.section, .placeholder, .composer-widget').on('dblclick', function () {
 			$(this).remove();
 			return false;
 		});
@@ -146,12 +157,13 @@ CMSADMIN.composer = function () {
 		if (!composerRoot.hasClass('compose')) {
 			return;
 		}
-		$('html').removeAttr('style');
-		composerRoot.removeClass('compose');
-		composerRoot.find('.section, .placeholder, .widget').off('dblclick');
+		composerRoot.parent().removeAttr('style');
+		composerRoot.find('.composer-widget').hide();
 		composerRoot.find('.placeholder, .section').addBack().sortable().sortable('destroy');
 		composerRoot.find('.placeholder').resizable().resizable('destroy');
 		composerRoot.find('.placeholder, .section').addBack().droppable().droppable('destroy');
+		composerRoot.find('.section, .placeholder, .composer-widget').off('dblclick');
+		composerRoot.removeClass('compose');
 	};
 	that.unbind = unbind;
 
@@ -169,8 +181,8 @@ CMSADMIN.composer = function () {
 		unbind();
 		compilationRoot.html(composerRoot.html());
 		compilationRoot.find('.placeholder').each(function () {
-			if ($(this).find('.widget').attr('data-widget') !== undefined) {
-				$(this).html('{widget(' + $(this).find('.widget').attr('data-widget') + ')}');
+			if ($(this).find('.composer-widget').attr('data-widget') !== undefined) {
+				$(this).html('{widget(' + $(this).find('.composer-widget').attr('data-widget') + ')}');
 			}
 		});
 		$.ajax({
@@ -179,18 +191,6 @@ CMSADMIN.composer = function () {
 			data: {id: request.id, data: compilationRoot.html()}
 		}).done(function () {
 			bind();
-		});
-	};
-	
-	// pobieranie struktury layoutu z bazy do edycji
-	load = function () {
-		$.ajax({
-			type: 'POST',
-			url: loadEndpoint,
-			data: {id: request.id},
-			success: function(result) {
-				compilationRoot.html(result);
-			}
 		});
 	};
 
@@ -211,5 +211,5 @@ CMSADMIN.composer = function () {
 $(document).ready(function () {
 
 	CMSADMIN.composer = CMSADMIN.composer().init();
-	
+
 });

@@ -2,12 +2,13 @@
 	z-index: 91;
     position: fixed;
     left: 0;
-    bottom: 40%;
+    bottom: 0;
     width: 160px;
     padding: 10px;
     background: #bbb;
     border-radius: 0 10px 10px 0;
     font-size: 11px;
+	box-sizing: content-box;
 }
 
 .cms-page-composer-toolkit .template {
@@ -66,7 +67,7 @@
 	box-sizing: content-box;
 }
 
-.cms-page-composer.compose .placeholder .widget {
+.cms-page-composer.compose .placeholder .composer-widget {
     box-shadow: 0px 0px 10px #bbb;
     border-radius: 15px;
     position: relative;
@@ -88,7 +89,7 @@
 	padding: 0;
 }
 
-.cms-page-composer.compose .placeholder > .widget, .cms-page-composer.compose .placeholder > .ui-resizable-handle, .cms-page-composer.compose .placeholder > .section {
+.cms-page-composer.compose .placeholder > .composer-widget, .cms-page-composer.compose .placeholder > .ui-resizable-handle, .cms-page-composer.compose .placeholder > .section {
     visibility: visible;
 }
 
