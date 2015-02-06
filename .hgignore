@@ -5,5 +5,3 @@
 ^nbproject$
 application/modules/Test
 application/skins/default/test
-library/Zend
-database/sample.sqlite
