@@ -403,14 +403,16 @@ CREATE TABLE cms_page
 CREATE TABLE cms_widget_text
 (
   `id` integer NOT NULL AUTO_INCREMENT,
-  `data` text
-);
+  `data` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE cms_widget_picture
 (
   `id` integer NOT NULL AUTO_INCREMENT,
-  `dateAdd` datetime
-);
+  `dateAdd` datetime,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 INSERT INTO `cms_role` (`id`, `name`) VALUES
 (1,	'guest'),
