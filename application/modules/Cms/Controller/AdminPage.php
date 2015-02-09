@@ -9,7 +9,7 @@ class Cms_Controller_AdminPage extends MmiCms_Controller_Admin {
 	public function editAction() {
 		$form = new Cms_Form_Admin_Page($this->id);
 		if ($form->isSaved()) {
-			$this->_helper->redirector('compose', 'adminPage', 'cms', array('id' => $this->id), true);
+			$this->_helper->redirector('compose', 'adminPage', 'cms', array('id' => $form->getRecord()->id), true);
 		}
 	}
 
@@ -59,7 +59,6 @@ class Cms_Controller_AdminPage extends MmiCms_Controller_Admin {
 	}
 
 	public function loadAction() {
-		$this->view->setLayoutDisabled();
 		$this->getResponse()->setDebug(false);
 		$post = $this->getRequest()->getPost();
 		if (!isset($post['id'])) {
@@ -71,11 +70,8 @@ class Cms_Controller_AdminPage extends MmiCms_Controller_Admin {
 		if ($page === null) {
 			return json_encode(array('sucess' => 0));
 		} 
-		$data = $page->text;
-		
 		//parsowanie widgetow do postaci zjadalnej przez composer
-		$parsed = preg_replace('/\{widget\(([a-zA-Z1-9\'\,\s\(\=\>]+\))\)\}/', '<div class="widget" data-widget="$1">Widget</div>', $data);
-		
+		$parsed = preg_replace('/\{widget\(([a-zA-Z1-9\'\,\s\(\=\>]+\))\)\}/', '<div class="widget" data-widget="$1">Widget</div>', $page->text);
 		return $parsed;
 	}
 		
