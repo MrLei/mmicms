@@ -29,7 +29,7 @@
 <div id="fileWidget" class="{if $imgIns}imageInside{/if}{if $fileIns} fileInside{/if}">
 	{if !$imgIns && !$fileIns}
 	<div class="attachmentManage empty">
-		<div>Kliknij wgraj<br>aby dodać plik</div>
+		<div id="manageOther">Kliknij wgraj<br>aby dodać plik</div>
 	</div>
 	{/if}
 	{if $imgIns}
