@@ -1,8 +1,8 @@
 <?php
 
-class Admin_Model_Reflection {
+class Cms_Model_Reflection {
 
-	public function getActions() {
+	public static function getActions() {
 		$structure = array();
 		foreach (glob(APPLICATION_PATH . '/modules/*') as $module) {
 			$moduleName = substr($module, strrpos($module, '/') + 1);
@@ -27,7 +27,7 @@ class Admin_Model_Reflection {
 		return $structure;
 	}
 
-	public function getOptionsWildcard() {
+	public static function getOptionsWildcard() {
 		$structure = array();
 		foreach (glob(APPLICATION_PATH . '/modules/*') as $module) {
 			$moduleName = substr($module, strrpos($module, '/') + 1);

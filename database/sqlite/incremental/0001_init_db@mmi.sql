@@ -293,7 +293,7 @@ CREATE TABLE cms_text
 CREATE INDEX "cms_text_dateModify_idx" ON cms_text ("dateModify");
 CREATE UNIQUE INDEX cms_text_lang_key_idx ON cms_text (lang, "key");
 
-CREATE TABLE cron (
+CREATE TABLE cms_cron (
     id INTEGER PRIMARY KEY,
     active smallint DEFAULT 0 NOT NULL,
     minute character varying(50) NOT NULL,
@@ -311,7 +311,7 @@ CREATE TABLE cron (
     "dateLastExecute" DATETIME
 );
 
-CREATE INDEX cron_active_idx ON cron (active);
+CREATE INDEX cms_cron_active_idx ON cms_cron (active);
 
 CREATE TABLE mail (
     id INTEGER PRIMARY KEY,
@@ -495,9 +495,9 @@ INSERT INTO "cms_navigation" ("id", "lang", "parent_id", "order", "module", "con
 
 INSERT INTO "cms_text" ("id", "lang", "key", "content", "dateModify") VALUES (1,	NULL,	'footer-copyright',	'© 2011-2014 Powered by MMi CMS',	'2014-03-19 16:59:43');
 
-INSERT INTO "cron" ("id", "active", "minute", "hour", "dayOfMonth", "month", "dayOfWeek", "name", "description", "module", "controller", "action", "dateAdd", "dateModified", "dateLastExecute") VALUES (1,	1,	'*',	'*',	'*',	'*',	'*',	'Wysyłka maili',	'Wysyła maile z kolejki',	'mail',	'cron',	'send',	'2012-03-14 10:35:57',	'2014-03-21 21:31:02',	'2014-03-21 21:31:02');
-INSERT INTO "cron" ("id", "active", "minute", "hour", "dayOfMonth", "month", "dayOfWeek", "name", "description", "module", "controller", "action", "dateAdd", "dateModified", "dateLastExecute") VALUES (2,	1,	'*',	'*',	'*',	'*',	'*',	'Agregator statystyk',	'Zlicza statystyki z serwisu',	'stat',	'cron',	'agregate',	'2014-03-20 09:48:29',	'2014-03-21 21:31:02',	'2014-03-21 21:31:02');
-INSERT INTO "cron" ("id", "active", "minute", "hour", "dayOfMonth", "month", "dayOfWeek", "name", "description", "module", "controller", "action", "dateAdd", "dateModified", "dateLastExecute") VALUES (3,	1,	'30',	'4',	'1',	'*/2',	'*',	'Czyszczenie logów',	'Czyści archiwalne logi aplikacji',	'cms',	'cron',	'clean',	'2014-03-20 09:49:37',	'2014-03-20 09:49:37',	NULL);
+INSERT INTO "cms_cron" ("id", "active", "minute", "hour", "dayOfMonth", "month", "dayOfWeek", "name", "description", "module", "controller", "action", "dateAdd", "dateModified", "dateLastExecute") VALUES (1,	1,	'*',	'*',	'*',	'*',	'*',	'Wysyłka maili',	'Wysyła maile z kolejki',	'mail',	'cron',	'send',	'2012-03-14 10:35:57',	'2014-03-21 21:31:02',	'2014-03-21 21:31:02');
+INSERT INTO "cms_cron" ("id", "active", "minute", "hour", "dayOfMonth", "month", "dayOfWeek", "name", "description", "module", "controller", "action", "dateAdd", "dateModified", "dateLastExecute") VALUES (2,	1,	'*',	'*',	'*',	'*',	'*',	'Agregator statystyk',	'Zlicza statystyki z serwisu',	'stat',	'cron',	'agregate',	'2014-03-20 09:48:29',	'2014-03-21 21:31:02',	'2014-03-21 21:31:02');
+INSERT INTO "cms_cron" ("id", "active", "minute", "hour", "dayOfMonth", "month", "dayOfWeek", "name", "description", "module", "controller", "action", "dateAdd", "dateModified", "dateLastExecute") VALUES (3,	1,	'30',	'4',	'1',	'*/2',	'*',	'Czyszczenie logów',	'Czyści archiwalne logi aplikacji',	'cms',	'cron',	'clean',	'2014-03-20 09:49:37',	'2014-03-20 09:49:37',	NULL);
 
 INSERT INTO mail_server (id, address, port, username, password, "from", "dateAdd", "dateModify", active, ssl) VALUES (1, 'localhost', 25, 'local', '', '', '2012-03-14 14:31:43', '2012-03-14 14:47:01', 1, 'plain');
 

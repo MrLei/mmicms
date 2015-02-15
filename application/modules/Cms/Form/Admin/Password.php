@@ -1,6 +1,6 @@
 <?php
 
-class Admin_Form_Password extends Mmi_Form {
+class Cms_Form_Admin_Password extends Mmi_Form {
 
 	protected $_recordName = 'Cms_Model_Auth_Record';
 	protected $_recordSaveMethod = 'changePasswordByUser';

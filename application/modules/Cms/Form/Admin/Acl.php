@@ -7,10 +7,9 @@ class Cms_Form_Admin_Acl extends Mmi_Form {
 	public function init() {
 
 		$this->getRecord()->cmsRoleId = Mmi_Controller_Front::getInstance()->getRequest()->roleId;
-		$reflection = new Admin_Model_Reflection();
 
 		$this->addElementSelect('object')
-			->setMultiOptions(array_merge(array('' => ''), $reflection->getOptionsWildcard()));
+			->setMultiOptions(array_merge(array('' => ''), Cms_Model_Reflection::getOptionsWildcard()));
 
 		$this->addElementSelect('access')
 			->setMultiOptions(array(
