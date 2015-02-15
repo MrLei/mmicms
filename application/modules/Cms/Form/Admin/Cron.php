@@ -1,8 +1,8 @@
 <?php
 
-class Cron_Form_Cron extends Mmi_Form {
+class Cms_Form_Admin_Cron extends Mmi_Form {
 
-	protected $_recordName = 'Cron_Model_Record';
+	protected $_recordName = 'Cms_Model_Cron_Record';
 
 	public function init() {
 		$this->addElementText('name')
@@ -53,11 +53,10 @@ class Cron_Form_Cron extends Mmi_Form {
 			->setOption('id', 'objectId')
 			->setValue($value);
 
-		$reflection = new Admin_Model_Reflection();
 		$object = $this->getElement('object');
 		$object->setDisableTranslator(true);
 		$object->addMultiOption(null, '---');
-		foreach ($reflection->getActions() as $action) {
+		foreach (Cms_Model_Reflection::getActions() as $action) {
 			if ($action['controller'] == 'cron') {
 				$object->addMultiOption($action['path'], $action['module'] . ': ' . $action['controller'] . ' - ' . $action['action']);
 			}

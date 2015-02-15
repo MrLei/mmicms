@@ -6,8 +6,7 @@ class Cms_Controller_AdminAcl extends MmiCms_Controller_Admin {
 		$this->view->roles = Cms_Model_Role_Query::factory()->find();		
 		if ($this->roleId) {
 			$this->view->rules = Cms_Model_Acl_Dao::getMultioptionsByRoleId($this->roleId);
-			$reflection = new Admin_Model_Reflection();
-			$this->view->options = array(null => '---') + $reflection->getOptionsWildcard();
+			$this->view->options = array(null => '---') + Cms_Model_Reflection::getOptionsWildcard();
 		}
 		$roleForm = new Cms_Form_Admin_Role();
 		if ($roleForm->isMine() && $roleForm->isSaved()) {

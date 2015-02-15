@@ -1,6 +1,11 @@
 <?php
 
 class Cms_Controller_Cron extends Mmi_Controller_Action {
+	
+	public function indexAction() {
+		Cms_Model_Cron_Job::run();
+		return 'OK';
+	}
 
 	public function cleanAction() {
 		$months = 24;

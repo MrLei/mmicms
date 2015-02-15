@@ -16,23 +16,27 @@
 		<nav class="navbar">
 			<ul>
 				<li>
-					<a href="{@module=admin@}"><span>{$domain|replace:'www.':''}</span></a>
+					<a href="{@module=cms&controller=index&action=index@}"><span>{$domain|replace:'www.':''}</span></a>
 				</li>
 				<li>
 					<a href="{@module=default@}" target="_blank">{#Podgląd frontu#}</a>
 				</li>
+				{if $auth && $acl->isAllowed($auth->getRoles(), 'cms:admin:password')}
 				<li>
 					<a href="{@module=cms&controller=admin&action=password@}">{#Zmiana hasła#}</a>
 				</li>
 				<li>
-					<a href="{@module=admin&controller=login&action=logout@}">{#Wyloguj się#}<span>{if $auth} {$auth->getUsername()}</span> ({foreach name=role $auth->getRoles() as $role}{$role}{if !$_roleLast}, {/if}{/foreach}){/if}</a>
+					<a href="{@module=cms&controller=admin&action=logout@}">{#Wyloguj się#}<span>{if $auth} {$auth->getUsername()}</span> ({foreach name=role $auth->getRoles() as $role}{$role}{if !$_roleLast}, {/if}{/foreach}){/if}</a>
 				</li>
+				{/if}
 			</ul>
 		</nav>
+		{if $auth}
 		<div class="breadcrumbs">
 			{navigation()->breadcrumbs()}
 			{widget('cms', 'admin', 'languageWidget')}
 		</div>
+		{/if}
 		<nav id="main-menu">
 			{navigation()->setRoot(1000000)->menu()}
 		</nav>

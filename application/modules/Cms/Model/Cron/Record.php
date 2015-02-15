@@ -1,6 +1,6 @@
 <?php
 
-class Cron_Model_Record extends Mmi_Dao_Record {
+class Cms_Model_Cron_Record extends Mmi_Dao_Record {
 
 	public $id;
 	public $active;

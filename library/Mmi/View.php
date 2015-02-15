@@ -368,8 +368,6 @@ class Mmi_View {
 	 * Renderuje layout
 	 */
 	public function renderLayout($skin, $module, $controller) {
-		//layouty kontrolerów admina zachowują się jak moduł admin
-		$module = (substr($controller, 0, 5) == 'admin') ? 'admin' : $module;
 		//renderowanie layoutu
 		return $this->render($this->_getLayout($skin, $module, $controller));
 	}

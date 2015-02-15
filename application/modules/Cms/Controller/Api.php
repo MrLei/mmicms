@@ -1,13 +1,33 @@
 <?php
 
-class Api_Controller_Soap extends Mmi_Controller_Action {
+class Cms_Controller_Api extends Mmi_Controller_Action {
 
-	public function serverAction() {
+	public function jsonServerAction() {
+		try {
+			$this->getResponse()
+				->setHeader('Access-Control-Allow-Origin', '*')
+				->setHeader('Access-Control-Allow-Headers', 'Content-Type')
+				->setTypeJson();
+			$apiModel = $this->_getModelName($this->obj);
+			//serwer z autoryzacją HTTP
+			if (Mmi_Controller_Front::getInstance()->getEnvironment()->authUser) {
+				$apiModel .= '_Private';
+				$auth = new Mmi_Auth();
+				$auth->setModelName($apiModel);
+				$auth->httpAuth('Private API', 'Access denied!');
+			}
+			return Mmi_Json_Rpc_Server::handle($apiModel);
+		} catch (Exception $e) {
+			return $this->_internalError($e);
+		}
+	}
+
+	public function soapServerAction() {
 		try {
 			$apiModel = $this->_getModelName($this->obj);
 			$wsdlParams = array(
-				'module' => 'api',
-				'controller' => 'soap',
+				'module' => 'cms',
+				'controller' => 'api',
 				'action' => 'wsdl',
 				'obj' => $this->obj,
 			);
@@ -34,9 +54,9 @@ class Api_Controller_Soap extends Mmi_Controller_Action {
 		try {
 			$apiModel = $this->_getModelName($this->obj);
 			$serverParams = array(
-				'module' => 'api',
-				'controller' => 'soap',
-				'action' => 'server',
+				'module' => 'cms',
+				'controller' => 'api',
+				'action' => 'soapServer',
 				'obj' => $this->obj,
 			);
 			if ($this->type == 'private' || Mmi_Controller_Front::getInstance()->getEnvironment()->authUser) {
@@ -56,8 +76,7 @@ class Api_Controller_Soap extends Mmi_Controller_Action {
 	}
 
 	protected function _getModelName($object) {
-		$object = preg_replace('/[^\p{L}\p{N}-_]/u', '', $object);
-		$obj = explode('_', $object);
+		$obj = explode('_', preg_replace('/[^\p{L}\p{N}-_]/u', '', $object));
 		foreach ($obj as $k => $v) {
 			$obj[$k] = ucfirst($v);
 		}

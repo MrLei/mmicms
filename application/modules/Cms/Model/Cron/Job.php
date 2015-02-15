@@ -10,13 +10,13 @@
  * [30 20 1 * *] - wykonaj o 20:30 każdego pierwszego dnia miesiąca
  * [* /30 * 2,5,7 * *] - wykonaj zawsze 2,5,i 7 każdego miesiąca co 30 minut
  */
-class Cron_Model_Job {
+class Cms_Model_Cron_Job {
 
 	/**
 	 * Pobiera zadania crona
 	 */
 	public static function run() {
-		foreach (Cron_Model_Dao::activeQuery()
+		foreach (Cms_Model_Cron_Dao::activeQuery()
 			->find() as $cron) {
 			$logData = array();
 			$logData['name'] = $cron->name;
@@ -50,7 +50,7 @@ class Cron_Model_Job {
 
 	/**
 	 * Sprawdza czy dane zadanie jest do wykonania
-	 * @param Cron_Model_Record $record
+	 * @param Cms_Model_Cron_Record $record
 	 */
 	protected static function _getToExecute($record) {
 		return self::_valueMatch(date('i'), $record->minute) &&

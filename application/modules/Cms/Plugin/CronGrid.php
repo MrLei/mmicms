@@ -1,10 +1,10 @@
 <?php
 
-class Cron_Plugin_Grid extends Mmi_Grid {
+class Cms_Plugin_CronGrid extends Mmi_Grid {
 
 	public function init() {
 		
-		$this->setQuery(Cron_Model_Query::factory());
+		$this->setQuery(Cms_Model_Cron_Query::factory());
 
 		$this->addColumn('text', 'name', array(
 			'label' => 'Nazwa',
