@@ -19,9 +19,10 @@ div.cl {
 }
 
 div#fileUpload {
+	display: inline-block;
+	vertical-align: top;
 	color: #666;
 	padding: 6px 10px 0 0;
-	float: left;
 }
 
 div#uploaderEdit {
@@ -78,53 +79,71 @@ div#uploaderEdit form div textarea {
 	height: 30px;
 }
 
-
 div#fileWidget {
-	float: left;
+	display: inline-block;
 }
 
 div.attachmentManage {
-	border-radius: 0 0 5px 5px;
+	border-radius: 5px;
 	background: #fff;
 	border: 1px solid #ccc;
 	padding: 10px 0px 0px 10px;
-	height: 45px;
 }
 
-div.imageManage {
+div.attachmentManage.empty {
+	text-align: center;
+	border-radius: 5px;
+	font-size: 12px;
+	font-weight: bold;
+	border: 3px dashed #ccc;
+	padding: 80px 20px 20px;
+	color: #c2c2c2;
+	background-image: url('../images/arrow.png');
+	background-repeat: no-repeat;
+	background-position: center 25%;
+}
+
+.imageInside.fileInside div.attachmentManage {
+	border-radius: 0 0 5px 5px;
+	padding: 6px 0px 0px 6px;
+}
+
+.imageInside.fileInside div.attachmentManage.imageManage {
 	border-radius: 5px 5px 0 0;
-	height: 100px;
 	border-bottom: none;
 }
 
 div.attachmentManage ul {
 	list-style-type: none;
 	width: 100%;
+	min-height: 20px;
 	margin: 0;
 	padding: 0;
-	clear: both;
 }
 
 ul li.item {
+	display: inline-block;
+	white-space: nowrap;
+	vertical-align: top;
 	line-height: 12px;
 	font-size: 10px;
-	float: left;
 	background: #eee;
 	border-radius: 5px;
 	padding: 5px;
-	height: 25px;
-	width: 180px;
 	margin: 0 10px 10px 0;
 }
 
-ul li.image {
-	padding: 10px!important;
-	height: 70px!important;
-	width: 70px!important;
+.imageInside.fileInside ul.otherFiles li.item {
+	line-height: 16px;
+	margin: 0 6px 6px 0;
+}
+
+ul li.item.image {
+	padding: 10px;
 }
 
 ul li.item label {
-	margin: 5px 0 0 0;
+	margin: 4px 0 0 0;
 	float: left;
 }
 
@@ -136,7 +155,26 @@ ul li.item input {
 }
 
 ul li.item img {
+	display: block;
 	border: 1px solid #ccc;
+	margin-bottom: 5px;
+}
+
+ul.otherFiles li.item .img-center {
+	text-align: center;
+}
+
+ul.otherFiles li.item img {
+	display: inline-block;
+	border: none;
+}
+
+.imageInside.fileInside ul.otherFiles li.item .img-center {
+	float: left;
+}
+
+.imageInside.fileInside ul.otherFiles li.item img {
+	margin: 0 5px 0 0;
 }
 
 ul li.editActive {
@@ -163,4 +201,17 @@ span#upload {
 	padding: 5px;
 	z-index: 9;
 	color: #008dbb;
+}
+
+.clear:before, .clear:after {
+	content: " "; /* 1 */
+	display: table; /* 2 */
+}
+
+.clear:after {
+	clear: both;
+}
+/*For IE 6/7 only - Include this rule to trigger hasLayout and contain floats.*/
+.clear {
+	*zoom: 1;
 }

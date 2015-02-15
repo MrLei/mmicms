@@ -222,7 +222,7 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 */
 	public static function sortBySerial(array $serial = array()) {
 		foreach ($serial as $order => $id) {
-			$record = new Cms_Model_File_Record();
+			$record = new Cms_Model_File_Record($id);
 			$record->setNew(false);
 			$record->id = $id;
 			$record->order = $order;
