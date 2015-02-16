@@ -554,7 +554,7 @@ CREATE OR REPLACE TRIGGER "cms_text_id_trg"
 /
 
 /* NEXT STATEMENT */
-CREATE TABLE "cron" (
+CREATE TABLE "cms_cron" (
     "id" integer NOT NULL,
     "active" smallint DEFAULT 0 NOT NULL,
     "minute" character varying(50) NOT NULL,
@@ -570,23 +570,23 @@ CREATE TABLE "cron" (
     "dateAdd" timestamp,
     "dateModified" timestamp,
     "dateLastExecute" timestamp,
-    CONSTRAINT "cron_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "cms_cron_pkey" PRIMARY KEY ("id")
 );
 
 /* NEXT STATEMENT */
-CREATE SEQUENCE "cron_id_seq"
+CREATE SEQUENCE "cms_cron_id_seq"
     START WITH 1
     INCREMENT BY 1
     NOMINVALUE
     NOMAXVALUE;
 
 /* NEXT STATEMENT */
-CREATE OR REPLACE TRIGGER "cron_id_trg"
-    BEFORE INSERT ON "cron"
+CREATE OR REPLACE TRIGGER "cms_cron_id_trg"
+    BEFORE INSERT ON "cms_cron"
     FOR EACH ROW
 
     BEGIN
-        SELECT  "cron_id_seq".NEXTVAL
+        SELECT  "cms_cron_id_seq".NEXTVAL
         INTO    :NEW."id"
         FROM    dual;
     END;
@@ -860,7 +860,7 @@ INSERT INTO "cms_role" ("id", "name")
 INSERT INTO "cms_role" ("id", "name") 
     VALUES (3, 'admin');/* NEXT STATEMENT */
 
-INSERT INTO "cron" ("id", "active", "minute", "hour", "dayOfMonth", "month", "dayOfWeek", "name", "description", "module", "controller", "action", "dateAdd", "dateModified", "dateLastExecute") 
+INSERT INTO "cms_cron" ("id", "active", "minute", "hour", "dayOfMonth", "month", "dayOfWeek", "name", "description", "module", "controller", "action", "dateAdd", "dateModified", "dateLastExecute") 
     VALUES (1, 1, '*', '*', '*', '*', '*', 'Wysyłka maili', 'Wysyłanie kolejki mailowej', 'mail', 'cron', 'send', '2012-03-14 10:35:57', '2012-03-14 10:36:16', NULL);
 /* NEXT STATEMENT */
 INSERT INTO "mail_server" ("id", "address", "port", "username", "password", "from", "dateAdd", "dateModify", "active", "ssl") 
@@ -987,7 +987,7 @@ CREATE INDEX "cms_tag_tag_idx" ON "cms_tag"("tag");/* NEXT STATEMENT */
 CREATE INDEX "cms_tag_link_obj_objectId_idx" ON "cms_tag_link"("object", "objectId");/* NEXT STATEMENT */
 CREATE INDEX "cms_text_dateModify_idx" ON "cms_text"("dateModify");/* NEXT STATEMENT */
 CREATE UNIQUE INDEX "cms_text_lang_key_idx" ON "cms_text"("lang", "key");/* NEXT STATEMENT */
-CREATE INDEX "cron_active_idx" ON "cron"("active");/* NEXT STATEMENT */
+CREATE INDEX "cms_cron_active_idx" ON "cms_cron"("active");/* NEXT STATEMENT */
 CREATE INDEX "news_uri_idx" ON "news"("uri");/* NEXT STATEMENT */
 
 CREATE INDEX "fki_cms_acl_cms_role_id_fkey" ON "cms_acl"("cms_role_id");/* NEXT STATEMENT */
