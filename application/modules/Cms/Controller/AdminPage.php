@@ -9,7 +9,7 @@ class Cms_Controller_AdminPage extends MmiCms_Controller_Admin {
 	public function editAction() {
 		$form = new Cms_Form_Admin_Page($this->id);
 		if ($form->isSaved()) {
-			$this->_helper->redirector('compose', 'adminPage', 'cms', array('id' => $this->id), true);
+			$this->_helper->redirector('compose', 'adminPage', 'cms', array('id' => $form->getRecord()->id), true);
 		}
 	}
 
@@ -31,13 +31,12 @@ class Cms_Controller_AdminPage extends MmiCms_Controller_Admin {
 
 		//css'y
 		$this->view->headLink()->appendStyleSheet($this->view->baseUrl . '/default/cms/css/page.css');
+		$this->view->headLink()->appendStyleSheet($this->view->baseUrl . '/default/cms/css/fonts/fontawesome/css/font-awesome.css');
 		$this->view->headStyle()->appendStyleFile('default/cms/css/page.css');
-		
-		$withWidgets = preg_replace('/(\{widget\(([a-zA-Z1-9\'\,\s\(\=\>]+\))\)\})/', '<div class="composer-widget" data-widget="$2">$2</div>$1', $page->text);
 
 		//ustawianie contentu
 		$this->view->setPlaceholder('content', $this->view->render(APPLICATION_PATH . '/skins/default/cms/scripts/adminPage/toolkit.tpl') .
-			'<div class="cms-page-composer">' . $this->view->renderDirectly($withWidgets) . '</div>');
+			'<div class="cms-page-composer">' . $this->view->renderDirectly($page->text) . '</div>');
 
 		//render layoutu
 		return $this->view->renderLayout($this->view->skin, 'cms', 'page');
@@ -59,6 +58,23 @@ class Cms_Controller_AdminPage extends MmiCms_Controller_Admin {
 		return json_encode(array('success' => 1));
 	}
 
+	public function loadAction() {
+		$this->getResponse()->setDebug(false);
+		$post = $this->getRequest()->getPost();
+		if (!isset($post['id'])) {
+			return json_encode(array('success' => 0));
+		}
+		$page = Cms_Model_Page_Query::factory()
+			->whereId()->equals($post['id'])
+			->findFirst();
+		if ($page === null) {
+			return json_encode(array('sucess' => 0));
+		} 
+		//parsowanie widgetow do postaci zjadalnej przez composer
+		$parsed = preg_replace('/\{widget\(([a-zA-Z1-9\'\,\s\(\=\>]+\))\)\}/', '<div class="widget" data-widget="$1">Widget</div>', $page->text);
+		return $parsed;
+	}
+		
 	public function deleteAction() {
 		if (null !== ($record = Cms_Model_Page_Dao::findPk($this->id)) && $record->delete()) {
 			$this->_helper->messenger('Strona usunięta poprawnie');
