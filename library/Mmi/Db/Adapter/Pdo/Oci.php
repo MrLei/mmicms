@@ -146,19 +146,21 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 	 * @return array
 	 */
 	public function select($fields = '*', $from = '', $where = '', $order = '', $limit = null, $offset = null, array $whereBind = array()) {
-		$sql = 'SELECT' .
+		$initialSql = 'SELECT' .
 			' ' . $fields . 
 			' FROM' . 
 			' ' . $this->prepareField($from) . 
 			' ' . $where . 
 			' ' . $order;
 		
+		$sql = $initialSql;
+		
 		if ($limit > 0) {
-			$sql = 'SELECT * FROM (' . $sql . ') WHERE ROWNUM  <= ' . intval($limit);
+			$sql = 'SELECT * FROM (' . $initialSql . ') WHERE ROWNUM  <= ' . intval($limit);
 		}
 		
 		if ($offset > 0) {
-			$sql = 'SELECT * FROM (SELECT a.*, ROWNUM rnum FROM (' . $sql . ')' .
+			$sql = 'SELECT * FROM (SELECT a.*, ROWNUM rnum FROM (' . $initialSql . ')' .
 				' A WHERE ROWNUM <= ' . (intval($limit) + intval($offset)) . ')' .
 				' WHERE rnum  > ' . intval($offset);
 		}
@@ -232,7 +234,7 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 	public function tableList($schema = null) {
 		$list = $this->fetchAll('SELECT "TABLE_NAME" as "name" 
 			FROM SYS.ALL_TABLES 
-			WHERE "OWNER" = \':schema\' 
+			WHERE "OWNER" = :schema
 			ORDER BY "TABLE_NAME"', array(
 				':schema' => ($schema) ? $schema : ($this->_config->schema ? $this->_config->schema : $this->_config->name))
 			);
