@@ -2,7 +2,7 @@
 
 class User_Model_Api_Private extends User_Model_Api {
 
-	protected $_users = array(
+	protected static $_auth = array(
 		'test' => '1234'
 	);
 
@@ -12,15 +12,15 @@ class User_Model_Api_Private extends User_Model_Api {
 	 * @param string $credential
 	 * @return boolean 
 	 */
-	public function authenticate($identity, $credential) {
-		return isset($this->_users[$identity]) && $this->_users[$identity] == $credential;
+	public static function authenticate($identity, $credential) {
+		return isset(self::$_auth[$identity]) && self::$_auth[$identity] == $credential;
 	}
 
 	/**
 	 * Testowa metoda prywatnego api
 	 * @return string 
 	 */
-	public function secret() {
+	public function getSecret() {
 		return 'Here is a nice secret!';
 	}
 

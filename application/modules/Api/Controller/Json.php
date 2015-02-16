@@ -4,6 +4,10 @@ class Api_Controller_Json extends Mmi_Controller_Action {
 
 	public function serverAction() {
 		try {
+			$this->getResponse()
+				->setHeader('Access-Control-Allow-Origin', '*')
+				->setHeader('Access-Control-Allow-Headers', 'Content-Type')
+				->setTypeJson();
 			$apiModel = $this->_getModelName($this->obj);
 			//serwer z autoryzacją HTTP
 			if (Mmi_Controller_Front::getInstance()->getEnvironment()->authUser) {

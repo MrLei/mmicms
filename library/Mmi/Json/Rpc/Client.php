@@ -91,7 +91,7 @@ class Mmi_Json_Rpc_Client {
 						'header' => array('Content-type: application/json', 'Connection: close'),
 						'content' => $request->toJson()
 			))));
-			$this->_debug($id, $request, $rawResponse, $httpMethod);
+			$this->_debug($id, $this->_url, $request, $rawResponse, $httpMethod);
 			$response = new Mmi_Json_Rpc_Response();
 			$response->setFromJson($rawResponse);
 		} catch (Exception $e) {
@@ -146,11 +146,12 @@ class Mmi_Json_Rpc_Client {
 	 * @param string $response
 	 * @param string $method
 	 */
-	protected function _debug($id, $request, $response, $method) {
+	protected function _debug($id, $url, $request, $response, $method) {
 		if (!$this->_debug) {
 			return;
 		}
 		$this->_debugData[] = array('request' => $request,
+			'url' => $url,
 			'response' => $response,
 			'method' => $method
 		);

@@ -8,7 +8,7 @@ class User_Model_Api {
 	 * @param string $password
 	 * @return array
 	 */
-	public function login($login, $password) {
+	public function postLogin($login, $password) {
 		$auth = new Cms_Model_Auth();
 		if ($auth->authenticate($login, $password)) {
 			return $auth->toArray();
@@ -23,7 +23,7 @@ class User_Model_Api {
 	 * @param string $newPassword
 	 * @return boolean 
 	 */
-	public function changePassword($login, $oldPassword, $newPassword) {
+	public function postChangePassword($login, $oldPassword, $newPassword) {
 		$auth = new Cms_Model_Auth();
 		$auth = $auth->authenticate($login, $oldPassword);
 		if (!$auth) {
@@ -39,7 +39,7 @@ class User_Model_Api {
 	 * @param string $method
 	 * @return string 
 	 */
-	public function help($method = null) {
+	public function getHelp($method = null) {
 		if (!$method) {
 			return 'Method list: authorize(), changePassword()';
 		}

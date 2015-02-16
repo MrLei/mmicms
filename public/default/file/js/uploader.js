@@ -2,12 +2,9 @@ $(document).ready(function () {
 
 	function bindSortable() {
 
-		$('#manageImage > li > img').mousedown(function(event) {
-			event.preventDefault();
-		});
-
 		$("#manageImage").sortable({
 			axis: 'x',
+			cancel: '#manageImage > li > img',
 			update: function(event, ui) {
 				$.get(
 					request.baseUrl + "/cms/adminFile/sort/order/" + $(this).sortable('serialize'),
@@ -65,7 +62,8 @@ $(document).ready(function () {
 			request.baseUrl + '/cms/adminFile/delete/id/' + id[1] + '/hash/' + id[2],
 			function(result) {
 				if (!result) {
-					$('#item-file-' + id[1]).remove();
+					location.reload(); 
+					//$('#item-file-' + id[1]).remove();
 				} else {
 					alert(result);
 				}
