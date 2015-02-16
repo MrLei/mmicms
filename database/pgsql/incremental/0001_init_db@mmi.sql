@@ -302,7 +302,7 @@ CREATE UNIQUE INDEX cms_text_lang_key_idx
   USING btree
   (lang COLLATE pg_catalog."default" , key COLLATE pg_catalog."default" );
 
-CREATE TABLE cron (
+CREATE TABLE cms_cron (
     id integer NOT NULL,
     active smallint DEFAULT 0 NOT NULL,
     minute character varying(50) NOT NULL,
@@ -320,16 +320,16 @@ CREATE TABLE cron (
     "dateLastExecute" timestamp without time zone
 );
 
-CREATE SEQUENCE cron_id_seq
+CREATE SEQUENCE cms_cron_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
 
-ALTER SEQUENCE cron_id_seq OWNED BY cron.id;
+ALTER SEQUENCE cms_cron_id_seq OWNED BY cms_cron.id;
 
-SELECT pg_catalog.setval('cron_id_seq', 1, true);
+SELECT pg_catalog.setval('cms_cron_id_seq', 1, true);
 
 CREATE TABLE mail (
     id integer NOT NULL,
@@ -535,7 +535,7 @@ ALTER TABLE ONLY cms_navigation ALTER COLUMN id SET DEFAULT nextval('cms_navigat
 
 ALTER TABLE ONLY cms_role ALTER COLUMN id SET DEFAULT nextval('cms_role_id_seq'::regclass);
 
-ALTER TABLE ONLY cron ALTER COLUMN id SET DEFAULT nextval('cron_id_seq'::regclass);
+ALTER TABLE ONLY cms_cron ALTER COLUMN id SET DEFAULT nextval('cms_cron_id_seq'::regclass);
 
 ALTER TABLE ONLY mail ALTER COLUMN id SET DEFAULT nextval('mail_id_seq'::regclass);
 
@@ -574,7 +574,7 @@ INSERT INTO cms_role (id, name) VALUES (2, 'member');
 INSERT INTO cms_role (id, name) VALUES (3, 'admin');
 
 
-INSERT INTO cron (id, active, minute, hour, "dayOfMonth", month, "dayOfWeek", name, description, module, controller, action, "dateAdd", "dateModified", "dateLastExecute") VALUES (1, 1, '*', '*', '*', '*', '*', 'Wysyłka maili', 'Wysyłanie kolejki mailowej', 'mail', 'cron', 'send', '2012-03-14 10:35:57', '2012-03-14 10:36:16', NULL);
+INSERT INTO cms_cron (id, active, minute, hour, "dayOfMonth", month, "dayOfWeek", name, description, module, controller, action, "dateAdd", "dateModified", "dateLastExecute") VALUES (1, 1, '*', '*', '*', '*', '*', 'Wysyłka maili', 'Wysyłanie kolejki mailowej', 'mail', 'cron', 'send', '2012-03-14 10:35:57', '2012-03-14 10:36:16', NULL);
 
 
 
@@ -624,8 +624,8 @@ ALTER TABLE ONLY cms_role
 
 
 
-ALTER TABLE ONLY cron
-    ADD CONSTRAINT cron_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY cms_cron
+    ADD CONSTRAINT cms_cron_pkey PRIMARY KEY (id);
 
 
 
@@ -755,7 +755,7 @@ CREATE INDEX cms_navigation_visible_idx ON cms_navigation USING btree (visible);
 
 CREATE INDEX cms_role_name_idx ON cms_role USING btree (name);
 
-CREATE INDEX cron_active_idx ON cron USING btree (active);
+CREATE INDEX cms_cron_active_idx ON cms_cron USING btree (active);
 
 CREATE INDEX fki_cms_acl_cms_role_id_fkey ON cms_acl USING btree (cms_role_id);
 
