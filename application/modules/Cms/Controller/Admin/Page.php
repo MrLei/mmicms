@@ -1,6 +1,6 @@
 <?php
 
-class Cms_Controller_AdminPage extends MmiCms_Controller_Admin {
+class Cms_Controller_Admin_Page extends MmiCms_Controller_Admin {
 
 	public function indexAction() {
 		$this->view->grid = new Cms_Plugin_PageGrid();

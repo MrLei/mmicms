@@ -136,12 +136,7 @@ class Mmi_Controller_Request {
 		if ($reset) {
 			$this->_data = array();
 		}
-		$alnum = new Mmi_Filter_Alnum();
 		foreach ($data as $key => $value) {
-			//filtrowanie zmiennych systemowych
-			if ($key == 'lang' || $key == 'skin' || $key == 'module' || $key == 'controller' || $key == 'action') {
-				$value = $alnum->filter($value);
-			}
 			$this->_data[$key] = $value;
 		}
 		return $this;

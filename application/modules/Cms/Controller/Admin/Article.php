@@ -1,6 +1,6 @@
 <?php
 
-class Cms_Controller_AdminArticle extends MmiCms_Controller_Admin {
+class Cms_Controller_Admin_Article extends MmiCms_Controller_Admin {
 
 	public function indexAction() {
 		$this->view->grid = new Cms_Plugin_ArticleGrid();
@@ -10,7 +10,7 @@ class Cms_Controller_AdminArticle extends MmiCms_Controller_Admin {
 		$form = new Cms_Form_Admin_Article($this->id);
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Artykuł zapisany poprawnie', true);
-			$this->_helper->redirector('index', 'adminArticle', 'cms', array(), true);
+			$this->_helper->redirector('index', 'admin-article', 'cms', array(), true);
 		}
 	}
 
@@ -19,7 +19,7 @@ class Cms_Controller_AdminArticle extends MmiCms_Controller_Admin {
 		if ($record->delete()) {
 			$this->_helper->messenger('Poprawnie usunięto artykuł', true);
 		}
-		$this->_helper->redirector('index', 'adminArticle', 'cms', array(), true);
+		$this->_helper->redirector('index', 'admin-article', 'cms', array(), true);
 	}
 
 }
