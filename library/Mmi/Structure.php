@@ -45,8 +45,7 @@ class Mmi_Structure {
 	private static function _applicationStructure() {
 		$components = array();
 		foreach (glob(APPLICATION_PATH . '/modules/*') as $module) {
-			$moduleName = substr($module, strrpos($module, '/') + 1);
-			$moduleName[0] = strtolower($moduleName[0]);
+			$moduleName = lcfirst(substr($module, strrpos($module, '/') + 1));
 			foreach (($glob = glob($module . '/Controller/Helper/*.php')) ? $glob : [] as $helper) {
 				$helperName = substr($helper, strrpos($helper, '/') + 1, -4);
 				$components[$moduleName]['Controller']['Helper'][$helperName] = 1;
@@ -63,17 +62,28 @@ class Mmi_Structure {
 				$validatorName = substr($validator, strrpos($validator, '/') + 1, -4);
 				$components[$moduleName]['Validate'][$validatorName] = 1;
 			}
-			foreach (($glob = glob($module . '/Controller/*.php')) ? $glob : [] as $controller) {
-				$controllerName = substr($controller, strrpos($controller, '/') + 1, -4);
-				$controllerName[0] = strtolower($controllerName[0]);
+			foreach (($glob = glob($module . '/Controller/*')) ? $glob : [] as $controller) {
+				if (is_dir($controller)) {
+					foreach (($glb = glob($controller . '/*.php')) ? $glb : [] as $cnt) {
+						$controllerName = lcfirst(substr($cnt, strrpos($cnt, '/') + 1, -4));
+						$controllerName = lcfirst(substr($controller, strrpos($controller, '/') + 1)) . '-' . $controllerName;
+						$controllerContent = file_get_contents($cnt);
+						if (preg_match_all('/function ([a-zA-Z0-9]+Action)\(/', $controllerContent, $actions) && isset($actions[1])) {
+							foreach ($actions[1] as $action) {
+								$action = substr($action, 0, -6);
+								$components[$moduleName][$controllerName][$action] = 1;
+							}
+						}
+					}
+					continue;
+				}
+				$controllerName = lcfirst(substr($controller, strrpos($controller, '/') + 1, -4));
 				$controllerContent = file_get_contents($controller);
 				if (preg_match_all('/function ([a-zA-Z0-9]+Action)\(/', $controllerContent, $actions) && isset($actions[1])) {
 					foreach ($actions[1] as $action) {
 						$action = substr($action, 0, -6);
 						$components[$moduleName][$controllerName][$action] = 1;
 					}
-				} else {
-					$components[$moduleName][$controllerName] = 1;
 				}
 			}
 		}
@@ -99,11 +109,22 @@ class Mmi_Structure {
 						$components[$skinName][$moduleName][$scriptName]['layout'] = 1;
 					}
 					foreach (($glob = glob($script . '/*')) ? $glob : [] as $action) {
+						if (is_dir($action)) {
+
+							foreach (($glb = glob($action . '/*')) ? $glb : [] as $act) {
+								if ($act == 'layout.tpl') {
+									$components[$skinName][$moduleName][$scriptName . '-' . substr($action, strrpos($action, '/') + 1)]['layout'] = 1;
+								} else {
+									$actionName = substr($act, strrpos($act, '/') + 1, -4);
+									$components[$skinName][$moduleName][$scriptName . '-' . substr($action, strrpos($action, '/') + 1)][$actionName] = 1;
+								}
+							}
+							continue;
+						}
 						if ($action == 'layout.tpl') {
 							$components[$skinName][$moduleName][$scriptName]['layout'] = 1;
 						} else {
-							$actionName = substr($action, strrpos($action, '/') + 1);
-							$actionName = substr($actionName, 0, strrpos($actionName, '.'));
+							$actionName = substr($action, strrpos($action, '/') + 1, -4);
 							$components[$skinName][$moduleName][$scriptName][$actionName] = 1;
 						}
 					}
