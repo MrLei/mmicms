@@ -38,8 +38,8 @@ class Cms_Plugin_ContactGrid extends Mmi_Grid {
 		$this->addColumn('buttons', 'buttons', array(
 			'label' => 'operacje',
 			'links' => array(
-				'delete' => Mmi_Controller_Front::getInstance()->getView()->baseUrl . '/cms/adminContact/delete/id/%id%',
-				'edit' => Mmi_Controller_Front::getInstance()->getView()->baseUrl . '/cms/adminContact/edit/id/%id%'
+				'delete' => Mmi_Controller_Front::getInstance()->getView()->baseUrl . '/cms/admin-contact/delete/id/%id%',
+				'edit' => Mmi_Controller_Front::getInstance()->getView()->baseUrl . '/cms/admin-contact/edit/id/%id%'
 			)
 		));
 	}

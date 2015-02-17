@@ -38,11 +38,10 @@ class Cms_Form_Admin_Page_Cms extends MmiCms_Form {
 			->setRequired()
 			->setOption('id', 'objectId');
 
-		$reflection = new Admin_Model_Reflection();
 		$object = $this->getElement('object');
 		$object->setDisableTranslator(true);
 		$object->addMultiOption(null, null);
-		foreach ($reflection->getActions() as $action) {
+		foreach (Cms_Model_Reflection::getActions() as $action) {
 			$object->addMultiOption($action['path'], $action['module'] . ': ' . $action['controller'] . ' - ' . $action['action']);
 		}
 		//optional params

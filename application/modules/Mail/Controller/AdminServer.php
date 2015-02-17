@@ -1,6 +1,6 @@
 <?php
 
-class Mail_Controller_AdminServer extends MmiCms_Controller_Admin {
+class Mail_Controller_Admin_Server extends MmiCms_Controller_Admin {
 
 	public function indexAction() {
 		$grid = new Mail_Plugin_ServerGrid();
@@ -11,7 +11,7 @@ class Mail_Controller_AdminServer extends MmiCms_Controller_Admin {
 		$form = new Mail_Form_Admin_Server($this->id);
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Zapisano ustawienia serwera', true);
-			$this->_helper->redirector('index', 'adminServer', 'mail', array(), true);
+			$this->_helper->redirector('index', 'admin-server', 'mail', array(), true);
 		}
 	}
 
@@ -28,7 +28,7 @@ class Mail_Controller_AdminServer extends MmiCms_Controller_Admin {
 				throw $e;
 			}
 		}
-		$this->_helper->redirector('index', 'adminServer', 'mail', array(), true);
+		$this->_helper->redirector('index', 'admin-server', 'mail', array(), true);
 	}
 
 }

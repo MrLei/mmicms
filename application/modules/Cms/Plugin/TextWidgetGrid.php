@@ -18,8 +18,8 @@ class Cms_Plugin_TextWidgetGrid extends Mmi_Grid {
 		$this->addColumn('buttons', 'buttons', [
 			'label' => 'Operacje',
 			'links' => [
-				'edit' => $this->_view->url(array('id' => '%id%', 'action' => 'textWidgetEdit', 'controller' => 'adminWidget', 'module' => 'cms')),
-				'delete' => $this->_view->url(array('id' => '%id%', 'action' => 'textWidgetDelete', 'controller' => 'adminWidget', 'module' => 'cms'))
+				'edit' => $this->_view->url(array('id' => '%id%', 'action' => 'textWidgetEdit', 'controller' => 'admin-widget', 'module' => 'cms')),
+				'delete' => $this->_view->url(array('id' => '%id%', 'action' => 'textWidgetDelete', 'controller' => 'admin-widget', 'module' => 'cms'))
 			]
 		]);
 	}
