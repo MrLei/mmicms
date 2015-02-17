@@ -1,6 +1,6 @@
 <?php
 
-class Mail_Controller_AdminServer extends MmiCms_Controller_Admin {
+class Mail_Controller_Admin_Server extends MmiCms_Controller_Admin {
 
 	public function indexAction() {
 		$grid = new Mail_Plugin_ServerGrid();

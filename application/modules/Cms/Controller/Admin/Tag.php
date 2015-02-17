@@ -1,6 +1,6 @@
 <?php
 
-class Cms_Controller_AdminTag extends MmiCms_Controller_Admin {
+class Cms_Controller_Admin_Tag extends MmiCms_Controller_Admin {
 
 	public function indexAction() {
 		$this->view->grid = new Cms_Plugin_TagGrid();

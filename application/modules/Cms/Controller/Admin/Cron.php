@@ -1,6 +1,6 @@
 <?php
 
-class Cms_Controller_AdminCron extends MmiCms_Controller_Admin {
+class Cms_Controller_Admin_Cron extends MmiCms_Controller_Admin {
 
 	public function indexAction() {
 		$grid = new Cron_Plugin_Grid();
