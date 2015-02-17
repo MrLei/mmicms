@@ -273,7 +273,10 @@ class Mmi_Controller_Front {
 			$content = $this->getView()
 				->setRequest($this->_request)
 				->setPlaceholder('content', $content)
-				->renderLayout($this->_request->__get('skin'), $this->_request->__get('module'), $this->_request->__get('controller'));
+				->renderLayout(
+						$this->_request->__get('skin'), 
+						$this->_request->__get('baseModule') ? $this->_request->__get('baseModule') : $this->_request->__get('module'), 
+						$this->_request->__get('baseController') ? $this->_request->__get('baseController') : $this->_request->__get('controller'));
 		}
 
 		//wysłanie odpowiedzi
