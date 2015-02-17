@@ -9,7 +9,7 @@ function initAcl() {
 			id = id.split('-');
 			var value = $(this).attr('value');
 			$.get(
-				request.baseUrl + "/cms/adminAcl/update/id/" + $(this).attr('id') + "/value/" + value,
+				request.baseUrl + "/cms/admin-acl/update/id/" + $(this).attr('id') + "/value/" + value,
 				function(result) {
 					if (result != '1') {
 						alert(result);
@@ -35,7 +35,7 @@ function initAcl() {
 			id = id.split('-');
 			if (window.confirm($(this).attr('title') + '?')) {
 				$.get(
-					request.baseUrl + "/cms/adminAcl/delete/id/" + id[2],
+					request.baseUrl + "/cms/admin-acl/delete/id/" + id[2],
 					function(result) {
 						if (result != '1') {
 							alert(result);

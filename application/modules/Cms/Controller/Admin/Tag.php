@@ -10,7 +10,7 @@ class Cms_Controller_Admin_Tag extends MmiCms_Controller_Admin {
 		$form = new Cms_Form_Admin_Tag($this->id);
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Tag zapisany poprawnie', true);
-			return $this->_helper->redirector('index', 'adminTag', 'cms', array(), true);
+			return $this->_helper->redirector('index', 'admin-tag', 'cms', array(), true);
 		}
 	}
 
@@ -19,7 +19,7 @@ class Cms_Controller_Admin_Tag extends MmiCms_Controller_Admin {
 		if ($tag->delete()) {
 			$this->_helper->messenger('Tag usunięty', true);
 		}
-		return $this->_helper->redirector('index', 'adminTag', 'cms', array(), true);
+		return $this->_helper->redirector('index', 'admin-tag', 'cms', array(), true);
 	}
 
 }

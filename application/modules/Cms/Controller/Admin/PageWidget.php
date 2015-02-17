@@ -19,7 +19,7 @@ class Cms_Controller_Admin_PageWidget extends Mmi_Controller_Action {
 
 		if ($widgetForm->isSaved()) {
 			$this->_helper->messenger('Widget zapisany poprawnie');
-			$this->_helper->redirector('index', 'adminPageWidget', 'cms', array(), true);
+			$this->_helper->redirector('index', 'admin-pageWidget', 'cms', array(), true);
 		}
 	}
 
@@ -28,7 +28,7 @@ class Cms_Controller_Admin_PageWidget extends Mmi_Controller_Action {
 		if ($record !== null && $record->delete()) {
 			$this->_helper->messenger('Widget zostal usuniety');
 		}
-		$this->_helper->redirector('index', 'adminPageWidget', 'cms', array(), true);
+		$this->_helper->redirector('index', 'admin-pageWidget', 'cms', array(), true);
 	}
 
 }

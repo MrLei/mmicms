@@ -13,7 +13,7 @@ class Cms_Controller_Admin_Text extends MmiCms_Controller_Admin {
 		}
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Poprawnie zapisano tekst', true);
-			$this->_helper->redirector('index', 'adminText', 'cms', array(), true);
+			$this->_helper->redirector('index', 'admin-text', 'cms', array(), true);
 		}
 		$this->_helper->messenger('Błąd zapisu tekstu, tekst o tym kluczu już istnieje', false);
 	}
@@ -25,7 +25,7 @@ class Cms_Controller_Admin_Text extends MmiCms_Controller_Admin {
 		}
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Poprawnie sklonowano teksty', true);
-			$this->_helper->redirector('index', 'adminText', 'cms', array(), true);
+			$this->_helper->redirector('index', 'admin-text', 'cms', array(), true);
 		}
 		$this->_helper->messenger('Błąd klonowania tekstów', false);
 	}
@@ -35,7 +35,7 @@ class Cms_Controller_Admin_Text extends MmiCms_Controller_Admin {
 		if ($text->delete()) {
 			$this->_helper->messenger('Poprawnie skasowano tekst', true);
 		}
-		$this->_helper->redirector('index', 'adminText', 'cms', array(), true);
+		$this->_helper->redirector('index', 'admin-text', 'cms', array(), true);
 	}
 
 }
