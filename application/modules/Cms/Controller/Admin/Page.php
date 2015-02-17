@@ -1,6 +1,6 @@
 <?php
 
-class Cms_Controller_AdminPage extends MmiCms_Controller_Admin {
+class Cms_Controller_Admin_Page extends MmiCms_Controller_Admin {
 
 	public function indexAction() {
 		$this->view->grid = new Cms_Plugin_PageGrid();
@@ -33,10 +33,12 @@ class Cms_Controller_AdminPage extends MmiCms_Controller_Admin {
 		$this->view->headLink()->appendStyleSheet($this->view->baseUrl . '/default/cms/css/page.css');
 		$this->view->headLink()->appendStyleSheet($this->view->baseUrl . '/default/cms/css/fonts/fontawesome/css/font-awesome.css');
 		$this->view->headStyle()->appendStyleFile('default/cms/css/page.css');
+		
+		$withWidgets = preg_replace('/(\{widget\(([a-zA-Z1-9\'\,\s\(\=\>]+\))\)\})/', '<div class="composer-widget" data-widget="$2">$2</div>$1', $page->text);
 
 		//ustawianie contentu
 		$this->view->setPlaceholder('content', $this->view->render(APPLICATION_PATH . '/skins/default/cms/scripts/adminPage/toolkit.tpl') .
-			'<div class="cms-page-composer">' . $this->view->renderDirectly($page->text) . '</div>');
+			'<div class="cms-page-composer">' . $this->view->renderDirectly($withWidgets) . '</div>');
 
 		//render layoutu
 		return $this->view->renderLayout($this->view->skin, 'cms', 'page');

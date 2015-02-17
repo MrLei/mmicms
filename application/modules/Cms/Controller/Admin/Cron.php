@@ -3,7 +3,7 @@
 class Cms_Controller_Admin_Cron extends MmiCms_Controller_Admin {
 
 	public function indexAction() {
-		$grid = new Cron_Plugin_Grid();
+		$grid = new Cms_Plugin_CronGrid();
 		$this->view->grid = $grid;
 	}
 

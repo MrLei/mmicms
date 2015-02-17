@@ -28,15 +28,10 @@ class MmiCms_Controller_Admin Extends Mmi_Controller_Action {
 			Mmi_Controller_Front::getInstance()->getRequest()->lang = $lang;
 			$this->getRequest()->lang = $lang;
 		}
-		$this->view = Mmi_Controller_Front::getInstance()->getView();
-		$this->view->baseSkin = Default_Registry::$config->application->skin;
-		$this->view->baseModule = 'cms';
-		
-		$frontRequest = Mmi_Controller_Front::getInstance()->getRequest();
-		$frontRequest->setParam('baseModule', $this->getRequest()->getModuleName())
-				->setParam('baseController', $this->getRequest()->getControllerName())
-				->setModuleName('cms')
-				->setControllerName('admin');
+
+		Mmi_Controller_Front::getInstance()->getRequest()
+				->setParam('baseModule', 'cms')
+				->setParam('baseController', 'admin');
 	}
-	
+
 }
