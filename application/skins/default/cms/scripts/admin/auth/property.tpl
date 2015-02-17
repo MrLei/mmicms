@@ -14,7 +14,7 @@
 					<li id="property-{$property->id}">
 						<div>{$property->name} ({$property->inputFormField} / {$property->searchFormField})</div>
 						<a href="{url(array('action' = > 'propertyEdit', 'id' => $property->id))}" class="button edit">{#edytuj#}</a>
-						<a href="{@module=cms&controller=adminAuth&action=propertyDelete&id={$property->id}@}" class="button delete confirm" title="{#Czy na pewno usunąć pozycję menu wraz z podmenu#}?">{#usuń#}</a>
+						<a href="{@module=cms&controller=admin-auth&action=propertyDelete&id={$property->id}@}" class="button delete confirm" title="{#Czy na pewno usunąć pozycję menu wraz z podmenu#}?">{#usuń#}</a>
 					</li>
 				{/foreach}
 			</ul>

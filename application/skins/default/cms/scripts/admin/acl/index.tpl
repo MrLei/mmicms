@@ -13,7 +13,7 @@
 						{$roleName=$role->name}
 						{$role->name}
 					{else}
-						<a href="{@module=cms&controller=adminAcl&action=index&roleId={$role->id}@}">{$role->name}</a>
+						<a href="{@module=cms&controller=admin-acl&action=index&roleId={$role->id}@}">{$role->name}</a>
 					{/if}
 				</li>
 			{/foreach}

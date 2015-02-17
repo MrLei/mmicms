@@ -11,7 +11,7 @@ class Cms_Controller_Admin_Comment extends MmiCms_Controller_Admin {
 		if ($comment->delete()) {
 			$this->_helper->messenger('Poprawnie usunięto artykuł', true);
 		}
-		$this->_helper->redirector('index', 'adminComment', 'cms', array(), true);
+		$this->_helper->redirector('index', 'admin-comment', 'cms', array(), true);
 	}
 
 }

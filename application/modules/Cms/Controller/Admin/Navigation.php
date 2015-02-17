@@ -24,14 +24,14 @@ class Cms_Controller_Admin_Navigation extends MmiCms_Controller_Admin {
 				break;
 		}
 		if ($form->isSaved()) {
-			return $this->_helper->redirector('index', 'adminNavigation', 'cms', array('id' => $form->getRecord()->parentId), true);
+			return $this->_helper->redirector('index', 'admin-navigation', 'cms', array('id' => $form->getRecord()->parentId), true);
 		}
 		/* if ($this->id > 0) {
 		  $record = Cms_Model_Navigation_Dao::findPk($this->id);
 		  if ($this->remove && $record) {
 		  $parentId = $record->parentId;
 		  $record->delete();
-		  return $this->_helper->redirector('index', 'adminNavigation', 'cms', array('id' => $parentId), true);
+		  return $this->_helper->redirector('index', 'admin-navigation', 'cms', array('id' => $parentId), true);
 		  }
 		  } */
 		$this->view->pageForm = $form;
@@ -45,7 +45,7 @@ class Cms_Controller_Admin_Navigation extends MmiCms_Controller_Admin {
 		if ($record !== null) {
 			$record->delete();
 		}
-		return $this->_helper->redirector('index', 'adminNavigation', 'cms', array('id' => $record->parentId), true);
+		return $this->_helper->redirector('index', 'admin-navigation', 'cms', array('id' => $record->parentId), true);
 	}
 
 	public function sortAction() {

@@ -11,12 +11,12 @@ class Cms_Controller_Admin_Acl extends MmiCms_Controller_Admin {
 		$roleForm = new Cms_Form_Admin_Role();
 		if ($roleForm->isMine() && $roleForm->isSaved()) {
 			$this->_helper->messenger('Poprawnie zapisano rolę', true);
-			return $this->_helper->redirector('index', 'adminAcl', 'cms', array('roleId' => $roleForm->getRecord()->id));
+			return $this->_helper->redirector('index', 'admin-acl', 'cms', array('roleId' => $roleForm->getRecord()->id));
 		}
 		$aclForm = new Cms_Form_Admin_Acl();
 		if ($aclForm->isMine() && $aclForm->isSaved()) {
 			$this->_helper->messenger('Poprawnie zapisano regułę', true);
-			return $this->_helper->redirector('index', 'adminAcl', 'cms', array('roleId' => $this->roleId));
+			return $this->_helper->redirector('index', 'admin-acl', 'cms', array('roleId' => $this->roleId));
 		}
 	}
 
