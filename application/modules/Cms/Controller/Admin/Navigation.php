@@ -1,6 +1,6 @@
 <?php
 
-class Cms_Controller_AdminNavigation extends MmiCms_Controller_Admin {
+class Cms_Controller_Admin_Navigation extends MmiCms_Controller_Admin {
 
 	public function indexAction() {
 		$config = new Mmi_Navigation_Config();

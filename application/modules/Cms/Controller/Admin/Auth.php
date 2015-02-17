@@ -1,6 +1,6 @@
 <?php
 
-class Cms_Controller_AdminAuth extends MmiCms_Controller_Admin {
+class Cms_Controller_Admin_Auth extends MmiCms_Controller_Admin {
 
 	public function indexAction() {
 		$this->view->grid = new Cms_Plugin_AuthGrid();

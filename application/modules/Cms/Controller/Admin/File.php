@@ -1,6 +1,6 @@
 <?php
 
-class Cms_Controller_AdminFile extends MmiCms_Controller_Admin {
+class Cms_Controller_Admin_File extends MmiCms_Controller_Admin {
 
 	public function indexAction() {
 		$this->view->grid = new Cms_Plugin_FileGrid();

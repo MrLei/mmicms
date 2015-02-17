@@ -1,6 +1,6 @@
 <?php
 
-class Cms_Controller_AdminAcl extends MmiCms_Controller_Admin {
+class Cms_Controller_Admin_Acl extends MmiCms_Controller_Admin {
 
 	public function indexAction() {
 		$this->view->roles = Cms_Model_Role_Query::factory()->find();		

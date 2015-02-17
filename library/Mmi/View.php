@@ -451,9 +451,11 @@ class Mmi_View {
 	 */
 	private function _getTemplate($skin, $module, $controller, $action) {
 		$structure = Mmi_Controller_Front::getInstance()->getStructure();
+		//template w skórze
 		if (isset($structure['skin'][$skin][$module][$controller][$action])) {
 			return APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/scripts/' . str_replace('-', '/', $controller) . '/' . $action . '.tpl';
 		}
+		//template w default
 		if (isset($structure['skin']['default'][$module][$controller][$action])) {
 			return APPLICATION_PATH . '/skins/default/' . $module . '/scripts/' . str_replace('-', '/', $controller) . '/' . $action . '.tpl';
 		}
