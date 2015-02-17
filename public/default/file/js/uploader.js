@@ -7,7 +7,7 @@ $(document).ready(function () {
 			cancel: '#manageImage > li > img',
 			update: function(event, ui) {
 				$.get(
-					request.baseUrl + "/cms/adminFile/sort/order/" + $(this).sortable('serialize'),
+					request.baseUrl + "/cms/admin-file/sort/order/" + $(this).sortable('serialize'),
 					function(result) {
 						if (result) {
 							alert(result);
@@ -20,7 +20,7 @@ $(document).ready(function () {
 			axis: 'x',
 			update : function(event, ui) {
 				$.get(
-					request.baseUrl + "/cms/adminFile/sort/order/" + $(this).sortable('serialize'),
+					request.baseUrl + "/cms/admin-file/sort/order/" + $(this).sortable('serialize'),
 					function(result) {
 						if (result) {
 							alert(result);
@@ -36,7 +36,7 @@ $(document).ready(function () {
 		$('li').removeClass('editActive');
 		$('#item-file-' + id[2]).addClass('editActive');
 		$.getJSON(
-			request.baseUrl + '/cms/adminFile/edit/id/' + id[2] + '/hash/' + id[3],
+			request.baseUrl + '/cms/admin-file/edit/id/' + id[2] + '/hash/' + id[3],
 			function(result) {
 				if (result.error != undefined) {
 					alert(result.error);
@@ -44,7 +44,7 @@ $(document).ready(function () {
 				}
 				$('#fileUpload').hide();
 				$('#uploaderEdit').show();
-				$('#uploaderEditForm').attr('action', request.baseUrl + '/cms/adminFile/edit/id/' + id[2] + '/hash/' + id[3]);
+				$('#uploaderEditForm').attr('action', request.baseUrl + '/cms/admin-file/edit/id/' + id[2] + '/hash/' + id[3]);
 				$('#editTitle').val(result.title);
 				$('#editAuthor').val(result.author);
 				$('#editSource').val(result.source);
@@ -59,7 +59,7 @@ $(document).ready(function () {
 		}
 		var id = $(this).attr('id').split('-');
 		$.get(
-			request.baseUrl + '/cms/adminFile/delete/id/' + id[1] + '/hash/' + id[2],
+			request.baseUrl + '/cms/admin-file/delete/id/' + id[1] + '/hash/' + id[2],
 			function(result) {
 				if (!result) {
 					location.reload(); 
@@ -99,7 +99,7 @@ $(document).ready(function () {
 	$('body').on('click', 'input.sticky', function () {
 		var id = $(this).attr('id').split('-');
 		$.get(
-			request.baseUrl + '/cms/adminFile/stick/id/' + id[2] + '/hash/' + id[3],
+			request.baseUrl + '/cms/admin-file/stick/id/' + id[2] + '/hash/' + id[3],
 			function(result) {
 				if (result) {
 					alert(result);
