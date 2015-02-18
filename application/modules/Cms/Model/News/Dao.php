@@ -2,7 +2,7 @@
 
 class Cms_Model_News_Dao extends Mmi_Dao {
 
-	protected static $_tableName = 'news';
+	protected static $_tableName = 'cms_news';
 
 	/**
 	 * Zapytanie językowe

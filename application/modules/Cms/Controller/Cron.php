@@ -15,7 +15,7 @@ class Cms_Controller_Cron extends Mmi_Controller_Action {
 	}
 	
 	public function agregateAction() {
-		$this->view->result = Stat_Model_Dao::agregate();
+		$this->view->result = Cms_Model_Stat_Dao::agregate();
 	}
 
 	public function cleanAction() {

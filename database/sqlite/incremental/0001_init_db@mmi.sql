@@ -401,8 +401,8 @@ CREATE TABLE cms_stat_date
   count integer NOT NULL DEFAULT 0
 );
 
-CREATE INDEX cms_stat_date_hour_day_month_year_idx ON stat_date ("hour", "day", "month", "year");
-CREATE INDEX "cms_stat_date_object_objectId_idx" ON stat_date ("object");
+CREATE INDEX cms_stat_date_hour_day_month_year_idx ON cms_stat_date ("hour", "day", "month", "year");
+CREATE INDEX "cms_stat_date_object_objectId_idx" ON cms_stat_date ("object");
 
 CREATE TABLE cms_stat_label
 (
@@ -413,7 +413,7 @@ CREATE TABLE cms_stat_label
   description text
 );
 
-CREATE UNIQUE INDEX cms_stat_label_lang_object_idx ON stat_label (lang, "object");
+CREATE UNIQUE INDEX cms_stat_label_lang_object_idx ON cms_stat_label (lang, "object");
 
 CREATE TABLE tutorial
 (
@@ -502,7 +502,7 @@ INSERT INTO "cms_navigation" ("id", "lang", "parent_id", "order", "module", "con
 
 INSERT INTO "cms_text" ("id", "lang", "key", "content", "dateModify") VALUES (1,	NULL,	'footer-copyright',	'© 2011-2014 Powered by MMi CMS',	'2014-03-19 16:59:43');
 
-INSERT INTO "cms_cron" ("id", "active", "minute", "hour", "dayOfMonth", "month", "dayOfWeek", "name", "description", "module", "controller", "action", "dateAdd", "dateModified", "dateLastExecute") VALUES (1,	1,	'*',	'*',	'*',	'*',	'*',	'Wysyłka maili',	'Wysyła maile z kolejki',	'mail',	'cron',	'send',	'2012-03-14 10:35:57',	'2014-03-21 21:31:02',	'2014-03-21 21:31:02');
-INSERT INTO "cms_cron" ("id", "active", "minute", "hour", "dayOfMonth", "month", "dayOfWeek", "name", "description", "module", "controller", "action", "dateAdd", "dateModified", "dateLastExecute") VALUES (2,	1,	'*',	'*',	'*',	'*',	'*',	'Agregator statystyk',	'Zlicza statystyki z serwisu',	'stat',	'cron',	'agregate',	'2014-03-20 09:48:29',	'2014-03-21 21:31:02',	'2014-03-21 21:31:02');
+INSERT INTO "cms_cron" ("id", "active", "minute", "hour", "dayOfMonth", "month", "dayOfWeek", "name", "description", "module", "controller", "action", "dateAdd", "dateModified", "dateLastExecute") VALUES (1,	1,	'*',	'*',	'*',	'*',	'*',	'Wysyłka maili',	'Wysyła maile z kolejki',	'cms',	'cron',	'sendMail',	'2012-03-14 10:35:57',	'2014-03-21 21:31:02',	'2014-03-21 21:31:02');
+INSERT INTO "cms_cron" ("id", "active", "minute", "hour", "dayOfMonth", "month", "dayOfWeek", "name", "description", "module", "controller", "action", "dateAdd", "dateModified", "dateLastExecute") VALUES (2,	1,	'*',	'*',	'*',	'*',	'*',	'Agregator statystyk',	'Zlicza statystyki z serwisu',	'cms',	'cron',	'agregate',	'2014-03-20 09:48:29',	'2014-03-21 21:31:02',	'2014-03-21 21:31:02');
 INSERT INTO "cms_cron" ("id", "active", "minute", "hour", "dayOfMonth", "month", "dayOfWeek", "name", "description", "module", "controller", "action", "dateAdd", "dateModified", "dateLastExecute") VALUES (3,	1,	'30',	'4',	'1',	'*/2',	'*',	'Czyszczenie logów',	'Czyści archiwalne logi aplikacji',	'cms',	'cron',	'clean',	'2014-03-20 09:49:37',	'2014-03-20 09:49:37',	NULL);
 

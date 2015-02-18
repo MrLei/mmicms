@@ -11,12 +11,12 @@ class Cms_Controller_Admin_Stat extends MmiCms_Controller_Admin {
 		));
 		if ($form->isMine()) {
 			if ($form->getValue('object') && $form->getValue('month') >= 1 && $form->getValue('month') <= 12 && $form->getValue('year') <= date('Y')) {
-				$this->_helper->redirector('index', 'admin', 'stat', array('object' => $form->getValue('object'),
+				$this->_helper->redirector('index', 'admin-stat', 'cms', array('object' => $form->getValue('object'),
 					'year' => $form->getValue('year'),
 					'month' => $form->getValue('month'),
 					), true);
 			}
-			$this->_helper->redirector('index', 'admin', 'stat', array('year' => $form->getValue('year'),
+			$this->_helper->redirector('index', 'admin-stat', 'cms', array('year' => $form->getValue('year'),
 				'month' => $form->getValue('month'),
 				), true);
 		}
@@ -87,7 +87,7 @@ class Cms_Controller_Admin_Stat extends MmiCms_Controller_Admin {
 		$form = new Cms_Form_Admin_Stat_Label($this->id);
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Nazwa statystyki została zapisana', true);
-			$this->_helper->redirector('label', 'admin', 'stat', array(), true);
+			$this->_helper->redirector('label', 'admin-stat', 'cms', array(), true);
 		}
 	}
 
@@ -96,7 +96,7 @@ class Cms_Controller_Admin_Stat extends MmiCms_Controller_Admin {
 		if ($label && $label->delete()) {
 			$this->_helper->messenger('Nazwa statystyki została usunięta', true);
 		}
-		$this->_helper->redirector('label', 'admin', 'stat', array(), true);
+		$this->_helper->redirector('label', 'admin-stat', 'cms', array(), true);
 	}
 
 }

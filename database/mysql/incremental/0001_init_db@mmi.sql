@@ -329,7 +329,7 @@ CREATE TABLE `cms_news` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-CREATE TABLE `stat` (
+CREATE TABLE `cms_stat` (
   `id` integer NOT NULL AUTO_INCREMENT,
   `object` varchar(50) COLLATE utf8_polish_ci NOT NULL,
   `objectId` integer DEFAULT NULL,
@@ -337,7 +337,7 @@ CREATE TABLE `stat` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-CREATE TABLE `stat_date` (
+CREATE TABLE `cms_stat_date` (
   `id` integer NOT NULL AUTO_INCREMENT,
   `hour` smallint DEFAULT NULL,
   `day` smallint DEFAULT NULL,
@@ -351,7 +351,7 @@ CREATE TABLE `stat_date` (
   KEY `object` (`object`,`objectId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-CREATE TABLE `stat_label` (
+CREATE TABLE `cms_stat_label` (
   `id` integer NOT NULL AUTO_INCREMENT,
   `lang` varchar(2) COLLATE utf8_polish_ci DEFAULT NULL,
   `object` varchar(32) COLLATE utf8_polish_ci NOT NULL,

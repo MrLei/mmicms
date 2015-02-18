@@ -13,7 +13,7 @@ class Cms_Controller_Admin extends MmiCms_Controller_Admin {
 		}
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Zalogowano poprawnie', true);
-			Stat_Model_Dao::hit('admin-login', $form->getRecord()->id);
+			Cms_Model_Stat_Dao::hit('admin-login', $form->getRecord()->id);
 		} else {
 			$this->_helper->messenger('Logowanie niepoprawne', false);
 		}
@@ -26,7 +26,7 @@ class Cms_Controller_Admin extends MmiCms_Controller_Admin {
 	public function logoutAction() {
 		Default_Registry::$auth->clearIdentity();
 		$this->_helper->messenger('Dziękujemy za skorzystanie z serwisu, wylogowanio poprawnie', true);
-		Stat_Model_Dao::hit('admin-logout');
+		Cms_Model_Stat_Dao::hit('admin-logout');
 		$this->_helper->redirector('index', 'admin', 'cms', array(), true);
 	}
 
@@ -54,18 +54,13 @@ class Cms_Controller_Admin extends MmiCms_Controller_Admin {
 			return;
 		}
 		if ($form->isSaved()) {
-			Stat_Model_Dao::hit('admin_password', $form->getRecord()->id);
+			Cms_Model_Stat_Dao::hit('admin_password', $form->getRecord()->id);
 			$this->_helper->messenger('Hasło zmienione poprawnie, zaloguj się ponownie');
 			//wylogowanie
 			Default_Registry::$auth->clearIdentity();
-			Stat_Model_Dao::hit('admin_logout');
+			Cms_Model_Stat_Dao::hit('admin_logout');
 			$this->_helper->redirector('index', 'admin', 'cms', array(), true);
 		}
 	}
 	
-	public function errorLogAction() {
-		$logFile = TMP_PATH . '/log/error.execution.log';
-		$this->view->data = nl2br(file_get_contents($logFile, 0, NULL, filesize($logFile) - 32000));
-	}
-
 }

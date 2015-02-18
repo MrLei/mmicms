@@ -2,7 +2,7 @@
 
 class Cms_Model_Stat_Label_Dao extends Mmi_Dao {
 
-	public static $_tableName = 'stat_label';
+	public static $_tableName = 'cms_stat_label';
 
 	/**
 	 * 
