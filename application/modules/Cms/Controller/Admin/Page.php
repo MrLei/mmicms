@@ -9,7 +9,7 @@ class Cms_Controller_Admin_Page extends MmiCms_Controller_Admin {
 	public function editAction() {
 		$form = new Cms_Form_Admin_Page($this->id);
 		if ($form->isSaved()) {
-			$this->_helper->redirector('compose', 'adminPage', 'cms', array('id' => $form->getRecord()->id), true);
+			$this->_helper->redirector('compose', 'admin-page', 'cms', array('id' => $form->getRecord()->id), true);
 		}
 	}
 
@@ -17,7 +17,7 @@ class Cms_Controller_Admin_Page extends MmiCms_Controller_Admin {
 		if (!$this->id || null === ($page = Cms_Model_Page_Query::factory()
 			->where('id')->equals($this->id)
 			->findFirst())) {
-			$this->_helper->redirector('index', 'adminPage', 'cms', array(), true);
+			$this->_helper->redirector('index', 'admin-page', 'cms', array(), true);
 		}
 		/* @var $page Cms_Model_Page_Record */
 
@@ -37,7 +37,7 @@ class Cms_Controller_Admin_Page extends MmiCms_Controller_Admin {
 		$withWidgets = preg_replace('/(\{widget\(([a-zA-Z1-9\'\,\s\(\=\>]+\))\)\})/', '<div class="composer-widget" data-widget="$2">$2</div>$1', $page->text);
 
 		//ustawianie contentu
-		$this->view->setPlaceholder('content', $this->view->render(APPLICATION_PATH . '/skins/default/cms/scripts/adminPage/toolkit.tpl') .
+		$this->view->setPlaceholder('content', $this->view->render(APPLICATION_PATH . '/skins/default/cms/scripts/admin/page/toolkit.tpl') .
 			'<div class="cms-page-composer">' . $this->view->renderDirectly($withWidgets) . '</div>');
 
 		//render layoutu
@@ -81,7 +81,7 @@ class Cms_Controller_Admin_Page extends MmiCms_Controller_Admin {
 		if (null !== ($record = Cms_Model_Page_Dao::findPk($this->id)) && $record->delete()) {
 			$this->_helper->messenger('Strona usunięta poprawnie');
 		}
-		$this->_helper->redirector('index', 'adminPage', 'cms', array(), true);
+		$this->_helper->redirector('index', 'admin-page', 'cms', array(), true);
 	}
 
 }

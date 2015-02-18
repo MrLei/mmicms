@@ -1,8 +1,9 @@
 <?php
 
-class User_Form_Registration extends MmiCms_Form {
+class Cms_Form_Register extends MmiCms_Form {
 
-	protected $_recordName = 'User_Model_Registration_Record';
+	protected $_recordName = 'Cms_Model_Auth_Record';
+	protected $_recordSaveMethod = 'register';
 
 	public function init() {
 

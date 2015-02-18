@@ -563,10 +563,6 @@ abstract class Mmi_Grid {
 	 */
 	protected function _setDefaultOptions() {
 		$this->_columns = array();
-		$links = array(
-			'edit' => $this->_view->url(array('id' => '%id%', 'action' => 'edit', 'baseModule' => null, 'baseController' => null)),
-			'delete' => $this->_view->url(array('id' => '%id%', 'action' => 'delete', 'baseModule' => null, 'baseController' => null)),
-		);
 		$options = new Mmi_Session_Namespace(get_class($this));
 		$sessionOptions = $options->options;
 		if (!empty($sessionOptions)) {
@@ -583,6 +579,10 @@ abstract class Mmi_Grid {
 				'rows' => '20',
 			);
 		}
+		$this->_options['links'] = array(
+			'edit' => $this->_view->url(array('id' => '%id%', 'action' => 'edit', 'baseModule' => null, 'baseController' => null)),
+			'delete' => $this->_view->url(array('id' => '%id%', 'action' => 'delete', 'baseModule' => null, 'baseController' => null)),
+		);
 	}
 
 	/**

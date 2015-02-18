@@ -70,5 +70,14 @@ class Cms_Model_Auth_Record extends Mmi_Dao_Record {
 		}
 		return $result;
 	}
+	
+	public function register() {
+		if ($this->password != $this->getOption('confirmPassword')) {
+			return false;
+		}
+		$this->setOption('changePassword', $this->password);
+		$this->lang = 'pl';
+		return $this->save();
+	}
 
 }
