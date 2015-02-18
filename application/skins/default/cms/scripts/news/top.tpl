@@ -2,8 +2,8 @@
 <ul>
 	{foreach $news as $entry}
 		<li>
-			<a href="{@module=news&controller=index&action=display&uri={$entry->uri}@}">
-				{escape($entry->title|truncate:45)}
+			<a href="{@module=cms&controller=news&action=display&uri={$entry->uri}@}">
+				{$entry->title|truncate:45}
 			</a>
 		</li>
 	{/foreach}

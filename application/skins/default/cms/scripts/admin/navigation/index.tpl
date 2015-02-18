@@ -23,7 +23,7 @@
 					{foreach $navigation.children as $id => $child}
 						<li id="navigation-item-{$id}" class="navigation-{$child.type}">
 							<div>
-								{if $child['lang']}<img class="language" src="{$baseUrl}/default/geo/image/country/{$child['lang']}-ico-16.gif" />{/if}
+								{if $child['lang']}{$child['lang']|uppercase}{/if}
 								<i class="icon-{if $child.type == 'folder'}folder-close{elseif $child.type == 'simple'}book{elseif $child.type == 'link'}globe{else}cogs{/if}"></i>
 								<a href="{url(array('id' => $child['id']))}">{$child.label}</a>
 							</div>

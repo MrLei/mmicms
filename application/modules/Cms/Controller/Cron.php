@@ -13,6 +13,10 @@ class Cms_Controller_Cron extends Mmi_Controller_Action {
 		}
 		$this->view->result = Cms_Model_Mail_Dao::send();
 	}
+	
+	public function agregateAction() {
+		$this->view->result = Stat_Model_Dao::agregate();
+	}
 
 	public function cleanAction() {
 		$months = 24;
