@@ -331,9 +331,9 @@ ALTER SEQUENCE cms_cron_id_seq OWNED BY cms_cron.id;
 
 SELECT pg_catalog.setval('cms_cron_id_seq', 1, true);
 
-CREATE TABLE mail (
+CREATE TABLE cms_mail (
     id integer NOT NULL,
-    mail_definition_id integer NOT NULL,
+    cms_mail_definition_id integer NOT NULL,
     "fromName" character varying(64),
     "to" character varying,
     "replyTo" character varying(64),
@@ -347,10 +347,10 @@ CREATE TABLE mail (
     active smallint DEFAULT 0 NOT NULL
 );
 
-CREATE TABLE mail_definition (
+CREATE TABLE cms_mail_definition (
     id integer NOT NULL,
     lang character varying(2) DEFAULT 'pl'::character varying NOT NULL,
-    mail_server_id integer NOT NULL,
+    cms_mail_server_id integer NOT NULL,
     name character varying(32),
     "replyTo" character varying(64),
     "fromName" character varying(64),
@@ -362,28 +362,28 @@ CREATE TABLE mail_definition (
     active smallint DEFAULT 0 NOT NULL
 );
 
-CREATE SEQUENCE mail_definition_id_seq
+CREATE SEQUENCE cms_mail_definition_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
 
-ALTER SEQUENCE mail_definition_id_seq OWNED BY mail_definition.id;
+ALTER SEQUENCE cms_mail_definition_id_seq OWNED BY cms_mail_definition.id;
 
-SELECT pg_catalog.setval('mail_definition_id_seq', 6, true);
+SELECT pg_catalog.setval('cms_mail_definition_id_seq', 6, true);
 
-CREATE SEQUENCE mail_id_seq
+CREATE SEQUENCE cms_mail_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
 
-ALTER SEQUENCE mail_id_seq OWNED BY mail.id;
-SELECT pg_catalog.setval('mail_id_seq', 1, false);
+ALTER SEQUENCE cms_mail_id_seq OWNED BY cms_mail.id;
+SELECT pg_catalog.setval('cms_mail_id_seq', 1, false);
 
-CREATE TABLE mail_server (
+CREATE TABLE cms_mail_server (
     id integer NOT NULL,
     address character varying(64) NOT NULL,
     port smallint DEFAULT 25 NOT NULL,
@@ -397,7 +397,7 @@ CREATE TABLE mail_server (
 );
 
 
-CREATE SEQUENCE mail_server_id_seq
+CREATE SEQUENCE cms_mail_server_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -405,13 +405,13 @@ CREATE SEQUENCE mail_server_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE mail_server_id_seq OWNED BY mail_server.id;
+ALTER SEQUENCE cms_mail_server_id_seq OWNED BY cms_mail_server.id;
 
 
-SELECT pg_catalog.setval('mail_server_id_seq', 1, true);
+SELECT pg_catalog.setval('cms_mail_server_id_seq', 1, true);
 
 
-CREATE TABLE news (
+CREATE TABLE cms_news (
     id integer NOT NULL,
     lang character varying(2),
     title character varying(255) NOT NULL,
@@ -424,19 +424,19 @@ CREATE TABLE news (
     visible smallint DEFAULT 1 NOT NULL
 );
 
-CREATE SEQUENCE news_id_seq
+CREATE SEQUENCE cms_news_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
 
-CREATE INDEX news_uri_idx
-  ON news
+CREATE INDEX cms_news_uri_idx
+  ON cms_news
   USING btree
   (uri COLLATE pg_catalog."default" );
 
-ALTER SEQUENCE news_id_seq OWNED BY news.id;
+ALTER SEQUENCE cms_news_id_seq OWNED BY cms_news.id;
 
 CREATE TABLE stat (
     id integer NOT NULL,
@@ -537,13 +537,13 @@ ALTER TABLE ONLY cms_role ALTER COLUMN id SET DEFAULT nextval('cms_role_id_seq':
 
 ALTER TABLE ONLY cms_cron ALTER COLUMN id SET DEFAULT nextval('cms_cron_id_seq'::regclass);
 
-ALTER TABLE ONLY mail ALTER COLUMN id SET DEFAULT nextval('mail_id_seq'::regclass);
+ALTER TABLE ONLY cms_mail ALTER COLUMN id SET DEFAULT nextval('cms_mail_id_seq'::regclass);
 
-ALTER TABLE ONLY mail_definition ALTER COLUMN id SET DEFAULT nextval('mail_definition_id_seq'::regclass);
+ALTER TABLE ONLY cms_mail_definition ALTER COLUMN id SET DEFAULT nextval('cms_mail_definition_id_seq'::regclass);
 
-ALTER TABLE ONLY mail_server ALTER COLUMN id SET DEFAULT nextval('mail_server_id_seq'::regclass);
+ALTER TABLE ONLY cms_mail_server ALTER COLUMN id SET DEFAULT nextval('cms_mail_server_id_seq'::regclass);
 
-ALTER TABLE ONLY news ALTER COLUMN id SET DEFAULT nextval('news_id_seq'::regclass);
+ALTER TABLE ONLY cms_news ALTER COLUMN id SET DEFAULT nextval('cms_news_id_seq'::regclass);
 
 ALTER TABLE ONLY stat ALTER COLUMN id SET DEFAULT nextval('stat_id_seq'::regclass);
 
@@ -555,9 +555,6 @@ INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES
 INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (2, 1, 'default', NULL, NULL, 'allow');
 INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (3, 1, 'admin', 'login', NULL, 'allow');
 INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (4, 1, 'cms', NULL, NULL, 'allow');
-INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (5, 1, 'news', 'index', NULL, 'allow');
-INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (6, 1, 'user', 'login', NULL, 'allow');
-INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (7, 1, 'user', 'registration', NULL, 'allow');
 
 INSERT INTO cms_auth (id, lang, username, email, password, "lastIp", "lastLog", "lastFailIp", "lastFailLog", "failLogCount", logged, active) VALUES (1, 'pl', 'admin', 'admin@milejko.pl', 'd033e22ae348aeb5660fc2140aec35850c4da997', '127.0.0.1', '2012-02-23 15:41:12', '89.231.108.27', '2011-12-20 19:42:01', 8, 0, 0);
 INSERT INTO cms_auth (id, lang, username, email, password, "lastIp", "lastLog", "lastFailIp", "lastFailLog", "failLogCount", logged, active) VALUES (2, 'pl', 'mariusz', 'mariusz@milejko.pl', '7a48d2fe2f6f86430acee5b86a093c3352b9f780', '127.0.0.1', '2012-03-20 15:54:01', '127.0.0.1', '2012-03-16 13:41:49', 9, 0, 1);
@@ -578,7 +575,7 @@ INSERT INTO cms_cron (id, active, minute, hour, "dayOfMonth", month, "dayOfWeek"
 
 
 
-INSERT INTO mail_server (id, address, port, username, password, "from", "dateAdd", "dateModify", active, ssl) VALUES (1, 'localhost', 25, 'local', '', '', '2012-03-14 14:31:43', '2012-03-14 14:47:01', 1, 'plain');
+INSERT INTO cms_mail_server (id, address, port, username, password, "from", "dateAdd", "dateModify", active, ssl) VALUES (1, 'localhost', 25, 'local', '', '', '2012-03-14 14:31:43', '2012-03-14 14:47:01', 1, 'plain');
 
 
 ALTER TABLE ONLY cms_acl
@@ -629,23 +626,23 @@ ALTER TABLE ONLY cms_cron
 
 
 
-ALTER TABLE ONLY mail_definition
-    ADD CONSTRAINT mail_definition_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY cms_mail_definition
+    ADD CONSTRAINT cms_mail_definition_pkey PRIMARY KEY (id);
 
 
 
-ALTER TABLE ONLY mail
-    ADD CONSTRAINT mail_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY cms_mail
+    ADD CONSTRAINT cms_mail_pkey PRIMARY KEY (id);
 
 
 
-ALTER TABLE ONLY mail_server
-    ADD CONSTRAINT mail_server_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY cms_mail_server
+    ADD CONSTRAINT cms_mail_server_pkey PRIMARY KEY (id);
 
 
 
-ALTER TABLE ONLY news
-    ADD CONSTRAINT news_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY cms_news
+    ADD CONSTRAINT cms_news_pkey PRIMARY KEY (id);
 
 
 
@@ -775,15 +772,15 @@ CREATE INDEX fki_cms_file_cms_auth_id_fkey ON cms_file USING btree (cms_auth_id)
 
 CREATE INDEX fki_cms_log_cms_auth_id_fkey ON cms_log USING btree (cms_auth_id);
 
-CREATE INDEX fki_mail_definition_mail_server_id_fkey ON mail_definition USING btree (mail_server_id);
+CREATE INDEX fki_cms_mail_definition_cms_mail_server_id_fkey ON cms_mail_definition USING btree (cms_mail_server_id);
 
-CREATE INDEX fki_mail_mail_definition_id_fkey ON mail USING btree (mail_definition_id);
+CREATE INDEX fki_cms_mail_cms_mail_definition_id_fkey ON cms_mail USING btree (cms_mail_definition_id);
 
-CREATE INDEX mail_active_idx ON mail USING btree (active);
+CREATE INDEX cms_mail_active_idx ON cms_mail USING btree (active);
 
-CREATE INDEX mail_definition_lang_name_idx ON mail_definition USING btree (lang, name);
+CREATE INDEX cms_mail_definition_lang_name_idx ON cms_mail_definition USING btree (lang, name);
 
-CREATE INDEX mail_type_idx ON mail USING btree (type);
+CREATE INDEX cms_mail_type_idx ON cms_mail USING btree (type);
 
 CREATE INDEX stat_date_hour_day_month_year_idx ON stat_date USING btree (hour, day, month, year);
 
@@ -818,11 +815,11 @@ ALTER TABLE ONLY cms_file
 ALTER TABLE ONLY cms_log
     ADD CONSTRAINT cms_log_cms_auth_id_fkey FOREIGN KEY (cms_auth_id) REFERENCES cms_auth(id) ON UPDATE SET NULL ON DELETE SET NULL;
 
-ALTER TABLE ONLY mail_definition
-    ADD CONSTRAINT mail_definition_mail_server_id_fkey FOREIGN KEY (mail_server_id) REFERENCES mail_server(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE ONLY cms_mail_definition
+    ADD CONSTRAINT cms_mail_definition_cms_mail_server_id_fkey FOREIGN KEY (cms_mail_server_id) REFERENCES cms_mail_server(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
-ALTER TABLE ONLY mail
-    ADD CONSTRAINT mail_mail_definition_id_fkey FOREIGN KEY (mail_definition_id) REFERENCES mail_definition(id);
+ALTER TABLE ONLY cms_mail
+    ADD CONSTRAINT cms_mail_cms_mail_definition_id_fkey FOREIGN KEY (cms_mail_definition_id) REFERENCES cms_mail_definition(id);
 
 REVOKE ALL ON SEQUENCE cms_article_id_seq FROM PUBLIC;
 

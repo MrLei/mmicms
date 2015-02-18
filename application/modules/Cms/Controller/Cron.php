@@ -6,6 +6,13 @@ class Cms_Controller_Cron extends Mmi_Controller_Action {
 		Cms_Model_Cron_Job::run();
 		return 'OK';
 	}
+	
+	public function sendMailAction() {
+		if (rand(0, 120) == 12) {
+			$this->view->cleared = Cms_Model_Mail_Dao::clean();
+		}
+		$this->view->result = Cms_Model_Mail_Dao::send();
+	}
 
 	public function cleanAction() {
 		$months = 24;

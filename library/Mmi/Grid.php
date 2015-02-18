@@ -570,7 +570,6 @@ abstract class Mmi_Grid {
 		} else {
 			$this->_options = array(
 				'className' => get_class($this),
-				'links' => $links,
 				'class' => 'grid',
 				'locked' => true,
 				'filter' => array(),
