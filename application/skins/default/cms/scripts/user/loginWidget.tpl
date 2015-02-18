@@ -4,5 +4,5 @@
 {else}
 	<h2 class="top-space">{#Witaj#}, <span>{$auth->getUsername()}</span>!</h2>
 	<br />
-	<a href="{@module=user&controller=login&action=logout@}">{#wyloguj#}</a>
+	<a href="{@module=cms&controller=user&action=logout@}">{#wyloguj#}</a>
 {/if}

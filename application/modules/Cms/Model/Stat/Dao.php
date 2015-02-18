@@ -2,7 +2,7 @@
 
 class Cms_Model_Stat_Dao extends Mmi_Dao {
 
-	public static $_tableName = 'stat';
+	public static $_tableName = 'cms_stat';
 
 	public static function hit($object, $objectId = null) {
 		$stat = new Cms_Model_Stat_Record();

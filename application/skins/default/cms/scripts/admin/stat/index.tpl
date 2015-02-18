@@ -1,6 +1,6 @@
 {headScript()->appendFile($baseUrl . '/default/cms/js/flot.js')}
 {headScript()->appendFile($baseUrl . '/default/cms/js/tooltip.js')}
-{headLink()->appendStylesheet($baseUrl . '/default/cms/stat.css')}
+{headLink()->appendStylesheet($baseUrl . '/default/cms/css/stat.css')}
 <script type="text/javascript">
 	{$dailyChart}
 	{$monthlyChart}

@@ -2,7 +2,7 @@
 
 class Cms_Model_Stat_Date_Dao extends Mmi_Dao {
 
-	public static $_tableName = 'stat_date';
+	public static $_tableName = 'cms_stat_date';
 
 	public static function getUniqueObjects() {
 		$all = Cms_Model_Stat_Date_Query::factory()

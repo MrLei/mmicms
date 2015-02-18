@@ -2,7 +2,7 @@
 
 class Cms_Model_Cron_Dao extends Mmi_Dao {
 
-	protected static $_tableName = 'cron';
+	protected static $_tableName = 'cms_cron';
 
 	public static function activeQuery() {
 		return Cms_Model_Cron_Query::factory()
