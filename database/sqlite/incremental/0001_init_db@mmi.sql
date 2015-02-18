@@ -62,7 +62,7 @@ CREATE TABLE cms_auth_role (
     cms_auth_id integer NOT NULL,
     cms_role_id integer NOT NULL,
     FOREIGN KEY (cms_auth_id) REFERENCES cms_auth(id) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (cms_role_id) REFERENCES cms_role(id)
+    FOREIGN KEY (cms_role_id) REFERENCES cms_role(id) ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 CREATE INDEX fki_cms_auth_role_cms_auth_id ON cms_auth_role (cms_auth_id);
@@ -313,9 +313,9 @@ CREATE TABLE cms_cron (
 
 CREATE INDEX cms_cron_active_idx ON cms_cron (active);
 
-CREATE TABLE mail (
+CREATE TABLE cms_mail (
     id INTEGER PRIMARY KEY,
-    mail_definition_id integer NOT NULL,
+    cms_mail_definition_id integer NOT NULL,
     "fromName" character varying(64),
     "to" character varying,
     "replyTo" character varying(64),
@@ -327,17 +327,17 @@ CREATE TABLE mail (
     "dateSent" DATETIME,
     "dateSendAfter" DATETIME,
     active smallint DEFAULT 0 NOT NULL,
-	FOREIGN KEY (mail_definition_id) REFERENCES mail_definition(id)
+	FOREIGN KEY (cms_mail_definition_id) REFERENCES cms_mail_definition(id)
 );
 
-CREATE INDEX fki_mail_mail_definition_id_fkey ON mail (mail_definition_id);
-CREATE INDEX mail_active_idx ON mail (active);
-CREATE INDEX mail_type_idx ON mail ("type");
+CREATE INDEX fki_cms_mail_cms_mail_definition_id_fkey ON cms_mail (cms_mail_definition_id);
+CREATE INDEX cms_mail_active_idx ON cms_mail (active);
+CREATE INDEX cms_mail_type_idx ON cms_mail ("type");
 
-CREATE TABLE mail_definition (
+CREATE TABLE cms_mail_definition (
     id INTEGER PRIMARY KEY,
     lang character varying(2) NOT NULL DEFAULT 'pl',
-    mail_server_id integer NOT NULL,
+    cms_mail_server_id integer NOT NULL,
     name character varying(32),
     "replyTo" character varying(64),
     "fromName" character varying(64),
@@ -347,13 +347,13 @@ CREATE TABLE mail_definition (
     "dateAdd" DATETIME,
     "dateModify" DATETIME,
     active smallint DEFAULT 0 NOT NULL,
-	FOREIGN KEY (mail_server_id) REFERENCES mail_server(id)
+	FOREIGN KEY (cms_mail_server_id) REFERENCES cms_mail_server(id)
 );
 
-CREATE INDEX fki_mail_definition_mail_server_id_fkey ON mail_definition (mail_server_id);
-CREATE INDEX mail_definition_lang_name_idx ON mail_definition (lang, "name");
+CREATE INDEX fki_cms_mail_definition_cms_mail_server_id_fkey ON cms_mail_definition (cms_mail_server_id);
+CREATE INDEX cms_mail_definition_lang_name_idx ON cms_mail_definition (lang, "name");
 
-CREATE TABLE mail_server (
+CREATE TABLE cms_mail_server (
     id INTEGER PRIMARY KEY,
     address character varying(64) NOT NULL,
     port smallint DEFAULT 25 NOT NULL,
@@ -366,7 +366,7 @@ CREATE TABLE mail_server (
     ssl character varying(16) DEFAULT 'tls'
 );
 
-CREATE TABLE news (
+CREATE TABLE cms_news (
     id INTEGER PRIMARY KEY,
     lang character varying(2),
     title character varying(255) NOT NULL,
@@ -379,9 +379,9 @@ CREATE TABLE news (
     visible smallint DEFAULT 1 NOT NULL
 );
 
-CREATE INDEX news_uri_idx ON news (uri);
+CREATE INDEX cms_news_uri_idx ON cms_news (uri);
 
-CREATE TABLE stat
+CREATE TABLE cms_stat
 (
   id INTEGER PRIMARY KEY,
   object character varying(50) NOT NULL,
@@ -389,7 +389,7 @@ CREATE TABLE stat
   "dateTime" DATETIME NOT NULL
 );
 
-CREATE TABLE stat_date
+CREATE TABLE cms_stat_date
 (
   id INTEGER PRIMARY KEY,
   hour smallint,
@@ -401,10 +401,10 @@ CREATE TABLE stat_date
   count integer NOT NULL DEFAULT 0
 );
 
-CREATE INDEX stat_date_hour_day_month_year_idx ON stat_date ("hour", "day", "month", "year");
-CREATE INDEX "stat_date_object_objectId_idx" ON stat_date ("object");
+CREATE INDEX cms_stat_date_hour_day_month_year_idx ON stat_date ("hour", "day", "month", "year");
+CREATE INDEX "cms_stat_date_object_objectId_idx" ON stat_date ("object");
 
-CREATE TABLE stat_label
+CREATE TABLE cms_stat_label
 (
   id INTEGER PRIMARY KEY,
   lang character varying(2),
@@ -413,7 +413,7 @@ CREATE TABLE stat_label
   description text
 );
 
-CREATE UNIQUE INDEX stat_label_lang_object_idx ON stat_label (lang, "object");
+CREATE UNIQUE INDEX cms_stat_label_lang_object_idx ON stat_label (lang, "object");
 
 CREATE TABLE tutorial
 (
@@ -439,11 +439,20 @@ INSERT INTO cms_role (id, name) VALUES (3, 'admin');
 
 INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (1, 3, NULL, NULL, NULL, 'allow');
 INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (2, 1, 'default', NULL, NULL, 'allow');
-INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (3, 1, 'admin', 'login', NULL, 'allow');
-INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (4, 1, 'cms', NULL, NULL, 'allow');
-INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (5, 1, 'news', 'index', NULL, 'allow');
-INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (6, 1, 'user', 'login', NULL, 'allow');
-INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (7, 1, 'user', 'registration', NULL, 'allow');
+INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (3, 1, 'cms', 'admin', 'login', 'allow');
+INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (4, 1, 'cms', 'api', NULL, 'allow');
+INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (5, 1, 'cms', 'article', NULL, 'allow');
+INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (6, 1, 'cms', 'captcha', NULL, 'allow');
+INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (7, 1, 'cms', 'comment', NULL, 'allow');
+INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (8, 1, 'cms', 'contact', NULL, 'allow');
+INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (9, 1, 'cms', 'cron', NULL, 'allow');
+INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (10, 1, 'cms', 'file', NULL, 'allow');
+INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (11, 1, 'cms', 'form', NULL, 'allow');
+INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (12, 1, 'cms', 'grid', NULL, 'allow');
+INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (13, 1, 'cms', 'index', NULL, 'allow');
+INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (14, 1, 'cms', 'page', NULL, 'allow');
+INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (15, 1, 'cms', 'user', NULL, 'allow');
+INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (16, 1, 'cms', 'widget', NULL, 'allow');
 
 INSERT INTO cms_auth (id, lang, username, email, password, "lastIp", "lastLog", "lastFailIp", "lastFailLog", "failLogCount", logged, active) VALUES (1, 'pl', 'admin', 'admin@milejko.pl', 'd033e22ae348aeb5660fc2140aec35850c4da997', '127.0.0.1', '2012-02-23 15:41:12', '89.231.108.27', '2011-12-20 19:42:01', 8, 0, 0);
 INSERT INTO cms_auth (id, lang, username, email, password, "lastIp", "lastLog", "lastFailIp", "lastFailLog", "failLogCount", logged, active) VALUES (2, 'pl', 'mariusz', 'mariusz@milejko.pl', '7a48d2fe2f6f86430acee5b86a093c3352b9f780', '127.0.0.1', '2012-03-20 15:54:01', '127.0.0.1', '2012-03-16 13:41:49', 9, 0, 1);
@@ -486,18 +495,15 @@ INSERT INTO "cms_article" ("id", "lang", "title", "uri", "dateAdd", "dateModify"
 
 INSERT INTO "cms_navigation" ("id", "lang", "parent_id", "order", "module", "controller", "action", "params", "label", "title", "keywords", "description", "uri", "independent", "nofollow", "blank", "visible", "dateStart", "dateEnd", "active") VALUES (1,	'pl',	'0',	'0',	NULL,	NULL,	NULL,	'',	'Górne menu',	'Demo',	'',	'',	NULL,	'0',	'0',	'0',	'0',	NULL,	NULL,	1);
 INSERT INTO "cms_navigation" ("id", "lang", "parent_id", "order", "module", "controller", "action", "params", "label", "title", "keywords", "description", "uri", "independent", "nofollow", "blank", "visible", "dateStart", "dateEnd", "active") VALUES (2,	'pl',	1,	'0',	'default',	'index',	'index',	'',	'Strona główna',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
-INSERT INTO "cms_navigation" ("id", "lang", "parent_id", "order", "module", "controller", "action", "params", "label", "title", "keywords", "description", "uri", "independent", "nofollow", "blank", "visible", "dateStart", "dateEnd", "active") VALUES (3,	'pl',	1,	1,	'news',	'index',	'index',	'',	'Aktualności',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
-INSERT INTO "cms_navigation" ("id", "lang", "parent_id", "order", "module", "controller", "action", "params", "label", "title", "keywords", "description", "uri", "independent", "nofollow", "blank", "visible", "dateStart", "dateEnd", "active") VALUES (4,	'pl',	3,	'0',	'news',	'index',	'display',	'',	'Artykuł',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	'0',	NULL,	NULL,	1);
+INSERT INTO "cms_navigation" ("id", "lang", "parent_id", "order", "module", "controller", "action", "params", "label", "title", "keywords", "description", "uri", "independent", "nofollow", "blank", "visible", "dateStart", "dateEnd", "active") VALUES (3,	'pl',	1,	1,	'cms',	'news',	'index',	'',	'Aktualności',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO "cms_navigation" ("id", "lang", "parent_id", "order", "module", "controller", "action", "params", "label", "title", "keywords", "description", "uri", "independent", "nofollow", "blank", "visible", "dateStart", "dateEnd", "active") VALUES (4,	'pl',	3,	'0',	'cms',	'news',	'display',	'',	'Artykuł',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	'0',	NULL,	NULL,	1);
 INSERT INTO "cms_navigation" ("id", "lang", "parent_id", "order", "module", "controller", "action", "params", "label", "title", "keywords", "description", "uri", "independent", "nofollow", "blank", "visible", "dateStart", "dateEnd", "active") VALUES (5,	'pl',	1,	2,	'user',	'registration',	'index',	'',	'Rejestracja',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
 INSERT INTO "cms_navigation" ("id", "lang", "parent_id", "order", "module", "controller", "action", "params", "label", "title", "keywords", "description", "uri", "independent", "nofollow", "blank", "visible", "dateStart", "dateEnd", "active") VALUES (6,	'pl',	1,	3,	'cms',	'contact',	'index',	'',	'Kontakt',	'Strona kontaktu',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
 INSERT INTO "cms_navigation" ("id", "lang", "parent_id", "order", "module", "controller", "action", "params", "label", "title", "keywords", "description", "uri", "independent", "nofollow", "blank", "visible", "dateStart", "dateEnd", "active") VALUES (7,	'pl',	'0',	1,	NULL,	NULL,	NULL,	NULL,	'Dolne menu',	'',	'',	'',	NULL,	'0',	'0',	'0',	'0',	NULL,	NULL,	1);
-INSERT INTO "cms_navigation" ("id", "lang", "parent_id", "order", "module", "controller", "action", "params", "label", "title", "keywords", "description", "uri", "independent", "nofollow", "blank", "visible", "dateStart", "dateEnd", "active") VALUES (8,	'pl',	7,	'0',	'cms',	'article',	'index',	'uri=regulamin',	'Regulamin serwisu',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
 
 INSERT INTO "cms_text" ("id", "lang", "key", "content", "dateModify") VALUES (1,	NULL,	'footer-copyright',	'© 2011-2014 Powered by MMi CMS',	'2014-03-19 16:59:43');
 
 INSERT INTO "cms_cron" ("id", "active", "minute", "hour", "dayOfMonth", "month", "dayOfWeek", "name", "description", "module", "controller", "action", "dateAdd", "dateModified", "dateLastExecute") VALUES (1,	1,	'*',	'*',	'*',	'*',	'*',	'Wysyłka maili',	'Wysyła maile z kolejki',	'mail',	'cron',	'send',	'2012-03-14 10:35:57',	'2014-03-21 21:31:02',	'2014-03-21 21:31:02');
 INSERT INTO "cms_cron" ("id", "active", "minute", "hour", "dayOfMonth", "month", "dayOfWeek", "name", "description", "module", "controller", "action", "dateAdd", "dateModified", "dateLastExecute") VALUES (2,	1,	'*',	'*',	'*',	'*',	'*',	'Agregator statystyk',	'Zlicza statystyki z serwisu',	'stat',	'cron',	'agregate',	'2014-03-20 09:48:29',	'2014-03-21 21:31:02',	'2014-03-21 21:31:02');
 INSERT INTO "cms_cron" ("id", "active", "minute", "hour", "dayOfMonth", "month", "dayOfWeek", "name", "description", "module", "controller", "action", "dateAdd", "dateModified", "dateLastExecute") VALUES (3,	1,	'30',	'4',	'1',	'*/2',	'*',	'Czyszczenie logów',	'Czyści archiwalne logi aplikacji',	'cms',	'cron',	'clean',	'2014-03-20 09:49:37',	'2014-03-20 09:49:37',	NULL);
-
-INSERT INTO mail_server (id, address, port, username, password, "from", "dateAdd", "dateModify", active, ssl) VALUES (1, 'localhost', 25, 'local', '', '', '2012-03-14 14:31:43', '2012-03-14 14:47:01', 1, 'plain');
 
