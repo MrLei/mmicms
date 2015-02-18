@@ -1,6 +1,6 @@
 <?php
 
-class User_Form_Login extends Mmi_Form {
+class Cms_Form_Login extends Mmi_Form {
 
 	protected $_recordName = 'Cms_Model_Auth_Record';
 	protected $_recordSaveMethod = 'login';

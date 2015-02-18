@@ -3,4 +3,4 @@
 	{#Panel administracyjny znajduje się#} <a href="{@module=admin@}">{#tutaj#}</a>.
 </p>
 {widget('news', 'index', 'top')}
-{widget('user', 'login', 'widget')}
+{widget('cms', 'user', 'loginWidget')}

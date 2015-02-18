@@ -10,7 +10,6 @@
 class MmiCms_Controller_Admin Extends Mmi_Controller_Action {
 
 	public function init() {
-
 		//tylko rola admin
 		if (!Default_Registry::$auth->hasRole('admin') && $this->getRequest()->action != 'login') {
 			$this->_helper->redirector('login', 'admin', 'cms', array(), true);
@@ -28,10 +27,7 @@ class MmiCms_Controller_Admin Extends Mmi_Controller_Action {
 			Mmi_Controller_Front::getInstance()->getRequest()->lang = $lang;
 			$this->getRequest()->lang = $lang;
 		}
-
-		Mmi_Controller_Front::getInstance()->getRequest()
-				->setParam('baseModule', 'cms')
-				->setParam('baseController', 'admin');
+		Default_Registry::setVar('adminPage', true);
 	}
 
 }

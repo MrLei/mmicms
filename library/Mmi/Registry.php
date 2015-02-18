@@ -44,7 +44,7 @@ abstract class Mmi_Registry {
 	 * @param mixed $value
 	 * @return mixed
 	 */
-	public static function setUserVariable($key, $value) {
+	public static function setVar($key, $value) {
 		return static::$_userData[$key] = $value;
 	}
 
@@ -52,7 +52,7 @@ abstract class Mmi_Registry {
 	 * Kasuje zmienną użytkownika
 	 * @param string $key
 	 */
-	public static function unsetUserVariable($key) {
+	public static function unsetVar($key) {
 		unset(static::$_userData[$key]);
 	}
 
@@ -61,7 +61,7 @@ abstract class Mmi_Registry {
 	 * @param string $key
 	 * @return mixed
 	 */
-	public static function getUserVariable($key) {
+	public static function getVar($key) {
 		return isset(static::$_userData[$key]) ? static::$_userData[$key] : null;
 	}
 
@@ -70,7 +70,7 @@ abstract class Mmi_Registry {
 	 * @param string $key
 	 * @return boolean
 	 */
-	public static function issetUserVariable($key) {
+	public static function issetVar($key) {
 		return array_key_exists($key, static::$_userData);
 	}
 
@@ -78,7 +78,7 @@ abstract class Mmi_Registry {
 	 * Zwraca wszystkie zmienne użytkownika w tablicy
 	 * @return array
 	 */
-	public static function getAllUserVariables() {
+	public static function getAllVars() {
 		return static::$_userData;
 	}
 
