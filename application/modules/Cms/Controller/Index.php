@@ -1,9 +1,9 @@
 <?php
 
-class Cms_Controller_Index extends Mmi_Controller_Action {
+class Cms_Controller_Index extends MmiCms_Controller_Admin {
 
 	public function indexAction() {
-		$this->_helper->redirector('index', 'admin', 'cms', array(), true);
+		
 	}
 
 }

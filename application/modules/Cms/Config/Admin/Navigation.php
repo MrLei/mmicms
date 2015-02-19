@@ -38,8 +38,6 @@ class Cms_Config_Admin_Navigation extends Mmi_Navigation_Config {
 		return self::newElement()
 				->setLabel('CMS treści')
 				->setModule('cms')
-				->setController('admin')
-				->setAction('cms')
 				->addChild(Cms_Config_Admin_Navigation_News::getMenu())
 				->addChild(Cms_Config_Admin_Navigation_Article::getMenu())
 				->addChild(Cms_Config_Admin_Navigation_Comment::getMenu())
