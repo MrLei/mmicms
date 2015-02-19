@@ -30,7 +30,7 @@ class Cms_Form_Admin_Page_Folder extends MmiCms_Form {
 			->addValidatorStringLength(3, 512);
 
 		//pozycja w drzewie
-		$this->addElementSelect('parent_id')
+		$this->addElementSelect('parentId')
 			->setLabel('Element nadrzędny')
 			->setValue(Mmi_Controller_Front::getInstance()->getRequest()->parent)
 			->setMultiOptions(Cms_Model_Navigation_Dao::getMultiOptions());
