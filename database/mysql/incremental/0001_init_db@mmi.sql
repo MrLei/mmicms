@@ -263,24 +263,18 @@ CREATE TABLE `cms_cron` (
   KEY `active` (`active`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-CREATE TABLE `cms_mail` (
+CREATE TABLE `cms_mail_server` (
   `id` integer NOT NULL AUTO_INCREMENT,
-  `cms_mail_definition_id` integer NOT NULL,
-  `fromName` varchar(64) COLLATE utf8_polish_ci DEFAULT NULL,
-  `to` varchar(255) COLLATE utf8_polish_ci DEFAULT NULL,
-  `replyTo` varchar(64) COLLATE utf8_polish_ci DEFAULT NULL,
-  `subject` varchar(200) COLLATE utf8_polish_ci DEFAULT NULL,
-  `message` text COLLATE utf8_polish_ci,
-  `attachements` text COLLATE utf8_polish_ci,
-  `type` tinyint NOT NULL DEFAULT '1',
+  `address` varchar(64) COLLATE utf8_polish_ci NOT NULL,
+  `port` tinyint NOT NULL DEFAULT '25',
+  `username` varchar(64) COLLATE utf8_polish_ci DEFAULT NULL,
+  `password` varchar(64) COLLATE utf8_polish_ci DEFAULT NULL,
+  `from` varchar(200) COLLATE utf8_polish_ci DEFAULT NULL,
   `dateAdd` datetime DEFAULT NULL,
-  `dateSent` datetime DEFAULT NULL,
-  `dateSendAfter` datetime DEFAULT NULL,
-  `active` tinyint NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `active` (`active`),
-  KEY `type` (`type`),
-  CONSTRAINT `cms_mail_ibfk_1` FOREIGN KEY (`cms_mail_definition_id`) REFERENCES `cms_mail_definition` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
+  `dateModify` datetime DEFAULT NULL,
+  `active` tinyint NOT NULL DEFAULT '1',
+  `ssl` varchar(16) COLLATE utf8_polish_ci DEFAULT 'tls',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `cms_mail_definition` (
@@ -301,18 +295,24 @@ CREATE TABLE `cms_mail_definition` (
   CONSTRAINT `cms_mail_definition_ibfk_1` FOREIGN KEY (`cms_mail_server_id`) REFERENCES `cms_mail_server` (`id`) ON UPDATE CASCADE ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-CREATE TABLE `cms_mail_server` (
+CREATE TABLE `cms_mail` (
   `id` integer NOT NULL AUTO_INCREMENT,
-  `address` varchar(64) COLLATE utf8_polish_ci NOT NULL,
-  `port` tinyint NOT NULL DEFAULT '25',
-  `username` varchar(64) COLLATE utf8_polish_ci DEFAULT NULL,
-  `password` varchar(64) COLLATE utf8_polish_ci DEFAULT NULL,
-  `from` varchar(200) COLLATE utf8_polish_ci DEFAULT NULL,
+  `cms_mail_definition_id` integer NOT NULL,
+  `fromName` varchar(64) COLLATE utf8_polish_ci DEFAULT NULL,
+  `to` varchar(255) COLLATE utf8_polish_ci DEFAULT NULL,
+  `replyTo` varchar(64) COLLATE utf8_polish_ci DEFAULT NULL,
+  `subject` varchar(200) COLLATE utf8_polish_ci DEFAULT NULL,
+  `message` text COLLATE utf8_polish_ci,
+  `attachements` text COLLATE utf8_polish_ci,
+  `type` tinyint NOT NULL DEFAULT '1',
   `dateAdd` datetime DEFAULT NULL,
-  `dateModify` datetime DEFAULT NULL,
-  `active` tinyint NOT NULL DEFAULT '1',
-  `ssl` varchar(16) COLLATE utf8_polish_ci DEFAULT 'tls',
-  PRIMARY KEY (`id`)
+  `dateSent` datetime DEFAULT NULL,
+  `dateSendAfter` datetime DEFAULT NULL,
+  `active` tinyint NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `active` (`active`),
+  KEY `type` (`type`),
+  CONSTRAINT `cms_mail_ibfk_1` FOREIGN KEY (`cms_mail_definition_id`) REFERENCES `cms_mail_definition` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE `cms_news` (

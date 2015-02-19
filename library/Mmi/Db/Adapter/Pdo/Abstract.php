@@ -101,11 +101,13 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	/**
 	 * Ustawia schemat
 	 * @param string $schemaName nazwa schematu
+	 * @return Mmi_Db_Adapter_Pdo_Abstract
 	 */
 	abstract public function selectSchema($schemaName);
 
 	/**
 	 * Ustawia domyślne parametry dla importu (długie zapytania)
+	 * @return Mmi_Db_Adapter_Pdo_Abstract
 	 */
 	abstract public function setDefaultImportParams();
 
