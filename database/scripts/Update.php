@@ -17,7 +17,8 @@ foreach (glob(BASE_PATH . '/database/' . Default_Registry::$config->db->driver .
 
 	try {
 		//ustawianie schematu pliku importu
-		Default_Registry::$db->selectSchema($schemaName);
+		Default_Registry::$db->selectSchema($schemaName)
+			->setDefaultImportParams();
 
 		//pobranie rekordu
 		try {

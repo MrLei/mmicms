@@ -31,17 +31,20 @@ class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
 	/**
 	 * Ustawia schemat
 	 * @param string $schemaName nazwa schematu
+	 * @return Mmi_Db_Adapter_Pdo_Pgsql
 	 */
 	public function selectSchema($schemaName) {
 		$this->_config->schema = $schemaName;
 		$this->query('SET search_path TO "' . $schemaName . '"');
+		return $this;
 	}
 
 	/**
 	 * Ustawia domyślne parametry dla importu (długie zapytania)
+	 * @return Mmi_Db_Adapter_Pdo_Pgsql
 	 */
 	public function setDefaultImportParams() {
-		return $this->exec('SET statement_timeout = 0;
+		$this->query('SET statement_timeout = 0;
 			SET client_encoding = \'UTF8\';
 			SET standard_conforming_strings = on;
 			SET check_function_bodies = false;
@@ -49,6 +52,7 @@ class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
 			SET default_with_oids = false;
 			SET default_tablespace = \'\';
 		');
+		return $this;
 	}
 
 	/**

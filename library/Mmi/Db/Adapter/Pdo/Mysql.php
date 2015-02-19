@@ -31,20 +31,23 @@ class Mmi_Db_Adapter_Pdo_Mysql extends Mmi_Db_Adapter_Pdo_Abstract {
 	/**
 	 * Ustawia schemat
 	 * @param string $schemaName nazwa schematu
+	 * @return Mmi_Db_Adapter_Pdo_Mysql
 	 */
 	public function selectSchema($schemaName) {
-
+		return $this;
 	}
 
 	/**
 	 * Ustawia domyślne parametry dla importu (długie zapytania)
+	 * @return Mmi_Db_Adapter_Pdo_Mysql
 	 */
 	public function setDefaultImportParams() {
-		return $this->exec('SET NAMES utf8;
+		$this->query('SET NAMES utf8;
 			SET foreign_key_checks = 0;
 			SET time_zone = \'SYSTEM\';
 			SET sql_mode = \'NO_AUTO_VALUE_ON_ZERO\';
 		');
+		return $this;
 	}
 
 	/**
@@ -54,6 +57,7 @@ class Mmi_Db_Adapter_Pdo_Mysql extends Mmi_Db_Adapter_Pdo_Abstract {
 		$this->_config->port = $this->_config->port ? $this->_config->port : 3306;
 		parent::connect();
 		$this->query('SET NAMES ' . $this->_config->charset);
+		return $this;
 	}
 
 	/**
