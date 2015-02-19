@@ -38,7 +38,7 @@ class Cms_Form_Admin_Page_Link extends MmiCms_Form {
 			->setLabel('W nowym oknie');
 
 		//pozycja w drzewie
-		$this->addElementSelect('parent_id')
+		$this->addElementSelect('parentId')
 			->setLabel('Element nadrzędny')
 			->setValue(Mmi_Controller_Front::getInstance()->getRequest()->parent)
 			->setMultiOptions(Cms_Model_Navigation_Dao::getMultiOptions());

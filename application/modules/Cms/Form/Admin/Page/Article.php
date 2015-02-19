@@ -22,7 +22,7 @@ class Cms_Form_Admin_Page_Article extends MmiCms_Form {
 			->setLabel('Słowa kluczowe (meta/keywords)')
 			->addValidatorStringLength(3, 64);
 
-		$this->addElementSelect('article_id')
+		$this->addElementSelect('articleId')
 			->setLabel('Artykuł')
 			->setMultiOptions(Cms_Model_Article_Dao::getMultioptions());
 
@@ -34,8 +34,7 @@ class Cms_Form_Admin_Page_Article extends MmiCms_Form {
 			->setMultiOptions(array(
 				null => 'bez zmian',
 				'0' => 'wymuś http',
-				'1' => 'wymuś https',
-		));
+				'1' => 'wymuś https'));
 
 		//optional url
 		$this->addElementSelect('visible')
@@ -52,7 +51,7 @@ class Cms_Form_Admin_Page_Article extends MmiCms_Form {
 			->setLabel('W nowym oknie');
 
 		//pozycja w drzewie
-		$this->addElementSelect('parent_id')
+		$this->addElementSelect('parentId')
 			->setLabel('Element nadrzędny')
 			->setValue(Mmi_Controller_Front::getInstance()->getRequest()->parent)
 			->setMultiOptions(Cms_Model_Navigation_Dao::getMultiOptions());
@@ -64,7 +63,7 @@ class Cms_Form_Admin_Page_Article extends MmiCms_Form {
 			->setLabel('Data i czas wyłączenia');
 
 		$this->addElementCheckbox('active')
-			->setValue(1)
+			->setValue(true)
 			->setLabel('Włączony');
 
 		//submit
