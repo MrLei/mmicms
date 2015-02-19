@@ -6,10 +6,6 @@ class Cms_Controller_Admin extends MmiCms_Controller_Admin {
 	
 	}
 	
-	public function cmsAction() {
-		
-	}
-
 	public function loginAction() {
 		$form = new Cms_Form_Admin_Login();
 		if (!$form->isMine()) {
