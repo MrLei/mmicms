@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -10,21 +11,22 @@
  *
  * Mmi/Cache/Config.php
  * @category   Mmi
- * @package    Mmi_Cache
+ * @package    \Mmi\Cache
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Konfiguracja cache
  * @category   Mmi
- * @package    Mmi_Cache
+ * @package    \Mmi\Cache
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 
-class Mmi_Cache_Config {
+namespace Mmi\Cache;
+
+class Config {
 
 	/**
 	 * Buforowanie włączone

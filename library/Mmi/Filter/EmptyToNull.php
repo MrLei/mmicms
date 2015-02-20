@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -10,20 +11,22 @@
  *
  * Mmi/Filter/EmptyToNull.php
  * @category   Mmi
- * @package    Mmi_Filter
+ * @package    \Mmi\Filter
  * @copyright  Copyright (c) 2011 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Filtr zamieniający pusty ciąg znaków na null
  * @category   Mmi
- * @package    Mmi_Filter
+ * @package    \Mmi\Filter
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Filter_EmptyToNull extends Mmi_Filter_Abstract {
+
+namespace Mmi\Filter;
+
+class EmptyToNull extends \Mmi\Filter\FilterAbstract {
 
 	/**
 	 * Zamienia pusty ciąg znaków na null

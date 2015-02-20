@@ -10,7 +10,7 @@
  *
  * Mmi/View/Helper/HeadLink.php
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -21,11 +21,12 @@
 /**
  * Helper linków w nagłówku strony (np. pliki CSS)
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_View_Helper_HeadLink extends Mmi_View_Helper_AbstractHead {
+namespace Mmi\View\Helper;
+class HeadLink extends HeadAbstract {
 
 	/**
 	 * Dane
@@ -38,7 +39,7 @@ class Mmi_View_Helper_HeadLink extends Mmi_View_Helper_AbstractHead {
 	 * @param array $params parametry linku (jak rel, type, href)
 	 * @param boolean $prepend dodaj na początek stosu
 	 * @param string $conditional warunek np. ie6
-	 * @return Mmi_View_Helper_HeadLink
+	 * @return \Mmi\View\Helper\HeadLink
 	 */
 	public function headLink(array $params = array(), $prepend = false, $conditional = '') {
 		if (!empty($params)) {
@@ -95,7 +96,7 @@ class Mmi_View_Helper_HeadLink extends Mmi_View_Helper_AbstractHead {
 	 * @param string $href adres
 	 * @param string $media media
 	 * @param string $conditional warunek np. ie6
-	 * @return Mmi_View_Helper_HeadLink
+	 * @return \Mmi\View\Helper\HeadLink
 	 */
 	public function appendStylesheet($href, $media = null, $conditional = '') {
 		return $this->setStylesheet($href, $media, false, $conditional);
@@ -105,7 +106,7 @@ class Mmi_View_Helper_HeadLink extends Mmi_View_Helper_AbstractHead {
 	 * Dodaje styl CSS na początek stosu
 	 * @param string $href adres
 	 * @param string $media media
-	 * @return Mmi_View_Helper_HeadLink
+	 * @return \Mmi\View\Helper\HeadLink
 	 */
 	public function prependStylesheet($href, $media = null) {
 		return $this->setStylesheet($href, $media, true);
@@ -117,7 +118,7 @@ class Mmi_View_Helper_HeadLink extends Mmi_View_Helper_AbstractHead {
 	 * @param string $media media
 	 * @param boolean $prepend dodaj na początku stosu
 	 * @param string $conditional warunek np. ie6
-	 * @return Mmi_View_Helper_HeadLink
+	 * @return \Mmi\View\Helper\HeadLink
 	 */
 	public function setStylesheet($href, $media = null, $prepend = false, $conditional = '') {
 		$params = array('rel' => 'stylesheet', 'type' => 'text/css', 'href' => $href, 'crc' => $this->_getCrc($href));
@@ -134,7 +135,7 @@ class Mmi_View_Helper_HeadLink extends Mmi_View_Helper_AbstractHead {
 	 * @param string $title tytuł
 	 * @param string $media media
 	 * @param string $conditional warunek np. ie6
-	 * @return Mmi_View_Helper_HeadLink
+	 * @return \Mmi\View\Helper\HeadLink
 	 */
 	public function appendAlternate($href, $type, $title, $media = null, $conditional = '') {
 		return $this->setAlternate($href, $type, $title, $media = null, true, $conditional);
@@ -147,7 +148,7 @@ class Mmi_View_Helper_HeadLink extends Mmi_View_Helper_AbstractHead {
 	 * @param string $title tytuł
 	 * @param string $media media
 	 * @param string $conditional warunek np. ie6
-	 * @return Mmi_View_Helper_HeadLink
+	 * @return \Mmi\View\Helper\HeadLink
 	 */
 	public function prependAlternate($href, $type, $title, $media = null, $conditional = '') {
 		return $this->setAlternate($href, $type, $title, $media = null, false, $conditional);
@@ -161,7 +162,7 @@ class Mmi_View_Helper_HeadLink extends Mmi_View_Helper_AbstractHead {
 	 * @param string $media media
 	 * @param boolean $prepend dodaj na początku stosu
 	 * @param string $conditional warunek np. ie6
-	 * @return Mmi_View_Helper_HeadLink
+	 * @return \Mmi\View\Helper\HeadLink
 	 */
 	public function setAlternate($href, $type, $title, $media = null, $prepend = false, $conditional = '') {
 		$params = array('rel' => 'alternate', 'type' => $type, 'title' => $title, 'href' => $href, $crc = $this->_getCrc($href));

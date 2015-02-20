@@ -10,7 +10,7 @@
  *
  * Mmi/Form/Element/File.php
  * @category   Mmi
- * @package    Mmi_Form
+ * @package    \Mmi\Form
  * @subpackage Element
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -21,11 +21,14 @@
 /**
  * Klasa elementu plik
  * @category   Mmi
- * @package    Mmi_Form
+ * @package    \Mmi\Form
  * @subpackage Element
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Form_Element_File extends Mmi_Form_Element_Abstract {
+
+namespace Mmi\Form\Element;
+
+class File extends ElementAbstract {
 
 	/**
 	 * Informacje o zuploadowanym pliku
@@ -54,7 +57,7 @@ class Mmi_Form_Element_File extends Mmi_Form_Element_Abstract {
 	/**
 	 * Ustawia, że pole wielokrotne
 	 * @param int $count ile plików
-	 * @return Mmi_Form_Element_File
+	 * @return \Mmi\Form\Element\File
 	 */
 	public function setMultiple($count = 2) {
 		if (substr($this->getName(), -2) == '[]') {
@@ -66,11 +69,11 @@ class Mmi_Form_Element_File extends Mmi_Form_Element_Abstract {
 
 	/**
 	 * Zbiera pliki z tabeli $_FILES jeśli istnieją jakieś pliki dla tego pola
-	 * @return Mmi_Form_Element_File
+	 * @return \Mmi\Form\Element\File
 	 */
 	public function init() {
 		$fieldName = trim($this->_options['name'], '[]');
-		$files = Mmi_Controller_Front::getInstance()->getRequest()->getFiles();
+		$files = \Mmi\Controller\Front::getInstance()->getRequest()->getFiles();
 		if (!isset($files[$fieldName]) || empty($files[$fieldName])) {
 			return;
 		}

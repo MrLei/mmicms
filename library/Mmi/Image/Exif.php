@@ -11,7 +11,7 @@
  *
  * Mmi/Image/Exif.php
  * @category   Mmi
- * @package    Mmi_Image
+ * @package    \Mmi\Image
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Klasa obsługi exifów
  * @category   Mmi
- * @package    Mmi_Image
+ * @package    \Mmi\Image
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Image_Exif {
+
+namespace Mmi\Image;
+
+class Exif {
 	
 	/**
 	 * Dane exif

@@ -10,8 +10,8 @@
  *
  * Mmi/Http/Cookie.php
  * @category   Mmi
- * @package    Mmi_Http
- * @subpackage Mmi_Http_Cookie
+ * @package    \Mmi\Http
+ * @subpackage \Mmi\Http\Cookie
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,11 +21,14 @@
 /**
  * Klasa obsługi ciasteczek
  * @category   Mmi
- * @package    Mmi_Http
- * @subpackage Mmi_Http_Cookie
+ * @package    \Mmi\Http
+ * @subpackage \Mmi\Http\Cookie
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Http_Cookie {
+
+namespace Mmi\Http;
+
+class Cookie {
 
 	/**
 	 * Przechowuje informacje o ciasteczku

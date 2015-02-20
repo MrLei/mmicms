@@ -10,7 +10,7 @@
  *
  * Mmi/Form/Element/Label.php
  * @category   Mmi
- * @package    Mmi_Form
+ * @package    \Mmi\Form
  * @subpackage Element
  * @copyright  Copyright (c) 2011 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -21,11 +21,14 @@
 /**
  * Klasa elementu label (zdegradowane pole)
  * @category   Mmi
- * @package    Mmi_Form
+ * @package    \Mmi\Form
  * @subpackage Element
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Form_Element_Label extends Mmi_Form_Element_Abstract {
+
+namespace Mmi\Form\Element;
+
+class Label extends ElementAbstract {
 	
 	/**
 	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora

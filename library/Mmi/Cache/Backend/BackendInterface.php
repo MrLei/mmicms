@@ -10,7 +10,7 @@
  *
  * Mmi/Cache/Backend/Interface.php
  * @category   Mmi
- * @package    Mmi_Cache
+ * @package    \Mmi\Cache
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,16 +20,18 @@
 /**
  * Interface backendu bufora
  * @category   Mmi
- * @package    Mmi_Cache
+ * @package    \Mmi\Cache
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-interface Mmi_Cache_Backend_Interface {
+namespace Mmi\Cache\Backend;
+
+interface BackendInterface {
 
 	/**
 	 * Konstruktor
 	 * @param array $params opcje
 	 */
-	public function __construct(Mmi_Cache_Config $config);
+	public function __construct(\Mmi\Cache\Config $config);
 
 	/**
 	 * Ładuje dane o podanym kluczu

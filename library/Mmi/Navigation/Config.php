@@ -11,7 +11,7 @@
  *
  * Mmi/Navigation/Config.php
  * @category   Mmi
- * @package    Mmi_Navigation
+ * @package    \Mmi\Navigation
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Konfiguracja nawigatora
  * @category   Mmi
- * @package    Mmi_Navigation
+ * @package    \Mmi\Navigation
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Navigation_Config {
+
+namespace Mmi\Navigation;
+
+class Config {
 
 	/**
 	 * Dane nawigacji
@@ -47,9 +50,9 @@ class Mmi_Navigation_Config {
 	/**
 	 * Dodaje element nawigatora
 	 * @param int $id klucz
-	 * @return Mmi_Navigation_Config_Element
+	 * @return \Mmi\Navigation\Config\Element
 	 */
-	public function addElement(Mmi_Navigation_Config_Element $element) {
+	public function addElement(\Mmi\Navigation\Config\Element $element) {
 		$this->_data[$element->getId()] = $element;
 		return $this;
 	}
@@ -57,10 +60,10 @@ class Mmi_Navigation_Config {
 	/**
 	 * Tworzy nowy element nawigacyjny
 	 * @param int $id opcjonalny parametr klucza (zostanie zastąpiony domyślnym gdy nieobecny)
-	 * @return Mmi_Navigation_Config_Element
+	 * @return \Mmi\Navigation\Config\Element
 	 */
 	public static function newElement($id = null) {
-		return new Mmi_Navigation_Config_Element($id);
+		return new \Mmi\Navigation\Config\Element($id);
 	}
 
 	/**
@@ -74,7 +77,7 @@ class Mmi_Navigation_Config {
 	/**
 	 * Znajduje element po identyfikatorze
 	 * @param int $id identyfikator
-	 * @return Mmi_Navigation_Config_Element
+	 * @return \Mmi\Navigation\Config\Element
 	 */
 	public function findById($id, $withParents = false) {
 		$parents = array();

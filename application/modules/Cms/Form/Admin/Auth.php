@@ -1,8 +1,11 @@
 <?php
 
-class Cms_Form_Admin_Auth extends Mmi_Form {
 
-	protected $_recordName = 'Cms_Model_Auth_Record';
+namespace Cms\Form\Admin;
+
+class Auth extends \Mmi\Form {
+
+	protected $_recordName = 'Cms\Model\Auth\Record';
 
 	public function init() {
 
@@ -21,11 +24,11 @@ class Cms_Form_Admin_Auth extends Mmi_Form {
 		$this->addElementMultiCheckbox('cmsRoles')
 			->setLabel('role')
 			->setDescription('Grupa uprawnień')
-			->setMultiOptions(Cms_Model_Role_Query::factory()->findPairs('id', 'name'))
-			->setValue(Cms_Model_Auth_Role_Dao::byAuthIdQuery($this->getRecord()->id)->findPairs('cms_role_id', 'cms_role_id'));
+			->setMultiOptions(Cms\Model\Role\Query::factory()->findPairs('id', 'name'))
+			->setValue(Cms\Model\Auth\Role\Dao::byAuthIdQuery($this->getRecord()->id)->findPairs('cms_role_id', 'cms_role_id'));
 
 		$languages = array();
-		foreach (Default_Registry::$config->application->languages as $language) {
+		foreach (Core\Registry::$config->application->languages as $language) {
 			$languages[$language] = $language;
 		}
 

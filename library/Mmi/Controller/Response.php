@@ -10,7 +10,7 @@
  *
  * Mmi/Controller/Response.php
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,10 +20,13 @@
 /**
  * Klasa odpowiedzi
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Controller_Response {
+
+namespace Mmi\Controller;
+
+class Response {
 	
 	/**
 	 * Przechowuje kody HTTP
@@ -166,7 +169,7 @@ class Mmi_Controller_Response {
 	 * @param string $name nazwa
 	 * @param string $value wartość
 	 * @param boolean $replace zastąpienie
-	 * @return Mmi_Controller_Response
+	 * @return \Mmi\Controller\Response
 	 */
 	public function setHeader($name, $value = null, $replace = false) {
 		if ($value) {
@@ -181,7 +184,7 @@ class Mmi_Controller_Response {
 	 * Ustawia kod odpowiedzi
 	 * @param int $code kod
 	 * @param boolean $replace zastąpienie
-	 * @return Mmi_Controller_Response
+	 * @return \Mmi\Controller\Response
 	 */
 	public function setCode($code, $replace = false) {
 		if (array_key_exists($code, $this->_httpCodes)) {
@@ -193,7 +196,7 @@ class Mmi_Controller_Response {
 	/**
 	 * Ustawia kod na 404
 	 * @param boolean $replace zastąpienie
-	 * @return Mmi_Controller_Response
+	 * @return \Mmi\Controller\Response
 	 */
 	public function setCodeNotFound($replace = false) {
 		return $this->setCode(404, $replace);
@@ -202,7 +205,7 @@ class Mmi_Controller_Response {
 	/**
 	 * Ustawia kod na 410
 	 * @param boolean $replace zastąpienie
-	 * @return Mmi_Controller_Response
+	 * @return \Mmi\Controller\Response
 	 */
 	public function setCodeGone($replace = false) {
 		return $this->setCode(410, $replace);
@@ -211,7 +214,7 @@ class Mmi_Controller_Response {
 	/**
 	 * Ustawia kod na 200
 	 * @param boolean $replace zastąpienie
-	 * @return Mmi_Controller_Response
+	 * @return \Mmi\Controller\Response
 	 */
 	public function setCodeOk($replace = false) {
 		return $this->setCode(200, $replace);
@@ -220,7 +223,7 @@ class Mmi_Controller_Response {
 	/**
 	 * Ustawia kod na 202
 	 * @param boolean $replace zastąpienie
-	 * @return Mmi_Controller_Response
+	 * @return \Mmi\Controller\Response
 	 */
 	public function setCodeAccepted($replace = false) {
 		return $this->setCode(202, $replace);
@@ -229,7 +232,7 @@ class Mmi_Controller_Response {
 	/**
 	 * Ustawia kod na 500
 	 * @param boolean $replace zastąpienie
-	 * @return Mmi_Controller_Response
+	 * @return \Mmi\Controller\Response
 	 */
 	public function setCodeError($replace = false) {
 		return $this->setCode(500, $replace);
@@ -238,7 +241,7 @@ class Mmi_Controller_Response {
 	/**
 	 * Ustawia kod na 401
 	 * @param boolean $replace zastąpienie
-	 * @return Mmi_Controller_Response
+	 * @return \Mmi\Controller\Response
 	 */
 	public function setCodeUnauthorized($replace = false) {
 		return $this->setCode(401, $replace);
@@ -247,7 +250,7 @@ class Mmi_Controller_Response {
 	/**
 	 * Ustawia kod na 401
 	 * @param boolean $replace zastąpienie
-	 * @return Mmi_Controller_Response
+	 * @return \Mmi\Controller\Response
 	 */
 	public function setCodeForbidden($replace = false) {
 		return $this->setCode(401, $replace);
@@ -257,7 +260,7 @@ class Mmi_Controller_Response {
 	 * Ustawia typ kontentu odpowiedzi (content-type
 	 * @param string $type nazwa typu np. jpg, gif, html
 	 * @param boolean $replace zastąpienie
-	 * @return Mmi_Controller_Response
+	 * @return \Mmi\Controller\Response
 	 */
 	public function setType($type, $replace = false) {
 		$type = strtolower($type);
@@ -287,7 +290,7 @@ class Mmi_Controller_Response {
 	/**
 	 * Ustawia typ na HTML
 	 * @param boolean $replace zastąpienie
-	 * @return Mmi_Controller_Response
+	 * @return \Mmi\Controller\Response
 	 */
 	public function setTypeHtml($replace = false) {
 		return $this->setType('html', $replace);
@@ -296,7 +299,7 @@ class Mmi_Controller_Response {
 	/**
 	 * Ustawia typ na JSON
 	 * @param boolean $replace zastąpienie
-	 * @return Mmi_Controller_Response
+	 * @return \Mmi\Controller\Response
 	 */
 	public function setTypeJson($replace = false) {
 		return $this->setType('json', $replace);
@@ -305,7 +308,7 @@ class Mmi_Controller_Response {
 	/**
 	 * Ustawia typ na JS
 	 * @param boolean $replace zastąpienie
-	 * @return Mmi_Controller_Response
+	 * @return \Mmi\Controller\Response
 	 */
 	public function setTypeJs($replace = false) {
 		return $this->setType('js', $replace);
@@ -314,7 +317,7 @@ class Mmi_Controller_Response {
 	/**
 	 * Ustawia typ na Plain
 	 * @param boolean $replace zastąpienie
-	 * @return Mmi_Controller_Response
+	 * @return \Mmi\Controller\Response
 	 */
 	public function setTypePlain($replace = false) {
 		return $this->setType('txt', $replace);
@@ -323,7 +326,7 @@ class Mmi_Controller_Response {
 	/**
 	 * Ustawia typ na XML
 	 * @param boolean $replace zastąpienie
-	 * @return Mmi_Controller_Response
+	 * @return \Mmi\Controller\Response
 	 */
 	public function setTypeXml($replace = false) {
 		return $this->setType('xml', $replace);
@@ -332,7 +335,7 @@ class Mmi_Controller_Response {
 	/**
 	 * Ustawia typ na obraz PNG
 	 * @param boolean $replace zastąpienie
-	 * @return Mmi_Controller_Response
+	 * @return \Mmi\Controller\Response
 	 */
 	public function setTypePng($replace = false) {
 		return $this->setType('png', $replace);
@@ -341,7 +344,7 @@ class Mmi_Controller_Response {
 	/**
 	 * Ustawia typ na obraz Jpeg
 	 * @param boolean $replace zastąpienie
-	 * @return Mmi_Controller_Response
+	 * @return \Mmi\Controller\Response
 	 */
 	public function setTypeJpeg($replace = false) {
 		return $this->setType('jpeg', $replace);
@@ -350,7 +353,7 @@ class Mmi_Controller_Response {
 	/**
 	 * Ustawia typ na Gzip
 	 * @param boolean $replace zastąpienie
-	 * @return Mmi_Controller_Response
+	 * @return \Mmi\Controller\Response
 	 */
 	public function setTypeGzip($replace = false) {
 		return $this->setType('gz', $replace);
@@ -359,7 +362,7 @@ class Mmi_Controller_Response {
 	/**
 	 * Ustawia content do wysyłki
 	 * @param string $content
-	 * @return Mmi_Controller_Response
+	 * @return \Mmi\Controller\Response
 	 */
 	public function setContent($content) {
 		$this->_content = $content;
@@ -377,7 +380,7 @@ class Mmi_Controller_Response {
 	/**
 	 * Dodaje content do istniejącego
 	 * @param string $content
-	 * @return Mmi_Controller_Response
+	 * @return \Mmi\Controller\Response
 	 */
 	public function appendContent($content) {
 		$this->_content .= $content;
@@ -390,7 +393,7 @@ class Mmi_Controller_Response {
 	public function send() {
 		if ($this->_debug) {
 			//opcjonalne uruchomienie panelu deweloperskiego
-			new Mmi_Controller_Response_Debugger();
+			new \Mmi\Controller\Response\Debugger();
 		}
 		echo $this->_content;
 		ob_end_flush();

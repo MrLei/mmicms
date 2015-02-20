@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Controller_Form extends Mmi_Controller_Action {
+
+namespace Cms\Controller;
+
+class Form extends \Mmi\Controller\Action {
 
 	public function validateAction() {
 		$this->view->setLayoutDisabled();
@@ -8,7 +11,7 @@ class Cms_Controller_Form extends Mmi_Controller_Action {
 		if (!isset($_POST['ctrl']) || !isset($_POST['field'])) {
 			return '';
 		}
-		$options = Mmi_Lib::unhashTable($_POST['ctrl']);
+		$options = \Mmi\Lib::unhashTable($_POST['ctrl']);
 		$field = $_POST['field'];
 		$value = isset($_POST['value']) ? $_POST['value'] : '';
 		$_POST = array();
@@ -24,7 +27,7 @@ class Cms_Controller_Form extends Mmi_Controller_Action {
 		$id = isset($this->getRequest()->id) ? intval($this->getRequest()->id) : null;
 		$form = new $class($id, $formOptions);
 		$element = $form->getElement($field);
-		if (!$element instanceof Mmi_Form_Element_Abstract) {
+		if (!$element instanceof \Mmi\Form\Element\ElementAbstract) {
 			return '';
 		}
 		if ($element->noAjax) {

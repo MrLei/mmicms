@@ -10,7 +10,7 @@
  *
  * Mmi/Filter/Iban.php
  * @category   Mmi
- * @package    Mmi_Filter
+ * @package    \Mmi\Filter
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,10 +20,13 @@
 /**
  * Filtr poprawiający wygląd numerów IBAN
  * @category   Mmi
- * @package    Mmi_Filter
+ * @package    \Mmi\Filter
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Filter_Iban extends Mmi_Filter_Abstract {
+
+namespace Mmi\Filter;
+
+class Iban extends \Mmi\Filter\FilterAbstract {
 
 	/**
 	 * Poprawia wygląd numerów IBAN

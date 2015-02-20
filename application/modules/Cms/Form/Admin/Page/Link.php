@@ -1,8 +1,11 @@
 <?php
 
-class Cms_Form_Admin_Page_Link extends MmiCms_Form {
 
-	protected $_recordName = 'Cms_Model_Navigation_Record';
+namespace Cms\Form\Admin\Page;
+
+class Link extends \MmiCms\Form {
+
+	protected $_recordName = 'Cms\Model\Navigation\Record';
 	protected $_recordSaveMethod = 'saveForm';
 
 	public function init() {
@@ -40,8 +43,8 @@ class Cms_Form_Admin_Page_Link extends MmiCms_Form {
 		//pozycja w drzewie
 		$this->addElementSelect('parentId')
 			->setLabel('Element nadrzędny')
-			->setValue(Mmi_Controller_Front::getInstance()->getRequest()->parent)
-			->setMultiOptions(Cms_Model_Navigation_Dao::getMultiOptions());
+			->setValue(\Mmi\Controller\Front::getInstance()->getRequest()->parent)
+			->setMultiOptions(Cms\Model\Navigation\Dao::getMultiOptions());
 
 		$this->addElementDateTimePicker('dateStart')
 			->setLabel('Data i czas włączenia');

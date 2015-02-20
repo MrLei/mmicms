@@ -11,7 +11,7 @@
  *
  * Mmi/Model/Dao.php
  * @category   Mmi
- * @package    Mmi_Dao
+ * @package    \Mmi\Dao
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Klasa DAO
  * @category   Mmi
- * @package    Mmi_Dao
+ * @package    \Mmi\Dao
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Dao {
+
+namespace Mmi;
+
+class Dao {
 
 	/**
 	 * Nazwa tabeli
@@ -40,13 +43,13 @@ class Mmi_Dao {
 
 	/**
 	 * Adapter DB
-	 * @var Mmi_Db_Adapter_Pdo_Abstract
+	 * @var \Mmi\Db\Adapter\Pdo\Abstract
 	 */
 	protected static $_adapter;
 
 	/**
 	 * Obiekt bufora
-	 * @var Mmi_Cache
+	 * @var \Mmi\Cache
 	 */
 	protected static $_cache;
 
@@ -54,11 +57,11 @@ class Mmi_Dao {
 	 * Nazwa klasy kolekcji rekordów
 	 * @var string
 	 */
-	protected static $_collectionName = 'Mmi_Dao_Record_Collection';
+	protected static $_collectionName = '\Mmi\Dao\Record\Collection';
 
 	/**
 	 * Nazwa klasy active recordu (jeśli nie podana ustalana jest automatycznie według konwencji)
-	 * Przykład konwencji: News_Model_Dao -> News_Model_Record (tabela w DB news)
+	 * Przykład konwencji: News\Model\Dao -> News\Model\Record (tabela w DB news)
 	 * @var string
 	 */
 	protected static $_recordName;
@@ -95,7 +98,7 @@ class Mmi_Dao {
 	/**
 	 * Pobiera obiekt po kluczu głównym
 	 * @param mixed $id identyfikator
-	 * @return Mmi_Dao_Record_Ro
+	 * @return \Mmi\Dao\Record\Ro
 	 */
 	public static final function findPk($id) {
 		$recordName = self::getRecordName();
@@ -108,7 +111,7 @@ class Mmi_Dao {
 	/**
 	 * Pobiera obiekt po kluczu głównym, lub tworzy nowy jeśli brak
 	 * @param mixed $id identyfikator
-	 * @return Mmi_Dao_Record_Ro
+	 * @return \Mmi\Dao\Record\Ro
 	 */
 	public static final function findOrCreatePk($id) {
 		$recordName = self::getRecordName();
@@ -117,31 +120,31 @@ class Mmi_Dao {
 
 	/**
 	 * Pobiera adapter bazodanowy
-	 * @return Mmi_Db_Adapter_Pdo_Abstract
+	 * @return \Mmi\Db\Adapter\Pdo\Abstract
 	 */
 	public static final function getAdapter() {
 		if (static::$_tableName === null) {
-			throw new Exception('Mmi_Dao: Table name not specified');
+			throw new Exception('\Mmi\Dao: Table name not specified');
 		}
-		if (!(static::$_adapter instanceof Mmi_Db_Adapter_Pdo_Abstract)) {
-			throw new Exception('Mmi_Dao: Adapter not specified or invalid');
+		if (!(static::$_adapter instanceof \Mmi\Db\Adapter\Pdo\PdoAbstract)) {
+			throw new Exception('\Mmi\Dao: Adapter not specified or invalid');
 		}
 		return static::$_adapter;
 	}
 
 	/**
 	 * Ustawia adapter bazodanowy
-	 * @param Mmi_Db_Adapter_Pdo_Abstract $adapter
-	 * @return Mmi_Db_Adapter_Pdo_Abstract
+	 * @param \Mmi\Db\Adapter\Pdo\Abstract $adapter
+	 * @return \Mmi\Db\Adapter\Pdo\Abstract
 	 */
-	public static final function setAdapter(Mmi_Db_Adapter_Pdo_Abstract $adapter) {
+	public static final function setAdapter(\Mmi\Db\Adapter\Pdo\PdoAbstract $adapter) {
 		static::$_adapter = $adapter;
 		return $adapter;
 	}
 
 	/**
 	 * Zwraca obiekt cache
-	 * @return Mmi_Cache
+	 * @return \Mmi\Cache
 	 */
 	public static final function getCache() {
 		return static::$_cache;
@@ -149,10 +152,10 @@ class Mmi_Dao {
 
 	/**
 	 * Ustawia obiekt cache
-	 * @param Mmi_Cache $cache
-	 * @return Mmi_Cache
+	 * @param \Mmi\Cache $cache
+	 * @return \Mmi\Cache
 	 */
-	public static final function setCache(Mmi_Cache $cache) {
+	public static final function setCache(\Mmi\Cache $cache) {
 		static::$_cache = $cache;
 		return $cache;
 	}
@@ -169,7 +172,7 @@ class Mmi_Dao {
 		if (isset(self::$_tableStructure[$tableName])) {
 			return self::$_tableStructure[$tableName];
 		} 
-		$cacheKey = 'Dao_structure_' . self::getAdapter()->getConfig()->name . '_' . $tableName;
+		$cacheKey = 'Dao-structure-' . self::getAdapter()->getConfig()->name . '-' . $tableName;
 		if (static::$_cache !== null && (null !== ($structure = static::$_cache->load($cacheKey)))) {
 			return $structure;
 		}
@@ -232,7 +235,7 @@ class Mmi_Dao {
 		if (static::$_collectionName !== null) {
 			return static::$_collectionName;
 		}
-		return substr(get_called_class(), 0, -3) . 'Record_Collection';
+		return substr(get_called_class(), 0, -3) . 'Record\Collection';
 	}
 	
 	/**

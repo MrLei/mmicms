@@ -11,7 +11,7 @@
  *
  * Mmi/Db/Adapter/Pdo/Oci.php
  * @category   Mmi
- * @package    Mmi_Db
+ * @package    \Mmi\Db
  * @subpackage Adapter
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Michał Pawłowski <mpawlowski@live.com>
@@ -22,16 +22,19 @@
 /**
  * Klasa adaptera Oracle SQL
  * @category   Mmi
- * @package    Mmi_Db
+ * @package    \Mmi\Db
  * @subpackage Adapter
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
+
+namespace Mmi\Db\Adapter\Pdo;
+
+class Oci extends PdoAbstract {
 
 	/**
 	 * Ustawia schemat
 	 * @param string $schemaName nazwa schematu
-	 * @return Mmi_Db_Adapter_Pdo_Oci
+	 * @return \Mmi\Db\Adapter\Pdo\Oci
 	 */
 	public function selectSchema($schemaName) {
 		//oracle nie obsługuje schematów - bazy są selectowane po nazwie użytkownika; owner = schema
@@ -41,7 +44,7 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 
 	/**
 	 * Ustawia domyślne parametry dla importu (długie zapytania)
-	 * @return Mmi_Db_Adapter_Pdo_Oci
+	 * @return \Mmi\Db\Adapter\Pdo\Oci
 	 */
 	public function setDefaultImportParams() {
 		//dostępne parametry - query: SHOW PARAMETERS
@@ -55,7 +58,7 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 		$this->_config->port = $this->_config->port ? $this->_config->port : 5432;
 		$this->_config->charset = $this->_config->charset ? $this->_config->charset : 'utf8';
 		if ($this->_config->profiler) {
-			Mmi_Db_Profiler::event('CONNECT WITH: ' . get_called_class(), 0);
+			\Mmi\Db\Profiler::event('CONNECT WITH: ' . get_called_class(), 0);
 		}
 		$this->_pdo = new PDO(
 			$this->_config->driver . ':host=' . $this->_config->host . ';port=' . $this->_config->port . ';dbname=' . $this->_config->name . ';charset=' . $this->_config->charset, $this->_config->user, $this->_config->password, array(PDO::ATTR_PERSISTENT => $this->_config->persistent)
@@ -73,7 +76,7 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 	 * @see PDO::execute()
 	 * @param string $sql zapytanie
 	 * @param array $bind tabela w formacie akceptowanym przez PDO::prepare()
-	 * @throws Mmi_Db_Exception
+	 * @throws \Mmi\Db\Exception
 	 * @return PDO_Statement
 	 */
 	public function query($sql, array $bind = array()) {
@@ -84,7 +87,7 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 		$statement = $this->_pdo->prepare($sql);
 		if (!$statement) {
 			$error = $this->_pdo->errorInfo();
-			throw new Mmi_Db_Exception(get_called_class() . ': ' . (isset($error[2]) ? $error[2] : $error[0]) . ' --- ' . $sql);
+			throw new \Mmi\Db\Exception(get_called_class() . ': ' . (isset($error[2]) ? $error[2] : $error[0]) . ' --- ' . $sql);
 		}
 		$values = array();
 		foreach ($bind as $key => $param) {
@@ -105,10 +108,10 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 		if ($result != 1) {
 			$error = $statement->errorInfo();
 			$error = isset($error[2]) ? $error[2] : $error[0];
-			throw new Mmi_Db_Exception(get_called_class() . ': ' . $error . ' --- ' . $sql);
+			throw new \Mmi\Db\Exception(get_called_class() . ': ' . $error . ' --- ' . $sql);
 		}
 		if ($this->_config->profiler) {
-			Mmi_Db_Profiler::eventQuery($statement, $bind, microtime(true) - $start);
+			\Mmi\Db\Profiler::eventQuery($statement, $bind, microtime(true) - $start);
 		}
 		return $statement;
 	}

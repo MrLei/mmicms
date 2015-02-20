@@ -10,7 +10,7 @@
  *
  * Mmi/Service/Weather/Data.php
  * @category   Mmi
- * @package    Mmi_Service
+ * @package    \Mmi\Service
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,10 +20,13 @@
 /**
  * Klasa implementująca obiekt pogody (dane)
  * @category   Mmi
- * @package    Mmi_Service
+ * @package    \Mmi\Service
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Service_Weather_Data {
+
+namespace Mmi\Service\Weather;
+
+class Data {
 	
 	/**
 	 * Warunki

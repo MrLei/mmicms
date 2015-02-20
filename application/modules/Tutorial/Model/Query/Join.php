@@ -1,8 +1,11 @@
 <?php
 
 /**
- * @method Tutorial_Model_Query on() on($localKeyName, $joinedKeyName = 'id')
+ * @method Tutorial\Model\Query on() on($localKeyName, $joinedKeyName = 'id')
  */
-class Tutorial_Model_Query_Join extends Mmi_Dao_Query_Join {
+
+namespace Tutorial\Model\Query;
+
+class Join extends \Mmi\Dao\Query\Join {
 
 }

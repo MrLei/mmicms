@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -10,26 +11,28 @@
  *
  * Mmi/Controller/Action/Helper/Messenger.php
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @subpackage Helper
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Helper wiadomości (posłaniec), przechowuje wiadomości w sesji
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Controller_Action_Helper_Messenger extends Mmi_Controller_Action_Helper_Abstract {
+
+namespace Mmi\Controller\Action\Helper;
+
+class Messenger extends \Mmi\Controller\Action\Helper\HelperAbstract {
 
 	/**
 	 * Przestrzeń w sesji zarezerwowana dla wiadomości
-	 * @var Mmi_Session_Namespace
+	 * @var \Mmi\Session\Namespace
 	 */
 	static protected $_session = null;
 
@@ -41,7 +44,7 @@ class Mmi_Controller_Action_Helper_Messenger extends Mmi_Controller_Action_Helpe
 
 	/**
 	 * Obiekt tłumaczeń
-	 * @var Mmi_Translate
+	 * @var \Mmi\Translate
 	 */
 	private $_translate;
 
@@ -50,25 +53,25 @@ class Mmi_Controller_Action_Helper_Messenger extends Mmi_Controller_Action_Helpe
 	 */
 	public function __construct() {
 		$this->_namespace = 'messenger';
-		self::$_session = new Mmi_Session_Namespace($this->_namespace);
+		self::$_session = new \Mmi\Session\Space($this->_namespace);
 	}
 
 	/**
 	 * Ustawia translator
-	 * @param Mmi_Translate $translate
-	 * @return Mmi_Controller_Action_Helper_Messenger
+	 * @param \Mmi\Translate $translate
+	 * @return \Mmi\Controller\Action\Helper\Messenger
 	 */
-	public function setTranslate(Mmi_Translate $translate) {
+	public function setTranslate(\Mmi\Translate $translate) {
 		$this->_translate = $translate;
 		return $this;
 	}
-	
+
 	/**
 	 * Metoda główna, dodaje wiadomość
 	 * @param string $message wiadomość w formacie sprintf
 	 * @param bool $type true - pozytywna, null - neutralna, false - negatywna
 	 * @param array $variables zawiera zmienne do sprintf
-	 * @return Mmi_Controller_Action_Helper_Messenger
+	 * @return \Mmi\Controller\Action\Helper\Messenger
 	 */
 	public function messenger($message, $type = null, array $variables = array()) {
 		if ($this->_translate !== null) {
@@ -82,7 +85,7 @@ class Mmi_Controller_Action_Helper_Messenger extends Mmi_Controller_Action_Helpe
 	 * Dodaje wiadomość
 	 * @param string $message wiadomość
 	 * @param bool $type true - pozytywna, false - negatywna, brak - neutralna
-	 * @return Mmi_Controller_Action_Helper_Messenger
+	 * @return \Mmi\Controller\Action\Helper\Messenger
 	 */
 	public function addMessage($message, $type = null) {
 		if ($type) {
@@ -123,7 +126,7 @@ class Mmi_Controller_Action_Helper_Messenger extends Mmi_Controller_Action_Helpe
 
 	/**
 	 * Czyści wiadomości
-	 * @return Mmi_Controller_Action_Helper_Messenger
+	 * @return \Mmi\Controller\Action\Helper\Messenger
 	 */
 	public function clearMessages() {
 		self::$_session->unsetAll();

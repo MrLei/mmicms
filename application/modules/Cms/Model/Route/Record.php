@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Route_Record extends Mmi_Dao_Record {
+
+namespace Cms\Model\Route;
+
+class Record extends \Mmi\Dao\Record {
 
 	public $id;
 	public $pattern;
@@ -10,7 +13,7 @@ class Cms_Model_Route_Record extends Mmi_Dao_Record {
 	public $active;
 
 	public function save() {
-		Default_Registry::$cache->remove('Mmi_Route');
+		Core\Registry::$cache->remove('\Mmi\Route');
 		return parent::save();
 	}
 

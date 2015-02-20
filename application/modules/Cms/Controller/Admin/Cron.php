@@ -1,14 +1,17 @@
 <?php
 
-class Cms_Controller_Admin_Cron extends MmiCms_Controller_Admin {
+
+namespace Cms\Controller\Admin;
+
+class Cron extends \MmiCms\Controller\Admin {
 
 	public function indexAction() {
-		$grid = new Cms_Plugin_CronGrid();
+		$grid = new \Cms\Plugin\CronGrid();
 		$this->view->grid = $grid;
 	}
 
 	public function editAction() {
-		$form = new Cron_Form_Cron($this->id);
+		$form = new Cron\Form\Cron($this->id);
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Zadanie zapisane poprawnie', true);
 			return $this->_helper->redirector('index', 'admin', 'cron', array(), true);
@@ -17,7 +20,7 @@ class Cms_Controller_Admin_Cron extends MmiCms_Controller_Admin {
 
 	public function deleteAction() {
 		if ($this->id) {
-			$record = Cms_Model_Cron_Dao::findPk($this->id);
+			$record = Cms\Model\Cron\Dao::findPk($this->id);
 		}
 		if ($record && $record->delete()) {
 			$this->_helper->messenger('Zadanie CRON poprawnie usunięte', true);

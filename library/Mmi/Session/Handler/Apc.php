@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -10,27 +11,29 @@
  *
  * Mmi/Session/Handler/Apc.php
  * @category   Mmi
- * @package    Mmi_Session
+ * @package    \Mmi\Session
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Handler sesji w APC
  * @category   Mmi
- * @package    Mmi_Session
+ * @package    \Mmi\Session
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Session_Handler_Apc implements Mmi_Session_Handler_Interface {
-	
+
+namespace Mmi\Session\Handler;
+
+class Apc implements HandlerInterface {
+
 	/**
 	 * Nazwa sesji
 	 * @var string
 	 */
 	protected $_sessionName;
-	
+
 	/**
 	 * Otwieranie sesję
 	 * @param string $savePath ścieżka sesji
@@ -40,7 +43,7 @@ class Mmi_Session_Handler_Apc implements Mmi_Session_Handler_Interface {
 		$this->_sessionName = $sessionName;
 		return true;
 	}
-	
+
 	/**
 	 * Zamykanie sesję 
 	 * @return boolean

@@ -1,15 +1,18 @@
 <?php
 
 /**
- * @method Cms_Model_Stat_Date_Query equals() equals($value)
- * @method Cms_Model_Stat_Date_Query notEquals() notEquals($value)
- * @method Cms_Model_Stat_Date_Query greater() greater($value)
- * @method Cms_Model_Stat_Date_Query less() less($value)
- * @method Cms_Model_Stat_Date_Query greaterOrEquals() greaterOrEquals($value)
- * @method Cms_Model_Stat_Date_Query lessOrEquals() lessOrEquals($value)
- * @method Cms_Model_Stat_Date_Query like() like($value)
- * @method Cms_Model_Stat_Date_Query ilike() ilike($value)
+ * @method Cms\Model\Stat\Date\Query equals() equals($value)
+ * @method Cms\Model\Stat\Date\Query notEquals() notEquals($value)
+ * @method Cms\Model\Stat\Date\Query greater() greater($value)
+ * @method Cms\Model\Stat\Date\Query less() less($value)
+ * @method Cms\Model\Stat\Date\Query greaterOrEquals() greaterOrEquals($value)
+ * @method Cms\Model\Stat\Date\Query lessOrEquals() lessOrEquals($value)
+ * @method Cms\Model\Stat\Date\Query like() like($value)
+ * @method Cms\Model\Stat\Date\Query ilike() ilike($value)
  */
-class Cms_Model_Stat_Date_Query_Field extends Mmi_Dao_Query_Field {
+
+namespace Cms\Model\Stat\Date\Query;
+
+class Field extends \Mmi\Dao\Query\Field {
 
 }

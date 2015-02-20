@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Auth_Record extends Mmi_Dao_Record {
+
+namespace Cms\Model\Auth;
+
+class Record extends \Mmi\Dao\Record {
 
 	public $id;
 	public $lang;
@@ -17,13 +20,13 @@ class Cms_Model_Auth_Record extends Mmi_Dao_Record {
 
 	public function save() {
 		if ($this->getOption('changePassword')) {
-			$this->password = Cms_Model_Auth::getSaltedPasswordHash($this->getOption('changePassword'));
+			$this->password = Cms\Model\Auth::getSaltedPasswordHash($this->getOption('changePassword'));
 		}
 		if (!parent::save()) {
 			return false;
 		}
 		if ($this->getOption('cmsRoles')) {
-			Cms_Model_Auth_Role_Dao::grant($this->id, $this->getOption('cmsRoles'));
+			Cms\Model\Auth\Role\Dao::grant($this->id, $this->getOption('cmsRoles'));
 		}
 		return true;
 	}
@@ -35,12 +38,12 @@ class Cms_Model_Auth_Record extends Mmi_Dao_Record {
 		if ($this->getOption('changePassword') != $this->getOption('confirmPassword')) {
 			return false;
 		}
-		$this->password = Cms_Model_Auth::getSaltedPasswordHash($this->getOption('changePassword'));
+		$this->password = Cms\Model\Auth::getSaltedPasswordHash($this->getOption('changePassword'));
 		return $this->save();
 	}
 
 	public function changePasswordByUser() {
-		$auth = new Cms_Model_Auth();
+		$auth = new \Cms\Model\Auth();
 		$record = $auth->authenticate($this->getOption('identity'), $this->password);
 		if ($record === false) {
 			$this->_setSaveStatus(-1);
@@ -51,7 +54,7 @@ class Cms_Model_Auth_Record extends Mmi_Dao_Record {
 			return false;
 		}
 		$authRecord = new self($record->id);
-		$authRecord->password = Cms_Model_Auth::getSaltedPasswordHash($this->getOption('changePassword'));
+		$authRecord->password = Cms\Model\Auth::getSaltedPasswordHash($this->getOption('changePassword'));
 		return $authRecord->save();
 	}
 
@@ -59,14 +62,14 @@ class Cms_Model_Auth_Record extends Mmi_Dao_Record {
 		if ($this->username == null || $this->password == null) {
 			return false;
 		}
-		$auth = Default_Registry::$auth;
-		$auth->setModelName('Cms_Model_Auth');
+		$auth = Core\Registry::$auth;
+		$auth->setModelName('Cms\Model\Auth');
 		$auth->setIdentity($this->username);
 		$auth->setCredential($this->password);
 		$result = $auth->authenticate();
 		$this->id = $auth->getId();
 		if ($result && isset($this->remember) && $this->remember == 1) {
-			$auth->rememberMe(Default_Registry::$config->session->authRemember);
+			$auth->rememberMe(Core\Registry::$config->session->authRemember);
 		}
 		return $result;
 	}

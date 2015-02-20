@@ -10,7 +10,7 @@
  *
  * Mmi/Service/Weather/Google.php
  * @category   Mmi
- * @package    Mmi_Service
+ * @package    \Mmi\Service
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,10 +20,13 @@
 /**
  * Klasa implementująca obsługę API Google Weather
  * @category   Mmi
- * @package    Mmi_Service
+ * @package    \Mmi\Service
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Service_Weather_Google extends Mmi_Service_Weather_Abstract {
+
+namespace Mmi\Service\Weather;
+
+class Google extends WeatherAbstract {
 	
 	/**
 	 * Ścieżka bazowa do ikon
@@ -41,11 +44,11 @@ class Mmi_Service_Weather_Google extends Mmi_Service_Weather_Abstract {
 	/**
 	 * Wyszukanie po nazwie miejsca
 	 * @param string $placeName nazwa miejsca (np. kraj+miasto)
-	 * @return Mmi_Service_Weather_Data aktualna pogoda
+	 * @return \Mmi\Service\Weather\Data aktualna pogoda
 	 */
 	public function search($placeName) {
 		$xml = new SimpleXMLElement(preg_replace('/<(city|postal_code) data="(.[^>]+)"\/>/', '<$1 data=""/>', file_get_contents($this->_url . '=' . urlencode($placeName))));
-		$wd = new Mmi_Service_Weather_Data();
+		$wd = new \Mmi\Service\Weather\Data();
 		
 		$current = $xml->weather->current_conditions;
 		if (!isset($xml->weather->current_conditions)) {
@@ -69,7 +72,7 @@ class Mmi_Service_Weather_Google extends Mmi_Service_Weather_Abstract {
 		$current = $wd;
 		$this->_forecast = array();
 		foreach ($xml->weather->forecast_conditions as $forecast) {
-			$wd = new Mmi_Service_Weather_Data();
+			$wd = new \Mmi\Service\Weather\Data();
 			$wd->condition = (string)$forecast->condition->attributes()->data;
 			$minFahrenheit = (string)$forecast->low->attributes()->data;
 			$maxFahrenheit = (string)$forecast->high->attributes()->data;

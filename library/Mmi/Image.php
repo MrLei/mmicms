@@ -11,7 +11,7 @@
  *
  * Mmi/Image.php
  * @category   Mmi
- * @package    Mmi_Image
+ * @package    \Mmi\Image
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Klasa obsługi obrazów
  * @category   Mmi
- * @package    Mmi_Image
+ * @package    \Mmi\Image
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Image {
+
+namespace Mmi;
+
+class Image {
 	
 	public static function inputToResource($input) {
 		return self::_resource($input);
@@ -274,7 +277,7 @@ class Mmi_Image {
 			}
 			return imagecreatefromstring($input);
 		} catch (Exception $e) {
-			Mmi_Exception_Logger::log($e);
+			\Mmi\Exception\Logger::log($e);
 			return;
 		}
 	}

@@ -11,7 +11,7 @@
  *
  * MmiCms/Application/Bootstrap.php
  * @category   MmiCms
- * @package    MmiCms_Application
+ * @package    MmiCms\Application
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Klasa startująca aplikację CMS
  * @category   MmiCms
- * @package    MmiCms_Application
+ * @package    MmiCms\Application
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interface {
+
+namespace MmiCms\Application;
+
+class Bootstrap implements \Mmi\Application\BootstrapInterface {
 
 	/**
 	 * Konstruktor, ustawia ścieżki, ładuje domyślne klasy, ustawia autoloadera
@@ -60,29 +63,29 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 	 * Uruchomienie bootstrapa skutkuje uruchomieniem front controllera
 	 */
 	public function run() {
-		Mmi_Controller_Front::getInstance()->dispatch();
+		\Mmi\Controller\Front::getInstance()->dispatch();
 	}
 
 	/**
 	 * Ładowanie konfiguracji
-	 * @return MmiCms_Config
+	 * @return MmiCms\Config
 	 * @throws Exception
 	 */
 	protected function _initConfiguration() {
 		//lokalna konfiguracja
 		try {
-			$config = new Default_Config_Local();
+			$config = new \Core\Config\Local();
 		} catch (Exception $e) {
-			throw new Exception('Default_Config_Local invalid ' . $e->getMessage());
+			throw new Exception('\Core\Config\Local invalid ' . $e->getMessage());
 		}
 
 		//konfiguracja profilera aplikacji
-		Mmi_Profiler::setEnabled($config->application->debug);
+		\Mmi\Profiler::setEnabled($config->application->debug);
 
 		//ustawienie lokalizacji
 		date_default_timezone_set($config->application->timeZone);
 		ini_set('default_charset', $config->application->charset);
-		Mmi_Profiler::event('Bootstrap: configuration setup');
+		\Mmi\Profiler::event('Bootstrap: configuration setup');
 		return $config;
 	}
 
@@ -90,37 +93,36 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 	 * Ustawianie bufora
 	 * @throws Exception
 	 */
-	protected function _setupCache(MmiCms_Config $config) {
+	protected function _setupCache(\MmiCms\Config $config) {
 		//dodawanie buforów do rejestru
 		try {
-			Default_Registry::$config = $config;
-			Default_Registry::$cache = new Mmi_Cache($config->cache);
+			\Core\Registry::$config = $config;
+			\Core\Registry::$cache = new \Mmi\Cache($config->cache);
 		} catch (Exception $e) {
-			throw new Exception('MmiCms_Application_Bootstrap: Unable to invoke Cache');
+			throw new Exception('MmiCms\Application\Bootstrap: Unable to invoke Cache');
 		}
 	}
 
 	/**
 	 * Inicjalizacja routera
-	 * @param MmiCms_Config $config
+	 * @param \MmiCms\Config $config
 	 * @param string $language
-	 * @return Mmi_Controller_Router
+	 * @return \Mmi\Controller\Router
 	 */
-	protected function _initRouter(MmiCms_Config $config, $language) {
-		return new Mmi_Controller_Router($config->router, $language, $config->application->skin);
+	protected function _initRouter(\MmiCms\Config $config, $language) {
+		return new \Mmi\Controller\Router($config->router, $language, $config->application->skin);
 	}
 
 	/**
 	 * Inicjalizacja tłumaczeń
-	 * @param string $defaultLanguage domyślny język
-	 * @param string $language bieżący język
-	 * @return Mmi_Translate
+	 * @param \MmiCms\Config $config
+	 * @return \Mmi\Translate
 	 */
-	protected function _initTranslate(MmiCms_Config $config) {
+	protected function _initTranslate(\MmiCms\Config $config) {
 		$defaultLanguage = isset($config->application->languages[0]) ? $config->application->languages[0] : null;
-		$translate = new Mmi_Translate();
+		$translate = new \Mmi\Translate();
 		$translate->setDefaultLocale($defaultLanguage);
-		$envLang = Mmi_Controller_Front::getInstance()->getEnvironment()->applicationLanguage;
+		$envLang = \Mmi\Controller\Front::getInstance()->getEnvironment()->applicationLanguage;
 		if (null === $envLang) {
 			return $translate;
 		}
@@ -128,39 +130,40 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 			return $translate;
 		}
 		$translate->setLocale($envLang);
-		Mmi_Profiler::event('Bootstrap: translate setup');
+		\Mmi\Profiler::event('Bootstrap: translate setup');
 		return $translate;
 	}
 
 	/**
 	 * Ustawianie bazy danych
-	 * @param MmiCms_Config $config
+	 * @param \MmiCms\Config $config
 	 */
-	protected function _setupDatabase(MmiCms_Config $config) {
+	protected function _setupDatabase(\MmiCms\Config $config) {
 		//połączenie do bazy danych i konfiguracja DAO
-		if (Default_Registry::$config->db->driver === null) {
+		if (\Core\Registry::$config->db->driver === null) {
 			return;
 		}
-		Default_Registry::$config->db->profiler = $config->application->debug;
-		Default_Registry::$db = Mmi_Db::factory(Default_Registry::$config->db);
-		Mmi_Dao::setAdapter(Default_Registry::$db);
-		Mmi_Dao::setCache(Default_Registry::$cache);
-		Mmi_Profiler::event('Bootstrap: database setup');
+		\Core\Registry::$config->db->profiler = $config->application->debug;
+		\Core\Registry::$db = \Mmi\Db::factory(\Core\Registry::$config->db);
+		\Mmi\Dao::setAdapter(\Core\Registry::$db);
+		\Mmi\Dao::setCache(\Core\Registry::$cache);
+		\Mmi\Profiler::event('Bootstrap: database setup');
 	}
 
 	/**
 	 * Ustawianie front controllera
-	 * @param Mmi_Controller_Router $router
-	 * @param Mmi_View $view
+	 * @param \MmiCms\Config $config
+	 * @param \Mmi\Controller\Router $router
+	 * @param \Mmi\View $view
 	 */
-	protected function _setupFrontController(MmiCms_Config $config, Mmi_Controller_Router $router, Mmi_View $view) {
+	protected function _setupFrontController(\MmiCms\Config $config, \Mmi\Controller\Router $router, \Mmi\View $view) {
 		//wczytywanie struktury frontu z cache
-		if (null === ($frontStructure = Default_Registry::$cache->load('Mmi_Structure'))) {
-			$frontStructure = Mmi_Structure::getStructure();
-			Default_Registry::$cache->save($frontStructure, 'Mmi_Structure', 86400);
+		if (null === ($frontStructure = \Core\Registry::$cache->load('\Mmi\Structure'))) {
+			$frontStructure = \Mmi\Structure::getStructure();
+			\Core\Registry::$cache->save($frontStructure, '\Mmi\Structure', 86400);
 		}
 		//inicjalizacja frontu
-		$frontController = Mmi_Controller_Front::getInstance();
+		$frontController = \Mmi\Controller\Front::getInstance();
 		$frontController->setStructure($frontStructure)
 			->setRouter($router)
 			->setView($view)
@@ -169,24 +172,24 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		foreach ($config->application->plugins as $plugin) {
 			$frontController->registerPlugin(new $plugin());
 		}
-		Mmi_Profiler::event('Bootstrap: front controller setup');
+		\Mmi\Profiler::event('Bootstrap: front controller setup');
 	}
 
 	/**
 	 * Inicjalizacja widoku
-	 * @param MmiCms_Config $config
-	 * @param Mmi_Translate $translate
-	 * @param Mmi_Controller_Router $router
-	 * @return Mmi_View
+	 * @param \MmiCms\Config $config
+	 * @param \Mmi\Translate $translate
+	 * @param \Mmi\Controller\Router $router
+	 * @return \Mmi\View
 	 */
-	protected function _initView(MmiCms_Config $config, Mmi_Translate $translate, Mmi_Controller_Router $router) {
+	protected function _initView(\MmiCms\Config $config, \Mmi\Translate $translate, \Mmi\Controller\Router $router) {
 		//konfiguracja widoku
-		$view = new Mmi_View();
-		$view->setCache(Default_Registry::$cache)
+		$view = new \Mmi\View();
+		$view->setCache(\Core\Registry::$cache)
 			->setAlwaysCompile($config->application->compile)
 			->setTranslate($translate)
 			->setBaseUrl($router->getBaseUrl());
-		Mmi_Profiler::event('Bootstrap: view setup');
+		\Mmi\Profiler::event('Bootstrap: view setup');
 		return $view;
 	}
 
@@ -195,13 +198,13 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 	 */
 	protected function _setupComponents() {
 		require LIB_PATH . '/Mmi/Cache/Config.php';
-		require LIB_PATH . '/Mmi/Cache/Backend/Interface.php';
+		require LIB_PATH . '/Mmi/Cache/Backend/BackendInterface.php';
 		require LIB_PATH . '/Mmi/Cache.php';
 		require LIB_PATH . '/Mmi/Controller/Action/Helper/Messenger.php';
 		require LIB_PATH . '/Mmi/Dao.php';
 		require LIB_PATH . '/Mmi/Db.php';
-		require LIB_PATH . '/Mmi/Db/Adapter/Pdo/Abstract.php';
-		require LIB_PATH . '/Mmi/Db/Adapter/Pdo/Pgsql.php';
+		require LIB_PATH . '/Mmi/Db/Adapter/Pdo/PdoAbstract.php';
+		require LIB_PATH . '/Mmi/Db/Adapter/Pdo/Mysql.php';
 		require LIB_PATH . '/Mmi/Db/Config.php';
 		require LIB_PATH . '/Mmi/Acl.php';
 		require LIB_PATH . '/Mmi/Auth.php';
@@ -214,8 +217,8 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		require LIB_PATH . '/Mmi/Navigation/Config/Element.php';
 		require LIB_PATH . '/Mmi/Session/Config.php';
 		require LIB_PATH . '/Mmi/Translate.php';
-		require LIB_PATH . '/Mmi/View/Helper/Abstract.php';
-		require LIB_PATH . '/Mmi/View/Helper/AbstractHead.php';
+		require LIB_PATH . '/Mmi/View/Helper/HelperAbstract.php';
+		require LIB_PATH . '/Mmi/View/Helper/HeadAbstract.php';
 		require LIB_PATH . '/Mmi/View/Helper/HeadLink.php';
 		require LIB_PATH . '/Mmi/View/Helper/HeadScript.php';
 		require LIB_PATH . '/Mmi/View/Helper/Navigation.php';
@@ -228,15 +231,16 @@ class MmiCms_Application_Bootstrap implements Mmi_Application_Bootstrap_Interfac
 		require LIB_PATH . '/MmiCms/Media/Config.php';
 		require LIB_PATH . '/MmiCms/Registry.php';
 		
-		require APPLICATION_PATH . '/modules/Default/Config/Default.php';
+		require APPLICATION_PATH . '/modules/Core/Config/App.php';
 		try {
-			include APPLICATION_PATH . '/modules/Default/Config/Local.php';
+			include APPLICATION_PATH . '/modules/Core/Config/Local.php';
 		} catch (Exception $e) {
-			throw new Exception('MmiCms_Application_Bootstrap requires application/modules/Default/Config/Local.php instance of MmiCms_Config');
+			throw new Exception('MmiCms\Application\Bootstrap requires application/modules/Core/Config/Local.php instance of MmiCms\Config');
 		}
-		require APPLICATION_PATH . '/modules/Default/Config/Router.php';
-		require APPLICATION_PATH . '/modules/Default/Registry.php';
-		Mmi_Profiler::event('Bootstrap: component setup');
+		require APPLICATION_PATH . '/modules/Core/Config/Navigation.php';
+		require APPLICATION_PATH . '/modules/Core/Config/Router.php';
+		require APPLICATION_PATH . '/modules/Core/Registry.php';
+		\Mmi\Profiler::event('Bootstrap: component setup');
 	}
 
 }

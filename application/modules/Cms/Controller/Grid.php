@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Controller_Grid extends Mmi_Controller_Action {
+
+namespace Cms\Controller;
+
+class Grid extends \Mmi\Controller\Action {
 
 	public function init() {
 		$this->view->setLayoutDisabled();
@@ -11,7 +14,7 @@ class Cms_Controller_Grid extends Mmi_Controller_Action {
 		if (!isset($_POST['ctrl']) || !isset($_POST['field'])) {
 			return;
 		}
-		$options = Mmi_Lib::unhashTable($_POST['ctrl']);
+		$options = \Mmi\Lib::unhashTable($_POST['ctrl']);
 		$field = isset($_POST['field']) ? $_POST['field'] : null;
 		$value = isset($_POST['value']) ? $_POST['value'] : '';
 		$_POST = array();
@@ -40,7 +43,7 @@ class Cms_Controller_Grid extends Mmi_Controller_Action {
 		if (!isset($_POST['ctrl']) || !isset($_POST['field'])) {
 			return;
 		}
-		$options = Mmi_Lib::unhashTable($_POST['ctrl']);
+		$options = \Mmi\Lib::unhashTable($_POST['ctrl']);
 		$field = $_POST['field'];
 		$value = isset($_POST['value']) ? $_POST['value'] : '';
 		$_POST = array();
@@ -48,7 +51,7 @@ class Cms_Controller_Grid extends Mmi_Controller_Action {
 			return;
 		}
 		$class = $options['className'];
-		$grid = new $class(); /* @var $grid Mmi_Grid */
+		$grid = new $class(); /* @var $grid \Mmi\Grid */
 		if ($value) {
 			if ($value == 'DESC') {
 				$options['order'][$field] = 'DESC';
@@ -66,7 +69,7 @@ class Cms_Controller_Grid extends Mmi_Controller_Action {
 		if (!isset($_POST['ctrl']) || !isset($_POST['field']) || !isset($_POST['identifier'])) {
 			return;
 		}
-		$options = Mmi_Lib::unhashTable($_POST['ctrl']);
+		$options = \Mmi\Lib::unhashTable($_POST['ctrl']);
 		$field = $_POST['field'];
 		$identifier = $_POST['identifier'];
 		$value = isset($_POST['value']) ? $_POST['value'] : '';

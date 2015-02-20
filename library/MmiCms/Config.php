@@ -11,7 +11,7 @@
  *
  * MmiCms/Config.php
  * @category   MmiCms
- * @package    MmiCms_Config
+ * @package    MmiCms\Config
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,32 +21,34 @@
 /**
  * Abstrakcyjna klasa konfiguracji Mmi
  * @category   MmiCms
- * @package    MmiCms_Config
+ * @package    MmiCms\Config
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-abstract class MmiCms_Config extends Mmi_Config {
+namespace MmiCms;
+
+abstract class Config extends \Mmi\Config {
 
 	/**
 	 * Podstawowa konfiguracja CMS
-	 * @var MmiCms_Media_Config
+	 * @var MmiCms\Media\Config
 	 */
 	public $media;
 
 	/**
 	 * Konfiguracja sesji
-	 * @var Mmi_Session_Config
+	 * @var \Mmi\Session\Config
 	 */
 	public $session;
 
 	/*
 	 * Nawigacja
-	 * @var Mmi_Navigation_Config
+	 * @var \Mmi\Navigation\Config
 	 */
 	public $navigation;
 
 	/**
 	 * Konfiguracji bazy danych
-	 * @var Mmi_Db_Config
+	 * @var \Mmi\Db\Config
 	 */
 	public $db;
 
@@ -54,10 +56,10 @@ abstract class MmiCms_Config extends Mmi_Config {
 
 		parent::__construct();
 
-		$this->media = new MmiCms_Media_Config();
-		$this->navigation = new Mmi_Navigation_Config();
-		$this->session = new Mmi_Session_Config();
-		$this->db = new Mmi_Db_Config();
+		$this->media = new \MmiCms\Media\Config();
+		$this->navigation = new \Mmi\Navigation\Config();
+		$this->session = new \Mmi\Session\Config();
+		$this->db = new \Mmi\Db\Config();
 	}
 
 }

@@ -10,7 +10,7 @@
  *
  * Mmi/Filter/Nl2br.php
  * @category   Mmi
- * @package    Mmi_Filter
+ * @package    \Mmi\Filter
  * @copyright  Copyright (c) 2013 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,10 +20,13 @@
 /**
  * Filtr zmieniający nowe linie w br
  * @category   Mmi
- * @package    Mmi_Filter
+ * @package    \Mmi\Filter
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Filter_Nl2br extends Mmi_Filter_Abstract {
+
+namespace Mmi\Filter;
+
+class Nl2br extends \Mmi\Filter\FilterAbstract {
 
 	/**
 	 * Zwraca ciąg z <br /> zamiast \n i \r\n

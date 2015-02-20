@@ -10,7 +10,7 @@
  *
  * MmiCms/View/Helper/Thumb.php
  * @category   MmiCms
- * @package    MmiCms_View
+ * @package    MmiCms\View
  * @subpackage Helper
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -21,20 +21,23 @@
 /**
  * Generator miniatur
  * @category   MmiCms
- * @package    MmiCms_View
+ * @package    MmiCms\View
  * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class MmiCms_View_Helper_Thumb extends Mmi_View_Helper_Abstract {
+
+namespace MmiCms\View\Helper;
+
+class Thumb extends \Mmi\View\Helper\HelperAbstract {
 
 	/**
 	 * Metoda główna, generuje miniaturę
-	 * @param Cms_Model_File_Record $file instancja pliku
+	 * @param Cms\Model\File\Record $file instancja pliku
 	 * @param string $type skala
 	 * @param string $value
 	 * @return string
 	 */
-	public function thumb(Cms_Model_File_Record $file, $type = null, $value = null) {
+	public function thumb(Cms\Model\File\Record $file, $type = null, $value = null) {
 		$url = $file->getUrl($type, $value);
 		if ($url) {
 			return $this->view->mediaServer . $url;

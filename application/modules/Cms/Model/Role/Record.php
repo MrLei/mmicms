@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Role_Record extends Mmi_Dao_Record {
+
+namespace Cms\Model\Role;
+
+class Record extends \Mmi\Dao\Record {
 
 	public $id;
 	public $name;
@@ -10,7 +13,7 @@ class Cms_Model_Role_Record extends Mmi_Dao_Record {
 			return false;
 		}
 		//zapis reguły dostępu do defaulta dla zapisanej roli
-		$rule = new Cms_Model_Acl_Record();
+		$rule = new \Cms\Model\Acl\Record();
 		$rule->cmsRoleId = $this->id;
 		$rule->module = 'default';
 		$rule->access = 'allow';

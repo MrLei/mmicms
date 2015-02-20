@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Text_Record extends Mmi_Dao_Record {
+
+namespace Cms\Model\Text;
+
+class Record extends \Mmi\Dao\Record {
 
 	public $id;
 	public $lang;
@@ -10,7 +13,7 @@ class Cms_Model_Text_Record extends Mmi_Dao_Record {
 
 	public function save() {
 		$this->dateModify = date('Y-m-d H:i:s');
-		$this->lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
+		$this->lang = \Mmi\Controller\Front::getInstance()->getRequest()->lang;
 		foreach (glob(TMP_PATH . '/compile/' . $this->lang . '_*.php') as $compilant) {
 			unlink($compilant);
 		}
@@ -20,14 +23,14 @@ class Cms_Model_Text_Record extends Mmi_Dao_Record {
 			//duplikat
 			return false;
 		}
-		Default_Registry::$cache->remove('Cms_Text');
+		Core\Registry::$cache->remove('Cms\Text');
 		return $result;
 	}
 
 	public function cloneKeys() {
-		$lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
-		foreach (Cms_Model_Text_Dao::byLangQuery($this->source)->find() as $record) {/* @var $record Cms_Model_Text_Record */
-			if (Cms_Model_Text_Dao::byKeyLangQuery($record->key, $lang)->findFirst() !== null) {
+		$lang = \Mmi\Controller\Front::getInstance()->getRequest()->lang;
+		foreach (Cms\Model\Text\Dao::byLangQuery($this->source)->find() as $record) {/* @var $record Cms\Model\Text\Record */
+			if (Cms\Model\Text\Dao::byKeyLangQuery($record->key, $lang)->findFirst() !== null) {
 				continue;
 			}
 			$r = new self();

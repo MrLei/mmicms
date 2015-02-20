@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Log_Record extends Mmi_Dao_Record {
+
+namespace Cms\Model\Log;
+
+class Record extends \Mmi\Dao\Record {
 
 	public $id;
 	public $url;

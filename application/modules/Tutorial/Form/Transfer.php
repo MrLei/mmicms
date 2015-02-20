@@ -1,6 +1,9 @@
 <?php
 
-class Tutorial_Form_Transfer extends Mmi_Form {
+
+namespace Tutorial\Form;
+
+class Transfer extends \Mmi\Form {
 
 	public function init() {
 

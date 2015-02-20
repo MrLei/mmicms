@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -10,20 +11,22 @@
  *
  * Mmi/Filter/NumberFormat.php
  * @category   Mmi
- * @package    Mmi_Filter
+ * @package    \Mmi\Filter
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa filtracji zmiennych numerycznych
  * @category   Mmi
- * @package    Mmi_Filter
+ * @package    \Mmi\Filter
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Filter_NumberFormat extends Mmi_Filter_Abstract {
+
+namespace Mmi\Filter;
+
+class NumberFormat extends \Mmi\Filter\FilterAbstract {
 
 	/**
 	 * Filtruje zmienne numeryczne

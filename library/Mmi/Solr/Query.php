@@ -11,7 +11,7 @@
  *
  * Mmi/Solr/Query.php
  * @category   Mmi
- * @package    Mmi_Solr_Query
+ * @package    \Mmi\Solr\Query
  * @copyright  Copyright (c) 2011 Skylab Michał Oczkowski
  * @author     Michał Oczkowski <michal@e-oczkowski.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Klient SOLR
  * @category   Mmi
- * @package    Mmi_Solr_Query
+ * @package    \Mmi\Solr\Query
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Solr_Query {
+
+namespace Mmi\Solr;
+
+class Query {
 
 	private $_searchText = null;
 

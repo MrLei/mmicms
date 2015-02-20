@@ -10,7 +10,7 @@
  *
  * Mmi/Form/Element/MultiCheckbox.php
  * @category   Mmi
- * @package    Mmi_Form
+ * @package    \Mmi\Form
  * @subpackage Element
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -21,16 +21,18 @@
 /**
  * Klasa elementu wielokrotnego checkboxa (wybór wielokrotny)
  * @category   Mmi
- * @package    Mmi_Form
+ * @package    \Mmi\Form
  * @subpackage Element
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Form_Element_MultiCheckbox extends Mmi_Form_Element_Abstract {
+namespace Mmi\Form\Element;
+
+class MultiCheckbox extends ElementAbstract {
 
 	/**
 	 * Ustawia klasy dla poszczególnych labelek
 	 * @param array $class - tablica $key => $class
-	 * @return Mmi_Form_Element_MultiCheckbox
+	 * @return \Mmi\Form\Element\MultiCheckbox
 	 */
 	public function setLabelClass(array $class) {
 		$this->_options['labelClass'] = $class;
@@ -58,7 +60,7 @@ class Mmi_Form_Element_MultiCheckbox extends Mmi_Form_Element_Abstract {
 			if (!empty($values) && in_array($key, $values)) {
 				$this->_options['checked'] = 'checked';
 			}
-			$f = new Mmi_Filter_Url();
+			$f = new \Mmi\Filter\Url();
 			$this->_options['id'] = $baseId . '_' . $f->filter($key);
 			$this->_options['value'] = $key;
 

@@ -10,7 +10,7 @@
  *
  * Mmi/Form/Element/Submit.php
  * @category   Mmi
- * @package    Mmi_Form
+ * @package    \Mmi\Form
  * @subpackage Element
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -21,11 +21,14 @@
 /**
  * Klasa elementu wyślij (submit)
  * @category   Mmi
- * @package    Mmi_Form
+ * @package    \Mmi\Form
  * @subpackage Element
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Form_Element_Submit extends Mmi_Form_Element_Abstract {
+
+namespace Mmi\Form\Element;
+
+class Submit extends ElementAbstract {
 
 	/**
 	 * Konstruktor, ustawia nazwę pola i opcje

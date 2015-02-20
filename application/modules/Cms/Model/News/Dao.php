@@ -1,27 +1,30 @@
 <?php
 
-class Cms_Model_News_Dao extends Mmi_Dao {
+
+namespace Cms\Model\News;
+
+class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'cms_news';
 
 	/**
 	 * Zapytanie językowe
-	 * @return Cms_Model_News_Query
+	 * @return Cms\Model\News\Query
 	 */
 	public static function langQuery() {
-		if (!Mmi_Controller_Front::getInstance()->getRequest()->lang) {
-			return Cms_Model_News_Query::factory();
+		if (!\Mmi\Controller\Front::getInstance()->getRequest()->lang) {
+			return Cms\Model\News\Query::factory();
 		}
-		return Cms_Model_News_Query::factory()
-				->andQuery(Cms_Model_News_Query::factory()
-					->whereLang()->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
+		return Cms\Model\News\Query::factory()
+				->andQuery(Cms\Model\News\Query::factory()
+					->whereLang()->equals(\Mmi\Controller\Front::getInstance()->getRequest()->lang)
 					->orFieldLang()->equals(null)
 					->orderDescLang());
 	}
 
 	/**
 	 * Zapytanie o aktywne
-	 * @return Cms_Model_News_Query
+	 * @return Cms\Model\News\Query
 	 */
 	public static function activeQuery() {
 		return self::langQuery()
@@ -32,7 +35,7 @@ class Cms_Model_News_Dao extends Mmi_Dao {
 	/**
 	 * Zapytanie o aktywne po uri
 	 * @param string $uri
-	 * @return Cms_Model_News_Query
+	 * @return Cms\Model\News\Query
 	 */
 	public static function activeByUriQuery($uri) {
 		return self::activeQuery()
@@ -42,7 +45,7 @@ class Cms_Model_News_Dao extends Mmi_Dao {
 	/**
 	 * Zapytanie po uri
 	 * @param string $uri
-	 * @return Cms_Model_News_Query
+	 * @return Cms\Model\News\Query
 	 */
 	public static function byUriQuery($uri) {
 		return self::langQuery()

@@ -11,7 +11,7 @@
  *
  * MmiCms/Bootstrap/Cmd.php
  * @category   MmiCms
- * @package    MmiCms_Bootstrap
+ * @package    MmiCms\Bootstrap
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -22,10 +22,13 @@
  * Klasa startu aplikacji command line
  * ustawia ścieżki, ładuje ogólną konfigurację
  * @category   Mmi
- * @package    Mmi_Bootstrap
+ * @package    \Mmi\Bootstrap
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class MmiCms_Application_Bootstrap_Commandline extends MmiCms_Application_Bootstrap {
+
+namespace MmiCms\Application\Bootstrap;
+
+class Commandline extends \MmiCms\Application\Bootstrap {
 
 	public function __construct() {
 
@@ -37,19 +40,19 @@ class MmiCms_Application_Bootstrap_Commandline extends MmiCms_Application_Bootst
 	 * Uruchamianie bootstrapa - brak front kontrolera
 	 */
 	public function run() {
-		$front = Mmi_Controller_Front::getInstance();
-		$request = new Mmi_Controller_Request();
+		$front = \Mmi\Controller\Front::getInstance();
+		$request = new \Mmi\Controller\Request();
 		//ustawianie domyślnego języka jeśli istnieje
-		if (isset(Default_Registry::$config->application->languages[0])) {
-			$request->setParam('lang', Default_Registry::$config->application->languages[0]);
+		if (isset(Core\Registry::$config->application->languages[0])) {
+			$request->setParam('lang', Core\Registry::$config->application->languages[0]);
 		}
 		$request->setModuleName('default')
 				->setControllerName('index')
 				->setActionName('index')
-				->setSkinName(Default_Registry::$config->application->skin);
+				->setSkinName(Core\Registry::$config->application->skin);
 		//ustawianie żądania
 		$front->setRequest($request);
-		Mmi_Controller_Front::getInstance()->getView()->setRequest($request);
+		\Mmi\Controller\Front::getInstance()->getView()->setRequest($request);
 	}
 
 }

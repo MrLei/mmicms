@@ -10,7 +10,7 @@
  *
  * MmiCms/Form/Element/ColorPicker.php
  * @category   MmiCms
- * @package    MmiCms_Form
+ * @package    MmiCms\Form
  * @subpackage Element
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -21,18 +21,20 @@
 /**
  * Klasa elementu wyboru koloru
  * @category   MmiCms
- * @package    MmiCms_Form
+ * @package    MmiCms\Form
  * @subpackage Element
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class MmiCms_Form_Element_ColorPicker extends Mmi_Form_Element_Text {
+namespace MmiCms\Form\Element;
+
+class ColorPicker extends \Mmi\Form\Element\Text {
 
 	/**
 	 * Buduje pole
 	 * @return string
 	 */
 	public function fetchField() {
-		$view = Mmi_Controller_Front::getInstance()->getView();
+		$view = \Mmi\Controller\Front::getInstance()->getView();
 		$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
 		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/farbtastic.js');
 		$view->headScript()->appendScript('

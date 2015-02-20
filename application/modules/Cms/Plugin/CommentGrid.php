@@ -1,10 +1,11 @@
 <?php
 
-class Cms_Plugin_CommentGrid extends Mmi_Grid {
+namespace Cms\Plugin;
+class CommentGrid extends \Mmi\Grid {
 
 	public function init() {
 		
-		$this->setQuery(Cms_Model_Comment_Query::factory());
+		$this->setQuery(Cms\Model\Comment\Query::factory());
 
 		$this->addColumn('text', 'dateAdd', array(
 			'label' => 'data dodania'

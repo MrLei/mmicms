@@ -10,7 +10,7 @@
  *
  * Mmi/View.php
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -19,14 +19,17 @@
 
 /**
  * Klasa widoku
- * @see Mmi_View_Helper
+ * @see \Mmi\View\Helper
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  * 
  * @property Exception $_exception wyjątek
  */
-class Mmi_View {
+
+namespace Mmi;
+
+class View {
 
 	/**
 	 * Bieżąca wersja językowa
@@ -66,13 +69,13 @@ class Mmi_View {
 
 	/**
 	 * Obiekt tłumaczeń
-	 * @var Mmi_Translate
+	 * @var \Mmi\Translate
 	 */
 	private $_translate;
 
 	/**
 	 * Obiekt buforujący
-	 * @var Mmi_Cache
+	 * @var \Mmi\Cache
 	 */
 	private $_cache;
 	
@@ -84,7 +87,7 @@ class Mmi_View {
 
 	/**
 	 * Obiekt requestu
-	 * @var Mmi_Controller_Request
+	 * @var \Mmi\Controller\Request
 	 */
 	public $request;
 
@@ -111,7 +114,7 @@ class Mmi_View {
 	public function __call($name, array $params = array()) {
 		$helper = $this->getHelper($name);
 		//poprawny helper
-		if ($helper instanceof Mmi_View_Helper_Abstract) {
+		if ($helper instanceof \Mmi\View\Helper\HelperAbstract) {
 			return call_user_func_array(array($helper, $name), $params);
 		}
 		return $this->getPlaceholder($name);
@@ -154,10 +157,10 @@ class Mmi_View {
 
 	/**
 	 * Ustawia obiekt request
-	 * @param Mmi_Controller_Request $request
-	 * @return Mmi_View
+	 * @param \Mmi\Controller\Request $request
+	 * @return \Mmi\View
 	 */
-	public function setRequest(Mmi_Controller_Request $request) {
+	public function setRequest(\Mmi\Controller\Request $request) {
 		$this->request = $request;
 		$this->module = $request->getModuleName();
 		$this->lang = $request->lang;
@@ -167,20 +170,20 @@ class Mmi_View {
 
 	/**
 	 * Ustawia translator
-	 * @param Mmi_Translate $translate
-	 * @return Mmi_View
+	 * @param \Mmi\Translate $translate
+	 * @return \Mmi\View
 	 */
-	public function setTranslate(Mmi_Translate $translate) {
+	public function setTranslate(\Mmi\Translate $translate) {
 		$this->_translate = $translate;
 		return $this;
 	}
 
 	/**
 	 * Ustawia obiekt cache
-	 * @param Mmi_Cache $cache
-	 * @return Mmi_View
+	 * @param \Mmi\Cache $cache
+	 * @return \Mmi\View
 	 */
-	public function setCache(Mmi_Cache $cache) {
+	public function setCache(\Mmi\Cache $cache) {
 		$this->_cache = $cache;
 		return $this;
 	}
@@ -188,7 +191,7 @@ class Mmi_View {
 	/**
 	 * Ustawia opcję zawsze kompiluj szablony
 	 * @param boolean $compile
-	 * @return Mmi_View
+	 * @return \Mmi\View
 	 */
 	public function setAlwaysCompile($compile = true) {
 		$this->_alwaysCompile = $compile;
@@ -198,7 +201,7 @@ class Mmi_View {
 	/**
 	 * Ustawia bazowy url
 	 * @param string $baseUrl
-	 * @return Mmi_View
+	 * @return \Mmi\View
 	 */
 	public function setBaseUrl($baseUrl) {
 		$this->baseUrl = $baseUrl;
@@ -207,15 +210,15 @@ class Mmi_View {
 
 	/**
 	 * Zwraca obiekt translatora
-	 * @return Mmi_Translate
+	 * @return \Mmi\Translate
 	 */
 	public function getTranslate() {
-		return ($this->_translate !== null) ? $this->_translate : new Mmi_Translate();
+		return ($this->_translate !== null) ? $this->_translate : new \Mmi\Translate();
 	}
 
 	/**
 	 * Zwraca obiekt cache
-	 * @return Mmi_Cache
+	 * @return \Mmi\Cache
 	 */
 	public function getCache() {
 		return $this->_cache;
@@ -224,18 +227,18 @@ class Mmi_View {
 	/**
 	 * Pobiera helper na podstawie nazwy z uwzględnieniem ścieżek do helperów
 	 * @param string $name nazwa
-	 * @return Mmi_View_Helper_Abstract
+	 * @return \Mmi\View\Helper\Abstract
 	 */
 	public function getHelper($name) {
 		$name = ucfirst($name);
-		$structure = Mmi_Controller_Front::getInstance()->getStructure();
+		$structure = \Mmi\Controller\Front::getInstance()->getStructure();
 		foreach ($structure['library'] as $libName => $lib) {
 			if (isset($lib['View']['Helper'][$name])) {
-				$className = $libName . '_View_Helper_' . $name;
+				$className = $libName . '\View\Helper\\' . $name;
 			}
 		}
 		if (isset($this->request) && isset($structure['module'][$this->request->module]['View']['Helper'][$name])) {
-			$className = ucfirst($this->request->module) . '_View_Helper_' . $name;
+			$className = ucfirst($this->request->module) . '\View\Helper\\' . $name;
 		}
 		if (!isset($className)) {
 			return false;
@@ -250,18 +253,18 @@ class Mmi_View {
 	/**
 	 * Pobiera filtr na podstawie nazwy z uwzględnieniem ścieżek do filtrów
 	 * @param string $name nazwa
-	 * @return Mmi_View_Helper_Abstract
+	 * @return \Mmi\View\Helper\Abstract
 	 */
 	public function getFilter($name) {
 		$name = ucfirst($name);
-		$structure = Mmi_Controller_Front::getInstance()->getStructure();
+		$structure = \Mmi\Controller\Front::getInstance()->getStructure();
 		foreach ($structure['library'] as $libName => $lib) {
 			if (isset($lib['Filter'][$name])) {
-				$className = $libName . '_Filter_' . $name;
+				$className = $libName . '\Filter\\' . $name;
 			}
 		}
 		if (isset($this->request) && isset($structure['module'][$this->request->module]['Filter'][$name])) {
-			$className = ucfirst($this->request->module) . '_Filter_' . $name;
+			$className = ucfirst($this->request->module) . '\Filter\\' . $name;
 		}
 		if (!isset($className)) {
 			throw new Exception('Filter not found: ' . $name);
@@ -277,7 +280,7 @@ class Mmi_View {
 	 * Ustawia placeholder
 	 * @param string $name nazwa
 	 * @param string $content zawartość
-	 * @return Mmi_View
+	 * @return \Mmi\View
 	 */
 	public function setPlaceholder($name, $content) {
 		$this->_placeholders[$name] = $content;
@@ -322,11 +325,11 @@ class Mmi_View {
 		$prev = ob_get_contents();
 		ob_clean();
 		$hash = md5($input);
-		Mmi_Profiler::event('View direct build: ' . $hash);
+		\Mmi\Profiler::event('View direct build: ' . $hash);
 		if (!$this->_locale && $this->_translate !== null) {
 			$this->_locale = $this->_translate->getLocale();
 		}
-		$compileName = $this->_locale . '_direct_' . $hash . '.php';
+		$compileName = $this->_locale . '-direct-' . $hash . '.php';
 		$destFile = TMP_PATH . '/compile/' . $compileName;
 		if ($this->_alwaysCompile) {
 			file_put_contents($destFile, $this->template($input, $destFile));
@@ -342,14 +345,14 @@ class Mmi_View {
 		$data = ob_get_contents();
 		ob_clean();
 		echo $prev;
-		Mmi_Profiler::event('View direct fetched: ' . $hash);
+		\Mmi\Profiler::event('View direct fetched: ' . $hash);
 		return $data;
 	}
 
 	/**
 	 * Ustawia wyłączenie layoutu
 	 * @param boolean $disabled wyłączony
-	 * @return Mmi_View
+	 * @return \Mmi\View
 	 */
 	public function setLayoutDisabled($disabled = true) {
 		$this->_layoutDisabled = ($disabled === true) ? true : false;
@@ -378,7 +381,7 @@ class Mmi_View {
 	 * @return string zwraca efekt renderowania
 	 */
 	public function render($fileName) {
-		Mmi_Profiler::event('View build: ' . basename($fileName));
+		\Mmi\Profiler::event('View build: ' . basename($fileName));
 		if (!$this->_locale && $this->_translate !== null) {
 			$this->_locale = $this->_translate->getLocale();
 		}
@@ -399,7 +402,7 @@ class Mmi_View {
 		}
 		$data = ob_get_contents();
 		ob_clean();
-		Mmi_Profiler::event('View fetched: ' . $compileName);
+		\Mmi\Profiler::event('View fetched: ' . $compileName);
 		return $data;
 	}
 
@@ -412,7 +415,7 @@ class Mmi_View {
 	 * @throws Exception brak layoutów
 	 */
 	private function _getLayout($skin, $module, $controller) {
-		$structure = Mmi_Controller_Front::getInstance()->getStructure();
+		$structure = \Mmi\Controller\Front::getInstance()->getStructure();
 		//skóra / moduł / kontroler
 		if (isset($structure['skin'][$skin][$module][$controller]['layout'])) {
 			return APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/scripts/' . str_replace('-', '/', $controller) . '/layout.tpl';
@@ -450,7 +453,7 @@ class Mmi_View {
 	 * @throws Exception brak templatów
 	 */
 	private function _getTemplate($skin, $module, $controller, $action) {
-		$structure = Mmi_Controller_Front::getInstance()->getStructure();
+		$structure = \Mmi\Controller\Front::getInstance()->getStructure();
 		//template w skórze
 		if (isset($structure['skin'][$skin][$module][$controller][$action])) {
 			return APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/scripts/' . str_replace('-', '/', $controller) . '/' . $action . '.tpl';

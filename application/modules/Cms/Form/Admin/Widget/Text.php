@@ -1,8 +1,11 @@
 <?php
 
-class Cms_Form_Admin_Widget_Text extends MmiCms_Form {
 
-	protected $_recordName = 'Cms_Model_Widget_Text_Record';
+namespace Cms\Form\Admin\Widget;
+
+class Text extends \MmiCms\Form {
+
+	protected $_recordName = 'Cms\Model\Widget\Text\Record';
 	
 	public function init() {
 

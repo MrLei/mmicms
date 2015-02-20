@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
+
+namespace Cms\Model\Navigation;
+
+class Record extends \Mmi\Dao\Record {
 
 	public $id;
 	public $lang;
@@ -36,7 +39,7 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 				return $this;
 			}
 
-			$article = Cms_Model_Article_Dao::byUriQuery($params['uri'])
+			$article = Cms\Model\Article\Dao::byUriQuery($params['uri'])
 				->findFirst();
 			if ($article !== null) {
 				$this->articleId = $article->id;
@@ -46,7 +49,7 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 
 	public function saveForm() {
 		//ustawianie domyślnego języka
-		$this->lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
+		$this->lang = \Mmi\Controller\Front::getInstance()->getRequest()->lang;
 		if ($this->parentId === null) {
 			$this->parentId = 0;
 		}
@@ -61,7 +64,7 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 			}
 		}
 		//wiązanie artykułu
-		if ($this->getOption('articleId') && null !== ($article = Cms_Model_Article_Dao::findPk($this->getOption('articleId')))) {
+		if ($this->getOption('articleId') && null !== ($article = Cms\Model\Article\Dao::findPk($this->getOption('articleId')))) {
 			$this->module = 'cms';
 			$this->controller = 'article';
 			$this->action = 'index';
@@ -83,7 +86,7 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 	public function _insert() {
 		//dodawanie na końcu listy
 		if ($this->parentId) {
-			$lastElement = Cms_Model_Navigation_Dao::descByParentIdQuery($this->parentId)
+			$lastElement = Cms\Model\Navigation\Dao::descByParentIdQuery($this->parentId)
 				->findFirst();
 			$this->order = 0;
 			if ($lastElement !== null) {
@@ -94,7 +97,7 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 	}
 
 	public function delete() {
-		Cms_Model_Navigation_Dao::byParentIdQuery($this->id)
+		Cms\Model\Navigation\Dao::byParentIdQuery($this->id)
 			->find()
 			->delete();
 		$this->_clearCache();
@@ -102,9 +105,9 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 	}
 
 	protected function _clearCache() {
-		Default_Registry::$cache->remove('Mmi_Navigation_');
-		Default_Registry::$cache->remove('Mmi_Navigation_' . Mmi_Controller_Front::getInstance()->getRequest()->lang);
-		Default_Registry::$cache->remove('Mmi_Acl');
+		Core\Registry::$cache->remove('\Mmi\Navigation_');
+		Core\Registry::$cache->remove('\Mmi\Navigation_' . \Mmi\Controller\Front::getInstance()->getRequest()->lang);
+		Core\Registry::$cache->remove('\Mmi\Acl');
 	}
 
 }

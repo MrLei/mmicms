@@ -1,8 +1,11 @@
 <?php
 
-class Cms_Form_Admin_Role extends Mmi_Form {
 
-	protected $_recordName = 'Cms_Model_Role_Record';
+namespace Cms\Form\Admin;
+
+class Role extends \Mmi\Form {
+
+	protected $_recordName = 'Cms\Model\Role\Record';
 
 	public function init() {
 

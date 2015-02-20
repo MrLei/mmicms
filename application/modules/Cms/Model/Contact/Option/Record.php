@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Contact_Option_Record extends Mmi_Dao_Record {
+
+namespace Cms\Model\Contact\Option;
+
+class Record extends \Mmi\Dao\Record {
 
 	public $id;
 	public $name;

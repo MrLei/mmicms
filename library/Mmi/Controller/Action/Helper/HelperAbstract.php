@@ -9,9 +9,9 @@
  * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
  * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
  *
- * Mmi/Controller/Action/Helper/Abstract.php
+ * Mmi/Controller/Action/Helper/HelperAbstract.php
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @subpackage Helper
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -22,15 +22,18 @@
 /**
  * Abstrakcyjna klasa helperów kontrolera akcji
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Controller_Action_Helper_Abstract {
+
+namespace Mmi\Controller\Action\Helper;
+
+class HelperAbstract {
 
 	/**
 	 * Request
-	 * @var Mmi_Controller_Request
+	 * @var \Mmi\Controller\Request
 	 */
 	protected $_request;
 
@@ -43,21 +46,21 @@ class Mmi_Controller_Action_Helper_Abstract {
 
 	/**
 	 * Ustawia request (zastępujący domyślny z Front Controllera)
-	 * @param Mmi_Controller_Request $request
-	 * @return Mmi_Controller_Action_Helper_Abstract
+	 * @param \Mmi\Controller\Request $request
+	 * @return \Mmi\Controller\Action\Helper\HelperAbstract
 	 */
-	public final function setRequest(Mmi_Controller_Request $request) {
+	public final function setRequest(\Mmi\Controller\Request $request) {
 		$this->_request = $request;
 		return $this;
 	}
 
 	/**
 	 * Zwraca request
-	 * @return Mmi_Controller_Request
+	 * @return \Mmi\Controller\Request
 	 */
 	public final function getRequest() {
 		if (!$this->_request) {
-			return Mmi_Controller_Front::getInstance()->getRequest();
+			return \Mmi\Controller\Front::getInstance()->getRequest();
 		}
 		return $this->_request;
 	}

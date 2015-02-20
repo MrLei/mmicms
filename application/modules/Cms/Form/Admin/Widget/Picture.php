@@ -1,8 +1,11 @@
 <?php
 
-class Cms_Form_Admin_Widget_Picture extends Mmi_Form {
 
-	protected $_recordName = 'Cms_Model_Widget_Picture_Record';
+namespace Cms\Form\Admin\Widget;
+
+class Picture extends \Mmi\Form {
+
+	protected $_recordName = 'Cms\Model\Widget\Picture\Record';
 
 	public function init() {
 
@@ -35,8 +38,8 @@ class Cms_Form_Admin_Widget_Picture extends Mmi_Form {
 		}
 		$object = 'cmswidgetpicture';
 		//zastapienie obecnego pliku
-		Cms_Model_File_Dao::imagesByObjectQuery($object, $id)->find()->delete();
-		Cms_Model_File_Dao::appendFiles($object, $id, $files);
+		Cms\Model\File\Dao::imagesByObjectQuery($object, $id)->find()->delete();
+		Cms\Model\File\Dao::appendFiles($object, $id, $files);
 	}
 
 }

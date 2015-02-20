@@ -11,7 +11,7 @@
  *
  * Mmi/View/Helper/Template.php
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -22,11 +22,14 @@
 /**
  * Helper silnika szablonów
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_View_Helper_Template extends Mmi_View_Helper_Abstract {
+
+namespace Mmi\View\Helper;
+
+class Template extends HelperAbstract {
 
 	/**
 	 * Parsuje kod szablonu do kodu PHP
@@ -192,7 +195,7 @@ class Mmi_View_Helper_Template extends Mmi_View_Helper_Abstract {
 				$absolute = false;
 				break;
 		}
-		return Mmi_Controller_Front::getInstance()->getView()->getHelper('url')->url($params, true, $absolute, $https);
+		return \Mmi\Controller\Front::getInstance()->getView()->getHelper('url')->url($params, true, $absolute, $https);
 	}
 
 	/**
@@ -201,7 +204,7 @@ class Mmi_View_Helper_Template extends Mmi_View_Helper_Abstract {
 	 * @return string
 	 */
 	private function _text(array $matches) {
-		return Mmi_Controller_Front::getInstance()->getView()->getHelper('text')->text($matches[1]);
+		return \Mmi\Controller\Front::getInstance()->getView()->getHelper('text')->text($matches[1]);
 	}
 
 	/**

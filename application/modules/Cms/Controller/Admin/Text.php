@@ -1,13 +1,15 @@
 <?php
 
-class Cms_Controller_Admin_Text extends MmiCms_Controller_Admin {
+namespace Cms\Controller\Admin;
+
+class Text extends \MmiCms\Controller\Admin {
 
 	public function indexAction() {
-		$this->view->grid = new Cms_Plugin_TextGrid();
+		$this->view->grid = new \Cms\Plugin\TextGrid();
 	}
 
 	public function editAction() {
-		$form = new Cms_Form_Admin_Text($this->id);
+		$form = new \Cms\Form\Admin\Text($this->id);
 		if (!$form->isMine()) {
 			return;
 		}
@@ -19,7 +21,7 @@ class Cms_Controller_Admin_Text extends MmiCms_Controller_Admin {
 	}
 
 	public function cloneAction() {
-		$form = new Cms_Form_Admin_Text_Clone();
+		$form = new \Cms\Form\Admin\Text\Copy();
 		if (!$form->isMine()) {
 			return;
 		}
@@ -31,7 +33,7 @@ class Cms_Controller_Admin_Text extends MmiCms_Controller_Admin {
 	}
 
 	public function deleteAction() {
-		$text = new Cms_Model_Text_Record($this->id);
+		$text = new \Cms\Model\Text\Record($this->id);
 		if ($text->delete()) {
 			$this->_helper->messenger('Poprawnie skasowano tekst', true);
 		}

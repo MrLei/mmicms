@@ -11,7 +11,7 @@
  *
  * Mmi/Db/Adapter/Pdo/Pgsql.php
  * @category   Mmi
- * @package    Mmi_Db
+ * @package    \Mmi\Db
  * @subpackage Adapter
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -22,16 +22,19 @@
 /**
  * Klasa adaptera PostgreSQL
  * @category   Mmi
- * @package    Mmi_Db
+ * @package    \Mmi\Db
  * @subpackage Adapter
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
+
+namespace Mmi\Db\Adapter\Pdo;
+
+class Pgsql extends PdoAbstract {
 
 	/**
 	 * Ustawia schemat
 	 * @param string $schemaName nazwa schematu
-	 * @return Mmi_Db_Adapter_Pdo_Pgsql
+	 * @return \Mmi\Db\Adapter\Pdo\Pgsql
 	 */
 	public function selectSchema($schemaName) {
 		$this->_config->schema = $schemaName;
@@ -41,7 +44,7 @@ class Mmi_Db_Adapter_Pdo_Pgsql extends Mmi_Db_Adapter_Pdo_Abstract {
 
 	/**
 	 * Ustawia domyślne parametry dla importu (długie zapytania)
-	 * @return Mmi_Db_Adapter_Pdo_Pgsql
+	 * @return \Mmi\Db\Adapter\Pdo\Pgsql
 	 */
 	public function setDefaultImportParams() {
 		$this->query('SET statement_timeout = 0;

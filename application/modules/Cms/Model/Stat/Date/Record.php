@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Stat_Date_Record extends Mmi_Dao_Record {
+
+namespace Cms\Model\Stat\Date;
+
+class Record extends \Mmi\Dao\Record {
 
 	public $id;
 	public $hour;

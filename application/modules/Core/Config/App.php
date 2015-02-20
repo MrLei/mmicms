@@ -3,17 +3,20 @@
 /**
  * Klasa konfiguracji aplikacji
  */
-class Default_Config_Default extends MmiCms_Config {
+
+namespace Core\Config;
+
+class App extends \MmiCms\Config {
 
 	/**
 	 * Konfiguracja routera
-	 * @var Default_Config_Router
+	 * @var Core\Config\Router
 	 */
 	public $router;
 
 	/**
 	 * Konfiguracja nawigatora
-	 * @var Default_Config_Navigation
+	 * @var Core\Config\Navigation
 	 */
 	public $navigation;
 
@@ -25,10 +28,10 @@ class Default_Config_Default extends MmiCms_Config {
 		parent::__construct();
 
 		//konfiguracja routera
-		$this->router = new Default_Config_Router();
+		$this->router = new \Core\Config\Router();
 		
 		//konfiguracja nawigatora
-		$this->navigation = new Default_Config_Navigation();
+		$this->navigation = new \Core\Config\Navigation();
 
 		//konfiguracja aplikacji
 		$this->application->host = 'localhost';
@@ -40,7 +43,7 @@ class Default_Config_Default extends MmiCms_Config {
 		//kompilacja templatów przy każdym odpaleniu danej strony
 		$this->application->compile = false;
 		$this->application->languages = array();
-		$this->application->plugins = array('MmiCms_Controller_Plugin');
+		$this->application->plugins = array('MmiCms\Controller\Plugin');
 
 		//media serwer ma wpływ na generowanie linków do zasobów
 		$this->media->server = '';

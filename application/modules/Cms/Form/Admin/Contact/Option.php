@@ -1,8 +1,11 @@
 <?php
 
-class Cms_Form_Admin_Contact_Option extends Mmi_Form {
 
-	protected $_recordName = 'Cms_Model_Contact_Option_Record';
+namespace Cms\Form\Admin\Contact;
+
+class Option extends \Mmi\Form {
+
+	protected $_recordName = 'Cms\Model\Contact\Option\Record';
 
 	public function init() {
 

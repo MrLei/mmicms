@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -10,26 +11,28 @@
  *
  * Mmi/Controller/Action/Helper/Redirector.php
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @subpackage Helper
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Helper przekierowań
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Controller_Action_Helper_Redirector extends Mmi_Controller_Action_Helper_Abstract {
-	
+
+namespace Mmi\Controller\Action\Helper;
+
+class Redirector extends \Mmi\Controller\Action\Helper\HelperAbstract {
+
 	/**
 	 * Metoda główna, wykonuje gotoSimple
-	 * @see Mmi_Controller_Action_Helper_Redirector::gotoSimple()
+	 * @see \Mmi\Controller\Action\Helper\Redirector::gotoSimple()
 	 * @param string $action akcja
 	 * @param string $controller kontroler
 	 * @param string $module moduł
@@ -48,25 +51,25 @@ class Mmi_Controller_Action_Helper_Redirector extends Mmi_Controller_Action_Help
 	 * @param int $code kod
 	 */
 	public function setCode($code) {
-		$response = Mmi_Controller_Front::getInstance()->getResponse();
+		$response = \Mmi\Controller\Front::getInstance()->getResponse();
 		$response->setCode($code);
 		return $this;
 	}
-	
+
 	/**
 	 * Przekierowanie wewnątrz systemu (z użyciem routera)
 	 * Buduje URL za pomocą routera i wykonuje gotoUrl()
-	 * @see Mmi_Controller_Router::encodeUrl()
-	 * @see Mmi_Controller_Action_Helper_Redirector::gotoUrl()
+	 * @see \Mmi\Controller\Router::encodeUrl()
+	 * @see \Mmi\Controller\Action\Helper\Redirector::gotoUrl()
 	 * @param array $params parametry dla routy
 	 */
 	public function gotoRoute(array $params = array()) {
-		$this->gotoUrl(Mmi_Controller_Front::getInstance()->getRouter()->encodeUrl($params));
+		$this->gotoUrl(\Mmi\Controller\Front::getInstance()->getRouter()->encodeUrl($params));
 	}
 
 	/**
 	 * Przekierowanie wewnątrz systemu (z użyciem routera, lecz z uproszczonymi parametrami)
-	 * @see Mmi_Controller_Action_Helper_Redirector::gotoRoute()
+	 * @see \Mmi\Controller\Action\Helper\Redirector::gotoRoute()
 	 * @param string $action akcja
 	 * @param string $controller kontroler
 	 * @param string $module moduł
@@ -95,7 +98,7 @@ class Mmi_Controller_Action_Helper_Redirector extends Mmi_Controller_Action_Help
 	 * @param string $url adres url
 	 */
 	public function gotoUrl($url) {
-		$response = Mmi_Controller_Front::getInstance()->getResponse();
+		$response = \Mmi\Controller\Front::getInstance()->getResponse();
 		$response->setHeader('Location', $url);
 		exit;
 	}

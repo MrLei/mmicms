@@ -1,10 +1,11 @@
 <?php
 
-class Cms_Plugin_TagGrid extends Mmi_Grid {
+namespace Cms\Plugin;
+class TagGrid extends \Mmi\Grid {
 
 	public function init() {
 		
-		$this->setQuery(Cms_Model_Tag_Query::factory());
+		$this->setQuery(Cms\Model\Tag\Query::factory());
 		$this->setOption('locked', true);
 
 		$this->addColumn('text', 'tag', array(

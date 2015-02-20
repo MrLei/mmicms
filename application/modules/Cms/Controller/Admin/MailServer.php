@@ -1,14 +1,16 @@
 <?php
 
-class Cms_Controller_Admin_MailServer extends MmiCms_Controller_Admin {
+namespace Cms\Controller\Admin;
+
+class MailServer extends \MmiCms\Controller\Admin {
 
 	public function indexAction() {
-		$grid = new Cms_Plugin_MailServerGrid();
+		$grid = new \Cms\Plugin\MailServerGrid();
 		$this->view->grid = $grid;
 	}
 
 	public function editAction() {
-		$form = new Cms_Form_Admin_Mail_Server($this->id);
+		$form = new \Cms\Form\Admin\Mail\Server($this->id);
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Zapisano ustawienia serwera', true);
 			$this->_helper->redirector('index', 'admin-mailServer', 'cms', array(), true);
@@ -16,7 +18,7 @@ class Cms_Controller_Admin_MailServer extends MmiCms_Controller_Admin {
 	}
 
 	public function deleteAction() {
-		$server = new Cms_Model_Mail_Server_Record($this->id);
+		$server = new \Cms\Model\Mail\Server\Record($this->id);
 		try {
 			if ($server && $server->delete()) {
 				$this->_helper->messenger('Usunięto serwer');

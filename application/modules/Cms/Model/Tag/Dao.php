@@ -1,11 +1,14 @@
 <?php
 
-class Cms_Model_Tag_Dao extends Mmi_Dao {
+
+namespace Cms\Model\Tag;
+
+class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'cms_tag';
 	
 	public static function byNameQuery($tagName) {
-		return Cms_Model_Tag_Query::factory()
+		return Cms\Model\Tag\Query::factory()
 				->whereTag()->equals($tagName);
 	}
 

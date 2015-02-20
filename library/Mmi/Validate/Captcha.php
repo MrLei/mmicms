@@ -10,7 +10,7 @@
  *
  * Mmi/Validate/Captcha.php
  * @category   Mmi
- * @package    Mmi_Validate
+ * @package    \Mmi\Validate
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,10 +20,13 @@
 /**
  * Klasa poprawności captcha
  * @category   Mmi
- * @package    Mmi_Validate
+ * @package    \Mmi\Validate
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Validate_Captcha extends Mmi_Validate_Abstract {
+
+namespace Mmi\Validate;
+
+class Captcha extends ValidateAbstract {
 
 	const INVALID = 'Przepisany kod jest niepoprawny';
 
@@ -34,8 +37,8 @@ class Mmi_Validate_Captcha extends Mmi_Validate_Abstract {
 	 */
 	public function isValid($value) {
 		$this->_error(self::INVALID);
-		$session = new Mmi_Session_Namespace('Mmi_Form');
-		$name = 'captcha_' . $this->_options['name'];
+		$session = new \Mmi\Session\Space('\Mmi\Form');
+		$name = 'captcha-' . $this->_options['name'];
 		return ($session->$name == strtoupper($value));
 	}
 }

@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Widget_Picture_Dao extends Mmi_Dao {
+
+namespace Cms\Model\Widget\Picture;
+
+class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'cms_widget_picture';
 

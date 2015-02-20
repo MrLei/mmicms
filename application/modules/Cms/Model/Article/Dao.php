@@ -1,22 +1,25 @@
 <?php
 
-class Cms_Model_Article_Dao extends Mmi_Dao {
+
+namespace Cms\Model\Article;
+
+class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'cms_article';
 
 	/**
 	 * 
 	 * @param string $uri
-	 * @return Cms_Model_Article_Query
+	 * @return Cms\Model\Article\Query
 	 */
 	public static function byUriQuery($uri) {
-		return Cms_Model_Article_Query::factory()
+		return Cms\Model\Article\Query::factory()
 				->whereUri()->equals($uri);
 	}
 
 	public static function getMultioptions() {
 		return array(null => '---') +
-				Cms_Model_Article_Query::factory()
+				Cms\Model\Article\Query::factory()
 				->orderAscTitle()
 				->findPairs('id', 'title');
 	}

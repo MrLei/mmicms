@@ -10,7 +10,7 @@
  *
  * Mmi/Filter/Url.php
  * @category   Mmi
- * @package    Mmi_Filter
+ * @package    \Mmi\Filter
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,10 +20,13 @@
 /**
  * Klasa filtracji tekstów do url
  * @category   Mmi
- * @package    Mmi_Filter
+ * @package    \Mmi\Filter
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Filter_Url extends Mmi_Filter_Abstract {
+
+namespace Mmi\Filter;
+
+class Url extends \Mmi\Filter\FilterAbstract {
 
 	/**
 	 * Klasa filtracji tekstów do url
@@ -33,7 +36,7 @@ class Mmi_Filter_Url extends Mmi_Filter_Abstract {
 	 */
 	public function filter($value) {
 		if (!is_array($value)) {
-			$ascii = new Mmi_Filter_Ascii();
+			$ascii = new \Mmi\Filter\Ascii();
 			return preg_replace('/[^\p{L}\p{N}]/u', '-', strtolower(trim($ascii->filter($value), '-')));
 		}
 		foreach ($value as $key => $val) {

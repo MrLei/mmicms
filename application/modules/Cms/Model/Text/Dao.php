@@ -1,21 +1,24 @@
 <?php
 
-class Cms_Model_Text_Dao extends Mmi_Dao {
+
+namespace Cms\Model\Text;
+
+class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'cms_text';
 	protected static $_texts = array();
 
 	/**
 	 * Zapytanie po langu z requesta
-	 * @return Cms_Model_Text_Query
+	 * @return Cms\Model\Text\Query
 	 */
 	public static function langQuery() {
-		if (!Mmi_Controller_Front::getInstance()->getRequest()->lang) {
-			return Cms_Model_Text_Query::factory();
+		if (!\Mmi\Controller\Front::getInstance()->getRequest()->lang) {
+			return Cms\Model\Text\Query::factory();
 		}
-		return Cms_Model_Text_Query::factory()
-				->andQuery(Cms_Model_Text_Query::factory()
-					->whereLang()->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
+		return Cms\Model\Text\Query::factory()
+				->andQuery(Cms\Model\Text\Query::factory()
+					->whereLang()->equals(\Mmi\Controller\Front::getInstance()->getRequest()->lang)
 					->orFieldLang()->equals(null)
 					->orderDescLang());
 	}
@@ -23,10 +26,10 @@ class Cms_Model_Text_Dao extends Mmi_Dao {
 	/**
 	 * 
 	 * @param string $lang
-	 * @return Cms_Model_Text_Query
+	 * @return Cms\Model\Text\Query
 	 */
 	public static function byLangQuery($lang) {
-		return Cms_Model_Text_Query::factory()
+		return Cms\Model\Text\Query::factory()
 				->whereLang()->equals($lang);
 	}
 	
@@ -34,7 +37,7 @@ class Cms_Model_Text_Dao extends Mmi_Dao {
 	 * 
 	 * @param string $key
 	 * @param string $lang
-	 * @return Cms_Model_Text_Query
+	 * @return Cms\Model\Text\Query
 	 */
 	public static function byKeyLangQuery($key, $lang) {
 		return self::byLangQuery($lang)
@@ -58,16 +61,16 @@ class Cms_Model_Text_Dao extends Mmi_Dao {
 	}
 
 	protected static function _initDictionary() {
-		if (null === (self::$_texts = Default_Registry::$cache->load('Cms_Text'))) {
+		if (null === (self::$_texts = Core\Registry::$cache->load('Cms\Text'))) {
 			self::$_texts = array();
-			foreach (Cms_Model_Text_Query::factory()->find() as $text) {
+			foreach (Cms\Model\Text\Query::factory()->find() as $text) {
 				if ($text->lang === null) {
 					self::$_texts['none'][$text->key] = $text->content;
 					continue;
 				}
 				self::$_texts[$text->lang][$text->key] = $text->content;
 			}
-			Default_Registry::$cache->save(self::$_texts, 'Cms_Text', 86400);
+			Core\Registry::$cache->save(self::$_texts, 'Cms\Text', 86400);
 		}
 	}
 

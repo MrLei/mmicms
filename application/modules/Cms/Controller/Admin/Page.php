@@ -1,28 +1,31 @@
 <?php
 
-class Cms_Controller_Admin_Page extends MmiCms_Controller_Admin {
+
+namespace Cms\Controller\Admin;
+
+class Page extends \MmiCms\Controller\Admin {
 
 	public function indexAction() {
-		$this->view->grid = new Cms_Plugin_PageGrid();
+		$this->view->grid = new \Cms\Plugin\PageGrid();
 	}
 
 	public function editAction() {
-		$form = new Cms_Form_Admin_Page($this->id);
+		$form = new \Cms\Form\Admin\Page($this->id);
 		if ($form->isSaved()) {
 			$this->_helper->redirector('compose', 'admin-page', 'cms', array('id' => $form->getRecord()->id), true);
 		}
 	}
 
 	public function composeAction() {
-		if (!$this->id || null === ($page = Cms_Model_Page_Query::factory()
+		if (!$this->id || null === ($page = Cms\Model\Page\Query::factory()
 			->where('id')->equals($this->id)
 			->findFirst())) {
 			$this->_helper->redirector('index', 'admin-page', 'cms', array(), true);
 		}
-		/* @var $page Cms_Model_Page_Record */
+		/* @var $page Cms\Model\Page\Record */
 
 		//lista aktywnych widgetow
-		$this->view->widgets = Cms_Model_Page_Widget_Dao::activeQuery()->find();
+		$this->view->widgets = Cms\Model\Page\Widget\Dao::activeQuery()->find();
 
 		//skrypty js
 		$this->view->headScript()->prependFile($this->view->baseUrl . '/library/js/jquery/jquery.js');
@@ -49,7 +52,7 @@ class Cms_Controller_Admin_Page extends MmiCms_Controller_Admin {
 		if (!isset($post['id']) || !isset($post['data'])) {
 			return json_encode(array('success' => 0));
 		}
-		$page = Cms_Model_Page_Query::factory()
+		$page = Cms\Model\Page\Query::factory()
 			->where('id')->equals($post['id'])
 			->findFirst();
 		if ($page === null) {
@@ -66,7 +69,7 @@ class Cms_Controller_Admin_Page extends MmiCms_Controller_Admin {
 		if (!isset($post['id'])) {
 			return json_encode(array('success' => 0));
 		}
-		$page = Cms_Model_Page_Query::factory()
+		$page = Cms\Model\Page\Query::factory()
 			->whereId()->equals($post['id'])
 			->findFirst();
 		if ($page === null) {
@@ -78,7 +81,7 @@ class Cms_Controller_Admin_Page extends MmiCms_Controller_Admin {
 	}
 		
 	public function deleteAction() {
-		if (null !== ($record = Cms_Model_Page_Dao::findPk($this->id)) && $record->delete()) {
+		if (null !== ($record = Cms\Model\Page\Dao::findPk($this->id)) && $record->delete()) {
 			$this->_helper->messenger('Strona usunięta poprawnie');
 		}
 		$this->_helper->redirector('index', 'admin-page', 'cms', array(), true);
