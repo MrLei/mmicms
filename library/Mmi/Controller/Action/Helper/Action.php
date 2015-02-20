@@ -84,7 +84,11 @@ class Mmi_Controller_Action_Helper_Action extends Mmi_Controller_Action_Helper_A
 		//ustawienie requestu w widoku
 		Mmi_Controller_Front::getInstance()->getView()->setRequest($controllerRequest);
 		//powołanie kontrolera
-		$controllerClassName = ucfirst($controllerRequest->getModuleName()) . '_Controller_' . ucfirst($controllerRequest->getControllerName());
+		$controllerParts = explode('-', $controllerRequest->getControllerName());
+		foreach ($controllerParts as $key => $controllerPart) {
+			$controllerParts[$key] = ucfirst($controllerPart);
+		}
+		$controllerClassName = ucfirst($controllerRequest->getModuleName()) . '_Controller_' . implode('_', $controllerParts);
 		$actionMethodName = $controllerRequest->getActionName() . 'Action';
 		$controller = new $controllerClassName($controllerRequest);
 		//wywołanie akcji

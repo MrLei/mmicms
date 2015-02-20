@@ -10,10 +10,9 @@
 class MmiCms_Controller_Admin Extends Mmi_Controller_Action {
 
 	public function init() {
-
-		//acl dla admina
-		if (!Default_Registry::$acl->isAllowed(Default_Registry::$auth->getRoles(), 'admin:index:index')) {
-			$this->_helper->redirector('index', 'index', 'admin', array(), true);
+		//tylko rola admin
+		if (!Default_Registry::$auth->hasRole('admin') && $this->getRequest()->action != 'login') {
+			$this->_helper->redirector('login', 'admin', 'cms', array(), true);
 		}
 
 		//ustawienie języka edycji
@@ -28,10 +27,7 @@ class MmiCms_Controller_Admin Extends Mmi_Controller_Action {
 			Mmi_Controller_Front::getInstance()->getRequest()->lang = $lang;
 			$this->getRequest()->lang = $lang;
 		}
-
-		$this->view = Mmi_Controller_Front::getInstance()->getView();
-		$this->view->baseSkin = Default_Registry::$config->application->skin;
-		$this->view->baseModule = 'admin';
+		Default_Registry::setVar('adminPage', true);
 	}
 
 }

@@ -159,7 +159,7 @@ class Mmi_View_Helper_Template extends Mmi_View_Helper_Abstract {
 
 	/**
 	 * Konwertuje określone tagi {@parametry@} na linki
-	 * przykład: {@module=admin&action=overview@} wygeneruje link do panelu administracyjnego
+	 * przykład: {@module=cms&action=admin@} wygeneruje link do panelu administracyjnego
 	 * przykład 2: {@module=default@} wygeneruje link do strony głównej
 	 * @param array $matches dopasowania
 	 * @return string

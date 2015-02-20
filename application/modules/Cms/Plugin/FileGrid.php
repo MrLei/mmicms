@@ -96,7 +96,7 @@ class Cms_Plugin_FileGrid extends Mmi_Grid {
 			'label' => 'operacje',
 			'links' => array(
 				'edit' => null,
-				'delete' => $this->_view->url(array('module' => 'cms', 'controller' => 'adminFile', 'id' => '%id%', 'action' => 'remove'), true),
+				'delete' => $this->_view->url(array('module' => 'cms', 'controller' => 'admin-file', 'id' => '%id%', 'action' => 'remove'), true),
 			)
 		));
 	}

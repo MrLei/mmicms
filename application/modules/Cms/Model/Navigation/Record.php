@@ -60,17 +60,14 @@ class Cms_Model_Navigation_Record extends Mmi_Dao_Record {
 				$this->uri = null;
 			}
 		}
-
 		//wiązanie artykułu
-		if ($this->getOption('article_id')) {
-			$article = new Cms_Model_Article_Record($this->articleId);
+		if ($this->getOption('articleId') && null !== ($article = Cms_Model_Article_Dao::findPk($this->getOption('articleId')))) {
 			$this->module = 'cms';
 			$this->controller = 'article';
 			$this->action = 'index';
 			$this->params = 'uri=' . $article->uri;
 			$this->uri = null;
 		}
-
 		$this->dateStart = $this->dateStart ? $this->dateStart : null;
 		$this->dateEnd = $this->dateEnd ? $this->dateEnd : null;
 

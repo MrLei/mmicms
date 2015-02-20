@@ -22,7 +22,7 @@ CMSADMIN.composer = function () {
 		toolkitRoot = $('.cms-page-composer-toolkit');
 		compilationRoot = $('.cms-page-composer-compilation');
 		configuratorRoot = $('.cms-page-composer-configurator');
-		saveEndpoint = request.baseUrl + '/cms/adminPage/update';
+		saveEndpoint = request.baseUrl + '/cms/admin-page/update';
 
 		toolkitRoot.find('.template').draggable({
 			revert: true,

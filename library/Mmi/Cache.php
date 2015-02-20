@@ -67,10 +67,10 @@ class Mmi_Cache {
 		if (!$this->_config->active) {
 			return;
 		}
-		if (Mmi_Registry::issetUserVariable($this->_registryNamespace . $key)) {
-			return Mmi_Registry::getUserVariable($this->_registryNamespace . $key);
+		if (Mmi_Registry::issetVar($this->_registryNamespace . $key)) {
+			return Mmi_Registry::getVar($this->_registryNamespace . $key);
 		}
-		return Mmi_Registry::setUserVariable($this->_registryNamespace . $key, $this->_getValidCacheData($this->_backend->load($key)));
+		return Mmi_Registry::setVar($this->_registryNamespace . $key, $this->_getValidCacheData($this->_backend->load($key)));
 	}
 
 	/**
@@ -91,7 +91,7 @@ class Mmi_Cache {
 			$lifetime = $this->_config->lifetime;
 		}
 		$expire = time() + $lifetime;
-		Mmi_Registry::setUserVariable($this->_registryNamespace . $key, $data);
+		Mmi_Registry::setVar($this->_registryNamespace . $key, $data);
 		return $this->_backend->save($key, $this->_setCacheData($data, $expire), $lifetime);
 	}
 
@@ -103,7 +103,7 @@ class Mmi_Cache {
 		if (!$this->_config->active) {
 			return;
 		}
-		Mmi_Registry::unsetUserVariable($key);
+		Mmi_Registry::unsetVar($key);
 		return $this->_backend->delete($key);
 	}
 

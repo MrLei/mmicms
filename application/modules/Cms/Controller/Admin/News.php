@@ -1,0 +1,27 @@
+<?php
+
+class Cms_Controller_Admin_News extends MmiCms_Controller_Admin {
+
+	public function indexAction() {
+		$this->view->grid = new Cms_Plugin_NewsGrid();
+	}
+
+	public function editAction() {
+		$form = new Cms_Form_Admin_News($this->id);
+		if ($form->isSaved()) {
+			$this->_helper->messenger('News zapisany poprawnie', true);
+			$this->_helper->redirector('index', 'admin-news', 'cms', array(), true);
+		}
+	}
+
+	public function deleteAction() {
+		if ($this->id) {
+			$article = new Cms_Model_News_Record($this->id);
+			if ($article->delete()) {
+				$this->_helper->messenger('News usunięty poprawnie', true);
+			}
+		}
+		$this->_helper->redirector('index', 'admin-news', 'cms', array(), true);
+	}
+
+}
