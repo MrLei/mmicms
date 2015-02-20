@@ -9,7 +9,7 @@ class Dao extends \Mmi\Dao {
 
 	public static function getMultioptionsByRoleId($role) {
 		$rules = array();
-		$data = Cms\Model\Acl\Query::factory()
+		$data = \Cms\Model\Acl\Query::factory()
 			->whereCmsRoleId()->equals($role)
 			->find();
 		foreach ($data as $item) {
@@ -26,10 +26,10 @@ class Dao extends \Mmi\Dao {
 
 	public static function setupAcl() {
 		$acl = new \Mmi\Acl();
-		$aclData = Cms\Model\Acl\Query::factory()
+		$aclData = \Cms\Model\Acl\Query::factory()
 			->join('cms_role')->on('cms_role_id')
 			->find();
-		foreach ($aclData as $aclRule) { /* @var $aclData Cms\Model\Acl\Record */
+		foreach ($aclData as $aclRule) { /* @var $aclData \Cms\Model\Acl\Record */
 			$resource = '';
 			if ($aclRule->module) {
 				$resource .= $aclRule->module . ':';

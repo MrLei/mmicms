@@ -10,7 +10,7 @@ class Mail extends \MmiCms\Controller\Admin {
 	}
 
 	public function deleteAction() {
-		$mail = Cms\Model\Mail\Dao::findPk($this->id);
+		$mail = \Cms\Model\Mail\Dao::findPk($this->id);
 		if ($mail && $mail->delete()) {
 			$this->_helper->messenger('Email został usunięty z kolejki', true);
 		}
@@ -18,7 +18,7 @@ class Mail extends \MmiCms\Controller\Admin {
 	}
 
 	public function sendAction() {
-		$result = Cms\Model\Mail\Dao::send();
+		$result = \Cms\Model\Mail\Dao::send();
 		if ($result['success'] > 0) {
 			$this->_helper->messenger('Maile z kolejki zostały wysłane', true);
 		}

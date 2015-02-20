@@ -5,7 +5,7 @@ class ContactGrid extends \Mmi\Grid {
 
 	public function init() {
 		
-		$this->setQuery(Cms\Model\Contact\Query::factory());
+		$this->setQuery(\Cms\Model\Contact\Query::factory());
 
 		$this->addColumn('custom', 'id', array(
 			'label' => 'ticket',

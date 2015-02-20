@@ -6,10 +6,10 @@ namespace Cms\Controller\Admin;
 class Acl extends \MmiCms\Controller\Admin {
 
 	public function indexAction() {
-		$this->view->roles = Cms\Model\Role\Query::factory()->find();		
+		$this->view->roles = \Cms\Model\Role\Query::factory()->find();		
 		if ($this->roleId) {
-			$this->view->rules = Cms\Model\Acl\Dao::getMultioptionsByRoleId($this->roleId);
-			$this->view->options = array(null => '---') + Cms\Model\Reflection::getOptionsWildcard();
+			$this->view->rules = \Cms\Model\Acl\Dao::getMultioptionsByRoleId($this->roleId);
+			$this->view->options = array(null => '---') + \Cms\Model\Reflection::getOptionsWildcard();
 		}
 		$roleForm = new \Cms\Form\Admin\Role();
 		if ($roleForm->isMine() && $roleForm->isSaved()) {

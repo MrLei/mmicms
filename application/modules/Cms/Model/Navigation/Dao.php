@@ -9,14 +9,14 @@ class Dao extends \Mmi\Dao {
 
 	/**
 	 * 
-	 * @return Cms\Model\Navigation\Query
+	 * @return \Cms\Model\Navigation\Query
 	 */
 	public static function langQuery() {
 		if (!\Mmi\Controller\Front::getInstance()->getRequest()->lang) {
-			return Cms\Model\Navigation\Query::factory();
+			return \Cms\Model\Navigation\Query::factory();
 		}
-		return Cms\Model\Navigation\Query::factory()
-				->andQuery(Cms\Model\Navigation\Query::factory()
+		return \Cms\Model\Navigation\Query::factory()
+				->andQuery(\Cms\Model\Navigation\Query::factory()
 					->whereLang()->equals(\Mmi\Controller\Front::getInstance()->getRequest()->lang)
 					->orFieldLang()->equals(null)
 					->orderDescLang());
@@ -25,10 +25,10 @@ class Dao extends \Mmi\Dao {
 	/**
 	 * 
 	 * @param string $uri
-	 * @return Cms\Model\Navigation\Query
+	 * @return \Cms\Model\Navigation\Query
 	 */
 	public static function byArticleUriQuery($uri) {
-		return Cms\Model\Navigation\Query::factory()
+		return \Cms\Model\Navigation\Query::factory()
 				->whereModule()->equals('cms')
 				->andFieldController()->equals('article')
 				->andFieldAction()->equals('index')
@@ -38,17 +38,17 @@ class Dao extends \Mmi\Dao {
 	/**
 	 * 
 	 * @param type $parentId
-	 * @return Cms\Model\Navigation\Query
+	 * @return \Cms\Model\Navigation\Query
 	 */
 	public static function byParentIdQuery($parentId) {
-		return Cms\Model\Navigation\Query::factory()
+		return \Cms\Model\Navigation\Query::factory()
 				->whereParentId()->equals($parentId);
 	}
 
 	/**
 	 * 
 	 * @param type $parentId
-	 * @return Cms\Model\Navigation\Query
+	 * @return \Cms\Model\Navigation\Query
 	 */
 	public static function descByParentIdQuery($parentId) {
 		return self::byParentIdQuery($parentId)
@@ -75,7 +75,7 @@ class Dao extends \Mmi\Dao {
 			->orderAscOrder()
 			->find()
 			->toObjectArray();
-		foreach ($objectArray as $key => $record) {/* @var $record Cms\Model\Navigation\Record */
+		foreach ($objectArray as $key => $record) {/* @var $record \Cms\Model\Navigation\Record */
 			if ($record->parentId != 0) {
 				continue;
 			}
@@ -103,8 +103,8 @@ class Dao extends \Mmi\Dao {
 		return true;
 	}
 
-	protected static function _buildChildren(Cms\Model\Navigation\Record $record, \Mmi\Navigation\Config\Element $element, array $objectArray) {
-		foreach ($objectArray as $key => $child) {/* @var $child Cms\Model\Navigation\Record */
+	protected static function _buildChildren(\Cms\Model\Navigation\Record $record, \Mmi\Navigation\Config\Element $element, array $objectArray) {
+		foreach ($objectArray as $key => $child) {/* @var $child \Cms\Model\Navigation\Record */
 			if ($child->parentId != $record->id) {
 				continue;
 			}
@@ -116,7 +116,7 @@ class Dao extends \Mmi\Dao {
 		}
 	}
 
-	protected static function _setNavigationElementFromRecord(Cms\Model\Navigation\Record $record, \Mmi\Navigation\Config\Element $element) {
+	protected static function _setNavigationElementFromRecord(\Cms\Model\Navigation\Record $record, \Mmi\Navigation\Config\Element $element) {
 		$https = null;
 		if ($record->https === 0) {
 			$https = false;

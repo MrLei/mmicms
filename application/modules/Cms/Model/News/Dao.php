@@ -9,14 +9,14 @@ class Dao extends \Mmi\Dao {
 
 	/**
 	 * Zapytanie językowe
-	 * @return Cms\Model\News\Query
+	 * @return \Cms\Model\News\Query
 	 */
 	public static function langQuery() {
 		if (!\Mmi\Controller\Front::getInstance()->getRequest()->lang) {
-			return Cms\Model\News\Query::factory();
+			return \Cms\Model\News\Query::factory();
 		}
-		return Cms\Model\News\Query::factory()
-				->andQuery(Cms\Model\News\Query::factory()
+		return \Cms\Model\News\Query::factory()
+				->andQuery(\Cms\Model\News\Query::factory()
 					->whereLang()->equals(\Mmi\Controller\Front::getInstance()->getRequest()->lang)
 					->orFieldLang()->equals(null)
 					->orderDescLang());
@@ -24,7 +24,7 @@ class Dao extends \Mmi\Dao {
 
 	/**
 	 * Zapytanie o aktywne
-	 * @return Cms\Model\News\Query
+	 * @return \Cms\Model\News\Query
 	 */
 	public static function activeQuery() {
 		return self::langQuery()
@@ -35,7 +35,7 @@ class Dao extends \Mmi\Dao {
 	/**
 	 * Zapytanie o aktywne po uri
 	 * @param string $uri
-	 * @return Cms\Model\News\Query
+	 * @return \Cms\Model\News\Query
 	 */
 	public static function activeByUriQuery($uri) {
 		return self::activeQuery()
@@ -45,7 +45,7 @@ class Dao extends \Mmi\Dao {
 	/**
 	 * Zapytanie po uri
 	 * @param string $uri
-	 * @return Cms\Model\News\Query
+	 * @return \Cms\Model\News\Query
 	 */
 	public static function byUriQuery($uri) {
 		return self::langQuery()

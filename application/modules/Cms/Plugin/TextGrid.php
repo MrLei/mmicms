@@ -5,7 +5,7 @@ class TextGrid extends \Mmi\Grid {
 
 	public function init() {
 		
-		$this->setQuery(Cms\Model\Text\Dao::langQuery()
+		$this->setQuery(\Cms\Model\Text\Dao::langQuery()
 			->orderAscKey());
 
 		$this->setOption('rows', 100);

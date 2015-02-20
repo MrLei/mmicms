@@ -5,13 +5,13 @@ namespace Cms\Form\Admin\Text;
 
 class Copy extends \Mmi\Form {
 
-	protected $_recordName = 'Cms\Model\Text\Record';
+	protected $_recordName = '\Cms\Model\Text\Record';
 	protected $_recordSaveMethod = 'cloneKeys';
 
 	public function init() {
 
 		$langMultiOptions = array();
-		foreach (Core\Registry::$config->application->languages as $lang) {
+		foreach (\Core\Registry::$config->application->languages as $lang) {
 			if ($lang == \Mmi\Controller\Front::getInstance()->getRequest()->lang) {
 				continue;
 			}

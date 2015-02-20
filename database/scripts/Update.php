@@ -10,14 +10,14 @@ $application->run();
 ob_end_flush();
 
 //pliki incremental
-foreach (glob(BASE_PATH . '/database/' . Core\Registry::$config->db->driver . '/incremental/*.sql') as $file) {
+foreach (glob(BASE_PATH . '/database/' . \Core\Registry::$config->db->driver . '/incremental/*.sql') as $file) {
 	$md5file = md5_file($file);
 	$baseFileName = basename($file);
 	$schemaName = substr($baseFileName, strpos($baseFileName, '@') + 1, -4);
 
 	try {
 		//ustawianie schematu pliku importu
-		Core\Registry::$db->selectSchema($schemaName)
+		\Core\Registry::$db->selectSchema($schemaName)
 			->setDefaultImportParams();
 
 		//pobranie rekordu
@@ -47,10 +47,10 @@ foreach (glob(BASE_PATH . '/database/' . Core\Registry::$config->db->driver . '/
 	}
 
 	//import danych
-	//if(Core\Registry::$config->db->driver != "oci") {
-		$result = Core\Registry::$db->getPdo()->exec(file_get_contents($file));
+	//if(\Core\Registry::$config->db->driver != "oci") {
+		$result = \Core\Registry::$db->getPdo()->exec(file_get_contents($file));
 		if ($result === false) {
-			var_dump(Core\Registry::$db->getPdo()->errorInfo());
+			var_dump(\Core\Registry::$db->getPdo()->errorInfo());
 			exit;
 		}
 	

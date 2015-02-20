@@ -12,7 +12,7 @@ class Dao extends \Mmi\Dao {
 	 * @return array lista
 	 */
 	public static function getMultioptions() {
-		$rows = Cms\Model\Mail\Server\Query::factory()
+		$rows = \Cms\Model\Mail\Server\Query::factory()
 			->whereActive()->equals(1)
 			->find();
 		$pairs = array();

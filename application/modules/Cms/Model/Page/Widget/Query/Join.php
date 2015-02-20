@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @method Cms\Model\Page\Widget\Query on() on($localKeyName, $joinedKeyName = 'id')
+ * @method \Cms\Model\Page\Widget\Query on() on($localKeyName, $joinedKeyName = 'id')
  */
 
 namespace Cms\Model\Page\Widget\Query;

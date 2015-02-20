@@ -6,7 +6,7 @@ class PageWidgetGrid extends \Mmi\Grid {
 
 	public function init() {
 
-		$this->setQuery(Cms\Model\Page\Widget\Query::factory()
+		$this->setQuery(\Cms\Model\Page\Widget\Query::factory()
 				->orderAscId());
 
 		$this->addColumn('text', 'name', [

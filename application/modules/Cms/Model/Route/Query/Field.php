@@ -1,14 +1,14 @@
 <?php
 
 /**
- * @method Cms\Model\Route\Query equals() equals($value)
- * @method Cms\Model\Route\Query notEquals() notEquals($value)
- * @method Cms\Model\Route\Query greater() greater($value)
- * @method Cms\Model\Route\Query less() less($value)
- * @method Cms\Model\Route\Query greaterOrEquals() greaterOrEquals($value)
- * @method Cms\Model\Route\Query lessOrEquals() lessOrEquals($value)
- * @method Cms\Model\Route\Query like() like($value)
- * @method Cms\Model\Route\Query ilike() ilike($value)
+ * @method \Cms\Model\Route\Query equals() equals($value)
+ * @method \Cms\Model\Route\Query notEquals() notEquals($value)
+ * @method \Cms\Model\Route\Query greater() greater($value)
+ * @method \Cms\Model\Route\Query less() less($value)
+ * @method \Cms\Model\Route\Query greaterOrEquals() greaterOrEquals($value)
+ * @method \Cms\Model\Route\Query lessOrEquals() lessOrEquals($value)
+ * @method \Cms\Model\Route\Query like() like($value)
+ * @method \Cms\Model\Route\Query ilike() ilike($value)
  */
 
 namespace Cms\Model\Route\Query;

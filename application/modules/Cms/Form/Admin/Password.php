@@ -5,13 +5,13 @@ namespace Cms\Form\Admin;
 
 class Password extends \Mmi\Form {
 
-	protected $_recordName = 'Cms\Model\Auth\Record';
+	protected $_recordName = '\Cms\Model\Auth\Record';
 	protected $_recordSaveMethod = 'changePasswordByUser';
 
 	public function init() {
 
 		//ustawienie użytkownika w rekordzie
-		$this->getRecord()->setOption('identity', Core\Registry::$auth->getUsername());
+		$this->getRecord()->setOption('identity', \Core\Registry::$auth->getUsername());
 
 		$this->addElementPassword('password')
 			->setLabel('obecne hasło')

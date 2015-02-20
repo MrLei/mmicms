@@ -10,7 +10,7 @@ class Widget extends \MmiCms\Controller\Admin {
 	}
 
 	public function textWidgetEditAction() {
-		$widgetData = Cms\Model\Widget\Text\Dao::findPk($this->id);
+		$widgetData = \Cms\Model\Widget\Text\Dao::findPk($this->id);
 		if ($widgetData != null) {
 			$this->view->textId = $widgetData->id;
 		}
@@ -25,14 +25,14 @@ class Widget extends \MmiCms\Controller\Admin {
 	}
 
 	public function textWidgetDeleteAction() {
-		if (null !== ($record = Cms\Model\Widget\Text\Dao::findPk($this->id)) && $record->delete()) {
+		if (null !== ($record = \Cms\Model\Widget\Text\Dao::findPk($this->id)) && $record->delete()) {
 			$this->_helper->messenger('Tekst usunięty poprawnie');
 		}
 		$this->_helper->redirector('textWidgetEdit', 'admin-widget', 'cms', array(), true);
 	}
 
 	public function pictureWidgetEditAction() {
-		$pictureRec = Cms\Model\Widget\Picture\Dao::findPk($this->id);
+		$pictureRec = \Cms\Model\Widget\Picture\Dao::findPk($this->id);
 		if ($pictureRec != null) {
 			$this->view->pictureId = $pictureRec->id;
 		}
@@ -46,7 +46,7 @@ class Widget extends \MmiCms\Controller\Admin {
 	}
 
 	public function pictureWidgetDeleteAction() {
-		if (null !== ($record = Cms\Model\Widget\Picture\Dao::findPk($this->id)) && $record->delete()) {
+		if (null !== ($record = \Cms\Model\Widget\Picture\Dao::findPk($this->id)) && $record->delete()) {
 			$this->_helper->messenger('Zdjęcie usunięte poprawnie');
 		}
 		$this->_helper->redirector('pictureWidgetEdit', 'admin-widget', 'cms', array(), true);

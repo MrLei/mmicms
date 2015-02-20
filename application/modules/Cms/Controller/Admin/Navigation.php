@@ -7,7 +7,7 @@ class Navigation extends \MmiCms\Controller\Admin {
 
 	public function indexAction() {
 		$config = new \Mmi\Navigation\Config();
-		Cms\Model\Navigation\Dao::decorateConfiguration($config);
+		\Cms\Model\Navigation\Dao::decorateConfiguration($config);
 		$this->view->navigation = $config->findById($this->id, true);
 	}
 
@@ -30,7 +30,7 @@ class Navigation extends \MmiCms\Controller\Admin {
 			return $this->_helper->redirector('index', 'admin-navigation', 'cms', array('id' => $form->getRecord()->parentId), true);
 		}
 		/* if ($this->id > 0) {
-		  $record = Cms\Model\Navigation\Dao::findPk($this->id);
+		  $record = \Cms\Model\Navigation\Dao::findPk($this->id);
 		  if ($this->remove && $record) {
 		  $parentId = $record->parentId;
 		  $record->delete();
@@ -44,7 +44,7 @@ class Navigation extends \MmiCms\Controller\Admin {
 	 * Usuwanie elementu
 	 */
 	public function deleteAction() {
-		$record = Cms\Model\Navigation\Dao::findPk($this->id);
+		$record = \Cms\Model\Navigation\Dao::findPk($this->id);
 		if ($record !== null) {
 			$record->delete();
 		}
@@ -60,7 +60,7 @@ class Navigation extends \MmiCms\Controller\Admin {
 		if (!isset($order['navigation-item'])) {
 			return $this->view->getTranslate()->_('Przenoszenie nie powiodło się');
 		}
-		Cms\Model\Navigation\Dao::sortBySerial($order['navigation-item']);
+		\Cms\Model\Navigation\Dao::sortBySerial($order['navigation-item']);
 		return '';
 	}
 

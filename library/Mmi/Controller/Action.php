@@ -163,16 +163,16 @@ class Action {
 		}
 
 		//dodawanie tłumaczeń do translatora
-		if (file_exists(APPLICATION_PATH . '/skins/default/default/i18n/' . $lang . '.ini')) {
-			$translate->addTranslation(APPLICATION_PATH . '/skins/default/default/i18n/' . $lang . '.ini', $lang);
+		if (file_exists(APPLICATION_PATH . '/skins/default/core/i18n/' . $lang . '.ini')) {
+			$translate->addTranslation(APPLICATION_PATH . '/skins/default/core/i18n/' . $lang . '.ini', $lang);
 		}
-		if ($module != 'default' && file_exists(APPLICATION_PATH . '/skins/default/' . $module . '/i18n/' . $lang . '.ini')) {
+		if ($module != 'core' && file_exists(APPLICATION_PATH . '/skins/default/' . $module . '/i18n/' . $lang . '.ini')) {
 			$translate->addTranslation(APPLICATION_PATH . '/skins/default/' . $module . '/i18n/' . $lang . '.ini', $lang);
 		}
 		if ($skin != 'default' && file_exists(APPLICATION_PATH . '/skins/' . $skin . '/default/i18n/' . $lang . '.ini')) {
 			$translate->addTranslation(APPLICATION_PATH . '/skins/' . $skin . '/default/i18n/' . $lang . '.ini', $lang);
 		}
-		if ($skin != 'default' && $module != 'default' && file_exists(APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/i18n/' . $lang . '.ini')) {
+		if ($skin != 'default' && $module != 'core' && file_exists(APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/i18n/' . $lang . '.ini')) {
 			$translate->addTranslation(APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/i18n/' . $lang . '.ini', $lang);
 		}
 		$translate->setLocale($lang);

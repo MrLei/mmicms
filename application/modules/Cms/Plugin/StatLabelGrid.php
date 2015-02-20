@@ -6,7 +6,7 @@ class StatLabelGrid extends \Mmi\Grid {
 
 	public function init() {
 
-		$this->setQuery(Cms\Model\Stat\Label\Query::factory());
+		$this->setQuery(\Cms\Model\Stat\Label\Query::factory());
 
 		$this->addColumn('text', 'object', array(
 			'label' => 'klucz'

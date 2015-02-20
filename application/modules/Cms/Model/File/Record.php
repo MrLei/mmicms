@@ -32,7 +32,7 @@ class Record extends \Mmi\Dao\Record {
 			return false;
 		}
 		//wyłącza sticky na innych plikach dla tego object+objectId
-		foreach (Cms\Model\File\Dao::stickyByObjectQuery($this->object, $this->objectId)->find() as $related) {
+		foreach (\Cms\Model\File\Dao::stickyByObjectQuery($this->object, $this->objectId)->find() as $related) {
 			$related->sticky = 0;
 			$related->save();
 		}
@@ -49,7 +49,7 @@ class Record extends \Mmi\Dao\Record {
 		if ($this->id === null) {
 			return;
 		}
-		return substr(md5($this->name . Core\Registry::$config->application->salt), 0, 8);
+		return substr(md5($this->name . \Core\Registry::$config->application->salt), 0, 8);
 	}
 
 	/**

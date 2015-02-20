@@ -23,14 +23,14 @@ class Record extends \Mmi\Dao\Record {
 			//duplikat
 			return false;
 		}
-		Core\Registry::$cache->remove('Cms\Text');
+		\Core\Registry::$cache->remove('\Cms\Text');
 		return $result;
 	}
 
 	public function cloneKeys() {
 		$lang = \Mmi\Controller\Front::getInstance()->getRequest()->lang;
-		foreach (Cms\Model\Text\Dao::byLangQuery($this->source)->find() as $record) {/* @var $record Cms\Model\Text\Record */
-			if (Cms\Model\Text\Dao::byKeyLangQuery($record->key, $lang)->findFirst() !== null) {
+		foreach (\Cms\Model\Text\Dao::byLangQuery($this->source)->find() as $record) {/* @var $record \Cms\Model\Text\Record */
+			if (\Cms\Model\Text\Dao::byKeyLangQuery($record->key, $lang)->findFirst() !== null) {
 				continue;
 			}
 			$r = new self();

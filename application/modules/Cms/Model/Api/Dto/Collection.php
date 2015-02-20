@@ -3,7 +3,7 @@
 
 namespace Cms\Model\Api\Dto;
 
-class Collection extends ArrayObject {
+class Collection extends \ArrayObject {
 
 	/**
 	 * Konstruktor ustawiający kolekcję na podstawie tablicy obiektów lub tablic
@@ -28,8 +28,8 @@ class Collection extends ArrayObject {
 
 	/**
 	 * Ustawia kolekcję na podstawie tablicy tablic
-	 * @param array $data tablica obiektów stdClass
-	 * @return Cms\Model\Api\Dto\Collection
+	 * @param array $data tablica obiektów \stdClass
+	 * @return \Cms\Model\Api\Dto\Collection
 	 */
 	public final function setFromArray(array $data) {
 		$dtoClass = $this->_getDtoClass();
@@ -87,8 +87,8 @@ class Collection extends ArrayObject {
 	 */
 	protected final function _getDtoClass() {
 		$dtoClass = substr(get_class($this), 0, -11);
-		if ($dtoClass == 'Cms\Model\Api\Dto') {
-			throw new Exception('Cms\Model\Api\Dto\Collection: Invalid DTO object name');
+		if ($dtoClass == '\Cms\Model\Api\Dto') {
+			throw new Exception('\Cms\Model\Api\Dto\Collection: Invalid DTO object name');
 		}
 		return $dtoClass;
 	}

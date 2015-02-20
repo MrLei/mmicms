@@ -9,14 +9,14 @@ class Dao extends \Mmi\Dao {
 
 	/**
 	 * 
-	 * @return Cms\Model\Mail\Definition\Query
+	 * @return \Cms\Model\Mail\Definition\Query
 	 */
 	public static function langQuery() {
 		if (!\Mmi\Controller\Front::getInstance()->getRequest()->lang) {
-			return Cms\Model\Mail\Definition\Query::factory();
+			return \Cms\Model\Mail\Definition\Query::factory();
 		}
-		return Cms\Model\Mail\Definition\Query::factory()
-			->andQuery(Cms\Model\Mail\Definition\Query::factory()
+		return \Cms\Model\Mail\Definition\Query::factory()
+			->andQuery(\Cms\Model\Mail\Definition\Query::factory()
 				->whereLang()->equals(\Mmi\Controller\Front::getInstance()->getRequest()->lang)
 				->orFieldLang()->equals(null)
 				->orderDescLang()
@@ -26,7 +26,7 @@ class Dao extends \Mmi\Dao {
 	/**
 	 * 
 	 * @param string $name
-	 * @return Cms\Model\Mail\Definition\Query
+	 * @return \Cms\Model\Mail\Definition\Query
 	 */
 	public static function langByNameQuery($name) {
 		return self::langQuery()

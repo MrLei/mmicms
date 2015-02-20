@@ -8,7 +8,7 @@ class Dao extends \Mmi\Dao {
 	public static $_tableName = 'cms_stat_date';
 
 	public static function getUniqueObjects() {
-		$all = Cms\Model\Stat\Date\Query::factory()
+		$all = \Cms\Model\Stat\Date\Query::factory()
 			->whereHour()->equals(null)
 			->andFieldDay()->equals(null)
 			->andFieldMonth()->equals(null)
@@ -223,7 +223,7 @@ class Dao extends \Mmi\Dao {
 	}
 
 	protected static function _getRows($object, $objectId, $year = null, $month = null, $day = null, $hour = null) {
-		$q = Cms\Model\Stat\Date\Query::factory()
+		$q = \Cms\Model\Stat\Date\Query::factory()
 				->whereObject()->equals($object)
 				->andFieldObjectId()->equals($objectId);
 

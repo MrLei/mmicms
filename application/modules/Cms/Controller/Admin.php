@@ -16,7 +16,7 @@ class Admin extends \MmiCms\Controller\Admin {
 		}
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Zalogowano poprawnie', true);
-			Cms\Model\Stat\Dao::hit('admin-login', $form->getRecord()->id);
+			\Cms\Model\Stat\Dao::hit('admin-login', $form->getRecord()->id);
 		} else {
 			$this->_helper->messenger('Logowanie niepoprawne', false);
 		}
@@ -27,15 +27,15 @@ class Admin extends \MmiCms\Controller\Admin {
 	}
 
 	public function logoutAction() {
-		Core\Registry::$auth->clearIdentity();
+		\Core\Registry::$auth->clearIdentity();
 		$this->_helper->messenger('Dziękujemy za skorzystanie z serwisu, wylogowanio poprawnie', true);
-		Cms\Model\Stat\Dao::hit('admin-logout');
+		\Cms\Model\Stat\Dao::hit('admin-logout');
 		$this->_helper->redirector('index', 'admin', 'cms', array(), true);
 	}
 
 	public function languageAction() {
 		$session = new \Mmi\Session\Space('cms-language');
-		$lang = in_array($this->locale, Core\Registry::$config->application->languages) ? $this->locale : null;
+		$lang = in_array($this->locale, \Core\Registry::$config->application->languages) ? $this->locale : null;
 		$session->lang = $lang;
 		$referer = \Mmi\Controller\Front::getInstance()->getRequest()->getReferer();
 		if ($referer) {
@@ -45,23 +45,23 @@ class Admin extends \MmiCms\Controller\Admin {
 	}
 
 	public function languageWidgetAction() {
-		$this->view->languages = Core\Registry::$config->application->languages;
+		$this->view->languages = \Core\Registry::$config->application->languages;
 	}
 
 	public function passwordAction() {
-		if (!Core\Registry::$auth->hasIdentity()) {
-			$this->_helper->redirector('index', 'index', 'default', array(), true);
+		if (!\Core\Registry::$auth->hasIdentity()) {
+			$this->_helper->redirector('index', 'index', 'core', array(), true);
 		}
 		$form = new \Cms\Form\Admin\Password();
 		if (!$form->isMine()) {
 			return;
 		}
 		if ($form->isSaved()) {
-			Cms\Model\Stat\Dao::hit('admin_password', $form->getRecord()->id);
+			\Cms\Model\Stat\Dao::hit('admin_password', $form->getRecord()->id);
 			$this->_helper->messenger('Hasło zmienione poprawnie, zaloguj się ponownie');
 			//wylogowanie
-			Core\Registry::$auth->clearIdentity();
-			Cms\Model\Stat\Dao::hit('admin_logout');
+			\Core\Registry::$auth->clearIdentity();
+			\Cms\Model\Stat\Dao::hit('admin_logout');
 			$this->_helper->redirector('index', 'admin', 'cms', array(), true);
 		}
 	}

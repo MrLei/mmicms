@@ -5,7 +5,7 @@ class MailServerGrid extends \Mmi\Grid {
 
 	public function init() {
 		
-		$this->setQuery(Cms\Model\Mail\Server\Query::factory()
+		$this->setQuery(\Cms\Model\Mail\Server\Query::factory()
 			->orderDescId());
 
 		$this->addColumn('text', 'address', array(

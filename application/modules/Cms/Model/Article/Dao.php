@@ -10,16 +10,16 @@ class Dao extends \Mmi\Dao {
 	/**
 	 * 
 	 * @param string $uri
-	 * @return Cms\Model\Article\Query
+	 * @return \Cms\Model\Article\Query
 	 */
 	public static function byUriQuery($uri) {
-		return Cms\Model\Article\Query::factory()
+		return \Cms\Model\Article\Query::factory()
 				->whereUri()->equals($uri);
 	}
 
 	public static function getMultioptions() {
 		return array(null => '---') +
-				Cms\Model\Article\Query::factory()
+				\Cms\Model\Article\Query::factory()
 				->orderAscTitle()
 				->findPairs('id', 'title');
 	}

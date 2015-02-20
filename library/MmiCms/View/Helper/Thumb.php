@@ -32,12 +32,12 @@ class Thumb extends \Mmi\View\Helper\HelperAbstract {
 
 	/**
 	 * Metoda główna, generuje miniaturę
-	 * @param Cms\Model\File\Record $file instancja pliku
+	 * @param \Cms\Model\File\Record $file instancja pliku
 	 * @param string $type skala
 	 * @param string $value
 	 * @return string
 	 */
-	public function thumb(Cms\Model\File\Record $file, $type = null, $value = null) {
+	public function thumb(\Cms\Model\File\Record $file, $type = null, $value = null) {
 		$url = $file->getUrl($type, $value);
 		if ($url) {
 			return $this->view->mediaServer . $url;

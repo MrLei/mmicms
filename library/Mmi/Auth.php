@@ -42,7 +42,7 @@ class Auth {
 
 	/**
 	 * Przestrzeń w sesji
-	 * @var \Mmi\Session\Namespace
+	 * @var \Mmi\Session\Space
 	 */
 	private $_session;
 
@@ -160,7 +160,7 @@ class Auth {
 
 	/**
 	 * Zwraca przestrzeń w sesji
-	 * @return \Mmi\Session\Namespace
+	 * @return \Mmi\Session\Space
 	 */
 	public function getSessionNamespace() {
 		return $this->_session;
@@ -235,7 +235,7 @@ class Auth {
 			return false;
 		}
 		if (!is_object($result)) {
-			throw new Exception('Authentication result is not an instance of stdClass');
+			throw new Exception('Authentication result is not an instance of \stdClass');
 		}
 		return $this->setAuthentication($result->id, $result->username, $result->email, $result->roles, $result->lang, \Mmi\Controller\Front::getInstance()->getEnvironment()->remoteAddress);
 	}
@@ -268,7 +268,7 @@ class Auth {
 		$model = $this->_modelName;
 		$result = $model::idAuthenticate($this->_identity);
 		if (!is_object($result)) {
-			throw new Exception('Authentication result is not an instance of stdClass');
+			throw new Exception('Authentication result is not an instance of \stdClass');
 		}
 		return $this->setAuthentication($result->id, $result->username, $result->email, $result->roles, $result->lang, \Mmi\Controller\Front::getInstance()->getEnvironment()->remoteAddress);
 	}

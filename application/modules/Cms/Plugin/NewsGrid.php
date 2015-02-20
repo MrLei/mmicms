@@ -5,7 +5,7 @@ class NewsGrid extends \Mmi\Grid {
 
 	public function init() {
 
-		$this->setQuery(Cms\Model\News\Query::factory());
+		$this->setQuery(\Cms\Model\News\Query::factory());
 
 		$this->setOption('locked', true);
 

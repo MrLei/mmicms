@@ -5,7 +5,7 @@ namespace Cms\Form\Admin;
 
 class Role extends \Mmi\Form {
 
-	protected $_recordName = 'Cms\Model\Role\Record';
+	protected $_recordName = '\Cms\Model\Role\Record';
 
 	public function init() {
 

@@ -173,7 +173,7 @@ abstract class Form {
 
 	/**
 	 * Namespace powiązany z tym formularzem
-	 * @var \Mmi\Session\Namespace
+	 * @var \Mmi\Session\Space
 	 */
 	protected $_sessionNamespace = null;
 
@@ -208,7 +208,7 @@ abstract class Form {
 		$this->_request = \Mmi\Controller\Front::getInstance()->getRequest();
 
 		if (!$this->getAttrib('name')) {
-			$this->_formBaseName = strtolower(substr($this->_className, strrpos($this->_className, '_') + 1));
+			$this->_formBaseName = strtolower(substr($this->_className, strrpos($this->_className, '\\') + 1));
 		} else {
 			$this->_formBaseName = $this->getAttrib('name');
 		}
@@ -1116,9 +1116,9 @@ abstract class Form {
 	protected function _appendFiles($id, $files) {
 		try {
 			foreach ($files as $fileSet) {
-				Cms\Model\File\Dao::appendFiles($this->_fileObjectName, $id, $fileSet);
+				\Cms\Model\File\Dao::appendFiles($this->_fileObjectName, $id, $fileSet);
 			}
-			Cms\Model\File\Dao::move('tmp-' . $this->_fileObjectName, \Mmi\Session::getNumericId(), $this->_fileObjectName, $id);
+			\Cms\Model\File\Dao::move('tmp-' . $this->_fileObjectName, \Mmi\Session::getNumericId(), $this->_fileObjectName, $id);
 		} catch (Exception $e) {
 			\Mmi\Exception\Logger::log($e);
 		}

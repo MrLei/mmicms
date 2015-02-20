@@ -5,7 +5,7 @@ namespace Cms\Form\Admin\Page;
 
 class Folder extends \MmiCms\Form {
 
-	protected $_recordName = 'Cms\Model\Navigation\Record';
+	protected $_recordName = '\Cms\Model\Navigation\Record';
 	protected $_recordSaveMethod = 'saveForm';
 
 	public function init() {
@@ -36,7 +36,7 @@ class Folder extends \MmiCms\Form {
 		$this->addElementSelect('parentId')
 			->setLabel('Element nadrzędny')
 			->setValue(\Mmi\Controller\Front::getInstance()->getRequest()->parent)
-			->setMultiOptions(Cms\Model\Navigation\Dao::getMultiOptions());
+			->setMultiOptions(\Cms\Model\Navigation\Dao::getMultiOptions());
 
 		//optional url
 		$this->addElementSelect('visible')

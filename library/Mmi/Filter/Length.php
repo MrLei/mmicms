@@ -39,7 +39,7 @@ class Length extends \Mmi\Filter\FilterAbstract {
 		if (is_string($value) || is_numeric($value)) {
 			return mb_strlen((string)$value);
 		}
-		if (is_array($value) || $value instanceof ArrayObject) {
+		if (is_array($value) || $value instanceof \ArrayObject) {
 			return count($value);
 		}
 

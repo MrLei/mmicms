@@ -18,7 +18,7 @@ abstract class Dto {
 		if ($data instanceof \Mmi\Dao\Record) {
 			return $this->setFromDaoRecord($data);
 		}
-		if ($data instanceof Cms\Model\Api\Dto) {
+		if ($data instanceof \Cms\Model\Api\Dto) {
 			return $this->setFromArray($data->toArray());
 		}
 		//pozostałe typy danych są niewspierane
@@ -34,7 +34,7 @@ abstract class Dto {
 	/**
 	 * Ustawia obiekt DTO na podstawie tabeli
 	 * @param array $data
-	 * @return Cms\Model\Api\Dto
+	 * @return \Cms\Model\Api\Dto
 	 */
 	public final function setFromArray(array $data) {
 		foreach ($data as $key => $value) {
@@ -64,7 +64,7 @@ abstract class Dto {
 	/**
 	 * Ustawia obiekt z \Mmi\Dao\Record
 	 * @param \Mmi\Dao\Record $record
-	 * @return Cms\Model\Api\Dto
+	 * @return \Cms\Model\Api\Dto
 	 */
 	public final function setFromDaoRecord(\Mmi\Dao\Record $record) {
 		return $this->setFromArray($record->toArray());

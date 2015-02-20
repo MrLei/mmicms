@@ -32,7 +32,7 @@ class Messenger extends \Mmi\Controller\Action\Helper\HelperAbstract {
 
 	/**
 	 * Przestrzeń w sesji zarezerwowana dla wiadomości
-	 * @var \Mmi\Session\Namespace
+	 * @var \Mmi\Session\Space
 	 */
 	static protected $_session = null;
 

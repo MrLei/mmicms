@@ -13,7 +13,7 @@ class Record extends \Mmi\Dao\Record {
 	public $active;
 
 	public function save() {
-		Core\Registry::$cache->remove('\Mmi\Route');
+		\Core\Registry::$cache->remove('\Mmi\Route');
 		return parent::save();
 	}
 

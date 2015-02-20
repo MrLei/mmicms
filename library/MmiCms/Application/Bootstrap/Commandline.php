@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa startu aplikacji command line
  * ustawia ścieżki, ładuje ogólną konfigurację
@@ -33,7 +32,6 @@ class Commandline extends \MmiCms\Application\Bootstrap {
 	public function __construct() {
 
 		parent::__construct();
-
 	}
 
 	/**
@@ -43,13 +41,13 @@ class Commandline extends \MmiCms\Application\Bootstrap {
 		$front = \Mmi\Controller\Front::getInstance();
 		$request = new \Mmi\Controller\Request();
 		//ustawianie domyślnego języka jeśli istnieje
-		if (isset(Core\Registry::$config->application->languages[0])) {
-			$request->setParam('lang', Core\Registry::$config->application->languages[0]);
+		if (isset(\Core\Registry::$config->application->languages[0])) {
+			$request->setParam('lang', \Core\Registry::$config->application->languages[0]);
 		}
 		$request->setModuleName('default')
-				->setControllerName('index')
-				->setActionName('index')
-				->setSkinName(Core\Registry::$config->application->skin);
+			->setControllerName('index')
+			->setActionName('index')
+			->setSkinName(\Core\Registry::$config->application->skin);
 		//ustawianie żądania
 		$front->setRequest($request);
 		\Mmi\Controller\Front::getInstance()->getView()->setRequest($request);

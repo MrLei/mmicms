@@ -14,7 +14,7 @@ class File extends \MmiCms\Controller\Admin {
 		if (!$this->id) {
 			return '';
 		}
-		$file = Cms\Model\File\Dao::findPk($this->id);
+		$file = \Cms\Model\File\Dao::findPk($this->id);
 		if (!$file || $this->hash != $file->name) {
 			return $this->view->getTranslate()->_('Przypinanie nie powiodło się');
 		}
@@ -27,7 +27,7 @@ class File extends \MmiCms\Controller\Admin {
 		if (!$this->id) {
 			return $this->view->getTranslate()->_('Edycja nie powiodła się, brak pliku');
 		}
-		$file = Cms\Model\File\Dao::findPk($this->id);
+		$file = \Cms\Model\File\Dao::findPk($this->id);
 		if (!$file) {
 			return '';
 		}
@@ -49,7 +49,7 @@ class File extends \MmiCms\Controller\Admin {
 		if (!$this->id) {
 			$this->_helper->redirector('index');
 		}
-		$file = Cms\Model\File\Dao::findPk($this->id);
+		$file = \Cms\Model\File\Dao::findPk($this->id);
 		if ($file && $file->delete()) {
 			$file->delete();
 			$this->_helper->messenger('Poprawnie usunięto plik', true);
@@ -62,7 +62,7 @@ class File extends \MmiCms\Controller\Admin {
 		if (!$this->id > 0) {
 			return $this->view->getTranslate()->_('Usuwanie nie powiodło się, brak pliku');
 		}
-		$file = Cms\Model\File\Dao::findPk($this->id);
+		$file = \Cms\Model\File\Dao::findPk($this->id);
 		if (!$file || $this->hash != $file->getHashName()) {
 			return $this->view->getTranslate()->_('Usuwanie nie powiodło się');
 		}
@@ -79,7 +79,7 @@ class File extends \MmiCms\Controller\Admin {
 		if (!isset($order['item-file'])) {
 			return $this->view->getTranslate()->_('Przenoszenie nie powiodło się');
 		}
-		Cms\Model\File\Dao::sortBySerial($order['item-file']);
+		\Cms\Model\File\Dao::sortBySerial($order['item-file']);
 		return '';
 	}
 

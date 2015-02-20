@@ -5,7 +5,7 @@ class WidgetGrid extends \Mmi\Grid {
 
 	public function init() {
 
-		$this->setQuery(Cms\Model\Page\Widget\Dao::activeQuery()
+		$this->setQuery(\Cms\Model\Page\Widget\Dao::activeQuery()
 				->orderAscId());
 
 		$this->addColumn('text', 'name', [

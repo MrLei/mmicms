@@ -20,13 +20,13 @@ class Record extends \Mmi\Dao\Record {
 
 	public function save() {
 		if ($this->getOption('changePassword')) {
-			$this->password = Cms\Model\Auth::getSaltedPasswordHash($this->getOption('changePassword'));
+			$this->password = \Cms\Model\Auth::getSaltedPasswordHash($this->getOption('changePassword'));
 		}
 		if (!parent::save()) {
 			return false;
 		}
 		if ($this->getOption('cmsRoles')) {
-			Cms\Model\Auth\Role\Dao::grant($this->id, $this->getOption('cmsRoles'));
+			\Cms\Model\Auth\Role\Dao::grant($this->id, $this->getOption('cmsRoles'));
 		}
 		return true;
 	}
@@ -38,7 +38,7 @@ class Record extends \Mmi\Dao\Record {
 		if ($this->getOption('changePassword') != $this->getOption('confirmPassword')) {
 			return false;
 		}
-		$this->password = Cms\Model\Auth::getSaltedPasswordHash($this->getOption('changePassword'));
+		$this->password = \Cms\Model\Auth::getSaltedPasswordHash($this->getOption('changePassword'));
 		return $this->save();
 	}
 
@@ -54,7 +54,7 @@ class Record extends \Mmi\Dao\Record {
 			return false;
 		}
 		$authRecord = new self($record->id);
-		$authRecord->password = Cms\Model\Auth::getSaltedPasswordHash($this->getOption('changePassword'));
+		$authRecord->password = \Cms\Model\Auth::getSaltedPasswordHash($this->getOption('changePassword'));
 		return $authRecord->save();
 	}
 
@@ -62,14 +62,14 @@ class Record extends \Mmi\Dao\Record {
 		if ($this->username == null || $this->password == null) {
 			return false;
 		}
-		$auth = Core\Registry::$auth;
-		$auth->setModelName('Cms\Model\Auth');
+		$auth = \Core\Registry::$auth;
+		$auth->setModelName('\Cms\Model\Auth');
 		$auth->setIdentity($this->username);
 		$auth->setCredential($this->password);
 		$result = $auth->authenticate();
 		$this->id = $auth->getId();
 		if ($result && isset($this->remember) && $this->remember == 1) {
-			$auth->rememberMe(Core\Registry::$config->session->authRemember);
+			$auth->rememberMe(\Core\Registry::$config->session->authRemember);
 		}
 		return $result;
 	}

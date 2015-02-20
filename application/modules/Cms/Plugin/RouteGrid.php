@@ -5,7 +5,7 @@ class RouteGrid extends \Mmi\Grid {
 
 	public function init() {
 
-		$this->setQuery(Cms\Model\Route\Query::factory()
+		$this->setQuery(\Cms\Model\Route\Query::factory()
 			->orderAscOrder());
 		
 		$this->setOption('rows', 100);

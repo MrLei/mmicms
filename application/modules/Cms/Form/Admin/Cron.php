@@ -5,7 +5,7 @@ namespace Cms\Form\Admin;
 
 class Cron extends \Mmi\Form {
 
-	protected $_recordName = 'Cms\Model\Cron\Record';
+	protected $_recordName = '\Cms\Model\Cron\Record';
 
 	public function init() {
 		$this->addElementText('name')
@@ -59,7 +59,7 @@ class Cron extends \Mmi\Form {
 		$object = $this->getElement('object');
 		$object->setDisableTranslator(true);
 		$object->addMultiOption(null, '---');
-		foreach (Cms\Model\Reflection::getActions() as $action) {
+		foreach (\Cms\Model\Reflection::getActions() as $action) {
 			if ($action['controller'] == 'cron') {
 				$object->addMultiOption($action['path'], $action['module'] . ': ' . $action['controller'] . ' - ' . $action['action']);
 			}

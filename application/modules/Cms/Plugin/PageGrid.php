@@ -5,7 +5,7 @@ class PageGrid extends \Mmi\Grid {
 
 	public function init() {
 
-		$this->setQuery(Cms\Model\Page\Query::factory()
+		$this->setQuery(\Cms\Model\Page\Query::factory()
 			->join('cms_navigation')->on('cms_navigation_id')
 			->orderAscId());
 		

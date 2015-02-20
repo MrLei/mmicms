@@ -5,7 +5,7 @@ namespace Cms\Form;
 
 class Contact extends \MmiCms\Form {
 
-	protected $_recordName = 'Cms\Model\Contact\Record';
+	protected $_recordName = '\Cms\Model\Contact\Record';
 
 	public function init() {
 
@@ -14,11 +14,11 @@ class Contact extends \MmiCms\Form {
 		if (!$this->getOption('subjectId')) {
 			$this->addElementSelect('cmsContactOptionId')
 				->setLabel('Wybierz temat')
-				->setMultiOptions(Cms\Model\Contact\Option\Dao::getMultioptions())
+				->setMultiOptions(\Cms\Model\Contact\Option\Dao::getMultioptions())
 				->addValidatorInteger();
 		}
 
-		$auth = Core\Registry::$auth;
+		$auth = \Core\Registry::$auth;
 		$this->addElementText('email')
 			->setLabel('Twój adres email')
 			->setValue($auth->getEmail())

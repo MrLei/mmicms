@@ -5,7 +5,7 @@ namespace Cms\Form;
 
 class Comment extends \Mmi\Form {
 
-	protected $_recordName = 'Cms\Model\Comment\Record';
+	protected $_recordName = '\Cms\Model\Comment\Record';
 
 	public function init() {
 		$this->getRecord()->object = $this->getAttrib('object');
@@ -25,7 +25,7 @@ class Comment extends \Mmi\Form {
 				->setLabel('Oceń artykuł');
 		}
 
-		if (!Core\Registry::$auth->hasIdentity()) {
+		if (!\Core\Registry::$auth->hasIdentity()) {
 			$this->addElementText('signature')
 				->setLabel('podpis');
 		}

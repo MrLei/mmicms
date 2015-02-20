@@ -51,7 +51,7 @@ class Dao extends \Mmi\Dao {
 	}
 
 	public static function clean($months = 24) {
-		return Cms\Model\Log\Query::factory()
+		return \Cms\Model\Log\Query::factory()
 				->whereDateTime()->less(date('Y-m-d H:i:s', strtotime('-' . $months . ' month')))
 				->find()
 				->delete();

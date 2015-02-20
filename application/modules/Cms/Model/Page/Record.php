@@ -16,8 +16,8 @@ class Record extends \Mmi\Dao\Record {
 	public $cmsAuthId;
 	
 	public function saveForm() {
-		$navigationRecord = $this->cmsNavigationId ? Cms\Model\Navigation\Dao::findPk($this->cmsNavigationId) : null;
-		/* @var $navigationRecord Cms\Model\Navigation\Record */
+		$navigationRecord = $this->cmsNavigationId ? \Cms\Model\Navigation\Dao::findPk($this->cmsNavigationId) : null;
+		/* @var $navigationRecord \Cms\Model\Navigation\Record */
 		$navigationRecord = ($navigationRecord === null) ? new \Cms\Model\Navigation\Record() : $navigationRecord;
 		
 		$navigationRecord->absolute = 0;
@@ -35,8 +35,8 @@ class Record extends \Mmi\Dao\Record {
 		$navigationRecord->visible = 0;
 		$navigationRecord->save();
 
-		$routeRecord = $this->cmsRouteId ? Cms\Model\Route\Dao::findPk($this->cmsRouteId) : null;
-		/* @var $routeRecord Cms\Model\Route\Record */
+		$routeRecord = $this->cmsRouteId ? \Cms\Model\Route\Dao::findPk($this->cmsRouteId) : null;
+		/* @var $routeRecord \Cms\Model\Route\Record */
 		$routeRecord = ($routeRecord === null) ? new \Cms\Model\Route\Record() : $routeRecord;
 		$routeRecord->active = $this->active;
 		$routeRecord->pattern = $this->getOption('address');
@@ -44,7 +44,7 @@ class Record extends \Mmi\Dao\Record {
 		
 		$this->cmsNavigationId = $navigationRecord->id;
 		$this->cmsRouteId = $routeRecord->id;
-		$this->cmsAuthId = Core\Registry::$auth->getId();
+		$this->cmsAuthId = \Core\Registry::$auth->getId();
 		$this->save();
 		$navigationRecord->params = 'id=' . $this->id;
 		if (!$navigationRecord->order) {
@@ -61,11 +61,11 @@ class Record extends \Mmi\Dao\Record {
 		if (!parent::delete()) {
 			return false;
 		}
-		$navigationRecord = Cms\Model\Navigation\Dao::findPk($this->cmsNavigationId);
+		$navigationRecord = \Cms\Model\Navigation\Dao::findPk($this->cmsNavigationId);
 		if ($navigationRecord !== null) {
 			$navigationRecord->delete();
 		}
-		$routeRecord = Cms\Model\Route\Dao::findPk($this->cmsRouteId);
+		$routeRecord = \Cms\Model\Route\Dao::findPk($this->cmsRouteId);
 		if ($routeRecord !== null) {
 			$routeRecord->delete();
 		}

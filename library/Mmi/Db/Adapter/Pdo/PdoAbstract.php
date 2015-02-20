@@ -20,7 +20,7 @@
  */
 
 /**
- * Abstrakcyjna klasa adapterów bazodanowych opartych o PDO
+ * Abstrakcyjna klasa adapterów bazodanowych opartych o \PDO
  * @category   Mmi
  * @package    \Mmi\Db
  * @subpackage Adapter
@@ -32,8 +32,8 @@ namespace Mmi\Db\Adapter\Pdo;
 abstract class PdoAbstract {
 
 	/**
-	 * Obiekt PDO
-	 * @var PDO
+	 * Obiekt \PDO
+	 * @var \PDO
 	 */
 	protected $_pdo;
 
@@ -158,8 +158,8 @@ abstract class PdoAbstract {
 		if ($this->_config->profiler) {
 			\Mmi\Db\Profiler::event('CONNECT WITH: ' . get_called_class(), 0);
 		}
-		$this->_pdo = new PDO(
-			$this->_config->driver . ':host=' . $this->_config->host . ';port=' . $this->_config->port . ';dbname=' . $this->_config->name, $this->_config->user, $this->_config->password, array(PDO::ATTR_PERSISTENT => $this->_config->persistent)
+		$this->_pdo = new \PDO(
+			$this->_config->driver . ':host=' . $this->_config->host . ';port=' . $this->_config->port . ';dbname=' . $this->_config->name, $this->_config->user, $this->_config->password, array(\PDO::ATTR_PERSISTENT => $this->_config->persistent)
 		);
 		$this->_connected = true;
 		return $this;
@@ -167,14 +167,14 @@ abstract class PdoAbstract {
 
 	/**
 	 * Zwraca opakowaną cudzysłowami wartość
-	 * @see PDO::quote()
-	 * @see PDO::PARAM_STR
-	 * @see PDO::PARAM_INT
+	 * @see \PDO::quote()
+	 * @see \PDO::PARAM_STR
+	 * @see \PDO::PARAM_INT
 	 * @param string $value wartość
 	 * @param string $paramType
 	 * @return string
 	 */
-	public final function quote($value, $paramType = PDO::PARAM_STR) {
+	public final function quote($value, $paramType = \PDO::PARAM_STR) {
 		if (!$this->_connected) {
 			$this->connect();
 		}
@@ -190,14 +190,14 @@ abstract class PdoAbstract {
 	}
 
 	/**
-	 * Wydaje zapytanie PDO prepare, execute
+	 * Wydaje zapytanie \PDO prepare, execute
 	 * rzuca wyjątki
-	 * @see PDO::prepare()
-	 * @see PDO::execute()
+	 * @see \PDO::prepare()
+	 * @see \PDO::execute()
 	 * @param string $sql zapytanie
-	 * @param array $bind tabela w formacie akceptowanym przez PDO::prepare()
+	 * @param array $bind tabela w formacie akceptowanym przez \PDO::prepare()
 	 * @throws \Mmi\Db\Exception
-	 * @return PDO_Statement
+	 * @return \PDO_Statement
 	 */
 	public function query($sql, array $bind = array()) {
 		if (!$this->_connected) {
@@ -210,9 +210,9 @@ abstract class PdoAbstract {
 			throw new \Mmi\Db\Exception(get_called_class() . ': ' . (isset($error[2]) ? $error[2] : $error[0]) . ' --- ' . $sql);
 		}
 		foreach ($bind as $key => $param) {
-			$type = PDO::PARAM_STR;
+			$type = \PDO::PARAM_STR;
 			if (is_bool($param)) {
-				$type = PDO::PARAM_BOOL;
+				$type = \PDO::PARAM_BOOL;
 			}
 			if (is_int($key)) {
 				$key = $key + 1;
@@ -247,31 +247,31 @@ abstract class PdoAbstract {
 	/**
 	 * Zwraca wszystkie rekordy (rządki)
 	 * @param string $sql zapytanie
-	 * @param array $bind tabela w formacie akceptowanym przez PDO::prepare()
+	 * @param array $bind tabela w formacie akceptowanym przez \PDO::prepare()
 	 * @return array
 	 */
 	public final function fetchAll($sql, array $bind = array()) {
-		return $this->query($sql, $bind)->fetchAll(PDO::FETCH_NAMED);
+		return $this->query($sql, $bind)->fetchAll(\PDO::FETCH_NAMED);
 	}
 
 	/**
 	 * Zwraca pierwszy rekord (rządek)
 	 * @param string $sql zapytanie
-	 * @param array $bind tabela w formacie akceptowanym przez PDO::prepare()
+	 * @param array $bind tabela w formacie akceptowanym przez \PDO::prepare()
 	 * @return array
 	 */
 	public final function fetchRow($sql, array $bind = array()) {
-		return $this->query($sql, $bind)->fetch(PDO::FETCH_NAMED);
+		return $this->query($sql, $bind)->fetch(\PDO::FETCH_NAMED);
 	}
 
 	/**
 	 * Zwraca pojedynczą wartość (krotkę)
 	 * @param string $sql zapytanie
-	 * @param array $bind tabela w formacie akceptowanym przez PDO::prepare()
+	 * @param array $bind tabela w formacie akceptowanym przez \PDO::prepare()
 	 * @return array
 	 */
 	public final function fetchOne($sql, array $bind = array()) {
-		return $this->query($sql, $bind)->fetch(PDO::FETCH_NUM);
+		return $this->query($sql, $bind)->fetch(\PDO::FETCH_NUM);
 	}
 
 	/**
@@ -415,8 +415,8 @@ abstract class PdoAbstract {
 	}
 
 	/**
-	 * Zwraca obiekt PDO
-	 * @return PDO
+	 * Zwraca obiekt \PDO
+	 * @return \PDO
 	 */
 	public final function getPdo() {
 		if (!$this->_connected) {

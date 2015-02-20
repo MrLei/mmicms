@@ -29,9 +29,9 @@ class Record extends \Mmi\Dao\Record {
 	}
 
 	protected function _clearCache() {
-		Core\Registry::$cache->remove('Mmi-Navigation-');
-		Core\Registry::$cache->remove('Mmi-Navigation-' . \Mmi\Controller\Front::getInstance()->getRequest()->lang);
-		Core\Registry::$cache->remove('Mmi-Acl');
+		\Core\Registry::$cache->remove('Mmi-Navigation-');
+		\Core\Registry::$cache->remove('Mmi-Navigation-' . \Mmi\Controller\Front::getInstance()->getRequest()->lang);
+		\Core\Registry::$cache->remove('Mmi-Acl');
 	}
 
 }

@@ -10,13 +10,13 @@ class App extends \MmiCms\Config {
 
 	/**
 	 * Konfiguracja routera
-	 * @var Core\Config\Router
+	 * @var \Core\Config\Router
 	 */
 	public $router;
 
 	/**
 	 * Konfiguracja nawigatora
-	 * @var Core\Config\Navigation
+	 * @var \Core\Config\Navigation
 	 */
 	public $navigation;
 

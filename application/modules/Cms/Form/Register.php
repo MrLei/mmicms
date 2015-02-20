@@ -5,7 +5,7 @@ namespace Cms\Form;
 
 class Register extends \MmiCms\Form {
 
-	protected $_recordName = 'Cms\Model\Auth\Record';
+	protected $_recordName = '\Cms\Model\Auth\Record';
 	protected $_recordSaveMethod = 'register';
 
 	public function init() {
@@ -14,7 +14,7 @@ class Register extends \MmiCms\Form {
 			->setLabel('nazwa użytkownika (nick)')
 			->setRequired()
 			->addValidatorAlnum()
-			->addValidatorRecordUnique('Cms\Model\Auth\Dao', 'username')
+			->addValidatorRecordUnique('\Cms\Model\Auth\Dao', 'username')
 			->addValidatorStringLength(4, 25)
 			->addFilter('lowercase');
 
@@ -22,7 +22,7 @@ class Register extends \MmiCms\Form {
 			->setLabel('e-mail')
 			->setRequired()
 			->addValidatorEmailAddress()
-			->addValidatorRecordUnique('Cms\Model\Auth\Dao', 'email')
+			->addValidatorRecordUnique('\Cms\Model\Auth\Dao', 'email')
 			->addValidatorStringLength(4, 150)
 			->addFilter('lowercase');
 

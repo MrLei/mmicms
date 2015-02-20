@@ -20,7 +20,7 @@ class Cron extends \MmiCms\Controller\Admin {
 
 	public function deleteAction() {
 		if ($this->id) {
-			$record = Cms\Model\Cron\Dao::findPk($this->id);
+			$record = \Cms\Model\Cron\Dao::findPk($this->id);
 		}
 		if ($record && $record->delete()) {
 			$this->_helper->messenger('Zadanie CRON poprawnie usunięte', true);

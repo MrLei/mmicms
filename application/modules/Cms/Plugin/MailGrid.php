@@ -5,7 +5,7 @@ class MailGrid extends \Mmi\Grid {
 
 	public function init() {
 		
-		$this->setQuery(Cms\Model\Mail\Query::factory()
+		$this->setQuery(\Cms\Model\Mail\Query::factory()
 			->orderDescId());
 
 		$this->addColumn('checkbox', 'active', array(

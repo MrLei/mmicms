@@ -27,7 +27,7 @@
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Registry extends ArrayObject
+class Zend_Registry extends \ArrayObject
 {
     /**
      * Class name of the singleton registry object.
@@ -157,9 +157,9 @@ class Zend_Registry extends ArrayObject
      * can be called statically.  In the latter case, it uses the default
      * static instance stored in the class.
      *
-     * @param string $index The location in the ArrayObject in which to store
+     * @param string $index The location in the \ArrayObject in which to store
      *   the value.
-     * @param mixed $value The object to store in the ArrayObject.
+     * @param mixed $value The object to store in the \ArrayObject.
      * @return void
      */
     public static function set($index, $value)
@@ -184,11 +184,11 @@ class Zend_Registry extends ArrayObject
     }
 
     /**
-     * Constructs a parent ArrayObject with default
+     * Constructs a parent \ArrayObject with default
      * ARRAY_AS_PROPS to allow acces as an object
      *
      * @param array $array data array
-     * @param integer $flags ArrayObject flags
+     * @param integer $flags \ArrayObject flags
      */
     public function __construct($array = array(), $flags = parent::ARRAY_AS_PROPS)
     {
