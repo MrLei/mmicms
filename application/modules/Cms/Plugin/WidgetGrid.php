@@ -1,10 +1,11 @@
 <?php
 
-class Cms_Plugin_WidgetGrid extends Mmi_Grid {
+namespace Cms\Plugin;
+class WidgetGrid extends \Mmi\Grid {
 
 	public function init() {
 
-		$this->setQuery(Cms_Model_Page_Widget_Dao::activeQuery()
+		$this->setQuery(Cms\Model\Page\Widget\Dao::activeQuery()
 				->orderAscId());
 
 		$this->addColumn('text', 'name', [

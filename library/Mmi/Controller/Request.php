@@ -10,7 +10,7 @@
  *
  * Mmi/Controller/Request.php
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,10 +20,13 @@
 /**
  * Klasa żądania
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Controller_Request {
+
+namespace Mmi\Controller;
+
+class Request {
 
 	/**
 	 * Zmienne żądania
@@ -178,7 +181,7 @@ class Mmi_Controller_Request {
 				if (!isset($fieldFiles['tmp_name']) || $fieldFiles['tmp_name'] == '') {
 					continue;
 				}
-				$fieldFiles['type'] = Mmi_Lib::mimeType($fieldFiles['tmp_name']);
+				$fieldFiles['type'] = \Mmi\Lib::mimeType($fieldFiles['tmp_name']);
 				$files[$fieldName] = $fieldFiles;
 				continue;
 			}
@@ -192,7 +195,7 @@ class Mmi_Controller_Request {
 				}
 				$files[$fieldName][$i] = array(
 					'name' => $fieldFiles['name'][$i],
-					'type' => Mmi_Lib::mimeType($fieldFiles['tmp_name'][$i]),
+					'type' => \Mmi\Lib::mimeType($fieldFiles['tmp_name'][$i]),
 					'tmp_name' => $fieldFiles['tmp_name'][$i],
 					'error' => $fieldFiles['error'][$i],
 					'size' => $fieldFiles['size'][$i]
@@ -207,7 +210,7 @@ class Mmi_Controller_Request {
 	 * @return string
 	 */
 	public function getReferer() {
-		return Mmi_Controller_Front::getInstance()->getEnvironment()->httpReferer;
+		return \Mmi\Controller\Front::getInstance()->getEnvironment()->httpReferer;
 	}
 
 	/**
@@ -264,7 +267,7 @@ class Mmi_Controller_Request {
 	/**
 	 * Ustawia moduł
 	 * @param string $value
-	 * @return Mmi_Controller_Request
+	 * @return \Mmi\Controller\Request
 	 */
 	public function setModuleName($value) {
 		$this->setParam('module', $value);
@@ -274,7 +277,7 @@ class Mmi_Controller_Request {
 	/**
 	 * Ustawia kontroler
 	 * @param string $value
-	 * @return Mmi_Controller_Request
+	 * @return \Mmi\Controller\Request
 	 */
 	public function setControllerName($value) {
 		$this->setParam('controller', $value);
@@ -284,7 +287,7 @@ class Mmi_Controller_Request {
 	/**
 	 * Ustawia akcję
 	 * @param string $value
-	 * @return Mmi_Controller_Request
+	 * @return \Mmi\Controller\Request
 	 */
 	public function setActionName($value) {
 		$this->setParam('action', $value);
@@ -294,7 +297,7 @@ class Mmi_Controller_Request {
 	/**
 	 * Ustawia nazwę skóry
 	 * @param string $value
-	 * @return Mmi_Controller_Request
+	 * @return \Mmi\Controller\Request
 	 */
 	public function setSkinName($value) {
 		$this->setParam('skin', $value);

@@ -10,7 +10,7 @@
  *
  * Mmi/Filter/TinyMce.php
  * @category   Mmi
- * @package    Mmi_Filter
+ * @package    \Mmi\Filter
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,10 +20,13 @@
 /**
  * Klasa filtracji zmiennych tak by były poprawnie przekazywane przez GET
  * @category   Mmi
- * @package    Mmi_Filter
+ * @package    \Mmi\Filter
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Filter_TinyMce extends Mmi_Filter_Abstract {
+
+namespace Mmi\Filter;
+
+class TinyMce extends \Mmi\Filter\FilterAbstract {
 
 	/**
 	 * Filtruje zmienne tak by były poprawnie przekazywane przez GET

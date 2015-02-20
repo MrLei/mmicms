@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -10,20 +11,22 @@
  *
  * Mmi/Validate/LargeSmall.php
  * @category   Mmi
- * @package    Mmi_Validate
+ * @package    \Mmi\Validate
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa walidacji ciągu na podstawie stosunku ilości wielkich do małych liter
  * @category   Mmi
- * @package    Mmi_Validate
+ * @package    \Mmi\Validate
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Validate_LargeSmall extends Mmi_Validate_Abstract {
+
+namespace Mmi\Validate;
+
+class LargeSmall extends ValidateAbstract {
 
 	/**
 	 * Komunikat o zbyt dużej ilości wielkich liter
@@ -51,32 +54,33 @@ class Mmi_Validate_LargeSmall extends Mmi_Validate_Abstract {
 		for ($i = 0, $len = strlen($value); $i < $len; $i++) {
 			if (isset($value[$i]) && isset($upper[$i]) && !is_numeric($value[$i]) &&
 				$value[$i] != ' ' &&
-				$value[$i] != '.' && 
-				$value[$i] != ',' && 
-				$value[$i] != '!' && 
-				$value[$i] != '?' && 
-				$value[$i] != '@' && 
-				$value[$i] != '%' && 
-				$value[$i] != '&' && 
-				$value[$i] != '(' && 
-				$value[$i] != ')' && 
-				$value[$i] != ']' && 
-				$value[$i] != '[' && 
-				$value[$i] != ':' && 
-				$value[$i] != ';' && 
-				$value[$i] != '/' && 
-				$value[$i] != '+' && 
-				$value[$i] != '-' && 
-				$value[$i] != '`' && 
-				$value[$i] != '$' && 
+				$value[$i] != '.' &&
+				$value[$i] != ',' &&
+				$value[$i] != '!' &&
+				$value[$i] != '?' &&
+				$value[$i] != '@' &&
+				$value[$i] != '%' &&
+				$value[$i] != '&' &&
+				$value[$i] != '(' &&
+				$value[$i] != ')' &&
+				$value[$i] != ']' &&
+				$value[$i] != '[' &&
+				$value[$i] != ':' &&
+				$value[$i] != ';' &&
+				$value[$i] != '/' &&
+				$value[$i] != '+' &&
+				$value[$i] != '-' &&
+				$value[$i] != '`' &&
+				$value[$i] != '$' &&
 				$upper[$i] == $value[$i]) {
 				$largeCount++;
 			}
 		}
 		if (($largeCount / $len) > $percent) {
-				$this->_error(self::INVALID);
-				return false;
+			$this->_error(self::INVALID);
+			return false;
 		}
 		return true;
 	}
+
 }

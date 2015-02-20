@@ -1,21 +1,24 @@
 <?php
 
-class Cms_Controller_Cron extends Mmi_Controller_Action {
+
+namespace Cms\Controller;
+
+class Cron extends \Mmi\Controller\Action {
 	
 	public function indexAction() {
-		Cms_Model_Cron_Job::run();
+		Cms\Model\Cron\Job::run();
 		return 'OK';
 	}
 	
 	public function sendMailAction() {
 		if (rand(0, 120) == 12) {
-			$this->view->cleared = Cms_Model_Mail_Dao::clean();
+			$this->view->cleared = Cms\Model\Mail\Dao::clean();
 		}
-		$this->view->result = Cms_Model_Mail_Dao::send();
+		$this->view->result = Cms\Model\Mail\Dao::send();
 	}
 	
 	public function agregateAction() {
-		$this->view->result = Cms_Model_Stat_Dao::agregate();
+		$this->view->result = Cms\Model\Stat\Dao::agregate();
 	}
 
 	public function cleanAction() {
@@ -23,7 +26,7 @@ class Cms_Controller_Cron extends Mmi_Controller_Action {
 		if ($this->months > 0) {
 			$months = intval($this->months);
 		}
-		$this->view->result = Cms_Model_Log_Dao::clean($months);
+		$this->view->result = Cms\Model\Log\Dao::clean($months);
 	}
 
 }

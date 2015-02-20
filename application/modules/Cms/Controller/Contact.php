@@ -1,10 +1,13 @@
 <?php
 
-class Cms_Controller_Contact extends Mmi_Controller_Action {
+
+namespace Cms\Controller;
+
+class Contact extends \Mmi\Controller\Action {
 
 	public function indexAction() {
-		$namespace = new Mmi_Session_Namespace('contact');
-		$form = new Cms_Form_Contact(null, array(
+		$namespace = new \Mmi\Session\Space('contact');
+		$form = new \Cms\Form\Contact(null, array(
 			'subjectId' => $this->subjectId
 		));
 		if ($form->isSaved()) {
@@ -16,8 +19,8 @@ class Cms_Controller_Contact extends Mmi_Controller_Action {
 			}
 			$namespace->unsetAll();
 			$this->_helper->redirector()->gotoUrl($link);
-		} elseif (Mmi_Controller_Front::getInstance()->getEnvironment()->httpReferer) {
-			$namespace->referer = Mmi_Controller_Front::getInstance()->getEnvironment()->httpReferer;
+		} elseif (\Mmi\Controller\Front::getInstance()->getEnvironment()->httpReferer) {
+			$namespace->referer = \Mmi\Controller\Front::getInstance()->getEnvironment()->httpReferer;
 		}
 	}
 

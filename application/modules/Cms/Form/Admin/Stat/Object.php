@@ -1,20 +1,23 @@
 <?php
 
-class Cms_Form_Admin_Stat_Object extends Mmi_Form {
+
+namespace Cms\Form\Admin\Stat;
+
+class Object extends \Mmi\Form {
 
 	public function init() {
 
 		$this->addElementSelect('object')
 			->setLabel('statystyka')
 			->setValue($this->getOption('object'))
-			->setMultiOptions(array(null => '---') + Cms_Model_Stat_Label_Query::factory()->orderAsc('label')->findPairs('object', 'label'));
+			->setMultiOptions(array(null => '---') + Cms\Model\Stat\Label\Query::factory()->orderAsc('label')->findPairs('object', 'label'));
 
 		$this->addElementSelect('year')
 			->setLabel('rok')
 			->setValue($this->getOption('year'))
 			->setMultiOptions(array(date('Y') - 1 => date('Y') - 1, date('Y') => date('Y')));
 
-		$view = Mmi_Controller_Front::getInstance()->getView();
+		$view = \Mmi\Controller\Front::getInstance()->getView();
 
 		$this->addElementSelect('month')
 			->setLabel('miesiąc')

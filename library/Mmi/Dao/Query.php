@@ -11,7 +11,7 @@
  *
  * Mmi/Dao/Query.php
  * @category   Mmi
- * @package    Mmi_Dao
+ * @package    \Mmi\Dao
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,14 +21,17 @@
 /**
  * Klasa zapytania DAO
  * @category   Mmi
- * @package    Mmi_Dao
+ * @package    \Mmi\Dao
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Dao_Query {
+
+namespace Mmi\Dao;
+
+class Query {
 
 	/**
 	 * Kompilant zapytania
-	 * @var Mmi_Dao_Query_Compile
+	 * @var \Mmi\Dao\Query\Compile
 	 */
 	protected $_compile;
 	
@@ -43,7 +46,7 @@ class Mmi_Dao_Query {
 	 * @param string $daoClassName nazwa klasy DAO
 	 */
 	protected final function __construct($daoClassName = null) {
-		$this->_compile = new Mmi_Dao_Query_Compile();
+		$this->_compile = new \Mmi\Dao\Query\Compile();
 		if ($daoClassName !== null) {
 			$this->_daoClassName = $daoClassName;
 			return;
@@ -65,7 +68,7 @@ class Mmi_Dao_Query {
 	/**
 	 * Ustawia limit
 	 * @param int $limit
-	 * @return Mmi_Dao_Query
+	 * @return \Mmi\Dao\Query
 	 */
 	public final function limit($limit = null) {
 		$this->_compile->limit = $limit;
@@ -75,7 +78,7 @@ class Mmi_Dao_Query {
 	/**
 	 * Ustawia ofset
 	 * @param int $offset
-	 * @return Mmi_Dao_Query
+	 * @return \Mmi\Dao\Query
 	 */
 	public final function offset($offset = null) {
 		$this->_compile->offset = $offset;
@@ -86,7 +89,7 @@ class Mmi_Dao_Query {
 	 * Sortowanie rosnące
 	 * @param string $fieldName nazwa pola
 	 * @param string $tableName opcjonalna nazwa tabeli źródłowej
-	 * @return Mmi_Dao_Query
+	 * @return \Mmi\Dao\Query
 	 */
 	public final function orderAsc($fieldName, $tableName = null) {
 		return $this->_prepareOrder($fieldName, $tableName);
@@ -96,7 +99,7 @@ class Mmi_Dao_Query {
 	 * Sortowanie malejące
 	 * @param string $fieldName nazwa pola
 	 * @param string $tableName opcjonalna nazwa tabeli źródłowej
-	 * @return Mmi_Dao_Query
+	 * @return \Mmi\Dao\Query
 	 */
 	public final function orderDesc($fieldName, $tableName = null) {
 		return $this->_prepareOrder($fieldName, $tableName, false);
@@ -104,28 +107,28 @@ class Mmi_Dao_Query {
 
 	/**
 	 * Dodaje podsekcję AND
-	 * @param Mmi_Dao_Query $query
-	 * @return Mmi_Dao_Query
+	 * @param \Mmi\Dao\Query $query
+	 * @return \Mmi\Dao\Query
 	 */
-	public final function andQuery(Mmi_Dao_Query $query) {
+	public final function andQuery(\Mmi\Dao\Query $query) {
 		return $this->_mergeQueries($query, true);
 	}
 
 	/**
 	 * Dodaje podsekcję WHERE (jak AND)
-	 * @param Mmi_Dao_Query $query
-	 * @return Mmi_Dao_Query
+	 * @param \Mmi\Dao\Query $query
+	 * @return \Mmi\Dao\Query
 	 */
-	public final function whereQuery(Mmi_Dao_Query $query) {
+	public final function whereQuery(\Mmi\Dao\Query $query) {
 		return $this->andQuery($query);
 	}
 
 	/**
 	 * Dodaje podsekcję OR
-	 * @param Mmi_Dao_Query $query
-	 * @return Mmi_Dao_Query
+	 * @param \Mmi\Dao\Query $query
+	 * @return \Mmi\Dao\Query
 	 */
-	public final function orQuery(Mmi_Dao_Query $query) {
+	public final function orQuery(\Mmi\Dao\Query $query) {
 		return $this->_mergeQueries($query, false);
 	}
 
@@ -133,17 +136,17 @@ class Mmi_Dao_Query {
 	 * Dodaje warunek na pole AND
 	 * @param string $fieldName nazwa pola
 	 * @param string $tableName opcjonalna nazwa tabeli źródłowej
-	 * @return Mmi_Dao_Query_Field
+	 * @return \Mmi\Dao\Query\Field
 	 */
 	public final function andField($fieldName, $tableName = null) {
-		return new Mmi_Dao_Query_Field($this, $this->_prepareField($fieldName, $tableName), 'AND');
+		return new \Mmi\Dao\Query\Field($this, $this->_prepareField($fieldName, $tableName), 'AND');
 	}
 
 	/**
 	 * Pierwszy warunek w zapytaniu (domyślnie AND)
 	 * @param string $fieldName nazwa pola
 	 * @param string $tableName opcjonalna nazwa tabeli źródłowej
-	 * @return Mmi_Dao_Query_Field
+	 * @return \Mmi\Dao\Query\Field
 	 */
 	public final function where($fieldName, $tableName = null) {
 		return $this->andField($fieldName, $tableName);
@@ -153,30 +156,30 @@ class Mmi_Dao_Query {
 	 * Dodaje warunek na pole OR
 	 * @param string $fieldName nazwa pola
 	 * @param string $tableName opcjonalna nazwa tabeli źródłowej
-	 * @return Mmi_Dao_Query_Field
+	 * @return \Mmi\Dao\Query\Field
 	 */
 	public final function orField($fieldName, $tableName = null) {
-		return new Mmi_Dao_Query_Field($this, $this->_prepareField($fieldName, $tableName), 'OR');
+		return new \Mmi\Dao\Query\Field($this, $this->_prepareField($fieldName, $tableName), 'OR');
 	}
 
 	/**
 	 * Dołącza tabelę tabelę
 	 * @param string $tableName nazwa tabeli
 	 * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć
-	 * @return Mmi_Dao_Query_Join
+	 * @return \Mmi\Dao\Query\Join
 	 */
 	public final function join($tableName, $targetTableName = null) {
-		return new Mmi_Dao_Query_Join($this, $tableName, 'JOIN', $targetTableName);
+		return new \Mmi\Dao\Query\Join($this, $tableName, 'JOIN', $targetTableName);
 	}
 
 	/**
 	 * Dołącza tabelę złączeniem lewym
 	 * @param string $tableName nazwa tabeli
 	 * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć
-	 * @return Mmi_Dao_Query_Join
+	 * @return \Mmi\Dao\Query\Join
 	 */
 	public final function joinLeft($tableName, $targetTableName = null) {
-		return new Mmi_Dao_Query_Join($this, $tableName, 'LEFT JOIN', $targetTableName);
+		return new \Mmi\Dao\Query\Join($this, $tableName, 'LEFT JOIN', $targetTableName);
 	}
 	
 	/**
@@ -191,8 +194,8 @@ class Mmi_Dao_Query {
 	
 	/**
 	 * Pobiera wszystkie rekordy i zwraca ich kolekcję
-	 * @param Mmi_Dao_Query $q Obiekt zapytania
-	 * @return Mmi_Dao_Record_Collection
+	 * @param \Mmi\Dao\Query $q Obiekt zapytania
+	 * @return \Mmi\Dao\Record\Collection
 	 */
 	public final function find() {
 		$dao = $this->_daoClassName;
@@ -201,7 +204,7 @@ class Mmi_Dao_Query {
 		$records = array();
 		foreach ($result as $row) {
 			$record = new $recordName();
-			/* @var $record Mmi_Dao_Record */
+			/* @var $record \Mmi\Dao\Record */
 			$record->setFromArray($row)->clearModified()->setNew(false);
 			$records[] = $record;
 		}
@@ -211,8 +214,8 @@ class Mmi_Dao_Query {
 	
 	/**
 	 * Pobiera obiekt pierwszy ze zbioru
-	 * @param Mmi_Dao_Query $q Obiekt zapytania
-	 * @return Mmi_Dao_Record_Ro
+	 * @param \Mmi\Dao\Query $q Obiekt zapytania
+	 * @return \Mmi\Dao\Record\Ro
 	 */
 	public final function findFirst() {
 		$dao = $this->_daoClassName;
@@ -221,7 +224,7 @@ class Mmi_Dao_Query {
 			return null;
 		}
 		$recordName = $dao::getRecordName();
-		/* @var $record Mmi_Dao_Record_Ro */
+		/* @var $record \Mmi\Dao\Record\Ro */
 		$record = new $recordName;
 		$record->setFromArray($result[0])->clearModified()->setNew(false);
 		return $record;
@@ -235,7 +238,7 @@ class Mmi_Dao_Query {
 	 */
 	public final function findPairs($keyName, $valueName) {
 		$dao = $this->_daoClassName;
-		/* @var $db Mmi_Db_Adapter_Pdo_Abstract */
+		/* @var $db \Mmi\Db\Adapter\Pdo\Abstract */
 		$db = $dao::getAdapter();
 		$data = $dao::getAdapter()->select($db->prepareField($keyName) . ', ' . $db->prepareField($valueName), $this->_prepareFrom(), $this->_compile->where, $this->_compile->order, $this->_compile->limit, $this->_compile->offset, $this->_compile->bind);
 		$kv = array();
@@ -256,7 +259,7 @@ class Mmi_Dao_Query {
 	/**
 	 * Pobiera wartość maksymalną z kolumny
 	 * @param string $keyName nazwa klucza
-	 * @param Mmi_Dao_Query $q Obiekt zapytania
+	 * @param \Mmi\Dao\Query $q Obiekt zapytania
 	 * @return string wartość maksymalna
 	 */
 	public final function findMax($keyName) {
@@ -268,7 +271,7 @@ class Mmi_Dao_Query {
 	/**
 	 * Pobiera wartość minimalną z kolumny
 	 * @param string $keyName nazwa klucza
-	 * @param Mmi_Dao_Query $q Obiekt zapytania
+	 * @param \Mmi\Dao\Query $q Obiekt zapytania
 	 * @return string wartość minimalna
 	 */
 	public final function findMin($keyName) {
@@ -294,7 +297,7 @@ class Mmi_Dao_Query {
 
 	/**
 	 * Zwraca skompilowane zapytanie
-	 * @return Mmi_Dao_Query_Compile
+	 * @return \Mmi\Dao\Query\Compile
 	 */
 	public final function getQueryCompile() {
 		return $this->_compile;
@@ -318,7 +321,7 @@ class Mmi_Dao_Query {
 	
 	/**
 	 * Resetuje sortowanie w zapytaniu
-	 * @return Mmi_Dao_Query
+	 * @return \Mmi\Dao\Query
 	 */
 	public final function resetOrder() {
 		$this->_compile->order = '';
@@ -327,7 +330,7 @@ class Mmi_Dao_Query {
 	
 	/**
 	 * Resetuje warunki w zapytaniu
-	 * @return Mmi_Dao_Query
+	 * @return \Mmi\Dao\Query
 	 */
 	public final function resetWhere() {
 		$this->_compile->where = '';
@@ -344,14 +347,14 @@ class Mmi_Dao_Query {
 	 */
 	protected final function _prepareField($fieldName, $tableName = null) {
 		$dao = $this->_daoClassName;
-		/* @var $db Mmi_Db_Adapter_Pdo_Abstract */
+		/* @var $db \Mmi\Db\Adapter\Pdo\Abstract */
 		$db = $dao::getAdapter();
 		$tablePrefix = $db->prepareTable(($tableName === null) ? $dao::getTableName() : $tableName);
 		if ($dao::fieldInTable($fieldName, $tableName) || $fieldName == 'RAND()') {
 			return $tablePrefix . '.' . $db->prepareField($fieldName);
 		}
-		/* @var $db Mmi_Db_Adapter_Pdo_Abstract */
-		$convertedFieldName = Mmi_Dao::convertCamelcaseToUnderscore($fieldName);
+		/* @var $db \Mmi\Db\Adapter\Pdo\Abstract */
+		$convertedFieldName = \Mmi\Dao::convertCamelcaseToUnderscore($fieldName);
 		if ($dao::fieldInTable($convertedFieldName, $tableName)) {
 			return $tablePrefix . '.' . $db->prepareField($convertedFieldName);
 		}
@@ -363,7 +366,7 @@ class Mmi_Dao_Query {
 	 * @param string $fieldName
 	 * @param string $tableName
 	 * @param boolean $asc
-	 * @return Mmi_Dao_Query
+	 * @return \Mmi\Dao\Query
 	 */
 	protected final function _prepareOrder($fieldName, $tableName = null, $asc = true) {
 		if (!$this->_compile->order) {
@@ -385,7 +388,7 @@ class Mmi_Dao_Query {
 		}
 		$fields = '';
 		$dao = $this->_daoClassName;
-		/* @var $db Mmi_Db_Adapter_Pdo_Abstract */
+		/* @var $db \Mmi\Db\Adapter\Pdo\Abstract */
 		$db = $dao::getAdapter();
 		$mainStructure = $dao::getTableStructure();
 		$table = $db->prepareTable($dao::getTableName());
@@ -405,7 +408,7 @@ class Mmi_Dao_Query {
 	
 	protected final function _prepareFrom() {
 		$dao = $this->_daoClassName;
-		/* @var $db Mmi_Db_Adapter_Pdo_Abstract */
+		/* @var $db \Mmi\Db\Adapter\Pdo\Abstract */
 		$db = $dao::getAdapter();
 		$table = $db->prepareTable($dao::getTableName());
 		if (empty($this->_compile->joinSchema)) {
@@ -425,9 +428,9 @@ class Mmi_Dao_Query {
 	/**
 	 * Łączy query
 	 * @param boolean $type
-	 * @return Mmi_Dao_Query
+	 * @return \Mmi\Dao\Query
 	 */
-	protected final function _mergeQueries(Mmi_Dao_Query $query, $and = true) {
+	protected final function _mergeQueries(\Mmi\Dao\Query $query, $and = true) {
 		$compilation = $query->getQueryCompile();
 		//łączenie where
 		if ($compilation->where) {

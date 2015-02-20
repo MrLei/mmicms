@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Api_Dto_Collection extends ArrayObject {
+
+namespace Cms\Model\Api\Dto;
+
+class Collection extends ArrayObject {
 
 	/**
 	 * Konstruktor ustawiający kolekcję na podstawie tablicy obiektów lub tablic
@@ -10,7 +13,7 @@ class Cms_Model_Api_Dto_Collection extends ArrayObject {
 		if ($data === null) {
 			return;
 		}
-		if ($data instanceof Mmi_Dao_Record_Collection) {
+		if ($data instanceof \Mmi\Dao\Record\Collection) {
 			$this->setFromDaoRecordCollection($data);
 			return;
 		}
@@ -26,7 +29,7 @@ class Cms_Model_Api_Dto_Collection extends ArrayObject {
 	/**
 	 * Ustawia kolekcję na podstawie tablicy tablic
 	 * @param array $data tablica obiektów stdClass
-	 * @return Cms_Model_Api_Dto_Collection
+	 * @return Cms\Model\Api\Dto\Collection
 	 */
 	public final function setFromArray(array $data) {
 		$dtoClass = $this->_getDtoClass();
@@ -42,10 +45,10 @@ class Cms_Model_Api_Dto_Collection extends ArrayObject {
 
 	/**
 	 * Ustawia kolekcję na podstawie obiektu obiektów
-	 * @param Mmi_Dao_Record_Collection $data kolekcja obiektów DAO
-	 * @return Api_Model_Dto_Collection
+	 * @param \Mmi\Dao\Record\Collection $data kolekcja obiektów DAO
+	 * @return Api\Model\Dto\Collection
 	 */
-	public final function setFromDaoRecordCollection(Mmi_Dao_Record_Collection $data) {
+	public final function setFromDaoRecordCollection(\Mmi\Dao\Record\Collection $data) {
 		$dtoClass = $this->_getDtoClass();
 		$this->exchangeArray(array());
 		foreach ($data as $record) {
@@ -84,8 +87,8 @@ class Cms_Model_Api_Dto_Collection extends ArrayObject {
 	 */
 	protected final function _getDtoClass() {
 		$dtoClass = substr(get_class($this), 0, -11);
-		if ($dtoClass == 'Cms_Model_Api_Dto') {
-			throw new Exception('Cms_Model_Api_Dto_Collection: Invalid DTO object name');
+		if ($dtoClass == 'Cms\Model\Api\Dto') {
+			throw new Exception('Cms\Model\Api\Dto\Collection: Invalid DTO object name');
 		}
 		return $dtoClass;
 	}

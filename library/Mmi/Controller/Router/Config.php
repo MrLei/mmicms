@@ -11,7 +11,7 @@
  *
  * Mmi/Controller/Router/Config.php
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Konfiguracja routera
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Controller_Router_Config {
+
+namespace Mmi\Controller\Router;
+
+class Config {
 
 	/**
 	 * Dane rout
@@ -38,10 +41,10 @@ class Mmi_Controller_Router_Config {
 	 * @param string $pattern wyrażenie regularne lub plain
 	 * @param array $replace tablica zastąpień
 	 * @param array $default tablica wartości domyślnych
-	 * @return Mmi_Controller_Router_Config
+	 * @return \Mmi\Controller\Router\Config
 	 */
 	public function setRoute($name, $pattern, array $replace = array(), array $default = array()) {
-		$route = new Mmi_Controller_Router_Config_Route();
+		$route = new \Mmi\Controller\Router\Config\Route();
 		$route->name = $name;
 		$route->pattern = $pattern;
 		$route->replace = $replace;
@@ -53,7 +56,7 @@ class Mmi_Controller_Router_Config {
 	/**
 	 * Pobierz routę
 	 * @param string $name nazwa lub indeks
-	 * @return Mmi_Controller_Router_Config_Route
+	 * @return \Mmi\Controller\Router\Config\Route
 	 */
 	public function getRoute($name) {
 		if (!$this->isRoute($name)) {

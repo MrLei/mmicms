@@ -10,7 +10,7 @@
  *
  * Mmi/Profiler.php
  * @category   Mmi
- * @package    Mmi_Profiler
+ * @package    \Mmi\Profiler
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -19,13 +19,16 @@
 
 /**
  * Klasa profilowania aplikacji
- * profile można zobaczyć przy użyciu Mmi_View_Helper_Panel
- * @see        Mmi_View_Helper_Panel
+ * profile można zobaczyć przy użyciu \Mmi\View\Helper\Panel
+ * @see        \Mmi\View\Helper\Panel
  * @category   Mmi
- * @package    Mmi_Profiler
+ * @package    \Mmi\Profiler
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Profiler {
+
+namespace Mmi;
+
+class Profiler {
 
 	/**
 	 * Dane profilera

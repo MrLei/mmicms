@@ -11,7 +11,7 @@
  *
  * Mmi/Session.php
  * @category   Mmi
- * @package    Mmi_Session
+ * @package    \Mmi\Session
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Klasa sesji
  * @category   Mmi
- * @package    Mmi_Session
+ * @package    \Mmi\Session
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Session {
+
+namespace Mmi;
+
+class Session {
 
 	/**
 	 * Zwraca czy ustawiona jest przestrzeń nazw
@@ -37,9 +40,9 @@ class Mmi_Session {
 
 	/**
 	 * Rozpoczęcie sesji
-	 * @param Mmi_Session_Config $config
+	 * @param \Mmi\Session\Config $config
 	 */
-	public static function start(Mmi_Session_Config $config) {
+	public static function start(\Mmi\Session\Config $config) {
 		session_name($config->name);
 		session_set_cookie_params($config->cookieLifetime);
 		session_cache_expire($config->cacheExpire);
@@ -49,7 +52,7 @@ class Mmi_Session {
 		session_save_path($config->path);
 		if ($config->handler) {
 			if ($config->handler == 'user') {
-				$customClassName = 'Mmi_Session_Handler_' . ucfirst($config->path);
+				$customClassName = '\Mmi\Session\Handler\\' . ucfirst($config->path);
 				$sha = new $customClassName();
 				session_set_save_handler(array($sha, 'open'), array($sha, 'close'), array($sha, 'read'), array($sha, 'write'), array($sha, 'destroy'), array($sha, 'gc'));
 				register_shutdown_function('session_write_close');

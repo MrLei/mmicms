@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -10,22 +11,24 @@
  *
  * MmiCms/Form/Element/DatePicker.php
  * @category   MmiCms
- * @package    MmiCms_Form
+ * @package    MmiCms\Form
  * @subpackage Element
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa elementu wyboru daty, można podać opcje: startDate, endDate, format
  * @category   MmiCms
- * @package    MmiCms_Form
+ * @package    MmiCms\Form
  * @subpackage Element
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class MmiCms_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
+
+namespace MmiCms\Form\Element;
+
+class DatePicker extends \Mmi\Form\Element\ElementAbstract {
 
 	/**
 	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora
@@ -37,7 +40,7 @@ class MmiCms_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
 	/**
 	 * Ustawia datę startową
 	 * @param string $date - sformatowany string czasu
-	 * @return Mmi_Form_Element_DatePicker
+	 * @return \Mmi\Form\Element\DatePicker
 	 */
 	public function setDateStart($date) {
 		$this->_options['dateStart'] = $date;
@@ -47,7 +50,7 @@ class MmiCms_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
 	/**
 	 * Ustawia datę końcową
 	 * @param string $date - sformatowany string czasu
-	 * @return Mmi_Form_Element_DatePicker
+	 * @return \Mmi\Form\Element\DatePicker
 	 */
 	public function setDateEnd($date) {
 		$this->_options['dateEnd'] = $date;
@@ -57,7 +60,7 @@ class MmiCms_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
 	/**
 	 * Ustawia format daty
 	 * @param string $format
-	 * @return Mmi_Form_Element_DatePicker
+	 * @return \Mmi\Form\Element\DatePicker
 	 */
 	public function setFormat($format) {
 		$this->_options['format'] = $format;
@@ -69,7 +72,7 @@ class MmiCms_Form_Element_DatePicker extends Mmi_Form_Element_Abstract {
 	 * @return string
 	 */
 	public function fetchField() {
-		$view = Mmi_Controller_Front::getInstance()->getView();
+		$view = \Mmi\Controller\Front::getInstance()->getView();
 		$format = isset($this->_options['format']) ? $this->_options['format'] : 'Y-m-d';
 		$dateStart = isset($this->_options['dateStart']) ? $this->_options['dateStart'] : 'false';
 		$dateEnd = isset($this->_options['dateEnd']) ? $this->_options['dateEnd'] : 'false';

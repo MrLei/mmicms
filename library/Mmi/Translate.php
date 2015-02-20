@@ -11,7 +11,7 @@
  *
  * Mmi/Translate.php
  * @category   Mmi
- * @package    Mmi_Translate
+ * @package    \Mmi\Translate
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,13 +20,16 @@
 
 /**
  * Klasa tłumaczeń (obsługa wersji językowych)
- * posiada skojarzoną klasę helpera widoku: Mmi_View_Helper_Translate
- * @see Mmi_View_Helper_Translate
+ * posiada skojarzoną klasę helpera widoku: \Mmi\View\Helper\Translate
+ * @see \Mmi\View\Helper\Translate
  * @category   Mmi
- * @package    Mmi_Translate
+ * @package    \Mmi\Translate
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Translate {
+
+namespace Mmi;
+
+class Translate {
 
 	/**
 	 * Dane językowe
@@ -69,7 +72,7 @@ class Mmi_Translate {
 	 * Dodaje tłumaczenie
 	 * @param string $sourceFile ścieżka do pliku
 	 * @param string $locale wersja językowa podanego pliku
-	 * @return Mmi_Translate
+	 * @return \Mmi\Translate
 	 */
 	public function addTranslation($sourceFile, $locale) {
 		if ($locale === null) {
@@ -103,7 +106,7 @@ class Mmi_Translate {
 	/**
 	 * Ustawia bieżącą wersję językową
 	 * @param string $locale wersja językowa
-	 * @return Mmi_Translate
+	 * @return \Mmi\Translate
 	 */
 	public function setLocale($locale) {
 		$this->_locale = $locale;
@@ -113,7 +116,7 @@ class Mmi_Translate {
 	/**
 	 * Ustawia domyślną wersję językową
 	 * @param string $locale wersja językowa
-	 * @return Mmi_Translate
+	 * @return \Mmi\Translate
 	 */
 	public function setDefaultLocale($locale) {
 		$this->_defaultLocale = $locale;
@@ -122,7 +125,7 @@ class Mmi_Translate {
 
 	/**
 	 * Alias metody _ (podkreślenie)
-	 * @see Mmi_Translate::_()
+	 * @see \Mmi\Translate::_()
 	 * @return string
 	 */
 	public function translate($key) {
@@ -181,7 +184,7 @@ class Mmi_Translate {
 	 */
 	private function _logUntranslated($key) {
 		$log = fopen(TMP_PATH . '/log/error.translation.log', 'a');
-		$requestUri = Mmi_Controller_Front::getInstance()->getEnvironment()->requestUri;
+		$requestUri = \Mmi\Controller\Front::getInstance()->getEnvironment()->requestUri;
 		fwrite($log, date('Y-m-d H:i:s') . ' ' . $requestUri . ' [' . $this->_locale . '] {#' . $key . "#}\n");
 		fclose($log);
 	}

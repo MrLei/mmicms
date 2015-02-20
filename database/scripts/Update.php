@@ -3,32 +3,32 @@
 $path = realpath(dirname(__FILE__) . '/../../');
 require $path . '/library/Mmi/Application.php';
 
-$application = new Mmi_Application($path, 'MmiCms_Application_Bootstrap_Commandline');
+$application = new \Mmi\Application($path, 'MmiCms\Application\Bootstrap\Commandline');
 $application->run();
 
 //wyłączenie bufora
 ob_end_flush();
 
 //pliki incremental
-foreach (glob(BASE_PATH . '/database/' . Default_Registry::$config->db->driver . '/incremental/*.sql') as $file) {
+foreach (glob(BASE_PATH . '/database/' . Core\Registry::$config->db->driver . '/incremental/*.sql') as $file) {
 	$md5file = md5_file($file);
 	$baseFileName = basename($file);
 	$schemaName = substr($baseFileName, strpos($baseFileName, '@') + 1, -4);
 
 	try {
 		//ustawianie schematu pliku importu
-		Default_Registry::$db->selectSchema($schemaName)
+		Core\Registry::$db->selectSchema($schemaName)
 			->setDefaultImportParams();
 
 		//pobranie rekordu
 		try {
-			$dc = MmiCms_Model_Changelog_Dao::byFilenameQuery(basename($file))->findFirst();
+			$dc = MmiCms\Model\Changelog\Dao::byFilenameQuery(basename($file))->findFirst();
 		} catch (Exception $e) {
 			$dc = null;
 		}
 		if ($dc === null) {
 			//brak restore
-			$dc = new MmiCms_Model_Changelog_Record();
+			$dc = new \MmiCms\Model\Changelog\Record();
 		} elseif ($dc !== null && $dc->md5 == $md5file) {
 			//restore istnieje md5 zgodne
 			echo 'INCREMENTAL PRESENT: ' . $baseFileName . "\n";
@@ -42,20 +42,20 @@ foreach (glob(BASE_PATH . '/database/' . Default_Registry::$config->db->driver .
 		echo 'NO SCHEMA FOUND - INITIAL IMPORT ' . $e->getMessage() . "\n";
 		if (!isset($dc) || $dc === null) {
 			//brak restore
-			$dc = new MmiCms_Model_Changelog_Record();
+			$dc = new \MmiCms\Model\Changelog\Record();
 		}
 	}
 
 	//import danych
-	//if(Default_Registry::$config->db->driver != "oci") {
-		$result = Default_Registry::$db->getPdo()->exec(file_get_contents($file));
+	//if(Core\Registry::$config->db->driver != "oci") {
+		$result = Core\Registry::$db->getPdo()->exec(file_get_contents($file));
 		if ($result === false) {
-			var_dump(Default_Registry::$db->getPdo()->errorInfo());
+			var_dump(Core\Registry::$db->getPdo()->errorInfo());
 			exit;
 		}
 	
 	//tworzenie wpisu
-	MmiCms_Model_Changelog_Dao::resetTableStructures();
+	MmiCms\Model\Changelog\Dao::resetTableStructures();
 	$dc->filename = $baseFileName;
 	$dc->md5 = $md5file;
 	$dc->save();

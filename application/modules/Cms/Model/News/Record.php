@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_News_Record extends Mmi_Dao_Record {
+
+namespace Cms\Model\News;
+
+class Record extends \Mmi\Dao\Record {
 
 	public $id;
 	public $lang;
@@ -14,24 +17,24 @@ class Cms_Model_News_Record extends Mmi_Dao_Record {
 	public $visible;
 
 	public function save() {
-		$filter = new Mmi_Filter_Url();
+		$filter = new \Mmi\Filter\Url();
 		$uri = $filter->filter($this->title);
 		//identyfikatory dla linków wewnętrznych
 		if ($this->internal == 1) {
-			$exists = Cms_Model_News_Dao::byUriQuery($uri)
+			$exists = Cms\Model\News\Dao::byUriQuery($uri)
 				->findFirst();
 			if ($exists !== null && $exists->getPk() != $this->getPk()) {
 				$uri = $uri . '_' . date('Y-m-d');
 			}
 			$this->uri = $uri;
 		}
-		$this->lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
+		$this->lang = \Mmi\Controller\Front::getInstance()->getRequest()->lang;
 		$this->dateModify = date('Y-m-d H:i:s');
 		return parent::save();
 	}
 
 	public function getFirstImage() {
-		return Cms_Model_File_Dao::imagesByObjectQuery('cmsnews', $this->id)
+		return Cms\Model\File\Dao::imagesByObjectQuery('cmsnews', $this->id)
 				->findFirst();
 	}
 
@@ -41,7 +44,7 @@ class Cms_Model_News_Record extends Mmi_Dao_Record {
 	}
 
 	public function delete() {
-		Cms_Model_File_Dao::imagesByObjectQuery('cmsnews', $this->getPk())
+		Cms\Model\File\Dao::imagesByObjectQuery('cmsnews', $this->getPk())
 			->find()
 			->delete();
 		return parent::delete();

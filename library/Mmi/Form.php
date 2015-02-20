@@ -11,7 +11,7 @@
  *
  * Mmi/Form.php
  * @category   Mmi
- * @package    Mmi_Form
+ * @package    \Mmi\Form
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Klasa formularza
  * @category   Mmi
- * @package    Mmi_Form
+ * @package    \Mmi\Form
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-abstract class Mmi_Form {
+
+namespace Mmi;
+
+abstract class Form {
 
 	/**
 	 * Nazwa formularza
@@ -40,7 +43,7 @@ abstract class Mmi_Form {
 
 	/**
 	 * Referencja do requestu
-	 * @var Mmi_Controller_Request
+	 * @var \Mmi\Controller\Request
 	 */
 	protected $_request;
 
@@ -64,7 +67,7 @@ abstract class Mmi_Form {
 
 	/**
 	 * Obiekt rekordu
-	 * @var Mmi_Dao_Record
+	 * @var \Mmi\Dao\Record
 	 */
 	protected $_record;
 
@@ -170,7 +173,7 @@ abstract class Mmi_Form {
 
 	/**
 	 * Namespace powiązany z tym formularzem
-	 * @var Mmi_Session_Namespace
+	 * @var \Mmi\Session\Namespace
 	 */
 	protected $_sessionNamespace = null;
 
@@ -184,7 +187,7 @@ abstract class Mmi_Form {
 		$this->_options = $options;
 
 		//@TODO: bardzo brzydki hak, przerobimy to - jeśli przekazano obiekt rekordu zamiast id
-		if (is_object($id) && ($id instanceof Mmi_Dao_Record)) {
+		if (is_object($id) && ($id instanceof \Mmi\Dao\Record)) {
 			$this->_record = $id;
 			$this->_recordId = $id->getPk();
 			$this->_recordName = get_class($id);
@@ -202,7 +205,7 @@ abstract class Mmi_Form {
 			$this->_fileObjectName = $this->_classToFileObject($this->_recordName);
 		}
 
-		$this->_request = Mmi_Controller_Front::getInstance()->getRequest();
+		$this->_request = \Mmi\Controller\Front::getInstance()->getRequest();
 
 		if (!$this->getAttrib('name')) {
 			$this->_formBaseName = strtolower(substr($this->_className, strrpos($this->_className, '_') + 1));
@@ -223,7 +226,7 @@ abstract class Mmi_Form {
 			$this->_subFormPrefix = $this->_formBaseName . '_';
 		}
 
-		$view = Mmi_Controller_Front::getInstance()->getView();
+		$view = \Mmi\Controller\Front::getInstance()->getView();
 
 		if ($this->_isSubForm) {
 			//dla podformularzy nie wolno edytować ustawionej nazwy, bo jest ona
@@ -253,10 +256,10 @@ abstract class Mmi_Form {
 		//obsługa checkboxów i selectów
 		if (!empty($this->_values)) {
 			foreach ($this->getElements() as $element) {
-				if ($element->getType() == 'Mmi_Form_Element_Checkbox' && !isset($this->_values[$element->name]) && $this->isMine()) {
+				if ($element->getType() == '\Mmi\Form\Element\Checkbox' && !isset($this->_values[$element->name]) && $this->isMine()) {
 					$this->_values[$element->name] = 0;
 				}
-				if ($element->getType() == 'Mmi_Form_Element_Select' && $this->isMine()) {
+				if ($element->getType() == '\Mmi\Form\Element\Select' && $this->isMine()) {
 					if (isset($this->_values[$element->name])) {
 						$this->_values[$element->name] = ($this->_values[$element->name] === '') ? null : $this->_values[$element->name];
 					} else {
@@ -282,10 +285,10 @@ abstract class Mmi_Form {
 		$this->addElementHidden($this->_formBaseName . '__ctrl')
 			->setIgnore()
 			->setOption('id', $this->_formBaseName . '__ctrl')
-			->setValue(Mmi_Lib::hashTable(array('hash' => $this->_hash, 'class' => $this->_className, 'options' => $this->_options)));
+			->setValue(\Mmi\Lib::hashTable(array('hash' => $this->_hash, 'class' => $this->_className, 'options' => $this->_options)));
 
 		if (!isset($options['ajax']) && $this->_secured) {
-			$this->_sessionNamespace = new Mmi_Session_Namespace('Mmi_Form');
+			$this->_sessionNamespace = new \Mmi\Session\Space('\Mmi\Form');
 			$hash = $this->_sessionNamespace->{$this->_formBaseName};
 			$this->_sessionNamespace->{$this->_formBaseName} = $this->_hash;
 			$this->_hash = $hash;
@@ -362,7 +365,7 @@ abstract class Mmi_Form {
 
 	/**
 	 * Inicjalizacja formularza
-	 * @see Mmi_Form::lateInit();
+	 * @see \Mmi\Form::lateInit();
 	 */
 	abstract public function init();
 
@@ -384,117 +387,117 @@ abstract class Mmi_Form {
 	/**
 	 * Button
 	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_Button
+	 * @return \Mmi\Form\Element\Button
 	 */
 	public function addElementButton($name) {
-		return $this->addElement(new Mmi_Form_Element_Button($name));
+		return $this->addElement(new \Mmi\Form\Element\Button($name));
 	}
 
 	/**
 	 * Checkbox
 	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_Checkbox
+	 * @return \Mmi\Form\Element\Checkbox
 	 */
 	public function addElementCheckbox($name) {
-		return $this->addElement(new Mmi_Form_Element_Checkbox($name));
+		return $this->addElement(new \Mmi\Form\Element\Checkbox($name));
 	}
 
 	/**
 	 * File
 	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_File
+	 * @return \Mmi\Form\Element\File
 	 */
 	public function addElementFile($name) {
-		return $this->addElement(new Mmi_Form_Element_File($name));
+		return $this->addElement(new \Mmi\Form\Element\File($name));
 	}
 
 	/**
 	 * Hidden
 	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_Hidden
+	 * @return \Mmi\Form\Element\Hidden
 	 */
 	public function addElementHidden($name) {
-		return $this->addElement(new Mmi_Form_Element_Hidden($name));
+		return $this->addElement(new \Mmi\Form\Element\Hidden($name));
 	}
 
 	/**
 	 * Label
 	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_Label
+	 * @return \Mmi\Form\Element\Label
 	 */
 	public function addElementLabel($name) {
-		return $this->addElement(new Mmi_Form_Element_Label($name));
+		return $this->addElement(new \Mmi\Form\Element\Label($name));
 	}
 
 	/**
 	 * Multi-checkbox
 	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_MultiCheckbox
+	 * @return \Mmi\Form\Element\MultiCheckbox
 	 */
 	public function addElementMultiCheckbox($name) {
-		return $this->addElement(new Mmi_Form_Element_MultiCheckbox($name));
+		return $this->addElement(new \Mmi\Form\Element\MultiCheckbox($name));
 	}
 
 	/**
 	 * Password
 	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_Password
+	 * @return \Mmi\Form\Element\Password
 	 */
 	public function addElementPassword($name) {
-		return $this->addElement(new Mmi_Form_Element_Password($name));
+		return $this->addElement(new \Mmi\Form\Element\Password($name));
 	}
 
 	/**
 	 * Radio
 	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_Radio
+	 * @return \Mmi\Form\Element\Radio
 	 */
 	public function addElementRadio($name) {
-		return $this->addElement(new Mmi_Form_Element_Radio($name));
+		return $this->addElement(new \Mmi\Form\Element\Radio($name));
 	}
 
 	/**
 	 * Select
 	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_Select
+	 * @return \Mmi\Form\Element\Select
 	 */
 	public function addElementSelect($name) {
-		return $this->addElement(new Mmi_Form_Element_Select($name));
+		return $this->addElement(new \Mmi\Form\Element\Select($name));
 	}
 
 	/**
 	 * Submit
 	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_Submit
+	 * @return \Mmi\Form\Element\Submit
 	 */
 	public function addElementSubmit($name) {
-		return $this->addElement(new Mmi_Form_Element_Submit($name));
+		return $this->addElement(new \Mmi\Form\Element\Submit($name));
 	}
 
 	/**
 	 * Text
 	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_Text
+	 * @return \Mmi\Form\Element\Text
 	 */
 	public function addElementText($name) {
-		return $this->addElement(new Mmi_Form_Element_Text($name));
+		return $this->addElement(new \Mmi\Form\Element\Text($name));
 	}
 
 	/**
 	 * Textarea
 	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_Textarea
+	 * @return \Mmi\Form\Element\Textarea
 	 */
 	public function addElementTextarea($name) {
-		return $this->addElement(new Mmi_Form_Element_Textarea($name));
+		return $this->addElement(new \Mmi\Form\Element\Textarea($name));
 	}
 
 	/**
 	 * Dodawanie elementu formularza z gotowego obiektu
-	 * @param Mmi_Form_Element_Abstract $element obiekt elementu formularza
-	 * @return Mmi_Form_Element_Abstract
+	 * @param \Mmi\Form\Element\Abstract $element obiekt elementu formularza
+	 * @return \Mmi\Form\Element\Abstract
 	 */
-	public function addElement(Mmi_Form_Element_Abstract $element) {
+	public function addElement(\Mmi\Form\Element\ElementAbstract $element) {
 		$name = $element->getName();
 		//automatyczne dodawanie prefiksów do pól subformów
 		if ($this->_isSubForm) {
@@ -519,7 +522,7 @@ abstract class Mmi_Form {
 	/**
 	 * Pobranie elementu formularza
 	 * @param string $name nazwa elementu
-	 * @return Mmi_Form_Element_Abstract
+	 * @return \Mmi\Form\Element\Abstract
 	 */
 	public function getElement($name) {
 		//automatyczne dodawanie prefiksów do pól subformów
@@ -544,7 +547,7 @@ abstract class Mmi_Form {
 	 * Ustawienie wartości opcji
 	 * @param mixed $key identyfikator opcji
 	 * @param mixed $value wartość
-	 * @return Mmi_Form
+	 * @return \Mmi\Form
 	 */
 	public function setAttrib($key, $value) {
 		$this->_options[$key] = $value;
@@ -589,7 +592,7 @@ abstract class Mmi_Form {
 	 * Ustawienie wartości dla pola rekordu do zapisu.
 	 * @param string $key identyfikator
 	 * @param mixed $value wartość
-	 * @return Mmi_Form
+	 * @return \Mmi\Form
 	 */
 	public function setRecordValue($key, $value) {
 		$this->_recordValues[$key] = $value;
@@ -599,7 +602,7 @@ abstract class Mmi_Form {
 	/**
 	 * Ustawienie wartości dla pól rekordu do zapisu.
 	 * @param array wartości dla pól rekordu
-	 * @return Mmi_Form
+	 * @return \Mmi\Form
 	 */
 	public function setRecordValues(array $values = array()) {
 		$this->_recordValues = $values;
@@ -608,7 +611,7 @@ abstract class Mmi_Form {
 
 	/**
 	 * Czyszczenie wartości dla pól rekordu do zapisu.
-	 * @return Mmi_Form
+	 * @return \Mmi\Form
 	 */
 	public function clearRecordValues() {
 		$this->_recordValues = array();
@@ -653,7 +656,7 @@ abstract class Mmi_Form {
 	/**
 	 * Magiczny getter elementów
 	 * @param string $key nazwa pola
-	 * @return Mmi_Form_Element_Abstract
+	 * @return \Mmi\Form\Element\Abstract
 	 */
 	public function __get($key) {
 		return $this->getElement($key);
@@ -670,7 +673,7 @@ abstract class Mmi_Form {
 
 	/**
 	 * Zwraca obiekt aktywnego rekordu
-	 * @return Mmi_Dao_Record
+	 * @return \Mmi\Dao\Record
 	 */
 	public function getRecord() {
 		return $this->_record;
@@ -684,7 +687,7 @@ abstract class Mmi_Form {
 		if (!$this->_recordName) {
 			return false;
 		}
-		if ($this->_record instanceof Mmi_Dao_Record) {
+		if ($this->_record instanceof \Mmi\Dao\Record) {
 			return true;
 		}
 		if ($this->_record !== null) {
@@ -740,7 +743,7 @@ abstract class Mmi_Form {
 			$this->_validationResult = false;
 			return false;
 		}
-		$options = Mmi_Lib::unhashTable($data[$this->_formBaseName . '__ctrl']);
+		$options = \Mmi\Lib::unhashTable($data[$this->_formBaseName . '__ctrl']);
 		if ($options['class'] != $this->_className) {
 			return false;
 		}
@@ -858,7 +861,7 @@ abstract class Mmi_Form {
 	/**
 	 * Ustawia, czy form jest subformem.
 	 * @param bool $yes
-	 * @return Mmi_Form
+	 * @return \Mmi\Form
 	 */
 	public function setIsSubForm($yes = true) {
 		$this->_isSubForm = (bool) $yes;
@@ -875,11 +878,11 @@ abstract class Mmi_Form {
 
 	/**
 	 * Dodaje podformularz
-	 * @param Mmi_Form $form
+	 * @param \Mmi\Form $form
 	 * @param string $name nazwa
-	 * @return Mmi_Form
+	 * @return \Mmi\Form
 	 */
-	public function addSubForm(Mmi_Form $form, $name) {
+	public function addSubForm(\Mmi\Form $form, $name) {
 		$form->setIsSubForm(true);
 		$this->_subForms[$name] = $form;
 		return $this;
@@ -888,7 +891,7 @@ abstract class Mmi_Form {
 	/**
 	 * Ustawia podformularze
 	 * @param array $subForms tabela nazwa formularza => obiekt formularza
-	 * @return Mmi_Form
+	 * @return \Mmi\Form
 	 */
 	public function setSubForms(array $subForms) {
 		$this->clearSubForms();
@@ -898,7 +901,7 @@ abstract class Mmi_Form {
 	/**
 	 * Dodaje podformularze
 	 * @param array $subForms tabela nazwa formularza => obiekt formularza
-	 * @return Mmi_Form
+	 * @return \Mmi\Form
 	 */
 	public function addSubForms(array $subForms) {
 		foreach ($subForms as $formName => $form) {
@@ -928,7 +931,7 @@ abstract class Mmi_Form {
 	/**
 	 * Usuwa podformularz
 	 * @param string $name
-	 * @return Mmi_Form
+	 * @return \Mmi\Form
 	 */
 	public function removeSubForm($name) {
 		unset($this->_subForms[$name]);
@@ -937,7 +940,7 @@ abstract class Mmi_Form {
 
 	/**
 	 * Czyści podformularze
-	 * @return Mmi_Form
+	 * @return \Mmi\Form
 	 */
 	public function clearSubForms() {
 		$this->_subForms = array();
@@ -947,7 +950,7 @@ abstract class Mmi_Form {
 	/**
 	 * Ustawia nazwę kolumny do zapisu powiązania z formularzem rodzicem.
 	 * @param string $name
-	 * @return Mmi_Form
+	 * @return \Mmi\Form
 	 */
 	public function setParentFormColumnName($name) {
 		$this->_parentFormColumnName = $name;
@@ -1041,7 +1044,7 @@ abstract class Mmi_Form {
 			$html = $this->start();
 		}
 		foreach ($this->_elements AS $element) {
-			if ($renderSub && ($element->getType() == 'Mmi_Form_Element_Submit' || $element->getType() == 'Mmi_Form_Element_Button')) {
+			if ($renderSub && ($element->getType() == '\Mmi\Form\Element\Submit' || $element->getType() == '\Mmi\Form\Element\Button')) {
 				$html .= $this->renderSubForms();
 				$renderSub = false;
 			}
@@ -1113,11 +1116,11 @@ abstract class Mmi_Form {
 	protected function _appendFiles($id, $files) {
 		try {
 			foreach ($files as $fileSet) {
-				Cms_Model_File_Dao::appendFiles($this->_fileObjectName, $id, $fileSet);
+				Cms\Model\File\Dao::appendFiles($this->_fileObjectName, $id, $fileSet);
 			}
-			Cms_Model_File_Dao::move('tmp-' . $this->_fileObjectName, Mmi_Session::getNumericId(), $this->_fileObjectName, $id);
+			Cms\Model\File\Dao::move('tmp-' . $this->_fileObjectName, \Mmi\Session::getNumericId(), $this->_fileObjectName, $id);
 		} catch (Exception $e) {
-			Mmi_Exception_Logger::log($e);
+			\Mmi\Exception\Logger::log($e);
 		}
 	}
 
@@ -1130,7 +1133,7 @@ abstract class Mmi_Form {
 		$files = array();
 		//import z elementów File
 		foreach ($this->getElements() as $element) {
-			if ($element->getType() != 'Mmi_Form_Element_File') {
+			if ($element->getType() != '\Mmi\Form\Element\File') {
 				continue;
 			}
 			if (!$element->isUploaded()) {
@@ -1147,7 +1150,7 @@ abstract class Mmi_Form {
 	 * @return string
 	 */
 	protected function _classToFileObject($name) {
-		$name = explode('_', $name);
+		$name = explode('\\', $name);
 		$fileObject = '';
 		foreach ($name as $part) {
 			$part = strtolower($part);

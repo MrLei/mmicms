@@ -8,9 +8,9 @@
  * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
  * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
  *
- * Mmi/Application_Config.php
+ * Mmi/Application\Config.php
  * @category   Mmi
- * @package    Mmi_Application
+ * @package    \Mmi\Application
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,11 +20,14 @@
 /**
  * Podstawowa konfiguracja aplikacji
  * @category   Mmi
- * @package    Mmi_Application
+ * @package    \Mmi\Application
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 
-class Mmi_Application_Config {
+
+namespace Mmi\Application;
+
+class Config {
 
 	/**
 	 * Charset
@@ -71,7 +74,7 @@ class Mmi_Application_Config {
 
 	/**
 	 * Pluginy włączone w aplikacji
-	 * np. MmiTest_Controller_Plugin
+	 * np. MmiTest\Controller\Plugin
 	 * @var array
 	 */
 	public $plugins = array();

@@ -11,7 +11,7 @@
  *
  * Mmi/Dao/Query/Field.php
  * @category   Mmi
- * @package    Mmi_Dao
+ * @package    \Mmi\Dao
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Klasa pola w zapytaniu
  * @category   Mmi
- * @package    Mmi_Dao
+ * @package    \Mmi\Dao
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Dao_Query_Field {
+
+namespace Mmi\Dao\Query;
+
+class Field {
 
 	/**
 	 * Nazwa pola
@@ -40,17 +43,17 @@ class Mmi_Dao_Query_Field {
 
 	/**
 	 * Referencja do nadrzędnego zapytania
-	 * @var Mmi_Dao_Query
+	 * @var \Mmi\Dao\Query
 	 */
 	protected $_query;
 
 	/**
 	 * Ustawia parametry pola
-	 * @param Mmi_Dao_Query $query zapytanie nadrzędne
+	 * @param \Mmi\Dao\Query $query zapytanie nadrzędne
 	 * @param string $fieldName nazwa pola
 	 * @param string $logic kwantyfikator łączenia AND lub OR
 	 */
-	public function __construct(Mmi_Dao_Query $query, $fieldName, $logic = 'AND') {
+	public function __construct(\Mmi\Dao\Query $query, $fieldName, $logic = 'AND') {
 		$this->_fieldName = $fieldName;
 		$this->_logic = ($logic == 'OR') ? 'OR' : 'AND';
 		$this->_query = $query;
@@ -59,7 +62,7 @@ class Mmi_Dao_Query_Field {
 	/**
 	 * Równość
 	 * @param mixed $value
-	 * @return Mmi_Dao_Query
+	 * @return \Mmi\Dao\Query
 	 */
 	public function equals($value) {
 		return $this->_prepareQuery($value, '=');
@@ -68,7 +71,7 @@ class Mmi_Dao_Query_Field {
 	/**
 	 * Negacja równości
 	 * @param mixed $value
-	 * @return Mmi_Dao_Query
+	 * @return \Mmi\Dao\Query
 	 */
 	public function notEquals($value) {
 		return $this->_prepareQuery($value, '<>');
@@ -77,7 +80,7 @@ class Mmi_Dao_Query_Field {
 	/**
 	 * Relacja większości
 	 * @param mixed $value
-	 * @return Mmi_Dao_Query
+	 * @return \Mmi\Dao\Query
 	 */
 	public function greater($value) {
 		return $this->_prepareQuery($value, '>');
@@ -86,7 +89,7 @@ class Mmi_Dao_Query_Field {
 	/**
 	 * Relacja mniejszości
 	 * @param mixed $value
-	 * @return Mmi_Dao_Query
+	 * @return \Mmi\Dao\Query
 	 */
 	public function less($value) {
 		return $this->_prepareQuery($value, '<');
@@ -95,7 +98,7 @@ class Mmi_Dao_Query_Field {
 	/**
 	 * Relacja większe-równe
 	 * @param mixed $value
-	 * @return Mmi_Dao_Query
+	 * @return \Mmi\Dao\Query
 	 */
 	public function greaterOrEquals($value) {
 		return $this->_prepareQuery($value, '>=');
@@ -104,7 +107,7 @@ class Mmi_Dao_Query_Field {
 	/**
 	 * Relacja mniejsze-równe
 	 * @param type $value
-	 * @return Mmi_Dao_Query
+	 * @return \Mmi\Dao\Query
 	 */
 	public function lessOrEquals($value) {
 		return $this->_prepareQuery($value, '<=');
@@ -113,7 +116,7 @@ class Mmi_Dao_Query_Field {
 	/**
 	 * Porównanie podobieństwa
 	 * @param string $value
-	 * @return Mmi_Dao_Query
+	 * @return \Mmi\Dao\Query
 	 */
 	public function like($value) {
 		return $this->_prepareQuery($value, 'LIKE');
@@ -122,7 +125,7 @@ class Mmi_Dao_Query_Field {
 	/**
 	 * Porównanie podobieństwa bez wielkości liter
 	 * @param string $value
-	 * @return Mmi_Dao_Query
+	 * @return \Mmi\Dao\Query
 	 */
 	public function ilike($value) {
 		return $this->_prepareQuery($value, 'ILIKE');
@@ -132,11 +135,11 @@ class Mmi_Dao_Query_Field {
 	 * Przygotowuje zapytanie
 	 * @param mixed $value
 	 * @param string $condition
-	 * @return Mmi_Dao_Query
+	 * @return \Mmi\Dao\Query
 	 */
 	protected function _prepareQuery($value, $condition = '=') {
 		//tworzenie binda
-		$bindKey = Mmi_Db_Adapter_Pdo_Abstract::generateRandomBindKey();
+		$bindKey = \Mmi\Db\Adapter\Pdo\PdoAbstract::generateRandomBindKey();
 		if (!is_array($value) && null !== $value) {
 			$this->_query->getQueryCompile()->bind[$bindKey] = $value;
 		}
@@ -146,7 +149,7 @@ class Mmi_Dao_Query_Field {
 			$this->_query->getQueryCompile()->where .= ' ' . $this->_logic . ' ';
 		}
 		$dao = $this->_query->getDaoClassName();
-		/* @var $db Mmi_Db_Adapter_Pdo_Abstract */
+		/* @var $db \Mmi\Db\Adapter\Pdo\Abstract */
 		$db = $dao::getAdapter();
 		//sprawdzenie wartości null
 		if (null === $value) {
@@ -158,7 +161,7 @@ class Mmi_Dao_Query_Field {
 			$fields = '';
 			$i = 1;
 			foreach ($value as $arg) {
-				$bk = Mmi_Db_Adapter_Pdo_Abstract::generateRandomBindKey();
+				$bk = \Mmi\Db\Adapter\Pdo\PdoAbstract::generateRandomBindKey();
 				$this->_query->getQueryCompile()->bind[$bk] = $arg;
 				$fields .= ':' . $bk . ', ';
 				$i++;

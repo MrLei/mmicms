@@ -1,15 +1,18 @@
 <?php
 
-class Cms_Form_Admin_Text_Clone extends Mmi_Form {
 
-	protected $_recordName = 'Cms_Model_Text_Record';
+namespace Cms\Form\Admin\Text;
+
+class Copy extends \Mmi\Form {
+
+	protected $_recordName = 'Cms\Model\Text\Record';
 	protected $_recordSaveMethod = 'cloneKeys';
 
 	public function init() {
 
 		$langMultiOptions = array();
-		foreach (Default_Registry::$config->application->languages as $lang) {
-			if ($lang == Mmi_Controller_Front::getInstance()->getRequest()->lang) {
+		foreach (Core\Registry::$config->application->languages as $lang) {
+			if ($lang == \Mmi\Controller\Front::getInstance()->getRequest()->lang) {
 				continue;
 			}
 			$langMultiOptions[$lang] = $lang;

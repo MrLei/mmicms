@@ -1,10 +1,11 @@
 <?php
 
-class Cms_Plugin_ContactGrid extends Mmi_Grid {
+namespace Cms\Plugin;
+class ContactGrid extends \Mmi\Grid {
 
 	public function init() {
 		
-		$this->setQuery(Cms_Model_Contact_Query::factory());
+		$this->setQuery(Cms\Model\Contact\Query::factory());
 
 		$this->addColumn('custom', 'id', array(
 			'label' => 'ticket',
@@ -38,8 +39,8 @@ class Cms_Plugin_ContactGrid extends Mmi_Grid {
 		$this->addColumn('buttons', 'buttons', array(
 			'label' => 'operacje',
 			'links' => array(
-				'delete' => Mmi_Controller_Front::getInstance()->getView()->baseUrl . '/cms/admin-contact/delete/id/%id%',
-				'edit' => Mmi_Controller_Front::getInstance()->getView()->baseUrl . '/cms/admin-contact/edit/id/%id%'
+				'delete' => \Mmi\Controller\Front::getInstance()->getView()->baseUrl . '/cms/admin-contact/delete/id/%id%',
+				'edit' => \Mmi\Controller\Front::getInstance()->getView()->baseUrl . '/cms/admin-contact/edit/id/%id%'
 			)
 		));
 	}

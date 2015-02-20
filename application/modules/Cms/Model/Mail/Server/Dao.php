@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Mail_Server_Dao extends Mmi_Dao {
+
+namespace Cms\Model\Mail\Server;
+
+class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'mail_server';
 
@@ -9,7 +12,7 @@ class Cms_Model_Mail_Server_Dao extends Mmi_Dao {
 	 * @return array lista
 	 */
 	public static function getMultioptions() {
-		$rows = Cms_Model_Mail_Server_Query::factory()
+		$rows = Cms\Model\Mail\Server\Query::factory()
 			->whereActive()->equals(1)
 			->find();
 		$pairs = array();

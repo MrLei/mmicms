@@ -1,8 +1,11 @@
 <?php
 
-class Cms_Form_Comment extends Mmi_Form {
 
-	protected $_recordName = 'Cms_Model_Comment_Record';
+namespace Cms\Form;
+
+class Comment extends \Mmi\Form {
+
+	protected $_recordName = 'Cms\Model\Comment\Record';
 
 	public function init() {
 		$this->getRecord()->object = $this->getAttrib('object');
@@ -22,7 +25,7 @@ class Cms_Form_Comment extends Mmi_Form {
 				->setLabel('Oceń artykuł');
 		}
 
-		if (!Default_Registry::$auth->hasIdentity()) {
+		if (!Core\Registry::$auth->hasIdentity()) {
 			$this->addElementText('signature')
 				->setLabel('podpis');
 		}

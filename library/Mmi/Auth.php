@@ -10,7 +10,7 @@
  *
  * Mmi/Auth.php
  * @category   Mmi
- * @package    Mmi_Auth
+ * @package    \Mmi\Auth
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,10 +20,13 @@
 /**
  * Klasa autoryzacji
  * @category   Mmi
- * @package    Mmi_Auth
+ * @package    \Mmi\Auth
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Auth {
+
+namespace Mmi;
+
+class Auth {
 
 	/**
 	 * Przestrzeń nazw w sesji przeznaczona dla autoryzacji
@@ -39,7 +42,7 @@ class Mmi_Auth {
 
 	/**
 	 * Przestrzeń w sesji
-	 * @var Mmi_Session_Namespace
+	 * @var \Mmi\Session\Namespace
 	 */
 	private $_session;
 
@@ -65,13 +68,13 @@ class Mmi_Auth {
 	 * Kostruktor, tworzy przestrzeń w sesji
 	 */
 	public function __construct() {
-		$this->_session = new Mmi_Session_Namespace($this->_namespace);
+		$this->_session = new \Mmi\Session\Space($this->_namespace);
 	}
 
 	/**
 	 * Ustawia sól
 	 * @param string $salt
-	 * @return Mmi_Auth
+	 * @return \Mmi\Auth
 	 */
 	public function setSalt($salt) {
 		$this->_salt = $salt;
@@ -96,16 +99,16 @@ class Mmi_Auth {
 	 */
 	public function rememberMe($time) {
 		if ($this->hasIdentity()) {
-			new Mmi_Http_Cookie('remember', 'id=' . $this->getId() . '&key='. md5($this->getSalt() . $this->getId()), null, time() + $time);
+			new \Mmi\Http\Cookie('remember', 'id=' . $this->getId() . '&key='. md5($this->getSalt() . $this->getId()), null, time() + $time);
 		}
 	}
 
 	/**
 	 * Usuwa pamięć o automatycznym logowaniu użytkownika
-	 * @return Mmi_Auth
+	 * @return \Mmi\Auth
 	 */
 	public function forgetMe() {
-		$cookie = new Mmi_Http_Cookie();
+		$cookie = new \Mmi\Http\Cookie();
 		$cookie->match('remember');
 		$cookie->delete();
 		return $this;
@@ -157,7 +160,7 @@ class Mmi_Auth {
 
 	/**
 	 * Zwraca przestrzeń w sesji
-	 * @return Mmi_Session_Namespace
+	 * @return \Mmi\Session\Namespace
 	 */
 	public function getSessionNamespace() {
 		return $this->_session;
@@ -166,7 +169,7 @@ class Mmi_Auth {
 	/**
 	 * Ustawia nazwę modelu
 	 * @param string $modelName
-	 * @return Mmi_Auth
+	 * @return \Mmi\Auth
 	 */
 	public function setModelName($modelName) {
 		$this->_modelName = $modelName;
@@ -184,7 +187,7 @@ class Mmi_Auth {
 	/**
 	 * Ustawia identyfikator do autoryzacji (np. login)
 	 * @param string $identity identyfikator
-	 * @return Mmi_Auth
+	 * @return \Mmi\Auth
 	 */
 	public function setIdentity($identity) {
 		$this->_identity = $identity;
@@ -194,7 +197,7 @@ class Mmi_Auth {
 	/**
 	 * Ustawia ciąg uwierzytelniający do autoryzacji (np. hasło)
 	 * @param string $credential ciąg uwierzytelniający
-	 * @return Mmi_Auth
+	 * @return \Mmi\Auth
 	 */
 	public function setCredential($credential) {
 		$this->_credential = $credential;
@@ -204,7 +207,7 @@ class Mmi_Auth {
 	/**
 	 * Czyści tożsamość
 	 * @param bool $cookies czyści także ciastka zapamiętujące użytkownika
-	 * @return Mmi_Auth
+	 * @return \Mmi\Auth
 	 */
 	public function clearIdentity($cookies = true) {
 		if ($cookies) {
@@ -234,7 +237,7 @@ class Mmi_Auth {
 		if (!is_object($result)) {
 			throw new Exception('Authentication result is not an instance of stdClass');
 		}
-		return $this->setAuthentication($result->id, $result->username, $result->email, $result->roles, $result->lang, Mmi_Controller_Front::getInstance()->getEnvironment()->remoteAddress);
+		return $this->setAuthentication($result->id, $result->username, $result->email, $result->roles, $result->lang, \Mmi\Controller\Front::getInstance()->getEnvironment()->remoteAddress);
 	}
 	
 	/**
@@ -267,7 +270,7 @@ class Mmi_Auth {
 		if (!is_object($result)) {
 			throw new Exception('Authentication result is not an instance of stdClass');
 		}
-		return $this->setAuthentication($result->id, $result->username, $result->email, $result->roles, $result->lang, Mmi_Controller_Front::getInstance()->getEnvironment()->remoteAddress);
+		return $this->setAuthentication($result->id, $result->username, $result->email, $result->roles, $result->lang, \Mmi\Controller\Front::getInstance()->getEnvironment()->remoteAddress);
 	}
 
 	/**
@@ -276,15 +279,15 @@ class Mmi_Auth {
 	 * @param string $errorMessage treść komunikatu zwrotnego - błędnego
 	 */
 	public function httpAuth($realm = '', $errorMessage = '') {
-		$identity = Mmi_Controller_Front::getInstance()->getEnvironment()->authUser;
-		$credential = Mmi_Controller_Front::getInstance()->getEnvironment()->authPassword;
+		$identity = \Mmi\Controller\Front::getInstance()->getEnvironment()->authUser;
+		$credential = \Mmi\Controller\Front::getInstance()->getEnvironment()->authPassword;
 
 		$this->setIdentity($identity);
 		$this->setCredential($credential);
 		$model = $this->_modelName;
 		$result = $model::authenticate($identity, $credential);
 		if ($result === false) {
-			Mmi_Controller_Front::getInstance()->getResponse()
+			\Mmi\Controller\Front::getInstance()->getResponse()
 				->setHeader('WWW-Authenticate', 'Basic realm="' . $realm . '"')
 				->setCodeForbidden()
 				->setContent($errorMessage)

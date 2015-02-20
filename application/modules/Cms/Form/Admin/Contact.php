@@ -1,8 +1,11 @@
 <?php
 
-class Cms_Form_Admin_Contact extends Mmi_Form {
 
-	protected $_recordName = 'Cms_Model_Contact_Record';
+namespace Cms\Form\Admin;
+
+class Contact extends \Mmi\Form {
+
+	protected $_recordName = 'Cms\Model\Contact\Record';
 	protected $_recordSaveMethod = 'reply';
 
 	public function init() {
@@ -12,14 +15,14 @@ class Cms_Form_Admin_Contact extends Mmi_Form {
 				->setDisabled()
 				->setIgnore()
 				->setValue($this->getOption('subjectId'))
-				->setMultiOptions(Cms_Model_Contact_Option_Dao::getMultioptions())
+				->setMultiOptions(Cms\Model\Contact\Option\Dao::getMultioptions())
 				->setLabel('temat zapytania');
 		}
 
 		$this->addElementText('email')
 			->setDisabled()
 			->setLabel('email')
-			->setValue(Default_Registry::$auth->getEmail())
+			->setValue(Core\Registry::$auth->getEmail())
 			->addValidatorEmailAddress();
 
 		$this->addElementTextarea('text')

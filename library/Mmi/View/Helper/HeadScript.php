@@ -10,7 +10,7 @@
  *
  * Mmi/View/Helper/HeadScript.php
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -21,11 +21,12 @@
 /**
  * Helper skryptów w nagłówku strony
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_View_Helper_HeadScript extends Mmi_View_Helper_AbstractHead {
+namespace Mmi\View\Helper;
+class HeadScript extends HeadAbstract {
 
 	/**
 	 * Dane
@@ -38,7 +39,7 @@ class Mmi_View_Helper_HeadScript extends Mmi_View_Helper_AbstractHead {
 	 * @param array $params parametry skryptu
 	 * @param boolean $prepend dodaj na początek stosu
 	 * @param string $conditional warunek np. ie6
-	 * @return Mmi_View_Helper_HeadScript
+	 * @return \Mmi\View\Helper\HeadScript
 	 */
 	public function headScript(array $params = array(), $prepend = false, $conditional = '') {
 		if (!empty($params)) {
@@ -105,7 +106,7 @@ class Mmi_View_Helper_HeadScript extends Mmi_View_Helper_AbstractHead {
 	 * @param string $type typ
 	 * @param array $params dodatkowe parametry
 	 * @param string $conditional warunek np. ie6
-	 * @return Mmi_View_Helper_HeadScript
+	 * @return \Mmi\View\Helper\HeadScript
 	 */
 	public function appendFile($src, $type = 'text/javascript', array $params = array(), $conditional = '') {
 		return $this->setFile($src, $type, $params, false, $conditional);
@@ -117,7 +118,7 @@ class Mmi_View_Helper_HeadScript extends Mmi_View_Helper_AbstractHead {
 	 * @param string $type typ
 	 * @param array $params dodatkowe parametry
 	 * @param string $conditional warunek np. ie6
-	 * @return Mmi_View_Helper_HeadScript
+	 * @return \Mmi\View\Helper\HeadScript
 	 */
 	public function prependFile($src, $type = 'text/javascript', array $params = array(), $conditional = '') {
 		return $this->setFile($src, $type, $params, true, $conditional);
@@ -130,7 +131,7 @@ class Mmi_View_Helper_HeadScript extends Mmi_View_Helper_AbstractHead {
 	 * @param array $params dodatkowe parametry
 	 * @param boolean $prepend dodaj na początek stosu
 	 * @param string $conditional warunek np. ie6
-	 * @return Mmi_View_Helper_HeadScript
+	 * @return \Mmi\View\Helper\HeadScript
 	 */
 	public function setFile($src, $type = 'text/javascript', array $params = array(), $prepend = false, $conditional = '') {
 		$params = array_merge($params, array('type' => $type, 'src' => $src, 'crc' => $this->_getCrc($src)));
@@ -143,7 +144,7 @@ class Mmi_View_Helper_HeadScript extends Mmi_View_Helper_AbstractHead {
 	 * @param string $type typ
 	 * @param array $params dodatkowe parametry
 	 * @param string $conditional warunek np. ie6
-	 * @return Mmi_View_Helper_HeadScript
+	 * @return \Mmi\View\Helper\HeadScript
 	 */
 	public function appendScript($script, $type = 'text/javascript', array $params = array(), $conditional = '') {
 		return $this->setScript($script, $type, $params, false, $conditional);
@@ -155,7 +156,7 @@ class Mmi_View_Helper_HeadScript extends Mmi_View_Helper_AbstractHead {
 	 * @param string $type typ
 	 * @param array $params dodatkowe parametry
 	 * @param string $conditional warunek np. ie6
-	 * @return Mmi_View_Helper_HeadScript
+	 * @return \Mmi\View\Helper\HeadScript
 	 */
 	public function prependScript($script, $type = 'text/javascript', array $params = array(), $conditional = '') {
 		return $this->setScript($script, $type, $params, true, $conditional);
@@ -168,7 +169,7 @@ class Mmi_View_Helper_HeadScript extends Mmi_View_Helper_AbstractHead {
 	 * @param array $params dodatkowe parametry
 	 * @param boolean $prepend dodaj na początek stosu
 	 * @param string $conditional warunek np. ie6
-	 * @return Mmi_View_Helper_HeadScript
+	 * @return \Mmi\View\Helper\HeadScript
 	 */
 	public function setScript($script, $type = 'text/javascript', array $params = array(), $prepend = false, $conditional = '') {
 		$params = array_merge($params, array('type' => $type, 'script' => $script, 'crc' => 0));

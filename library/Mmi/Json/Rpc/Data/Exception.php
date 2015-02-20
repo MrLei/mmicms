@@ -1,6 +1,9 @@
 <?php
 
-class Mmi_Json_Rpc_Data_Exception extends Exception {
+
+namespace Mmi\Json\Rpc\Data;
+
+class Exception extends Exception {
 	
 	protected $code = -10;
 	

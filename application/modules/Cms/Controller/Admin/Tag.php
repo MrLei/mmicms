@@ -1,13 +1,16 @@
 <?php
 
-class Cms_Controller_Admin_Tag extends MmiCms_Controller_Admin {
+
+namespace Cms\Controller\Admin;
+
+class Tag extends \MmiCms\Controller\Admin {
 
 	public function indexAction() {
-		$this->view->grid = new Cms_Plugin_TagGrid();
+		$this->view->grid = new \Cms\Plugin\TagGrid();
 	}
 
 	public function editAction() {
-		$form = new Cms_Form_Admin_Tag($this->id);
+		$form = new \Cms\Form\Admin\Tag($this->id);
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Tag zapisany poprawnie', true);
 			return $this->_helper->redirector('index', 'admin-tag', 'cms', array(), true);
@@ -15,7 +18,7 @@ class Cms_Controller_Admin_Tag extends MmiCms_Controller_Admin {
 	}
 
 	public function deleteAction() {
-		$tag = new Cms_Model_Tag_Record($this->id);
+		$tag = new \Cms\Model\Tag\Record($this->id);
 		if ($tag->delete()) {
 			$this->_helper->messenger('Tag usunięty', true);
 		}

@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Auth_Role_Record extends Mmi_Dao_Record {
+
+namespace Cms\Model\Auth\Role;
+
+class Record extends \Mmi\Dao\Record {
 
 	public $id;
 	public $cmsAuthId;

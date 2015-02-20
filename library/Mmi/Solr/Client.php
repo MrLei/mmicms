@@ -11,7 +11,7 @@
  *
  * Mmi/Solr/Client.php
  * @category   Mmi
- * @package    Mmi_Solr_Client
+ * @package    \Mmi\Solr\Client
  * @copyright  Copyright (c) 2011 Skylab Michał Oczkowski
  * @author     Michał Oczkowski <michal@e-oczkowski.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Klient SOLR
  * @category   Mmi
- * @package    Mmi_Solr_Client
+ * @package    \Mmi\Solr\Client
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Solr_Client {
+
+namespace Mmi\Solr;
+
+class Client {
 
 	public $solrServerUrl = null;
 	protected $_core = null;
@@ -63,10 +66,10 @@ class Mmi_Solr_Client {
 	/**
 	 * Wykonanie metody select na silniku solr
 	 *
-	 * @param Mmi_Solr_Query $queryObject
+	 * @param \Mmi\Solr\Query $queryObject
 	 * @return String
 	 */
-	public function select(Mmi_Solr_Query $queryObject) {
+	public function select(\Mmi\Solr\Query $queryObject) {
 		$this->_solrMethod = 'select';
 
 		$opts = array(
@@ -87,7 +90,7 @@ class Mmi_Solr_Client {
 	 *
 	 * @param stdClass $obj
 	 * @param boolean $commit
-	 * @throws Mmi_Solr_Exception
+	 * @throws \Mmi\Solr\Exception
 	 */
 	public function insert(stdClass $obj, $commit = true) {
 		$this->_solrMethod = 'update';
@@ -116,11 +119,11 @@ class Mmi_Solr_Client {
 			if (!isset($responseObject->error) && $commit) {
 				$this->commit();
 			} elseif (isset($responseObject->error)) {
-				$e = new Mmi_Solr_Exception($responseObject->error->msg, $responseObject->error->code);
+				$e = new \Mmi\Solr\Exception($responseObject->error->msg, $responseObject->error->code);
 				throw $e;
 			}
 		} catch (Exception $ex) {
-			Mmi_Lib::dump($ex);
+			\Mmi\Lib::dump($ex);
 			die();
 		}
 	}
@@ -151,7 +154,7 @@ class Mmi_Solr_Client {
 	 *
 	 * @param integer $id
 	 * @param boolean $commit
-	 * @throws Mmi_Solr_Exception
+	 * @throws \Mmi\Solr\Exception
 	 */
 	public function delete($id, $commit = true) {
 		$this->_solrMethod = 'update';
@@ -179,11 +182,11 @@ class Mmi_Solr_Client {
 			if (!isset($responseObject->error) & $commit) {
 				$this->commit();
 			} elseif(isset($responseObject->error)) {
-				$e = new Mmi_Solr_Exception($responseObject->error->msg, $responseObject->error->code);
+				$e = new \Mmi\Solr\Exception($responseObject->error->msg, $responseObject->error->code);
 				throw $e;
 			}
 		} catch (Exception $ex) {
-			Mmi_Lib::dump($ex);
+			\Mmi\Lib::dump($ex);
 			die();
 		}
 	}
@@ -191,7 +194,7 @@ class Mmi_Solr_Client {
 	/**
 	 * Wykonanie metody commit na indeksie silnika solr
 	 * @return string
-	 * @throws Mmi_Solr_Exception
+	 * @throws \Mmi\Solr\Exception
 	 */
 	public function commit() {
 		$this->_solrMethod = 'update';
@@ -212,11 +215,11 @@ class Mmi_Solr_Client {
 			if (!isset($responseObject->error)) {
 				return $response;
 			} else {
-				$e = new Mmi_Solr_Exception($responseObject->error->msg, $responseObject->error->code);
+				$e = new \Mmi\Solr\Exception($responseObject->error->msg, $responseObject->error->code);
 				throw $e;
 			}
 		} catch (Exception $ex) {
-			Mmi_Lib::dump($ex);
+			\Mmi\Lib::dump($ex);
 			die();
 		}
 	}

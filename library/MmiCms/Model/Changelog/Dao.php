@@ -1,16 +1,19 @@
 <?php
 
-class MmiCms_Model_Changelog_Dao extends Mmi_Dao {
+
+namespace MmiCms\Model\Changelog;
+
+class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'DB_CHANGELOG';
 
 	/**
 	 * 
 	 * @param string $filename
-	 * @return MmiCms_Model_Changelog_Query
+	 * @return MmiCms\Model\Changelog\Query
 	 */
 	public static function byFilenameQuery($filename) {
-		return Mmi_Dao_Query::factory('MmiCms_Model_Changelog_Dao')
+		return \Mmi\Dao\Query::factory('MmiCms\Model\Changelog\Dao')
 			->where('filename')->equals($filename);
 	}
 

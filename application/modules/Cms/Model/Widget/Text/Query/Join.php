@@ -1,8 +1,11 @@
 <?php
 
 /**
- * @method Cms_Model_Widget_Text_Query on() on($localKeyName, $joinedKeyName = 'id')
+ * @method Cms\Model\Widget\Text\Query on() on($localKeyName, $joinedKeyName = 'id')
  */
-class Cms_Model_Widget_Text_Query_Join extends Mmi_Dao_Query_Join {
+
+namespace Cms\Model\Widget\Text\Query;
+
+class Join extends \Mmi\Dao\Query\Join {
 
 }

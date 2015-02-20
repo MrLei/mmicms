@@ -8,9 +8,9 @@
  * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
  * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
  *
- * Mmi/Session/Namespace.php
+ * Mmi/Session/Space.php
  * @category   Mmi
- * @package    Mmi_Session
+ * @package    \Mmi\Session
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,10 +20,13 @@
 /**
  * Klasa obsługi przestrzeni nazw w sesji użytkownika
  * @category   Mmi
- * @package    Mmi_Session
+ * @package    \Mmi\Session
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
- class Mmi_Session_Namespace {
+ 
+namespace Mmi\Session;
+
+class Space {
 
 	/**
 	 * Nazwa przestrzeni

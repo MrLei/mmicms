@@ -10,7 +10,7 @@
  *
  * Mmi/Validate/Alnum.php
  * @category   Mmi
- * @package    Mmi_Validate
+ * @package    \Mmi\Validate
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,10 +20,13 @@
 /**
  * Klasa walidacji znaków alfanumerycznych
  * @category   Mmi
- * @package    Mmi_Validate
+ * @package    \Mmi\Validate
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Validate_Alnum extends Mmi_Validate_Abstract {
+
+namespace Mmi\Validate;
+
+class Alnum extends ValidateAbstract {
 
 	/**
 	 * Treść wiadomości
@@ -42,7 +45,7 @@ class Mmi_Validate_Alnum extends Mmi_Validate_Abstract {
 			return false;
 		}
 
-		$filter = new Mmi_Filter_Alnum();
+		$filter = new \Mmi\Filter\Alnum();
 
 		if ($filter->filter($value) != $value) {
 			$this->_error(self::INVALID);

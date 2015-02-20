@@ -10,7 +10,7 @@
  *
  * MmiCms/Media/Config.php
  * @category   MmiCms
- * @package    MmiCms_Media
+ * @package    MmiCms\Media
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,11 +20,14 @@
 /**
  * Konfiguracja bazy danych
  * @category   MmiCms
- * @package    MmiCms_Media
+ * @package    MmiCms\Media
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 
-class MmiCms_Media_Config {
+
+namespace MmiCms\Media;
+
+class Config {
 
 	/**
 	 * Adres serwera mediów

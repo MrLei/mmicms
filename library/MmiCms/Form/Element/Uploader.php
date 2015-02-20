@@ -11,7 +11,7 @@
  *
  * MmiCms/Form/Element/Uploader.php
  * @category   MmiCms
- * @package    MmiCms_Form
+ * @package    MmiCms\Form
  * @subpackage Element
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -22,11 +22,14 @@
 /**
  * Klasa elementu multi-upload plików
  * @category   MmiCms
- * @package    MmiCms_Form
+ * @package    MmiCms\Form
  * @subpackage Element
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class MmiCms_Form_Element_Uploader extends Mmi_Form_Element_File {
+
+namespace MmiCms\Form\Element;
+
+class Uploader extends \Mmi\Form\Element\File {
 	
 	/**
 	 * Buduje pole
@@ -41,9 +44,9 @@ class MmiCms_Form_Element_Uploader extends Mmi_Form_Element_File {
 		}
 		if (!$objectId) {
 			$object = 'tmp-' . $object;
-			$objectId = Mmi_Session::getNumericId();
+			$objectId = \Mmi\Session::getNumericId();
 		}
-		return '<iframe frameborder="0" src="' . Mmi_Controller_Front::getInstance()->getView()->url(array(
+		return '<iframe frameborder="0" src="' . \Mmi\Controller\Front::getInstance()->getView()->url(array(
 			'module' => 'cms',
 			'controller' => 'file',
 			'action' => 'uploader',

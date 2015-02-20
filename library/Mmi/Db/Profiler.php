@@ -10,7 +10,7 @@
  *
  * Mmi/Db/Adapter/Profiler.php
  * @category   Mmi
- * @package    Mmi_Db
+ * @package    \Mmi\Db
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,10 +20,13 @@
 /**
  * Klasa profilera bazodanowego
  * @category   Mmi
- * @package    Mmi_Db
+ * @package    \Mmi\Db
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Db_Profiler extends Mmi_Profiler {
+
+namespace Mmi\Db;
+
+class Profiler extends \Mmi\Profiler {
 
 	/**
 	 * Dane profilera

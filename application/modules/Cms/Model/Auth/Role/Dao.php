@@ -1,11 +1,14 @@
 <?php
 
-class Cms_Model_Auth_Role_Dao extends Mmi_Dao {
+
+namespace Cms\Model\Auth\Role;
+
+class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'cms_auth_role';
 	
 	public static function byAuthIdQuery($authId) {
-		return Cms_Model_Auth_Role_Query::factory()
+		return Cms\Model\Auth\Role\Query::factory()
 			->whereCmsAuthId()->equals($authId);
 	}
 
@@ -20,7 +23,7 @@ class Cms_Model_Auth_Role_Dao extends Mmi_Dao {
 			->delete();
 
 		foreach ($roles as $roleId) {
-			$record = new Cms_Model_Auth_Role_Record();
+			$record = new \Cms\Model\Auth\Role\Record();
 			$record->cmsAuthId = $cmsAuthId;
 			$record->cmsRoleId = $roleId;
 			$record->save();

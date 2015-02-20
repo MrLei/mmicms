@@ -1,11 +1,14 @@
 <?php
 
-class Cms_Model_Page_Widget_Dao extends Mmi_Dao {
+
+namespace Cms\Model\Page\Widget;
+
+class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'cms_page_widget';
 	
 	public static function activeQuery() {
-		return Cms_Model_Page_Widget_Query::factory()
+		return Cms\Model\Page\Widget\Query::factory()
 			->whereActive()->equals(true);
 	}
 	

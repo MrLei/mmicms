@@ -11,7 +11,7 @@
  *
  * Mmi/Json/Rpc/Server/Reflection.php
  * @category   Mmi
- * @package    Mmi_Json_Rpc_Server
+ * @package    \Mmi\Json\Rpc\Server
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Parser komentarzy w klasach API
  * @category   Mmi
- * @package    Mmi_Json_Rpc_Server
+ * @package    \Mmi\Json\Rpc\Server
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Json_Rpc_Server_Reflection {
+
+namespace Mmi\Json\Rpc\Server;
+
+class Reflection {
 
 	/**
 	 * Refleksja klasy głównej
@@ -74,7 +77,7 @@ class Mmi_Json_Rpc_Server_Reflection {
 			//typ prosty
 			if (preg_match('/\@return\s([a-zA-Z\|_]+)/', $comment, $return)) {
 				$return = $return[1];
-				if (strpos($return, '_') !== false && class_exists($return)) {
+				if (strpos($return, '\\') !== false && class_exists($return)) {
 					$return = $this->_classFieldsArrayString($return);
 				}
 			} else {

@@ -10,7 +10,7 @@
  *
  * Mmi/Db/Config.php
  * @category   Mmi
- * @package    Mmi_Db
+ * @package    \Mmi\Db
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,11 +20,14 @@
 /**
  * Konfiguracja bazy danych
  * @category   Mmi
- * @package    Mmi_Db
+ * @package    \Mmi\Db
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 
-class Mmi_Db_Config {
+
+namespace Mmi\Db;
+
+class Config {
 
 	/**
 	 * Silnik bazy danych

@@ -10,7 +10,7 @@
  *
  * MmiCms/Form/Element/Antirobot.php
  * @category   MmiCms
- * @package    MmiCms_Form
+ * @package    MmiCms\Form
  * @subpackage Element
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -21,11 +21,14 @@
 /**
  * Klasa elementu zabezpieczenia przed robotami
  * @category   MmiCms
- * @package    MmiCms_Form
+ * @package    MmiCms\Form
  * @subpackage Element
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class MmiCms_Form_Element_Antirobot extends Mmi_Form_Element_Hidden {
+
+namespace MmiCms\Form\Element;
+
+class Antirobot extends \Mmi\Form\Element\Hidden {
 
 	/**
 	 * Ignorowanie tego pola, pole obowiązkowe, automatyczna walidacja
@@ -38,7 +41,7 @@ class MmiCms_Form_Element_Antirobot extends Mmi_Form_Element_Hidden {
 			'validator' => 'Antirobot',
 			'options' => array('name' => $this->_options['name'])
 		));
-		$view = Mmi_Controller_Front::getInstance()->getView();
+		$view = \Mmi\Controller\Front::getInstance()->getView();
 		$view->headScript()->appendScript('$(document).ready('
 			. 'function() { $(\'div.antirobot > input\').val(\'js-\' + $(\'div.antirobot > input\').val() + \'-js\'); });');
 	}
@@ -48,7 +51,7 @@ class MmiCms_Form_Element_Antirobot extends Mmi_Form_Element_Hidden {
 	 * @return string
 	 */
 	public function fetchField() {
-		$this->_options['value'] = Mmi_Validate_Antirobot::generateCrc();
+		$this->_options['value'] = \Mmi\Validate\Antirobot::generateCrc();
 		return parent::fetchField();
 	}
 

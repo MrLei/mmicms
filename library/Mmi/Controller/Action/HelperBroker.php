@@ -11,34 +11,36 @@
  *
  * Mmi/Controller/Action/HelperBroker.php
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @subpackage Helper
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Broker helperów kontrolera akcji
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  * 
  * Metody wywoływane magicznie przez __call
- * @method Mmi_Controller_Action_Helper_Redirector redirector() redirector($action = null, $controller = null, $module = null, array $params = array(), $reset = false) Helper przekierowań
- * @method Mmi_Controller_Action_Helper_Messenger messenger() messenger($message, $type = null, array $variables = array()) Helper wiadomości
- * @method Mmi_Controller_Action_Helper_Action action() action($moduleName = 'default', $controllerName = 'index', $actionName = 'index', array $params = array()) Helper akcji
+ * @method \Mmi\Controller\Action\Helper\Redirector redirector() redirector($action = null, $controller = null, $module = null, array $params = array(), $reset = false) Helper przekierowań
+ * @method \Mmi\Controller\Action\Helper\Messenger messenger() messenger($message, $type = null, array $variables = array()) Helper wiadomości
+ * @method \Mmi\Controller\Action\Helper\Action action() action($moduleName = 'default', $controllerName = 'index', $actionName = 'index', array $params = array()) Helper akcji
  */
-class Mmi_Controller_Action_HelperBroker {
+
+namespace Mmi\Controller\Action;
+
+class HelperBroker {
 
 	/**
 	 * Request
-	 * @var Mmi_Controller_Request
+	 * @var \Mmi\Controller\Request
 	 */
 	private static $_request;
-	
+
 	/**
 	 * Lista helperów
 	 * @var array
@@ -48,10 +50,10 @@ class Mmi_Controller_Action_HelperBroker {
 	/**
 	 * Konstruktor
 	 */
-	public function __construct(Mmi_Controller_Request $request) {
+	public function __construct(\Mmi\Controller\Request $request) {
 		self::$_request = $request;
 		foreach (self::$_helpers as $helper) {
-			/* @var $helper Mmi_Controller_Action_Helper_Abstract */
+			/* @var $helper \Mmi\Controller\Action\Helper\Abstract */
 			$helper->setRequest($request)
 				->init();
 		}
@@ -67,10 +69,10 @@ class Mmi_Controller_Action_HelperBroker {
 
 	/**
 	 * Dodaje helper
-	 * @param Mmi_Controller_Action_Helper_Abstract $helper
-	 * @return Mmi_Controller_Action_Helper_Abstract
+	 * @param \Mmi\Controller\Action\Helper\Abstract $helper
+	 * @return \Mmi\Controller\Action\Helper\Abstract
 	 */
-	public static function addHelper(Mmi_Controller_Action_Helper_Abstract $helper) {
+	public static function addHelper(\Mmi\Controller\Action\Helper\HelperAbstract $helper) {
 		self::$_helpers[get_class($helper)] = $helper;
 		$helper->init();
 		if (self::$_request) {
@@ -78,11 +80,11 @@ class Mmi_Controller_Action_HelperBroker {
 		}
 		return self::$_helpers[get_class($helper)];
 	}
-	
+
 	/**
 	 * Pobiera helper, jeśli nie jest utworzony, tworzy go i dodaje do listy
 	 * @param string $name nazwa helpera
-	 * @return Mmi_Controller_Action_Helper_Abstract
+	 * @return \Mmi\Controller\Action\Helper\Abstract
 	 */
 	public static function getHelper($name) {
 		$name = ucfirst($name);
@@ -94,37 +96,37 @@ class Mmi_Controller_Action_HelperBroker {
 		if (null !== ($helper = self::_getSystemHelper($name))) {
 			return $helper;
 		}
-		throw new Exception('Mmi_Controller_Action_HelperBroker: ' . $name . ' helper not found');
+		throw new Exception('\Mmi\Controller\Action\HelperBroker: ' . $name . ' helper not found');
 	}
-	
+
 	/**
 	 * Pobiera helper modułowy
 	 * @param string $name
-	 * @return Mmi_Controller_Action_Helper_Abstract
+	 * @return \Mmi\Controller\Action\Helper\Abstract
 	 */
 	protected static function _getModuleHelper($name) {
 		$moduleName = ucfirst(self::$_request->getModuleName());
-		$helperName = $moduleName . '_Controller_Helper_' . $name;
+		$helperName = $moduleName . '_Controller\Helper\\' . $name;
 		//zwrot jeśli zarejestrowany
 		if (isset(self::$_helpers[$helperName])) {
 			return self::$_helpers[$helperName];
 		}
 		//rejestrowanie jeśli brak
-		$components = Mmi_Controller_Front::getInstance()->getStructure('module');
+		$components = \Mmi\Controller\Front::getInstance()->getStructure('module');
 		//brak komponentu
 		if (!isset($components[strtolower($moduleName)]['Controller']['Helper'][$name])) {
 			return;
 		}
 		return self::addHelper(new $helperName());
 	}
-	
+
 	/**
 	 * Pobiera helper systemowy
 	 * @param string $name
-	 * @return Mmi_Controller_Action_Helper_Abstract
+	 * @return \Mmi\Controller\Action\Helper\Abstract
 	 */
 	protected static function _getSystemHelper($name) {
-		$helperName = 'Mmi_Controller_Action_Helper_' . $name;
+		$helperName = '\Mmi\Controller\Action\Helper\\' . $name;
 		//zwrot jeśli zarejestrowany
 		if (isset(self::$_helpers[$helperName])) {
 			return self::$_helpers[$helperName];

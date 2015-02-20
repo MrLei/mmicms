@@ -1,10 +1,12 @@
 <?php
 
-class Cms_Plugin_ArticleGrid extends Mmi_Grid {
+namespace Cms\Plugin;
+
+class ArticleGrid extends \Mmi\Grid {
 
 	public function init() {
 		
-		$this->setQuery(Cms_Model_Article_Query::factory());
+		$this->setQuery(Cms\Model\Article\Query::factory());
 		
 		$this->addColumn('text', 'title', array(
 			'label' => 'tytuł',

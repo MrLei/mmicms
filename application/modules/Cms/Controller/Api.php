@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Controller_Api extends Mmi_Controller_Action {
+
+namespace Cms\Controller;
+
+class Api extends \Mmi\Controller\Action {
 
 	public function jsonServerAction() {
 		try {
@@ -10,13 +13,13 @@ class Cms_Controller_Api extends Mmi_Controller_Action {
 				->setTypeJson();
 			$apiModel = $this->_getModelName($this->obj);
 			//serwer z autoryzacją HTTP
-			if (Mmi_Controller_Front::getInstance()->getEnvironment()->authUser) {
+			if (\Mmi\Controller\Front::getInstance()->getEnvironment()->authUser) {
 				$apiModel .= '_Private';
-				$auth = new Mmi_Auth();
+				$auth = new \Mmi\Auth();
 				$auth->setModelName($apiModel);
 				$auth->httpAuth('Private API', 'Access denied!');
 			}
-			return Mmi_Json_Rpc_Server::handle($apiModel);
+			return \Mmi\Json\Rpc\Server::handle($apiModel);
 		} catch (Exception $e) {
 			return $this->_internalError($e);
 		}
@@ -32,9 +35,9 @@ class Cms_Controller_Api extends Mmi_Controller_Action {
 				'obj' => $this->obj,
 			);
 			//prywatny serwer
-			if (Mmi_Controller_Front::getInstance()->getEnvironment()->authUser) {
+			if (\Mmi\Controller\Front::getInstance()->getEnvironment()->authUser) {
 				$apiModel .= '_Private';
-				$auth = new Mmi_Auth();
+				$auth = new \Mmi\Auth();
 				$auth->setModelName($apiModel);
 				$auth->httpAuth('Private API', 'Access denied!');
 				$wsdlParams['type'] = 'private';
@@ -59,13 +62,13 @@ class Cms_Controller_Api extends Mmi_Controller_Action {
 				'action' => 'soapServer',
 				'obj' => $this->obj,
 			);
-			if ($this->type == 'private' || Mmi_Controller_Front::getInstance()->getEnvironment()->authUser) {
+			if ($this->type == 'private' || \Mmi\Controller\Front::getInstance()->getEnvironment()->authUser) {
 				$apiModel .= '_Private';
 			}
 			$url = $this->view->url($serverParams, true, true, $this->_isSsl());
 			//@TODO: przepisać do ZF2
 			$this->getResponse()->setTypeXml();
-			$autodiscover = new Zend_Soap_AutoDiscover();
+			$autodiscover = new Zend_Soap\AutoDiscover();
 			$autodiscover->setClass($apiModel);
 			$autodiscover->setUri($url);
 			$autodiscover->handle();
@@ -76,23 +79,23 @@ class Cms_Controller_Api extends Mmi_Controller_Action {
 	}
 
 	protected function _getModelName($object) {
-		$obj = explode('_', preg_replace('/[^\p{L}\p{N}-_]/u', '', $object));
+		$obj = explode('\\', preg_replace('/[^\p{L}\p{N}-_]/u', '', $object));
 		foreach ($obj as $k => $v) {
 			$obj[$k] = ucfirst($v);
 		}
-		$class = $obj[0] . '_Model_';
+		$class = $obj[0] . '\\Model\\';
 		unset($obj[0]);
-		return rtrim($class . implode('_', $obj), '_') . '_Api';
+		return rtrim($class . implode('\\', $obj), '\\') . '\\Api';
 	}
 
 	protected function _internalError($e) {
-		Mmi_Exception_Logger::log($e);
+		\Mmi\Exception\Logger::log($e);
 		$this->getResponse()->setCodeError();
 		return '<html><body><h1>Soap service failed</h1></body></html>';
 	}
 
 	protected function _isSsl() {
-		return Mmi_Controller_Front::getInstance()->getEnvironment()->httpSecure;
+		return \Mmi\Controller\Front::getInstance()->getEnvironment()->httpSecure;
 	}
 
 }

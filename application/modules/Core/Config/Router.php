@@ -3,7 +3,10 @@
 /**
  * Klasa konfiguracji routera
  */
-class Default_Config_Router extends Mmi_Controller_Router_Config {
+
+namespace Core\Config;
+
+class Router extends \Mmi\Controller\Router\Config {
 
 	/**
 	 * Konstruktor konfigurujący router

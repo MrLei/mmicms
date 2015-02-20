@@ -1,8 +1,11 @@
 <?php
 
 /**
- * @method Cms_Model_Navigation_Query on() on($localKeyName, $joinedKeyName = 'id')
+ * @method Cms\Model\Navigation\Query on() on($localKeyName, $joinedKeyName = 'id')
  */
-class Cms_Model_Navigation_Query_Join extends Mmi_Dao_Query_Join {
+
+namespace Cms\Model\Navigation\Query;
+
+class Join extends \Mmi\Dao\Query\Join {
 
 }

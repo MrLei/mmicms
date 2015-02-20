@@ -11,7 +11,7 @@
  *
  * Mmi/Controller/Environment.php
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Obiekt środowiska uruchomienia kontrolera
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Controller_Environment {
+
+namespace Mmi\Controller;
+
+class Environment {
 
 	/**
 	 * Do ustawienia przez administratora aplikacji, dla stron wielojęzycznych

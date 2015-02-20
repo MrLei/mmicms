@@ -1,13 +1,16 @@
 <?php
 
-class Cms_Controller_Admin_Comment extends MmiCms_Controller_Admin {
+
+namespace Cms\Controller\Admin;
+
+class Comment extends \MmiCms\Controller\Admin {
 
 	public function indexAction() {
-		$this->view->grid = new Cms_Plugin_CommentGrid();
+		$this->view->grid = new \Cms\Plugin\CommentGrid();
 	}
 
 	public function deleteAction() {
-		$comment = new Cms_Model_Comment_Record($this->id);
+		$comment = new \Cms\Model\Comment\Record($this->id);
 		if ($comment->delete()) {
 			$this->_helper->messenger('Poprawnie usunięto artykuł', true);
 		}

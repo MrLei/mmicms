@@ -10,7 +10,7 @@
  *
  * Mmi/Form/Element/Ratings.php
  * @category   Mmi
- * @package    Mmi_Form
+ * @package    \Mmi\Form
  * @subpackage Element
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Janusz Gołębiewski <janusz@golebiewski.info.pl>
@@ -21,18 +21,21 @@
 /**
  * Klasa elementu oceny w komentarzach
  * @category   Mmi
- * @package    Mmi_Form
+ * @package    \Mmi\Form
  * @subpackage Element
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Form_Element_Ratings extends Mmi_Form_Element_Abstract {
+
+namespace Mmi\Form\Element;
+
+class Ratings extends ElementAbstract {
 	
 	/**
 	 * Buduje pole
 	 * @return string
 	 */
 	public function fetchField() {
-		$view = Mmi_Controller_Front::getInstance()->getView();
+		$view = \Mmi\Controller\Front::getInstance()->getView();
 		$view->headScript()->appendScript("
 			$(document).ready(function() {
 				$('#voteStars').mousemove(function (e) {

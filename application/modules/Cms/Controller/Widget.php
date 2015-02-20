@@ -1,10 +1,13 @@
 <?php
 
-class Cms_Controller_Widget extends Mmi_Controller_Action {
+
+namespace Cms\Controller;
+
+class Widget extends \Mmi\Controller\Action {
 
 	public function textWidgetAction() {
-		$widgetData = Cms_Model_Widget_Text_Dao::findPk($this->id);
-		/* @var $widgetData Cms_Model_Widget_Text_Record */
+		$widgetData = Cms\Model\Widget\Text\Dao::findPk($this->id);
+		/* @var $widgetData Cms\Model\Widget\Text\Record */
 
 		if ($widgetData != null) {
 			$this->view->text = $widgetData->data;
@@ -12,8 +15,8 @@ class Cms_Controller_Widget extends Mmi_Controller_Action {
 	}
 
 	public function pictureWidgetAction() {
-		$picture = Cms_Model_Widget_Picture_Dao::findPk($this->id);
-		/* @var $picture Cms_Model_Widget_Picture_Record */
+		$picture = Cms\Model\Widget\Picture\Dao::findPk($this->id);
+		/* @var $picture Cms\Model\Widget\Picture\Record */
 
 		if ($picture != null) {
 			$this->view->imageUrl = $picture->getFirstImage()->getUrl();

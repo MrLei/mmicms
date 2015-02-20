@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Config_Admin_Navigation_Cron extends Mmi_Navigation_Config {
+
+namespace Cms\Config\Admin\Navigation;
+
+class Cron extends \Mmi\Navigation\Config {
 
 	public static function getMenu() {
 		return self::newElement()

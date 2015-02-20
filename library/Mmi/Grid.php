@@ -11,7 +11,7 @@
  *
  * Mmi/Grid.php
  * @category   Mmi
- * @package    Mmi_Grid
+ * @package    \Mmi\Grid
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Abstrakcyjna klasa data-grid
  * @category   Mmi
- * @package    Mmi_Grid
+ * @package    \Mmi\Grid
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-abstract class Mmi_Grid {
+
+namespace Mmi;
+
+abstract class Grid {
 
 	/**
 	 * Komunikaty
@@ -42,7 +45,7 @@ abstract class Mmi_Grid {
 
 	/**
 	 * Zapytanie filtrujące
-	 * @var Mmi_Dao_Query
+	 * @var \Mmi\Dao\Query
 	 */
 	protected $_daoQuery;
 
@@ -60,13 +63,13 @@ abstract class Mmi_Grid {
 
 	/**
 	 * Referencja do widoku
-	 * @var Mmi_View
+	 * @var \Mmi\View
 	 */
 	protected $_view;
 
 	/**
 	 * Referencja do żądania
-	 * @var Mmi_Controller_Request
+	 * @var \Mmi\Controller\Request
 	 */
 	protected $_request;
 
@@ -95,13 +98,13 @@ abstract class Mmi_Grid {
 	 * @throws exception
 	 */
 	public function __construct(array $options = array()) {
-		$this->_view = Mmi_Controller_Front::getInstance()->getView();
+		$this->_view = \Mmi\Controller\Front::getInstance()->getView();
 		$this->_request = $this->_view->request;
 		$this->_setDefaultOptions();
 		$this->_view->headScript()->prependFile($this->_view->baseUrl . '/library/js/jquery/jquery.js');
 		$this->_view->headScript()->appendFile($this->_view->baseUrl . '/library/js/grid.js');
 		$class = get_class($this);
-		$this->_id = strtolower(substr($class, strrpos($class, '_') + 1));
+		$this->_id = strtolower(substr($class, strrpos($class, '\\') + 1));
 		$this->setOptions($options);
 		$this->init();
 		$this->_renderStarted = false;
@@ -115,7 +118,7 @@ abstract class Mmi_Grid {
 		try {
 			$data = $this->render();
 		} catch (exception $e) {
-			$data = 'Grid failed: ' . Mmi_Lib::dump($e, true);
+			$data = 'Grid failed: ' . \Mmi\Lib::dump($e, true);
 		}
 		return $data;
 	}
@@ -136,7 +139,7 @@ abstract class Mmi_Grid {
 	/**
 	 * Ustawia wszystkie opcje
 	 * @param array $options opcje
-	 * @return Mmi_Grid
+	 * @return \Mmi\Grid
 	 */
 	public function setOptions(array $options = array()) {
 		foreach ($options as $key => $value) {
@@ -149,11 +152,11 @@ abstract class Mmi_Grid {
 	 * Ustawia pojedynczą opcję
 	 * @param string $name nazwa
 	 * @param mixed $value wartość
-	 * @return Mmi_Grid
+	 * @return \Mmi\Grid
 	 */
 	public function setOption($name, $value) {
 		$this->_options[$name] = $value;
-		$options = new Mmi_Session_Namespace(get_class($this));
+		$options = new \Mmi\Session\Space(get_class($this));
 		$options->options = $this->_options;
 		return $this;
 	}
@@ -161,7 +164,7 @@ abstract class Mmi_Grid {
 	/**
 	 * Pobiera opcję po nazwie
 	 * @param string $name
-	 * @return Mmi_Grid
+	 * @return \Mmi\Grid
 	 */
 	public function getOption($name) {
 		return isset($this->_options[$name]) ? $this->_options[$name] : null;
@@ -169,17 +172,17 @@ abstract class Mmi_Grid {
 
 	/**
 	 * Ustawia startowe zapytanie filtrujące
-	 * @param Mmi_Dao_Query $query
-	 * @return Mmi_Grid
+	 * @param \Mmi\Dao\Query $query
+	 * @return \Mmi\Grid
 	 */
-	public function setQuery(Mmi_Dao_Query $query) {
+	public function setQuery(\Mmi\Dao\Query $query) {
 		$this->_daoQuery = $query;
 		return $this;
 	}
 	
 	/**
 	 * Zwraca obiekt zapytania filtrującego
-	 * @return Mmi_Dao_Query
+	 * @return \Mmi\Dao\Query
 	 */
 	public function getQuery() {
 		return $this->_daoQuery;
@@ -190,7 +193,7 @@ abstract class Mmi_Grid {
 	 * @param string $type typ: text|checkbox|select|custom
 	 * @param string $name nazwa
 	 * @param array $options opcje
-	 * @return Mmi_Grid
+	 * @return \Mmi\Grid
 	 */
 	public function addColumn($type, $name, array $options = array()) {
 		switch ($type) {
@@ -250,8 +253,8 @@ abstract class Mmi_Grid {
 	 */
 	public function render() {
 		//sprawdzanie query
-		if (!($this->_daoQuery instanceof Mmi_Dao_Query)) {
-			throw new Exception('Mmi_Grid: invalid DAO Query object supplied');
+		if (!($this->_daoQuery instanceof \Mmi\Dao\Query)) {
+			throw new Exception('\Mmi\Grid: invalid DAO Query object supplied');
 		}
 		$html = '<form id="' . $this->_id . '"><table class="striped ' . $this->_options['class'] . '">';
 		$html .= $this->renderHead();
@@ -281,7 +284,7 @@ abstract class Mmi_Grid {
 			$html .= '<tr><td class="empty" colspan="' . count($this->_columns) . '">' . $this->_view->getTranslate()->_('Nie odnaleziono wyników') . '</td></tr>';
 		}
 		$html .= $this->renderPaging();
-		$html .= '<tr style="display: none;"><td><input type="hidden" id="' . $this->_id . '__ctrl" value="' . Mmi_Lib::hashTable($this->_options) . '" />';
+		$html .= '<tr style="display: none;"><td><input type="hidden" id="' . $this->_id . '__ctrl" value="' . \Mmi\Lib::hashTable($this->_options) . '" />';
 		$html .= '<input type="hidden" id="' . $this->_id . '__counter" value="' . ceil($this->_dataCount / $this->_options['rows']) . '" /></td></tr>';
 		return $html;
 	}
@@ -426,7 +429,7 @@ abstract class Mmi_Grid {
 
 	/**
 	 * Renderuje kolumny
-	 * @param Mmi_Dao_Collection $rowData kolekcja modeli reprezentujących wiersze
+	 * @param \Mmi\Dao\Collection $rowData kolekcja modeli reprezentujących wiersze
 	 * @param int $counter licznik
 	 * @return string
 	 */
@@ -473,7 +476,7 @@ abstract class Mmi_Grid {
 						break;
 					case 'image':
 						$image = $fieldData;
-						if ($image instanceof Cms_Model_File_Record) {
+						if ($image instanceof Cms\Model\File\Record) {
 							$column['scale'] = (isset($column['scale']) && intval(isset($column['scale'])) > 0) ? $column['scale'] : 200;
 							$column['scaleType'] = (isset($column['scaleType'])) ? $column['scaleType'] : 'scalex';
 							$html .= '<div><img class="image" src="' . $this->_view->thumb($image, $column['scaleType'], $column['scale']) . '" alt="' . $column['name'] . '" /></div>';
@@ -563,7 +566,7 @@ abstract class Mmi_Grid {
 	 */
 	protected function _setDefaultOptions() {
 		$this->_columns = array();
-		$options = new Mmi_Session_Namespace(get_class($this));
+		$options = new \Mmi\Session\Space(get_class($this));
 		$sessionOptions = $options->options;
 		if (!empty($sessionOptions)) {
 			$this->_options = $sessionOptions;
@@ -689,11 +692,11 @@ abstract class Mmi_Grid {
 	/**
 	 * Pobiera obiekt filtra
 	 * @param string $name nazwa filtra
-	 * @return Mmi_Filter_Interface
+	 * @return \Mmi\Filter\Interface
 	 */
 	protected final function _getFilter($name) {
 		$name = ucfirst($name);
-		$className = 'Mmi_Filter_' . $name;
+		$className = '\\Mmi\\Filter\\' . $name;
 		if (isset($this->_filters[$className])) {
 			return $this->_filters[$className];
 		}

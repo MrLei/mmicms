@@ -10,7 +10,7 @@
  *
  * Mmi/View/Helper/Messenger.php
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -20,20 +20,23 @@
 
 /**
  * Helper odczytu i kasowania wiadomości
- * @see Mmi_Controller_Action_Helper_Messenger
+ * @see \Mmi\Controller\Action\Helper\Messenger
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_View_Helper_Messenger extends Mmi_View_Helper_Abstract {
+
+namespace Mmi\View\Helper;
+
+class Messenger extends HelperAbstract {
 
 	/**
 	 * Metoda główna, wyświetla i czyści dostępne wiadomości
 	 * @return string
 	 */
 	public function messenger() {
-		$messenger = Mmi_Controller_Action_HelperBroker::getHelper('messenger');
+		$messenger = \Mmi\Controller\Action\HelperBroker::getHelper('messenger');
 		$messages = $messenger->getMessages();
 		if ($messenger->hasMessages()) {
 			$html = '<ul id="messenger">';

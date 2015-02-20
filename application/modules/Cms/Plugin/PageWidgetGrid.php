@@ -1,10 +1,12 @@
 <?php
 
-class Cms_Plugin_PageWidgetGrid extends Mmi_Grid {
+namespace Cms\Plugin;
+
+class PageWidgetGrid extends \Mmi\Grid {
 
 	public function init() {
 
-		$this->setQuery(Cms_Model_Page_Widget_Query::factory()
+		$this->setQuery(Cms\Model\Page\Widget\Query::factory()
 				->orderAscId());
 
 		$this->addColumn('text', 'name', [
@@ -15,7 +17,7 @@ class Cms_Plugin_PageWidgetGrid extends Mmi_Grid {
 			'label' => 'Moduł - Kontroler - Akcja',
 			'value' => '{$rowData->module} - {$rowData->controller} - {$rowData->action}'
 		]);
-		
+
 		$this->addColumn('text', 'params', [
 			'label' => 'Domyślne parametry'
 		]);

@@ -1,10 +1,11 @@
 <?php
 
-class Cms_Plugin_ContactOptionGrid extends Mmi_Grid {
+namespace Cms\Plugin;
+class ContactOptionGrid extends \Mmi\Grid {
 
 	public function init() {
 		
-		$this->setQuery(Cms_Model_Contact_Option_Query::factory());
+		$this->setQuery(Cms\Model\Contact\Option\Query::factory());
 
 		$this->addColumn('text', 'name', array(
 			'label' => 'temat pytania'
