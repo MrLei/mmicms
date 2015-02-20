@@ -368,8 +368,6 @@ class Mmi_View {
 	 * Renderuje layout
 	 */
 	public function renderLayout($skin, $module, $controller) {
-		//layouty kontrolerów admina zachowują się jak moduł admin
-		$module = (substr($controller, 0, 5) == 'admin') ? 'admin' : $module;
 		//renderowanie layoutu
 		return $this->render($this->_getLayout($skin, $module, $controller));
 	}
@@ -417,7 +415,7 @@ class Mmi_View {
 		$structure = Mmi_Controller_Front::getInstance()->getStructure();
 		//skóra / moduł / kontroler
 		if (isset($structure['skin'][$skin][$module][$controller]['layout'])) {
-			return APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/scripts/' . $controller . '/layout.tpl';
+			return APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/scripts/' . str_replace('-', '/', $controller) . '/layout.tpl';
 		}
 		//skóra / moduł
 		if (isset($structure['skin'][$skin][$module]['layout'])) {
@@ -425,7 +423,7 @@ class Mmi_View {
 		}
 		//default / moduł / kontroler
 		if (isset($structure['skin']['default'][$module][$controller]['layout'])) {
-			return APPLICATION_PATH . '/skins/default/' . $module . '/scripts/' . $controller .  '/layout.tpl';
+			return APPLICATION_PATH . '/skins/default/' . $module . '/scripts/' . str_replace('-', '/', $controller) .  '/layout.tpl';
 		}
 		//default / moduł
 		if (isset($structure['skin']['default'][$module]['layout'])) {
@@ -453,11 +451,13 @@ class Mmi_View {
 	 */
 	private function _getTemplate($skin, $module, $controller, $action) {
 		$structure = Mmi_Controller_Front::getInstance()->getStructure();
+		//template w skórze
 		if (isset($structure['skin'][$skin][$module][$controller][$action])) {
-			return APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/scripts/' . $controller . '/' . $action . '.tpl';
+			return APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/scripts/' . str_replace('-', '/', $controller) . '/' . $action . '.tpl';
 		}
+		//template w default
 		if (isset($structure['skin']['default'][$module][$controller][$action])) {
-			return APPLICATION_PATH . '/skins/default/' . $module . '/scripts/' . $controller . '/' . $action . '.tpl';
+			return APPLICATION_PATH . '/skins/default/' . $module . '/scripts/' . str_replace('-', '/', $controller) . '/' . $action . '.tpl';
 		}
 		throw new Exception('Template not found.');
 	}

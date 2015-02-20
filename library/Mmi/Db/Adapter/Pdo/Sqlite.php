@@ -39,16 +39,19 @@ class Mmi_Db_Adapter_Pdo_Sqlite extends Mmi_Db_Adapter_Pdo_Abstract {
 	/**
 	 * Ustawia schemat
 	 * @param string $schemaName nazwa schematu
+	 * @return Mmi_Db_Adapter_Pdo_Sqlite
 	 */
 	public function selectSchema($schemaName) {
-
+		return $this;
 	}
 
 	/**
 	 * Ustawia domyślne parametry dla importu (długie zapytania)
+	 * @return Mmi_Db_Adapter_Pdo_Sqlite
 	 */
 	public function setDefaultImportParams() {
-
+		$this->query('PRAGMA foreign_keys = OFF');
+		return $this;
 	}
 
 	/**

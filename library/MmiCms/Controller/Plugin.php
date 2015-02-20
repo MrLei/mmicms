@@ -100,17 +100,18 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		Mmi_Controller_Action_Helper_Action::setAcl($acl);
 		Mmi_Controller_Action_Helper_Action::setAuth($auth);
 		Default_Registry::$acl = $acl;
+		$view->acl = $acl;
 
 		//zablokowane na ACL
 		if (!$acl->isAllowed($auth->getRoles(), strtolower($request->getModuleName() . ':' . $request->getControllerName() . ':' . $request->getActionName()))) {
-			if (!$auth->hasIdentity() && (substr($request->getControllerName(), 0, 5) == 'admin' || $request->getModuleName() == 'admin')) {
-				$request->setModuleName('admin');
-				$request->setControllerName('login');
-				$request->setActionName('index');
-			} elseif (isset($components['user']['login']['index']) && !$auth->hasIdentity()) {
-				$request->setModuleName('user');
-				$request->setControllerName('login');
-				$request->setActionName('index');
+			if (!$auth->hasIdentity() && substr($request->getControllerName(), 0, 5) == 'admin') {
+				$request->setModuleName('cms');
+				$request->setControllerName('admin');
+				$request->setActionName('login');
+			} elseif (isset($components['cms']['user']['login']) && !$auth->hasIdentity()) {
+				$request->setModuleName('cms');
+				$request->setControllerName('user');
+				$request->setActionName('login');
 			} else {
 				$request->setModuleName('default');
 				$request->setControllerName('error');
@@ -131,6 +132,14 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 		Mmi_View_Helper_Navigation::setAcl($acl);
 		Mmi_View_Helper_Navigation::setAuth($auth);
 		Mmi_View_Helper_Navigation::setNavigation($navigation);
+	}
+
+	public function postDispatch(Mmi_Controller_Request $request) {
+		if (!Default_Registry::issetVar('adminPage')) {
+			return;
+		}
+		$request->module = 'cms';
+		$request->controller = 'admin';
 	}
 
 }

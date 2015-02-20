@@ -31,18 +31,21 @@ class Mmi_Db_Adapter_Pdo_Oci extends Mmi_Db_Adapter_Pdo_Abstract {
 	/**
 	 * Ustawia schemat
 	 * @param string $schemaName nazwa schematu
+	 * @return Mmi_Db_Adapter_Pdo_Oci
 	 */
 	public function selectSchema($schemaName) {
 		//oracle nie obsługuje schematów - bazy są selectowane po nazwie użytkownika; owner = schema
 		$this->_config->schema = $schemaName;
+		return $this;
 	}
 
 	/**
 	 * Ustawia domyślne parametry dla importu (długie zapytania)
+	 * @return Mmi_Db_Adapter_Pdo_Oci
 	 */
 	public function setDefaultImportParams() {
 		//dostępne parametry - query: SHOW PARAMETERS
-		
+		return $this;
 	}
 
 	/**
