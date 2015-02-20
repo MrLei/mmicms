@@ -1,6 +1,9 @@
 <?php
 
-class Mmi_Navigation_Config_Element {
+
+namespace Mmi\Navigation\Config;
+
+class Element {
 
 	protected $_data = array(
 		'id' => null,
@@ -30,7 +33,7 @@ class Mmi_Navigation_Config_Element {
 	protected $_built = array();
 
 	public function __construct($id = null) {
-		$this->_data['id'] = ($id === null) ? Mmi_Navigation_Config::getAutoIndex() : $id;
+		$this->_data['id'] = ($id === null) ? \Mmi\Navigation\Config::getAutoIndex() : $id;
 	}
 
 	public function getId() {
@@ -142,17 +145,17 @@ class Mmi_Navigation_Config_Element {
 
 	/**
 	 * Dodaje element potomny
-	 * @param Mmi_Navigation_Config_Element $element
-	 * @return Mmi_Navigation_Config_Element
+	 * @param \Mmi\Navigation\Config\Element $element
+	 * @return \Mmi\Navigation\Config\Element
 	 */
-	public function addChild(Mmi_Navigation_Config_Element $element) {
+	public function addChild(\Mmi\Navigation\Config\Element $element) {
 		$this->_data['children'][$element->getId()] = $element;
 		return $this;
 	}
 
 	public function build() {
-		$lang = Mmi_Controller_Front::getInstance()->getRequest()->lang;
-		$view = Mmi_Controller_Front::getInstance()->getView();
+		$lang = \Mmi\Controller\Front::getInstance()->getRequest()->lang;
+		$view = \Mmi\Controller\Front::getInstance()->getView();
 		if ($this->_data['disabled'] || ($this->_data['dateStart'] !== null && $this->_data['dateStart'] > date('Y-m-d H:i:s')) || ($this->_data['dateEnd'] !== null && $this->_data['dateEnd'] < date('Y-m-d H:i:s'))) {
 			$this->_data['disabled'] = true;
 		}

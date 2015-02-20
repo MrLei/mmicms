@@ -10,7 +10,7 @@
  *
  * MmiCms/View/Helper/Text.php
  * @category   MmiCms
- * @package    MmiCms_View
+ * @package    MmiCms\View
  * @subpackage Helper
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -21,11 +21,14 @@
 /**
  * Generuje tekst statyczny
  * @category   MmiCms
- * @package    MmiCms_View
+ * @package    MmiCms\View
  * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class MmiCms_View_Helper_Text extends Mmi_View_Helper_Abstract {
+
+namespace MmiCms\View\Helper;
+
+class Text extends \Mmi\View\Helper\HelperAbstract {
 
 	/**
 	 * Generuje tekst statyczny
@@ -33,7 +36,7 @@ class MmiCms_View_Helper_Text extends Mmi_View_Helper_Abstract {
 	 * @return string
 	 */
 	public function text($key) {
-		return nl2br(Cms_Model_Text_Dao::textByKeyLang($key, Mmi_Controller_Front::getInstance()->getView()->request->lang));
+		return nl2br(\Cms\Model\Text\Dao::textByKeyLang($key, \Mmi\Controller\Front::getInstance()->getView()->request->lang));
 	}
 
 }

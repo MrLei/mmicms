@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Controller_Comment extends Mmi_Controller_Action {
+
+namespace Cms\Controller;
+
+class Comment extends \Mmi\Controller\Action {
 
 	public function indexAction() {
 		if (!$this->object) {
@@ -9,14 +12,14 @@ class Cms_Controller_Comment extends Mmi_Controller_Action {
 		if (!$this->objectId) {
 			return;
 		}
-		$this->view->comments = Cms_Model_Comment_Dao::byObjectQuery($this->object, $this->objectId, $this->descending)
+		$this->view->comments = \Cms\Model\Comment\Dao::byObjectQuery($this->object, $this->objectId, $this->descending)
 			->limit(100)
 			->find();
 
-		if (!($this->allowGuests || Default_Registry::$auth->hasIdentity())) {
+		if (!($this->allowGuests || \Core\Registry::$auth->hasIdentity())) {
 			return;
 		}
-		$form = new Cms_Form_Comment(null, array(
+		$form = new \Cms\Form\Comment(null, array(
 			'object' => $this->object,
 			'objectId' => $this->objectId,
 			'withRatings' => ($this->withRatings) ? $this->withRatings : false,

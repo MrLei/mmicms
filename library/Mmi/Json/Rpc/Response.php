@@ -11,7 +11,7 @@
  *
  * Mmi/Json/Rpc/Response.php
  * @category   Mmi
- * @package    Mmi_Json_Rpc
+ * @package    \Mmi\Json\Rpc
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Obiekt odpowiedzi JSON-RPC
  * @category   Mmi
- * @package    Mmi_Json_Rpc
+ * @package    \Mmi\Json\Rpc
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Json_Rpc_Response {
+
+namespace Mmi\Json\Rpc;
+
+class Response {
 
 	/**
 	 * Wersja JSON-RPC
@@ -53,7 +56,7 @@ class Mmi_Json_Rpc_Response {
 	/**
 	 * Ustawia obiekt na podstawie JSON'a
 	 * @param string $data
-	 * @return Mmi_Json_Rpc_Response
+	 * @return \Mmi\Json\Rpc\Response
 	 */
 	public function setFromJson($data) {
 		$response = json_decode($data);

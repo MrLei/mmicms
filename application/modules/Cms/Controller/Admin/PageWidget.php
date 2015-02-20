@@ -1,19 +1,21 @@
 <?php
 
-class Cms_Controller_Admin_PageWidget extends MmiCms_Controller_Admin {
+namespace Cms\Controller\Admin;
+
+class PageWidget extends \MmiCms\Controller\Admin {
 
 	public function indexAction() {
-		$this->view->grid = new Cms_Plugin_PageWidgetGrid();
+		$this->view->grid = new \Cms\Plugin\PageWidgetGrid();
 	}
 
 	public function editAction() {
-		$widget = Cms_Model_Page_Widget_Dao::findPk($this->id);
+		$widget = \Cms\Model\Page\Widget\Dao::findPk($this->id);
 		
 		if ($widget !== null) {
 			$this->widget = ucfirst($widget->module) . ':' . ucfirst($widget->controller) . ':' . $widget->action;
 		}
 		
-		$widgetForm = new Cms_Form_Admin_Page_Widget($widget, array(
+		$widgetForm = new \Cms\Form\Admin\Page\Widget($widget, array(
 			'widget' => $this->widget
 		));
 
@@ -24,7 +26,7 @@ class Cms_Controller_Admin_PageWidget extends MmiCms_Controller_Admin {
 	}
 
 	public function deleteAction() {
-		$record = Cms_Model_Page_Widget_Dao::findPk($this->id);
+		$record = \Cms\Model\Page\Widget\Dao::findPk($this->id);
 		if ($record !== null && $record->delete()) {
 			$this->_helper->messenger('Widget zostal usuniety');
 		}

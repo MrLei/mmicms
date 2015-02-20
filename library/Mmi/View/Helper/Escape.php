@@ -10,7 +10,7 @@
  *
  * Mmi/View/Helper/Escape.php
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -21,20 +21,23 @@
 /**
  * Helper normalizowania ciągów znaków
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_View_Helper_Escape extends Mmi_View_Helper_Abstract {
+
+namespace Mmi\View\Helper;
+
+class Escape extends HelperAbstract {
 
 	/**
 	 * Usuwa tagi z ciągu znaków
-	 * @see Mmi_Filter_Escape
+	 * @see \Mmi\Filter\Escape
 	 * @param string $input ciąg wejściowy
 	 * @return string
 	 */
 	public function escape($input) {
-		$escape = new Mmi_Filter_Escape();
+		$escape = new \Mmi\Filter\Escape();
 		return $escape->filter($input);
 	}
 	

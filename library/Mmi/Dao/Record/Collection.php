@@ -10,7 +10,7 @@
  *
  * Mmi/Dao/Record/Collection.php
  * @category   Mmi
- * @package    Mmi_Dao
+ * @package    \Mmi\Dao
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -19,12 +19,15 @@
 
 /**
  * Kolekcja rekordów DAO
- * @see ArrayObject
+ * @see \ArrayObject
  * @category   Mmi
- * @package    Mmi_Dao
+ * @package    \Mmi\Dao
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Dao_Record_Collection extends ArrayObject {
+
+namespace Mmi\Dao\Record;
+
+class Collection extends \ArrayObject {
 	
 	/**
 	 * Kasuje całą kolekcję obiektów
@@ -53,7 +56,7 @@ class Mmi_Dao_Record_Collection extends ArrayObject {
 
 	/**
 	 * Zwraca kolekcję w postaci tablicy obiektów
-	 * @return Mmi_Dao_Record_Collection
+	 * @return \Mmi\Dao\Record\Collection
 	 */
 	public function toObjectArray() {
 		$array = array();

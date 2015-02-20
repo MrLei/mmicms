@@ -4,7 +4,7 @@
 		<meta charset="UTF-8" />
 		<title>{navigation()->title()}</title>
 		<link rel="shortcut icon" type="image/x-icon" href="{$baseUrl}/favicon.ico" />
-		{headLink()->appendStyleSheet($baseUrl . '/default/default/css/default.css')}
+		{headLink()->appendStyleSheet($baseUrl . '/default/core/css/default.css')}
 		{headLink()}
 		{headScript()}
 		<meta name="description" content="{navigation()->description()}" />

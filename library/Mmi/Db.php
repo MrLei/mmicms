@@ -10,7 +10,7 @@
  *
  * Mmi/Db.php
  * @category   Mmi
- * @package    Mmi_Db
+ * @package    \Mmi\Db
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,21 +20,24 @@
 /**
  * Klasa fabryki adapterów bazodanowych
  * @category   Mmi
- * @package    Mmi_Db
+ * @package    \Mmi\Db
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Db {
+
+namespace Mmi;
+
+class Db {
 
 	/**
 	 * Tworzy obiekty adaptera na podstawie opcji
-	 * @param Mmi_Db_Config $config
-	 * @return Mmi_Db_Adapter_Pdo_Abstract
+	 * @param \Mmi\Db\Config $config
+	 * @return \Mmi\Db\Adapter\Pdo\Abstract
 	 */
-	public static function factory(Mmi_Db_Config $config) {
+	public static function factory(\Mmi\Db\Config $config) {
 		if ($config->driver != 'mysql' && $config->driver != 'pgsql' && $config->driver != 'sqlite' && $config->driver != 'oci') {
-			throw new Exception('Mmi_Db driver not supplied');
+			throw new Exception('\Mmi\Db driver not supplied');
 		}
-		$driver = 'Mmi_Db_Adapter_Pdo_' . ucfirst($config->driver);
+		$driver = '\Mmi\Db\Adapter\Pdo\\' . ucfirst($config->driver);
 		return new $driver($config);
 	}
 

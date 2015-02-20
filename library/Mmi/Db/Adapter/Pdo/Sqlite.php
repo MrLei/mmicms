@@ -11,7 +11,7 @@
  *
  * Mmi/Db/Adapter/Pdo/Sqlite.php
  * @category   Mmi
- * @package    Mmi_Db
+ * @package    \Mmi\Db
  * @subpackage Adapter
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -22,11 +22,14 @@
 /**
  * Klasa adaptera SQLite
  * @category   Mmi
- * @package    Mmi_Db
+ * @package    \Mmi\Db
  * @subpackage Adapter
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Db_Adapter_Pdo_Sqlite extends Mmi_Db_Adapter_Pdo_Abstract {
+
+namespace Mmi\Db\Adapter\Pdo;
+
+class Sqlite extends PdoAbstract {
 
 	/**
 	 * Przechowuje funkcje sortowania
@@ -39,7 +42,7 @@ class Mmi_Db_Adapter_Pdo_Sqlite extends Mmi_Db_Adapter_Pdo_Abstract {
 	/**
 	 * Ustawia schemat
 	 * @param string $schemaName nazwa schematu
-	 * @return Mmi_Db_Adapter_Pdo_Sqlite
+	 * @return \Mmi\Db\Adapter\Pdo\Sqlite
 	 */
 	public function selectSchema($schemaName) {
 		return $this;
@@ -47,7 +50,7 @@ class Mmi_Db_Adapter_Pdo_Sqlite extends Mmi_Db_Adapter_Pdo_Abstract {
 
 	/**
 	 * Ustawia domyślne parametry dla importu (długie zapytania)
-	 * @return Mmi_Db_Adapter_Pdo_Sqlite
+	 * @return \Mmi\Db\Adapter\Pdo\Sqlite
 	 */
 	public function setDefaultImportParams() {
 		$this->query('PRAGMA foreign_keys = OFF');
@@ -59,12 +62,12 @@ class Mmi_Db_Adapter_Pdo_Sqlite extends Mmi_Db_Adapter_Pdo_Abstract {
 	 */
 	public function connect() {
 		if ($this->_config->profiler) {
-			Mmi_Db_Profiler::event('CONNECT WITH: ' . get_class($this), 0);
+			\Mmi\Db\Profiler::event('CONNECT WITH: ' . get_class($this), 0);
 		}
-		$this->_pdo = new PDO(
+		$this->_pdo = new \PDO(
 						$this->_config->driver . ':' . $this->_config->host,
 						null, null,
-						array(PDO::ATTR_PERSISTENT => $this->_config->persistent)
+						array(\PDO::ATTR_PERSISTENT => $this->_config->persistent)
 		);
 		$this->_connected = true;
 		$this->query('PRAGMA foreign_keys = ON');

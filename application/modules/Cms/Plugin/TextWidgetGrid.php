@@ -1,10 +1,12 @@
 <?php
 
-class Cms_Plugin_TextWidgetGrid extends Mmi_Grid {
+namespace Cms\Plugin;
+
+class TextWidgetGrid extends \Mmi\Grid {
 
 	public function init() {
 
-		$this->setQuery(Cms_Model_Widget_Text_Query::factory()
+		$this->setQuery(\Cms\Model\Widget\Text\Query::factory()
 				->orderAscId());
 
 		$this->addColumn('text', 'id', [

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -10,20 +11,22 @@
  *
  * Mmi/Validate/StringLength.php
  * @category   Mmi
- * @package    Mmi_Validate
+ * @package    \Mmi\Validate
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa walidacji długości ciągu
  * @category   Mmi
- * @package    Mmi_Validate
+ * @package    \Mmi\Validate
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Validate_StringLength extends Mmi_Validate_Abstract {
+
+namespace Mmi\Validate;
+
+class StringLength extends ValidateAbstract {
 
 	/**
 	 * Komunikat niedostatecznej długości
@@ -54,4 +57,5 @@ class Mmi_Validate_StringLength extends Mmi_Validate_Abstract {
 		}
 		return true;
 	}
+
 }

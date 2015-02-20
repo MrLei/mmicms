@@ -11,7 +11,7 @@
  *
  * Mmi/Dao/Query/Compile.php
  * @category   Mmi
- * @package    Mmi_Dao
+ * @package    \Mmi\Dao
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Klasa skompilowanego zapytania
  * @category   Mmi
- * @package    Mmi_Dao
+ * @package    \Mmi\Dao
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Dao_Query_Compile {
+
+namespace Mmi\Dao\Query;
+
+class Compile {
 	
 	/**
 	 * Część FROM zapytania

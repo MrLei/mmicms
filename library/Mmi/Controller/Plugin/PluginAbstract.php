@@ -9,9 +9,9 @@
  * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
  * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
  *
- * Mmi/Controller/Plugin/Abstract.php
+ * Mmi/Controller/Plugin/PluginAbstract.php
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @subpackage Plugin
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -22,33 +22,36 @@
 /**
  * Abstrakcyjna klasa pluginów do front kontrolera
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @subpackage Plugin
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Controller_Plugin_Abstract {
+
+namespace Mmi\Controller\Plugin;
+
+class PluginAbstract {
 
 	/**
 	 * Metoda wykona się przed routingiem
-	 * @param Mmi_Controller_Request $request 
+	 * @param \Mmi\Controller\Request $request 
 	 */
-	public function routeStartup(Mmi_Controller_Request $request) {
+	public function routeStartup(\Mmi\Controller\Request $request) {
 		
 	}
 
 	/**
 	 * Metoda wykona się przed dispatchowaniem
-	 * @param Mmi_Controller_Request $request
+	 * @param \Mmi\Controller\Request $request
 	 */
-	public function preDispatch(Mmi_Controller_Request $request) {
+	public function preDispatch(\Mmi\Controller\Request $request) {
 		
 	}
 
 	/**
 	 * Metoda wykona się po dispatchowaniu
-	 * @param Mmi_Controller_Request $request
+	 * @param \Mmi\Controller\Request $request
 	 */
-	public function postDispatch(Mmi_Controller_Request $request) {
+	public function postDispatch(\Mmi\Controller\Request $request) {
 		
 	}
 

@@ -1,11 +1,14 @@
 <?php
 
-class Cms_Model_Stat_Date_Dao extends Mmi_Dao {
+
+namespace Cms\Model\Stat\Date;
+
+class Dao extends \Mmi\Dao {
 
 	public static $_tableName = 'cms_stat_date';
 
 	public static function getUniqueObjects() {
-		$all = Cms_Model_Stat_Date_Query::factory()
+		$all = \Cms\Model\Stat\Date\Query::factory()
 			->whereHour()->equals(null)
 			->andFieldDay()->equals(null)
 			->andFieldMonth()->equals(null)
@@ -220,7 +223,7 @@ class Cms_Model_Stat_Date_Dao extends Mmi_Dao {
 	}
 
 	protected static function _getRows($object, $objectId, $year = null, $month = null, $day = null, $hour = null) {
-		$q = Cms_Model_Stat_Date_Query::factory()
+		$q = \Cms\Model\Stat\Date\Query::factory()
 				->whereObject()->equals($object)
 				->andFieldObjectId()->equals($objectId);
 
@@ -236,7 +239,7 @@ class Cms_Model_Stat_Date_Dao extends Mmi_Dao {
 			->find();
 	}
 
-	protected static function _bindParam(Mmi_Dao_Query $q, $name, $value) {
+	protected static function _bindParam(\Mmi\Dao\Query $q, $name, $value) {
 		if ($value === true) {
 			$q->andField($name)->notEquals(null);
 			return;

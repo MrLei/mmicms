@@ -1,15 +1,18 @@
 <?php
 
 /**
- * @method Cms_Model_Role_Query equals() equals($value)
- * @method Cms_Model_Role_Query notEquals() notEquals($value)
- * @method Cms_Model_Role_Query greater() greater($value)
- * @method Cms_Model_Role_Query less() less($value)
- * @method Cms_Model_Role_Query greaterOrEquals() greaterOrEquals($value)
- * @method Cms_Model_Role_Query lessOrEquals() lessOrEquals($value)
- * @method Cms_Model_Role_Query like() like($value)
- * @method Cms_Model_Role_Query ilike() ilike($value)
+ * @method \Cms\Model\Role\Query equals() equals($value)
+ * @method \Cms\Model\Role\Query notEquals() notEquals($value)
+ * @method \Cms\Model\Role\Query greater() greater($value)
+ * @method \Cms\Model\Role\Query less() less($value)
+ * @method \Cms\Model\Role\Query greaterOrEquals() greaterOrEquals($value)
+ * @method \Cms\Model\Role\Query lessOrEquals() lessOrEquals($value)
+ * @method \Cms\Model\Role\Query like() like($value)
+ * @method \Cms\Model\Role\Query ilike() ilike($value)
  */
-class Cms_Model_Role_Query_Field extends Mmi_Dao_Query_Field {
+
+namespace Cms\Model\Role\Query;
+
+class Field extends \Mmi\Dao\Query\Field {
 
 }

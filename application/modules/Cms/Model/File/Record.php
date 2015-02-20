@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_File_Record extends Mmi_Dao_Record {
+
+namespace Cms\Model\File;
+
+class Record extends \Mmi\Dao\Record {
 
 	public $id;
 	public $class;
@@ -29,7 +32,7 @@ class Cms_Model_File_Record extends Mmi_Dao_Record {
 			return false;
 		}
 		//wyłącza sticky na innych plikach dla tego object+objectId
-		foreach (Cms_Model_File_Dao::stickyByObjectQuery($this->object, $this->objectId)->find() as $related) {
+		foreach (\Cms\Model\File\Dao::stickyByObjectQuery($this->object, $this->objectId)->find() as $related) {
 			$related->sticky = 0;
 			$related->save();
 		}
@@ -46,7 +49,7 @@ class Cms_Model_File_Record extends Mmi_Dao_Record {
 		if ($this->id === null) {
 			return;
 		}
-		return substr(md5($this->name . Default_Registry::$config->application->salt), 0, 8);
+		return substr(md5($this->name . \Core\Registry::$config->application->salt), 0, 8);
 	}
 
 	/**
@@ -87,7 +90,7 @@ class Cms_Model_File_Record extends Mmi_Dao_Record {
 			return;
 		}
 		$inputFile = $this->getRealPath();
-		$baseUrl = Mmi_Controller_Front::getInstance()->getView()->baseUrl . '/data';
+		$baseUrl = \Mmi\Controller\Front::getInstance()->getView()->baseUrl . '/data';
 		$fileName = '/' . $this->name[0] . $this->name[1] . $this->name[2] . '/' . $scaleType . '/' . $scale . '/' . $this->name;
 		if (file_exists(PUBLIC_PATH . '/data' . $fileName)) {
 			return $baseUrl . $fileName;
@@ -119,26 +122,26 @@ class Cms_Model_File_Record extends Mmi_Dao_Record {
 	protected function _scaler($inputFile, $outputFile, $scaleType, $scale) {
 		switch ($scaleType) {
 			case 'default':
-				$imgRes = Mmi_Image::inputToResource($inputFile);
+				$imgRes = \Mmi\Image::inputToResource($inputFile);
 				break;
 			case 'scale':
 				$v = explode('x', $scale);
 				if (count($v) == 1 && is_numeric($v[0]) && intval($v[0]) > 0) {
-					$imgRes = Mmi_Image::scale($inputFile, $v[0]);
+					$imgRes = \Mmi\Image::scale($inputFile, $v[0]);
 				} elseif (count($v) == 2 && is_numeric($v[0]) && intval($v[0]) > 0 && is_numeric($v[1]) && intval($v[1]) > 0) {
-					$imgRes = Mmi_Image::scale($inputFile, $v[0], $v[1]);
+					$imgRes = \Mmi\Image::scale($inputFile, $v[0], $v[1]);
 				}
 				break;
 			case 'scalex':
-				$imgRes = Mmi_Image::scalex($inputFile, intval($scale));
+				$imgRes = \Mmi\Image::scalex($inputFile, intval($scale));
 				break;
 			case 'scaley':
-				$imgRes = Mmi_Image::scaley($inputFile, intval($scale));
+				$imgRes = \Mmi\Image::scaley($inputFile, intval($scale));
 				break;
 			case 'scalecrop':
 				$v = explode('x', $scale);
 				if (is_numeric($v[0]) && intval($v[0]) > 0 && is_numeric($v[1]) && intval($v[1]) > 0) {
-					$imgRes = Mmi_Image::scaleCrop($inputFile, $v[0], $v[1]);
+					$imgRes = \Mmi\Image::scaleCrop($inputFile, $v[0], $v[1]);
 				}
 				break;
 		}
@@ -148,7 +151,7 @@ class Cms_Model_File_Record extends Mmi_Dao_Record {
 		if (!file_exists(dirname($outputFile)) && !@mkdir(dirname($outputFile), 0777, true)) {
 			return true;
 		}
-		switch (Mmi_Lib::mimeType($inputFile)) {
+		switch (\Mmi\Lib::mimeType($inputFile)) {
 			case 'image/png':
 				imagejpeg($imgRes, $outputFile, 92);
 				break;

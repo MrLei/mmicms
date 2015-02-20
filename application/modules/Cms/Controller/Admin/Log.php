@@ -1,9 +1,12 @@
 <?php
 
-class Cms_Controller_Admin_Log extends MmiCms_Controller_Admin {
+
+namespace Cms\Controller\Admin;
+
+class Log extends \MmiCms\Controller\Admin {
 
 	public function indexAction() {
-		$grid = new Cms_Plugin_LogGrid();
+		$grid = new \Cms\Plugin\LogGrid();
 		$this->view->grid = $grid;
 	}
 	

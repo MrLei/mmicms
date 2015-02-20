@@ -1,8 +1,11 @@
 <?php
 
-class Cms_Form_Admin_Mail_Definition extends Mmi_Form {
 
-	protected $_recordName = 'Cms_Model_Mail_Definition_Record';
+namespace Cms\Form\Admin\Mail;
+
+class Definition extends \Mmi\Form {
+
+	protected $_recordName = '\Cms\Model\Mail\Definition\Record';
 
 	public function init() {
 
@@ -10,12 +13,12 @@ class Cms_Form_Admin_Mail_Definition extends Mmi_Form {
 			->setLabel('Unikalna nazwa')
 			->setRequired()
 			->addValidatorStringLength(6, 25)
-			->addValidatorRecordUnique('Cms_Model_Mail_Definition_Dao', 'name', $this->getRecord()->id);
+			->addValidatorRecordUnique('\Cms\Model\Mail\Definition\Dao', 'name', $this->getRecord()->id);
 
 		$this->addElementSelect('mailServerId')
 			->setLabel('Połącznie')
 			->setRequired()
-			->setMultiOptions(Cms_Model_Mail_Server_Dao::getMultioptions());
+			->setMultiOptions(\Cms\Model\Mail\Server\Dao::getMultioptions());
 
 		$this->addElementText('subject')
 			->setLabel('Tytuł')

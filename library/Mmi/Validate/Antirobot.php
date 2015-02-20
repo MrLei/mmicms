@@ -10,7 +10,7 @@
  *
  * Mmi/Validate/Antirobot.php
  * @category   Mmi
- * @package    Mmi_Validate
+ * @package    \Mmi\Validate
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,10 +20,13 @@
 /**
  * Klasa poprawności kodu zabezpieczenia przed robotami
  * @category   Mmi
- * @package    Mmi_Validate
+ * @package    \Mmi\Validate
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Validate_Antirobot extends Mmi_Validate_Abstract {
+
+namespace Mmi\Validate;
+
+class Antirobot extends ValidateAbstract {
 	
 	/**
      * Komunikat błędnego kodu zabezpieczającego

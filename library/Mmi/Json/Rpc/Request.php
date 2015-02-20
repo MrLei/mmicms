@@ -11,7 +11,7 @@
  *
  * Mmi/Json/Rpc/Request.php
  * @category   Mmi
- * @package    Mmi_Json_Rpc
+ * @package    \Mmi\Json\Rpc
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Obiekt żądania JSON-RPC
  * @category   Mmi
- * @package    Mmi_Json_Rpc
+ * @package    \Mmi\Json\Rpc
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Json_Rpc_Request {
+
+namespace Mmi\Json\Rpc;
+
+class Request {
 	
 	/**
 	 * Wersja JSON-RPC

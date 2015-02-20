@@ -11,7 +11,7 @@
  *
  * Mmi/Dao/Query/Join.php
  * @category   Mmi
- * @package    Mmi_Dao
+ * @package    \Mmi\Dao
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,14 +21,17 @@
 /**
  * Klasa połączeń w zapytaniu
  * @category   Mmi
- * @package    Mmi_Dao
+ * @package    \Mmi\Dao
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Dao_Query_Join {
+
+namespace Mmi\Dao\Query;
+
+class Join {
 
 	/**
 	 * Referencja do nadrzędnego zapytania
-	 * @var Mmi_Dao_Query
+	 * @var \Mmi\Dao\Query
 	 */
 	protected $_query;
 	
@@ -52,12 +55,12 @@ class Mmi_Dao_Query_Join {
 
 	/**
 	 * Ustawia parametry połączenia
-	 * @param Mmi_Dao_Query $query
+	 * @param \Mmi\Dao\Query $query
 	 * @param string $tableName nazwa tabeli
 	 * @param string $type typ złączenia: 'JOIN', 'LEFT JOIN', 'INNER JOIN', 'RIGHT JOIN'
 	 * @param string $targetTableName opcjonalna tabela do której złączyć
 	 */
-	public function __construct(Mmi_Dao_Query $query, $tableName, $type = 'JOIN', $targetTableName = null) {
+	public function __construct(\Mmi\Dao\Query $query, $tableName, $type = 'JOIN', $targetTableName = null) {
 		$this->_query = $query;
 		$this->_tableName = $tableName;
 		$this->_targetTableName = $targetTableName;
@@ -68,7 +71,7 @@ class Mmi_Dao_Query_Join {
 	 * Warunek złączenia
 	 * @param string $localKeyName nazwa lokalnego klucza
 	 * @param string $joinedKeyName nazwa klucza w łączonej tabeli
-	 * @return Mmi_Dao_Query
+	 * @return \Mmi\Dao\Query
 	 */
 	public function on($localKeyName, $joinedKeyName = 'id') {
 		$this->_query->getQueryCompile()->joinSchema[$this->_tableName] = array($joinedKeyName, $localKeyName, $this->_targetTableName, $this->_type);

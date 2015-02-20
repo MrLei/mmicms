@@ -11,7 +11,7 @@
  *
  * Mmi/Dao/Record.php
  * @category   Mmi
- * @package    Mmi_Dao
+ * @package    \Mmi\Dao
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Active record zapisywalny
  * @category   Mmi
- * @package    Mmi_Dao
+ * @package    \Mmi\Dao
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
+
+namespace Mmi\Dao;
+
+class Record extends \Mmi\Dao\Record\Ro {
 
 	/**
 	 * Status zapisu
@@ -63,7 +66,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 			return false;
 		}
 		$dao = $this->_daoClass;
-		$bindKey = Mmi_Db_Adapter_Pdo_Abstract::generateRandomBindKey();
+		$bindKey = \Mmi\Db\Adapter\Pdo\PdoAbstract::generateRandomBindKey();
 		$result = $dao::getAdapter()->delete($dao::getTableName(), $this->_pkWhere($bindKey), array($bindKey => $this->getPk()));
 		return ($result > 0) ? true : false;
 	}
@@ -91,7 +94,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 	 */
 	protected function _update() {
 		$dao = $this->_daoClass;
-		$bindKey = Mmi_Db_Adapter_Pdo_Abstract::generateRandomBindKey();
+		$bindKey = \Mmi\Db\Adapter\Pdo\PdoAbstract::generateRandomBindKey();
 		$result = $dao::getAdapter()->update($dao::getTableName(), $this->_truncateToStructure(true), $this->_pkWhere($bindKey), array($bindKey => $this->getPk()));
 		$this->_setSaveStatus(0);
 		if ($result > 0) {
@@ -111,7 +114,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 		$structure = $dao::getTableStructure();
 		foreach ($this as $field => $value) {
 			if (!isset($structure[$field])) {
-				$field = Mmi_Dao::convertCamelcaseToUnderscore($field);
+				$field = \Mmi\Dao::convertCamelcaseToUnderscore($field);
 				if (!isset($structure[$field])) {
 					continue;
 				}
@@ -131,7 +134,7 @@ class Mmi_Dao_Record extends Mmi_Dao_Record_Ro {
 	/**
 	 * Ustawia status zapisu
 	 * @param int $status status
-	 * @return Mmi_Dao_Record
+	 * @return \Mmi\Dao\Record
 	 */
 	protected final function _setSaveStatus($status) {
 		$this->_saveStatus = $status;

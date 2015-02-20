@@ -9,9 +9,9 @@
  * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
  * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
  *
- * Mmi/View/Helper/AbstractHead.php
+ * Mmi/View/Helper/HeadAbstract.php
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -22,11 +22,12 @@
 /**
  * Abstrakcyjna klasa nagłówkowych helperów widoku
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_View_Helper_AbstractHead extends Mmi_View_Helper_Abstract {
+namespace Mmi\View\Helper;
+class HeadAbstract extends HelperAbstract {
 
 	/**
 	 * Pobiera CRC dla danego zasobu (lokalnego lub zdalnego)
@@ -34,7 +35,7 @@ class Mmi_View_Helper_AbstractHead extends Mmi_View_Helper_Abstract {
 	 * @return string
 	 */
 	protected function _getCrc($location) {
-		$cacheKey = 'Head_Crc_' . md5($location);
+		$cacheKey = 'Head\Crc_' . md5($location);
 		$cache = $this->view->getCache();
 		if ($cache !== null && (null !== ($crc = $cache->load($cacheKey)))) {
 			return $crc;

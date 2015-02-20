@@ -1,8 +1,11 @@
 <?php
 
-class Cms_Form_Admin_Page_Cms extends MmiCms_Form {
 
-	protected $_recordName = 'Cms_Model_Navigation_Record';
+namespace Cms\Form\Admin\Page;
+
+class Cms extends \MmiCms\Form {
+
+	protected $_recordName = '\Cms\Model\Navigation\Record';
 	protected $_recordSaveMethod = 'saveForm';
 
 	public function init() {
@@ -33,15 +36,15 @@ class Cms_Form_Admin_Page_Cms extends MmiCms_Form {
 
 		//system object
 		$this->addElementSelect('object')
-			->setLabel(Mmi_Controller_Front::getInstance()->getView()->getTranslate()->_('Obiekt CMS'))
-			->setDescription(Mmi_Controller_Front::getInstance()->getView()->getTranslate()->_('Istniejące obiekty CMS'))
+			->setLabel(\Mmi\Controller\Front::getInstance()->getView()->getTranslate()->_('Obiekt CMS'))
+			->setDescription(\Mmi\Controller\Front::getInstance()->getView()->getTranslate()->_('Istniejące obiekty CMS'))
 			->setRequired()
 			->setOption('id', 'objectId');
 
 		$object = $this->getElement('object');
 		$object->setDisableTranslator(true);
 		$object->addMultiOption(null, null);
-		foreach (Cms_Model_Reflection::getActions() as $action) {
+		foreach (\Cms\Model\Reflection::getActions() as $action) {
 			$object->addMultiOption($action['path'], $action['module'] . ': ' . $action['controller'] . ' - ' . $action['action']);
 		}
 		//optional params
@@ -77,8 +80,8 @@ class Cms_Form_Admin_Page_Cms extends MmiCms_Form {
 		//pozycja w drzewie
 		$this->addElementSelect('parentId')
 			->setLabel('Element nadrzędny')
-			->setValue(Mmi_Controller_Front::getInstance()->getRequest()->parent)
-			->setMultiOptions(Cms_Model_Navigation_Dao::getMultiOptions());
+			->setValue(\Mmi\Controller\Front::getInstance()->getRequest()->parent)
+			->setMultiOptions(\Cms\Model\Navigation\Dao::getMultiOptions());
 
 		$this->addElementDateTimePicker('dateStart')
 			->setLabel('Data i czas włączenia');

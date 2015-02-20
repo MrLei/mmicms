@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -10,22 +11,24 @@
  *
  * Mmi/View/Helper/HeadStyle.php
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Helper styli tekstowych w nagłówku strony
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_View_Helper_HeadStyle extends Mmi_View_Helper_Abstract {
+
+namespace Mmi\View\Helper;
+
+class HeadStyle extends HelperAbstract {
 
 	/**
 	 * Dane
@@ -38,7 +41,7 @@ class Mmi_View_Helper_HeadStyle extends Mmi_View_Helper_Abstract {
 	 * @param array $params
 	 * @param boolean $prepend
 	 * @param string $conditional
-	 * @return Mmi_View_Helper_HeadStyle
+	 * @return \Mmi\View\Helper\HeadStyle
 	 */
 	public function headStyle(array $params = null, $prepend = false, $conditional = '') {
 		if (is_array($params)) {
@@ -74,7 +77,7 @@ class Mmi_View_Helper_HeadStyle extends Mmi_View_Helper_Abstract {
 			}
 			$html .= '<style ';
 			foreach ($style as $key => $value) {
-				$html .= $key. '="' . $value . '" ';
+				$html .= $key . '="' . $value . '" ';
 			}
 			$html = rtrim($html);
 			$html .= '>';
@@ -90,24 +93,24 @@ class Mmi_View_Helper_HeadStyle extends Mmi_View_Helper_Abstract {
 		}
 		return $html;
 	}
-	
+
 	/**
 	 * Dodaje na koniec stosu treść css
 	 * @param string $style treść skryptu
 	 * @param array $params parametry dodatkowe
 	 * @param boolean $conditional warunek np. ie6
-	 * @return Mmi_View_Helper_HeadStyle
+	 * @return \Mmi\View\Helper\HeadStyle
 	 */
 	public function appendStyle($style, array $params = array(), $conditional = '') {
 		return $this->setStyle($style, $params, false, $conditional);
 	}
-	
+
 	/**
 	 * Dodaje na koniec stosu treść pliku css
 	 * @param string $fileName nazwa pliku ze skryptem
 	 * @param array $params parametry dodatkowe
 	 * @param boolean $conditional warunek np. ie6
-	 * @return Mmi_View_Helper_HeadStyle
+	 * @return \Mmi\View\Helper\HeadStyle
 	 */
 	public function appendStyleFile($fileName, array $params = array(), $conditional = '') {
 		return $this->appendStyle($this->_getStyleContent($fileName), $params, $conditional);
@@ -118,7 +121,7 @@ class Mmi_View_Helper_HeadStyle extends Mmi_View_Helper_Abstract {
 	 * @param string $fileName nazwa pliku ze skryptem
 	 * @param array $params parametry dodatkowe
 	 * @param boolean $conditional warunek np. ie6
-	 * @return Mmi_View_Helper_HeadStyle
+	 * @return \Mmi\View\Helper\HeadStyle
 	 */
 	public function prependStyleFile($fileName, array $params = array(), $conditional = '') {
 		return $this->appendStyle($this->_getStyleContent($fileName), $params, $conditional);
@@ -129,7 +132,7 @@ class Mmi_View_Helper_HeadStyle extends Mmi_View_Helper_Abstract {
 	 * @param string $style treść skryptu
 	 * @param array $params parametry dodatkowe
 	 * @param boolean $conditional warunek np. ie6
-	 * @return Mmi_View_Helper_HeadStyle
+	 * @return \Mmi\View\Helper\HeadStyle
 	 */
 	public function prependStyle($style, array $params = array(), $conditional = '') {
 		return $this->setStyle($style, $params, true, $conditional);
@@ -141,13 +144,13 @@ class Mmi_View_Helper_HeadStyle extends Mmi_View_Helper_Abstract {
 	 * @param array $params parametry dodatkowe
 	 * @param boolean $prepend dodaj na początek stosu
 	 * @param boolean $conditional warunek np. ie6
-	 * @return Mmi_View_Helper_HeadStyle
+	 * @return \Mmi\View\Helper\HeadStyle
 	 */
 	public function setstyle($style, array $params = array(), $prepend = false, $conditional = '') {
 		$params = array_merge($params, array('type' => 'text/css', 'style' => $style));
 		return $this->headStyle($params, $prepend, $conditional);
 	}
-	
+
 	/**
 	 * Pobiera zawartość CSS
 	 * @param string $fileName
@@ -155,13 +158,12 @@ class Mmi_View_Helper_HeadStyle extends Mmi_View_Helper_Abstract {
 	 */
 	protected function _getStyleContent($fileName) {
 		$cache = $this->view->getCache();
-		$cacheKey = 'Head_Style_Css_' . md5($fileName);
+		$cacheKey = 'Head-Style-Css-' . md5($fileName);
 		if (!$cache || (null === ($content = $cache->load($cacheKey)))) {
 			try {
 				$content = file_get_contents(PUBLIC_PATH . '/' . $fileName);
 				$location = $this->view->baseUrl . '/' . trim(dirname($fileName), '/') . '/';
-				$content = str_replace(array('url(\'', 'url("', "\r\n", "\n", "\t", ', ', ': ', ' {', '{ ', ' }', '} '), 
-					array('url(\'' . $location, 'url("' . $location, '', '', '', ',', ':', '{', '{', '}', '}'), $content);
+				$content = str_replace(array('url(\'', 'url("', "\r\n", "\n", "\t", ', ', ': ', ' {', '{ ', ' }', '} '), array('url(\'' . $location, 'url("' . $location, '', '', '', ',', ':', '{', '{', '}', '}'), $content);
 				$content = preg_replace('/\/\*.+?\*\//is', '', $content);
 				$content = preg_replace('/\/[\w]*?\/..\//', '/', $content);
 				$cache->save($content, $cacheKey, 864000);
@@ -169,7 +171,7 @@ class Mmi_View_Helper_HeadStyle extends Mmi_View_Helper_Abstract {
 				return '/* CSS file not found: ' . $fileName . ' */';
 			}
 		}
-		
+
 		return $content;
 	}
 

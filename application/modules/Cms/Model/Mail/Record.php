@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Mail_Record extends Mmi_Dao_Record {
+
+namespace Cms\Model\Mail;
+
+class Record extends \Mmi\Dao\Record {
 
 	public $id;
 	public $mailDefinitionId;

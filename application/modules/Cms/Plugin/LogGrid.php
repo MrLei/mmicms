@@ -1,10 +1,11 @@
 <?php
 
-class Cms_Plugin_LogGrid extends Mmi_Grid {
+namespace Cms\Plugin;
+class LogGrid extends \Mmi\Grid {
 
 	public function init() {
 		
-		$this->setQuery(Cms_Model_Log_Query::factory()
+		$this->setQuery(\Cms\Model\Log\Query::factory()
 			->orderDescDateTime());
 
 		$this->addColumn('text', 'dateTime', array(

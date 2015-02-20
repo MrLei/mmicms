@@ -1,20 +1,23 @@
 <?php
 
-class Cms_Model_Navigation_Dao extends Mmi_Dao {
+
+namespace Cms\Model\Navigation;
+
+class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'cms_navigation';
 
 	/**
 	 * 
-	 * @return Cms_Model_Navigation_Query
+	 * @return \Cms\Model\Navigation\Query
 	 */
 	public static function langQuery() {
-		if (!Mmi_Controller_Front::getInstance()->getRequest()->lang) {
-			return Cms_Model_Navigation_Query::factory();
+		if (!\Mmi\Controller\Front::getInstance()->getRequest()->lang) {
+			return \Cms\Model\Navigation\Query::factory();
 		}
-		return Cms_Model_Navigation_Query::factory()
-				->andQuery(Cms_Model_Navigation_Query::factory()
-					->whereLang()->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
+		return \Cms\Model\Navigation\Query::factory()
+				->andQuery(\Cms\Model\Navigation\Query::factory()
+					->whereLang()->equals(\Mmi\Controller\Front::getInstance()->getRequest()->lang)
 					->orFieldLang()->equals(null)
 					->orderDescLang());
 	}
@@ -22,10 +25,10 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 	/**
 	 * 
 	 * @param string $uri
-	 * @return Cms_Model_Navigation_Query
+	 * @return \Cms\Model\Navigation\Query
 	 */
 	public static function byArticleUriQuery($uri) {
-		return Cms_Model_Navigation_Query::factory()
+		return \Cms\Model\Navigation\Query::factory()
 				->whereModule()->equals('cms')
 				->andFieldController()->equals('article')
 				->andFieldAction()->equals('index')
@@ -35,17 +38,17 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 	/**
 	 * 
 	 * @param type $parentId
-	 * @return Cms_Model_Navigation_Query
+	 * @return \Cms\Model\Navigation\Query
 	 */
 	public static function byParentIdQuery($parentId) {
-		return Cms_Model_Navigation_Query::factory()
+		return \Cms\Model\Navigation\Query::factory()
 				->whereParentId()->equals($parentId);
 	}
 
 	/**
 	 * 
 	 * @param type $parentId
-	 * @return Cms_Model_Navigation_Query
+	 * @return \Cms\Model\Navigation\Query
 	 */
 	public static function descByParentIdQuery($parentId) {
 		return self::byParentIdQuery($parentId)
@@ -64,19 +67,19 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 
 	/**
 	 * Dodaje do konfiguracji dane z bazy danych
-	 * @param Mmi_Navigation_Config $config
+	 * @param \Mmi\Navigation\Config $config
 	 */
-	public static function decorateConfiguration(Mmi_Navigation_Config $config) {
+	public static function decorateConfiguration(\Mmi\Navigation\Config $config) {
 		$objectArray = self::langQuery()
 			->orderAscParentId()
 			->orderAscOrder()
 			->find()
 			->toObjectArray();
-		foreach ($objectArray as $key => $record) {/* @var $record Cms_Model_Navigation_Record */
+		foreach ($objectArray as $key => $record) {/* @var $record \Cms\Model\Navigation\Record */
 			if ($record->parentId != 0) {
 				continue;
 			}
-			$element = Mmi_Navigation_Config::newElement($record->id);
+			$element = \Mmi\Navigation\Config::newElement($record->id);
 			self::_setNavigationElementFromRecord($record, $element);
 			$config->addElement($element);
 			unset($objectArray[$key]);
@@ -91,7 +94,7 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 	 */
 	public static function sortBySerial(array $serial = array()) {
 		foreach ($serial as $order => $id) {
-			$record = new Cms_Model_Navigation_Record();
+			$record = new \Cms\Model\Navigation\Record();
 			$record->setNew(false);
 			$record->id = $id;
 			$record->order = $order;
@@ -100,12 +103,12 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 		return true;
 	}
 
-	protected static function _buildChildren(Cms_Model_Navigation_Record $record, Mmi_Navigation_Config_Element $element, array $objectArray) {
-		foreach ($objectArray as $key => $child) {/* @var $child Cms_Model_Navigation_Record */
+	protected static function _buildChildren(\Cms\Model\Navigation\Record $record, \Mmi\Navigation\Config\Element $element, array $objectArray) {
+		foreach ($objectArray as $key => $child) {/* @var $child \Cms\Model\Navigation\Record */
 			if ($child->parentId != $record->id) {
 				continue;
 			}
-			$childElement = Mmi_Navigation_Config::newElement($child->id);
+			$childElement = \Mmi\Navigation\Config::newElement($child->id);
 			self::_setNavigationElementFromRecord($child, $childElement);
 			$element->addChild($childElement);
 			unset($objectArray[$key]);
@@ -113,7 +116,7 @@ class Cms_Model_Navigation_Dao extends Mmi_Dao {
 		}
 	}
 
-	protected static function _setNavigationElementFromRecord(Cms_Model_Navigation_Record $record, Mmi_Navigation_Config_Element $element) {
+	protected static function _setNavigationElementFromRecord(\Cms\Model\Navigation\Record $record, \Mmi\Navigation\Config\Element $element) {
 		$https = null;
 		if ($record->https === 0) {
 			$https = false;

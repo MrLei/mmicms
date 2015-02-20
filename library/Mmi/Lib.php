@@ -11,7 +11,7 @@
  *
  * Mmi/Lib.php
  * @category   Mmi
- * @package    Mmi_Lib
+ * @package    \Mmi\Lib
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Statyczna biblioteka zawierająca użyteczne metody ogólnego zastosowania
  * @category   Mmi
- * @package    Mmi_Lib
+ * @package    \Mmi\Lib
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Lib {
+
+namespace Mmi;
+
+class Lib {
 
 	/**
 	 * Kasuje pliki rekurencyjnie
@@ -184,7 +187,7 @@ class Mmi_Lib {
 	}
 
 	/**
-	 * Deszyfruje dane zaszyfrowane Mmi_Lib::encrypt()
+	 * Deszyfruje dane zaszyfrowane \Mmi\Lib::encrypt()
 	 * @param string $data Ciąg zaszyfrowany
 	 * @param string $key Dodatkowy klucz deszyfrowania.
 	 */

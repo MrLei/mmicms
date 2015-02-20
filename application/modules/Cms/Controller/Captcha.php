@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Controller_Captcha extends Mmi_Controller_Action {
+
+namespace Cms\Controller;
+
+class Captcha extends \Mmi\Controller\Action {
 
 	public function indexAction() {
 		if (!$this->name) {
@@ -43,8 +46,8 @@ class Cms_Controller_Captcha extends Mmi_Controller_Action {
 			imagefttext($img, $size, $angle, $space, $height, $green, $font, $word[$i]);
 		}
 
-		$formSession = new Mmi_Session_Namespace('Mmi_Form');
-		$name = 'captcha_' . $this->name;
+		$formSession = new \Mmi\Session\Space('\Mmi\Form');
+		$name = 'captcha-' . $this->name;
 		$formSession->$name = $word;
 
 		$pastYear = date('Y') - 1;

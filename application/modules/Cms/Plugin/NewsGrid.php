@@ -1,10 +1,11 @@
 <?php
 
-class Cms_Plugin_NewsGrid extends Mmi_Grid {
+namespace Cms\Plugin;
+class NewsGrid extends \Mmi\Grid {
 
 	public function init() {
 
-		$this->setQuery(Cms_Model_News_Query::factory());
+		$this->setQuery(\Cms\Model\News\Query::factory());
 
 		$this->setOption('locked', true);
 

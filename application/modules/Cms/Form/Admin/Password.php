@@ -1,14 +1,17 @@
 <?php
 
-class Cms_Form_Admin_Password extends Mmi_Form {
 
-	protected $_recordName = 'Cms_Model_Auth_Record';
+namespace Cms\Form\Admin;
+
+class Password extends \Mmi\Form {
+
+	protected $_recordName = '\Cms\Model\Auth\Record';
 	protected $_recordSaveMethod = 'changePasswordByUser';
 
 	public function init() {
 
 		//ustawienie użytkownika w rekordzie
-		$this->getRecord()->setOption('identity', Default_Registry::$auth->getUsername());
+		$this->getRecord()->setOption('identity', \Core\Registry::$auth->getUsername());
 
 		$this->addElementPassword('password')
 			->setLabel('obecne hasło')

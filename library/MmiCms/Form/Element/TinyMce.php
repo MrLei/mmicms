@@ -11,22 +11,24 @@
  *
  * MmiCms/Form/Element/TinyMce.php
  * @category   MmiCms
- * @package    MmiCms_Form
+ * @package    MmiCms\Form
  * @subpackage Element
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa elementu TinyMce (zaawansowany edytor tekstu)
  * @category   MmiCms
- * @package    MmiCms_Form
+ * @package    MmiCms\Form
  * @subpackage Element
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class MmiCms_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
+
+namespace MmiCms\Form\Element;
+
+class TinyMce extends \Mmi\Form\Element\Textarea {
 
 	/**
 	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora
@@ -38,7 +40,7 @@ class MmiCms_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 
 	/**
 	 * Ustawia tryb zaawansowany
-	 * @return Mmi_Form_Element_TinyMce
+	 * @return \Mmi\Form\Element\TinyMce
 	 */
 	public function setModeAdvanced() {
 		$this->_options['mode'] = 'advanced';
@@ -47,7 +49,7 @@ class MmiCms_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 
 	/**
 	 * Ustawia tryb domyślny
-	 * @return Mmi_Form_Element_TinyMce
+	 * @return \Mmi\Form\Element\TinyMce
 	 */
 	public function setModeDefault() {
 		$this->_options['mode'] = null;
@@ -56,7 +58,7 @@ class MmiCms_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 
 	/**
 	 * Ustawia tryb prosty
-	 * @return Mmi_Form_Element_TinyMce
+	 * @return \Mmi\Form\Element\TinyMce
 	 */
 	public function setModeSimple() {
 		$this->_options['mode'] = 'simple';
@@ -66,7 +68,7 @@ class MmiCms_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 	/**
 	 * Ustawia szerokość w px
 	 * @param int $width
-	 * @return Mmi_Form_Element_TinyMce
+	 * @return \Mmi\Form\Element\TinyMce
 	 */
 	public function setWidth($width) {
 		$this->_options['width'] = intval($width);
@@ -76,7 +78,7 @@ class MmiCms_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 	/**
 	 * Ustawia wysokość w px
 	 * @param int $height
-	 * @return Mmi_Form_Element_TinyMce
+	 * @return \Mmi\Form\Element\TinyMce
 	 */
 	public function setHeight($height) {
 		$this->_options['heigth'] = intval($height);
@@ -86,7 +88,7 @@ class MmiCms_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 	/**
 	 * Ustawia parametr oninit
 	 * @param string $oninit
-	 * @return Mmi_Form_Element_TinyMce
+	 * @return \Mmi\Form\Element\TinyMce
 	 */
 	public function setOnInit($oninit) {
 		$this->_options['oninit'] = $oninit;
@@ -98,7 +100,7 @@ class MmiCms_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 	 * @return string
 	 */
 	public function fetchField() {
-		$view = Mmi_Controller_Front::getInstance()->getView();
+		$view = \Mmi\Controller\Front::getInstance()->getView();
 		$view->headScript()->appendFile($view->baseUrl . '/library/js/tiny/tinymce.min.js');
 
 		switch (isset($this->_options['mode']) ? $this->_options['mode'] : null) {
@@ -147,7 +149,7 @@ class MmiCms_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 		}
 		unset($this->_options['mode']);
 		$class = $this->__get('id');
-		$skin = Mmi_Controller_Front::getInstance()->getView()->skin;
+		$skin = \Mmi\Controller\Front::getInstance()->getView()->skin;
 		$this->__set('class', trim($this->__get('class') . ' ' . $class));
 		$object = '';
 		$objectId = '';
@@ -161,7 +163,7 @@ class MmiCms_Form_Element_TinyMce extends Mmi_Form_Element_Textarea {
 			$objectId = $this->getForm()->getRecord()->getPk();
 		}
 		$t = round(microtime(true));
-		$hash = md5(Mmi_Session::getId() . '+' . $t . '+' . $objectId);
+		$hash = md5(\Mmi\Session::getId() . '+' . $t . '+' . $objectId);
 		$view->headScript()->appendScript("
 			tinyMCE.init({
 				selector : '." . $class . "',

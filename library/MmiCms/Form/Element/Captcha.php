@@ -10,7 +10,7 @@
  *
  * MmiCms/Form/Element/Captcha.php
  * @category   MmiCms
- * @package    MmiCms_Form
+ * @package    MmiCms\Form
  * @subpackage Element
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -21,11 +21,14 @@
 /**
  * Klasa elementu captcha
  * @category   MmiCms
- * @package    MmiCms_Form
+ * @package    MmiCms\Form
  * @subpackage Element
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class MmiCms_Form_Element_Captcha extends Mmi_Form_Element_Abstract {
+
+namespace MmiCms\Form\Element;
+
+class Captcha extends \Mmi\Form\Element\ElementAbstract {
 
 	/**
 	 * Ignorowanie tego pola, pole obowiązkowe, automatyczna walidacja
@@ -48,7 +51,7 @@ class MmiCms_Form_Element_Captcha extends Mmi_Form_Element_Abstract {
 		if (isset($this->_options['value'])) {
 			$this->_options['value'] = str_replace('"', '&quot;', $this->_options['value']);
 		}
-		$view = Mmi_Controller_Front::getInstance()->getView();
+		$view = \Mmi\Controller\Front::getInstance()->getView();
 		$html = '<div class="image"><img src="' . $view->url(array('module' => 'cms', 'controller' => 'captcha', 'action' => 'index', 'name' => $this->_options['name'])) . '" alt="" /></div>';
 		$html .= '<div class="input"><input ';
 		$html .= 'type="text" ' . $this->_getHtmlOptions() . '/></div>';

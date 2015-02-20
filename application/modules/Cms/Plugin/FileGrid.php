@@ -1,10 +1,11 @@
 <?php
 
-class Cms_Plugin_FileGrid extends Mmi_Grid {
+namespace Cms\Plugin;
+class FileGrid extends \Mmi\Grid {
 
 	public function init() {
 		
-		$this->setQuery(Cms_Model_File_Query::factory());
+		$this->setQuery(\Cms\Model\File\Query::factory());
 
 		$this->addColumn('custom', 'thumb', array(
 			'label' => 'miniatura',

@@ -11,7 +11,7 @@
  *
  * Mmi/Validate/Iban.php
  * @category   Mmi
- * @package    Mmi_Validate
+ * @package    \Mmi\Validate
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Klasa walidacji IBAN (rachunek bankowy)
  * @category   Mmi
- * @package    Mmi_Validate
+ * @package    \Mmi\Validate
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Validate_Iban extends Mmi_Validate_Abstract {
+
+namespace Mmi\Validate;
+
+class Iban extends ValidateAbstract {
 
 	/**
 	 * Treść błędu

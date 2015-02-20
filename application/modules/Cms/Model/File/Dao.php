@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_File_Dao extends Mmi_Dao {
+
+namespace Cms\Model\File;
+
+class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'cms_file';
 
@@ -15,7 +18,7 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 			->whereActive()->equals(1)
 			->find();
 		$classes = array('image' => array(), 'other' => array());
-		foreach ($files AS $file) { /* @var $file Cms_Model_File_Record */
+		foreach ($files AS $file) { /* @var $file \Cms\Model\File\Record */
 			if ($file->class == 'image') {
 				$classes['image'][] = $file;
 			} else {
@@ -29,10 +32,10 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 * 
 	 * @param string $object
 	 * @param string $objectId
-	 * @return Cms_Model_File_Query
+	 * @return \Cms\Model\File\Query
 	 */
 	public static function byObjectQuery($object = null, $objectId = null) {
-		return Cms_Model_File_Query::factory()
+		return \Cms\Model\File\Query::factory()
 				->whereObject()->equals($object)
 				->andFieldObjectId()->equals($objectId)
 				->orderAscOrder();
@@ -42,7 +45,7 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 * 
 	 * @param string $object
 	 * @param string $objectId
-	 * @return Cms_Model_File_Query
+	 * @return \Cms\Model\File\Query
 	 */
 	public static function imagesByObjectQuery($object = null, $objectId = null) {
 		return self::byObjectQuery($object, $objectId)
@@ -53,7 +56,7 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 * 
 	 * @param string $object
 	 * @param string $objectId
-	 * @return Cms_Model_File_Query
+	 * @return \Cms\Model\File\Query
 	 */
 	public static function stickyByObjectQuery($object = null, $objectId = null, $class = null) {
 		$q = self::byObjectQuery($object, $objectId)
@@ -68,7 +71,7 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 * 
 	 * @param string $object
 	 * @param string $objectId
-	 * @return Cms_Model_File_Query
+	 * @return \Cms\Model\File\Query
 	 */
 	public static function notImagesByObjectQuery($object = null, $objectId = null) {
 		return self::byObjectQuery($object, $objectId)
@@ -80,12 +83,12 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 * @param string $object obiekt
 	 * @param int $id id obiektu
 	 * @param array $files tabela plików
-	 * @return Cms_Model_File_Dao
+	 * @return \Cms\Model\File\Dao
 	 */
 	public static function appendFiles($object, $id = null, array $files = array()) {
 		foreach ($files as $fileSet) {
 			foreach ($fileSet as $file) {
-				$record = new Cms_Model_File_Record();
+				$record = new \Cms\Model\File\Record();
 				$name = md5(microtime(true) . $file['tmp_name']) . substr($file['name'], strrpos($file['name'], '.'));
 				$dir = DATA_PATH . '/' . $name[0] . $name[1] . $name[2];
 				if (!file_exists($dir)) {
@@ -112,7 +115,7 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 				$record->dateModify = date('Y-m-d');
 				$record->object = $object;
 				$record->objectId = $id;
-				$record->cmsAuthId = Default_Registry::$auth->getId();
+				$record->cmsAuthId = \Core\Registry::$auth->getId();
 				$record->active = 1;
 				$record->save();
 			}
@@ -125,17 +128,17 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 * @param string $object obiekt
 	 * @param int $id id obiektu
 	 * @param array $files tabela nazw plików na serwerze
-	 * @return Cms_Model_File_Dao
+	 * @return \Cms\Model\File\Dao
 	 */
 	public static function appendFilesDirect($object, $id = null, array $files = array()) {
 		foreach ($files as $file) {
-			$record = new Cms_Model_File_Record();
+			$record = new \Cms\Model\File\Record();
 			$name = md5(microtime(true) . $file) . substr($file, strrpos($file, '.'));
 			$dir = DATA_PATH . '/' . $name[0] . $name[1] . $name[2];
 			if (!file_exists($dir)) {
 				mkdir($dir, 0777, true);
 			}
-			$mimeType = Mmi_Lib::mimeType($file);
+			$mimeType = \Mmi\Lib::mimeType($file);
 			$class = explode('/', $mimeType);
 			copy($file, $dir . '/' . $name);
 			$record->class = $class[0];
@@ -147,7 +150,7 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 			$record->dateModify = date('Y-m-d H:i:s');
 			$record->object = $object;
 			$record->objectId = $id;
-			$record->cmsAuthId = Default_Registry::$auth->getId();
+			$record->cmsAuthId = \Core\Registry::$auth->getId();
 			$record->active = 1;
 			$record->save();
 		}
@@ -164,7 +167,7 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	public static function appendFilesFromBinary($object, $id = null, array $files = array()) {
 		$ids = array();
 		foreach ($files as $file) {
-			$record = new Cms_Model_File_Record();
+			$record = new \Cms\Model\File\Record();
 			$name = md5(microtime(true) . $file['name']) . substr($file['name'], strrpos($file['name'], '.'));
 			$dir = DATA_PATH . '/' . $name[0] . $name[1] . $name[2];
 			if (!file_exists($dir)) {
@@ -175,7 +178,7 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 			if ($result === false) {
 				return false;
 			}
-			$mimeType = Mmi_Lib::mimeType($path);
+			$mimeType = \Mmi\Lib::mimeType($path);
 			$class = explode('/', $mimeType);
 			$record->class = $class[0];
 			$record->mimeType = $mimeType;
@@ -222,7 +225,7 @@ class Cms_Model_File_Dao extends Mmi_Dao {
 	 */
 	public static function sortBySerial(array $serial = array()) {
 		foreach ($serial as $order => $id) {
-			$record = new Cms_Model_File_Record($id);
+			$record = new \Cms\Model\File\Record($id);
 			$record->setNew(false);
 			$record->id = $id;
 			$record->order = $order;

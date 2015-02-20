@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Mail_Dao extends Mmi_Dao {
+
+namespace Cms\Model\Mail;
+
+class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'mail';
 
@@ -9,7 +12,7 @@ class Cms_Model_Mail_Dao extends Mmi_Dao {
 	 * @return int ilość usuniętych
 	 */
 	public static function clean() {
-		return Cms_Model_Mail_Query::factory()
+		return \Cms\Model\Mail\Query::factory()
 				->whereActive()->equals(1)
 				->andFieldDateAdd()->less(date('Y-m-d H:i:s', strtotime('-1 week')))
 				->find()
@@ -29,16 +32,16 @@ class Cms_Model_Mail_Dao extends Mmi_Dao {
 	 * @return int id zapisanego rekordu
 	 */
 	public static function pushEmail($name, $to, array $params = array(), $fromName = null, $replyTo = null, $subject = null, $sendAfter = null, array $attachments = array()) {
-		$def = Cms_Model_Mail_Definition_Dao::langByNameQuery($name)
+		$def = \Cms\Model\Mail\Definition\Dao::langByNameQuery($name)
 			->findFirst();
 		if ($def === null) {
 			return false;
 		}
-		$email = new Mmi_Validate_EmailAddress();
+		$email = new \Mmi\Validate\EmailAddress();
 		if (!$email->isValid($to)) {
 			return false;
 		}
-		$mail = new Cms_Model_Mail_Record();
+		$mail = new \Cms\Model\Mail\Record();
 		$mail->mailDefinitionId = $def->id;
 		$mail->to = $to;
 		$mail->fromName = !(null === $fromName) ? $fromName : $def->fromName;
@@ -52,11 +55,11 @@ class Cms_Model_Mail_Dao extends Mmi_Dao {
 				continue;
 			}
 			$tmpFiles[$fileName] = array('content' => base64_encode(file_get_contents($filePath)),
-				'type' => Mmi_Lib::mimeType($filePath)
+				'type' => \Mmi\Lib::mimeType($filePath)
 			);
 		}
 		$mail->setOption('attachments', serialize($tmpFiles));
-		$view = Mmi_Controller_Front::getInstance()->getView();
+		$view = \Mmi\Controller\Front::getInstance()->getView();
 		foreach ($params as $key => $value) {
 			$view->$key = $value;
 		}
@@ -73,7 +76,7 @@ class Cms_Model_Mail_Dao extends Mmi_Dao {
 	public static function send() {
 		$result = array('error' => 0, 'success' => 0);
 
-		$emails = Cms_Model_Mail_Query::factory()
+		$emails = \Cms\Model\Mail\Query::factory()
 			->join('mail_definition')->on('mail_definition_id')
 			->join('mail_server', 'mail_definition')->on('mail_server_id')
 			->whereActive()->equals(0)
@@ -97,7 +100,7 @@ class Cms_Model_Mail_Dao extends Mmi_Dao {
 			}
 			if (!isset($transport[$email->getOption('mailServerId')])) {
 				//@TODO: przepisać do ZF2
-				$transport[$email->getOption('mailServerId')] = new Zend_Mail_Transport_Smtp($email->getJoined('mail_server')->address, $config);
+				$transport[$email->getOption('mailServerId')] = new Zend_Mail\Transport\Smtp($email->getJoined('mail_server')->address, $config);
 			}
 			//@TODO: przepisać do ZF2
 			$mail = new Zend_Mail('utf-8');
@@ -123,7 +126,7 @@ class Cms_Model_Mail_Dao extends Mmi_Dao {
 			}
 			try {
 				if ($mail->send($transport[$email->getOption('mailServerId')])) {
-					$record = new Cms_Model_Mail_Record();
+					$record = new \Cms\Model\Mail\Record();
 					$record->setNew(false);
 					$record->id = $email->id;
 					$record->active = 1;
@@ -132,7 +135,7 @@ class Cms_Model_Mail_Dao extends Mmi_Dao {
 				}
 				$result['success'] ++;
 			} catch (Exception $e) {
-				Mmi_Exception_Logger::log($e);
+				\Mmi\Exception\Logger::log($e);
 				$result['error'] ++;
 			}
 		}

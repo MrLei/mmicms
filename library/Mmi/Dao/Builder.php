@@ -11,7 +11,7 @@
  *
  * Mmi/Model/Dao.php
  * @category   Mmi
- * @package    Mmi_Dao
+ * @package    \Mmi\Dao
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Klasa buildera do DAO
  * @category   Mmi
- * @package    Mmi_Dao
+ * @package    \Mmi\Dao
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Dao_Builder {
+
+namespace Mmi\Dao;
+
+class Builder {
 
 	/**
 	 * Renderuje DAO, Record i Query dla podanej nazwy tabeli
@@ -52,7 +55,7 @@ class Mmi_Dao_Builder {
 		$daoCode = '<?php' . "\n\n" .
 			'class ' .
 			$className .
-			' extends Mmi_Dao {' .
+			' extends \Mmi\Dao {' .
 			"\n\n\t" .
 			'protected static $_tableName = \'' .
 			$tableName . '\';' .
@@ -79,7 +82,7 @@ class Mmi_Dao_Builder {
 		$recordCode = '<?php' . "\n\n" .
 			'class ' .
 			$className .
-			' extends Mmi_Dao_Record {' .
+			' extends \Mmi\Dao\Record {' .
 			"\n\n" .
 			'}';
 		if (file_exists($path)) {
@@ -87,12 +90,12 @@ class Mmi_Dao_Builder {
 		}
 		$structure = $daoClassName::getTableStructure();
 		if (empty($structure)) {
-			throw new Exception('Mmi_Dao_Builder: no table found, or table invalid in ' . $daoClassName);
+			throw new Exception('\Mmi\Dao\Builder: no table found, or table invalid in ' . $daoClassName);
 		}
 		$variableString = "\n";
 		foreach ($structure as $fieldName => $fieldDetails) {
-			$variables[] = Mmi_Dao::convertUnderscoreToCamelcase($fieldName);
-			$variableString .= "\t" . 'public $' . Mmi_Dao::convertUnderscoreToCamelcase($fieldName) . ";\n";
+			$variables[] = \Mmi\Dao::convertUnderscoreToCamelcase($fieldName);
+			$variableString .= "\t" . 'public $' . \Mmi\Dao::convertUnderscoreToCamelcase($fieldName) . ";\n";
 		}
 		if (preg_match_all('/\tpublic \$([a-zA-Z0-9\_]+)[\;|\s\=]/', $recordCode, $codeVariables) && isset($codeVariables[1])) {
 			$diffRecord = array_diff($codeVariables[1], $variables);
@@ -110,7 +113,7 @@ class Mmi_Dao_Builder {
 	protected static function _updateQueryField($tableName) {
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
-		$className = $classPrefix . '_Query_Field';
+		$className = $classPrefix . '_Query\Field';
 		$queryClassName = $classPrefix . '_Query';
 		$path = $pathPrefix . '/Query/Field.php';
 		self::_mkdirRecursive($path);
@@ -127,7 +130,7 @@ class Mmi_Dao_Builder {
 			' */' . "\n" .
 			'class ' .
 			$className .
-			' extends Mmi_Dao_Query_Field {' .
+			' extends \Mmi\Dao\Query\Field {' .
 			"\n\n" .
 			'}';
 		file_put_contents($path, $queryCode);
@@ -136,7 +139,7 @@ class Mmi_Dao_Builder {
 	protected static function _updateQueryJoin($tableName) {
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
-		$className = $classPrefix . '_Query_Join';
+		$className = $classPrefix . '_Query\Join';
 		$queryClassName = $classPrefix . '_Query';
 		$path = $pathPrefix . '/Query/Join.php';
 		self::_mkdirRecursive($path);
@@ -146,7 +149,7 @@ class Mmi_Dao_Builder {
 			' */' . "\n" .
 			'class ' .
 			$className .
-			' extends Mmi_Dao_Query_Join {' .
+			' extends \Mmi\Dao\Query\Join {' .
 			"\n\n" .
 			'}';
 		file_put_contents($path, $queryCode);
@@ -160,8 +163,8 @@ class Mmi_Dao_Builder {
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
 		$className = $classPrefix . '_Query';
-		$fieldClassName = $classPrefix . '_Query_Field';
-		$joinClassName = $classPrefix . '_Query_Join';
+		$fieldClassName = $classPrefix . '_Query\Field';
+		$joinClassName = $classPrefix . '_Query\Join';
 		$recordClassName = $classPrefix . '_Record';
 		$daoClassName = $classPrefix . '_Dao';
 		$path = $pathPrefix . '/Query.php';
@@ -171,9 +174,9 @@ class Mmi_Dao_Builder {
 			' * @method ' . $className . ' offset() offset($offset = null)' . "\n" .
 			' * @method ' . $className . ' orderAsc() orderAsc($fieldName, $tableName = null)' . "\n" .
 			' * @method ' . $className . ' orderDesc() orderDesc($fieldName, $tableName = null)' . "\n" .
-			' * @method ' . $className . ' andQuery() andQuery(Mmi_Dao_Query $query)' . "\n" .
-			' * @method ' . $className . ' whereQuery() whereQuery(Mmi_Dao_Query $query)' . "\n" .
-			' * @method ' . $className . ' orQuery() orQuery(Mmi_Dao_Query $query)' . "\n" .
+			' * @method ' . $className . ' andQuery() andQuery(\Mmi\Dao\Query $query)' . "\n" .
+			' * @method ' . $className . ' whereQuery() whereQuery(\Mmi\Dao\Query $query)' . "\n" .
+			' * @method ' . $className . ' orQuery() orQuery(\Mmi\Dao\Query $query)' . "\n" .
 			' * @method ' . $className . ' resetOrder() resetOrder()' . "\n" .
 			' * @method ' . $className . ' resetWhere() resetWhere()' . "\n" .
 			' * @method ' . $fieldClassName . ' andField() andField($fieldName, $tableName = null)' . "\n" .
@@ -186,13 +189,13 @@ class Mmi_Dao_Builder {
 			' */' . "\n" .
 			'class ' .
 			$className .
-			' extends Mmi_Dao_Query {' .
+			' extends \Mmi\Dao\Query {' .
 			"\n\n" .
 			'}';
 		$methods = '';
 		$structure = $daoClassName::getTableStructure();
 		if (empty($structure)) {
-			throw new Exception('Mmi_Dao_Builder: no table ' . $tableName . ' found, or table invalid in ' . $daoClassName);
+			throw new Exception('\Mmi\Dao\Builder: no table ' . $tableName . ' found, or table invalid in ' . $daoClassName);
 		}
 		$methods .= "\n"
 			. "\t" . '/**' . "\n"
@@ -202,7 +205,7 @@ class Mmi_Dao_Builder {
 			. "\t\t" . 'return new self($daoClassName);' . "\n"
 			. "\t}\n";
 		foreach ($structure as $fieldName => $fieldDetails) {
-			$fieldName = Mmi_Dao::convertUnderscoreToCamelcase($fieldName);
+			$fieldName = \Mmi\Dao::convertUnderscoreToCamelcase($fieldName);
 			$methods .= self::_queryMethod('where', $fieldName, $tableName);
 			$methods .= self::_queryMethod('andField', $fieldName, $tableName);
 			$methods .= self::_queryMethod('orField', $fieldName, $tableName);
@@ -214,7 +217,7 @@ class Mmi_Dao_Builder {
 	}
 
 	protected static function _queryMethod($prefix, $fieldName, $tableName) {
-		$fieldClass = self::_getClassNamePrefixByTableName($tableName) . '_Query_Field';
+		$fieldClass = self::_getClassNamePrefixByTableName($tableName) . '_Query\Field';
 		return "\n\t" . '/**' . "\n" .
 			"\t" . ' * @return ' . $fieldClass . "\n" .
 			"\t" . ' */' . "\n" .
@@ -232,7 +235,7 @@ class Mmi_Dao_Builder {
 	protected static function _getPathPrefixByTableName($tableName) {
 		$table = explode('_', $tableName);
 		if (!isset($table[0])) {
-			throw new Exception('Mmi_Dao_Builder: invalid table name');
+			throw new Exception('\Mmi\Dao\Builder: invalid table name');
 		}
 		$baseDir = APPLICATION_PATH . '/modules/' . ucfirst($table[0]) . '/Model/';
 		unset($table[0]);
@@ -251,14 +254,14 @@ class Mmi_Dao_Builder {
 	protected static function _getClassNamePrefixByTableName($tableName) {
 		$table = explode('_', $tableName);
 		if (!isset($table[0])) {
-			throw new Exception('Mmi_Dao_Builder: invalid table name');
+			throw new Exception('\Mmi\Dao\Builder: invalid table name');
 		}
-		$className = ucfirst($table[0]) . '_Model_';
+		$className = ucfirst($table[0]) . '\\Model\\';
 		unset($table[0]);
 		foreach ($table as $subFolder) {
-			$className .= ucfirst($subFolder) . '_';
+			$className .= ucfirst($subFolder) . '\\';
 		}
-		return rtrim($className, '_');
+		return rtrim($className, '\\');
 	}
 
 	/**

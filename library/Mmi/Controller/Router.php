@@ -11,7 +11,7 @@
  *
  * Mmi/Controller/Router.php
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,14 +21,17 @@
 /**
  * Klasa routera
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Controller_Router {
+
+namespace Mmi\Controller;
+
+class Router {
 
 	/**
 	 * Konfiguracja
-	 * @var Mmi_Controller_Router_Config
+	 * @var \Mmi\Controller\Router\Config
 	 */
 	private $_config;
 
@@ -58,15 +61,15 @@ class Mmi_Controller_Router {
 
 	/**
 	 *
-	 * @param Mmi_Controller_Router_Config $config
+	 * @param \Mmi\Controller\Router\Config $config
 	 * @param string $defaultLanguage domyślny język
 	 * @param string $defaultSkin domyślna skóra
 	 */
-	public function __construct(Mmi_Controller_Router_Config $config, $defaultLanguage = null, $defaultSkin = 'default') {
+	public function __construct(\Mmi\Controller\Router\Config $config, $defaultLanguage = null, $defaultSkin = 'default') {
 		$this->_config = $config;
 		$this->_defaultLanguage = $defaultLanguage;
 		$this->_defaultSkin = $defaultSkin;
-		$requestUri = Mmi_Controller_Front::getInstance()->getEnvironment()->requestUri;
+		$requestUri = \Mmi\Controller\Front::getInstance()->getEnvironment()->requestUri;
 		$this->_url = urldecode(trim($requestUri, '/ '));
 		if (!(false === strpos($this->_url, '?'))) {
 			$this->_url = substr($this->_url, 0, strpos($this->_url, '?'));
@@ -84,7 +87,7 @@ class Mmi_Controller_Router {
 
 	/**
 	 * Pobiera konfigurację routera
-	 * @return Mmi_Controller_Router_Config
+	 * @return \Mmi\Controller\Router\Config
 	 */
 	public function getConfig() {
 		return $this->_config;
@@ -100,9 +103,9 @@ class Mmi_Controller_Router {
 
 	/**
 	 * Pobiera request po ustawieniu parametrów routingu i danych wejściowych
-	 * @return Mmi_Controller_Request
+	 * @return \Mmi\Controller\Request
 	 */
-	public function processRequest(Mmi_Controller_Request $request) {
+	public function processRequest(\Mmi\Controller\Request $request) {
 		$request->setParams($this->decodeUrl($this->_url));
 		$request->setParams($this->_decodeGet());
 		return $request;
@@ -117,7 +120,7 @@ class Mmi_Controller_Router {
 		$params = array();
 		$url = html_entity_decode($url, ENT_HTML401 | ENT_HTML5 | ENT_QUOTES, 'UTF-8');
 		foreach ($this->getRoutes() as $route) {
-			/* @var $route Mmi_Controller_Router_Config_Route */
+			/* @var $route \Mmi\Controller\Router\Config\Route */
 			$result = $this->_inputRouteApply($route, $url);
 			if ($result['matched']) {
 				$params = $route->default;
@@ -146,7 +149,7 @@ class Mmi_Controller_Router {
 			}
 		}
 
-		$params['module'] = isset($params['module']) ? $params['module'] : 'default';
+		$params['module'] = isset($params['module']) ? $params['module'] : 'core';
 		$params['controller'] = isset($params['controller']) ? $params['controller'] : 'index';
 		$params['action'] = isset($params['action']) ? $params['action'] : 'index';
 
@@ -185,7 +188,7 @@ class Mmi_Controller_Router {
 		$urlParams = '';
 		$matched = array();
 		foreach ($this->getRoutes() as $route) {
-			/* @var $route Mmi_Controller_Router_Config_Route */
+			/* @var $route \Mmi\Controller\Router\Config\Route */
 			$currentParams = array_merge($route->default, $params);
 			$result = $this->_outputRouteApply($route, $currentParams);
 			if ($result['applied']) {
@@ -199,7 +202,7 @@ class Mmi_Controller_Router {
 			unset($params['skin']);
 			unset($params['lang']);
 			foreach ($this->getRoutes() as $route) {
-				/* @var $route Mmi_Controller_Router_Config_Route */
+				/* @var $route \Mmi\Controller\Router\Config\Route */
 				$currentParams = array_merge($route->default, $params);
 				$result = $this->_outputRouteApply($route, $currentParams);
 				if ($result['applied']) {
@@ -209,7 +212,7 @@ class Mmi_Controller_Router {
 				}
 			}
 		}
-		$params['module'] = isset($params['module']) ? $params['module'] : 'default';
+		$params['module'] = isset($params['module']) ? $params['module'] : 'core';
 		$params['controller'] = isset($params['controller']) ? $params['controller'] : 'index';
 		$params['action'] = isset($params['action']) ? $params['action'] : 'index';
 
@@ -234,7 +237,7 @@ class Mmi_Controller_Router {
 					$action = '';
 					if ($controller == 'index') {
 						$controller = '';
-						if ($module == 'default') {
+						if ($module == 'core') {
 							$module = '';
 						}
 					}
@@ -298,11 +301,11 @@ class Mmi_Controller_Router {
 
 	/**
 	 * Stosuje istniejące trasy dla danego url
-	 * @param Mmi_Controller_Router_Config_Route $route
+	 * @param \Mmi\Controller\Router\Config\Route $route
 	 * @param string $url URL
 	 * @return array
 	 */
-	private function _inputRouteApply(Mmi_Controller_Router_Config_Route $route, $url) {
+	private function _inputRouteApply(\Mmi\Controller\Router\Config\Route $route, $url) {
 		$params = array();
 		$matches = array();
 		$matched = false;
@@ -340,11 +343,11 @@ class Mmi_Controller_Router {
 
 	/**
 	 * Stosuje istniejące trasy dla tablicy parametrów (np. z żądania)
-	 * @param Mmi_Controller_Router_Config_Route $route
+	 * @param \Mmi\Controller\Router\Config\Route $route
 	 * @param array $params parametry
 	 * @return array
 	 */
-	private function _outputRouteApply(Mmi_Controller_Router_Config_Route $route, array $params) {
+	private function _outputRouteApply(\Mmi\Controller\Router\Config\Route $route, array $params) {
 		$matches = array();
 		$matched = array();
 		$applied = true;
@@ -369,7 +372,7 @@ class Mmi_Controller_Router {
 			}
 			if ((preg_match('/\$([0-9]+)(\|[a-z]+)?/', $value, $mt) && isset($params[$key]))) {
 				if (!empty($mt) && count($mt) > 2) {
-					$filter = Mmi_Controller_Front::getInstance()->getView()->getFilter(ucfirst(ltrim($mt[2], '|')));
+					$filter = \Mmi\Controller\Front::getInstance()->getView()->getFilter(ucfirst(ltrim($mt[2], '|')));
 					$params[$key] = $filter->filter($params[$key]);
 				}
 				$matches[$value] = $params[$key];

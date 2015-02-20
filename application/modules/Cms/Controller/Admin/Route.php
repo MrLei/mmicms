@@ -1,13 +1,16 @@
 <?php
 
-class Cms_Controller_Admin_Route extends MmiCms_Controller_Admin {
+
+namespace Cms\Controller\Admin;
+
+class Route extends \MmiCms\Controller\Admin {
 
 	public function indexAction() {
-		$this->view->grid = new Cms_Plugin_RouteGrid();
+		$this->view->grid = new \Cms\Plugin\RouteGrid();
 	}
 
 	public function editAction() {
-		$form = new Cms_Form_Admin_Route($this->id);
+		$form = new \Cms\Form\Admin\Route($this->id);
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Poprawnie zapisano trasę', true);
 			$this->_helper->redirector('index', 'admin-route', 'cms', array(), true);
@@ -15,7 +18,7 @@ class Cms_Controller_Admin_Route extends MmiCms_Controller_Admin {
 	}
 
 	public function deleteAction() {
-		$text = new Cms_Model_Route_Record($this->id);
+		$text = new \Cms\Model\Route\Record($this->id);
 		if ($text->delete()) {
 			$this->_helper->messenger('Poprawnie skasowano trasę');
 		}

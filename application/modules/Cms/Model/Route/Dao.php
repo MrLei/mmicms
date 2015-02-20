@@ -1,28 +1,31 @@
 <?php
 
-class Cms_Model_Route_Dao extends Mmi_Dao {
+
+namespace Cms\Model\Route;
+
+class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'cms_route';
 	
 	/**
 	 * 
-	 * @return Cms_Model_Route_Query
+	 * @return \Cms\Model\Route\Query
 	 */
 	public static function activeQuery() {
-		return Cms_Model_Route_Query::factory()
+		return \Cms\Model\Route\Query::factory()
 			->whereActive()->equals(1)
 			->orderAscOrder();
 	}
 
 	/**
 	 * Aktualizuje konfigurację routera
-	 * @param Mmi_Controller_Router_Config $config
-	 * @param Mmi_Dao_Record_Collection $routes
-	 * @return Mmi_Controller_Router_Config
+	 * @param \Mmi\Controller\Router\Config $config
+	 * @param \Mmi\Dao\Record\Collection $routes
+	 * @return \Mmi\Controller\Router\Config
 	 */
-	public static function updateRouterConfig(Mmi_Controller_Router_Config $config, Mmi_Dao_Record_Collection $routes) {
+	public static function updateRouterConfig(\Mmi\Controller\Router\Config $config, \Mmi\Dao\Record\Collection $routes) {
 		$i = 0;
-		foreach ($routes as $route) { /* @var $route Cms_Model_Route_Record */
+		foreach ($routes as $route) { /* @var $route \Cms\Model\Route\Record */
 			$i++;
 			$route = $route->toRouteArray();
 			$config->setRoute('cms-' . $i, $route['pattern'], $route['replace'], $route['default']);

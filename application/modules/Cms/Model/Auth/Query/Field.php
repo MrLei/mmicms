@@ -1,15 +1,18 @@
 <?php
 
 /**
- * @method Cms_Model_Auth_Query equals() equals($value)
- * @method Cms_Model_Auth_Query notEquals() notEquals($value)
- * @method Cms_Model_Auth_Query greater() greater($value)
- * @method Cms_Model_Auth_Query less() less($value)
- * @method Cms_Model_Auth_Query greaterOrEquals() greaterOrEquals($value)
- * @method Cms_Model_Auth_Query lessOrEquals() lessOrEquals($value)
- * @method Cms_Model_Auth_Query like() like($value)
- * @method Cms_Model_Auth_Query ilike() ilike($value)
+ * @method \Cms\Model\Auth\Query equals() equals($value)
+ * @method \Cms\Model\Auth\Query notEquals() notEquals($value)
+ * @method \Cms\Model\Auth\Query greater() greater($value)
+ * @method \Cms\Model\Auth\Query less() less($value)
+ * @method \Cms\Model\Auth\Query greaterOrEquals() greaterOrEquals($value)
+ * @method \Cms\Model\Auth\Query lessOrEquals() lessOrEquals($value)
+ * @method \Cms\Model\Auth\Query like() like($value)
+ * @method \Cms\Model\Auth\Query ilike() ilike($value)
  */
-class Cms_Model_Auth_Query_Field extends Mmi_Dao_Query_Field {
+
+namespace Cms\Model\Auth\Query;
+
+class Field extends \Mmi\Dao\Query\Field {
 
 }

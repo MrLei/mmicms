@@ -1,27 +1,30 @@
 <?php
 
-class Cms_Controller_Article extends Mmi_Controller_Action {
+
+namespace Cms\Controller;
+
+class Article extends \Mmi\Controller\Action {
 
 	public function indexAction() {
 		//po uri
 		if ($this->uri) {
 			$uri = $this->uri;
-			$cacheKey = 'Cms_Article_' . $uri;
+			$cacheKey = 'Cms-Article-' . $uri;
 			//po id
 		} else {
 			$id = intval($this->id);
-			$cacheKey = 'Cms_Article_' . $id;
+			$cacheKey = 'Cms-Article-' . $id;
 		}
-		if (null === ($article = Default_Registry::$cache->load($cacheKey))) {
+		if (null === ($article = \Core\Registry::$cache->load($cacheKey))) {
 			if (isset($uri)) {
-				$article = Cms_Model_Article_Dao::byUriQuery($uri)->findFirst();
+				$article = \Cms\Model\Article\Dao::byUriQuery($uri)->findFirst();
 			} else {
-				$article = Cms_Model_Article_Dao::findPk($id);
+				$article = \Cms\Model\Article\Dao::findPk($id);
 			}
 			if ($article === null) {
-				$this->_helper->redirector('index', 'index', 'default', array(), true);
+				$this->_helper->redirector('index', 'index', 'core', array(), true);
 			}
-			Default_Registry::$cache->save($article, $cacheKey, 28800);
+			\Core\Registry::$cache->save($article, $cacheKey, 28800);
 		}
 		if ($article->noindex) {
 			$this->view->headMeta(array('name' => 'robots', 'content' => 'noindex,nofollow'));
@@ -32,11 +35,11 @@ class Cms_Controller_Article extends Mmi_Controller_Action {
 
 	public function widgetAction() {
 		$uri = $this->uri;
-		$cacheKey = 'Cms_Article_' . $uri;
-		if (null === ($article = Default_Registry::$cache->load($cacheKey))) {
-			$article = Cms_Model_Article_Dao::byUriQuery($uri)
+		$cacheKey = 'Cms-Article-' . $uri;
+		if (null === ($article = \Core\Registry::$cache->load($cacheKey))) {
+			$article = \Cms\Model\Article\Dao::byUriQuery($uri)
 				->findFirst();
-			Default_Registry::$cache->save($article, $cacheKey, 28800);
+			\Core\Registry::$cache->save($article, $cacheKey, 28800);
 		}
 		$this->view->article = $article;
 	}

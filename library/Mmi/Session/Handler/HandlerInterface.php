@@ -9,22 +9,24 @@
  * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
  * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
  *
- * Mmi/Session/Handler/Interface.php
+ * Mmi/Session/Handler/HandlerInterface.php
  * @category   Mmi
- * @package    Mmi_Session
+ * @package    \Mmi\Session
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Interface backendu bufora
  * @category   Mmi
- * @package    Mmi_Session
+ * @package    \Mmi\Session
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-interface Mmi_Session_Handler_Interface {
+
+namespace Mmi\Session;
+
+interface HandlerInterface {
 
 	/**
 	 * Otwieranie sesję
@@ -59,8 +61,7 @@ interface Mmi_Session_Handler_Interface {
 
 	/**
 	 * Garbage collector 
-	 *@param float $maxlifetime maksymalny czas życia
+	 * @param float $maxlifetime maksymalny czas życia
 	 */
 	public function gc($maxlifetime);
-
 }

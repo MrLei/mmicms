@@ -1,6 +1,8 @@
 <?php
 
-class Default_Controller_Error extends Mmi_Controller_Action {
+namespace Core\Controller;
+
+class Error extends \Mmi\Controller\Action {
 
 	public function indexAction() {
 		

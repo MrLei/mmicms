@@ -11,24 +11,26 @@
  *
  * Mmi/Registry.php
  * @category   Mmi
- * @package    Mmi_Registry
+ * @package    \Mmi\Registry
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa rejestru
  * @category   Mmi
- * @package    Mmi_Registry
+ * @package    \Mmi\Registry
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-abstract class Mmi_Registry {
+
+namespace Mmi;
+
+abstract class Registry {
 
 	/**
 	 * Konfiguracja aplikacji
-	 * @var Mmi_Config
+	 * @var \Mmi\Config
 	 */
 	public static $config;
 

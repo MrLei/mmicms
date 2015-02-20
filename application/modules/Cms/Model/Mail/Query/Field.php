@@ -1,15 +1,18 @@
 <?php
 
 /**
- * @method Cms_Model_Mail_Query equals() equals($value)
- * @method Cms_Model_Mail_Query notEquals() notEquals($value)
- * @method Cms_Model_Mail_Query greater() greater($value)
- * @method Cms_Model_Mail_Query less() less($value)
- * @method Cms_Model_Mail_Query greaterOrEquals() greaterOrEquals($value)
- * @method Cms_Model_Mail_Query lessOrEquals() lessOrEquals($value)
- * @method Cms_Model_Mail_Query like() like($value)
- * @method Cms_Model_Mail_Query ilike() ilike($value)
+ * @method \Cms\Model\Mail\Query equals() equals($value)
+ * @method \Cms\Model\Mail\Query notEquals() notEquals($value)
+ * @method \Cms\Model\Mail\Query greater() greater($value)
+ * @method \Cms\Model\Mail\Query less() less($value)
+ * @method \Cms\Model\Mail\Query greaterOrEquals() greaterOrEquals($value)
+ * @method \Cms\Model\Mail\Query lessOrEquals() lessOrEquals($value)
+ * @method \Cms\Model\Mail\Query like() like($value)
+ * @method \Cms\Model\Mail\Query ilike() ilike($value)
  */
-class Cms_Model_Mail_Query_Field extends Mmi_Dao_Query_Field {
+
+namespace Cms\Model\Mail\Query;
+
+class Field extends \Mmi\Dao\Query\Field {
 
 }

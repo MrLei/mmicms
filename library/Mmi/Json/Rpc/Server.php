@@ -11,7 +11,7 @@
  *
  * Mmi/Json/Rpc/Server.php
  * @category   Mmi
- * @package    Mmi_Json_Rpc_Server
+ * @package    \Mmi\Json\Rpc\Server
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Serwer JSON-RPC w standardzie 2.0
  * @category   Mmi
- * @package    Mmi_Json_Rpc_Server
+ * @package    \Mmi\Json\Rpc\Server
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Json_Rpc_Server {
+
+namespace Mmi\Json\Rpc;
+
+class Server {
 
 	/**
 	 * Obsługa serwera
@@ -33,8 +36,8 @@ class Mmi_Json_Rpc_Server {
 	 */
 	public static function handle($className) {
 
-		$response = new Mmi_Json_Rpc_Response();
-		$request = new Mmi_Json_Rpc_Request();
+		$response = new \Mmi\Json\Rpc\Response();
+		$request = new \Mmi\Json\Rpc\Request();
 
 		//wczytywanie danych
 		try {
@@ -89,7 +92,7 @@ class Mmi_Json_Rpc_Server {
 		//wykonanie metody
 		try {
 			if ($method == 'getMethodList') {
-				$reflection = new Mmi_Json_Rpc_Server_Reflection($className);
+				$reflection = new \Mmi\Json\Rpc\Server\Reflection($className);
 				$response->result = $reflection->getMethodList();
 				return $response->toJson();
 			}
@@ -97,10 +100,10 @@ class Mmi_Json_Rpc_Server {
 			$response->result = call_user_func_array(array($object, $method), $request->params);
 			return $response->toJson();
 			//wykonanie nie powiodło się
-		} catch (Mmi_Json_Rpc_Data_Exception $e) {
+		} catch (\Mmi\Json\Rpc\Data\Exception $e) {
 			$response->error = self::_newError($e->getCode(), $e->getMessage());
 			return $response->toJson();
-		} catch (Mmi_Json_Rpc_General_Exception $e) {
+		} catch (\Mmi\Json\Rpc\General\Exception $e) {
 			$response->error = self::_newError($e->getCode(), $e->getMessage());
 			return $response->toJson();
 		} catch (Exception $e) {
@@ -113,7 +116,7 @@ class Mmi_Json_Rpc_Server {
 			}
 			//błąd metody
 			if (isset($object) && is_object($object) && method_exists($object, $method)) {
-				Mmi_Exception_Logger::log($e);
+				\Mmi\Exception\Logger::log($e);
 				$response->error = self::_newErrorInternal(array(
 						'details' => 'Method "' . $method . '" failed in class "' . $className . '".'
 				));

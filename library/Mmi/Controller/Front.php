@@ -11,54 +11,56 @@
  *
  * Mmi/Controller/Front.php
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Front kontroler aplikacji
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Controller_Front {
+
+namespace Mmi\Controller;
+
+class Front {
 
 	/**
 	 * Instancja front kontrolera
-	 * @var Mmi_Controller_Front
+	 * @var \Mmi\Controller\Front
 	 */
 	private static $_instance;
 
 	/**
 	 * Request (żądanie)
-	 * @var Mmi_Controller_Request
+	 * @var \Mmi\Controller\Request
 	 */
 	private $_request;
 
 	/**
 	 * Response (odpowiedź)
-	 * @var Mmi_Controller_Response
+	 * @var \Mmi\Controller\Response
 	 */
 	private $_response;
 
 	/**
 	 * Router
-	 * @var Mmi_Controller_Router
+	 * @var \Mmi\Controller\Router
 	 */
 	private $_router;
 
 	/**
 	 * Środowisko uruchomieniowe
-	 * @var Mmi_Controller_Environment
+	 * @var \Mmi\Controller\Environment
 	 */
 	private $_environment;
 
 	/**
 	 * Widok
-	 * @var Mmi_View
+	 * @var \Mmi\View
 	 */
 	private $_view;
 
@@ -78,14 +80,14 @@ class Mmi_Controller_Front {
 	 * Zabezpieczony konstruktor
 	 */
 	protected function __construct() {
-		$this->_request = new Mmi_Controller_Request();
-		$this->_response = new Mmi_Controller_Response();
-		$this->_environment = new Mmi_Controller_Environment();
+		$this->_request = new \Mmi\Controller\Request();
+		$this->_response = new \Mmi\Controller\Response();
+		$this->_environment = new \Mmi\Controller\Environment();
 	}
 
 	/**
 	 * Pobranie instancji
-	 * @return Mmi_Controller_Front
+	 * @return \Mmi\Controller\Front
 	 */
 	public static function getInstance() {
 		if (null === self::$_instance) {
@@ -97,66 +99,66 @@ class Mmi_Controller_Front {
 	/**
 	 * Ustawia strukturę frontu
 	 * @param array $structure
-	 * @return Mmi_Controller_Front
+	 * @return \Mmi\Controller\Front
 	 */
 	public function setStructure(array $structure = array()) {
 		$this->_structure = $structure;
 		return $this;
-	}
+		}
 
-	/**
-	 * Dodanie pluginu
-	 * @param Mmi_Controller_Plugin_Abstract $plugin
-	 * @return Mmi_Controller_Front
-	 */
-	public function registerPlugin(Mmi_Controller_Plugin_Abstract $plugin) {
+		/**
+		 * Dodanie pluginu
+		 * @param \Mmi\Controller\Plugin\Abstract $plugin
+		 * @return \Mmi\Controller\Front
+		 */
+		public function registerPlugin(\Mmi\Controller\Plugin\PluginAbstract $plugin) {
 		$this->_plugins[] = $plugin;
 		return $this;
 	}
 
 	/**
 	 * Ustawienie żądania
-	 * @param Mmi_Controller_Request $request
-	 * @return Mmi_Controller_Front
+	 * @param \Mmi\Controller\Request $request
+	 * @return \Mmi\Controller\Front
 	 */
-	public function setRequest(Mmi_Controller_Request $request) {
+	public function setRequest(\Mmi\Controller\Request $request) {
 		$this->_request = $request;
 		return $this;
 	}
 
 	/**
 	 * Ustawienie odpowiedzi
-	 * @param Mmi_Controller_Response $response
-	 * @return Mmi_Controller_Front
+	 * @param \Mmi\Controller\Response $response
+	 * @return \Mmi\Controller\Front
 	 */
-	public function setResponse(Mmi_Controller_Response $response) {
+	public function setResponse(\Mmi\Controller\Response $response) {
 		$this->_response = $response;
 		return $this;
 	}
 
 	/**
 	 * Ustawia router
-	 * @param Mmi_Controller_Router $router
-	 * @return Mmi_Controller_Front
+	 * @param \Mmi\Controller\Router $router
+	 * @return \Mmi\Controller\Front
 	 */
-	public function setRouter(Mmi_Controller_Router $router) {
+	public function setRouter(\Mmi\Controller\Router $router) {
 		$this->_router = $router;
 		return $this;
 	}
 
 	/**
 	 * Ustawia widok
-	 * @param Mmi_View $view
-	 * @return Mmi_Controller_Front
+	 * @param \Mmi\View $view
+	 * @return \Mmi\Controller\Front
 	 */
-	public function setView(Mmi_View $view) {
+	public function setView(\Mmi\View $view) {
 		$this->_view = $view;
 		return $this;
 	}
 
 	/**
 	 * Pobranie żądania
-	 * @return Mmi_Controller_Request
+	 * @return \Mmi\Controller\Request
 	 */
 	public function getRequest() {
 		return $this->_request;
@@ -164,7 +166,7 @@ class Mmi_Controller_Front {
 
 	/**
 	 * Pobranie odpowiedzi
-	 * @return Mmi_Controller_Response
+	 * @return \Mmi\Controller\Response
 	 */
 	public function getResponse() {
 		return $this->_response;
@@ -172,18 +174,18 @@ class Mmi_Controller_Front {
 
 	/**
 	 * Pobranie routera
-	 * @return Mmi_Controller_Router
+	 * @return \Mmi\Controller\Router
 	 */
 	public function getRouter() {
 		if ($this->_router === null) {
-			throw new Exception('Mmi_Controller_Front: no router specified');
+			throw new Exception('\Mmi\Controller\Front: no router specified');
 		}
 		return $this->_router;
 	}
 
 	/**
 	 * Pobiera środowisko uruchomieniowe
-	 * @return Mmi_Controller_Environment
+	 * @return \Mmi\Controller\Environment
 	 */
 	public function getEnvironment() {
 		return $this->_environment;
@@ -191,11 +193,11 @@ class Mmi_Controller_Front {
 
 	/**
 	 * Pobranie widoku
-	 * @return Mmi_View
+	 * @return \Mmi\View
 	 */
 	public function getView() {
 		if ($this->_view === null) {
-			throw new Exception('Mmi_Controller_Front: no view specified');
+			throw new Exception('\Mmi\Controller\Front: no view specified');
 		}
 		return $this->_view;
 	}
@@ -207,10 +209,10 @@ class Mmi_Controller_Front {
 	 */
 	public function getStructure($part = null) {
 		if ($this->_structure === null) {
-			throw new Exception('Mmi_Contoller_Front structure not found');
+			throw new Exception('\Mmi\Contoller\Front structure not found');
 		}
 		if ($part !== null && !isset($this->_structure[$part])) {
-			throw new Exception('Mmi_Controller_Front structure invalid');
+			throw new Exception('\Mmi\Controller\Front structure invalid');
 		}
 		return (null === $part) ? $this->_structure : $this->_structure[$part];
 	}
@@ -248,38 +250,38 @@ class Mmi_Controller_Front {
 	public function dispatch() {
 		//wpięcie dla pluginów przed routingiem
 		$this->routeStartup();
-		Mmi_Profiler::event('Plugins route startup');
+		\Mmi\Profiler::event('Plugins route startup');
 
 		//stosowanie routingu jeśli request jest pusty
 		if (!$this->_request->getModuleName()) {
 			$this->getRouter()->processRequest($this->_request);
-			Mmi_Profiler::event('Routes applied');
+			\Mmi\Profiler::event('Routes applied');
 		}
 
 		//wpięcie dla pluginów przed dispatchem
 		$this->preDispatch();
-		Mmi_Profiler::event('Plugins pre-dispatch');
+		\Mmi\Profiler::event('Plugins pre-dispatch');
 
 		//wybór i uruchomienie kontrolera akcji
-		$actionHelper = new Mmi_Controller_Action_Helper_Action();
+		$actionHelper = new \Mmi\Controller\Action\Helper\Action();
 		$content = $actionHelper->action($this->getRequest()->__get('module'), $this->getRequest()->__get('controller'), $this->getRequest()->__get('action'), $this->getRequest()->getUserParams());
 
 		//wpięcie dla pluginów po dispatchu
 		$this->postDispatch();
-		Mmi_Profiler::event('Plugins post-dispatch');
+		\Mmi\Profiler::event('Plugins post-dispatch');
 
 		//przekazanie wykonanych widoków do response
 		if (!$this->getView()->isLayoutDisabled()) {
 			$content = $this->getView()
-					->setRequest($this->_request)
-					->setPlaceholder('content', $content)
-					->renderLayout($this->_request->__get('skin'), $this->_request->__get('module'), $this->_request->__get('controller'));
+				->setRequest($this->_request)
+				->setPlaceholder('content', $content)
+				->renderLayout($this->_request->__get('skin'), $this->_request->__get('module'), $this->_request->__get('controller'));
 		}
 
 		//wysłanie odpowiedzi
 		$this->getResponse()
-				->setContent($content)
-				->send();
+			->setContent($content)
+			->send();
 	}
 
 }

@@ -11,7 +11,7 @@
  *
  * MmiCms/Registry.php
  * @category   MmiCms
- * @package    MmiCms_Registry
+ * @package    MmiCms\Registry
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,44 +21,47 @@
 /**
  * Klasa rejestru CMS
  * @category   MmiCms
- * @package    MmiCms_Registry
+ * @package    MmiCms\Registry
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-abstract class MmiCms_Registry extends Mmi_Registry {
+
+namespace MmiCms;
+
+abstract class Registry extends \Mmi\Registry {
 
 	/**
 	 * Obiekt ACL
-	 * @var Mmi_Acl
+	 * @var \Mmi\Acl
 	 */
 	public static $acl;
 
 	/*
 	 * Obiekt autoryzacji
-	 * @var Mmi_Auth
+	 * @var \Mmi\Auth
 	 */
 	public static $auth;
 
 	/**
 	 * Obiekt bufora
-	 * @var Mmi_Cache
+	 * @var \Mmi\Cache
 	 */
 	public static $cache;
 
 	/**
 	 * Obiekt adaptera bazodanowego
-	 * @var Mmi_Db_Adapter_Pdo_Abstract
+	 * @var \Mmi\Db\Adapter\Pdo\Abstract
 	 */
 	public static $db;
 
 	/**
 	 * Obiekt navigacji
-	 * @var Mmi_Navigation
+	 * @var \Mmi\Navigation
 	 */
 	public static $navigation;
 
 	/**
 	 * Obiekt translacji
-	 * @var Mmi_Translate
+	 * @var \Mmi\Translate
 	 */
 	public static $translate;
 

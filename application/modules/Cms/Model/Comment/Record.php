@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Comment_Record extends Mmi_Dao_Record {
+
+namespace Cms\Model\Comment;
+
+class Record extends \Mmi\Dao\Record {
 
 	public $id;
 	public $cmsAuthId;
@@ -16,13 +19,13 @@ class Cms_Model_Comment_Record extends Mmi_Dao_Record {
 
 	protected function _insert() {
 		$this->dateAdd = date('Y-m-d H:i:s');
-		$auth = Default_Registry::$auth;
+		$auth = \Core\Registry::$auth;
 		if ($auth->hasIdentity()) {
 			$this->signature = $auth->getUsername();
 			$this->cmsAuthId = $auth->getId();
 		} else {
 			$this->signature = '~' . $this->signature;
-			$this->ip = Mmi_Controller_Front::getInstance()->getEnvironment()->remoteAddress;
+			$this->ip = \Mmi\Controller\Front::getInstance()->getEnvironment()->remoteAddress;
 		}
 		return parent::_insert();
 	}

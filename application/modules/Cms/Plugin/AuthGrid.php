@@ -1,10 +1,12 @@
 <?php
 
-class Cms_Plugin_AuthGrid extends Mmi_Grid {
+namespace Cms\Plugin;
+
+class AuthGrid extends \Mmi\Grid {
 
 	public function init() {
-		
-		$this->setQuery(Cms_Model_Auth_Query::factory());
+
+		$this->setQuery(\Cms\Model\Auth\Query::factory());
 
 		$this->setOption('locked', true);
 

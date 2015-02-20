@@ -10,7 +10,7 @@
  *
  * Mmi/Cache/Backend/Memcache.php
  * @category   Mmi
- * @package    Mmi_Cache
+ * @package    \Mmi\Cache
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,10 +20,13 @@
 /**
  * Backend bufora memcache
  * @category   Mmi
- * @package    Mmi_Cache
+ * @package    \Mmi\Cache
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Cache_Backend_Memcache implements Mmi_Cache_Backend_Interface {
+
+namespace Mmi\Cache\Backend;
+
+class Memcache implements BackendInterface {
 
 	/**
 	 * Przechowuje obiekt Memcache
@@ -41,7 +44,7 @@ class Mmi_Cache_Backend_Memcache implements Mmi_Cache_Backend_Interface {
 	 * Ustawia obiekt Memcache
 	 * @param array $params parametry
 	 */
-	public function __construct(Mmi_Cache_Config $config) {
+	public function __construct(\Mmi\Cache\Config $config) {
 		//@TODO: przenieść namespace do konfiguracji
 		$this->_namespace = crc32(BASE_PATH);
 		$this->_server = new Memcache();

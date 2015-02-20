@@ -10,13 +10,16 @@
  * [30 20 1 * *] - wykonaj o 20:30 każdego pierwszego dnia miesiąca
  * [* /30 * 2,5,7 * *] - wykonaj zawsze 2,5,i 7 każdego miesiąca co 30 minut
  */
-class Cms_Model_Cron_Job {
+
+namespace Cms\Model\Cron;
+
+class Job {
 
 	/**
 	 * Pobiera zadania crona
 	 */
 	public static function run() {
-		foreach (Cms_Model_Cron_Dao::activeQuery()
+		foreach (\Cms\Model\Cron\Dao::activeQuery()
 			->find() as $cron) {
 			$logData = array();
 			$logData['name'] = $cron->name;
@@ -28,7 +31,7 @@ class Cms_Model_Cron_Job {
 			$output = '';
 			try {
 				$start = microtime(true);
-				$actionHelper = new Mmi_Controller_Action_Helper_Action();
+				$actionHelper = new \Mmi\Controller\Action\Helper\Action();
 				$output = $actionHelper->action($cron->module, $cron->controller, $cron->action, array(), true);
 				$logData['time'] = round(microtime(true) - $start, 4) . 's';
 				if ($output) {
@@ -36,7 +39,7 @@ class Cms_Model_Cron_Job {
 				}
 			} catch (Exception $e) {
 				$logData['message'] = $e->__toString();
-				Cms_Model_Log_Dao::add('Cron exception', $logData);
+				\Cms\Model\Log\Dao::add('Cron exception', $logData);
 			}
 			//Zmień datę ostatniego wywołania
 			$cron->dateLastExecute = date('Y-m-d H:i:s');
@@ -44,13 +47,13 @@ class Cms_Model_Cron_Job {
 			if (!$output) {
 				continue;
 			}
-			Cms_Model_Log_Dao::add('Cron done', $logData);
+			\Cms\Model\Log\Dao::add('Cron done', $logData);
 		}
 	}
 
 	/**
 	 * Sprawdza czy dane zadanie jest do wykonania
-	 * @param Cms_Model_Cron_Record $record
+	 * @param \Cms\Model\Cron\Record $record
 	 */
 	protected static function _getToExecute($record) {
 		return self::_valueMatch(date('i'), $record->minute) &&

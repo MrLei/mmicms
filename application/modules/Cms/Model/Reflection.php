@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Reflection {
+
+namespace Cms\Model;
+
+class Reflection {
 
 	public static function getActions() {
 		$structure = array();

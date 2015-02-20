@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Controller_Index extends MmiCms_Controller_Admin {
+
+namespace Cms\Controller;
+
+class Index extends \MmiCms\Controller\Admin {
 
 	public function indexAction() {
 		

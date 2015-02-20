@@ -1,10 +1,11 @@
 <?php
 
-class Cms_Plugin_RouteGrid extends Mmi_Grid {
+namespace Cms\Plugin;
+class RouteGrid extends \Mmi\Grid {
 
 	public function init() {
 
-		$this->setQuery(Cms_Model_Route_Query::factory()
+		$this->setQuery(\Cms\Model\Route\Query::factory()
 			->orderAscOrder());
 		
 		$this->setOption('rows', 100);

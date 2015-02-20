@@ -10,7 +10,7 @@
  *
  * Mmi/Paginator.php
  * @category   Mmi
- * @package    Mmi_Paginator
+ * @package    \Mmi\Paginator
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -18,12 +18,15 @@
  */
 
 /**
- * Implementuje paginator danych, zintegrowany z Mmi_Request (pobierany z Mmi_View)
+ * Implementuje paginator danych, zintegrowany z \Mmi\Request (pobierany z \Mmi\View)
  * @category   Mmi
- * @package    Mmi_Paginator
+ * @package    \Mmi\Paginator
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Paginator {
+
+namespace Mmi;
+
+class Paginator {
 
 	/**
 	 * Opcje paginatora
@@ -73,7 +76,7 @@ class Mmi_Paginator {
 		if (isset($this->_options['page'])) {
 			return $this->_options['page'];
 		}
-		$page = Mmi_Controller_Front::getInstance()->getView()->request->__get($this->_options['pageVariable']);
+		$page = \Mmi\Controller\Front::getInstance()->getView()->request->__get($this->_options['pageVariable']);
 		$page = ($page > 0) ? $page : 1;
 		$this->_options['page'] = $page;
 		return $page;
@@ -90,7 +93,7 @@ class Mmi_Paginator {
 	/**
 	 * Ustawia ilość danych do stronnicowania
 	 * @param int $count
-	 * @return Mmi_Paginator
+	 * @return \Mmi\Paginator
 	 */
 	public function setRowsCount($count) {
 		$this->_options['rowsCount'] = intval($count);
@@ -100,7 +103,7 @@ class Mmi_Paginator {
 	/**
 	 * Ustawia ilość wierszy na stronę
 	 * @param int $count
-	 * @return Mmi_Paginator
+	 * @return \Mmi\Paginator
 	 */
 	public function setRowsPerPage($count) {
 		$this->_options['rowsPerPage'] = intval($count);
@@ -110,7 +113,7 @@ class Mmi_Paginator {
 	/**
 	 * Ustawia nazwę zmiennej sterującej paginatorem
 	 * @param string $name
-	 * @return Mmi_Paginator
+	 * @return \Mmi\Paginator
 	 */
 	public function setPageVariable($name) {
 		$this->_options['pageVariable'] = $name;
@@ -120,7 +123,7 @@ class Mmi_Paginator {
 	/**
 	 * Ustawia ilość pokazywanych zakładek skoku (stron)
 	 * @param int $pages
-	 * @return Mmi_Paginator
+	 * @return \Mmi\Paginator
 	 */
 	public function setShowPages($pages) {
 		$this->_options['showPages'] = intval($pages);
@@ -130,7 +133,7 @@ class Mmi_Paginator {
 	/**
 	 * Ustawia tekst pod linkiem poprzedniej strony
 	 * @param string $label
-	 * @return Mmi_Paginator
+	 * @return \Mmi\Paginator
 	 */
 	public function setPreviousLabel($label) {
 		$this->_options['previousLabel'] = $label;
@@ -140,7 +143,7 @@ class Mmi_Paginator {
 	/**
 	 * Ustawia tekst pod linkiem następnej strony
 	 * @param string $label
-	 * @return Mmi_Paginator
+	 * @return \Mmi\Paginator
 	 */
 	public function setNextLabel($label) {
 		$this->_options['nextLabel'] = $label;
@@ -150,7 +153,7 @@ class Mmi_Paginator {
 	/**
 	 * Ustawia dla każdego linku label
 	 * @param string $label
-	 * @return Mmi_Paginator
+	 * @return \Mmi\Paginator
 	 */
 	public function setHashHref($label) {
 		$this->_options['hashHref'] = '#' . $label;
@@ -202,7 +205,7 @@ class Mmi_Paginator {
 		if ($pagesCount < 2) {
 			return '';
 		}
-		$view = Mmi_Controller_Front::getInstance()->getView();
+		$view = \Mmi\Controller\Front::getInstance()->getView();
 		$showPages = (($this->_options['showPages'] > 2) ? $this->_options['showPages'] : 2) - 2;
 		$halfPages = floor($showPages / 2);
 		if (!isset($this->_options['page'])) {

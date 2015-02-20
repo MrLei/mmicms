@@ -1,10 +1,11 @@
 <?php
 
-class Cms_Plugin_TextGrid extends Mmi_Grid {
+namespace Cms\Plugin;
+class TextGrid extends \Mmi\Grid {
 
 	public function init() {
 		
-		$this->setQuery(Cms_Model_Text_Dao::langQuery()
+		$this->setQuery(\Cms\Model\Text\Dao::langQuery()
 			->orderAscKey());
 
 		$this->setOption('rows', 100);
