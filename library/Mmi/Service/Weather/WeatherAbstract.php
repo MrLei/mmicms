@@ -55,7 +55,7 @@ abstract class WeatherAbstract {
 	 */
 	public function getForecast() {
 		if (empty($this->_forecast)) {
-			throw new Exception('No data');
+			throw new\Exception('No data');
 		}
 		return $this->_forecast;
 	}

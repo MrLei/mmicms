@@ -40,14 +40,14 @@ class RecordUnique extends ValidateAbstract {
 	 */
 	public function isValid($value) {
 		if (!isset($this->_options[0])) {
-			throw new Exception('No dao class supplied.');
+			throw new\Exception('No dao class supplied.');
 		}
 		$dao = $this->_options[0];
 		if (!is_subclass_of($dao, '\Mmi\Dao')) {
-			throw new Exception('Invalid dao class supplied.');
+			throw new\Exception('Invalid dao class supplied.');
 		}
 		if (!isset($this->_options[1])) {
-			throw new Exception('No field name supplied.');
+			throw new\Exception('No field name supplied.');
 		}
 		$field = $this->_options[1];
 		/* @var $q \Mmi\Dao\Query */

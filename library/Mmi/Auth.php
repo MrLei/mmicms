@@ -88,7 +88,7 @@ class Auth {
 	 */
 	public function getSalt() {
 		if ($this->_salt === null) {
-			throw new Exception('Salt not set, set the proper salt.');
+			throw new\Exception('Salt not set, set the proper salt.');
 		}
 		return $this->_salt;
 	}
@@ -235,7 +235,7 @@ class Auth {
 			return false;
 		}
 		if (!is_object($result)) {
-			throw new Exception('Authentication result is not an instance of \stdClass');
+			throw new\Exception('Authentication result is not an instance of \stdClass');
 		}
 		return $this->setAuthentication($result->id, $result->username, $result->email, $result->roles, $result->lang, \Mmi\Controller\Front::getInstance()->getEnvironment()->remoteAddress);
 	}
@@ -268,7 +268,7 @@ class Auth {
 		$model = $this->_modelName;
 		$result = $model::idAuthenticate($this->_identity);
 		if (!is_object($result)) {
-			throw new Exception('Authentication result is not an instance of \stdClass');
+			throw new\Exception('Authentication result is not an instance of \stdClass');
 		}
 		return $this->setAuthentication($result->id, $result->username, $result->email, $result->roles, $result->lang, \Mmi\Controller\Front::getInstance()->getEnvironment()->remoteAddress);
 	}

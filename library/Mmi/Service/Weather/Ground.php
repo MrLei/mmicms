@@ -44,7 +44,7 @@ class Ground extends WeatherAbstract {
 	public function search($placeName) {
 		$current = json_decode(file_get_contents($this->_url . '/conditions/forecast/q/' . urlencode($placeName) . '.json'));
 		if (!isset($current->current_observation)) {
-			throw new Exception('No data');
+			throw new\Exception('No data');
 		}
 		$current = $current->current_observation;
 		$wd = new \Mmi\Service\Weather\Data();

@@ -438,7 +438,7 @@ INSERT INTO cms_role (id, name) VALUES (2, 'member');
 INSERT INTO cms_role (id, name) VALUES (3, 'admin');
 
 INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (1, 3, NULL, NULL, NULL, 'allow');
-INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (2, 1, 'default', NULL, NULL, 'allow');
+INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (2, 1, 'core', NULL, NULL, 'allow');
 INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (3, 1, 'cms', 'admin', 'login', 'allow');
 INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (4, 1, 'cms', 'api', NULL, 'allow');
 INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (5, 1, 'cms', 'article', NULL, 'allow');
@@ -449,10 +449,10 @@ INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES
 INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (10, 1, 'cms', 'file', NULL, 'allow');
 INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (11, 1, 'cms', 'form', NULL, 'allow');
 INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (12, 1, 'cms', 'grid', NULL, 'allow');
-INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (13, 1, 'cms', 'index', NULL, 'allow');
-INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (14, 1, 'cms', 'page', NULL, 'allow');
-INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (15, 1, 'cms', 'user', NULL, 'allow');
-INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (16, 1, 'cms', 'widget', NULL, 'allow');
+INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (13, 1, 'cms', 'page', NULL, 'allow');
+INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (14, 1, 'cms', 'user', NULL, 'allow');
+INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (15, 1, 'cms', 'widget', NULL, 'allow');
+INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (16, 1, 'cms', 'news', NULL, 'allow');
 
 INSERT INTO cms_auth (id, lang, username, email, password, "lastIp", "lastLog", "lastFailIp", "lastFailLog", "failLogCount", logged, active) VALUES (1, 'pl', 'admin', 'admin@milejko.pl', 'd033e22ae348aeb5660fc2140aec35850c4da997', '127.0.0.1', '2012-02-23 15:41:12', '89.231.108.27', '2011-12-20 19:42:01', 8, 0, 0);
 INSERT INTO cms_auth (id, lang, username, email, password, "lastIp", "lastLog", "lastFailIp", "lastFailLog", "failLogCount", logged, active) VALUES (2, 'pl', 'mariusz', 'mariusz@milejko.pl', '7a48d2fe2f6f86430acee5b86a093c3352b9f780', '127.0.0.1', '2012-03-20 15:54:01', '127.0.0.1', '2012-03-16 13:41:49', 9, 0, 1);
@@ -494,7 +494,7 @@ INSERT INTO "cms_article" ("id", "lang", "title", "uri", "dateAdd", "dateModify"
 </ol>',	'0');
 
 INSERT INTO "cms_navigation" ("id", "lang", "parent_id", "order", "module", "controller", "action", "params", "label", "title", "keywords", "description", "uri", "independent", "nofollow", "blank", "visible", "dateStart", "dateEnd", "active") VALUES (1,	'pl',	'0',	'0',	NULL,	NULL,	NULL,	'',	'Górne menu',	'Demo',	'',	'',	NULL,	'0',	'0',	'0',	'0',	NULL,	NULL,	1);
-INSERT INTO "cms_navigation" ("id", "lang", "parent_id", "order", "module", "controller", "action", "params", "label", "title", "keywords", "description", "uri", "independent", "nofollow", "blank", "visible", "dateStart", "dateEnd", "active") VALUES (2,	'pl',	1,	'0',	'default',	'index',	'index',	'',	'Strona główna',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
+INSERT INTO "cms_navigation" ("id", "lang", "parent_id", "order", "module", "controller", "action", "params", "label", "title", "keywords", "description", "uri", "independent", "nofollow", "blank", "visible", "dateStart", "dateEnd", "active") VALUES (2,	'pl',	1,	'0',	'core',	'index',	'index',	'',	'Strona główna',	'',	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
 INSERT INTO "cms_navigation" ("id", "lang", "parent_id", "order", "module", "controller", "action", "params", "label", "title", "keywords", "description", "uri", "independent", "nofollow", "blank", "visible", "dateStart", "dateEnd", "active") VALUES (3,	'pl',	1,	1,	'cms',	'news',	'index',	'',	'Aktualności',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);
 INSERT INTO "cms_navigation" ("id", "lang", "parent_id", "order", "module", "controller", "action", "params", "label", "title", "keywords", "description", "uri", "independent", "nofollow", "blank", "visible", "dateStart", "dateEnd", "active") VALUES (4,	'pl',	3,	'0',	'cms',	'news',	'display',	'',	'Artykuł',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	'0',	NULL,	NULL,	1);
 INSERT INTO "cms_navigation" ("id", "lang", "parent_id", "order", "module", "controller", "action", "params", "label", "title", "keywords", "description", "uri", "independent", "nofollow", "blank", "visible", "dateStart", "dateEnd", "active") VALUES (5,	'pl',	1,	2,	'cms',	'user',	'register',	'',	'Rejestracja',	NULL,	'',	'',	NULL,	'0',	'0',	'0',	1,	NULL,	NULL,	1);

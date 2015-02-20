@@ -254,7 +254,7 @@ abstract class Grid {
 	public function render() {
 		//sprawdzanie query
 		if (!($this->_daoQuery instanceof \Mmi\Dao\Query)) {
-			throw new Exception('\Mmi\Grid: invalid DAO Query object supplied');
+			throw new\Exception('\Mmi\Grid: invalid DAO Query object supplied');
 		}
 		$html = '<form id="' . $this->_id . '"><table class="striped ' . $this->_options['class'] . '">';
 		$html .= $this->renderHead();

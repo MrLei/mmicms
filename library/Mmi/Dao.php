@@ -70,7 +70,7 @@ class Dao {
 	 * Zabezpieczony konstruktor
 	 */
 	private final function __construct() {
-		throw new Exception('DAO should be called statically');
+		throw new\Exception('DAO should be called statically');
 	}
 	
 	/**
@@ -124,10 +124,10 @@ class Dao {
 	 */
 	public static final function getAdapter() {
 		if (static::$_tableName === null) {
-			throw new Exception('\Mmi\Dao: Table name not specified');
+			throw new\Exception('\Mmi\Dao: Table name not specified');
 		}
 		if (!(static::$_adapter instanceof \Mmi\Db\Adapter\Pdo\PdoAbstract)) {
-			throw new Exception('\Mmi\Dao: Adapter not specified or invalid');
+			throw new\Exception('\Mmi\Dao: Adapter not specified or invalid');
 		}
 		return static::$_adapter;
 	}

@@ -178,7 +178,7 @@ class Front {
 	 */
 	public function getRouter() {
 		if ($this->_router === null) {
-			throw new Exception('\Mmi\Controller\Front: no router specified');
+			throw new\Exception('\Mmi\Controller\Front: no router specified');
 		}
 		return $this->_router;
 	}
@@ -197,7 +197,7 @@ class Front {
 	 */
 	public function getView() {
 		if ($this->_view === null) {
-			throw new Exception('\Mmi\Controller\Front: no view specified');
+			throw new\Exception('\Mmi\Controller\Front: no view specified');
 		}
 		return $this->_view;
 	}
@@ -209,10 +209,10 @@ class Front {
 	 */
 	public function getStructure($part = null) {
 		if ($this->_structure === null) {
-			throw new Exception('\Mmi\Contoller\Front structure not found');
+			throw new\Exception('\Mmi\Contoller\Front structure not found');
 		}
 		if ($part !== null && !isset($this->_structure[$part])) {
-			throw new Exception('\Mmi\Controller\Front structure invalid');
+			throw new\Exception('\Mmi\Controller\Front structure invalid');
 		}
 		return (null === $part) ? $this->_structure : $this->_structure[$part];
 	}

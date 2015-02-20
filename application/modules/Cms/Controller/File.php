@@ -27,13 +27,13 @@ class File extends \Mmi\Controller\Action {
 	public function uploadAction() {
 		$files = \Mmi\Controller\Front::getInstance()->getRequest()->getFiles();
 		if (empty($files)) {
-			return '';
+			return 'Error: no files.';
 		}
 		if (!$this->class) {
-			return '';
+			return 'Error: no class';
 		}
 		if ($this->hash != md5($this->t . '+' . \Mmi\Session::getId() . '+' . $this->class)) {
-			return '';
+			return 'Error: hash invalid';
 		}
 		$object = $this->object;
 		$objectId = $this->objectId;

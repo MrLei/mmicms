@@ -50,7 +50,7 @@ class Uploader extends \Mmi\Form\Element\File {
 			'module' => 'cms',
 			'controller' => 'file',
 			'action' => 'uploader',
-			'class' => get_class($this->getForm()),
+			'class' => str_replace('\\', '', get_class($this->getForm())),
 			'object' => $object,
 			'objectId' => $objectId,
 		)) . '"

@@ -52,7 +52,7 @@ class Session {
 		session_save_path($config->path);
 		if ($config->handler) {
 			if ($config->handler == 'user') {
-				$customClassName = '\Mmi\Session\Handler\\' . ucfirst($config->path);
+				$customClassName = '\\Mmi\\Session\\Handler\\' . ucfirst($config->path);
 				$sha = new $customClassName();
 				session_set_save_handler(array($sha, 'open'), array($sha, 'close'), array($sha, 'read'), array($sha, 'write'), array($sha, 'destroy'), array($sha, 'gc'));
 				register_shutdown_function('session_write_close');

@@ -90,7 +90,7 @@ class Builder {
 		}
 		$structure = $daoClassName::getTableStructure();
 		if (empty($structure)) {
-			throw new Exception('\Mmi\Dao\Builder: no table found, or table invalid in ' . $daoClassName);
+			throw new\Exception('\Mmi\Dao\Builder: no table found, or table invalid in ' . $daoClassName);
 		}
 		$variableString = "\n";
 		foreach ($structure as $fieldName => $fieldDetails) {
@@ -101,7 +101,7 @@ class Builder {
 			$diffRecord = array_diff($codeVariables[1], $variables);
 			$diffDb = array_diff($variables, $codeVariables[1]);
 			if (!empty($diffRecord) || !empty($diffDb)) {
-				throw new Exception('RECORD for: "' . $tableName . '" has invalid fields: ' . implode(', ', $diffRecord) . ', and missing: ' .  implode(',', $diffDb));
+				throw new\Exception('RECORD for: "' . $tableName . '" has invalid fields: ' . implode(', ', $diffRecord) . ', and missing: ' .  implode(',', $diffDb));
 			}
 			echo 'RECORD for: ' . $tableName . ' completed.';
 			return;
@@ -195,7 +195,7 @@ class Builder {
 		$methods = '';
 		$structure = $daoClassName::getTableStructure();
 		if (empty($structure)) {
-			throw new Exception('\Mmi\Dao\Builder: no table ' . $tableName . ' found, or table invalid in ' . $daoClassName);
+			throw new\Exception('\Mmi\Dao\Builder: no table ' . $tableName . ' found, or table invalid in ' . $daoClassName);
 		}
 		$methods .= "\n"
 			. "\t" . '/**' . "\n"
@@ -235,7 +235,7 @@ class Builder {
 	protected static function _getPathPrefixByTableName($tableName) {
 		$table = explode('_', $tableName);
 		if (!isset($table[0])) {
-			throw new Exception('\Mmi\Dao\Builder: invalid table name');
+			throw new\Exception('\Mmi\Dao\Builder: invalid table name');
 		}
 		$baseDir = APPLICATION_PATH . '/modules/' . ucfirst($table[0]) . '/Model/';
 		unset($table[0]);
@@ -254,7 +254,7 @@ class Builder {
 	protected static function _getClassNamePrefixByTableName($tableName) {
 		$table = explode('_', $tableName);
 		if (!isset($table[0])) {
-			throw new Exception('\Mmi\Dao\Builder: invalid table name');
+			throw new\Exception('\Mmi\Dao\Builder: invalid table name');
 		}
 		$className = ucfirst($table[0]) . '\\Model\\';
 		unset($table[0]);

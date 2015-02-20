@@ -5,23 +5,11 @@ $(document).ready(function() {
 function initAcl() {
 	$('.rule-select').change(
 		function() {
-			var id = $(this).attr('id');
-			id = id.split('-');
-			var value = $(this).attr('value');
 			$.get(
-				request.baseUrl + "/cms/admin-acl/update/id/" + $(this).attr('id') + "/value/" + value,
+				request.baseUrl + "/cms/admin-acl/update/id/" + $(this).attr('id') + "/value/" + $(this).val(),
 				function(result) {
 					if (result != '1') {
 						alert(result);
-					} else {
-						if (value == 'allow') {
-							$('#rule-policy-' + id[2]).removeClass('deny');
-							$('#rule-policy-' + id[2]).addClass('allow');
-						} else if (value == 'deny') {
-							$('#rule-policy-' + id[2]).removeClass('allow');
-							$('#rule-policy-' + id[2]).addClass('deny');
-						}
-
 					}
 				}
 			);

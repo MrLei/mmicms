@@ -358,7 +358,7 @@ class Query {
 		if ($dao::fieldInTable($convertedFieldName, $tableName)) {
 			return $tablePrefix . '.' . $db->prepareField($convertedFieldName);
 		}
-		throw new Exception(get_called_class() . ': "' . $fieldName . '" not found in ' . ($tableName !== null ? '"' . $tableName . '" table' : '"' . $dao::getTableName() . '"' . ' table'));
+		throw new\Exception(get_called_class() . ': "' . $fieldName . '" not found in ' . ($tableName !== null ? '"' . $tableName . '" table' : '"' . $dao::getTableName() . '"' . ' table'));
 	}
 
 	/**

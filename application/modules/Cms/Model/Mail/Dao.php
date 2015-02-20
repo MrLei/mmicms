@@ -5,7 +5,7 @@ namespace Cms\Model\Mail;
 
 class Dao extends \Mmi\Dao {
 
-	protected static $_tableName = 'mail';
+	protected static $_tableName = 'cms_mail';
 
 	/**
 	 * Czyści wysłane starsze niż tydzień
@@ -77,8 +77,8 @@ class Dao extends \Mmi\Dao {
 		$result = array('error' => 0, 'success' => 0);
 
 		$emails = \Cms\Model\Mail\Query::factory()
-			->join('mail_definition')->on('mail_definition_id')
-			->join('mail_server', 'mail_definition')->on('mail_server_id')
+			->join('cms_mail_definition')->on('cms_mail_definition_id')
+			->join('cms_mail_server', 'cms_mail_definition')->on('cms_mail_server_id')
 			->whereActive()->equals(0)
 			->andFieldDateSendAfter()->lessOrEquals(date('Y-m-d H:i:s'))
 			->orderAscDateSendAfter()

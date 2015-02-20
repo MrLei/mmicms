@@ -200,7 +200,7 @@ abstract class ElementAbstract {
 	public final function setRenderingOrder(array $renderingOrder = array()) {
 		foreach ($renderingOrder as $method) {
 			if (!method_exists($this, $method)) {
-				throw new Exception('Unknown rendering method');
+				throw new\Exception('Unknown rendering method');
 			}
 		}
 		$this->_renderingOrder = $renderingOrder;
@@ -845,7 +845,7 @@ abstract class ElementAbstract {
 			}
 		}
 		if (!isset($className)) {
-			throw new Exception('Unknown filter: ' . $name);
+			throw new\Exception('Unknown filter: ' . $name);
 		}
 		return new $className();
 	}
@@ -864,7 +864,7 @@ abstract class ElementAbstract {
 			}
 		}
 		if (!isset($className)) {
-			throw new Exception('Unknown validator: ' . $name);
+			throw new\Exception('Unknown validator: ' . $name);
 		}
 		return new $className();
 	}

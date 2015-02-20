@@ -234,11 +234,11 @@ class View {
 		$structure = \Mmi\Controller\Front::getInstance()->getStructure();
 		foreach ($structure['library'] as $libName => $lib) {
 			if (isset($lib['View']['Helper'][$name])) {
-				$className = $libName . '\View\Helper\\' . $name;
+				$className = $libName . '\\View\\Helper\\' . $name;
 			}
 		}
 		if (isset($this->request) && isset($structure['module'][$this->request->module]['View']['Helper'][$name])) {
-			$className = ucfirst($this->request->module) . '\View\Helper\\' . $name;
+			$className = ucfirst($this->request->module) . '\\View\\Helper\\' . $name;
 		}
 		if (!isset($className)) {
 			return false;
@@ -260,14 +260,14 @@ class View {
 		$structure = \Mmi\Controller\Front::getInstance()->getStructure();
 		foreach ($structure['library'] as $libName => $lib) {
 			if (isset($lib['Filter'][$name])) {
-				$className = $libName . '\Filter\\' . $name;
+				$className = $libName . '\\Filter\\' . $name;
 			}
 		}
 		if (isset($this->request) && isset($structure['module'][$this->request->module]['Filter'][$name])) {
-			$className = ucfirst($this->request->module) . '\Filter\\' . $name;
+			$className = ucfirst($this->request->module) . '\\Filter\\' . $name;
 		}
 		if (!isset($className)) {
-			throw new Exception('Filter not found: ' . $name);
+			throw new\Exception('Filter not found: ' . $name);
 		}
 		if (isset($this->_filters[$className])) {
 			return $this->_filters[$className];
@@ -440,7 +440,7 @@ class View {
 		if (isset($structure['skin']['default']['core']['layout'])) {
 			return APPLICATION_PATH . '/skins/default/default/scripts/layout.tpl';
 		}
-		throw new Exception('Layout not found.');
+		throw new\Exception('Layout not found.');
 	}
 
 	/**
@@ -462,7 +462,7 @@ class View {
 		if (isset($structure['skin']['default'][$module][$controller][$action])) {
 			return APPLICATION_PATH . '/skins/default/' . $module . '/scripts/' . str_replace('-', '/', $controller) . '/' . $action . '.tpl';
 		}
-		throw new Exception('Template not found.');
+		throw new\Exception('Template not found.');
 	}
 
 }

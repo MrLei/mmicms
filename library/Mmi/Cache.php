@@ -53,11 +53,11 @@ class Cache {
 	public function __construct(\Mmi\Cache\Config $config) {
 		$this->_config = $config;
 		$saveHandler = $config->handler;
-		$backendClassName = '\Mmi\Cache\Backend\\' . ucfirst($saveHandler);
+		$backendClassName = '\\Mmi\\Cache\\Backend\\' . ucfirst($saveHandler);
 		$this->_backend = new $backendClassName($config);
 		$this->_registryNamespace = 'Cache-' . crc32($config->path . $config->handler) . '-';
 		if (!($this->_backend instanceof \Mmi\Cache\Backend\BackendInterface)) {
-			throw new Exception('Cache backend invalid');
+			throw new\Exception('Cache backend invalid');
 		}
 	}
 

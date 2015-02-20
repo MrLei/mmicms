@@ -52,7 +52,7 @@ class Google extends WeatherAbstract {
 		
 		$current = $xml->weather->current_conditions;
 		if (!isset($xml->weather->current_conditions)) {
-			throw new Exception('No data');
+			throw new\Exception('No data');
 		}
 		$current = $xml->weather->current_conditions;
 		$wd->condition = (string)$current->condition->attributes()->data;

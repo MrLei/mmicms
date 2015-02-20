@@ -23,7 +23,7 @@ class MailServer extends \MmiCms\Controller\Admin {
 			if ($server && $server->delete()) {
 				$this->_helper->messenger('Usunięto serwer');
 			}
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			if (stripos($e->getMessage(), 'DB exception') !== false) {
 				$this->_helper->messenger('Nie można usunąć serwera, istnieją powiązane szablony', false);
 			} else {
