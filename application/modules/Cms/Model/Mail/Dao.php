@@ -89,26 +89,26 @@ class Dao extends \Mmi\Dao {
 		}
 		$transport = array();
 		foreach ($emails as $email) {
-			$config = array('port' => $email->getJoined('mail_server')->port);
-			if ($email->getJoined('mail_server')->username && $email->getJoined('mail_server')->password) {
+			$config = array('port' => $email->getJoined('cms_mail_server')->port);
+			if ($email->getJoined('cms_mail_server')->username && $email->getJoined('cms_mail_server')->password) {
 				$config['auth'] = 'login';
-				$config['username'] = $email->getJoined('mail_server')->username;
-				$config['password'] = $email->getJoined('mail_server')->password;
+				$config['username'] = $email->getJoined('cms_mail_server')->username;
+				$config['password'] = $email->getJoined('cms_mail_server')->password;
 			}
 			if ($email->getJoined('mail_server')->ssl != 'plain') {
 				$config['ssl'] = $email->getJoined('mail_server')->ssl;
 			}
 			if (!isset($transport[$email->getOption('mailServerId')])) {
 				//@TODO: przepisać do ZF2
-				$transport[$email->getOption('mailServerId')] = new Zend_Mail\Transport\Smtp($email->getJoined('mail_server')->address, $config);
+				$transport[$email->getOption('mailServerId')] = new Zend_Mail\Transport\Smtp($email->getJoined('cms_mail_server')->address, $config);
 			}
 			//@TODO: przepisać do ZF2
 			$mail = new Zend_Mail('utf-8');
 			$mail->setBodyText(strip_tags($email->message));
-			if ($email->getJoined('mail_definition')->html) {
+			if ($email->getJoined('cms_mail_definition')->html) {
 				$mail->setBodyHtml($email->message);
 			}
-			$mail->setFrom($email->getJoined('mail_server')->from, $email->fromName);
+			$mail->setFrom($email->getJoined('cms_mail_server')->from, $email->fromName);
 			$mail->addTo($email->to);
 			if ($email->replyTo) {
 				$mail->setReplyTo($email->replyTo);
