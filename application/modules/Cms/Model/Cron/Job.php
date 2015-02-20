@@ -19,7 +19,7 @@ class Job {
 	 * Pobiera zadania crona
 	 */
 	public static function run() {
-		foreach (Cms\Model\Cron\Dao::activeQuery()
+		foreach (\Cms\Model\Cron\Dao::activeQuery()
 			->find() as $cron) {
 			$logData = array();
 			$logData['name'] = $cron->name;
@@ -39,7 +39,7 @@ class Job {
 				}
 			} catch (Exception $e) {
 				$logData['message'] = $e->__toString();
-				Cms\Model\Log\Dao::add('Cron exception', $logData);
+				\Cms\Model\Log\Dao::add('Cron exception', $logData);
 			}
 			//Zmień datę ostatniego wywołania
 			$cron->dateLastExecute = date('Y-m-d H:i:s');
@@ -47,13 +47,13 @@ class Job {
 			if (!$output) {
 				continue;
 			}
-			Cms\Model\Log\Dao::add('Cron done', $logData);
+			\Cms\Model\Log\Dao::add('Cron done', $logData);
 		}
 	}
 
 	/**
 	 * Sprawdza czy dane zadanie jest do wykonania
-	 * @param Cms\Model\Cron\Record $record
+	 * @param \Cms\Model\Cron\Record $record
 	 */
 	protected static function _getToExecute($record) {
 		return self::_valueMatch(date('i'), $record->minute) &&

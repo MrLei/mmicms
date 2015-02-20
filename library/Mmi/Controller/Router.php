@@ -149,7 +149,7 @@ class Router {
 			}
 		}
 
-		$params['module'] = isset($params['module']) ? $params['module'] : 'default';
+		$params['module'] = isset($params['module']) ? $params['module'] : 'core';
 		$params['controller'] = isset($params['controller']) ? $params['controller'] : 'index';
 		$params['action'] = isset($params['action']) ? $params['action'] : 'index';
 
@@ -212,7 +212,7 @@ class Router {
 				}
 			}
 		}
-		$params['module'] = isset($params['module']) ? $params['module'] : 'default';
+		$params['module'] = isset($params['module']) ? $params['module'] : 'core';
 		$params['controller'] = isset($params['controller']) ? $params['controller'] : 'index';
 		$params['action'] = isset($params['action']) ? $params['action'] : 'index';
 
@@ -237,7 +237,7 @@ class Router {
 					$action = '';
 					if ($controller == 'index') {
 						$controller = '';
-						if ($module == 'default') {
+						if ($module == 'core') {
 							$module = '';
 						}
 					}

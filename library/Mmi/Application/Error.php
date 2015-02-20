@@ -97,8 +97,8 @@ class Error {
 			$actionHelper = new \Mmi\Controller\Action\Helper\Action();
 			$response
 				->setCodeError()
-				->setContent($view->setPlaceholder('content', $actionHelper->action('default', 'error', 'index', array()))
-					->renderLayout($view->skin, 'default', 'error'))
+				->setContent($view->setPlaceholder('content', $actionHelper->action('core', 'error', 'index', array()))
+					->renderLayout($view->skin, 'core', 'error'))
 				->send();
 			return true;
 		} catch (\Exception $e) {

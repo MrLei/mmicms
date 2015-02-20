@@ -18,7 +18,7 @@ class Dao extends \Mmi\Dao {
 	public static function agregate() {
 		$start = microtime(true);
 		$processed = 0;
-		foreach (Cms\Model\Stat\Query::factory()
+		foreach (\Cms\Model\Stat\Query::factory()
 			->limit(10000)
 			->find() as $item) {
 			$processed++;
@@ -65,7 +65,7 @@ class Dao extends \Mmi\Dao {
 	}
 
 	protected static function _push($object, $objectId, $hour, $day, $month, $year) {
-		$o = Cms\Model\Stat\Date\Query::factory()
+		$o = \Cms\Model\Stat\Date\Query::factory()
 			->whereObject()->equals($object)
 			->andFieldObjectId()->equals($objectId)
 			->andFieldHour()->equals($hour)

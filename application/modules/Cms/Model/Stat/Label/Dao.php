@@ -10,10 +10,10 @@ class Dao extends \Mmi\Dao {
 	/**
 	 * 
 	 * @param string $object
-	 * @return Cms\Model\Stat\Label\Query
+	 * @return \Cms\Model\Stat\Label\Query
 	 */
 	public static function byObjectQuery($object) {
-		return Cms\Model\Stat\Label\Query::factory()
+		return \Cms\Model\Stat\Label\Query::factory()
 				->whereObject()->equals($object);
 	}
 

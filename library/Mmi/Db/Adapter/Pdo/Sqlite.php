@@ -64,10 +64,10 @@ class Sqlite extends PdoAbstract {
 		if ($this->_config->profiler) {
 			\Mmi\Db\Profiler::event('CONNECT WITH: ' . get_class($this), 0);
 		}
-		$this->_pdo = new PDO(
+		$this->_pdo = new \PDO(
 						$this->_config->driver . ':' . $this->_config->host,
 						null, null,
-						array(PDO::ATTR_PERSISTENT => $this->_config->persistent)
+						array(\PDO::ATTR_PERSISTENT => $this->_config->persistent)
 		);
 		$this->_connected = true;
 		$this->query('PRAGMA foreign_keys = ON');

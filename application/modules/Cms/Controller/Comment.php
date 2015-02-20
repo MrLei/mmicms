@@ -12,11 +12,11 @@ class Comment extends \Mmi\Controller\Action {
 		if (!$this->objectId) {
 			return;
 		}
-		$this->view->comments = Cms\Model\Comment\Dao::byObjectQuery($this->object, $this->objectId, $this->descending)
+		$this->view->comments = \Cms\Model\Comment\Dao::byObjectQuery($this->object, $this->objectId, $this->descending)
 			->limit(100)
 			->find();
 
-		if (!($this->allowGuests || Core\Registry::$auth->hasIdentity())) {
+		if (!($this->allowGuests || \Core\Registry::$auth->hasIdentity())) {
 			return;
 		}
 		$form = new \Cms\Form\Comment(null, array(

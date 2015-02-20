@@ -28,7 +28,7 @@
  * Metody wywoływane magicznie przez __call
  * @method \Mmi\Controller\Action\Helper\Redirector redirector() redirector($action = null, $controller = null, $module = null, array $params = array(), $reset = false) Helper przekierowań
  * @method \Mmi\Controller\Action\Helper\Messenger messenger() messenger($message, $type = null, array $variables = array()) Helper wiadomości
- * @method \Mmi\Controller\Action\Helper\Action action() action($moduleName = 'default', $controllerName = 'index', $actionName = 'index', array $params = array()) Helper akcji
+ * @method \Mmi\Controller\Action\Helper\Action action() action($moduleName = 'core', $controllerName = 'index', $actionName = 'index', array $params = array()) Helper akcji
  */
 
 namespace Mmi\Controller\Action;

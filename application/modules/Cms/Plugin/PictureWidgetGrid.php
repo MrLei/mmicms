@@ -6,7 +6,7 @@ class PictureWidgetGrid extends \Mmi\Grid {
 
 	public function init() {
 
-		$this->setQuery(Cms\Model\Widget\Picture\Query::factory()
+		$this->setQuery(\Cms\Model\Widget\Picture\Query::factory()
 				->join('cms_file')->on('id', 'objectId')
 				->where('object', 'cms_file')->equals('cmswidgetpicture'));
 

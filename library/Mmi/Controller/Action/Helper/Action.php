@@ -72,7 +72,7 @@ class Action extends \Mmi\Controller\Action\Helper\HelperAbstract {
 	 * @param boolean $fetch true zwróci wynik renderowania, w innym przypadku wyrenderuje do bufora
 	 * @return mixed
 	 */
-	public function action($moduleName = 'default', $controllerName = 'index', $actionName = 'index', array $params = array()) {
+	public function action($moduleName = 'core', $controllerName = 'index', $actionName = 'index', array $params = array()) {
 		\Mmi\Profiler::event('Action execute: ' . $moduleName . ':' . $controllerName . ':' . $actionName);
 		if (!$this->_checkAcl($moduleName, $controllerName, $actionName)) {
 			return;

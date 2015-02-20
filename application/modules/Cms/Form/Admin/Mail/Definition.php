@@ -5,7 +5,7 @@ namespace Cms\Form\Admin\Mail;
 
 class Definition extends \Mmi\Form {
 
-	protected $_recordName = 'Cms\Model\Mail\Definition\Record';
+	protected $_recordName = '\Cms\Model\Mail\Definition\Record';
 
 	public function init() {
 
@@ -13,12 +13,12 @@ class Definition extends \Mmi\Form {
 			->setLabel('Unikalna nazwa')
 			->setRequired()
 			->addValidatorStringLength(6, 25)
-			->addValidatorRecordUnique('Cms\Model\Mail\Definition\Dao', 'name', $this->getRecord()->id);
+			->addValidatorRecordUnique('\Cms\Model\Mail\Definition\Dao', 'name', $this->getRecord()->id);
 
 		$this->addElementSelect('mailServerId')
 			->setLabel('Połącznie')
 			->setRequired()
-			->setMultiOptions(Cms\Model\Mail\Server\Dao::getMultioptions());
+			->setMultiOptions(\Cms\Model\Mail\Server\Dao::getMultioptions());
 
 		$this->addElementText('subject')
 			->setLabel('Tytuł')

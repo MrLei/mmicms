@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @method Cms\Model\Log\Query on() on($localKeyName, $joinedKeyName = 'id')
+ * @method \Cms\Model\Log\Query on() on($localKeyName, $joinedKeyName = 'id')
  */
 
 namespace Cms\Model\Log\Query;

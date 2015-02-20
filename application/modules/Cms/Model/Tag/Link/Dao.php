@@ -34,7 +34,7 @@ class Dao extends \Mmi\Dao {
 	 * @return boolean
 	 */
 	public static function namedTag($tagName, $object, $objectId = null) {
-		$tag = Cms\Model\Tag\Dao::byNameQuery(trim($tagName))
+		$tag = \Cms\Model\Tag\Dao::byNameQuery(trim($tagName))
 			->findFirst();
 		if ($tag === null) {
 			return false;
@@ -50,7 +50,7 @@ class Dao extends \Mmi\Dao {
 	 * @return boolean
 	 */
 	public static function unTag($tagId, $object, $objectId = null) {
-		return Cms\Model\Tag\Link\Query::factory()
+		return \Cms\Model\Tag\Link\Query::factory()
 				->whereCmsTagId()->equals($tagId)
 				->andFieldObject()->equals($object)
 				->andFieldObjectId()->equals($objectId)
@@ -66,7 +66,7 @@ class Dao extends \Mmi\Dao {
 	 * @return boolean
 	 */
 	public static function unNamedTag($tagName, $object, $objectId = null) {
-		$tag = Cms\Model\Tag\Dao::byNameQuery(trim($tagName))
+		$tag = \Cms\Model\Tag\Dao::byNameQuery(trim($tagName))
 			->findFirst();
 		if ($tag === null) {
 			return false;
@@ -81,7 +81,7 @@ class Dao extends \Mmi\Dao {
 	 * @return int ilość usuniętych
 	 */
 	public static function clearTags($object, $objectId = null) {
-		return Cms\Model\Tag\Link\Query::factory()
+		return \Cms\Model\Tag\Link\Query::factory()
 				->whereObject()->equals($object)
 				->andFieldObjectId()->equals($objectId)
 				->find()
@@ -114,7 +114,7 @@ class Dao extends \Mmi\Dao {
 	public static function replaceNamedTags(array $tagNames, $object, $objectId = null) {
 		$tagIds = array();
 		foreach ($tagNames as $tagName) {
-			$tag = Cms\Model\Tag\Dao::byNameQuery(trim($tagName))
+			$tag = \Cms\Model\Tag\Dao::byNameQuery(trim($tagName))
 				->findFirst();
 			//tworzy tag jeśli jeszcze nie utworzony
 			if ($tag == null) {
@@ -134,7 +134,7 @@ class Dao extends \Mmi\Dao {
 	 * @return \Mmi\Dao\Record\Collection
 	 */
 	public static function tagsByObjectQuery($object, $objectId = null) {
-		return Cms\Model\Tag\Link\Query::factory()
+		return \Cms\Model\Tag\Link\Query::factory()
 				->join('cms_tag')->on('cms_tag_id')
 				->whereObject()->equals($object)
 				->andFieldObjectId()->equals($objectId)

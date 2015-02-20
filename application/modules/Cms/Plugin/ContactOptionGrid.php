@@ -5,7 +5,7 @@ class ContactOptionGrid extends \Mmi\Grid {
 
 	public function init() {
 		
-		$this->setQuery(Cms\Model\Contact\Option\Query::factory());
+		$this->setQuery(\Cms\Model\Contact\Option\Query::factory());
 
 		$this->addColumn('text', 'name', array(
 			'label' => 'temat pytania'

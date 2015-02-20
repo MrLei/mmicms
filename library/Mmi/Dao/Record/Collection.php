@@ -19,7 +19,7 @@
 
 /**
  * Kolekcja rekordów DAO
- * @see ArrayObject
+ * @see \ArrayObject
  * @category   Mmi
  * @package    \Mmi\Dao
  * @license    http://milejko.com/new-bsd.txt     New BSD License
@@ -27,7 +27,7 @@
 
 namespace Mmi\Dao\Record;
 
-class Collection extends ArrayObject {
+class Collection extends \ArrayObject {
 	
 	/**
 	 * Kasuje całą kolekcję obiektów

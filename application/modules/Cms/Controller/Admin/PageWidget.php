@@ -9,7 +9,7 @@ class PageWidget extends \MmiCms\Controller\Admin {
 	}
 
 	public function editAction() {
-		$widget = Cms\Model\Page\Widget\Dao::findPk($this->id);
+		$widget = \Cms\Model\Page\Widget\Dao::findPk($this->id);
 		
 		if ($widget !== null) {
 			$this->widget = ucfirst($widget->module) . ':' . ucfirst($widget->controller) . ':' . $widget->action;
@@ -26,7 +26,7 @@ class PageWidget extends \MmiCms\Controller\Admin {
 	}
 
 	public function deleteAction() {
-		$record = Cms\Model\Page\Widget\Dao::findPk($this->id);
+		$record = \Cms\Model\Page\Widget\Dao::findPk($this->id);
 		if ($record !== null && $record->delete()) {
 			$this->_helper->messenger('Widget zostal usuniety');
 		}

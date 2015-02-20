@@ -6,7 +6,7 @@ class AuthGrid extends \Mmi\Grid {
 
 	public function init() {
 
-		$this->setQuery(Cms\Model\Auth\Query::factory());
+		$this->setQuery(\Cms\Model\Auth\Query::factory());
 
 		$this->setOption('locked', true);
 

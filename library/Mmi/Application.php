@@ -48,7 +48,7 @@ class Application {
 			->_initErrorHandler();
 		\Mmi\Profiler::event('Init bootstrap');
 		$this->_bootstrap = new $bootstrapName($path);
-		if (!($this->_bootstrap instanceof \Mmi\Application\Bootstrap\BootstrapInterface)) {
+		if (!($this->_bootstrap instanceof \Mmi\Application\BootstrapInterface)) {
 			throw new Exception('\Mmi\Application bootstrap should be implementing \Mmi\Application\Bootstrap\Interface');
 		}
 	}

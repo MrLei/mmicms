@@ -433,11 +433,11 @@ class View {
 			return APPLICATION_PATH . '/skins/default/' . $module . '/scripts/layout.tpl';
 		}
 		//skóra / default
-		if (isset($structure['skin'][$skin]['default']['layout'])) {
-			return APPLICATION_PATH . '/skins/' . $skin . '/default/scripts/layout.tpl';
+		if (isset($structure['skin'][$skin]['core']['layout'])) {
+			return APPLICATION_PATH . '/skins/' . $skin . '/core/scripts/layout.tpl';
 		}
-		//default / default
-		if (isset($structure['skin']['default']['default']['layout'])) {
+		//default / core
+		if (isset($structure['skin']['default']['core']['layout'])) {
 			return APPLICATION_PATH . '/skins/default/default/scripts/layout.tpl';
 		}
 		throw new Exception('Layout not found.');

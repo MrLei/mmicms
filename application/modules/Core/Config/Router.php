@@ -14,7 +14,7 @@ class Router extends \Mmi\Controller\Router\Config {
 	public function __construct() {
 
 		//strona główna
-		$this->setRoute(0, '', array('module' => 'default'), array('controller' => 'index', 'action' => 'index'));
+		$this->setRoute(0, '', array('module' => 'core'), array('controller' => 'index', 'action' => 'index'));
 		
 		//artykuły CMS
 		$this->setRoute(1, '/^strona,(.[^\/]+)$/', array('module' => 'cms', 'controller' => 'article', 'action' => 'index', 'uri' => '$1'));

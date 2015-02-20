@@ -1,5 +1,5 @@
-{'default/scripts/header.tpl'}
+{'core/scripts/header.tpl'}
 <article role="main" class="top-level">
 	{content()}
 </article>
-{'default/scripts/footer.tpl'}
+{'core/scripts/footer.tpl'}

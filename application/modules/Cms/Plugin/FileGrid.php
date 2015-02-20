@@ -5,7 +5,7 @@ class FileGrid extends \Mmi\Grid {
 
 	public function init() {
 		
-		$this->setQuery(Cms\Model\File\Query::factory());
+		$this->setQuery(\Cms\Model\File\Query::factory());
 
 		$this->addColumn('custom', 'thumb', array(
 			'label' => 'miniatura',

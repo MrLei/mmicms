@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @method Cms\Model\Widget\Picture\Query on() on($localKeyName, $joinedKeyName = 'id')
+ * @method \Cms\Model\Widget\Picture\Query on() on($localKeyName, $joinedKeyName = 'id')
  */
 
 namespace Cms\Model\Widget\Picture\Query;

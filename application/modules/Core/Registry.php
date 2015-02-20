@@ -6,7 +6,7 @@ class Registry extends \MmiCms\Registry {
 
 	/**
 	 * Konfiguracja
-	 * @var Core\Config\Local
+	 * @var \Core\Config\Local
 	 */
 	public static $config;
 

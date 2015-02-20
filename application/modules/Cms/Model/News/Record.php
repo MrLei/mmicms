@@ -21,7 +21,7 @@ class Record extends \Mmi\Dao\Record {
 		$uri = $filter->filter($this->title);
 		//identyfikatory dla linków wewnętrznych
 		if ($this->internal == 1) {
-			$exists = Cms\Model\News\Dao::byUriQuery($uri)
+			$exists = \Cms\Model\News\Dao::byUriQuery($uri)
 				->findFirst();
 			if ($exists !== null && $exists->getPk() != $this->getPk()) {
 				$uri = $uri . '_' . date('Y-m-d');
@@ -34,7 +34,7 @@ class Record extends \Mmi\Dao\Record {
 	}
 
 	public function getFirstImage() {
-		return Cms\Model\File\Dao::imagesByObjectQuery('cmsnews', $this->id)
+		return \Cms\Model\File\Dao::imagesByObjectQuery('cmsnews', $this->id)
 				->findFirst();
 	}
 
@@ -44,7 +44,7 @@ class Record extends \Mmi\Dao\Record {
 	}
 
 	public function delete() {
-		Cms\Model\File\Dao::imagesByObjectQuery('cmsnews', $this->getPk())
+		\Cms\Model\File\Dao::imagesByObjectQuery('cmsnews', $this->getPk())
 			->find()
 			->delete();
 		return parent::delete();

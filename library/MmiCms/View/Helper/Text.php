@@ -36,7 +36,7 @@ class Text extends \Mmi\View\Helper\HelperAbstract {
 	 * @return string
 	 */
 	public function text($key) {
-		return nl2br(Cms\Model\Text\Dao::textByKeyLang($key, \Mmi\Controller\Front::getInstance()->getView()->request->lang));
+		return nl2br(\Cms\Model\Text\Dao::textByKeyLang($key, \Mmi\Controller\Front::getInstance()->getView()->request->lang));
 	}
 
 }

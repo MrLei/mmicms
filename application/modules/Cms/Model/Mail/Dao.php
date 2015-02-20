@@ -12,7 +12,7 @@ class Dao extends \Mmi\Dao {
 	 * @return int ilość usuniętych
 	 */
 	public static function clean() {
-		return Cms\Model\Mail\Query::factory()
+		return \Cms\Model\Mail\Query::factory()
 				->whereActive()->equals(1)
 				->andFieldDateAdd()->less(date('Y-m-d H:i:s', strtotime('-1 week')))
 				->find()
@@ -32,7 +32,7 @@ class Dao extends \Mmi\Dao {
 	 * @return int id zapisanego rekordu
 	 */
 	public static function pushEmail($name, $to, array $params = array(), $fromName = null, $replyTo = null, $subject = null, $sendAfter = null, array $attachments = array()) {
-		$def = Cms\Model\Mail\Definition\Dao::langByNameQuery($name)
+		$def = \Cms\Model\Mail\Definition\Dao::langByNameQuery($name)
 			->findFirst();
 		if ($def === null) {
 			return false;
@@ -76,7 +76,7 @@ class Dao extends \Mmi\Dao {
 	public static function send() {
 		$result = array('error' => 0, 'success' => 0);
 
-		$emails = Cms\Model\Mail\Query::factory()
+		$emails = \Cms\Model\Mail\Query::factory()
 			->join('mail_definition')->on('mail_definition_id')
 			->join('mail_server', 'mail_definition')->on('mail_server_id')
 			->whereActive()->equals(0)

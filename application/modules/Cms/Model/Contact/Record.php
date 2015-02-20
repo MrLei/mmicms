@@ -23,7 +23,7 @@ class Record extends \Mmi\Dao\Record {
 		$this->dateAdd = date('Y-m-d H:i:s');
 		$this->ip = \Mmi\Controller\Front::getInstance()->getEnvironment()->remoteAddress;
 		$this->active = 1;
-		$auth = Core\Registry::$auth;
+		$auth = \Core\Registry::$auth;
 		if ($auth->hasIdentity()) {
 			$this->cmsAuthId = $auth->getId();
 		}
@@ -44,7 +44,7 @@ class Record extends \Mmi\Dao\Record {
 			'replyText' => $this->reply
 		));
 		$this->active = 0;
-		$this->cmsAuthIdReply = Core\Registry::$auth->getId();
+		$this->cmsAuthIdReply = \Core\Registry::$auth->getId();
 		return $this->save();
 	}
 

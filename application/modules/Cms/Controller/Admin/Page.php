@@ -17,15 +17,15 @@ class Page extends \MmiCms\Controller\Admin {
 	}
 
 	public function composeAction() {
-		if (!$this->id || null === ($page = Cms\Model\Page\Query::factory()
+		if (!$this->id || null === ($page = \Cms\Model\Page\Query::factory()
 			->where('id')->equals($this->id)
 			->findFirst())) {
 			$this->_helper->redirector('index', 'admin-page', 'cms', array(), true);
 		}
-		/* @var $page Cms\Model\Page\Record */
+		/* @var $page \Cms\Model\Page\Record */
 
 		//lista aktywnych widgetow
-		$this->view->widgets = Cms\Model\Page\Widget\Dao::activeQuery()->find();
+		$this->view->widgets = \Cms\Model\Page\Widget\Dao::activeQuery()->find();
 
 		//skrypty js
 		$this->view->headScript()->prependFile($this->view->baseUrl . '/library/js/jquery/jquery.js');
@@ -52,7 +52,7 @@ class Page extends \MmiCms\Controller\Admin {
 		if (!isset($post['id']) || !isset($post['data'])) {
 			return json_encode(array('success' => 0));
 		}
-		$page = Cms\Model\Page\Query::factory()
+		$page = \Cms\Model\Page\Query::factory()
 			->where('id')->equals($post['id'])
 			->findFirst();
 		if ($page === null) {
@@ -69,7 +69,7 @@ class Page extends \MmiCms\Controller\Admin {
 		if (!isset($post['id'])) {
 			return json_encode(array('success' => 0));
 		}
-		$page = Cms\Model\Page\Query::factory()
+		$page = \Cms\Model\Page\Query::factory()
 			->whereId()->equals($post['id'])
 			->findFirst();
 		if ($page === null) {
@@ -81,7 +81,7 @@ class Page extends \MmiCms\Controller\Admin {
 	}
 		
 	public function deleteAction() {
-		if (null !== ($record = Cms\Model\Page\Dao::findPk($this->id)) && $record->delete()) {
+		if (null !== ($record = \Cms\Model\Page\Dao::findPk($this->id)) && $record->delete()) {
 			$this->_helper->messenger('Strona usunięta poprawnie');
 		}
 		$this->_helper->redirector('index', 'admin-page', 'cms', array(), true);

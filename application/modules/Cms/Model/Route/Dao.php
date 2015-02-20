@@ -9,10 +9,10 @@ class Dao extends \Mmi\Dao {
 	
 	/**
 	 * 
-	 * @return Cms\Model\Route\Query
+	 * @return \Cms\Model\Route\Query
 	 */
 	public static function activeQuery() {
-		return Cms\Model\Route\Query::factory()
+		return \Cms\Model\Route\Query::factory()
 			->whereActive()->equals(1)
 			->orderAscOrder();
 	}
@@ -25,7 +25,7 @@ class Dao extends \Mmi\Dao {
 	 */
 	public static function updateRouterConfig(\Mmi\Controller\Router\Config $config, \Mmi\Dao\Record\Collection $routes) {
 		$i = 0;
-		foreach ($routes as $route) { /* @var $route Cms\Model\Route\Record */
+		foreach ($routes as $route) { /* @var $route \Cms\Model\Route\Record */
 			$i++;
 			$route = $route->toRouteArray();
 			$config->setRoute('cms-' . $i, $route['pattern'], $route['replace'], $route['default']);

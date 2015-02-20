@@ -60,24 +60,24 @@ class Oci extends PdoAbstract {
 		if ($this->_config->profiler) {
 			\Mmi\Db\Profiler::event('CONNECT WITH: ' . get_called_class(), 0);
 		}
-		$this->_pdo = new PDO(
-			$this->_config->driver . ':host=' . $this->_config->host . ';port=' . $this->_config->port . ';dbname=' . $this->_config->name . ';charset=' . $this->_config->charset, $this->_config->user, $this->_config->password, array(PDO::ATTR_PERSISTENT => $this->_config->persistent)
+		$this->_pdo = new \PDO(
+			$this->_config->driver . ':host=' . $this->_config->host . ';port=' . $this->_config->port . ';dbname=' . $this->_config->name . ';charset=' . $this->_config->charset, $this->_config->user, $this->_config->password, array(\PDO::ATTR_PERSISTENT => $this->_config->persistent)
 		);
 		$this->_connected = true;
-		$this->_pdo->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, true);
+		$this->_pdo->setAttribute(\PDO::ATTR_STRINGIFY_FETCHES, true);
 		$this->query('ALTER SESSION SET NLS_TIMESTAMP_FORMAT = "YYYY-MM-DD HH24:MI:SS"');
 		return $this;
 	}
 
 	/**
-	 * Wydaje zapytanie PDO prepare, execute
+	 * Wydaje zapytanie \PDO prepare, execute
 	 * rzuca wyjątki
-	 * @see PDO::prepare()
-	 * @see PDO::execute()
+	 * @see \PDO::prepare()
+	 * @see \PDO::execute()
 	 * @param string $sql zapytanie
-	 * @param array $bind tabela w formacie akceptowanym przez PDO::prepare()
+	 * @param array $bind tabela w formacie akceptowanym przez \PDO::prepare()
 	 * @throws \Mmi\Db\Exception
-	 * @return PDO_Statement
+	 * @return \PDO_Statement
 	 */
 	public function query($sql, array $bind = array()) {
 		if (!$this->_connected) {
@@ -91,13 +91,13 @@ class Oci extends PdoAbstract {
 		}
 		$values = array();
 		foreach ($bind as $key => $param) {
-			$type = PDO::PARAM_STR;
+			$type = \PDO::PARAM_STR;
 			if (is_int($key)) {
 				$key = $key + 1;
 			}
 			$values[$key] = array("value" => $param, "length" => strlen($param));
 			if (is_bool($param)) {
-				$type = PDO::PARAM_BOOL;
+				$type = \PDO::PARAM_BOOL;
 				$statement->bindParam($key, $values[$key]["value"], $type);
 			} else {
 				$statement->bindParam($key, $values[$key]["value"], $type, $values[$key]["length"]);

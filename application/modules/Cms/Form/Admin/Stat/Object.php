@@ -10,7 +10,7 @@ class Object extends \Mmi\Form {
 		$this->addElementSelect('object')
 			->setLabel('statystyka')
 			->setValue($this->getOption('object'))
-			->setMultiOptions(array(null => '---') + Cms\Model\Stat\Label\Query::factory()->orderAsc('label')->findPairs('object', 'label'));
+			->setMultiOptions(array(null => '---') + \Cms\Model\Stat\Label\Query::factory()->orderAsc('label')->findPairs('object', 'label'));
 
 		$this->addElementSelect('year')
 			->setLabel('rok')

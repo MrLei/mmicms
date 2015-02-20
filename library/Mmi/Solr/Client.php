@@ -88,15 +88,15 @@ class Client {
 	/**
 	 * Wykonanie insert na danych umieszczonych w solr
 	 *
-	 * @param stdClass $obj
+	 * @param \stdClass $obj
 	 * @param boolean $commit
 	 * @throws \Mmi\Solr\Exception
 	 */
-	public function insert(stdClass $obj, $commit = true) {
+	public function insert(\stdClass $obj, $commit = true) {
 		$this->_solrMethod = 'update';
 
-		$addObj = new stdClass();
-		$addObj->add = new stdClass();
+		$addObj = new \stdClass();
+		$addObj->add = new \stdClass();
 		$addObj->add->overwrite = true;
 		$addObj->add->doc = $obj;
 
@@ -134,7 +134,7 @@ class Client {
 	 */
 	public function insertAll(array $stdClassArray) {
 		foreach ($stdClassArray as $object) {
-			if ($object instanceof stdClass) {
+			if ($object instanceof \stdClass) {
 				$this->insert($object, false);
 			}
 		}
@@ -143,9 +143,9 @@ class Client {
 
 	/**
 	 * Metoda update danych umieszczonych w indeksie
-	 * @param stdClass $obj
+	 * @param \stdClass $obj
 	 */
-	public function update(stdClass $obj) {
+	public function update(\stdClass $obj) {
 		$this->insert($obj);
 	}
 
@@ -159,8 +159,8 @@ class Client {
 	public function delete($id, $commit = true) {
 		$this->_solrMethod = 'update';
 
-		$addObj = new stdClass($id);
-		$addObj->delete = new stdClass();
+		$addObj = new \stdClass($id);
+		$addObj->delete = new \stdClass();
 		$addObj->delete->id = $id;
 
 		$jsonObject = json_encode($addObj);

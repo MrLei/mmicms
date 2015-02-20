@@ -5,7 +5,7 @@ namespace Cms\Form\Admin\Widget;
 
 class Picture extends \Mmi\Form {
 
-	protected $_recordName = 'Cms\Model\Widget\Picture\Record';
+	protected $_recordName = '\Cms\Model\Widget\Picture\Record';
 
 	public function init() {
 
@@ -38,8 +38,8 @@ class Picture extends \Mmi\Form {
 		}
 		$object = 'cmswidgetpicture';
 		//zastapienie obecnego pliku
-		Cms\Model\File\Dao::imagesByObjectQuery($object, $id)->find()->delete();
-		Cms\Model\File\Dao::appendFiles($object, $id, $files);
+		\Cms\Model\File\Dao::imagesByObjectQuery($object, $id)->find()->delete();
+		\Cms\Model\File\Dao::appendFiles($object, $id, $files);
 	}
 
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @method Cms\Model\Text\Query on() on($localKeyName, $joinedKeyName = 'id')
+ * @method \Cms\Model\Text\Query on() on($localKeyName, $joinedKeyName = 'id')
  */
 
 namespace Cms\Model\Text\Query;

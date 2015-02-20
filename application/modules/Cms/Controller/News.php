@@ -20,8 +20,8 @@ class News extends \Mmi\Controller\Action {
 			$pages = (int) $this->pages;
 		}
 		$paginator->setRowsPerPage($pages);
-		$paginator->setRowsCount(Cms\Model\News\Dao::activeQuery()->count());
-		$this->view->news = Cms\Model\News\Dao::activeQuery()
+		$paginator->setRowsCount(\Cms\Model\News\Dao::activeQuery()->count());
+		$this->view->news = \Cms\Model\News\Dao::activeQuery()
 			->limit($paginator->getLimit())
 			->offset($paginator->getOffset())
 			->find();
@@ -30,13 +30,13 @@ class News extends \Mmi\Controller\Action {
 
 	public function topAction() {
 		$limit = $this->limit ? intval($this->limit) : 5;
-		$this->view->news = Cms\Model\News\Dao::activeQuery()
+		$this->view->news = \Cms\Model\News\Dao::activeQuery()
 			->limit($limit)
 			->find();
 	}
 
 	public function displayAction() {
-		$this->view->item = Cms\Model\News\Dao::activeByUriQuery($this->uri)
+		$this->view->item = \Cms\Model\News\Dao::activeByUriQuery($this->uri)
 			->findFirst();
 		if ($this->view->item === null) {
 			$this->_helper->redirector('index', 'news', 'cms', array(), true);

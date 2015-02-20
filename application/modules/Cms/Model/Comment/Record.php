@@ -19,7 +19,7 @@ class Record extends \Mmi\Dao\Record {
 
 	protected function _insert() {
 		$this->dateAdd = date('Y-m-d H:i:s');
-		$auth = Core\Registry::$auth;
+		$auth = \Core\Registry::$auth;
 		if ($auth->hasIdentity()) {
 			$this->signature = $auth->getUsername();
 			$this->cmsAuthId = $auth->getId();

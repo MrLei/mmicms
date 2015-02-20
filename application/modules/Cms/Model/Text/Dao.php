@@ -10,14 +10,14 @@ class Dao extends \Mmi\Dao {
 
 	/**
 	 * Zapytanie po langu z requesta
-	 * @return Cms\Model\Text\Query
+	 * @return \Cms\Model\Text\Query
 	 */
 	public static function langQuery() {
 		if (!\Mmi\Controller\Front::getInstance()->getRequest()->lang) {
-			return Cms\Model\Text\Query::factory();
+			return \Cms\Model\Text\Query::factory();
 		}
-		return Cms\Model\Text\Query::factory()
-				->andQuery(Cms\Model\Text\Query::factory()
+		return \Cms\Model\Text\Query::factory()
+				->andQuery(\Cms\Model\Text\Query::factory()
 					->whereLang()->equals(\Mmi\Controller\Front::getInstance()->getRequest()->lang)
 					->orFieldLang()->equals(null)
 					->orderDescLang());
@@ -26,10 +26,10 @@ class Dao extends \Mmi\Dao {
 	/**
 	 * 
 	 * @param string $lang
-	 * @return Cms\Model\Text\Query
+	 * @return \Cms\Model\Text\Query
 	 */
 	public static function byLangQuery($lang) {
-		return Cms\Model\Text\Query::factory()
+		return \Cms\Model\Text\Query::factory()
 				->whereLang()->equals($lang);
 	}
 	
@@ -37,7 +37,7 @@ class Dao extends \Mmi\Dao {
 	 * 
 	 * @param string $key
 	 * @param string $lang
-	 * @return Cms\Model\Text\Query
+	 * @return \Cms\Model\Text\Query
 	 */
 	public static function byKeyLangQuery($key, $lang) {
 		return self::byLangQuery($lang)
@@ -61,16 +61,16 @@ class Dao extends \Mmi\Dao {
 	}
 
 	protected static function _initDictionary() {
-		if (null === (self::$_texts = Core\Registry::$cache->load('Cms\Text'))) {
+		if (null === (self::$_texts = \Core\Registry::$cache->load('\Cms\Text'))) {
 			self::$_texts = array();
-			foreach (Cms\Model\Text\Query::factory()->find() as $text) {
+			foreach (\Cms\Model\Text\Query::factory()->find() as $text) {
 				if ($text->lang === null) {
 					self::$_texts['none'][$text->key] = $text->content;
 					continue;
 				}
 				self::$_texts[$text->lang][$text->key] = $text->content;
 			}
-			Core\Registry::$cache->save(self::$_texts, 'Cms\Text', 86400);
+			\Core\Registry::$cache->save(self::$_texts, '\Cms\Text', 86400);
 		}
 	}
 

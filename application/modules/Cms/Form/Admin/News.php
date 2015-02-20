@@ -5,7 +5,7 @@ namespace Cms\Form\Admin;
 
 class News extends \MmiCms\Form {
 
-	protected $_recordName = 'Cms\Model\News\Record';
+	protected $_recordName = '\Cms\Model\News\Record';
 
 	public function init() {
 

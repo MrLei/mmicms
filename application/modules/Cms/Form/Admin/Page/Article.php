@@ -5,7 +5,7 @@ namespace Cms\Form\Admin\Page;
 
 class Article extends \MmiCms\Form {
 
-	protected $_recordName = 'Cms\Model\Navigation\Record';
+	protected $_recordName = '\Cms\Model\Navigation\Record';
 	protected $_recordSaveMethod = 'saveForm';
 
 	public function init() {
@@ -27,7 +27,7 @@ class Article extends \MmiCms\Form {
 
 		$this->addElementSelect('articleId')
 			->setLabel('Artykuł')
-			->setMultiOptions(Cms\Model\Article\Dao::getMultioptions());
+			->setMultiOptions(\Cms\Model\Article\Dao::getMultioptions());
 
 		$this->addElementCheckbox('absolute')
 			->setLabel('Link bezwzględny');
@@ -57,7 +57,7 @@ class Article extends \MmiCms\Form {
 		$this->addElementSelect('parentId')
 			->setLabel('Element nadrzędny')
 			->setValue(\Mmi\Controller\Front::getInstance()->getRequest()->parent)
-			->setMultiOptions(Cms\Model\Navigation\Dao::getMultiOptions());
+			->setMultiOptions(\Cms\Model\Navigation\Dao::getMultiOptions());
 
 		$this->addElementDateTimePicker('dateStart')
 			->setLabel('Data i czas włączenia');

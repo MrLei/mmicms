@@ -5,7 +5,7 @@ namespace Cms\Form\Admin;
 
 class Tag extends \Mmi\Form {
 
-	protected $_recordName = 'Cms\Model\Tag\Record';
+	protected $_recordName = '\Cms\Model\Tag\Record';
 
 	public function init() {
 

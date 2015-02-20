@@ -5,7 +5,7 @@ class MailDefinitionGrid extends \Mmi\Grid {
 
 	public function init() {
 		
-		$this->setQuery(Cms\Model\Mail\Definition\Dao::langQuery());
+		$this->setQuery(\Cms\Model\Mail\Definition\Dao::langQuery());
 
 		$this->addColumn('text', 'lang', array(
 			'label' => 'język'

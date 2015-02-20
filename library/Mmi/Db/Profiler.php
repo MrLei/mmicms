@@ -58,7 +58,7 @@ class Profiler extends \Mmi\Profiler {
 	 * @param array $bind
 	 * @param float $elapsed
 	 */
-	public static function eventQuery(PDOStatement $statement, array $bind, $elapsed = null) {
+	public static function eventQuery(\PDOStatement $statement, array $bind, $elapsed = null) {
 		if (!static::$_enabled) {
 			return;
 		}

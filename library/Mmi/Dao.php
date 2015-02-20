@@ -253,7 +253,7 @@ class Dao {
 		foreach ($tableArray as $key => $element) {
 			$targetTable[$key] = ucfirst($element);
 		}
-		return implode('_', $targetTable);
+		return implode('\\', $targetTable);
 	}
 
 }

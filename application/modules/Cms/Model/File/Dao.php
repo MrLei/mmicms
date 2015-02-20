@@ -18,7 +18,7 @@ class Dao extends \Mmi\Dao {
 			->whereActive()->equals(1)
 			->find();
 		$classes = array('image' => array(), 'other' => array());
-		foreach ($files AS $file) { /* @var $file Cms\Model\File\Record */
+		foreach ($files AS $file) { /* @var $file \Cms\Model\File\Record */
 			if ($file->class == 'image') {
 				$classes['image'][] = $file;
 			} else {
@@ -32,10 +32,10 @@ class Dao extends \Mmi\Dao {
 	 * 
 	 * @param string $object
 	 * @param string $objectId
-	 * @return Cms\Model\File\Query
+	 * @return \Cms\Model\File\Query
 	 */
 	public static function byObjectQuery($object = null, $objectId = null) {
-		return Cms\Model\File\Query::factory()
+		return \Cms\Model\File\Query::factory()
 				->whereObject()->equals($object)
 				->andFieldObjectId()->equals($objectId)
 				->orderAscOrder();
@@ -45,7 +45,7 @@ class Dao extends \Mmi\Dao {
 	 * 
 	 * @param string $object
 	 * @param string $objectId
-	 * @return Cms\Model\File\Query
+	 * @return \Cms\Model\File\Query
 	 */
 	public static function imagesByObjectQuery($object = null, $objectId = null) {
 		return self::byObjectQuery($object, $objectId)
@@ -56,7 +56,7 @@ class Dao extends \Mmi\Dao {
 	 * 
 	 * @param string $object
 	 * @param string $objectId
-	 * @return Cms\Model\File\Query
+	 * @return \Cms\Model\File\Query
 	 */
 	public static function stickyByObjectQuery($object = null, $objectId = null, $class = null) {
 		$q = self::byObjectQuery($object, $objectId)
@@ -71,7 +71,7 @@ class Dao extends \Mmi\Dao {
 	 * 
 	 * @param string $object
 	 * @param string $objectId
-	 * @return Cms\Model\File\Query
+	 * @return \Cms\Model\File\Query
 	 */
 	public static function notImagesByObjectQuery($object = null, $objectId = null) {
 		return self::byObjectQuery($object, $objectId)
@@ -83,7 +83,7 @@ class Dao extends \Mmi\Dao {
 	 * @param string $object obiekt
 	 * @param int $id id obiektu
 	 * @param array $files tabela plików
-	 * @return Cms\Model\File\Dao
+	 * @return \Cms\Model\File\Dao
 	 */
 	public static function appendFiles($object, $id = null, array $files = array()) {
 		foreach ($files as $fileSet) {
@@ -115,7 +115,7 @@ class Dao extends \Mmi\Dao {
 				$record->dateModify = date('Y-m-d');
 				$record->object = $object;
 				$record->objectId = $id;
-				$record->cmsAuthId = Core\Registry::$auth->getId();
+				$record->cmsAuthId = \Core\Registry::$auth->getId();
 				$record->active = 1;
 				$record->save();
 			}
@@ -128,7 +128,7 @@ class Dao extends \Mmi\Dao {
 	 * @param string $object obiekt
 	 * @param int $id id obiektu
 	 * @param array $files tabela nazw plików na serwerze
-	 * @return Cms\Model\File\Dao
+	 * @return \Cms\Model\File\Dao
 	 */
 	public static function appendFilesDirect($object, $id = null, array $files = array()) {
 		foreach ($files as $file) {
@@ -150,7 +150,7 @@ class Dao extends \Mmi\Dao {
 			$record->dateModify = date('Y-m-d H:i:s');
 			$record->object = $object;
 			$record->objectId = $id;
-			$record->cmsAuthId = Core\Registry::$auth->getId();
+			$record->cmsAuthId = \Core\Registry::$auth->getId();
 			$record->active = 1;
 			$record->save();
 		}

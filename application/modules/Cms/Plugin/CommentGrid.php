@@ -5,7 +5,7 @@ class CommentGrid extends \Mmi\Grid {
 
 	public function init() {
 		
-		$this->setQuery(Cms\Model\Comment\Query::factory());
+		$this->setQuery(\Cms\Model\Comment\Query::factory());
 
 		$this->addColumn('text', 'dateAdd', array(
 			'label' => 'data dodania'

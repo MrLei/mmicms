@@ -39,7 +39,7 @@ class Record extends \Mmi\Dao\Record {
 				return $this;
 			}
 
-			$article = Cms\Model\Article\Dao::byUriQuery($params['uri'])
+			$article = \Cms\Model\Article\Dao::byUriQuery($params['uri'])
 				->findFirst();
 			if ($article !== null) {
 				$this->articleId = $article->id;
@@ -64,7 +64,7 @@ class Record extends \Mmi\Dao\Record {
 			}
 		}
 		//wiązanie artykułu
-		if ($this->getOption('articleId') && null !== ($article = Cms\Model\Article\Dao::findPk($this->getOption('articleId')))) {
+		if ($this->getOption('articleId') && null !== ($article = \Cms\Model\Article\Dao::findPk($this->getOption('articleId')))) {
 			$this->module = 'cms';
 			$this->controller = 'article';
 			$this->action = 'index';
@@ -86,7 +86,7 @@ class Record extends \Mmi\Dao\Record {
 	public function _insert() {
 		//dodawanie na końcu listy
 		if ($this->parentId) {
-			$lastElement = Cms\Model\Navigation\Dao::descByParentIdQuery($this->parentId)
+			$lastElement = \Cms\Model\Navigation\Dao::descByParentIdQuery($this->parentId)
 				->findFirst();
 			$this->order = 0;
 			if ($lastElement !== null) {
@@ -97,7 +97,7 @@ class Record extends \Mmi\Dao\Record {
 	}
 
 	public function delete() {
-		Cms\Model\Navigation\Dao::byParentIdQuery($this->id)
+		\Cms\Model\Navigation\Dao::byParentIdQuery($this->id)
 			->find()
 			->delete();
 		$this->_clearCache();
@@ -105,9 +105,9 @@ class Record extends \Mmi\Dao\Record {
 	}
 
 	protected function _clearCache() {
-		Core\Registry::$cache->remove('\Mmi\Navigation_');
-		Core\Registry::$cache->remove('\Mmi\Navigation_' . \Mmi\Controller\Front::getInstance()->getRequest()->lang);
-		Core\Registry::$cache->remove('\Mmi\Acl');
+		\Core\Registry::$cache->remove('\Mmi\Navigation_');
+		\Core\Registry::$cache->remove('\Mmi\Navigation_' . \Mmi\Controller\Front::getInstance()->getRequest()->lang);
+		\Core\Registry::$cache->remove('\Mmi\Acl');
 	}
 
 }

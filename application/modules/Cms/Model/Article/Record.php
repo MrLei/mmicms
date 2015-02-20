@@ -19,13 +19,13 @@ class Record extends \Mmi\Dao\Record {
 		$filter = new \Mmi\Filter\Url();
 		$this->uri = $filter->filter(strip_tags($this->title));
 		$result = parent::save();
-		Core\Registry::$cache->remove('Cms-Article-' . $this->uri);
-		Core\Registry::$cache->remove('Cms-Article-Image' . $this->id);
+		\Core\Registry::$cache->remove('Cms-Article-' . $this->uri);
+		\Core\Registry::$cache->remove('Cms-Article-Image' . $this->id);
 		return $result;
 	}
 
 	public function delete() {
-		$article = Cms\Model\Navigation\Dao::byArticleUriQuery($this->uri)
+		$article = \Cms\Model\Navigation\Dao::byArticleUriQuery($this->uri)
 			->findFirst();
 		if ($article !== null) {
 			$article->delete();
@@ -35,11 +35,11 @@ class Record extends \Mmi\Dao\Record {
 
 	public function getFirstImage() {
 		$cacheKey = 'Cms-Article-Image-' . $this->id;
-		if (null !== ($image = Core\Registry::$cache->load($cacheKey))) {
+		if (null !== ($image = \Core\Registry::$cache->load($cacheKey))) {
 			return $image;
 		}
-		$image = Cms\Model\File\Dao::imagesByObjectQuery('cmsarticle', $this->id)->findFirst();
-		Core\Registry::$cache->save($image, $cacheKey, 3600);
+		$image = \Cms\Model\File\Dao::imagesByObjectQuery('cmsarticle', $this->id)->findFirst();
+		\Core\Registry::$cache->save($image, $cacheKey, 3600);
 		return $image;
 	}
 

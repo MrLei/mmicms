@@ -163,7 +163,7 @@ class Template extends HelperAbstract {
 	/**
 	 * Konwertuje określone tagi {@parametry@} na linki
 	 * przykład: {@module=cms&action=admin@} wygeneruje link do panelu administracyjnego
-	 * przykład 2: {@module=default@} wygeneruje link do strony głównej
+	 * przykład 2: {@module=core@} wygeneruje link do strony głównej
 	 * @param array $matches dopasowania
 	 * @return string
 	 */

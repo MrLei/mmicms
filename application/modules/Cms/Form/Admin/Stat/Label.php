@@ -5,7 +5,7 @@ namespace Cms\Form\Admin\Stat;
 
 class Label extends \Mmi\Form {
 
-	protected $_recordName = 'Cms\Model\Stat\Label\Record';
+	protected $_recordName = '\Cms\Model\Stat\Label\Record';
 
 	public function init() {
 
@@ -13,7 +13,7 @@ class Label extends \Mmi\Form {
 			->setLabel('klucz')
 			->addValidatorNotEmpty()
 			->setRequired()
-			->setMultiOptions(Cms\Model\Stat\Date\Dao::getUniqueObjects());
+			->setMultiOptions(\Cms\Model\Stat\Date\Dao::getUniqueObjects());
 
 		$this->addElementText('label')
 			->setLabel('nazwa statystyki')

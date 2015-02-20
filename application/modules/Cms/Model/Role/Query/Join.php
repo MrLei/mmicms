@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @method Cms\Model\Role\Query on() on($localKeyName, $joinedKeyName = 'id')
+ * @method \Cms\Model\Role\Query on() on($localKeyName, $joinedKeyName = 'id')
  */
 
 namespace Cms\Model\Role\Query;
