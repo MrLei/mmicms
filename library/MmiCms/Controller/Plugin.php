@@ -104,7 +104,7 @@ class MmiCms_Controller_Plugin extends Mmi_Controller_Plugin_Abstract {
 
 		//zablokowane na ACL
 		if (!$acl->isAllowed($auth->getRoles(), strtolower($request->getModuleName() . ':' . $request->getControllerName() . ':' . $request->getActionName()))) {
-			if (!$auth->hasIdentity() && substr($request->getControllerName(), 0, 5) == 'admin') {
+			if (!$auth->hasIdentity() && (substr($request->getControllerName(), 0, 5) == 'admin' || ($request->getModuleName() == 'cms' && $request->getControllerName() == 'index'))) {
 				$request->setModuleName('cms');
 				$request->setControllerName('admin');
 				$request->setActionName('login');
