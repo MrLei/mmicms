@@ -1,11 +1,14 @@
 <?php
 
-class Cms_Model_Comment_Dao extends Mmi_Dao {
+
+namespace Cms\Model\Comment;
+
+class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'cms_comment';
 
 	public static function byObjectQuery($object, $objectId, $descending = false) {
-		$q = Cms_Model_Comment_Query::factory()
+		$q = \Cms\Model\Comment\Query::factory()
 				->whereObject()->equals($object)
 				->andFieldObjectId()->equals($objectId);
 		if ($descending) {

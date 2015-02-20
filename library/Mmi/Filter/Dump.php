@@ -10,7 +10,7 @@
  *
  * Mmi/Filter/Dump.php
  * @category   Mmi
- * @package    Mmi_Filter
+ * @package    \Mmi\Filter
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,10 +20,13 @@
 /**
  * Filtr dumpujący zmienną
  * @category   Mmi
- * @package    Mmi_Filter
+ * @package    \Mmi\Filter
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Filter_Dump extends Mmi_Filter_Abstract {
+
+namespace Mmi\Filter;
+
+class Dump extends \Mmi\Filter\FilterAbstract {
 
 	/**
 	 * Dump zmiennej
@@ -32,7 +35,7 @@ class Mmi_Filter_Dump extends Mmi_Filter_Abstract {
 	 * @return mixed
 	 */
 	public function filter($value) {
-		return Mmi_Lib::dump($value);
+		return \Mmi\Lib::dump($value);
 	}
 
 }

@@ -11,7 +11,7 @@
  *
  * Mmi/View/Helper/Url.php
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -22,15 +22,18 @@
 /**
  * Helper tworzenia linku
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_View_Helper_Url extends Mmi_View_Helper_Abstract {
+
+namespace Mmi\View\Helper;
+
+class Url extends HelperAbstract {
 
 	/**
 	 * Generuje link na podstawie parametrów (z użyciem routera)
-	 * @see Mmi_Controller_Router::encodeUrl()
+	 * @see \Mmi\Controller\Router::encodeUrl()
 	 * @param array $params parametry
 	 * @param boolean $reset nie łączy z bierzącym requestem
 	 * @param boolean $absolute czy ścieżka bezwzględna
@@ -40,7 +43,7 @@ class Mmi_View_Helper_Url extends Mmi_View_Helper_Abstract {
 	 */
 	public function url(array $params = array(), $reset = false, $absolute = false, $https = null, array $unset = array()) {
 		if (!$reset) {
-			$params = array_merge(Mmi_Controller_Front::getInstance()->getRequest()->toArray(), $params);
+			$params = array_merge(\Mmi\Controller\Front::getInstance()->getRequest()->toArray(), $params);
 		}
 		foreach ($params as $key => $param) {
 			if (null === $param) {
@@ -71,14 +74,14 @@ class Mmi_View_Helper_Url extends Mmi_View_Helper_Abstract {
 				unset($params[$key]);
 			}
 		}
-		$url = Mmi_Controller_Front::getInstance()->getRouter()->encodeUrl($params);
+		$url = \Mmi\Controller\Front::getInstance()->getRouter()->encodeUrl($params);
 		$url = str_replace(array('&', ' '),	array('%26', '+'), $url);
 		if (!is_null($https)) {
 			$absolute = true;
 		}
 		if ($absolute) {
 			$protocol = 'http://';
-			if (Mmi_Controller_Front::getInstance()->getEnvironment()->httpSecure) {
+			if (\Mmi\Controller\Front::getInstance()->getEnvironment()->httpSecure) {
 				$protocol = 'https://';
 			}
 			if (!is_null($https)) {
@@ -88,7 +91,7 @@ class Mmi_View_Helper_Url extends Mmi_View_Helper_Abstract {
 					$protocol = 'http://';
 				}
 			}
-			$url = $protocol . Default_Registry::$config->application->host . $url;
+			$url = $protocol . \Core\Registry::$config->application->host . $url;
 		}
 		return $url ? $url : '/';
 	}

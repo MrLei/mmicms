@@ -10,7 +10,7 @@
  *
  * Mmi/Controller/Router/Config/Route.php
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,11 +20,14 @@
 /**
  * Konfiguracja pojedynczej routy
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
 
-class Mmi_Controller_Router_Config_Route {
+
+namespace Mmi\Controller\Router\Config;
+
+class Route {
 
 	/**
 	 * Nazwa routy (unikalna)

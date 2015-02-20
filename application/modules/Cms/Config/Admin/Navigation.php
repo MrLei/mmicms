@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Config_Admin_Navigation extends Mmi_Navigation_Config {
+
+namespace Cms\Config\Admin;
+
+class Navigation extends \Mmi\Navigation\Config {
 
 	public static function getMenu() {
 		return self::newElement()
@@ -24,27 +27,27 @@ class Cms_Config_Admin_Navigation extends Mmi_Navigation_Config {
 				->setLabel('CMS Administracja')
 				->setModule('cms')
 				->setController('admin')
-				->addChild(Cms_Config_Admin_Navigation_Cron::getMenu())
-				->addChild(Cms_Config_Admin_Navigation_Log::getMenu())
-				->addChild(Cms_Config_Admin_Navigation_Mail::getMenu())
-				->addChild(Cms_Config_Admin_Navigation_Navigation::getMenu())
-				->addChild(Cms_Config_Admin_Navigation_File::getMenu())
-				->addChild(Cms_Config_Admin_Navigation_Route::getMenu())
-				->addChild(Cms_Config_Admin_Navigation_Acl::getMenu())
-				->addChild(Cms_Config_Admin_Navigation_Auth::getMenu());
+				->addChild(Navigation\Cron::getMenu())
+				->addChild(Navigation\Log::getMenu())
+				->addChild(Navigation\Mail::getMenu())
+				->addChild(Navigation\Navigation::getMenu())
+				->addChild(Navigation\File::getMenu())
+				->addChild(Navigation\Route::getMenu())
+				->addChild(Navigation\Acl::getMenu())
+				->addChild(Navigation\Auth::getMenu());
 	}
 
 	protected static function _getContentPart() {
 		return self::newElement()
 				->setLabel('CMS treści')
 				->setModule('cms')
-				->addChild(Cms_Config_Admin_Navigation_News::getMenu())
-				->addChild(Cms_Config_Admin_Navigation_Article::getMenu())
-				->addChild(Cms_Config_Admin_Navigation_Comment::getMenu())
-				->addChild(Cms_Config_Admin_Navigation_Contact::getMenu())
-				->addChild(Cms_Config_Admin_Navigation_Stat::getMenu())
-				->addChild(Cms_Config_Admin_Navigation_Page::getMenu())
-				->addChild(Cms_Config_Admin_Navigation_Text::getMenu());
+				->addChild(Navigation\News::getMenu())
+				->addChild(Navigation\Article::getMenu())
+				->addChild(Navigation\Comment::getMenu())
+				->addChild(Navigation\Contact::getMenu())
+				->addChild(Navigation\Stat::getMenu())
+				->addChild(Navigation\Page::getMenu())
+				->addChild(Navigation\Text::getMenu());
 	}
 
 }

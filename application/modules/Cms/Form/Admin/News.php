@@ -1,8 +1,11 @@
 <?php
 
-class Cms_Form_Admin_News extends MmiCms_Form {
 
-	protected $_recordName = 'Cms_Model_News_Record';
+namespace Cms\Form\Admin;
+
+class News extends \MmiCms\Form {
+
+	protected $_recordName = '\Cms\Model\News\Record';
 
 	public function init() {
 

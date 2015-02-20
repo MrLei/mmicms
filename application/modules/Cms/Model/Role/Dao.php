@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Role_Dao extends Mmi_Dao {
+
+namespace Cms\Model\Role;
+
+class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'cms_role';
 

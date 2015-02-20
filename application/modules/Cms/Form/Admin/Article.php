@@ -1,8 +1,11 @@
 <?php
 
-class Cms_Form_Admin_Article extends MmiCms_Form {
 
-	protected $_recordName = 'Cms_Model_Article_Record';
+namespace Cms\Form\Admin;
+
+class Article extends \MmiCms\Form {
+
+	protected $_recordName = '\Cms\Model\Article\Record';
 
 	public function init() {
 

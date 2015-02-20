@@ -1,12 +1,15 @@
 <?php
 
-class Cms_Controller_Page extends Mmi_Controller_Action {
+
+namespace Cms\Controller;
+
+class Page extends \Mmi\Controller\Action {
 
 	public function indexAction() {
-		if (!$this->id || null === ($page = Cms_Model_Page_Dao::findFirstById($this->id))) {
+		if (!$this->id || null === ($page = \Cms\Model\Page\Dao::findFirstById($this->id))) {
 			$this->_helper->redirector('index', 'error', 'default', array(), true);
 		}
-		/* @var $page Cms_Model_Page_Record */
+		/* @var $page \Cms\Model\Page\Record */
 		$this->view->content = $page->text;
 	}
 

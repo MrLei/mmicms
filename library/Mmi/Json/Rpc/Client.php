@@ -11,7 +11,7 @@
  *
  * Mmi/Json/Rpc/Client.php
  * @category   Mmi
- * @package    Mmi_Json_Rpc_Client
+ * @package    \Mmi\Json\Rpc\Client
  * @copyright  Copyright (c) 2011 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Klient JSON-RPC
  * @category   Mmi
- * @package    Mmi_Json_Rpc_Client
+ * @package    \Mmi\Json\Rpc\Client
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Json_Rpc_Client {
+
+namespace Mmi\Json\Rpc;
+
+class Client {
 
 	/**
 	 * Adres serwera RPC
@@ -78,7 +81,7 @@ class Mmi_Json_Rpc_Client {
 		$id = (microtime(true) * 10000);
 
 		//przygotowanie żądania
-		$request = new Mmi_Json_Rpc_Request();
+		$request = new \Mmi\Json\Rpc\Request();
 		$request->jsonrpc = '2.0';
 		$request->method = $method;
 		$request->params = array_values($params);
@@ -92,7 +95,7 @@ class Mmi_Json_Rpc_Client {
 						'content' => $request->toJson()
 			))));
 			$this->_debug($id, $this->_url, $request, $rawResponse, $httpMethod);
-			$response = new Mmi_Json_Rpc_Response();
+			$response = new \Mmi\Json\Rpc\Response();
 			$response->setFromJson($rawResponse);
 		} catch (Exception $e) {
 			$message = substr($e->getMessage(), 30 + strpos($e->getMessage(), 'HTTP request failed! '));
@@ -118,10 +121,10 @@ class Mmi_Json_Rpc_Client {
 				$errorMessage .= ' ' . $response->error->data->details;
 			}
 			if (isset($response->error->code) && $response->error->code == -10) {
-				throw new Mmi_Json_Rpc_Data_Exception($errorMessage);
+				throw new \Mmi\Json\Rpc\Data\Exception($errorMessage);
 			}
 			if (isset($response->error->code) && $response->error->code == -500) {
-				throw new Mmi_Json_Rpc_General_Exception($errorMessage);
+				throw new \Mmi\Json\Rpc\General\Exception($errorMessage);
 			}
 			throw new Exception($errorMessage);
 		}

@@ -1,8 +1,11 @@
 <?php
 
 /**
- * @method Cms_Model_Comment_Query on() on($localKeyName, $joinedKeyName = 'id')
+ * @method \Cms\Model\Comment\Query on() on($localKeyName, $joinedKeyName = 'id')
  */
-class Cms_Model_Comment_Query_Join extends Mmi_Dao_Query_Join {
+
+namespace Cms\Model\Comment\Query;
+
+class Join extends \Mmi\Dao\Query\Join {
 
 }

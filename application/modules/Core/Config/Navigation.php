@@ -3,14 +3,17 @@
 /**
  * Klasa konfiguracji nawigatora
  */
-class Default_Config_Navigation extends Mmi_Navigation_Config {
+
+namespace Core\Config;
+
+class Navigation extends \Mmi\Navigation\Config {
 
 	/**
 	 * Konstruktor inicjujący konfigurację
 	 */
 	public function __construct() {
 		//dodanie menu skonfigurowanego w module CMS
-		$this->addElement(Cms_Config_Admin_Navigation::getMenu());
+		$this->addElement(\Cms\Config\Admin\Navigation::getMenu());
 	}
 
 }

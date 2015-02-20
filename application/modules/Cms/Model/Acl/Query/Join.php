@@ -1,8 +1,11 @@
 <?php
 
 /**
- * @method Cms_Model_Acl_Query on() on($localKeyName, $joinedKeyName = 'id')
+ * @method \Cms\Model\Acl\Query on() on($localKeyName, $joinedKeyName = 'id')
  */
-class Cms_Model_Acl_Query_Join extends Mmi_Dao_Query_Join {
+
+namespace Cms\Model\Acl\Query;
+
+class Join extends \Mmi\Dao\Query\Join {
 
 }

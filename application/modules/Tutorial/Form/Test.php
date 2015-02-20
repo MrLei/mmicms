@@ -1,8 +1,11 @@
 <?php
 
-class Tutorial_Form_Test extends Mmi_Form {
 
-	protected $_recordName = 'Tutorial_Model_Record';
+namespace Tutorial\Form;
+
+class Test extends \Mmi\Form {
+
+	protected $_recordName = 'Tutorial\Model\Record';
 
 	public function init() {
 

@@ -11,7 +11,7 @@
  *
  * Mmi/View/Helper/Navigation.php
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -20,15 +20,18 @@
  */
 
 /**
- * Helper nawigacji, wykorzystuje obiekt nawigacyjny z rejestru 'Mmi_Registry'
- * @see Mmi_Registry
- * @see Mmi_Navigation
+ * Helper nawigacji, wykorzystuje obiekt nawigacyjny z rejestru '\Mmi\Registry'
+ * @see \Mmi\Registry
+ * @see \Mmi\Navigation
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
+
+namespace Mmi\View\Helper;
+
+class Navigation extends HelperAbstract {
 
 	/**
 	 * Maksymalna głębokość menu
@@ -110,55 +113,55 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 
 	/**
 	 * Obiekt nawigatora
-	 * @var Mmi_Navigation
+	 * @var \Mmi\Navigation
 	 */
 	private static $_navigation;
 
 	/**
 	 * Obiekt ACL
-	 * @var Mmi_Acl
+	 * @var \Mmi\Acl
 	 */
 	private static $_acl;
 
 	/**
 	 * Obiekt Auth
-	 * @var Mmi_Auth
+	 * @var \Mmi\Auth
 	 */
 	private static $_auth;
 
 	/**
 	 * Ustawia obiekt nawigatora
-	 * @param Mmi_Navigation $navigation
-	 * @return Mmi_Navigation
+	 * @param \Mmi\Navigation $navigation
+	 * @return \Mmi\Navigation
 	 */
-	public static function setNavigation(Mmi_Navigation $navigation) {
+	public static function setNavigation(\Mmi\Navigation $navigation) {
 		self::$_navigation = $navigation;
 		return $navigation;
 	}
 
 	/**
 	 * Ustawia obiekt autoryzacji
-	 * @param Mmi_Auth $auth
-	 * @return Mmi_Auth
+	 * @param \Mmi\Auth $auth
+	 * @return \Mmi\Auth
 	 */
-	public static function setAuth(Mmi_Auth $auth) {
+	public static function setAuth(\Mmi\Auth $auth) {
 		self::$_auth = $auth;
 		return $auth;
 	}
 
 	/**
 	 * Ustawia obiekt ACL
-	 * @param Mmi_Acl $acl
-	 * @return Mmi_Acl
+	 * @param \Mmi\Acl $acl
+	 * @return \Mmi\Acl
 	 */
-	public static function setAcl(Mmi_Acl $acl) {
+	public static function setAcl(\Mmi\Acl $acl) {
 		self::$_acl = $acl;
 		return $acl;
 	}
 
 	/**
 	 * Metoda główna, zwraca swoją instancję
-	 * @return Mmi_View_Helper_Navigation
+	 * @return \Mmi\View\Helper\Navigation
 	 */
 	public function navigation() {
 		if (null === $this->_breadcrumbs) {
@@ -183,7 +186,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	/**
 	 * Ustawia maksymalną głębokość
 	 * @param int $depth maksymalna głębokość
-	 * @return Mmi_View_Helper_Navigation
+	 * @return \Mmi\View\Helper\Navigation
 	 */
 	public function setMaxDepth($depth = 1000) {
 		$this->_maxDepth = $depth;
@@ -193,7 +196,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	/**
 	 * Ustawia minimalną głębokość
 	 * @param int $depth minimalna głębokość
-	 * @return Mmi_View_Helper_Navigation
+	 * @return \Mmi\View\Helper\Navigation
 	 */
 	public function setMinDepth($depth = 0) {
 		$this->_minDepth = $depth;
@@ -203,7 +206,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	/**
 	 * Ustawia separator breadcrumbs
 	 * @param string $separator separator
-	 * @return Mmi_View_Helper_Navigation
+	 * @return \Mmi\View\Helper\Navigation
 	 */
 	public function setSeparator($separator) {
 		$this->_separator = $separator;
@@ -214,7 +217,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	/**
 	 * Ustawia seperator w meta
 	 * @param string $separator separator
-	 * @return Mmi_View_Helper_Navigation
+	 * @return \Mmi\View\Helper\Navigation
 	 */
 	public function setMetaSeparator($separator) {
 		$this->_metaSeparator = $separator;
@@ -225,7 +228,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	/**
 	 * Ustawia rendering wyłącznie głównej gałęzi
 	 * @param boolean $active aktywna
-	 * @return Mmi_View_Helper_Navigation
+	 * @return \Mmi\View\Helper\Navigation
 	 */
 	public function setActiveBranchOnly($active = true) {
 		$this->_activeBranch = $active;
@@ -235,7 +238,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	/**
 	 * Ustawia rendering wyłącznie dozwolonych elementów
 	 * @param boolean $allowed dozwolone
-	 * @return Mmi_View_Helper_Navigation
+	 * @return \Mmi\View\Helper\Navigation
 	 */
 	public function setAllowedOnly($allowed = true) {
 		$this->_allowedOnly = $allowed;
@@ -245,7 +248,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	/**
 	 * Ustawia węzeł startowy
 	 * @param int $key klucz
-	 * @return Mmi_View_Helper_Navigation
+	 * @return \Mmi\View\Helper\Navigation
 	 */
 	public function setRoot($key) {
 		$this->setMinDepth();
@@ -257,7 +260,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	/**
 	 * Ustawia tytuł
 	 * @param string $title tytuł
-	 * @return Mmi_View_Helper_Navigation
+	 * @return \Mmi\View\Helper\Navigation
 	 */
 	public function setTitle($title) {
 		$this->_title = $title;
@@ -275,7 +278,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	/**
 	 * Ustawia opis
 	 * @param string $description opis
-	 * @return Mmi_View_Helper_Navigation
+	 * @return \Mmi\View\Helper\Navigation
 	 */
 	public function setDescription($description) {
 		$this->_description = $description;
@@ -293,7 +296,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	/**
 	 * Ustawia słowa kluczowe
 	 * @param string $keywords słowa kluczowe
-	 * @return Mmi_View_Helper_Navigation
+	 * @return \Mmi\View\Helper\Navigation
 	 */
 	public function setKeywords($keywords) {
 		$this->_keywords = $keywords;
@@ -350,7 +353,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	 * @param string $title tytuł
 	 * @param string $description opis
 	 * @param string $keywords słowa kluczowe
-	 * @return Mmi_View_Helper_Navigation
+	 * @return \Mmi\View\Helper\Navigation
 	 */
 	public function modifyBreadcrumb($index, $label, $uri = null, $title = null, $description = null, $keywords = null) {
 		if (!isset($this->_breadcrumbsData[$index])) {
@@ -381,7 +384,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	 * @param string $title tytuł
 	 * @param string $description opis
 	 * @param string $keywords słowa kluczowe
-	 * @return Mmi_View_Helper_Navigation
+	 * @return \Mmi\View\Helper\Navigation
 	 */
 	public function modifyLastBreadcrumb($label, $uri = null, $title = null, $description = null, $keywords = null) {
 		return $this->modifyBreadcrumb(count($this->_breadcrumbsData) - 1, $label, $uri, $title, $description, $keywords);
@@ -395,7 +398,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	 * @param string $description opis
 	 * @param string $keywords słowa kluczowe
 	 * @param bool $unshift wstaw na początku
-	 * @return Mmi_View_Helper_Navigation
+	 * @return \Mmi\View\Helper\Navigation
 	 */
 	public function createBreadcrumb($label, $uri = null, $title = null, $description = null, $keywords = null, $unshift = false) {
 		$breadcrumb = array(
@@ -420,7 +423,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	 * @param string $title tytuł
 	 * @param string $description opis
 	 * @param string $keywords słowa kluczowe
-	 * @return Mmi_View_Helper_Navigation
+	 * @return \Mmi\View\Helper\Navigation
 	 */
 	public function appendBreadcrumb($label, $uri = null, $title = null, $description = null, $keywords = null) {
 		return $this->createBreadcrumb($label, $uri, $title, $description, $keywords, false);
@@ -433,7 +436,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	 * @param string $title tytuł
 	 * @param string $description opis
 	 * @param string $keywords słowa kluczowe
-	 * @return Mmi_View_Helper_Navigation
+	 * @return \Mmi\View\Helper\Navigation
 	 */
 	public function prependBreadcrumb($label, $uri = null, $title = null, $description = null, $keywords = null) {
 		return $this->createBreadcrumb($label, $uri, $title, $description, $keywords, true);
@@ -442,7 +445,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 	/**
 	 * Tworzy okruchy
 	 * @param array $breadcrumbs okruchy tablica tablic(label, uri, title, description, keywords)
-	 * @return Mmi_View_Helper_Navigation
+	 * @return \Mmi\View\Helper\Navigation
 	 */
 	public function setBreadcrumbs(array $breadcrumbs = array()) {
 		$this->_breadcrumbsData = array();
@@ -461,7 +464,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 
 	/**
 	 * Usuwa ostatni breadcrumb
-	 * @return Mmi_View_Helper_Navigation
+	 * @return \Mmi\View\Helper\Navigation
 	 */
 	public function removeLastBreadcrumb() {
 		$index = count($this->_breadcrumbsData) - 1;
@@ -498,7 +501,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 
 	/**
 	 * Alias renderera menu
-	 * @see Mmi_View_Helper_Navigation::menu()
+	 * @see \Mmi\View\Helper\Navigation::menu()
 	 * @return string
 	 */
 	public function renderMenu() {
@@ -523,7 +526,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 
 	/**
 	 * Buduje breadcrumbs
-	 * @return Mmi_View_Helper_Navigation
+	 * @return \Mmi\View\Helper\Navigation
 	 */
 	private function _buildBreadcrumbs() {
 		if (null === self::$_navigation) {
@@ -576,7 +579,7 @@ class Mmi_View_Helper_Navigation extends Mmi_View_Helper_Abstract {
 		if (empty($tree) || !isset($tree['children'])) {
 			return '';
 		}
-		$aclCheck = (self::$_auth instanceof Mmi_Auth && self::$_acl instanceof Mmi_Acl);
+		$aclCheck = (self::$_auth instanceof \Mmi\Auth && self::$_acl instanceof \Mmi\Acl);
 		$menu = $tree['children'];
 		//przygotowanie menu do wyświetlenia: usunięcie niedozwolonych i nieaktywnych elementów
 		foreach ($menu as $key => $leaf) {

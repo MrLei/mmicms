@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Page_Widget_Record extends Mmi_Dao_Record {
+
+namespace Cms\Model\Page\Widget;
+
+class Record extends \Mmi\Dao\Record {
 
 	public $id;
 	public $name;
@@ -22,7 +25,7 @@ class Cms_Model_Page_Widget_Record extends Mmi_Dao_Record {
 	}	
 	
 	public function isExistWidgetEdit($action) {
-		$structure = Mmi_Structure::getStructure();
+		$structure = \Mmi\Structure::getStructure();
 		return array_key_exists($action . 'Edit', $structure['module']['cms']['admin-widget']);
 	}
 	

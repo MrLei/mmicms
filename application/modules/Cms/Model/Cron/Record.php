@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Cron_Record extends Mmi_Dao_Record {
+
+namespace Cms\Model\Cron;
+
+class Record extends \Mmi\Dao\Record {
 
 	public $id;
 	public $active;

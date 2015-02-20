@@ -7,5 +7,5 @@ $path = realpath(dirname(__FILE__) . '/../');
 require $path . '/library/Mmi/Application.php';
 
 //powołanie i uruchomienie aplikacji
-$application = new Mmi_Application($path, 'MmiCms_Application_Bootstrap');
+$application = new \Mmi\Application($path, '\MmiCms\Application\Bootstrap');
 $application->run();

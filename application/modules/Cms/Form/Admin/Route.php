@@ -1,8 +1,11 @@
 <?php
 
-class Cms_Form_Admin_Route extends Mmi_Form {
 
-	protected $_recordName = 'Cms_Model_Route_Record';
+namespace Cms\Form\Admin;
+
+class Route extends \Mmi\Form {
+
+	protected $_recordName = '\Cms\Model\Route\Record';
 
 	public function init() {
 

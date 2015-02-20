@@ -10,7 +10,7 @@
  *
  * Mmi/Filter/Length.php
  * @category   Mmi
- * @package    Mmi_Filter
+ * @package    \Mmi\Filter
  * @copyright  Copyright (c) 2013 HQSoft Mariusz Miłejko (http://www.hqsoft.pl)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,10 +20,13 @@
 /**
  * Klasa filtra określającego długość zmiennej
  * @category   Mmi
- * @package    Mmi_Filter
+ * @package    \Mmi\Filter
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Filter_Length extends Mmi_Filter_Abstract {
+
+namespace Mmi\Filter;
+
+class Length extends \Mmi\Filter\FilterAbstract {
 
 	/**
 	 * Zliczanie długości
@@ -36,7 +39,7 @@ class Mmi_Filter_Length extends Mmi_Filter_Abstract {
 		if (is_string($value) || is_numeric($value)) {
 			return mb_strlen((string)$value);
 		}
-		if (is_array($value) || $value instanceof ArrayObject) {
+		if (is_array($value) || $value instanceof \ArrayObject) {
 			return count($value);
 		}
 

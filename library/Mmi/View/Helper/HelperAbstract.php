@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Mmi
  *
@@ -9,9 +8,10 @@
  * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
  * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
  *
- * Mmi/Auth/Model/Interface.php
+ * Mmi/View/Helper/HelperAbstract.php
  * @category   Mmi
- * @package    Mmi_Cache
+ * @package    \Mmi\View
+ * @subpackage Helper
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -19,30 +19,34 @@
  */
 
 /**
- * Interface modelu autoryzacji
+ * Abstrakcyjna klasa helpera widoku
  * @category   Mmi
- * @package    Mmi_Auth
+ * @package    \Mmi\View
+ * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-interface Mmi_Auth_Model_Interface {
+
+namespace Mmi\View\Helper;
+
+class HelperAbstract {
 
 	/**
-	 * Autoryzacja z podaniem identyfikatora i hasła
-	 * @param string $identity identyfikator
-	 * @param string $credential hasło
+	 * Referencja do widoku
+	 * @var \Mmi\View
 	 */
-	public static function authenticate($identity, $credential);
+	public $view;
 
 	/**
-	 * Zaufana autoryzacja z podaniem identyfikatora
-	 * @param string $identity identyfikator
+	 * Metoda programisty końcowego, wykonuje się na końcu konstruktora
 	 */
-	public static function idAuthenticate($identity);
-	
+	public function init() {}
+
 	/**
-	 * Niszczy autoryzację
+	 * Konstruktor, ustawia widok
 	 */
-	public static function deauthenticate();
-	
+	public function __construct() {
+		$this->view = \Mmi\Controller\Front::getInstance()->getView();
+		$this->init();
+	}
+
 }
-	

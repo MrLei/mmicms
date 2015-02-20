@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -10,29 +11,31 @@
  *
  * MmiCms/Form/Element/DateTimePicker.php
  * @category   MmiCms
- * @package    MmiCms_Form
+ * @package    MmiCms\Form
  * @subpackage Element
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Ernest Wojciuk <ernest@wojciuk.com>
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa elementu wyboru daty i czasu
  * @category   MmiCms
- * @package    MmiCms_Form
+ * @package    MmiCms\Form
  * @subpackage Element
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class MmiCms_Form_Element_DateTimePicker extends MmiCms_Form_Element_DatePicker {
+
+namespace MmiCms\Form\Element;
+
+class DateTimePicker extends \MmiCms\Form\Element\DatePicker {
 
 	/**
 	 * Buduje pole
 	 * @return string
 	 */
 	public function fetchField() {
-		$view = Mmi_Controller_Front::getInstance()->getView();
+		$view = \Mmi\Controller\Front::getInstance()->getView();
 		$format = isset($this->_options['format']) ? $this->_options['format'] : 'Y-m-d H:i';
 		$dateStart = isset($this->_options['dateStart']) ? $this->_options['dateStart'] : 'false';
 		$dateEnd = isset($this->_options['dateEnd']) ? $this->_options['dateEnd'] : 'false';

@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Page_Record extends Mmi_Dao_Record {
+
+namespace Cms\Model\Page;
+
+class Record extends \Mmi\Dao\Record {
 
 	public $id;
 	public $name;
@@ -13,9 +16,9 @@ class Cms_Model_Page_Record extends Mmi_Dao_Record {
 	public $cmsAuthId;
 	
 	public function saveForm() {
-		$navigationRecord = $this->cmsNavigationId ? Cms_Model_Navigation_Dao::findPk($this->cmsNavigationId) : null;
-		/* @var $navigationRecord Cms_Model_Navigation_Record */
-		$navigationRecord = ($navigationRecord === null) ? new Cms_Model_Navigation_Record() : $navigationRecord;
+		$navigationRecord = $this->cmsNavigationId ? \Cms\Model\Navigation\Dao::findPk($this->cmsNavigationId) : null;
+		/* @var $navigationRecord \Cms\Model\Navigation\Record */
+		$navigationRecord = ($navigationRecord === null) ? new \Cms\Model\Navigation\Record() : $navigationRecord;
 		
 		$navigationRecord->absolute = 0;
 		$navigationRecord->action = 'index';
@@ -32,16 +35,16 @@ class Cms_Model_Page_Record extends Mmi_Dao_Record {
 		$navigationRecord->visible = 0;
 		$navigationRecord->save();
 
-		$routeRecord = $this->cmsRouteId ? Cms_Model_Route_Dao::findPk($this->cmsRouteId) : null;
-		/* @var $routeRecord Cms_Model_Route_Record */
-		$routeRecord = ($routeRecord === null) ? new Cms_Model_Route_Record() : $routeRecord;
+		$routeRecord = $this->cmsRouteId ? \Cms\Model\Route\Dao::findPk($this->cmsRouteId) : null;
+		/* @var $routeRecord \Cms\Model\Route\Record */
+		$routeRecord = ($routeRecord === null) ? new \Cms\Model\Route\Record() : $routeRecord;
 		$routeRecord->active = $this->active;
 		$routeRecord->pattern = $this->getOption('address');
 		$routeRecord->save();
 		
 		$this->cmsNavigationId = $navigationRecord->id;
 		$this->cmsRouteId = $routeRecord->id;
-		$this->cmsAuthId = Default_Registry::$auth->getId();
+		$this->cmsAuthId = \Core\Registry::$auth->getId();
 		$this->save();
 		$navigationRecord->params = 'id=' . $this->id;
 		if (!$navigationRecord->order) {
@@ -58,11 +61,11 @@ class Cms_Model_Page_Record extends Mmi_Dao_Record {
 		if (!parent::delete()) {
 			return false;
 		}
-		$navigationRecord = Cms_Model_Navigation_Dao::findPk($this->cmsNavigationId);
+		$navigationRecord = \Cms\Model\Navigation\Dao::findPk($this->cmsNavigationId);
 		if ($navigationRecord !== null) {
 			$navigationRecord->delete();
 		}
-		$routeRecord = Cms_Model_Route_Dao::findPk($this->cmsRouteId);
+		$routeRecord = \Cms\Model\Route\Dao::findPk($this->cmsRouteId);
 		if ($routeRecord !== null) {
 			$routeRecord->delete();
 		}

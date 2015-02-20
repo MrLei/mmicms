@@ -11,7 +11,7 @@
  *
  * Mmi/Solr/Exception.php
  * @category   Mmi
- * @package    Mmi_Solr_Exception
+ * @package    \Mmi\Solr\Exception
  * @copyright  Copyright (c) 2011 Skylab Michał Oczkowski
  * @author     Michał Oczkowski <michal@e-oczkowski.pl>
  * @version    1.0.0
@@ -21,9 +21,12 @@
 /**
  * Klasa błędów dla SOLR
  * @category   Mmi
- * @package    Mmi_Solr_Exception
+ * @package    \Mmi\Solr\Exception
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Solr_Exception extends Exception {
+
+namespace Mmi\Solr;
+
+class Exception extends Exception {
 
 }

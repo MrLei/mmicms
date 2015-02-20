@@ -10,7 +10,7 @@
  *
  * Mmi/Navigation.php
  * @category   Mmi
- * @package    Mmi_Navigation
+ * @package    \Mmi\Navigation
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -18,17 +18,20 @@
  */
 
 /**
- * Klasa nawigacji, do renderingu używa Mmi_View_Helper_Navigation
- * @see        Mmi_View_Helper_Navigation
+ * Klasa nawigacji, do renderingu używa \Mmi\View\Helper\Navigation
+ * @see        \Mmi\View\Helper\Navigation
  * @category   Mmi
- * @package    Mmi_Navigation
+ * @package    \Mmi\Navigation
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Navigation {
+
+namespace Mmi;
+
+class Navigation {
 
 	/**
 	 * Klasa kongiguracji
-	 * @var Mmi_Navigation_Config
+	 * @var \Mmi\Navigation\Config
 	 */
 	private $_config;
 
@@ -40,19 +43,19 @@ class Mmi_Navigation {
 
 	/**
 	 * Konstruktor, buduje drzewo na podstawie struktury zagnieżdżonej
-	 * @param Mmi_Navigation_Config $config konfiguracja nawigatora
+	 * @param \Mmi\Navigation\Config $config konfiguracja nawigatora
 	 */
-	public function __construct(Mmi_Navigation_Config $config) {
+	public function __construct(\Mmi\Navigation\Config $config) {
 		$this->_config = $config;
 		$config->build();
 	}
 
 	/**
 	 * Określa elementy aktywne, buduje breadcrumbs
-	 * @param Mmi_Controller_Request $request
-	 * @return Mmi_Translate
+	 * @param \Mmi\Controller\Request $request
+	 * @return \Mmi\Translate
 	 */
-	public function setup(Mmi_Controller_Request $request) {
+	public function setup(\Mmi\Controller\Request $request) {
 		$activatedTree = $this->_setupActive($this->_config->built, $request->getParams());
 		if (isset($activatedTree['tree'][0]['children'])) {
 			$this->_setupBreadcrumbs($activatedTree['tree'][0]['children']);

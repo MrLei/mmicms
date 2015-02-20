@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Auth_Dao extends Mmi_Dao {
+
+namespace Cms\Model\Auth;
+
+class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'cms_auth';
 

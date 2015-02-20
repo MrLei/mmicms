@@ -11,7 +11,7 @@
  *
  * Mmi/Service/Weather/Yahoo.php
  * @category   Mmi
- * @package    Mmi_Service
+ * @package    \Mmi\Service
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Klasa implementująca obsługę API Yahoo Weather
  * @category   Mmi
- * @package    Mmi_Service
+ * @package    \Mmi\Service
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Service_Weather_Yahoo extends Mmi_Service_Weather_Abstract {
+
+namespace Mmi\Service\Weather;
+
+class Yahoo extends WeatherAbstract {
 
 	/**
 	 * Konstruktor, ustawienie url usługi
@@ -53,7 +56,7 @@ class Mmi_Service_Weather_Yahoo extends Mmi_Service_Weather_Abstract {
 	/**
 	 * Wyszukanie po nazwie miasta
 	 * @param string $cityName nazwa miasta
-	 * @return Mmi_Service_Weather_Data aktualna pogoda
+	 * @return \Mmi\Service\Weather\Data aktualna pogoda
 	 */
 	public function search($cityName) {
 		return $this->getByWoeid($this->getWoeid($cityName));
@@ -62,7 +65,7 @@ class Mmi_Service_Weather_Yahoo extends Mmi_Service_Weather_Abstract {
 	/**
 	 * Pobranie pogody po woeid
 	 * @param string $woeid woeid
-	 * @return Mmi_Service_Weather_Data aktualna pogoda
+	 * @return \Mmi\Service\Weather\Data aktualna pogoda
 	 */
 	public function getByWoeid($woeid) {
 		$xml = new SimpleXmlElement(file_get_contents($this->_url . intval($woeid)));
@@ -71,7 +74,7 @@ class Mmi_Service_Weather_Yahoo extends Mmi_Service_Weather_Abstract {
 			throw new Exception('No data');
 		}
 
-		$wd = new Mmi_Service_Weather_Data();
+		$wd = new \Mmi\Service\Weather\Data();
 		$wd->temperature = (string)$xml->channel->item->children('yweather', TRUE)->condition->attributes()->temp;
 		$wd->condition = str_replace(' ', '-', strtolower((string)$xml->channel->item->children('yweather', TRUE)->condition->attributes()->text));
 		$wd->windSpeed = round((string)$xml->channel->children('yweather', TRUE)->wind->attributes()->speed);

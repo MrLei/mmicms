@@ -1,8 +1,11 @@
 <?php
 
-class Cms_Form_Admin_Text extends Mmi_Form {
 
-	protected $_recordName = 'Cms_Model_Text_Record';
+namespace Cms\Form\Admin;
+
+class Text extends \Mmi\Form {
+
+	protected $_recordName = '\Cms\Model\Text\Record';
 
 	public function init() {
 

@@ -9,9 +9,9 @@
  * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
  * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
  *
- * Mmi/Db/Adapter/Pdo/Abstact.php
+ * Mmi/Db/Adapter/Pdo/PdoAbstact.php
  * @category   Mmi
- * @package    Mmi_Db
+ * @package    \Mmi\Db
  * @subpackage Adapter
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -20,23 +20,26 @@
  */
 
 /**
- * Abstrakcyjna klasa adapterów bazodanowych opartych o PDO
+ * Abstrakcyjna klasa adapterów bazodanowych opartych o \PDO
  * @category   Mmi
- * @package    Mmi_Db
+ * @package    \Mmi\Db
  * @subpackage Adapter
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-abstract class Mmi_Db_Adapter_Pdo_Abstract {
+
+namespace Mmi\Db\Adapter\Pdo;
+
+abstract class PdoAbstract {
 
 	/**
-	 * Obiekt PDO
-	 * @var PDO
+	 * Obiekt \PDO
+	 * @var \PDO
 	 */
 	protected $_pdo;
 
 	/**
 	 * Konfiguracja
-	 * @var Mmi_Db_Config
+	 * @var \Mmi\Db\Config
 	 */
 	protected $_config;
 
@@ -101,13 +104,13 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	/**
 	 * Ustawia schemat
 	 * @param string $schemaName nazwa schematu
-	 * @return Mmi_Db_Adapter_Pdo_Abstract
+	 * @return \Mmi\Db\Adapter\Pdo\Abstract
 	 */
 	abstract public function selectSchema($schemaName);
 
 	/**
 	 * Ustawia domyślne parametry dla importu (długie zapytania)
-	 * @return Mmi_Db_Adapter_Pdo_Abstract
+	 * @return \Mmi\Db\Adapter\Pdo\Abstract
 	 */
 	abstract public function setDefaultImportParams();
 
@@ -122,16 +125,16 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 
 	/**
 	 * Konstruktor wczytujący konfigurację
-	 * @param Mmi_Db_Config $config
+	 * @param \Mmi\Db\Config $config
 	 */
-	public function __construct(Mmi_Db_Config $config) {
+	public function __construct(\Mmi\Db\Config $config) {
 		$this->_config = $config;
 		$this->_connected = false;
 	}
 
 	/**
 	 * Zwraca konfigurację
-	 * @return Mmi_Db_Config
+	 * @return \Mmi\Db\Config
 	 */
 	public final function getConfig() {
 		return $this->_config;
@@ -141,22 +144,22 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	 * Nieistniejące metody
 	 * @param string $method
 	 * @param array $params
-	 * @throws Mmi_Db_Exception
+	 * @throws \Mmi\Db\Exception
 	 */
 	public final function __call($method, $params) {
-		throw new Mmi_Db_Exception(get_called_class() . ': method not found: ' . $method);
+		throw new \Mmi\Db\Exception(get_called_class() . ': method not found: ' . $method);
 	}
 
 	/**
 	 * Tworzy połączenie z bazą danych
-	 * @return Mmi_Db_Adapter_Pdo_Abstract
+	 * @return \Mmi\Db\Adapter\Pdo\Abstract
 	 */
 	public function connect() {
 		if ($this->_config->profiler) {
-			Mmi_Db_Profiler::event('CONNECT WITH: ' . get_called_class(), 0);
+			\Mmi\Db\Profiler::event('CONNECT WITH: ' . get_called_class(), 0);
 		}
-		$this->_pdo = new PDO(
-			$this->_config->driver . ':host=' . $this->_config->host . ';port=' . $this->_config->port . ';dbname=' . $this->_config->name, $this->_config->user, $this->_config->password, array(PDO::ATTR_PERSISTENT => $this->_config->persistent)
+		$this->_pdo = new \PDO(
+			$this->_config->driver . ':host=' . $this->_config->host . ';port=' . $this->_config->port . ';dbname=' . $this->_config->name, $this->_config->user, $this->_config->password, array(\PDO::ATTR_PERSISTENT => $this->_config->persistent)
 		);
 		$this->_connected = true;
 		return $this;
@@ -164,14 +167,14 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 
 	/**
 	 * Zwraca opakowaną cudzysłowami wartość
-	 * @see PDO::quote()
-	 * @see PDO::PARAM_STR
-	 * @see PDO::PARAM_INT
+	 * @see \PDO::quote()
+	 * @see \PDO::PARAM_STR
+	 * @see \PDO::PARAM_INT
 	 * @param string $value wartość
 	 * @param string $paramType
 	 * @return string
 	 */
-	public final function quote($value, $paramType = PDO::PARAM_STR) {
+	public final function quote($value, $paramType = \PDO::PARAM_STR) {
 		if (!$this->_connected) {
 			$this->connect();
 		}
@@ -187,14 +190,14 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	}
 
 	/**
-	 * Wydaje zapytanie PDO prepare, execute
+	 * Wydaje zapytanie \PDO prepare, execute
 	 * rzuca wyjątki
-	 * @see PDO::prepare()
-	 * @see PDO::execute()
+	 * @see \PDO::prepare()
+	 * @see \PDO::execute()
 	 * @param string $sql zapytanie
-	 * @param array $bind tabela w formacie akceptowanym przez PDO::prepare()
-	 * @throws Mmi_Db_Exception
-	 * @return PDO_Statement
+	 * @param array $bind tabela w formacie akceptowanym przez \PDO::prepare()
+	 * @throws \Mmi\Db\Exception
+	 * @return \PDO_Statement
 	 */
 	public function query($sql, array $bind = array()) {
 		if (!$this->_connected) {
@@ -204,12 +207,12 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 		$statement = $this->_pdo->prepare($sql);
 		if (!$statement) {
 			$error = $this->_pdo->errorInfo();
-			throw new Mmi_Db_Exception(get_called_class() . ': ' . (isset($error[2]) ? $error[2] : $error[0]) . ' --- ' . $sql);
+			throw new \Mmi\Db\Exception(get_called_class() . ': ' . (isset($error[2]) ? $error[2] : $error[0]) . ' --- ' . $sql);
 		}
 		foreach ($bind as $key => $param) {
-			$type = PDO::PARAM_STR;
+			$type = \PDO::PARAM_STR;
 			if (is_bool($param)) {
-				$type = PDO::PARAM_BOOL;
+				$type = \PDO::PARAM_BOOL;
 			}
 			if (is_int($key)) {
 				$key = $key + 1;
@@ -221,10 +224,10 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 		if ($result != 1) {
 			$error = $statement->errorInfo();
 			$error = isset($error[2]) ? $error[2] : $error[0];
-			throw new Mmi_Db_Exception(get_called_class() . ': ' . $error . ' --- ' . $sql);
+			throw new \Mmi\Db\Exception(get_called_class() . ': ' . $error . ' --- ' . $sql);
 		}
 		if ($this->_config->profiler) {
-			Mmi_Db_Profiler::eventQuery($statement, $bind, microtime(true) - $start);
+			\Mmi\Db\Profiler::eventQuery($statement, $bind, microtime(true) - $start);
 		}
 		return $statement;
 	}
@@ -244,31 +247,31 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	/**
 	 * Zwraca wszystkie rekordy (rządki)
 	 * @param string $sql zapytanie
-	 * @param array $bind tabela w formacie akceptowanym przez PDO::prepare()
+	 * @param array $bind tabela w formacie akceptowanym przez \PDO::prepare()
 	 * @return array
 	 */
 	public final function fetchAll($sql, array $bind = array()) {
-		return $this->query($sql, $bind)->fetchAll(PDO::FETCH_NAMED);
+		return $this->query($sql, $bind)->fetchAll(\PDO::FETCH_NAMED);
 	}
 
 	/**
 	 * Zwraca pierwszy rekord (rządek)
 	 * @param string $sql zapytanie
-	 * @param array $bind tabela w formacie akceptowanym przez PDO::prepare()
+	 * @param array $bind tabela w formacie akceptowanym przez \PDO::prepare()
 	 * @return array
 	 */
 	public final function fetchRow($sql, array $bind = array()) {
-		return $this->query($sql, $bind)->fetch(PDO::FETCH_NAMED);
+		return $this->query($sql, $bind)->fetch(\PDO::FETCH_NAMED);
 	}
 
 	/**
 	 * Zwraca pojedynczą wartość (krotkę)
 	 * @param string $sql zapytanie
-	 * @param array $bind tabela w formacie akceptowanym przez PDO::prepare()
+	 * @param array $bind tabela w formacie akceptowanym przez \PDO::prepare()
 	 * @return array
 	 */
 	public final function fetchOne($sql, array $bind = array()) {
-		return $this->query($sql, $bind)->fetch(PDO::FETCH_NUM);
+		return $this->query($sql, $bind)->fetch(\PDO::FETCH_NUM);
 	}
 
 	/**
@@ -412,8 +415,8 @@ abstract class Mmi_Db_Adapter_Pdo_Abstract {
 	}
 
 	/**
-	 * Zwraca obiekt PDO
-	 * @return PDO
+	 * Zwraca obiekt \PDO
+	 * @return \PDO
 	 */
 	public final function getPdo() {
 		if (!$this->_connected) {

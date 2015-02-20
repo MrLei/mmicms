@@ -10,7 +10,7 @@
  *
  * Mmi/Filter/StringTrim.php
  * @category   Mmi
- * @package    Mmi_Filter
+ * @package    \Mmi\Filter
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,10 +20,13 @@
 /**
  * Filtr usuwający spacje z końców ciągu znaków
  * @category   Mmi
- * @package    Mmi_Filter
+ * @package    \Mmi\Filter
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Filter_StringTrim extends Mmi_Filter_Abstract {
+
+namespace Mmi\Filter;
+
+class StringTrim extends \Mmi\Filter\FilterAbstract {
 
 	/**
 	 * Usuwa spacę z końców ciągu znaków

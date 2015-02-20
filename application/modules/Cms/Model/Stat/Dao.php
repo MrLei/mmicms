@@ -1,11 +1,14 @@
 <?php
 
-class Cms_Model_Stat_Dao extends Mmi_Dao {
+
+namespace Cms\Model\Stat;
+
+class Dao extends \Mmi\Dao {
 
 	public static $_tableName = 'cms_stat';
 
 	public static function hit($object, $objectId = null) {
-		$stat = new Cms_Model_Stat_Record();
+		$stat = new \Cms\Model\Stat\Record();
 		$stat->object = $object;
 		$stat->objectId = is_numeric($objectId) ? intval($objectId) : null;
 		$stat->dateTime = date('Y-m-d H:i:s');
@@ -15,7 +18,7 @@ class Cms_Model_Stat_Dao extends Mmi_Dao {
 	public static function agregate() {
 		$start = microtime(true);
 		$processed = 0;
-		foreach (Cms_Model_Stat_Query::factory()
+		foreach (\Cms\Model\Stat\Query::factory()
 			->limit(10000)
 			->find() as $item) {
 			$processed++;
@@ -62,7 +65,7 @@ class Cms_Model_Stat_Dao extends Mmi_Dao {
 	}
 
 	protected static function _push($object, $objectId, $hour, $day, $month, $year) {
-		$o = Cms_Model_Stat_Date_Query::factory()
+		$o = \Cms\Model\Stat\Date\Query::factory()
 			->whereObject()->equals($object)
 			->andFieldObjectId()->equals($objectId)
 			->andFieldHour()->equals($hour)
@@ -71,7 +74,7 @@ class Cms_Model_Stat_Dao extends Mmi_Dao {
 			->andFieldYear()->equals($year)
 			->findFirst();
 		if ($o === null) {
-			$o = new Cms_Model_Stat_Date_Record();
+			$o = new \Cms\Model\Stat\Date\Record();
 		}
 		$o->count = intval($o->count) + 1;
 		$o->object = $object;

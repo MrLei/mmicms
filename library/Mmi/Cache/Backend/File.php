@@ -10,7 +10,7 @@
  *
  * Mmi/Cache/Backend/File.php
  * @category   Mmi
- * @package    Mmi_Cache
+ * @package    \Mmi\Cache
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,10 +20,13 @@
 /**
  * Plikowy backend bufora
  * @category   Mmi
- * @package    Mmi_Cache
+ * @package    \Mmi\Cache
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Cache_Backend_File implements Mmi_Cache_Backend_Interface {
+
+namespace Mmi\Cache\Backend;
+
+class File implements BackendInterface {
 
 	/**
 	 * Przechowuje ścieżkę zapisu
@@ -34,7 +37,7 @@ class Mmi_Cache_Backend_File implements Mmi_Cache_Backend_Interface {
 	 * Kostruktor
 	 * @param array $params parametry
 	 */
-	public function __construct(Mmi_Cache_Config $config) {
+	public function __construct(\Mmi\Cache\Config $config) {
 		$this->_savePath = $config->path;
 	}
 

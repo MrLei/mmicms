@@ -11,21 +11,23 @@
  *
  * Mmi/Filter/StripTags.php
  * @category   Mmi
- * @package    Mmi_Filter
+ * @package    \Mmi\Filter
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Filtr filtrujący zmienną, tak by mogła być wykorzystana wewnątrz właściwości znacznika HTML
  * bez HTML i cudzysłowów
  * @category   Mmi
- * @package    Mmi_Filter
+ * @package    \Mmi\Filter
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Filter_MarkupProperty extends Mmi_Filter_Abstract {
+
+namespace Mmi\Filter;
+
+class MarkupProperty extends \Mmi\Filter\FilterAbstract {
 
 	/**
 	 * Zmienia zmienną, tak by mogła być wykorzystana wewnątrz właściwości znacznika HTML
@@ -37,22 +39,22 @@ class Mmi_Filter_MarkupProperty extends Mmi_Filter_Abstract {
 		$value = trim(strip_tags($value));
 
 		$value = str_replace(array(
-					'\'',
-					'`',
-					',',
-					'"',
-					'#',
-					'?',
-					'=',
-						), array(
-					'',
-					'',
-					'',
-					'',
-					'',
-					'',
-					'',
-						), $value);
+			'\'',
+			'`',
+			',',
+			'"',
+			'#',
+			'?',
+			'=',
+			), array(
+			'',
+			'',
+			'',
+			'',
+			'',
+			'',
+			'',
+			), $value);
 		return $value;
 	}
 

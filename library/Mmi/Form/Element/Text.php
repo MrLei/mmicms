@@ -10,7 +10,7 @@
  *
  * Mmi/Form/Element/Text.php
  * @category   Mmi
- * @package    Mmi_Form
+ * @package    \Mmi\Form
  * @subpackage Element
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -21,11 +21,14 @@
 /**
  * Klasa elementu tekst (text)
  * @category   Mmi
- * @package    Mmi_Form
+ * @package    \Mmi\Form
  * @subpackage Element
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Form_Element_Text extends Mmi_Form_Element_Abstract {
+
+namespace Mmi\Form\Element;
+
+class Text extends ElementAbstract {
 
 	public function fetchField() {
 		$this->addFilter('Input');

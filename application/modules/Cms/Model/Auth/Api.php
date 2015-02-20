@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Auth_Api {
+
+namespace Cms\Model\Auth;
+
+class Api {
 
 	/**
 	 * Autoryzacja użytkowników
@@ -9,7 +12,7 @@ class Cms_Model_Auth_Api {
 	 * @return array
 	 */
 	public function postLogin($login, $password) {
-		$auth = new Cms_Model_Auth();
+		$auth = new \Cms\Model\Auth();
 		if ($auth->authenticate($login, $password)) {
 			return $auth->toArray();
 		}
@@ -24,7 +27,7 @@ class Cms_Model_Auth_Api {
 	 * @return boolean 
 	 */
 	public function postChangePassword($login, $oldPassword, $newPassword) {
-		$auth = new Cms_Model_Auth();
+		$auth = new \Cms\Model\Auth();
 		$authResult = $auth->authenticate($login, $oldPassword);
 		if (!$authResult) {
 			return false;

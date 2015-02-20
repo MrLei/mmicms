@@ -10,7 +10,7 @@
  *
  * Mmi/Form/Element/Radio.php
  * @category   Mmi
- * @package    Mmi_Form
+ * @package    \Mmi\Form
  * @subpackage Element
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -21,16 +21,19 @@
 /**
  * Klasa elementu opcji (select)
  * @category   Mmi
- * @package    Mmi_Form
+ * @package    \Mmi\Form
  * @subpackage Element
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Form_Element_Radio extends Mmi_Form_Element_Abstract {
+
+namespace Mmi\Form\Element;
+
+class Radio extends ElementAbstract {
 	
 	/**
 	 * Ustawia klasy dla poszczególnych labelek
 	 * @param array $class - tablica $key => $class
-	 * @return Mmi_Form_Element_Radio
+	 * @return \Mmi\Form\Element\Radio
 	 */
 	public function setLabelClass(array $class) {
 		$this->_options['labelClass'] = $class;
@@ -64,7 +67,7 @@ class Mmi_Form_Element_Radio extends Mmi_Form_Element_Abstract {
 				unset($this->_options['disabled']);
 				$this->_options['value'] = $key;
 			}
-			$f = new Mmi_Filter_Url();
+			$f = new \Mmi\Filter\Url();
 			$this->_options['id'] = $baseId . '_' . $f->filter($key);
 			$classTag = "";
 			foreach ($labelClass as $labelId => $className) {

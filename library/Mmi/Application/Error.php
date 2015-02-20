@@ -11,7 +11,7 @@
  *
  * Mmi/Application/Error.php
  * @category   Mmi
- * @package    Mmi_Application
+ * @package    \Mmi\Application
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Klasa obsługi błędów i wyjątków aplikacji
  * @category   Mmi
- * @package    Mmi_Application
+ * @package    \Mmi\Application
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Application_Error {
+
+namespace Mmi\Application;
+
+class Error {
 
 	/**
 	 * Obsługuje błędy, ostrzeżenia
@@ -65,7 +68,7 @@ class Mmi_Application_Error {
 			if (!is_writable(TMP_PATH . '/log')) {
 				mkdir(TMP_PATH . '/log', 0777, true);
 			}
-			throw new Exception($code . ': ' . $errstr . '[' . $errfile . ' (' . $errline . ')]');
+			throw new \Exception($code . ': ' . $errstr . '[' . $errfile . ' (' . $errline . ')]');
 		}
 		return true;
 	}
@@ -75,12 +78,12 @@ class Mmi_Application_Error {
 	 * @param Exception $exception wyjątek
 	 * @return boolean
 	 */
-	public static function exceptionHandler(Exception $exception) {
+	public static function exceptionHandler(\Exception $exception) {
 //		ob_clean();
-		Mmi_Exception_Logger::log($exception);
-		$response = Mmi_Controller_Front::getInstance()->getResponse();
+		\Mmi\Exception\Logger::log($exception);
+		$response = \Mmi\Controller\Front::getInstance()->getResponse();
 		try {
-			$view = Mmi_Controller_Front::getInstance()->getView();
+			$view = \Mmi\Controller\Front::getInstance()->getView();
 			$view->_exception = $exception;
 			//błąd bez layoutu lub nie HTML
 			if ($view->isLayoutDisabled() || $response->getType() != 'html') {
@@ -91,14 +94,14 @@ class Mmi_Application_Error {
 				return true;
 			}
 			//błąd z prezentacją HTML
-			$actionHelper = new Mmi_Controller_Action_Helper_Action();
+			$actionHelper = new \Mmi\Controller\Action\Helper\Action();
 			$response
 				->setCodeError()
-				->setContent($view->setPlaceholder('content', $actionHelper->action('default', 'error', 'index', array()))
-					->renderLayout($view->skin, 'default', 'error'))
+				->setContent($view->setPlaceholder('content', $actionHelper->action('core', 'error', 'index', array()))
+					->renderLayout($view->skin, 'core', 'error'))
 				->send();
 			return true;
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$response
 				->setCodeError()
 				->setContent(self::rawErrorResponse($response, $exception))
@@ -107,7 +110,7 @@ class Mmi_Application_Error {
 		return true;
 	}
 
-	public static function rawErrorResponse(Mmi_Controller_Response $response, Exception $e) {
+	public static function rawErrorResponse(\Mmi\Controller\Response $response, \Exception $e) {
 		$content = '';
 		switch ($response->getType()) {
 			case 'htm':

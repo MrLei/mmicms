@@ -47,13 +47,16 @@
 
 	<p>W kontrolerze zdefiniowane są Akcje które będą uruchamiane w zależności od wywołania strony (url). Nie tworzymy tutaj samej strony a bardziej logikę która wykorzystując model ma wyprodukować dane i przekazać je do widoku.
 
-	<p>Podstawowy kontroler jest to obiekt dziedziczący z abstrackyjnej klasy Mmi_Controller_Action i posiada metody o nazwach zdefiniowane wg. schematu:
+	<p>Podstawowy kontroler jest to obiekt dziedziczący z abstrackyjnej klasy \Mmi\Controller\Action i posiada metody o nazwach zdefiniowane wg. schematu:
 	<pre>public function NazwaAkcjiAction() {}</pre>
 	domyślne uruchamiana jest metoda indexAction();<br>
 	przykładowa klasa kontrolera:<br>
 	<pre>&#60;?php
 
-class Default_Controller_Index extends Mmi_Controller_Action {
+
+namespace Core\Controller;
+
+class Index extends \Mmi\Controller\Action {
 
 	public function indexAction() {
 		//co ma się wydarzyć po wywołaniu domyślnej strony
@@ -199,7 +202,10 @@ application/skins/default/Admin/ scripts  /errorLog     /trace.tpl</pre>
 
 	<pre>&#60;?php
 
-class Tutorial_Controller_Index extends Mmi_Controller_Action {
+
+namespace Tutorial\Controller;
+
+class Index extends \Mmi\Controller\Action {
 
 	public function indexAction() {
 		&#36;this->view->hello = "Hello world!";
@@ -230,7 +236,10 @@ class Tutorial_Controller_Index extends Mmi_Controller_Action {
 	<p>a następnie tworzymi w nim plik o nazwie naszego forumularze, np. Test (z dużej litery). W pliku Test.php wklejamy następujący kod:
 	<pre>&#60;?php
 
-class Tutorial_Form_Test extends Mmi_Form {
+
+namespace Tutorial\Form;
+
+class Test extends \Mmi\Form {
 	
 	public function init() {
 	
@@ -248,7 +257,7 @@ class Tutorial_Form_Test extends Mmi_Form {
 	}	
 } 
 ?></pre>
-	<p>Jak widać z powyższego kodu formularz jest to nic innego jak obiekt dziedziczący po abstrakcyjnej klasie Mmi_Form. W super klasie znajdziemy 
+	<p>Jak widać z powyższego kodu formularz jest to nic innego jak obiekt dziedziczący po abstrakcyjnej klasie \Mmi\Form. W super klasie znajdziemy 
 		cały zestaw interesujących nas metod do tworzenia formularzy. Typy dostępnych formularzy znajdziemy jako podklasy w katalogu:
 	<pre>library/Mmi/Form/Element/</pre>
 	<p>w metodzie init() którą musimy rozszerzyć opisujemy całą funkcjonalność jaką będzie posiadał nasz formularz.
@@ -257,14 +266,17 @@ class Tutorial_Form_Test extends Mmi_Form {
 	<p>Tak przygotowaną klase możemy już wykorzystać w naszym kontroleże tak więc dopisujemy do indexu nową akcje w której tworzymy obiekt naszego formularza:
 	<pre>&#60;?php
 
-class Tutorial_Controller_Index extends Mmi_Controller_Action {
+
+namespace Tutorial\Controller;
+
+class Index extends \Mmi\Controller\Action {
 
 	public function indexAction() {
 		$this->view->hello = "Hello world!";
 	}
 	
 	public function simpleFormAction() {
-		$form = new Tutorial_Form_Test();
+		$form = new Tutorial\Form\Test();
 	}
 }</pre>
 	<p>Teraz przechodzimy do wizualnej reprezentacji naszego formularze czyli tworzymy template do naszej akcji. Zgodnie ze sztuką tworzymy plik simpleForm.tpl w naszym widoku
@@ -283,7 +295,7 @@ class Tutorial_Controller_Index extends Mmi_Controller_Action {
 	<p>w tym katalogu musimy stworzyć 2 pliki Dao.php oraz Record.php. Zacznijmy od recordu:
 	<pre>&#60;?php
 
-class Tutorial_Model_SimpleForm_Record extends Mmi_Dao_Record {
+class Tutorial\Model\SimpleForm\Record extends \Mmi\Dao\Record {
 
 	public function saveMyData() {
 		//obrabiamy nasze dane przed zapisem do bazy
@@ -294,8 +306,11 @@ class Tutorial_Model_SimpleForm_Record extends Mmi_Dao_Record {
 	<p>w klasie rekordu tworzymy metodę której zadaniem jest obróbka danych przed zapisem do bazy
 		ostatecznie musi być wykonana metoda save z nadklasy, jeżeli nie zdefiniujemy tej metody, domyślnie zostanie wykonana metoda save();
 	<p>Teraz jak już stworzyliśmy nasz rekord musimy podpiąć go pod nasz formularz, w tym celu dopisujemy do pliku simpleForm.php 2 linijki:
-	<pre>class Tutorial_Form_Test extends Mmi_Form {
-	protected $_recordName = 'Tutorial_Model_SimpleForm_Record';
+	<pre>
+namespace Tutorial\Form;
+
+class Test extends \Mmi\Form {
+	protected $_recordName = 'Tutorial\Model\SimpleForm\Record';
 	protected $_recordSaveMethod = 'saveMyData';
 	
 	public function init() {
@@ -304,13 +319,13 @@ class Tutorial_Model_SimpleForm_Record extends Mmi_Dao_Record {
 	<p>Został nam jeszcze do utworzenia plik Dao.php, tworzymy go tam gdzie Record.php i wpisujemy do niego następującą treść:
 	<pre>&#60;?php
 
-class Tutorial_Model_SimpleForm_Dao extends Mmi_Dao {
+class Tutorial\Model\SimpleForm\Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'tutorial_form_test';
 
 }
 	</pre>
-	<p>Jest to obiekt dziedziczący po klasie Mmi_Dao, definiujemy w nim nazwe tabeli w naszej bazie danych do której zapisywane będą dane.
+	<p>Jest to obiekt dziedziczący po klasie \Mmi\Dao, definiujemy w nim nazwe tabeli w naszej bazie danych do której zapisywane będą dane.
 		Oczywiście żeby wszystko działało musimy taką tabelę wcześniej stworzyć. Kolumny jakie musimy stworzyć to 'id' o typie serial, oraz 
 		po jednej kolumnie na każdą kontrolke formularza która coś zapisuje o nazwie takiej jak nazwa kontrolki.
 
@@ -321,14 +336,17 @@ class Tutorial_Model_SimpleForm_Dao extends Mmi_Dao {
 		oraz modyfikujemy akcję formularza i dodajemy obsługę, że jeżeli formularz zapisał dane to przekierowujemy użytkownika na stronę z podziękowaniem</p>
 	<pre>&#60;?php
 
-class Tutorial_Controller_Index extends Mmi_Controller_Action {
+
+namespace Tutorial\Controller;
+
+class Index extends \Mmi\Controller\Action {
 
 	public function indexAction() {
 		$this->view->hello = "Hello world!";
 	}
 	
 	public function simpleFormAction() {
-		$form = new Tutorial_Form_Test();
+		$form = new Tutorial\Form\Test();
 		if ($form->isSaved()) {
 			return $this->_helper->redirector(
 				'thankYou', 'index', 'tutorial', 
@@ -347,7 +365,7 @@ class Tutorial_Controller_Index extends Mmi_Controller_Action {
 	<p>Teraz musimy dodać obsługę formularza w akcji:
 	<pre>...
 	public function simpleFormAction() {
-		$form = new Tutorial_Form_Test();
+		$form = new Tutorial\Form\Test();
 		if ($form->isSaved()) {
 			return $this->_helper->redirector('thankYou', 
 				'index', 'tutorial', array(), true);

@@ -10,7 +10,7 @@
  *
  * Mmi/View/Helper/HeadMeta.php
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -21,11 +21,12 @@
 /**
  * Helper meta w nagłówku strony
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_View_Helper_HeadMeta extends Mmi_View_Helper_AbstractHead {
+namespace Mmi\View\Helper;
+class HeadMeta extends HeadAbstract {
 
 	/**
 	 * Dane
@@ -38,7 +39,7 @@ class Mmi_View_Helper_HeadMeta extends Mmi_View_Helper_AbstractHead {
 	 * @param array $params parametry skryptu
 	 * @param boolean $prepend dodaj na początek stosu
 	 * @param string $conditional warunek np. ie6
-	 * @return Mmi_View_Helper_HeadMeta
+	 * @return \Mmi\View\Helper\HeadMeta
 	 */
 	public function headMeta(array $params = array(), $prepend = false, $conditional = '') {
 		if (!empty($params)) {

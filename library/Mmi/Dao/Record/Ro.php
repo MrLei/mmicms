@@ -11,7 +11,7 @@
  *
  * Mmi/Dao/Record/Ro.php
  * @category   Mmi
- * @package    Mmi_Dao
+ * @package    \Mmi\Dao
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,10 +21,13 @@
 /**
  * Active record tylko do odczytu
  * @category   Mmi
- * @package    Mmi_Dao
+ * @package    \Mmi\Dao
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Dao_Record_Ro {
+
+namespace Mmi\Dao\Record;
+
+class Ro {
 
 	/**
 	 * Przechowuje ekstra opcje rekordu
@@ -75,7 +78,7 @@ class Mmi_Dao_Record_Ro {
 		}
 		//wczytanie danych do rekordu jeśli jest stworzony po ID
 		$dao = $this->_daoClass;
-		$bindKey = Mmi_Db_Adapter_Pdo_Abstract::generateRandomBindKey();
+		$bindKey = \Mmi\Db\Adapter\Pdo\PdoAbstract::generateRandomBindKey();
 		$result = $dao::getAdapter()->select('*', $dao::getTableName(), $this->_pkWhere($bindKey), '', 1, null, array($bindKey => $pk));
 		if (!is_array($result) || !isset($result[0])) {
 			return;
@@ -96,7 +99,7 @@ class Mmi_Dao_Record_Ro {
 	/**
 	 * Ustawia stan obiektu nowy / nie nowy
 	 * @param bool $new nowy
-	 * @return Mmi_Dao_Record_Ro
+	 * @return \Mmi\Dao\Record\Ro
 	 */
 	public final function setNew($new) {
 		$this->_new = ($new === true) ? true : false;
@@ -128,7 +131,7 @@ class Mmi_Dao_Record_Ro {
 	 * @return mixed
 	 */
 	public final function __get($name) {
-		throw new Mmi_Dao_Record_Exception('Unable to get field: ' . $name);
+		throw new \Mmi\Dao\Record\Exception('Unable to get field: ' . $name);
 	}
 
 	/**
@@ -137,7 +140,7 @@ class Mmi_Dao_Record_Ro {
 	 * @param mixed $value wartość
 	 */
 	public final function __set($name, $value) {
-		throw new Mmi_Dao_Record_Exception('Unable to set field: ' . $name);
+		throw new \Mmi\Dao\Record\Exception('Unable to set field: ' . $name);
 	}
 
 	/**
@@ -153,7 +156,7 @@ class Mmi_Dao_Record_Ro {
 	 * Ustawia opcję w rekordzie
 	 * @param string $name
 	 * @param mixed $value
-	 * @return Mmi_Dao_Record_Ro
+	 * @return \Mmi\Dao\Record\Ro
 	 */
 	public final function setOption($name, $value) {
 		$this->_options[$name] = $value;
@@ -163,7 +166,7 @@ class Mmi_Dao_Record_Ro {
 	/**
 	 * Pobiera dołączony rekord (JOIN)
 	 * @param string $tableName
-	 * @return Mmi_Dao_Record_Ro
+	 * @return \Mmi\Dao\Record\Ro
 	 */
 	public final function getJoined($tableName) {
 		return isset($this->_joined[$tableName]) ? $this->_joined[$tableName] : null;
@@ -173,7 +176,7 @@ class Mmi_Dao_Record_Ro {
 	 * Ustawia dane w obiekcie na podstawie tabeli
 	 * @param array $row tabela z danymi
 	 * @param bool $fromDb czy z bazy danych
-	 * @return Mmi_Dao_Record_Ro
+	 * @return \Mmi\Dao\Record\Ro
 	 */
 	public function setFromArray(array $row = array()) {
 		$joinedRows = array();
@@ -184,7 +187,7 @@ class Mmi_Dao_Record_Ro {
 				continue;
 			}
 			$dao = $this->_daoClass;
-			$field = Mmi_Dao::convertUnderscoreToCamelcase($key);
+			$field = \Mmi\Dao::convertUnderscoreToCamelcase($key);
 			if (property_exists($this, $field)) {
 				$this->$field = $value;
 				continue;
@@ -193,7 +196,7 @@ class Mmi_Dao_Record_Ro {
 		}
 		//podpięcie joinów pod główny rekord
 		foreach ($joinedRows as $tableName => $rows) {
-			$recordName = Mmi_Dao::getRecordNameByTable($tableName);
+			$recordName = \Mmi\Dao::getRecordNameByTable($tableName);
 			$record = new $recordName;
 			$record->setFromArray($rows);
 			$this->_joined[$tableName] = $record;
@@ -204,7 +207,7 @@ class Mmi_Dao_Record_Ro {
 	/**
 	 * Usuwa flagę modyfikacji na polu, lub wszyskich polach
 	 * @param string $field nazwa pola, jeśli null czyści wszystkie
-	 * @return Mmi_Dao_Record_Ro
+	 * @return \Mmi\Dao\Record\Ro
 	 */
 	public final function clearModified($field = null) {
 		if ($field === null) {
@@ -236,7 +239,7 @@ class Mmi_Dao_Record_Ro {
 			$array[$name] = $value;
 		}
 		foreach ($this->_joined as $name => $value) {
-			if ($value instanceof Mmi_Dao_Record_Ro) {
+			if ($value instanceof \Mmi\Dao\Record\Ro) {
 				$value = $value->toArray();
 			}
 			$array[$name] = $value;

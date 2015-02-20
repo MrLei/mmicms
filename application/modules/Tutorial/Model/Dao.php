@@ -1,6 +1,9 @@
 <?php
 
-class Tutorial_Model_Dao extends Mmi_Dao {
+
+namespace Tutorial\Model;
+
+class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'tutorial';
 

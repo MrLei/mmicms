@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
+
+namespace Cms\Model\Tag\Link;
+
+class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'cms_tag_link';
 
@@ -13,7 +16,7 @@ class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
 	 */
 	public static function tag($tagId, $object, $objectId = null) {
 		try {
-			$record = new Cms_Model_Tag_Link_Record();
+			$record = new \Cms\Model\Tag\Link\Record();
 			$record->cmsTagId = $tagId;
 			$record->object = $object;
 			$record->objectId = $objectId;
@@ -31,7 +34,7 @@ class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
 	 * @return boolean
 	 */
 	public static function namedTag($tagName, $object, $objectId = null) {
-		$tag = Cms_Model_Tag_Dao::byNameQuery(trim($tagName))
+		$tag = \Cms\Model\Tag\Dao::byNameQuery(trim($tagName))
 			->findFirst();
 		if ($tag === null) {
 			return false;
@@ -47,7 +50,7 @@ class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
 	 * @return boolean
 	 */
 	public static function unTag($tagId, $object, $objectId = null) {
-		return Cms_Model_Tag_Link_Query::factory()
+		return \Cms\Model\Tag\Link\Query::factory()
 				->whereCmsTagId()->equals($tagId)
 				->andFieldObject()->equals($object)
 				->andFieldObjectId()->equals($objectId)
@@ -63,7 +66,7 @@ class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
 	 * @return boolean
 	 */
 	public static function unNamedTag($tagName, $object, $objectId = null) {
-		$tag = Cms_Model_Tag_Dao::byNameQuery(trim($tagName))
+		$tag = \Cms\Model\Tag\Dao::byNameQuery(trim($tagName))
 			->findFirst();
 		if ($tag === null) {
 			return false;
@@ -78,7 +81,7 @@ class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
 	 * @return int ilość usuniętych
 	 */
 	public static function clearTags($object, $objectId = null) {
-		return Cms_Model_Tag_Link_Query::factory()
+		return \Cms\Model\Tag\Link\Query::factory()
 				->whereObject()->equals($object)
 				->andFieldObjectId()->equals($objectId)
 				->find()
@@ -111,11 +114,11 @@ class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
 	public static function replaceNamedTags(array $tagNames, $object, $objectId = null) {
 		$tagIds = array();
 		foreach ($tagNames as $tagName) {
-			$tag = Cms_Model_Tag_Dao::byNameQuery(trim($tagName))
+			$tag = \Cms\Model\Tag\Dao::byNameQuery(trim($tagName))
 				->findFirst();
 			//tworzy tag jeśli jeszcze nie utworzony
 			if ($tag == null) {
-				$tag = new Cms_Model_Tag_Record();
+				$tag = new \Cms\Model\Tag\Record();
 				$tag->tag = $tagName;
 				$tag->save();
 			}
@@ -128,10 +131,10 @@ class Cms_Model_Tag_Link_Dao extends Mmi_Dao {
 	 * Znajduje tagi
 	 * @param type $object
 	 * @param type $objectId
-	 * @return Mmi_Dao_Record_Collection
+	 * @return \Mmi\Dao\Record\Collection
 	 */
 	public static function tagsByObjectQuery($object, $objectId = null) {
-		return Cms_Model_Tag_Link_Query::factory()
+		return \Cms\Model\Tag\Link\Query::factory()
 				->join('cms_tag')->on('cms_tag_id')
 				->whereObject()->equals($object)
 				->andFieldObjectId()->equals($objectId)

@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Widget_Text_Dao extends Mmi_Dao {
+
+namespace Cms\Model\Widget\Text;
+
+class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'cms_widget_text';
 

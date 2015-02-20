@@ -1,6 +1,9 @@
 <?php
 
-class MmiCms_Model_Changelog_Record extends Mmi_Dao_Record {
+
+namespace MmiCms\Model\Changelog;
+
+class Record extends \Mmi\Dao\Record {
 
 	public $filename;
 	public $md5;

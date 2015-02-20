@@ -1,8 +1,11 @@
 <?php
 
-class Cms_Form_Admin_Tag extends Mmi_Form {
 
-	protected $_recordName = 'Cms_Model_Tag_Record';
+namespace Cms\Form\Admin;
+
+class Tag extends \Mmi\Form {
+
+	protected $_recordName = '\Cms\Model\Tag\Record';
 
 	public function init() {
 

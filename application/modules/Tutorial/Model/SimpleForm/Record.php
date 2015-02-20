@@ -1,6 +1,9 @@
 <?php
 
-class Tutorial_Model_Record extends Mmi_Dao_Record {
+
+namespace Tutorial\Model;
+
+class Record extends \Mmi\Dao\Record {
 
 	public $id;
 	public $data;

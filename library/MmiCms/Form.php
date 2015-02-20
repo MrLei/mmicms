@@ -11,7 +11,7 @@
  *
  * MmiCms/Form.php
  * @category   MmiCms
- * @package    MmiCms_Form
+ * @package    MmiCms\Form
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,72 +21,75 @@
 /**
  * Klasa formularza CMS
  * @category   MmiCms
- * @package    MmiCms_Form
+ * @package    MmiCms\Form
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-abstract class MmiCms_Form extends Mmi_Form {
+
+namespace MmiCms;
+
+abstract class Form extends \Mmi\Form {
 
 	/**
 	 * Zabezpieczenie spamowe
 	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_Antirobot
+	 * @return \Mmi\Form\Element\Antirobot
 	 */
 	public function addElementAntirobot($name) {
-		return $this->addElement(new MmiCms_Form_Element_Antirobot($name));
+		return $this->addElement(new \MmiCms\Form\Element\Antirobot($name));
 	}
 	
 	/**
 	 * Captcha
 	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_Captcha
+	 * @return \Mmi\Form\Element\Captcha
 	 */
 	public function addElementCaptcha($name) {
-		return $this->addElement(new MmiCms_Form_Element_Captcha($name));
+		return $this->addElement(new \MmiCms\Form\Element\Captcha($name));
 	}
 
 	/**
 	 * Wybór koloru
 	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_ColorPicker
+	 * @return \Mmi\Form\Element\ColorPicker
 	 */
 	public function addElementColorPicker($name) {
-		return $this->addElement(new MmiCms_Form_Element_ColorPicker($name));
+		return $this->addElement(new \MmiCms\Form\Element\ColorPicker($name));
 	}
 
 	/**
 	 * Date picker
 	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_DatePicker
+	 * @return \Mmi\Form\Element\DatePicker
 	 */
 	public function addElementDatePicker($name) {
-		return $this->addElement(new MmiCms_Form_Element_DatePicker($name));
+		return $this->addElement(new \MmiCms\Form\Element\DatePicker($name));
 	}
 
 	/**
 	 * Date-time picker
 	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_DateTimePicker
+	 * @return \Mmi\Form\Element\DateTimePicker
 	 */
 	public function addElementDateTimePicker($name) {
-		return $this->addElement(new MmiCms_Form_Element_DateTimePicker($name));
+		return $this->addElement(new \MmiCms\Form\Element\DateTimePicker($name));
 	}
 
 	/**
 	 * TinyMce
 	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_TinyMce
+	 * @return \Mmi\Form\Element\TinyMce
 	 */
 	public function addElementTinyMce($name) {
-		return $this->addElement(new MmiCms_Form_Element_TinyMce($name));
+		return $this->addElement(new \MmiCms\Form\Element\TinyMce($name));
 	}
 
 	/**
 	 * Uploader
 	 * @param string $name nazwa
-	 * @return Mmi_Form_Element_Uploader
+	 * @return \Mmi\Form\Element\Uploader
 	 */
 	public function addElementUploader($name) {
-		return $this->addElement(new MmiCms_Form_Element_Uploader($name));
+		return $this->addElement(new \MmiCms\Form\Element\Uploader($name));
 	}
 
 }

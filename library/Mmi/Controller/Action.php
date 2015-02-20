@@ -10,7 +10,7 @@
  *
  * Mmi/Controller/Action.php
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,43 +20,46 @@
 /**
  * Kontroler akcji
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Controller_Action {
+
+namespace Mmi\Controller;
+
+class Action {
 
 	/**
 	 * Żądanie
-	 * @var Mmi_Controller_Request
+	 * @var \Mmi\Controller\Request
 	 */
 	protected $_request;
 	
 	/**
 	 * Referencja do odpowiedzi z Front controllera
-	 * @var Mmi_Controller_Response
+	 * @var \Mmi\Controller\Response
 	 */
 	protected $_response;
 
 	/**
 	 * Referencja do brokera helperów controlera akcji
-	 * @var Mmi_Controller_Action_HelperBroker
+	 * @var \Mmi\Controller\Action\HelperBroker
 	 */
 	protected $_helper;
 
 	/**
 	 * Widok
-	 * @var Mmi_View
+	 * @var \Mmi\View
 	 */
 	public $view;
 
 	/**
 	 * Konstruktor
 	 */
-	public function __construct(Mmi_Controller_Request $request) {
+	public function __construct(\Mmi\Controller\Request $request) {
 		//request
 		$this->_request = $request;
 		//response
-		$this->_response = Mmi_Controller_Front::getInstance()->getResponse();
+		$this->_response = \Mmi\Controller\Front::getInstance()->getResponse();
 		//inicjalizacja domyślna
 		$this->_init();
 		//inicjacja programisty kontrolera
@@ -96,7 +99,7 @@ class Mmi_Controller_Action {
 
 	/**
 	 * Pobiera request
-	 * @return Mmi_Controller_Request
+	 * @return \Mmi\Controller\Request
 	 */
 	public final function getRequest() {
 		return $this->_request;
@@ -104,7 +107,7 @@ class Mmi_Controller_Action {
 	
 	/**
 	 * Pobiera response
-	 * @return Mmi_Controller_Response
+	 * @return \Mmi\Controller\Response
 	 */
 	public final function getResponse() {
 		return $this->_response;
@@ -112,7 +115,7 @@ class Mmi_Controller_Action {
 
 	/**
 	 * Pobiera helper brokera
-	 * @return Mmi_Controller_Action_HelperBroker
+	 * @return \Mmi\Controller\Action\HelperBroker
 	 */
 	public final function getHelperBroker() {
 		return $this->_helper;
@@ -123,13 +126,13 @@ class Mmi_Controller_Action {
 	 */
 	private function _init() {
 		//przypięcie widoku
-		$this->view = Mmi_Controller_Front::getInstance()->getView();
+		$this->view = \Mmi\Controller\Front::getInstance()->getView();
 
 		//inicjalizacja tłumaczeń
 		$this->_initTranslaction($this->_request->__get('module'), $this->_request->__get('skin'), $this->_request->__get('lang'));
 
 		//tworzenie brokera helperów kontrolera
-		$this->_helper = new Mmi_Controller_Action_HelperBroker($this->_request);
+		$this->_helper = new \Mmi\Controller\Action\HelperBroker($this->_request);
 	}
 
 	/**
@@ -150,26 +153,26 @@ class Mmi_Controller_Action {
 
 		//ładowanie zbuforowanego translatora
 		$cache = $this->view->getCache();
-		$key = 'Mmi_Translate_' . $lang . '_' . $skin . '_' . $module;
+		$key = 'Mmi-Translate-' . $lang . '-' . $skin . '-' . $module;
 		
 		if ($cache !== null && (null !== ($cachedTranslate = $cache->load($key)))) {
 			$this->view->setTranslate($cachedTranslate);
 			$translate->setLocale($lang);
-			Mmi_Profiler::event('Init cached translate: [' . $lang . '] ' . $module);
+			\Mmi\Profiler::event('Init cached translate: [' . $lang . '] ' . $module);
 			return;
 		}
 
 		//dodawanie tłumaczeń do translatora
-		if (file_exists(APPLICATION_PATH . '/skins/default/default/i18n/' . $lang . '.ini')) {
-			$translate->addTranslation(APPLICATION_PATH . '/skins/default/default/i18n/' . $lang . '.ini', $lang);
+		if (file_exists(APPLICATION_PATH . '/skins/default/core/i18n/' . $lang . '.ini')) {
+			$translate->addTranslation(APPLICATION_PATH . '/skins/default/core/i18n/' . $lang . '.ini', $lang);
 		}
-		if ($module != 'default' && file_exists(APPLICATION_PATH . '/skins/default/' . $module . '/i18n/' . $lang . '.ini')) {
+		if ($module != 'core' && file_exists(APPLICATION_PATH . '/skins/default/' . $module . '/i18n/' . $lang . '.ini')) {
 			$translate->addTranslation(APPLICATION_PATH . '/skins/default/' . $module . '/i18n/' . $lang . '.ini', $lang);
 		}
 		if ($skin != 'default' && file_exists(APPLICATION_PATH . '/skins/' . $skin . '/default/i18n/' . $lang . '.ini')) {
 			$translate->addTranslation(APPLICATION_PATH . '/skins/' . $skin . '/default/i18n/' . $lang . '.ini', $lang);
 		}
-		if ($skin != 'default' && $module != 'default' && file_exists(APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/i18n/' . $lang . '.ini')) {
+		if ($skin != 'default' && $module != 'core' && file_exists(APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/i18n/' . $lang . '.ini')) {
 			$translate->addTranslation(APPLICATION_PATH . '/skins/' . $skin . '/' . $module . '/i18n/' . $lang . '.ini', $lang);
 		}
 		$translate->setLocale($lang);
@@ -179,7 +182,7 @@ class Mmi_Controller_Action {
 			$cache->save($translate, $key);
 		}
 
-		Mmi_Profiler::event('Init Translate: [' . $lang . '] ' . $module);
+		\Mmi\Profiler::event('Init Translate: [' . $lang . '] ' . $module);
 	}
 	
 }

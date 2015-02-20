@@ -11,7 +11,7 @@
  *
  * Mmi/Controller/Response/Debugger.php
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @subpackage Helper
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -22,14 +22,17 @@
 /**
  * Panel deweloperski
  * @category   Mmi
- * @package    Mmi_Controller
+ * @package    \Mmi\Controller
  * @subpackage Response
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Controller_Response_Debugger {
+
+namespace Mmi\Controller\Response;
+
+class Debugger {
 
 	public function __construct() {
-		$response = Mmi_Controller_Front::getInstance()->getResponse();
+		$response = \Mmi\Controller\Front::getInstance()->getResponse();
 		switch ($response->getType()) {
 			case 'htm':
 			case 'html':
@@ -56,17 +59,17 @@ class Mmi_Controller_Response_Debugger {
 				} catch (Exception $e) {
 					$response
 						->setCodeError()
-						->setContent(json_encode(array('status' => 500, 'error' => 'Mmi_Controller_Response_Debugger: JSON format mismatch', 'exception' => $e->getTraceAsString(), 'debugger' => $this->getJsonArray())));
+						->setContent(json_encode(array('status' => 500, 'error' => '\Mmi\Controller\Response\Debugger: JSON format mismatch', 'exception' => $e->getTraceAsString(), 'debugger' => $this->getJsonArray())));
 				}
 				break;
 		}
 	}
 
 	public function getJsonArray() {
-		$view = Mmi_Controller_Front::getInstance()->getView();
-		$env = Mmi_Controller_Front::getInstance()->getEnvironment();
+		$view = \Mmi\Controller\Front::getInstance()->getView();
+		$env = \Mmi\Controller\Front::getInstance()->getEnvironment();
 		$dbg = array();
-		$dbg['elapsed'] = round(Mmi_Profiler::elapsed(), 4) . 's';
+		$dbg['elapsed'] = round(\Mmi\Profiler::elapsed(), 4) . 's';
 		$dbg['memory'] = round(memory_get_peak_usage() / (1024 * 1024), 2) . 'MB';
 		return $dbg;
 	}
@@ -74,9 +77,9 @@ class Mmi_Controller_Response_Debugger {
 	public function getHtml() {
 		$preElem = '<pre style="min-width: 450px; margin: 0px 0px 10px 0px; color: #666; background: #eee; padding: 3px; border: 1px solid #666;">';
 		$preElemBreak = '<pre style="white-space: normal; word-wrap: break-word; margin: 0px 0px 10px 0px; color: #666; background: #eee; padding: 3px; border: 1px solid #666;">';
-		$view = Mmi_Controller_Front::getInstance()->getView();
-		$env = Mmi_Controller_Front::getInstance()->getEnvironment();
-		$elapsed = round(Mmi_Profiler::elapsed(), 4) . 's';
+		$view = \Mmi\Controller\Front::getInstance()->getView();
+		$env = \Mmi\Controller\Front::getInstance()->getEnvironment();
+		$elapsed = round(\Mmi\Profiler::elapsed(), 4) . 's';
 		$memory = round(memory_get_peak_usage() / (1024 * 1024), 2) . 'MB';
 		if ($view->getCache() === null || !$view->getCache()->isActive()) {
 			$cacheInfo = '<span style="color: #f22;">no cache</span>';
@@ -127,11 +130,11 @@ class Mmi_Controller_Response_Debugger {
 		$html .= '<p style="margin: 0; padding: 0;">POST maximal size: <b>' . ini_get('post_max_size') . '</b></p>';
 		$html .= '</pre>';
 
-		$html .= '<p style="margin: 0px;">SQL queries: <b>' . Mmi_Db_Profiler::count() . '</b>, elapsed time: <b>' . round(Mmi_Db_Profiler::elapsed(), 4) . 's </b></p>';
+		$html .= '<p style="margin: 0px;">SQL queries: <b>' . \Mmi\Db\Profiler::count() . '</b>, elapsed time: <b>' . round(\Mmi\Db\Profiler::elapsed(), 4) . 's </b></p>';
 		$i = 0;
 		$html .= $preElemBreak;
-		if (Mmi_Db_Profiler::count() > 0) {
-			foreach (Mmi_Db_Profiler::get() as $query) {
+		if (\Mmi\Db\Profiler::count() > 0) {
+			foreach (\Mmi\Db\Profiler::get() as $query) {
 				$i++;
 				$color = $query['percent'] * 15;
 				$color = ($color > 255) ? 255 : $color;
@@ -146,7 +149,7 @@ class Mmi_Controller_Response_Debugger {
 
 		$html .= '<p style="margin: 0px;">PHP Profiler: </p>';
 		$html .= $preElem;
-		$profilerData = Mmi_Profiler::get();
+		$profilerData = \Mmi\Profiler::get();
 		$percentSum = 0;
 		foreach ($profilerData as $event) {
 			$percentSum += $event['percent'];
@@ -217,7 +220,7 @@ class Mmi_Controller_Response_Debugger {
 			}
 			$html .= '<p style="margin: 0px;">Request Variables: </p>';
 			$html .= $preElem;
-			$html .= $this->_colorify(print_r(Mmi_Controller_Front::getInstance()->getRequest()->toArray(), true)) . '</pre>';
+			$html .= $this->_colorify(print_r(\Mmi\Controller\Front::getInstance()->getRequest()->toArray(), true)) . '</pre>';
 			$html .= '<p style="margin: 0px;">View Variables: </p>';
 			$html .= $preElem;
 			$html .= $this->_colorify(print_r($viewVars, true)) . '</pre>';

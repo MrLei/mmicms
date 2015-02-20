@@ -1,8 +1,11 @@
 <?php
 
-class Cms_Form_Admin_Login extends Mmi_Form {
 
-	protected $_recordName = 'Cms_Model_Auth_Record';
+namespace Cms\Form\Admin;
+
+class Login extends \Mmi\Form {
+
+	protected $_recordName = '\Cms\Model\Auth\Record';
 	protected $_recordSaveMethod = 'login';
 
 	public function init() {

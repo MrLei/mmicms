@@ -1,15 +1,18 @@
 <?php
 
 /**
- * @method Tutorial_Model_Query equals() equals($value)
- * @method Tutorial_Model_Query notEquals() notEquals($value)
- * @method Tutorial_Model_Query greater() greater($value)
- * @method Tutorial_Model_Query less() less($value)
- * @method Tutorial_Model_Query greaterOrEquals() greaterOrEquals($value)
- * @method Tutorial_Model_Query lessOrEquals() lessOrEquals($value)
- * @method Tutorial_Model_Query like() like($value)
- * @method Tutorial_Model_Query ilike() ilike($value)
+ * @method Tutorial\Model\Query equals() equals($value)
+ * @method Tutorial\Model\Query notEquals() notEquals($value)
+ * @method Tutorial\Model\Query greater() greater($value)
+ * @method Tutorial\Model\Query less() less($value)
+ * @method Tutorial\Model\Query greaterOrEquals() greaterOrEquals($value)
+ * @method Tutorial\Model\Query lessOrEquals() lessOrEquals($value)
+ * @method Tutorial\Model\Query like() like($value)
+ * @method Tutorial\Model\Query ilike() ilike($value)
  */
-class Tutorial_Model_Query_Field extends Mmi_Dao_Query_Field {
+
+namespace Tutorial\Model\Query;
+
+class Field extends \Mmi\Dao\Query\Field {
 
 }

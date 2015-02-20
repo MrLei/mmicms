@@ -1,15 +1,18 @@
 <?php
 
 /**
- * @method Cms_Model_News_Query equals() equals($value)
- * @method Cms_Model_News_Query notEquals() notEquals($value)
- * @method Cms_Model_News_Query greater() greater($value)
- * @method Cms_Model_News_Query less() less($value)
- * @method Cms_Model_News_Query greaterOrEquals() greaterOrEquals($value)
- * @method Cms_Model_News_Query lessOrEquals() lessOrEquals($value)
- * @method Cms_Model_News_Query like() like($value)
- * @method Cms_Model_News_Query ilike() ilike($value)
+ * @method \Cms\Model\News\Query equals() equals($value)
+ * @method \Cms\Model\News\Query notEquals() notEquals($value)
+ * @method \Cms\Model\News\Query greater() greater($value)
+ * @method \Cms\Model\News\Query less() less($value)
+ * @method \Cms\Model\News\Query greaterOrEquals() greaterOrEquals($value)
+ * @method \Cms\Model\News\Query lessOrEquals() lessOrEquals($value)
+ * @method \Cms\Model\News\Query like() like($value)
+ * @method \Cms\Model\News\Query ilike() ilike($value)
  */
-class Cms_Model_News_Query_Field extends Mmi_Dao_Query_Field {
+
+namespace Cms\Model\News\Query;
+
+class Field extends \Mmi\Dao\Query\Field {
 
 }

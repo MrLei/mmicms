@@ -11,20 +11,22 @@
  *
  * Mmi/Validate/Ip6.php
  * @category   Mmi
- * @package    Mmi_Validate
+ * @package    \Mmi\Validate
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa walidacji numeru IPv6
  * @category   Mmi
- * @package    Mmi_Validate
+ * @package    \Mmi\Validate
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Validate_Ip6 extends Mmi_Validate_Abstract {
+
+namespace Mmi\Validate;
+
+class Ip6 extends ValidateAbstract {
 
 	/**
 	 * Treść wiadomości

@@ -10,7 +10,7 @@
  *
  * Mmi/View/Helper/Translate.php
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -19,18 +19,21 @@
  */
 
 /**
- * Helper translatora, używa zmiennej 'Mmi_Translate' z rejestru
- * @see Mmi_Translate
+ * Helper translatora, używa zmiennej '\Mmi\Translate' z rejestru
+ * @see \Mmi\Translate
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_View_Helper_Translate extends Mmi_View_Helper_Abstract {
+
+namespace Mmi\View\Helper;
+
+class Translate extends HelperAbstract {
 
 	/**
 	 * Metoda główna, zwraca swoją instancję
-	 * @return Mmi_View_Helper_Translate
+	 * @return \Mmi\View\Helper\Translate
 	 */
 	public function translate() {
 		return $this;

@@ -1,20 +1,23 @@
 <?php
 
-class Cms_Model_Mail_Definition_Dao extends Mmi_Dao {
+
+namespace Cms\Model\Mail\Definition;
+
+class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'mail_definition';
 
 	/**
 	 * 
-	 * @return Cms_Model_Mail_Definition_Query
+	 * @return \Cms\Model\Mail\Definition\Query
 	 */
 	public static function langQuery() {
-		if (!Mmi_Controller_Front::getInstance()->getRequest()->lang) {
-			return Cms_Model_Mail_Definition_Query::factory();
+		if (!\Mmi\Controller\Front::getInstance()->getRequest()->lang) {
+			return \Cms\Model\Mail\Definition\Query::factory();
 		}
-		return Cms_Model_Mail_Definition_Query::factory()
-			->andQuery(Cms_Model_Mail_Definition_Query::factory()
-				->whereLang()->equals(Mmi_Controller_Front::getInstance()->getRequest()->lang)
+		return \Cms\Model\Mail\Definition\Query::factory()
+			->andQuery(\Cms\Model\Mail\Definition\Query::factory()
+				->whereLang()->equals(\Mmi\Controller\Front::getInstance()->getRequest()->lang)
 				->orFieldLang()->equals(null)
 				->orderDescLang()
 		);
@@ -23,7 +26,7 @@ class Cms_Model_Mail_Definition_Dao extends Mmi_Dao {
 	/**
 	 * 
 	 * @param string $name
-	 * @return Cms_Model_Mail_Definition_Query
+	 * @return \Cms\Model\Mail\Definition\Query
 	 */
 	public static function langByNameQuery($name) {
 		return self::langQuery()

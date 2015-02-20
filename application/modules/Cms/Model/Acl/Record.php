@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Acl_Record extends Mmi_Dao_Record {
+
+namespace Cms\Model\Acl;
+
+class Record extends \Mmi\Dao\Record {
 
 	public $id;
 	public $cmsRoleId;
@@ -26,9 +29,9 @@ class Cms_Model_Acl_Record extends Mmi_Dao_Record {
 	}
 
 	protected function _clearCache() {
-		Default_Registry::$cache->remove('Mmi_Navigation_');
-		Default_Registry::$cache->remove('Mmi_Navigation_' . Mmi_Controller_Front::getInstance()->getRequest()->lang);
-		Default_Registry::$cache->remove('Mmi_Acl');
+		\Core\Registry::$cache->remove('Mmi-Navigation-');
+		\Core\Registry::$cache->remove('Mmi-Navigation-' . \Mmi\Controller\Front::getInstance()->getRequest()->lang);
+		\Core\Registry::$cache->remove('Mmi-Acl');
 	}
 
 }

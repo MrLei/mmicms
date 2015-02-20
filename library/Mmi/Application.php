@@ -11,7 +11,7 @@
  *
  * Mmi/Application.php
  * @category   Mmi
- * @package    Mmi_Application
+ * @package    \Mmi\Application
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,14 +21,17 @@
 /**
  * Bazowa startująca aplikacji, ustawia ścieżki, ładuje ogólną konfigurację
  * @category   Mmi
- * @package    Mmi_Application
+ * @package    \Mmi\Application
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Application {
+
+namespace Mmi;
+
+class Application {
 
 	/**
 	 * Obiekt bootstrap
-	 * @var Mmi_Bootstrap
+	 * @var \Mmi\Bootstrap
 	 */
 	private $_bootstrap;
 
@@ -36,32 +39,32 @@ class Mmi_Application {
 	 * Konstruktor
 	 * @param string $path
 	 */
-	public function __construct($path, $bootstrapName = 'Mmi_Application_Bootstrap') {
+	public function __construct($path, $bootstrapName = '\Mmi\Application\Bootstrap') {
 		$this->_initPaths($path)
 			->_initDefaultComponents()
 			->_initEncoding()
 			->_initPhpConfiguration()
 			->_initAutoloader()
 			->_initErrorHandler();
-		Mmi_Profiler::event('Init bootstrap');
+		\Mmi\Profiler::event('Init bootstrap');
 		$this->_bootstrap = new $bootstrapName($path);
-		if (!($this->_bootstrap instanceof Mmi_Application_Bootstrap_Interface)) {
-			throw new Exception('Mmi_Application bootstrap should be implementing Mmi_Application_Bootstrap_Interface');
+		if (!($this->_bootstrap instanceof \Mmi\Application\BootstrapInterface)) {
+			throw new Exception('\Mmi\Application bootstrap should be implementing \Mmi\Application\Bootstrap\Interface');
 		}
 	}
 
 	/**
 	 * Uruchomienie aplikacji
-	 * @param Mmi_Bootstrap $bootstrap
+	 * @param \Mmi\Bootstrap $bootstrap
 	 */
 	public function run() {
-		Mmi_Profiler::event('Bootstrap run');
+		\Mmi\Profiler::event('Bootstrap run');
 		$this->_bootstrap->run();
 	}
 
 	/**
 	 * Ustawia kodowanie na UTF-8
-	 * @return Mmi_Application
+	 * @return \Mmi\Application
 	 */
 	protected function _initEncoding() {
 		mb_internal_encoding('utf-8');
@@ -73,7 +76,7 @@ class Mmi_Application {
 
 	/**
 	 * Definicja ścieżek
-	 * @return Mmi_Application
+	 * @return \Mmi\Application
 	 */
 	protected function _initPaths($path) {
 		$path = str_replace('\\', '/', $path);
@@ -89,19 +92,19 @@ class Mmi_Application {
 
 	/**
 	 * Ładowanie domyślnych komponentów
-	 * @return Mmi_Application
+	 * @return \Mmi\Application
 	 */
 	protected function _initDefaultComponents() {
 		require LIB_PATH . '/Mmi/Profiler.php';
-		Mmi_Profiler::event('Application init');
-		require LIB_PATH . '/Mmi/Application/Bootstrap/Interface.php';
+		Profiler::event('Application init');
+		require LIB_PATH . '/Mmi/Application/BootstrapInterface.php';
 		require LIB_PATH . '/Mmi/Application/Config.php';
 		require LIB_PATH . '/Mmi/Application/Error.php';
 		require LIB_PATH . '/Mmi/Config.php';
-		require LIB_PATH . '/Mmi/Controller/Action/Helper/Abstract.php';
+		require LIB_PATH . '/Mmi/Controller/Action/Helper/HelperAbstract.php';
 		require LIB_PATH . '/Mmi/Controller/Action/Helper/Action.php';
 		require LIB_PATH . '/Mmi/Controller/Action/HelperBroker.php';
-		require LIB_PATH . '/Mmi/Controller/Plugin/Abstract.php';
+		require LIB_PATH . '/Mmi/Controller/Plugin/PluginAbstract.php';
 		require LIB_PATH . '/Mmi/Controller/Action.php';
 		require LIB_PATH . '/Mmi/Controller/Environment.php';
 		require LIB_PATH . '/Mmi/Controller/Front.php';
@@ -118,7 +121,7 @@ class Mmi_Application {
 
 	/**
 	 * Inicjalizacja konfiguracji PHP
-	 * @return Mmi_Application
+	 * @return \Mmi\Application
 	 */
 	protected function _initPhpConfiguration() {
 		//obsługa włączonych magic quotes
@@ -139,17 +142,14 @@ class Mmi_Application {
 
 	/**
 	 * Inicjuje autoloader
-	 * @return Mmi_Application
+	 * @return \Mmi\Application
 	 */
 	protected function _initAutoloader() {
 		spl_autoload_register(function ($class) {
 			if (strpos($class, 'PHPUnit') !== false) {
 				return;
 			}
-			if (strpos($class, '\\') !== false) {
-				return;
-			}
-			$name = explode('_', $class);
+			$name = explode('\\', $class);
 			if (!isset($name[0])) {
 				return;
 			}
@@ -163,7 +163,7 @@ class Mmi_Application {
 				default:
 					$path = APPLICATION_PATH . '/modules';
 			}
-			Mmi_Profiler::event('Autoloaded: ' . $class);
+			\Mmi\Profiler::event('Autoloaded: ' . $class);
 			include $path . '/' . implode('/', $name) . '.php';
 		});
 		return $this;
@@ -171,11 +171,11 @@ class Mmi_Application {
 
 	/**
 	 * Ustawia handler błędów
-	 * @return Mmi_Application
+	 * @return \Mmi\Application
 	 */
 	protected function _initErrorHandler() {
-		set_exception_handler(array('Mmi_Application_Error', 'exceptionHandler'));
-		set_error_handler(array('Mmi_Application_Error', 'errorHandler'));
+		set_exception_handler(array('\Mmi\Application\Error', 'exceptionHandler'));
+		set_error_handler(array('\Mmi\Application\Error', 'errorHandler'));
 		return $this;
 	}
 

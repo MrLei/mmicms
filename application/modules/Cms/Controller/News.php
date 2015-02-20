@@ -1,13 +1,16 @@
 <?php
 
-class Cms_Controller_News extends Mmi_Controller_Action {
+
+namespace Cms\Controller;
+
+class News extends \Mmi\Controller\Action {
 
 	public function indexAction() {
 		//przekierowanie z posta z ilością podstron
 		if ($this->getRequest()->getPost()) {
 			$this->_helper->redirector('index', 'news', 'cms', array('pages' => intval($_POST['pages'])), true);
 		}
-		$paginator = new Mmi_Paginator();
+		$paginator = new \Mmi\Paginator();
 		$pages = 10;
 		//ustawianie ilości stron na liście
 		if ($this->pages) {
@@ -17,8 +20,8 @@ class Cms_Controller_News extends Mmi_Controller_Action {
 			$pages = (int) $this->pages;
 		}
 		$paginator->setRowsPerPage($pages);
-		$paginator->setRowsCount(Cms_Model_News_Dao::activeQuery()->count());
-		$this->view->news = Cms_Model_News_Dao::activeQuery()
+		$paginator->setRowsCount(\Cms\Model\News\Dao::activeQuery()->count());
+		$this->view->news = \Cms\Model\News\Dao::activeQuery()
 			->limit($paginator->getLimit())
 			->offset($paginator->getOffset())
 			->find();
@@ -27,13 +30,13 @@ class Cms_Controller_News extends Mmi_Controller_Action {
 
 	public function topAction() {
 		$limit = $this->limit ? intval($this->limit) : 5;
-		$this->view->news = Cms_Model_News_Dao::activeQuery()
+		$this->view->news = \Cms\Model\News\Dao::activeQuery()
 			->limit($limit)
 			->find();
 	}
 
 	public function displayAction() {
-		$this->view->item = Cms_Model_News_Dao::activeByUriQuery($this->uri)
+		$this->view->item = \Cms\Model\News\Dao::activeByUriQuery($this->uri)
 			->findFirst();
 		if ($this->view->item === null) {
 			$this->_helper->redirector('index', 'news', 'cms', array(), true);

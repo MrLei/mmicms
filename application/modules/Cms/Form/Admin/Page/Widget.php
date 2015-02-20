@@ -1,8 +1,11 @@
 <?php
 
-class Cms_Form_Admin_Page_Widget extends Mmi_Form {
 
-	protected $_recordName = 'Cms_Model_Page_Widget_Record';
+namespace Cms\Form\Admin\Page;
+
+class Widget extends \Mmi\Form {
+
+	protected $_recordName = '\Cms\Model\Page\Widget\Record';
 
 	public function init() {
 

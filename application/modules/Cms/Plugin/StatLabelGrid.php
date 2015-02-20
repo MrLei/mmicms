@@ -1,10 +1,12 @@
 <?php
 
-class Cms_Plugin_StatLabelGrid extends Mmi_Grid {
+namespace Cms\Plugin;
+
+class StatLabelGrid extends \Mmi\Grid {
 
 	public function init() {
-		
-		$this->setQuery(Cms_Model_Stat_Label_Query::factory());
+
+		$this->setQuery(\Cms\Model\Stat\Label\Query::factory());
 
 		$this->addColumn('text', 'object', array(
 			'label' => 'klucz'

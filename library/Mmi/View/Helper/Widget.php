@@ -11,7 +11,7 @@
  *
  * Mmi/View/Helper/Widget.php
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -21,13 +21,16 @@
 
 /**
  * Helper widgetów
- * @see Mmi_Controller_Action_Helper_Action
+ * @see \Mmi\Controller\Action\Helper\Action
  * @category   Mmi
- * @package    Mmi_View
+ * @package    \Mmi\View
  * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_View_Helper_Widget extends Mmi_View_Helper_Abstract {
+
+namespace Mmi\View\Helper;
+
+class Widget extends HelperAbstract {
 
 	/**
 	 * Metoda główna, renderuje widget o zadanych parametrach
@@ -38,7 +41,7 @@ class Mmi_View_Helper_Widget extends Mmi_View_Helper_Abstract {
 	 * @return string
 	 */
 	public function widget($module, $controller, $action = 'index', array $params = array()) {
-		$actionHelper = new Mmi_Controller_Action_Helper_Action();
+		$actionHelper = new \Mmi\Controller\Action\Helper\Action();
 		$isLayoutDisabled = $this->view->isLayoutDisabled();
 		$actionResult = $actionHelper->action($module, $controller, $action, $params, true);
 		$this->view->setLayoutDisabled($isLayoutDisabled);

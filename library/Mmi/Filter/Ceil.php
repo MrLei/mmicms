@@ -10,7 +10,7 @@
  *
  * Mmi/Filter/Ceil.php
  * @category   Mmi
- * @package    Mmi_Filter
+ * @package    \Mmi\Filter
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,10 +20,13 @@
 /**
  * Filtr zaokrąglający do góry
  * @category   Mmi
- * @package    Mmi_Filter
+ * @package    \Mmi\Filter
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Filter_Ceil extends Mmi_Filter_Abstract {
+
+namespace Mmi\Filter;
+
+class Ceil extends \Mmi\Filter\FilterAbstract {
 
 	/**
 	 * Zaokrągla liczby

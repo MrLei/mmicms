@@ -1,6 +1,8 @@
 <?php
 
-abstract class Cms_Model_Api_Dto {
+namespace Cms\Model\Api;
+
+abstract class Dto {
 
 	protected static $_replacementFields = array();
 	protected static $_readOnlyFields = array('id');
@@ -13,10 +15,10 @@ abstract class Cms_Model_Api_Dto {
 		if (is_array($data)) {
 			return $this->setFromArray($data);
 		}
-		if ($data instanceof Mmi_Dao_Record) {
+		if ($data instanceof \Mmi\Dao\Record) {
 			return $this->setFromDaoRecord($data);
 		}
-		if ($data instanceof Cms_Model_Api_Dto) {
+		if ($data instanceof \Cms\Model\Api\Dto) {
 			return $this->setFromArray($data->toArray());
 		}
 		//pozostałe typy danych są niewspierane
@@ -25,14 +27,14 @@ abstract class Cms_Model_Api_Dto {
 			if ($type === 'object') {
 				$type = get_class($data);
 			}
-			throw new Mmi_Json_Rpc_Data_Exception('Invalid input data: ' . $type . ' is not supported');
+			throw new \Mmi\Json\Rpc\Data\Exception('Invalid input data: ' . $type . ' is not supported');
 		}
 	}
 
 	/**
 	 * Ustawia obiekt DTO na podstawie tabeli
 	 * @param array $data
-	 * @return Cms_Model_Api_Dto
+	 * @return \Cms\Model\Api\Dto
 	 */
 	public final function setFromArray(array $data) {
 		foreach ($data as $key => $value) {
@@ -60,11 +62,11 @@ abstract class Cms_Model_Api_Dto {
 	}
 
 	/**
-	 * Ustawia obiekt z Mmi_Dao_Record
-	 * @param Mmi_Dao_Record $record
-	 * @return Cms_Model_Api_Dto
+	 * Ustawia obiekt z \Mmi\Dao\Record
+	 * @param \Mmi\Dao\Record $record
+	 * @return \Cms\Model\Api\Dto
 	 */
-	public final function setFromDaoRecord(Mmi_Dao_Record $record) {
+	public final function setFromDaoRecord(\Mmi\Dao\Record $record) {
 		return $this->setFromArray($record->toArray());
 	}
 

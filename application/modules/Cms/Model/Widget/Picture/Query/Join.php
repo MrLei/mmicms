@@ -1,8 +1,11 @@
 <?php
 
 /**
- * @method Cms_Model_Widget_Picture_Query on() on($localKeyName, $joinedKeyName = 'id')
+ * @method \Cms\Model\Widget\Picture\Query on() on($localKeyName, $joinedKeyName = 'id')
  */
-class Cms_Model_Widget_Picture_Query_Join extends Mmi_Dao_Query_Join {
+
+namespace Cms\Model\Widget\Picture\Query;
+
+class Join extends \Mmi\Dao\Query\Join {
 
 }

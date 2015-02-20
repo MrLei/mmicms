@@ -1,10 +1,11 @@
 <?php
 
-class Cms_Plugin_PageGrid extends Mmi_Grid {
+namespace Cms\Plugin;
+class PageGrid extends \Mmi\Grid {
 
 	public function init() {
 
-		$this->setQuery(Cms_Model_Page_Query::factory()
+		$this->setQuery(\Cms\Model\Page\Query::factory()
 			->join('cms_navigation')->on('cms_navigation_id')
 			->orderAscId());
 		

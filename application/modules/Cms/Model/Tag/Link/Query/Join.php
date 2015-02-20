@@ -1,8 +1,11 @@
 <?php
 
 /**
- * @method Cms_Model_Tag_Link_Query on() on($localKeyName, $joinedKeyName = 'id')
+ * @method \Cms\Model\Tag\Link\Query on() on($localKeyName, $joinedKeyName = 'id')
  */
-class Cms_Model_Tag_Link_Query_Join extends Mmi_Dao_Query_Join {
+
+namespace Cms\Model\Tag\Link\Query;
+
+class Join extends \Mmi\Dao\Query\Join {
 
 }

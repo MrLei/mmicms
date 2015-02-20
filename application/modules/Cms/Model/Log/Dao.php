@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Log_Dao extends Mmi_Dao {
+
+namespace Cms\Model\Log;
+
+class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'cms_log';
 
@@ -11,10 +14,10 @@ class Cms_Model_Log_Dao extends Mmi_Dao {
 	 * @return bool czy dodano
 	 */
 	public static function add($operation = null, array $data = array()) {
-		$record = new Cms_Model_Log_Record();
-		$env = Mmi_Controller_Front::getInstance()->getEnvironment();
-		if (Mmi_Session::namespaceIsset('Auth')) {
-			$authNamespace = new Mmi_Session_Namespace('Auth');
+		$record = new \Cms\Model\Log\Record();
+		$env = \Mmi\Controller\Front::getInstance()->getEnvironment();
+		if (\Mmi\Session::namespaceIsset('Auth')) {
+			$authNamespace = new \Mmi\Session\Space('Auth');
 			$record->cmsAuthId = $authNamespace->id;
 		}
 		$record->url = $env->requestUri;
@@ -48,7 +51,7 @@ class Cms_Model_Log_Dao extends Mmi_Dao {
 	}
 
 	public static function clean($months = 24) {
-		return Cms_Model_Log_Query::factory()
+		return \Cms\Model\Log\Query::factory()
 				->whereDateTime()->less(date('Y-m-d H:i:s', strtotime('-' . $months . ' month')))
 				->find()
 				->delete();

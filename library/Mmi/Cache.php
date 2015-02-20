@@ -11,7 +11,7 @@
  *
  * Mmi/Cache.php
  * @category   Mmi
- * @package    Mmi_Cache
+ * @package    \Mmi\Cache
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -21,20 +21,23 @@
 /**
  * Klasa bufora
  * @category   Mmi
- * @package    Mmi_Cache
+ * @package    \Mmi\Cache
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Cache {
+
+namespace Mmi;
+
+class Cache {
 
 	/**
 	 * Konfiguracja bufora
-	 * @var Mmi_Cache_Config
+	 * @var \Mmi\Cache\Config
 	 */
 	protected $_config;
 
 	/**
 	 * Backend bufora
-	 * @var Mmi_Cache_Backend_Interface
+	 * @var \Mmi\Cache\Backend\Interface
 	 */
 	protected $_backend;
 
@@ -47,13 +50,13 @@ class Mmi_Cache {
 	/**
 	 * Konstruktor, wczytuje konfigurację i ustawia backend
 	 */
-	public function __construct(Mmi_Cache_Config $config) {
+	public function __construct(\Mmi\Cache\Config $config) {
 		$this->_config = $config;
 		$saveHandler = $config->handler;
-		$backendClassName = 'Mmi_Cache_Backend_' . ucfirst($saveHandler);
+		$backendClassName = '\Mmi\Cache\Backend\\' . ucfirst($saveHandler);
 		$this->_backend = new $backendClassName($config);
-		$this->_registryNamespace = 'Cache_' . crc32($config->path . $config->handler) . '_';
-		if (!($this->_backend instanceof Mmi_Cache_Backend_Interface)) {
+		$this->_registryNamespace = 'Cache-' . crc32($config->path . $config->handler) . '-';
+		if (!($this->_backend instanceof \Mmi\Cache\Backend\BackendInterface)) {
 			throw new Exception('Cache backend invalid');
 		}
 	}
@@ -67,10 +70,10 @@ class Mmi_Cache {
 		if (!$this->_config->active) {
 			return;
 		}
-		if (Mmi_Registry::issetVar($this->_registryNamespace . $key)) {
-			return Mmi_Registry::getVar($this->_registryNamespace . $key);
+		if (\Mmi\Registry::issetVar($this->_registryNamespace . $key)) {
+			return \Mmi\Registry::getVar($this->_registryNamespace . $key);
 		}
-		return Mmi_Registry::setVar($this->_registryNamespace . $key, $this->_getValidCacheData($this->_backend->load($key)));
+		return \Mmi\Registry::setVar($this->_registryNamespace . $key, $this->_getValidCacheData($this->_backend->load($key)));
 	}
 
 	/**
@@ -91,7 +94,7 @@ class Mmi_Cache {
 			$lifetime = $this->_config->lifetime;
 		}
 		$expire = time() + $lifetime;
-		Mmi_Registry::setVar($this->_registryNamespace . $key, $data);
+		\Mmi\Registry::setVar($this->_registryNamespace . $key, $data);
 		return $this->_backend->save($key, $this->_setCacheData($data, $expire), $lifetime);
 	}
 
@@ -103,7 +106,7 @@ class Mmi_Cache {
 		if (!$this->_config->active) {
 			return;
 		}
-		Mmi_Registry::unsetVar($key);
+		\Mmi\Registry::unsetVar($key);
 		return $this->_backend->delete($key);
 	}
 

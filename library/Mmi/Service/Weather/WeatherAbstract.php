@@ -8,9 +8,9 @@
  * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
  * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
  *
- * Mmi/Service/Weather/Abstract.php
+ * Mmi/Service/Weather/WeatherAbstract.php
  * @category   Mmi
- * @package    Mmi_Service
+ * @package    \Mmi\Service
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,10 +20,13 @@
 /**
  * Klasa abstrakcyjna obsługi API dostawców pogody
  * @category   Mmi
- * @package    Mmi_Service
+ * @package    \Mmi\Service
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-abstract class Mmi_Service_Weather_Abstract {
+
+namespace Mmi\Service\Weather;
+
+abstract class WeatherAbstract {
 
 	/**
 	 * Link do api
@@ -40,7 +43,7 @@ abstract class Mmi_Service_Weather_Abstract {
 	/**
 	 * Wyszukanie po nazwie miejsca
 	 * @param string $placeName nazwa miejsca (np. kraj+miasto)
-	 * @return Mmi_Service_Weather_Data aktualna pogoda
+	 * @return \Mmi\Service\Weather\Data aktualna pogoda
 	 */
 	abstract public function search($placeName);
 

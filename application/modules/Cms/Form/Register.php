@@ -1,8 +1,11 @@
 <?php
 
-class Cms_Form_Register extends MmiCms_Form {
 
-	protected $_recordName = 'Cms_Model_Auth_Record';
+namespace Cms\Form;
+
+class Register extends \MmiCms\Form {
+
+	protected $_recordName = '\Cms\Model\Auth\Record';
 	protected $_recordSaveMethod = 'register';
 
 	public function init() {
@@ -11,7 +14,7 @@ class Cms_Form_Register extends MmiCms_Form {
 			->setLabel('nazwa użytkownika (nick)')
 			->setRequired()
 			->addValidatorAlnum()
-			->addValidatorRecordUnique('Cms_Model_Auth_Dao', 'username')
+			->addValidatorRecordUnique('\Cms\Model\Auth\Dao', 'username')
 			->addValidatorStringLength(4, 25)
 			->addFilter('lowercase');
 
@@ -19,7 +22,7 @@ class Cms_Form_Register extends MmiCms_Form {
 			->setLabel('e-mail')
 			->setRequired()
 			->addValidatorEmailAddress()
-			->addValidatorRecordUnique('Cms_Model_Auth_Dao', 'email')
+			->addValidatorRecordUnique('\Cms\Model\Auth\Dao', 'email')
 			->addValidatorStringLength(4, 150)
 			->addFilter('lowercase');
 

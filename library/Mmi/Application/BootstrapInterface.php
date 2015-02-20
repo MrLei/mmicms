@@ -11,20 +11,22 @@
  *
  * Mmi/Application/Bootstrap/Interface.php
  * @category   Mmi
- * @package    Mmi_Application
+ * @package    \Mmi\Application
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Interface bootstrapów aplikacji
  * @category   Mmi
- * @package    Mmi_Application
+ * @package    \Mmi\Application
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-interface Mmi_Application_Bootstrap_Interface {
+
+namespace Mmi\Application;
+
+interface BootstrapInterface {
 
 	/**
 	 * Parametryzowanie bootstrapa
@@ -35,5 +37,4 @@ interface Mmi_Application_Bootstrap_Interface {
 	 * Uruchomienie bootstrapa
 	 */
 	public function run();
-
 }

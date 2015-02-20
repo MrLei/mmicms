@@ -11,7 +11,7 @@
  *
  * Mmi/Db/Adapter/Pdo/Mysql.php
  * @category   Mmi
- * @package    Mmi_Db
+ * @package    \Mmi\Db
  * @subpackage Adapter
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
@@ -22,16 +22,19 @@
 /**
  * Klasa adaptera MySQL
  * @category   Mmi
- * @package    Mmi_Db
+ * @package    \Mmi\Db
  * @subpackage Adapter
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Db_Adapter_Pdo_Mysql extends Mmi_Db_Adapter_Pdo_Abstract {
+
+namespace Mmi\Db\Adapter\Pdo;
+
+class Mysql extends PdoAbstract {
 	
 	/**
 	 * Ustawia schemat
 	 * @param string $schemaName nazwa schematu
-	 * @return Mmi_Db_Adapter_Pdo_Mysql
+	 * @return \Mmi\Db\Adapter\Pdo\Mysql
 	 */
 	public function selectSchema($schemaName) {
 		return $this;
@@ -39,7 +42,7 @@ class Mmi_Db_Adapter_Pdo_Mysql extends Mmi_Db_Adapter_Pdo_Abstract {
 
 	/**
 	 * Ustawia domyślne parametry dla importu (długie zapytania)
-	 * @return Mmi_Db_Adapter_Pdo_Mysql
+	 * @return \Mmi\Db\Adapter\Pdo\Mysql
 	 */
 	public function setDefaultImportParams() {
 		$this->query('SET NAMES utf8;

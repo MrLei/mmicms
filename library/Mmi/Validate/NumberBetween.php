@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -10,26 +11,28 @@
  *
  * Mmi/Validate/Between.php
  * @category   Mmi
- * @package    Mmi_Validate
+ * @package    \Mmi\Validate
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa walidacji liczb od-do
  * @category   Mmi
- * @package    Mmi_Validate
+ * @package    \Mmi\Validate
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Validate_NumberBetween extends Mmi_Validate_Abstract {
+
+namespace Mmi\Validate;
+
+class NumberBetween extends ValidateAbstract {
 
 	/**
 	 * Treść błędu 
 	 */
 	const INVALID = 'Wprowadzona wartość nie mieści się w wymaganym przedziale';
-	
+
 	/**
 	 * Walidacja liczb od-do
 	 * @param mixed $value wartość
@@ -44,4 +47,5 @@ class Mmi_Validate_NumberBetween extends Mmi_Validate_Abstract {
 		}
 		return true;
 	}
+
 }

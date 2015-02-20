@@ -11,20 +11,22 @@
  *
  * Mmi/Validate/Ip4.php
  * @category   Mmi
- * @package    Mmi_Validate
+ * @package    \Mmi\Validate
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa walidacji numeru IP
  * @category   Mmi
- * @package    Mmi_Validate
+ * @package    \Mmi\Validate
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Validate_Ip4 extends Mmi_Validate_Abstract {
+
+namespace Mmi\Validate;
+
+class Ip4 extends ValidateAbstract {
 
 	/**
 	 * Treść wiadomości

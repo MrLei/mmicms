@@ -1,6 +1,9 @@
 <?php
 
-class Cms_Model_Widget_Picture_Record extends Mmi_Dao_Record {
+
+namespace Cms\Model\Widget\Picture;
+
+class Record extends \Mmi\Dao\Record {
 
 	public $id;
 	public $dateAdd;
@@ -11,14 +14,14 @@ class Cms_Model_Widget_Picture_Record extends Mmi_Dao_Record {
 	}
 
 	public function delete() {
-		Cms_Model_File_Dao::imagesByObjectQuery('cmswidgetpicture', $this->getPk())
+		\Cms\Model\File\Dao::imagesByObjectQuery('cmswidgetpicture', $this->getPk())
 			->find()
 			->delete();
 		return parent::delete();
 	}
 
 	public function getFirstImage() {
-		$image = Cms_Model_File_Dao::imagesByObjectQuery('cmswidgetpicture', $this->id)
+		$image = \Cms\Model\File\Dao::imagesByObjectQuery('cmswidgetpicture', $this->id)
 			->findFirst();
 		return $image;
 	}

@@ -10,7 +10,7 @@
  *
  * Mmi/Service/Weather/Ground.php
  * @category   Mmi
- * @package    Mmi_Service
+ * @package    \Mmi\Service
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
  * @author     Mariusz Miłejko <mariusz@milejko.pl>
  * @version    1.0.0
@@ -20,10 +20,13 @@
 /**
  * Klasa implementująca obsługę API WeatherGround.com
  * @category   Mmi
- * @package    Mmi_Service
+ * @package    \Mmi\Service
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-class Mmi_Service_Weather_Ground extends Mmi_Service_Weather_Abstract {
+
+namespace Mmi\Service\Weather;
+
+class Ground extends WeatherAbstract {
 
 	/**
 	 * Konstruktor wymaga podania klucza API
@@ -36,7 +39,7 @@ class Mmi_Service_Weather_Ground extends Mmi_Service_Weather_Abstract {
 	/**
 	 * Wyszukanie po nazwie miejsca
 	 * @param string $placeName nazwa miejsca (np. kraj+miasto)
-	 * @return Mmi_Service_Weather_Data aktualna pogoda
+	 * @return \Mmi\Service\Weather\Data aktualna pogoda
 	 */
 	public function search($placeName) {
 		$current = json_decode(file_get_contents($this->_url . '/conditions/forecast/q/' . urlencode($placeName) . '.json'));
@@ -44,7 +47,7 @@ class Mmi_Service_Weather_Ground extends Mmi_Service_Weather_Abstract {
 			throw new Exception('No data');
 		}
 		$current = $current->current_observation;
-		$wd = new Mmi_Service_Weather_Data();
+		$wd = new \Mmi\Service\Weather\Data();
 		$wd->temperature = $current->temp_c;
 		$wd->humidity = trim($current->relative_humidity, '%');
 		$wd->windSpeed = $current->wind_kph;

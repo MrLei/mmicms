@@ -1,13 +1,16 @@
 <?php
 
-class Cms_Controller_Admin_Mail extends MmiCms_Controller_Admin {
+
+namespace Cms\Controller\Admin;
+
+class Mail extends \MmiCms\Controller\Admin {
 
 	public function indexAction() {
-		$this->view->grid = new Cms_Plugin_MailGrid();
+		$this->view->grid = new \Cms\Plugin\MailGrid();
 	}
 
 	public function deleteAction() {
-		$mail = Cms_Model_Mail_Dao::findPk($this->id);
+		$mail = \Cms\Model\Mail\Dao::findPk($this->id);
 		if ($mail && $mail->delete()) {
 			$this->_helper->messenger('Email został usunięty z kolejki', true);
 		}
@@ -15,7 +18,7 @@ class Cms_Controller_Admin_Mail extends MmiCms_Controller_Admin {
 	}
 
 	public function sendAction() {
-		$result = Cms_Model_Mail_Dao::send();
+		$result = \Cms\Model\Mail\Dao::send();
 		if ($result['success'] > 0) {
 			$this->_helper->messenger('Maile z kolejki zostały wysłane', true);
 		}

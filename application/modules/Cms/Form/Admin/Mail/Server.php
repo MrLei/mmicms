@@ -1,8 +1,11 @@
 <?php
 
-class Cms_Form_Admin_Mail_Server extends Mmi_Form {
 
-	protected $_recordName = 'Cms_Model_Mail_Server_Record';
+namespace Cms\Form\Admin\Mail;
+
+class Server extends \Mmi\Form {
+
+	protected $_recordName = '\Cms\Model\Mail\Server\Record';
 
 	public function init() {
 
