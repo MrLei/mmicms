@@ -195,7 +195,7 @@ abstract class Form {
 		} elseif(null === $id || is_numeric($id)) {
 			$this->_recordId = $id;
 		} else {
-			throw new Exception('Invalid record object');
+			throw new\Exception('Invalid record object');
 		}
 
 		$this->_className =  isset($className) ? $className : get_class($this);
@@ -691,7 +691,7 @@ abstract class Form {
 			return true;
 		}
 		if ($this->_record !== null) {
-			throw new Exception('Invalid record supplied');
+			throw new\Exception('Invalid record supplied');
 		}
 		$recordName = $this->_recordName;
 		$this->_record = new $recordName($this->_recordId);
@@ -1105,7 +1105,7 @@ abstract class Form {
 		if (method_exists(($this->_record), $this->_recordSaveMethod)) {
 			return $this->_record->{$this->_recordSaveMethod}();
 		}
-		throw new Exception('Save method unsupported: ' . $this->_recordSaveMethod);
+		throw new\Exception('Save method unsupported: ' . $this->_recordSaveMethod);
 	}
 
 	/**

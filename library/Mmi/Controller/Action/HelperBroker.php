@@ -96,7 +96,7 @@ class HelperBroker {
 		if (null !== ($helper = self::_getSystemHelper($name))) {
 			return $helper;
 		}
-		throw new Exception('\Mmi\Controller\Action\HelperBroker: ' . $name . ' helper not found');
+		throw new\Exception('\Mmi\Controller\Action\HelperBroker: ' . $name . ' helper not found');
 	}
 
 	/**
@@ -106,7 +106,7 @@ class HelperBroker {
 	 */
 	protected static function _getModuleHelper($name) {
 		$moduleName = ucfirst(self::$_request->getModuleName());
-		$helperName = $moduleName . '_Controller\Helper\\' . $name;
+		$helperName = $moduleName . '\\Controller\\Helper\\' . $name;
 		//zwrot jeśli zarejestrowany
 		if (isset(self::$_helpers[$helperName])) {
 			return self::$_helpers[$helperName];
@@ -126,7 +126,7 @@ class HelperBroker {
 	 * @return \Mmi\Controller\Action\Helper\Abstract
 	 */
 	protected static function _getSystemHelper($name) {
-		$helperName = '\Mmi\Controller\Action\Helper\\' . $name;
+		$helperName = '\\Mmi\\Controller\\Action\\Helper\\' . $name;
 		//zwrot jeśli zarejestrowany
 		if (isset(self::$_helpers[$helperName])) {
 			return self::$_helpers[$helperName];

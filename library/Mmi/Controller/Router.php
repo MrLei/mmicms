@@ -417,7 +417,7 @@ class Router {
 	 */
 	private function _routeMatch($matches) {
 		if (!isset($matches[1])) {
-			throw new Exception('Router failed due to invalid route definition');
+			throw new\Exception('Router failed due to invalid route definition');
 		}
 		if (isset($this->_tmpMatches[$matches[1]])) {
 			return $this->_tmpMatches[$matches[1]];
@@ -425,7 +425,7 @@ class Router {
 		if (isset($this->_tmpDefault[$this->_tmpKey])) {
 			return $this->_tmpDefault[$this->_tmpKey];
 		}
-		throw new Exception('Router failed due to invalid route definition - no default param for key: ' . $this->_tmpKey);
+		throw new\Exception('Router failed due to invalid route definition - no default param for key: ' . $this->_tmpKey);
 	}
 
 }

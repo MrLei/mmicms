@@ -552,7 +552,7 @@ ALTER TABLE ONLY stat_date ALTER COLUMN id SET DEFAULT nextval('stat_date_id_seq
 ALTER TABLE ONLY stat_label ALTER COLUMN id SET DEFAULT nextval('stat_label_id_seq'::regclass);
 
 INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (1, 3, NULL, NULL, NULL, 'allow');
-INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (2, 1, 'default', NULL, NULL, 'allow');
+INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (2, 1, 'core', NULL, NULL, 'allow');
 INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (3, 1, 'admin', 'login', NULL, 'allow');
 INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (4, 1, 'cms', NULL, NULL, 'allow');
 

@@ -35,9 +35,9 @@ class Db {
 	 */
 	public static function factory(\Mmi\Db\Config $config) {
 		if ($config->driver != 'mysql' && $config->driver != 'pgsql' && $config->driver != 'sqlite' && $config->driver != 'oci') {
-			throw new Exception('\Mmi\Db driver not supplied');
+			throw new \Exception('\Mmi\Db driver not supplied');
 		}
-		$driver = '\Mmi\Db\Adapter\Pdo\\' . ucfirst($config->driver);
+		$driver = '\\Mmi\\Db\\Adapter\\Pdo\\' . ucfirst($config->driver);
 		return new $driver($config);
 	}
 

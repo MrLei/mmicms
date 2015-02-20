@@ -88,7 +88,7 @@ class Collection extends \ArrayObject {
 	protected final function _getDtoClass() {
 		$dtoClass = substr(get_class($this), 0, -11);
 		if ($dtoClass == '\Cms\Model\Api\Dto') {
-			throw new Exception('\Cms\Model\Api\Dto\Collection: Invalid DTO object name');
+			throw new\Exception('\Cms\Model\Api\Dto\Collection: Invalid DTO object name');
 		}
 		return $dtoClass;
 	}

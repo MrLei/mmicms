@@ -76,7 +76,7 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 		try {
 			$config = new \Core\Config\Local();
 		} catch (Exception $e) {
-			throw new Exception('\Core\Config\Local invalid ' . $e->getMessage());
+			throw new\Exception('\Core\Config\Local invalid ' . $e->getMessage());
 		}
 
 		//konfiguracja profilera aplikacji
@@ -99,7 +99,7 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 			\Core\Registry::$config = $config;
 			\Core\Registry::$cache = new \Mmi\Cache($config->cache);
 		} catch (Exception $e) {
-			throw new Exception('MmiCms\Application\Bootstrap: Unable to invoke Cache');
+			throw new\Exception('MmiCms\Application\Bootstrap: Unable to invoke Cache');
 		}
 	}
 
@@ -235,7 +235,7 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 		try {
 			include APPLICATION_PATH . '/modules/Core/Config/Local.php';
 		} catch (Exception $e) {
-			throw new Exception('MmiCms\Application\Bootstrap requires application/modules/Core/Config/Local.php instance of MmiCms\Config');
+			throw new\Exception('MmiCms\Application\Bootstrap requires application/modules/Core/Config/Local.php instance of MmiCms\Config');
 		}
 		require APPLICATION_PATH . '/modules/Core/Config/Navigation.php';
 		require APPLICATION_PATH . '/modules/Core/Config/Router.php';

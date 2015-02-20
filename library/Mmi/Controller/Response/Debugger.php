@@ -242,7 +242,7 @@ class Debugger {
 		$exHtml = '<table style="margin: 0 0 10px 0; color: #000; background: #eee; padding: 3px; border: 1px solid #666;" width="100%"><tr><td style="vertical-align: top;">';
 		$ei = 0;
 		foreach ($classes as $ext) {
-			if ($ei != 0 && $ei % 40 == 0) {
+			if ($ei != 0 && $ei % 100 == 0) {
 				$exHtml .= '</td><td style="vertical-align: top;">';
 			}
 			$ei++;
