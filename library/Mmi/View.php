@@ -322,29 +322,28 @@ class View {
 	 * @return string kod PHP
 	 */
 	public function renderDirectly($input) {
-		$prev = ob_get_contents();
+		$inputBuffer = ob_get_contents();
 		ob_clean();
 		$hash = md5($input);
 		\Mmi\Profiler::event('View direct build: ' . $hash);
 		if (!$this->_locale && $this->_translate !== null) {
 			$this->_locale = $this->_translate->getLocale();
 		}
-		$compileName = $this->_locale . '-direct-' . $hash . '.php';
-		$destFile = TMP_PATH . '/compile/' . $compileName;
+		$destFile = TMP_PATH . '/compile/' . $this->_locale . '_direct_' . $hash . '.php';
 		if ($this->_alwaysCompile) {
 			file_put_contents($destFile, $this->template($input, $destFile));
 			include $destFile;
 		} else {
 			try {
 				include $destFile;
-			} catch (Exception $e) {
+			} catch (\Exception $e) {
 				file_put_contents($destFile, $this->template($input, $destFile));
 				include $destFile;
 			}
 		}
 		$data = ob_get_contents();
 		ob_clean();
-		echo $prev;
+		echo $inputBuffer;
 		\Mmi\Profiler::event('View direct fetched: ' . $hash);
 		return $data;
 	}
@@ -381,28 +380,23 @@ class View {
 	 * @return string zwraca efekt renderowania
 	 */
 	public function render($fileName) {
-		\Mmi\Profiler::event('View build: ' . basename($fileName));
+		\Mmi\Profiler::event('View build: ' . $fileName);
 		if (!$this->_locale && $this->_translate !== null) {
 			$this->_locale = $this->_translate->getLocale();
 		}
-		$compileName = $this->_locale . '_' . str_replace(array('/', '\\'), '_', substr($fileName, strrpos($fileName, '/application') + 13, -4) . '.php');
-		$destFile = TMP_PATH . '/compile/' . $compileName;
+		$destFile = TMP_PATH . '/compile/' . $this->_locale . '_' . str_replace(array('/', '\\'), '_', substr($fileName, strrpos($fileName, '/application') + 13, -4) . '.php');
 		if ($this->_alwaysCompile) {
-			$input = file_get_contents($fileName);
-			file_put_contents($destFile, $this->template($input, $destFile));
-			include $destFile;
-		} else {
-			try {
-				include $destFile;
-			} catch (Exception $e) {
-				$input = file_get_contents($fileName);
-				file_put_contents($destFile, $this->template($input, $destFile));
-				include $destFile;
-			}
+			file_put_contents($destFile, $this->template(file_get_contents($fileName), $destFile));
 		}
+		try {
+			include $destFile;
+		} catch (\Exception $e) {
+			file_put_contents($destFile, $this->template(file_get_contents($fileName), $destFile));
+			include $destFile;
+		}		
 		$data = ob_get_contents();
 		ob_clean();
-		\Mmi\Profiler::event('View fetched: ' . $compileName);
+		\Mmi\Profiler::event('View fetched: ' . $fileName);
 		return $data;
 	}
 

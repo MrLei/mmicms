@@ -1118,7 +1118,7 @@ abstract class Form {
 				\Cms\Model\File\Dao::appendFiles($this->_fileObjectName, $id, $fileSet);
 			}
 			\Cms\Model\File\Dao::move('tmp-' . $this->_fileObjectName, \Mmi\Session::getNumericId(), $this->_fileObjectName, $id);
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			\Mmi\Exception\Logger::log($e);
 		}
 	}

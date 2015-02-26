@@ -53,7 +53,7 @@ class Server {
 			if (!is_array($request->params)) {
 				$request->params = array();
 			}
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$response->error = self::_newErrorInvalidRequest(array(
 					'details' => 'Request is not in a JSON format.'
 			));
@@ -105,7 +105,7 @@ class Server {
 		} catch (\Mmi\Json\Rpc\General\Exception $e) {
 			$response->error = self::_newError($e->getCode(), $e->getMessage());
 			return $response->toJson();
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			//objekt i metoda istnieją, błąd ilości parametrów
 			if (isset($object) && is_object($object) && method_exists($object, $method) && strpos($e->getMessage(), 'WARNING: Missing argument') !== false && strpos($e->getMessage(), 'and defined') === false) {
 				$response->error = self::_newErrorInvalidParams(array(

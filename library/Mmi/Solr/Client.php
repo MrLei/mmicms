@@ -56,7 +56,7 @@ class Client {
 
 		try {
 			return file_get_contents($this->solrServerUrl . '/admin/' . $this->_solrMethod . '?wt=json&action=reload&core=' . $this->_core, false, $context);
-		} catch (Exception $ex) {
+		} catch (\Exception $ex) {
 			throw $ex;
 		}
 	}
@@ -78,7 +78,7 @@ class Client {
 
 		try {
 			return file_get_contents($this->solrServerUrl . '/' . $this->_core . '/' . $this->_solrMethod . '?' . $queryObject->searchUrl(), false, $context);
-		} catch (Exception $ex) {
+		} catch (\Exception $ex) {
 			throw $ex;
 		}
 	}
@@ -120,7 +120,7 @@ class Client {
 				$e = new \Mmi\Solr\Exception($responseObject->error->msg, $responseObject->error->code);
 				throw $e;
 			}
-		} catch (Exception $ex) {
+		} catch (\Exception $ex) {
 			\Mmi\Lib::dump($ex);
 			die();
 		}
@@ -183,7 +183,7 @@ class Client {
 				$e = new \Mmi\Solr\Exception($responseObject->error->msg, $responseObject->error->code);
 				throw $e;
 			}
-		} catch (Exception $ex) {
+		} catch (\Exception $ex) {
 			\Mmi\Lib::dump($ex);
 			die();
 		}
@@ -216,7 +216,7 @@ class Client {
 				$e = new \Mmi\Solr\Exception($responseObject->error->msg, $responseObject->error->code);
 				throw $e;
 			}
-		} catch (Exception $ex) {
+		} catch (\Exception $ex) {
 			\Mmi\Lib::dump($ex);
 			die();
 		}

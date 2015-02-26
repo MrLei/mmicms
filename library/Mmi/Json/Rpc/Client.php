@@ -96,7 +96,7 @@ class Client {
 			$this->_debug($id, $this->_url, $request, $rawResponse, $httpMethod);
 			$response = new \Mmi\Json\Rpc\Response();
 			$response->setFromJson($rawResponse);
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$message = substr($e->getMessage(), 30 + strpos($e->getMessage(), 'HTTP request failed! '));
 			$message = substr($message, 0, strpos($message, '[') - 2);
 			throw new\Exception('Service error: ' . $message . '.');

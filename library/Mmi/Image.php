@@ -275,7 +275,7 @@ class Image {
 				$input = file_get_contents($input);
 			}
 			return imagecreatefromstring($input);
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			\Mmi\Exception\Logger::log($e);
 			return;
 		}
