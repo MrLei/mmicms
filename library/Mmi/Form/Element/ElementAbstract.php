@@ -77,7 +77,7 @@ abstract class ElementAbstract {
 				$html .= $this->{$method}();
 			}
 			$html .= $this->fetchEnd();
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$html = $e->getMessage();
 		}
 		return $html;

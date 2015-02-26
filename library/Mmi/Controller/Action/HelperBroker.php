@@ -134,7 +134,7 @@ class HelperBroker {
 		//rejestrowanie jeśli brak
 		try {
 			return self::addHelper(new $helperName());
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			return;
 		}
 	}

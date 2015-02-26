@@ -55,7 +55,7 @@ class Debugger {
 						$content = substr($response->getContent(), 0, $lastBracket) . ',"debugger":' . json_encode($this->getJsonArray()) . substr($response->getContent(), $lastBracket);
 						$response->setContent($content);
 					}
-				} catch (Exception $e) {
+				} catch (\Exception $e) {
 					$response
 						->setCodeError()
 						->setContent(json_encode(array('status' => 500, 'error' => '\Mmi\Controller\Response\Debugger: JSON format mismatch', 'exception' => $e->getTraceAsString(), 'debugger' => $this->getJsonArray())));

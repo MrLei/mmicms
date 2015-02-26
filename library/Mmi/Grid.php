@@ -116,7 +116,7 @@ abstract class Grid {
 	public function __toString() {
 		try {
 			$data = $this->render();
-		} catch (exception $e) {
+		} catch (\Exception $e) {
 			$data = 'Grid failed: ' . \Mmi\Lib::dump($e, true);
 		}
 		return $data;

@@ -167,7 +167,7 @@ class HeadStyle extends HelperAbstract {
 				$content = preg_replace('/\/\*.+?\*\//is', '', $content);
 				$content = preg_replace('/\/[\w]*?\/..\//', '/', $content);
 				$cache->save($content, $cacheKey, 864000);
-			} catch (Exception $e) {
+			} catch (\Exception $e) {
 				return '/* CSS file not found: ' . $fileName . ' */';
 			}
 		}
