@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Article\Query;
+
 /**
  * @method \Cms\Model\Article\Query equals() equals($value)
  * @method \Cms\Model\Article\Query notEquals() notEquals($value)
@@ -10,9 +12,6 @@
  * @method \Cms\Model\Article\Query like() like($value)
  * @method \Cms\Model\Article\Query ilike() ilike($value)
  */
-
-namespace Cms\Model\Article\Query;
-
 class Field extends \Mmi\Dao\Query\Field {
 	
 }

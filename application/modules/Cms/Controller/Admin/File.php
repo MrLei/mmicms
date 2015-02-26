@@ -71,14 +71,11 @@ class File extends \MmiCms\Controller\Admin {
 
 	public function sortAction() {
 		$this->getResponse()->setTypePlain();
-		if (!$this->order) {
+		$post = $this->getRequest()->getPost();
+		if (!isset($post['item-file'])) {
 			return $this->view->getTranslate()->_('Przenoszenie nie powiodło się');
 		}
-		parse_str(str_replace(array('&amp;', '&#38;'), '&', $this->order), $order);
-		if (!isset($order['item-file'])) {
-			return $this->view->getTranslate()->_('Przenoszenie nie powiodło się');
-		}
-		\Cms\Model\File\Dao::sortBySerial($order['item-file']);
+		\Cms\Model\File\Dao::sortBySerial($post['item-file']);
 		return '';
 	}
 

@@ -53,14 +53,11 @@ class Navigation extends \MmiCms\Controller\Admin {
 
 	public function sortAction() {
 		$this->getResponse()->setTypePlain();
-		if (!$this->order) {
+		$post = $this->getRequest()->getPost();
+		if (!isset($post['navigation-item'])) {
 			return $this->view->getTranslate()->_('Przenoszenie nie powiodło się');
 		}
-		parse_str(str_replace(array('&amp;', '&#38;'), '&', $this->order), $order);
-		if (!isset($order['navigation-item'])) {
-			return $this->view->getTranslate()->_('Przenoszenie nie powiodło się');
-		}
-		\Cms\Model\Navigation\Dao::sortBySerial($order['navigation-item']);
+		\Cms\Model\Navigation\Dao::sortBySerial($post['navigation-item']);
 		return '';
 	}
 

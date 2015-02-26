@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\News;
+
 /**
  * @method \Cms\Model\News\Query limit() limit($limit = null)
  * @method \Cms\Model\News\Query offset() offset($offset = null)
@@ -18,9 +20,6 @@
  * @method \Cms\Model\News\Record[] find() find()
  * @method \Cms\Model\News\Record findFirst() findFirst()
  */
-
-namespace Cms\Model\News;
-
 class Query extends \Mmi\Dao\Query {
 
 	/**
