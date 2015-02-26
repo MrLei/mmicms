@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -17,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa elementu wyboru koloru
  * @category   MmiCms
@@ -25,6 +25,7 @@
  * @subpackage Element
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
+
 namespace MmiCms\Form\Element;
 
 class ColorPicker extends \Mmi\Form\Element\Text {

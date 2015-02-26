@@ -1,12 +1,13 @@
 <?php
 
 namespace Cms\Plugin;
+
 class MailGrid extends \Mmi\Grid {
 
 	public function init() {
-		
+
 		$this->setQuery(\Cms\Model\Mail\Query::factory()
-			->orderDescId());
+				->orderDescId());
 
 		$this->addColumn('checkbox', 'active', array(
 			'label' => 'Wysłany',

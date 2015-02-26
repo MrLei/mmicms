@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Model\Mail\Definition;
 
 class Dao extends \Mmi\Dao {
@@ -16,13 +15,13 @@ class Dao extends \Mmi\Dao {
 			return \Cms\Model\Mail\Definition\Query::factory();
 		}
 		return \Cms\Model\Mail\Definition\Query::factory()
-			->andQuery(\Cms\Model\Mail\Definition\Query::factory()
-				->whereLang()->equals(\Mmi\Controller\Front::getInstance()->getRequest()->lang)
-				->orFieldLang()->equals(null)
-				->orderDescLang()
+				->andQuery(\Cms\Model\Mail\Definition\Query::factory()
+					->whereLang()->equals(\Mmi\Controller\Front::getInstance()->getRequest()->lang)
+					->orFieldLang()->equals(null)
+					->orderDescLang()
 		);
 	}
-	
+
 	/**
 	 * 
 	 * @param string $name
@@ -30,7 +29,7 @@ class Dao extends \Mmi\Dao {
 	 */
 	public static function langByNameQuery($name) {
 		return self::langQuery()
-			->whereName()->equals($name);
+				->whereName()->equals($name);
 	}
 
 }

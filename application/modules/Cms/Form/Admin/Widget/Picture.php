@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Form\Admin\Widget;
 
 class Picture extends \Mmi\Form {

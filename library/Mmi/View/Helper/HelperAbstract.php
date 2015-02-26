@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -17,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Abstrakcyjna klasa helpera widoku
  * @category   Mmi
@@ -39,7 +39,9 @@ class HelperAbstract {
 	/**
 	 * Metoda programisty końcowego, wykonuje się na końcu konstruktora
 	 */
-	public function init() {}
+	public function init() {
+		
+	}
 
 	/**
 	 * Konstruktor, ustawia widok

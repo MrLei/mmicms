@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Form\Admin\Text;
 
 class Copy extends \Mmi\Form {

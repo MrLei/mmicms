@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -17,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa elementu checkbox (zaznaczenie pojedyncze)
  * @category   Mmi
@@ -35,7 +35,7 @@ class Checkbox extends ElementAbstract {
 	 * @var array
 	 */
 	protected $_renderingOrder = array(
-		'fetchField', 'fetchLabel',  'fetchDescription', 'fetchErrors'
+		'fetchField', 'fetchLabel', 'fetchDescription', 'fetchErrors'
 	);
 
 	public function fetchLabel() {

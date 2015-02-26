@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Controller\Admin;
 
 class Widget extends \MmiCms\Controller\Admin {

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Controller;
 
 class Article extends \Mmi\Controller\Action {

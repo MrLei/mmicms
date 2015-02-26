@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Controller;
 
 class Widget extends \Mmi\Controller\Action {

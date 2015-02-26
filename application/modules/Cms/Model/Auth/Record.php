@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Model\Auth;
 
 class Record extends \Mmi\Dao\Record {
@@ -73,7 +72,7 @@ class Record extends \Mmi\Dao\Record {
 		}
 		return $result;
 	}
-	
+
 	public function register() {
 		if ($this->password != $this->getOption('confirmPassword')) {
 			return false;

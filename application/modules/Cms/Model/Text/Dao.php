@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Model\Text;
 
 class Dao extends \Mmi\Dao {
@@ -22,7 +21,7 @@ class Dao extends \Mmi\Dao {
 					->orFieldLang()->equals(null)
 					->orderDescLang());
 	}
-	
+
 	/**
 	 * 
 	 * @param string $lang
@@ -32,7 +31,7 @@ class Dao extends \Mmi\Dao {
 		return \Cms\Model\Text\Query::factory()
 				->whereLang()->equals($lang);
 	}
-	
+
 	/**
 	 * 
 	 * @param string $key

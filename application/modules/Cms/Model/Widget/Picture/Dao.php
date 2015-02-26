@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Model\Widget\Picture;
 
 class Dao extends \Mmi\Dao {

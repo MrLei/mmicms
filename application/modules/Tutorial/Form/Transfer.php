@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tutorial\Form;
 
 class Transfer extends \Mmi\Form {

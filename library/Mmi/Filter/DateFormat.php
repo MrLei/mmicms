@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,13 +17,13 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa filtracji dat
  * @category   Mmi
  * @package    \Mmi\Filter
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
+
 namespace Mmi\Filter;
 
 class DateFormat extends \Mmi\Filter\FilterAbstract {

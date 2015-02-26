@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -17,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa elementu tekst wieloliniowy (textarea)
  * @category   Mmi
@@ -29,7 +29,7 @@
 namespace Mmi\Form\Element;
 
 class Textarea extends ElementAbstract {
-	
+
 	/**
 	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora
 	 */
@@ -41,7 +41,7 @@ class Textarea extends ElementAbstract {
 			$this->_options['cols'] = 60;
 		}
 	}
-	
+
 	/**
 	 * Buduje pole
 	 * @return string

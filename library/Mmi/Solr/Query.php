@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klient SOLR
  * @category   Mmi
@@ -30,27 +29,18 @@ namespace Mmi\Solr;
 class Query {
 
 	private $_searchText = null;
-
 	private $_offset = 0;
-
 	private $_limit = null;
-
 	private $_group = false;
-
 	private $_groupField = null;
-
 	private $_filterArray = array();
-
 	private $_facet = false;
-
 	private $_facetField = array();
-
 	private $_facetFieldRange = array();
-
 	private $_sort = array();
 
 	public function __construct() {
-
+		
 	}
 
 	/**
@@ -102,7 +92,7 @@ class Query {
 	 * @param array $value
 	 */
 	public function addFilterIn($filterField, $value) {
-		if(is_array($value)) {
+		if (is_array($value)) {
 			$this->addFilter($filterField, $value, 'in');
 		}
 	}
@@ -129,7 +119,7 @@ class Query {
 			'facetRangeStart' => $facetRangeStart,
 			'facetRangeGap' => $facetRangeGap,
 			'facetRangeEnd' => $facetRangeEnd
-			);
+		);
 	}
 
 	/**
@@ -150,56 +140,55 @@ class Query {
 		$url = null;
 		$url = 'q=*' . $this->_searchText . '*';
 
-		foreach($this->_filterArray as $filter) {
-			if($filter['operator'] == 'eq') {
+		foreach ($this->_filterArray as $filter) {
+			if ($filter['operator'] == 'eq') {
 				$url .= '&fq=' . $filter['filterField'] . ':' . $filter['value'];
 			}
-			if($filter['operator'] == 'ge') {
+			if ($filter['operator'] == 'ge') {
 				$url .= '&fq=' . $filter['filterField'] . ':[' . $filter['value'] . ' TO *]';
 			}
-			if($filter['operator'] == 'el') {
+			if ($filter['operator'] == 'el') {
 				$url .= '&fq=' . $filter['filterField'] . ':[ * TO ' . $filter['value'] . ']';
 			}
-			if($filter['operator'] == 'in') {
+			if ($filter['operator'] == 'in') {
 				$url .= '&fq=' . $filter['filterField'] . ':(' . implode('+', $filter['value']) . ')';
 			}
 		}
 
 		$url .= '&start=' . $this->_offset;
 
-		if($this->_limit != null) {
+		if ($this->_limit != null) {
 			$url .= '&rows=' . $this->_limit;
 		}
 
-		if($this->_group) {
+		if ($this->_group) {
 			$url .= '&group=true&group.field=' . $this->_groupField;
 		}
 
-		if($this->_facet) {
+		if ($this->_facet) {
 			$url .= '&facet=true';
-			foreach($this->_facetField as $facetField) {
+			foreach ($this->_facetField as $facetField) {
 				$url .= '&facet.field=' . $facetField;
 			}
 		}
 
-		if($this->_facetFieldRange) {
-			foreach($this->_facetFieldRange as $facetFieldRange) {
-				$url .= '&facet.range='.$facetFieldRange['facetField'];
-				$url .= '&facet.range.start='.$facetFieldRange['facetRangeStart'];
-				$url .= '&facet.range.gap='.$facetFieldRange['facetRangeGap'];
-				$url .= '&facet.range.end='.$facetFieldRange['facetRangeEnd'];
+		if ($this->_facetFieldRange) {
+			foreach ($this->_facetFieldRange as $facetFieldRange) {
+				$url .= '&facet.range=' . $facetFieldRange['facetField'];
+				$url .= '&facet.range.start=' . $facetFieldRange['facetRangeStart'];
+				$url .= '&facet.range.gap=' . $facetFieldRange['facetRangeGap'];
+				$url .= '&facet.range.end=' . $facetFieldRange['facetRangeEnd'];
 				$url .= '&facet.range.other=after';
 			}
 		}
 
-		if($this->_sort) {
+		if ($this->_sort) {
 			$url .= '&sort=' . $this->_sort[1] . '+' . $this->_sort[0];
 		}
 
 		$url .= '&wt=json';
 
 		return $url;
-
 	}
 
 }

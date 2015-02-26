@@ -9,8 +9,8 @@ class Local extends App {
 		parent::__construct();
 
 		$this->application->debug = true;
-		$this->application->compile = true;
-		$this->cache->active = false;
+		$this->application->compile = false;
+		$this->cache->active = true;
 	}
 
 }

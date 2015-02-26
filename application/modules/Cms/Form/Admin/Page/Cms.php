@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Form\Admin\Page;
 
 class Cms extends \MmiCms\Form {

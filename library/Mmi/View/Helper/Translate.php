@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -17,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Helper translatora, używa zmiennej '\Mmi\Translate' z rejestru
  * @see \Mmi\Translate
@@ -46,4 +46,5 @@ class Translate extends HelperAbstract {
 	public function _($key) {
 		return $this->view->getTranslate()->_($key);
 	}
+
 }

@@ -104,14 +104,14 @@ class Front {
 	public function setStructure(array $structure = array()) {
 		$this->_structure = $structure;
 		return $this;
-		}
+	}
 
-		/**
-		 * Dodanie pluginu
-		 * @param \Mmi\Controller\Plugin\Abstract $plugin
-		 * @return \Mmi\Controller\Front
-		 */
-		public function registerPlugin(\Mmi\Controller\Plugin\PluginAbstract $plugin) {
+	/**
+	 * Dodanie pluginu
+	 * @param \Mmi\Controller\Plugin\Abstract $plugin
+	 * @return \Mmi\Controller\Front
+	 */
+	public function registerPlugin(\Mmi\Controller\Plugin\PluginAbstract $plugin) {
 		$this->_plugins[] = $plugin;
 		return $this;
 	}

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Model\Tag\Link;
 
 class Dao extends \Mmi\Dao {

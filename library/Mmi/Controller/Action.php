@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Kontroler akcji
  * @category   Mmi
@@ -33,7 +33,7 @@ class Action {
 	 * @var \Mmi\Controller\Request
 	 */
 	protected $_request;
-	
+
 	/**
 	 * Referencja do odpowiedzi z Front controllera
 	 * @var \Mmi\Controller\Response
@@ -73,7 +73,7 @@ class Action {
 	public final function __get($name) {
 		return $this->_request->getParam($name);
 	}
-	
+
 	/**
 	 * Magiczne pobranie zmiennej z requestu
 	 * @param mixed $name wartość zmiennej
@@ -89,13 +89,15 @@ class Action {
 	 * @param array $params parametry metody
 	 */
 	public final function __call($name, array $params = array()) {
-		throw new\Exception('Method '. $name .' not found in class: ' . get_class($this));
+		throw new\Exception('Method ' . $name . ' not found in class: ' . get_class($this));
 	}
 
 	/**
 	 * Funkcja dla użytkownika ładowana na końcu konstruktora
 	 */
-	public function init() {}
+	public function init() {
+		
+	}
 
 	/**
 	 * Pobiera request
@@ -104,7 +106,7 @@ class Action {
 	public final function getRequest() {
 		return $this->_request;
 	}
-	
+
 	/**
 	 * Pobiera response
 	 * @return \Mmi\Controller\Response
@@ -154,7 +156,7 @@ class Action {
 		//ładowanie zbuforowanego translatora
 		$cache = $this->view->getCache();
 		$key = 'Mmi-Translate-' . $lang . '-' . $skin . '-' . $module;
-		
+
 		if ($cache !== null && (null !== ($cachedTranslate = $cache->load($key)))) {
 			$this->view->setTranslate($cachedTranslate);
 			$translate->setLocale($lang);
@@ -184,5 +186,5 @@ class Action {
 
 		\Mmi\Profiler::event('Init Translate: [' . $lang . '] ' . $module);
 	}
-	
+
 }

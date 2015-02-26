@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Controller;
 
 class Grid extends \Mmi\Controller\Action {

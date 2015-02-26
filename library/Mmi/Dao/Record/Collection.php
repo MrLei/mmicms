@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Kolekcja rekordów DAO
  * @see \ArrayObject
@@ -28,7 +28,7 @@
 namespace Mmi\Dao\Record;
 
 class Collection extends \ArrayObject {
-	
+
 	/**
 	 * Kasuje całą kolekcję obiektów
 	 * @return integer ilość usuniętych obiektów
@@ -73,7 +73,7 @@ class Collection extends \ArrayObject {
 	public function toJson() {
 		return json_encode($this->toArray());
 	}
-	
+
 	/**
 	 * Klonuje całą kolekcję
 	 */

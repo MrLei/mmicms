@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa walidacji liczb całkowitych
  * @category   Mmi
@@ -32,12 +32,12 @@ class Integer extends ValidateAbstract {
 	 * Treść wiadomości
 	 */
 	const INVALID = 'Wprowadzona wartość nie jest liczbą całkowitą';
-	
+
 	/**
 	 * Treść błędu o liczbie dodatniej
 	 */
 	const INVALID_POSITIVE = 'Wprowadzona wartość nie jest liczbą dodatnią';
-	
+
 	/**
 	 * Walidacja liczb całkowitych
 	 * @param mixed $value wartość
@@ -59,4 +59,5 @@ class Integer extends ValidateAbstract {
 		}
 		return true;
 	}
+
 }

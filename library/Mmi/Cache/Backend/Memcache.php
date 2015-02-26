@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Backend bufora memcache
  * @category   Mmi
@@ -122,12 +122,7 @@ class Memcache implements BackendInterface {
 	protected function _addServer($server) {
 		$server = $this->_parseMemcacheAddress($server);
 		$this->_server->addServer(
-			$server['host'],
-			$server['port'],
-			isset($server['persistent']) ? $server['persistent'] : true,
-			isset($server['weight']) ? $server['weight'] : 1,
-			isset($server['timeout']) ? $server['timeout'] : 15,
-			isset($server['retry_interval']) ? $server['retry_interval'] : 15
+			$server['host'], $server['port'], isset($server['persistent']) ? $server['persistent'] : true, isset($server['weight']) ? $server['weight'] : 1, isset($server['timeout']) ? $server['timeout'] : 15, isset($server['retry_interval']) ? $server['retry_interval'] : 15
 		);
 	}
 

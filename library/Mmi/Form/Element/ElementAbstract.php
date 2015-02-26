@@ -18,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Abstrakcyjna klasa elementu formularza
  * @category   Mmi
@@ -144,14 +143,14 @@ abstract class ElementAbstract {
 	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora
 	 */
 	public function init() {
-
+		
 	}
 
 	/**
 	 * Funkcja użytkownika, jest wykonywana przed renderingiem
 	 */
 	public function preRender() {
-
+		
 	}
 
 	/**
@@ -803,8 +802,8 @@ abstract class ElementAbstract {
 		$html = '<div class="errors"' . $idHtml . '>';
 		if ($this->hasErrors()) {
 			$html .= '<span class="marker"></span>'
-				  .  '<ul>'
-				  .		'<li class="point first"></li>';
+				. '<ul>'
+				. '<li class="point first"></li>';
 			foreach ($this->_errors as $error) {
 				if ($this->_translatorEnabled && ($this->getTranslate() !== null)) {
 					$err = $this->getTranslate()->_($error);
@@ -813,8 +812,8 @@ abstract class ElementAbstract {
 				}
 				$html .= '<li class="notice error"><i class="icon-remove-sign icon-large"></i>' . $err . '</li>';
 			}
-			$html .=	'<li class="close last"></li>'
-				  .  '</ul>';
+			$html .= '<li class="close last"></li>'
+				. '</ul>';
 		}
 		$html .= '<div class="clear"></div></div>';
 		return $html;

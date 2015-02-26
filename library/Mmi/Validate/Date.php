@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa walidacji daty
  * @category   Mmi
@@ -32,7 +32,7 @@ class Date extends ValidateAbstract {
 	 * Treść wiadomości
 	 */
 	const INVALID = 'Wprowadzona wartość nie jest poprawną datą';
-	
+
 	/**
 	 * Walidacja daty
 	 * @param mixed $value wartość
@@ -45,4 +45,5 @@ class Date extends ValidateAbstract {
 		}
 		return true;
 	}
+
 }

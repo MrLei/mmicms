@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Obiekt odpowiedzi JSON-RPC
  * @category   Mmi
@@ -46,13 +45,13 @@ class Response {
 	 * @var string 
 	 */
 	public $result;
-	
+
 	/**
 	 * Błąd
 	 * @var string
 	 */
 	public $error;
-	
+
 	/**
 	 * Ustawia obiekt na podstawie JSON'a
 	 * @param string $data
@@ -66,7 +65,7 @@ class Response {
 		$this->error = isset($response->error) ? $response->error : null;
 		return $this;
 	}
-	
+
 	/**
 	 * Konwersja do JSON'a
 	 * @return string

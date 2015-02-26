@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Model;
 
 class Auth implements \Mmi\Auth\AuthInterface {

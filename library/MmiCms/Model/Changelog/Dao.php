@@ -1,6 +1,5 @@
 <?php
 
-
 namespace MmiCms\Model\Changelog;
 
 class Dao extends \Mmi\Dao {
@@ -14,7 +13,7 @@ class Dao extends \Mmi\Dao {
 	 */
 	public static function byFilenameQuery($filename) {
 		return \Mmi\Dao\Query::factory('MmiCms\Model\Changelog\Dao')
-			->where('filename')->equals($filename);
+				->where('filename')->equals($filename);
 	}
 
 }

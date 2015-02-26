@@ -14,5 +14,5 @@
 namespace Cms\Model\Acl\Query;
 
 class Field extends \Mmi\Dao\Query\Field {
-
+	
 }

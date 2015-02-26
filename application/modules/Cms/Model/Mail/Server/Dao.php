@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Model\Mail\Server;
 
 class Dao extends \Mmi\Dao {

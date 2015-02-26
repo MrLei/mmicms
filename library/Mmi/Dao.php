@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa DAO
  * @category   Mmi
@@ -34,7 +33,7 @@ class Dao {
 	 * @var string
 	 */
 	protected static $_tableName;
-	
+
 	/**
 	 * Przechowuje strukturę bazy danych
 	 * @var array
@@ -65,14 +64,14 @@ class Dao {
 	 * @var string
 	 */
 	protected static $_recordName;
-	
+
 	/**
 	 * Zabezpieczony konstruktor
 	 */
 	private final function __construct() {
 		throw new\Exception('DAO should be called statically');
 	}
-	
+
 	/**
 	 * Konwertuje podkreślenia na camelcase
 	 * @param string $value
@@ -171,7 +170,7 @@ class Dao {
 		}
 		if (isset(self::$_tableStructure[$tableName])) {
 			return self::$_tableStructure[$tableName];
-		} 
+		}
 		$cacheKey = 'Dao-structure-' . self::getAdapter()->getConfig()->name . '-' . $tableName;
 		if (static::$_cache !== null && (null !== ($structure = static::$_cache->load($cacheKey)))) {
 			return $structure;
@@ -183,7 +182,7 @@ class Dao {
 		self::$_tableStructure[$tableName] = $structure;
 		return $structure;
 	}
-	
+
 	/**
 	 * Resetuje struktury tabel i usuwa cache
 	 * @return boolean
@@ -196,7 +195,7 @@ class Dao {
 		self::$_tableStructure = array();
 		return true;
 	}
-	
+
 	/**
 	 * Zwraca obecność pola w tabeli
 	 * @param string $fieldName nazwa pola
@@ -226,7 +225,7 @@ class Dao {
 		}
 		return substr(get_called_class(), 0, -3) . 'Record';
 	}
-	
+
 	/**
 	 * Zwraca nazwę klasy zapytania
 	 * @return string
@@ -237,7 +236,7 @@ class Dao {
 		}
 		return substr(get_called_class(), 0, -3) . 'Record\Collection';
 	}
-	
+
 	/**
 	 * Zwraca nazwę rekordu dla podanej tabeli
 	 * @param string $tableName

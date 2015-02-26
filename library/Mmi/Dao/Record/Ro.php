@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Active record tylko do odczytu
  * @category   Mmi
@@ -257,7 +256,7 @@ class Ro {
 	public function toJson() {
 		return json_encode($this->toArray());
 	}
-	
+
 	/**
 	 * WHERE po kluczu tabeli
 	 * @param string $bindKey nazwa do binda

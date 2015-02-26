@@ -18,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Abstrakcyjna klasa nagłówkowych helperów widoku
  * @category   Mmi
@@ -26,7 +25,9 @@
  * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
+
 namespace Mmi\View\Helper;
+
 class HeadAbstract extends HelperAbstract {
 
 	/**
@@ -35,7 +36,7 @@ class HeadAbstract extends HelperAbstract {
 	 * @return string
 	 */
 	protected function _getCrc($location) {
-		$cacheKey = 'Head\Crc_' . md5($location);
+		$cacheKey = 'Head-Crc-' . md5($location);
 		$cache = $this->view->getCache();
 		if ($cache !== null && (null !== ($crc = $cache->load($cacheKey)))) {
 			return $crc;

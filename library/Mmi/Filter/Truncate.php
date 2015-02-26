@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Filtr obcinający ciąg do zadanej długości
  * @category   Mmi
@@ -35,14 +35,14 @@ class Truncate extends \Mmi\Filter\FilterAbstract {
 	 * @return mixed
 	 */
 	public function filter($value) {
-		$length = isset($this->_options[0]) ? (int)$this->_options[0] : 80;
+		$length = isset($this->_options[0]) ? (int) $this->_options[0] : 80;
 
 		if (strlen($value) < $length) {
 			return $value;
 		}
 
 		$end = isset($this->_options[1]) ? $this->_options[1] : '...';
-		$boundary = isset($this->_options[2]) ? (bool)$this->_options[2] : false;
+		$boundary = isset($this->_options[2]) ? (bool) $this->_options[2] : false;
 		$encoding = mb_detect_encoding($value);
 		if ($boundary) {
 			$value = mb_substr($value, 0, $length, $encoding) . $end;
@@ -53,7 +53,7 @@ class Truncate extends \Mmi\Filter\FilterAbstract {
 			}
 			$value .= '...';
 		}
-		
+
 		return $value;
 	}
 

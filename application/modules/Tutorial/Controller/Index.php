@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tutorial\Controller;
 
 class Index extends \Mmi\Controller\Action {

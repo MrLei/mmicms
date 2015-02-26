@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Model\Contact;
 
 class Dao extends \Mmi\Dao {
@@ -9,12 +8,12 @@ class Dao extends \Mmi\Dao {
 
 	public static function findDefaults(\Mmi\Dao\Query $q) {
 		return $q->andField('active')->equals(1)
-			->find();
+				->find();
 	}
 
 	public static function countDefaults(\Mmi\Dao\Query $q) {
 		return $q->andField('active')->equals(1)
-			->count();
+				->count();
 	}
 
 }

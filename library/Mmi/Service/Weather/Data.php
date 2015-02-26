@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa implementująca obiekt pogody (dane)
  * @category   Mmi
@@ -27,43 +27,43 @@
 namespace Mmi\Service\Weather;
 
 class Data {
-	
+
 	/**
 	 * Warunki
 	 * @var string
 	 */
 	public $condition;
-	
+
 	/**
 	 * Temperatura celsjusz
 	 * @var int
 	 */
 	public $temperature;
-	
+
 	/**
 	 * Wilgotność procentowa
 	 * @var int
 	 */
 	public $humidity;
-	
+
 	/**
 	 * Prędkość wiatru Km/h
 	 * @var int
 	 */
 	public $windSpeed;
-	
+
 	/**
 	 * Kierunek wiatru
 	 * @var string
 	 */
 	public $windDirection;
-	
+
 	/**
 	 * Odczuwalna temperatura
 	 * @var int
 	 */
 	public $windChill;
-	
+
 	/**
 	 * Pressure
 	 * @var int
@@ -87,7 +87,7 @@ class Data {
 	 * @var string 
 	 */
 	public $icon;
-	
+
 	/**
 	 * Zwraca wszystkie dane obiektu w formie tablicy
 	 * @return array
@@ -106,5 +106,5 @@ class Data {
 			'icon' => $this->icon
 		);
 	}
-	
+
 }

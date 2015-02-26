@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa implementująca obsługę API WeatherGround.com
  * @category   Mmi
@@ -35,7 +35,7 @@ class Ground extends WeatherAbstract {
 	public function __construct($apiKey) {
 		$this->_url = 'http://api.wunderground.com/api/' . $apiKey;
 	}
-	
+
 	/**
 	 * Wyszukanie po nazwie miejsca
 	 * @param string $placeName nazwa miejsca (np. kraj+miasto)
@@ -56,5 +56,5 @@ class Ground extends WeatherAbstract {
 		$wd->condition = $current->weather;
 		return $wd;
 	}
-	
+
 }

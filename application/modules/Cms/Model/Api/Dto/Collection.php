@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Model\Api\Dto;
 
 class Collection extends \ArrayObject {

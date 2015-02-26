@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tutorial\Form;
 
 class Test extends \Mmi\Form {

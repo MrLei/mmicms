@@ -1,12 +1,13 @@
 <?php
 
 namespace Cms\Plugin;
+
 class TextGrid extends \Mmi\Grid {
 
 	public function init() {
-		
+
 		$this->setQuery(\Cms\Model\Text\Dao::langQuery()
-			->orderAscKey());
+				->orderAscKey());
 
 		$this->setOption('rows', 100);
 

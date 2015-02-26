@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Model\Widget\Picture;
 
 class Record extends \Mmi\Dao\Record {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,14 +17,12 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Konfiguracja pojedynczej routy
  * @category   Mmi
  * @package    \Mmi\Controller
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 
 namespace Mmi\Controller\Router\Config;
 

@@ -1,14 +1,13 @@
 <?php
 
-
 namespace Cms\Controller;
 
 class Admin extends \MmiCms\Controller\Admin {
 
 	public function indexAction() {
-	
+		
 	}
-	
+
 	public function loginAction() {
 		$form = new \Cms\Form\Admin\Login();
 		if (!$form->isMine()) {
@@ -65,5 +64,5 @@ class Admin extends \MmiCms\Controller\Admin {
 			$this->_helper->redirector('index', 'admin', 'cms', array(), true);
 		}
 	}
-	
+
 }

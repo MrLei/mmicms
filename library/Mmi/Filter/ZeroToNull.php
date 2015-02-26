@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Filtr zamieniający pusty ciąg znaków na null
  * @category   Mmi
@@ -27,7 +27,7 @@
 namespace Mmi\Filter;
 
 class ZeroToNull extends \Mmi\Filter\FilterAbstract {
-	
+
 	/**
 	 * Zamienia wartość zero na null
 	 * @param mixed $value wartość

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,13 +17,13 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Interface backendu bufora
  * @category   Mmi
  * @package    \Mmi\Cache
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
+
 namespace Mmi\Cache\Backend;
 
 interface BackendInterface {
@@ -57,5 +58,4 @@ interface BackendInterface {
 	 * Kasuje wszystkie dane
 	 */
 	public function deleteAll();
-
 }

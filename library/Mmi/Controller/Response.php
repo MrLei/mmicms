@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa odpowiedzi
  * @category   Mmi
@@ -27,7 +27,7 @@
 namespace Mmi\Controller;
 
 class Response {
-	
+
 	/**
 	 * Przechowuje kody HTTP
 	 * @var array
@@ -78,7 +78,7 @@ class Response {
 		504 => 'Gateway Timeout',
 		505 => 'HTTP Version Not Supported',
 	);
-	
+
 	/**
 	 * Przechowuje content-type
 	 * @var array
@@ -92,7 +92,6 @@ class Response {
 		'xml' => 'text/xml',
 		'mml' => 'text/mathml',
 		'htc' => 'text/x-component',
-		
 		'gif' => 'image/gif',
 		'png' => 'image/png',
 		'jpg' => 'image/jpeg',
@@ -104,7 +103,6 @@ class Response {
 		'bmp' => 'image/x-ms-bmp',
 		'svg' => 'image/svg+xml',
 		'svgz' => 'image/svg+xml',
-		
 		'js' => 'application/x-javascript',
 		'atom' => 'application/atom+xml',
 		'json' => 'application/json',
@@ -116,13 +114,10 @@ class Response {
 		'xhtml' => 'application/xhtml+xml',
 		'zip' => 'application/zip',
 		'gz' => 'application/gzip',
-		
 		'bin' => 'application/octet-stream',
-		
 		'midi' => 'audio/midi',
 		'mp3' => 'audio/mpeg',
 		'oga' => 'audio/ogg',
-		
 		'mp4' => 'video/mp4',
 		'mpg' => 'video/mpeg',
 		'ogv' => 'video/ogg',
@@ -130,32 +125,32 @@ class Response {
 		'flv' => 'video/x-flv',
 		'mov' => 'video/quicktime',
 	);
-	
+
 	/**
 	 * Przechowuje content
 	 * @var string
 	 */
 	private $_content;
-	
+
 	/**
 	 * Włączony debugger
 	 * @var type 
 	 */
 	private $_debug = false;
-	
+
 	/**
 	 * Typ odpowiedzi
 	 * @var string
 	 */
 	private $_type = 'html';
-	
+
 	/**
 	 * Konstruktor
 	 */
 	public function __construct() {
 		ob_start();
 	}
-	
+
 	/**
 	 * Ustawia debugowanie
 	 * @param type $debug
@@ -163,7 +158,7 @@ class Response {
 	public function setDebug($debug = true) {
 		$this->_debug = $debug ? true : false;
 	}
-	
+
 	/**
 	 * Ustawia nagłówek
 	 * @param string $name nazwa
@@ -201,7 +196,7 @@ class Response {
 	public function setCodeNotFound($replace = false) {
 		return $this->setCode(404, $replace);
 	}
-	
+
 	/**
 	 * Ustawia kod na 410
 	 * @param boolean $replace zastąpienie
@@ -219,7 +214,7 @@ class Response {
 	public function setCodeOk($replace = false) {
 		return $this->setCode(200, $replace);
 	}
-	
+
 	/**
 	 * Ustawia kod na 202
 	 * @param boolean $replace zastąpienie
@@ -228,7 +223,7 @@ class Response {
 	public function setCodeAccepted($replace = false) {
 		return $this->setCode(202, $replace);
 	}
-	
+
 	/**
 	 * Ustawia kod na 500
 	 * @param boolean $replace zastąpienie
@@ -246,7 +241,7 @@ class Response {
 	public function setCodeUnauthorized($replace = false) {
 		return $this->setCode(401, $replace);
 	}
-	
+
 	/**
 	 * Ustawia kod na 401
 	 * @param boolean $replace zastąpienie
@@ -255,7 +250,7 @@ class Response {
 	public function setCodeForbidden($replace = false) {
 		return $this->setCode(401, $replace);
 	}
-	
+
 	/**
 	 * Ustawia typ kontentu odpowiedzi (content-type
 	 * @param string $type nazwa typu np. jpg, gif, html
@@ -278,7 +273,7 @@ class Response {
 		$this->_type = $type;
 		return $this->setHeader('Content-type', $type, $replace);
 	}
-	
+
 	/**
 	 * Zwraca typ zwrotu
 	 * @return string
@@ -286,7 +281,7 @@ class Response {
 	public function getType() {
 		return $this->_type;
 	}
-	
+
 	/**
 	 * Ustawia typ na HTML
 	 * @param boolean $replace zastąpienie
@@ -295,7 +290,7 @@ class Response {
 	public function setTypeHtml($replace = false) {
 		return $this->setType('html', $replace);
 	}
-	
+
 	/**
 	 * Ustawia typ na JSON
 	 * @param boolean $replace zastąpienie
@@ -304,7 +299,7 @@ class Response {
 	public function setTypeJson($replace = false) {
 		return $this->setType('json', $replace);
 	}
-	
+
 	/**
 	 * Ustawia typ na JS
 	 * @param boolean $replace zastąpienie
@@ -313,7 +308,7 @@ class Response {
 	public function setTypeJs($replace = false) {
 		return $this->setType('js', $replace);
 	}
-	
+
 	/**
 	 * Ustawia typ na Plain
 	 * @param boolean $replace zastąpienie
@@ -322,7 +317,7 @@ class Response {
 	public function setTypePlain($replace = false) {
 		return $this->setType('txt', $replace);
 	}
-	
+
 	/**
 	 * Ustawia typ na XML
 	 * @param boolean $replace zastąpienie
@@ -340,7 +335,7 @@ class Response {
 	public function setTypePng($replace = false) {
 		return $this->setType('png', $replace);
 	}
-	
+
 	/**
 	 * Ustawia typ na obraz Jpeg
 	 * @param boolean $replace zastąpienie
@@ -349,7 +344,7 @@ class Response {
 	public function setTypeJpeg($replace = false) {
 		return $this->setType('jpeg', $replace);
 	}
-	
+
 	/**
 	 * Ustawia typ na Gzip
 	 * @param boolean $replace zastąpienie
@@ -358,7 +353,7 @@ class Response {
 	public function setTypeGzip($replace = false) {
 		return $this->setType('gz', $replace);
 	}
-	
+
 	/**
 	 * Ustawia content do wysyłki
 	 * @param string $content
@@ -368,7 +363,7 @@ class Response {
 		$this->_content = $content;
 		return $this;
 	}
-	
+
 	/**
 	 * Pobiera content
 	 * @return string
@@ -376,7 +371,7 @@ class Response {
 	public function getContent() {
 		return $this->_content;
 	}
-	
+
 	/**
 	 * Dodaje content do istniejącego
 	 * @param string $content
@@ -386,7 +381,7 @@ class Response {
 		$this->_content .= $content;
 		return $this;
 	}
-	
+
 	/**
 	 * Wysyła dane do klienta
 	 */
@@ -398,5 +393,5 @@ class Response {
 		echo $this->_content;
 		ob_end_flush();
 	}
-	
+
 }

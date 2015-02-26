@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa abstrakcyjna obsługi API dostawców pogody
  * @category   Mmi
@@ -33,13 +33,13 @@ abstract class WeatherAbstract {
 	 * @var string
 	 */
 	protected $_url;
-	
+
 	/**
 	 * Tablica z obiektami pogody - prognoza
 	 * @var array
 	 */
 	protected $_forecast = array();
-	
+
 	/**
 	 * Wyszukanie po nazwie miejsca
 	 * @param string $placeName nazwa miejsca (np. kraj+miasto)
@@ -59,5 +59,5 @@ abstract class WeatherAbstract {
 		}
 		return $this->_forecast;
 	}
-	
+
 }

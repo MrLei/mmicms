@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Form;
 
 class Login extends \Mmi\Form {

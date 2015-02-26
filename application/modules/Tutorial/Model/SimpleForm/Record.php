@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tutorial\Model;
 
 class Record extends \Mmi\Dao\Record {

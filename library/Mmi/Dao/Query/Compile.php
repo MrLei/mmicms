@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa skompilowanego zapytania
  * @category   Mmi
@@ -28,7 +27,7 @@
 namespace Mmi\Dao\Query;
 
 class Compile {
-	
+
 	/**
 	 * Część FROM zapytania
 	 * @var string
@@ -40,20 +39,20 @@ class Compile {
 	 * @var string
 	 */
 	public $where;
-	
+
 	/**
 	 * Część ORDER zapytania
 	 * @var string
 	 */
 	public $order = '';
-	
+
 	/**
 	 * Tablica wartości where dla PDO::prepare()
 	 * @see PDO::prepare()
 	 * @var array
 	 */
 	public $bind = array();
-	
+
 	/**
 	 * Limit
 	 * @var int
@@ -65,11 +64,11 @@ class Compile {
 	 * @var int
 	 */
 	public $offset;
-	
+
 	/**
 	 * Schemat połączeńs
 	 * @var array
 	 */
 	public $joinSchema = array();
-	
+
 }

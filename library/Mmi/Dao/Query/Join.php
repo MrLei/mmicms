@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa połączeń w zapytaniu
  * @category   Mmi
@@ -34,7 +33,7 @@ class Join {
 	 * @var \Mmi\Dao\Query
 	 */
 	protected $_query;
-	
+
 	/**
 	 * Nazwa tabeli
 	 * @var string
@@ -46,7 +45,7 @@ class Join {
 	 * @var string
 	 */
 	protected $_targetTableName;
-	
+
 	/**
 	 * Typ złączenia 'JOIN' 'LEFT JOIN' 'INNER JOIN' 'RIGHT JOIN'
 	 * @var string
@@ -66,7 +65,7 @@ class Join {
 		$this->_targetTableName = $targetTableName;
 		$this->_type = $type;
 	}
-	
+
 	/**
 	 * Warunek złączenia
 	 * @param string $localKeyName nazwa lokalnego klucza

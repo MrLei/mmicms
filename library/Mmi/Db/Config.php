@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,14 +17,12 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Konfiguracja bazy danych
  * @category   Mmi
  * @package    \Mmi\Db
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 
 namespace Mmi\Db;
 

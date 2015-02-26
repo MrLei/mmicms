@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa filtracji pól typu input text
  * @category   Mmi
@@ -37,7 +37,6 @@ class Input extends \Mmi\Filter\FilterAbstract {
 	public function filter($value) {
 
 		return htmlspecialchars($value);
-
 	}
 
 }

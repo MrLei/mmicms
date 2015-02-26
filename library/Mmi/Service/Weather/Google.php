@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa implementująca obsługę API Google Weather
  * @category   Mmi
@@ -27,7 +27,7 @@
 namespace Mmi\Service\Weather;
 
 class Google extends WeatherAbstract {
-	
+
 	/**
 	 * Ścieżka bazowa do ikon
 	 * @var string
@@ -40,7 +40,7 @@ class Google extends WeatherAbstract {
 	public function __construct() {
 		$this->_url = 'http://www.google.com/ig/api?weather';
 	}
-	
+
 	/**
 	 * Wyszukanie po nazwie miejsca
 	 * @param string $placeName nazwa miejsca (np. kraj+miasto)
@@ -49,37 +49,37 @@ class Google extends WeatherAbstract {
 	public function search($placeName) {
 		$xml = new SimpleXMLElement(preg_replace('/<(city|postal_code) data="(.[^>]+)"\/>/', '<$1 data=""/>', file_get_contents($this->_url . '=' . urlencode($placeName))));
 		$wd = new \Mmi\Service\Weather\Data();
-		
+
 		$current = $xml->weather->current_conditions;
 		if (!isset($xml->weather->current_conditions)) {
 			throw new\Exception('No data');
 		}
 		$current = $xml->weather->current_conditions;
-		$wd->condition = (string)$current->condition->attributes()->data;
-		$wd->temperature = (string)$current->temp_c->attributes()->data;
-		$wd->humidity = (string)$current->humidity->attributes()->data;
+		$wd->condition = (string) $current->condition->attributes()->data;
+		$wd->temperature = (string) $current->temp_c->attributes()->data;
+		$wd->humidity = (string) $current->humidity->attributes()->data;
 		$wd->humidity = substr($wd->humidity, 10, -1);
-		$wd->icon = $this->_iconBaseUrl . (string)$current->icon->attributes()->data;
-		
+		$wd->icon = $this->_iconBaseUrl . (string) $current->icon->attributes()->data;
+
 		if (isset($current->wind_condition)) {
-			$wind = (string)$current->wind_condition->attributes()->data;
+			$wind = (string) $current->wind_condition->attributes()->data;
 			$wind = substr($wind, 6);
 			$wd->windDirection = trim(substr($wind, 0, 2));
 			$windMph = trim(substr($wind, 5, -4));
 			$wd->windSpeed = round($windMph * 1.609);
 		}
-		
+
 		$current = $wd;
 		$this->_forecast = array();
 		foreach ($xml->weather->forecast_conditions as $forecast) {
 			$wd = new \Mmi\Service\Weather\Data();
-			$wd->condition = (string)$forecast->condition->attributes()->data;
-			$minFahrenheit = (string)$forecast->low->attributes()->data;
-			$maxFahrenheit = (string)$forecast->high->attributes()->data;
-			$minCelsius = ($minFahrenheit - 32) * 5/9;
-			$maxCelsius = ($maxFahrenheit - 32) * 5/9;
-			$wd->temperature = round(($minCelsius + $maxCelsius) / 2); 
-			$wd->icon = $this->_iconBaseUrl . (string)$forecast->icon->attributes()->data;
+			$wd->condition = (string) $forecast->condition->attributes()->data;
+			$minFahrenheit = (string) $forecast->low->attributes()->data;
+			$maxFahrenheit = (string) $forecast->high->attributes()->data;
+			$minCelsius = ($minFahrenheit - 32) * 5 / 9;
+			$maxCelsius = ($maxFahrenheit - 32) * 5 / 9;
+			$wd->temperature = round(($minCelsius + $maxCelsius) / 2);
+			$wd->icon = $this->_iconBaseUrl . (string) $forecast->icon->attributes()->data;
 			$this->_forecast[] = $wd;
 		}
 		return $current;

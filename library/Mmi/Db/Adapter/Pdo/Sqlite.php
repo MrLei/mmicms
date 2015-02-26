@@ -18,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa adaptera SQLite
  * @category   Mmi
@@ -65,9 +64,7 @@ class Sqlite extends PdoAbstract {
 			\Mmi\Db\Profiler::event('CONNECT WITH: ' . get_class($this), 0);
 		}
 		$this->_pdo = new \PDO(
-						$this->_config->driver . ':' . $this->_config->host,
-						null, null,
-						array(\PDO::ATTR_PERSISTENT => $this->_config->persistent)
+			$this->_config->driver . ':' . $this->_config->host, null, null, array(\PDO::ATTR_PERSISTENT => $this->_config->persistent)
 		);
 		$this->_connected = true;
 		$this->query('PRAGMA foreign_keys = ON');
@@ -141,7 +138,7 @@ class Sqlite extends PdoAbstract {
 		//schema nie jest używane w sqlite
 		return $this->_associateTableMeta($this->fetchAll('PRAGMA table_info(' . $this->prepareTable($tableName) . ')'));
 	}
-	
+
 	/**
 	 * Listuje tabele w schemacie bazy danych
 	 * @param string $schema nie istotny w Sqlite
@@ -168,7 +165,7 @@ class Sqlite extends PdoAbstract {
 		}
 		return $fieldName . ' is not null';
 	}
-	
+
 	/**
 	 * Tworzy konstrukcję sprawdzającą ILIKE, jeśli dostępna w silniku
 	 * @param string $fieldName nazwa pola

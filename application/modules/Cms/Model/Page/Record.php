@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Model\Page;
 
 class Record extends \Mmi\Dao\Record {
@@ -14,12 +13,12 @@ class Record extends \Mmi\Dao\Record {
 	public $dateAdd;
 	public $dateModify;
 	public $cmsAuthId;
-	
+
 	public function saveForm() {
 		$navigationRecord = $this->cmsNavigationId ? \Cms\Model\Navigation\Dao::findPk($this->cmsNavigationId) : null;
 		/* @var $navigationRecord \Cms\Model\Navigation\Record */
 		$navigationRecord = ($navigationRecord === null) ? new \Cms\Model\Navigation\Record() : $navigationRecord;
-		
+
 		$navigationRecord->absolute = 0;
 		$navigationRecord->action = 'index';
 		$navigationRecord->active = 1;
@@ -41,7 +40,7 @@ class Record extends \Mmi\Dao\Record {
 		$routeRecord->active = $this->active;
 		$routeRecord->pattern = $this->getOption('address');
 		$routeRecord->save();
-		
+
 		$this->cmsNavigationId = $navigationRecord->id;
 		$this->cmsRouteId = $routeRecord->id;
 		$this->cmsAuthId = \Core\Registry::$auth->getId();
@@ -56,7 +55,7 @@ class Record extends \Mmi\Dao\Record {
 		}
 		return $navigationRecord->save() && $routeRecord->save();
 	}
-	
+
 	public function delete() {
 		if (!parent::delete()) {
 			return false;
@@ -71,7 +70,7 @@ class Record extends \Mmi\Dao\Record {
 		}
 		return true;
 	}
-	
+
 	protected function _insert() {
 		$this->dateAdd = date('Y-m-d H:i:s');
 		return parent::_insert();

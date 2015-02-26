@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Parser komentarzy w klasach API
  * @category   Mmi
@@ -39,7 +38,7 @@ class Reflection {
 		$class = new $className();
 		$this->_reflectionClass = new ReflectionClass($className);
 	}
-	
+
 	/**
 	 * Pobiera listę metod
 	 * @return array
@@ -107,7 +106,7 @@ class Reflection {
 		}
 		return $methods;
 	}
-	
+
 	protected function _classFieldsArrayString($className) {
 		$class = new $className;
 		$classStr = 'array(';

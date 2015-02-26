@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Model;
 
 class Reflection {

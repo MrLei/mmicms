@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Controller;
 
 class File extends \Mmi\Controller\Action {

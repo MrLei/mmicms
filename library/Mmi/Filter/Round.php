@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Filtr zaokrąglający liczby
  * @category   Mmi
@@ -35,7 +35,7 @@ class Round extends \Mmi\Filter\FilterAbstract {
 	 * @return mixed
 	 */
 	public function filter($value) {
-		$precision = (int)(isset($this->_options[0]) ? $this->_options[0] : 0);
+		$precision = (int) (isset($this->_options[0]) ? $this->_options[0] : 0);
 		return round($value, $precision);
 	}
 

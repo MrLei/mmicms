@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -17,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Helper skryptów w nagłówku strony
  * @category   Mmi
@@ -25,7 +25,9 @@
  * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
+
 namespace Mmi\View\Helper;
+
 class HeadScript extends HeadAbstract {
 
 	/**
@@ -84,7 +86,7 @@ class HeadScript extends HeadAbstract {
 						$value .= '?crc=' . $crc;
 					}
 				}
-				$html .= htmlspecialchars($key). '="' . htmlspecialchars($value) . '" ';
+				$html .= htmlspecialchars($key) . '="' . htmlspecialchars($value) . '" ';
 			}
 			$html .= '>';
 			if (isset($scriptContent)) {

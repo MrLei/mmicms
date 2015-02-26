@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Controller;
 
 class Comment extends \Mmi\Controller\Action {

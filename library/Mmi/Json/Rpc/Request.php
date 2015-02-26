@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Obiekt żądania JSON-RPC
  * @category   Mmi
@@ -28,7 +27,7 @@
 namespace Mmi\Json\Rpc;
 
 class Request {
-	
+
 	/**
 	 * Wersja JSON-RPC
 	 * @var string
@@ -46,13 +45,13 @@ class Request {
 	 * @var string 
 	 */
 	public $method;
-	
+
 	/**
 	 * Parametry
 	 * @var array
 	 */
 	public $params = array();
-	
+
 	/**
 	 * Ustawia na podstawie tablicy
 	 * @param array $data
@@ -64,7 +63,7 @@ class Request {
 		$this->params = (isset($data['params']) && is_array($data['params'])) ? $data['params'] : array();
 		return $this;
 	}
-	
+
 	/**
 	 * Konwersja do JSON'a
 	 * @return string
@@ -72,5 +71,5 @@ class Request {
 	public function toJson() {
 		return json_encode($this);
 	}
-	
+
 }

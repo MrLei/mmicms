@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa poprawności captcha
  * @category   Mmi
@@ -41,4 +41,5 @@ class Captcha extends ValidateAbstract {
 		$name = 'captcha-' . $this->_options['name'];
 		return ($session->$name == strtoupper($value));
 	}
+
 }

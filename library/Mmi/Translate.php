@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa tłumaczeń (obsługa wersji językowych)
  * posiada skojarzoną klasę helpera widoku: \Mmi\View\Helper\Translate

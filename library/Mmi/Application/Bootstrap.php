@@ -17,13 +17,13 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Przykładowy bootstrap aplikacji
  * @category   Mmi
  * @package    \Mmi\Application
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
+
 namespace Mmi\Application;
 
 final class Bootstrap implements BootstrapInterface {

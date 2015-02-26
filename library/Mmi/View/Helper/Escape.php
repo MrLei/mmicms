@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -17,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Helper normalizowania ciągów znaków
  * @category   Mmi
@@ -40,5 +40,5 @@ class Escape extends HelperAbstract {
 		$escape = new \Mmi\Filter\Escape();
 		return $escape->filter($input);
 	}
-	
+
 }

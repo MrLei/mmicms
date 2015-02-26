@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -17,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa elementu oceny w komentarzach
  * @category   Mmi
@@ -29,7 +29,7 @@
 namespace Mmi\Form\Element;
 
 class Ratings extends ElementAbstract {
-	
+
 	/**
 	 * Buduje pole
 	 * @return string
@@ -53,7 +53,7 @@ class Ratings extends ElementAbstract {
 		$html .= '<p></p>';
 		$html .= '</div></div>';
 		$html .= '<input id="opinion_stars" ';
-		$html .= 'type="hidden" '.$this->_getHtmlOptions().' />';
+		$html .= 'type="hidden" ' . $this->_getHtmlOptions() . ' />';
 		return $html;
 	}
 

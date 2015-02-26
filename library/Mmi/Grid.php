@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Abstrakcyjna klasa data-grid
  * @category   Mmi
@@ -179,7 +178,7 @@ abstract class Grid {
 		$this->_daoQuery = $query;
 		return $this;
 	}
-	
+
 	/**
 	 * Zwraca obiekt zapytania filtrującego
 	 * @return \Mmi\Dao\Query

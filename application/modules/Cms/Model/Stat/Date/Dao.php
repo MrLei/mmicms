@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Model\Stat\Date;
 
 class Dao extends \Mmi\Dao {
@@ -233,10 +232,10 @@ class Dao extends \Mmi\Dao {
 		self::_bindParam($q, 'hour', $hour);
 
 		return $q->orderAsc('day')
-			->orderAsc('month')
-			->orderAsc('year')
-			->orderAsc('hour')
-			->find();
+				->orderAsc('month')
+				->orderAsc('year')
+				->orderAsc('hour')
+				->find();
 	}
 
 	protected static function _bindParam(\Mmi\Dao\Query $q, $name, $value) {

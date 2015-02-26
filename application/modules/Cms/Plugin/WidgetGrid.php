@@ -1,6 +1,7 @@
 <?php
 
 namespace Cms\Plugin;
+
 class WidgetGrid extends \Mmi\Grid {
 
 	public function init() {

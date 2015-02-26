@@ -18,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa adaptera Oracle SQL
  * @category   Mmi
@@ -153,27 +152,27 @@ class Oci extends PdoAbstract {
 	 */
 	public function select($fields = '*', $from = '', $where = '', $order = '', $limit = null, $offset = null, array $whereBind = array()) {
 		$initialSql = 'SELECT' .
-			' ' . $fields . 
-			' FROM' . 
-			' ' . $this->prepareField($from) . 
-			' ' . $where . 
+			' ' . $fields .
+			' FROM' .
+			' ' . $this->prepareField($from) .
+			' ' . $where .
 			' ' . $order;
-		
+
 		$sql = $initialSql;
-		
+
 		if ($limit > 0) {
 			$sql = 'SELECT * FROM (' . $initialSql . ') WHERE ROWNUM  <= ' . intval($limit);
 		}
-		
+
 		if ($offset > 0) {
 			$sql = 'SELECT * FROM (SELECT a.*, ROWNUM rnum FROM (' . $initialSql . ')' .
 				' A WHERE ROWNUM <= ' . (intval($limit) + intval($offset)) . ')' .
 				' WHERE rnum  > ' . intval($offset);
 		}
-		
+
 		return $this->fetchAll($sql, $whereBind);
 	}
-	
+
 	/**
 	 * Zwraca ostatnio wstawione ID
 	 * @param string $name opcjonalnie nazwa serii (ważne w PostgreSQL)
@@ -226,9 +225,9 @@ class Oci extends PdoAbstract {
 			FROM "ALL_TAB_COLS" 
 			WHERE "TABLE_NAME" = :name AND "OWNER" = :schema
 			ORDER BY "COLUMN_ID"', array(
-					':name' => $tableName,
-					':schema' => ($schema) ? $schema : ($this->_config->schema ? $this->_config->schema : $this->_config->name)
-			));
+			':name' => $tableName,
+			':schema' => ($schema) ? $schema : ($this->_config->schema ? $this->_config->schema : $this->_config->name)
+		));
 		return $this->_associateTableMeta($tableInfo);
 	}
 
@@ -242,15 +241,15 @@ class Oci extends PdoAbstract {
 			FROM SYS.ALL_TABLES 
 			WHERE "OWNER" = :schema
 			ORDER BY "TABLE_NAME"', array(
-				':schema' => ($schema) ? $schema : ($this->_config->schema ? $this->_config->schema : $this->_config->name))
-			);
+			':schema' => ($schema) ? $schema : ($this->_config->schema ? $this->_config->schema : $this->_config->name))
+		);
 		$tables = array();
 		foreach ($list as $row) {
 			$tables[] = $row['name'];
 		}
 		return $tables;
 	}
-	
+
 	/**
 	 * Tworzy konstrukcję sprawdzającą ILIKE, jeśli dostępna w silniku
 	 * @param string $fieldName nazwa pola
@@ -259,7 +258,7 @@ class Oci extends PdoAbstract {
 	public function prepareIlike($fieldName) {
 		return 'CAST(' . $fieldName . ' AS text) ILIKE';
 	}
-	
+
 	/**
 	 * Konwertuje do tabeli asocjacyjnej meta dane tabel
 	 * @param array $meta meta data

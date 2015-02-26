@@ -18,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa elementu opcji (select)
  * @category   Mmi
@@ -30,7 +29,7 @@
 namespace Mmi\Form\Element;
 
 class Select extends ElementAbstract {
-	
+
 	/**
 	 * Ustawia multiselect
 	 * @return \Mmi\Form\Element\Select
@@ -39,7 +38,7 @@ class Select extends ElementAbstract {
 		$this->_options['multiple'] = 'multiple';
 		return $this;
 	}
-	
+
 	/**
 	 * Zwraca czy pole jest multiple
 	 * @return boolean

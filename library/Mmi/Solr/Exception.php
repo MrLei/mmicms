@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa błędów dla SOLR
  * @category   Mmi
@@ -28,5 +27,5 @@
 namespace Mmi\Solr;
 
 class Exception extends \Exception {
-
+	
 }

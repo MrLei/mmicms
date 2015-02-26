@@ -14,5 +14,5 @@
 namespace Cms\Model\Comment\Query;
 
 class Field extends \Mmi\Dao\Query\Field {
-
+	
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Controller;
 
 class User extends \Mmi\Controller\Action {
@@ -25,7 +24,7 @@ class User extends \Mmi\Controller\Action {
 		\Cms\Model\Stat\Dao::hit('user-logout');
 		$this->_helper->redirector()->gotoUrl($this->getRequest()->getReferer());
 	}
-	
+
 	public function registerAction() {
 		$form = new \Cms\Form\Register();
 		if (!$form->isMine()) {
@@ -41,7 +40,7 @@ class User extends \Mmi\Controller\Action {
 			$form->getElement('confirmPassword')->addError('Hasła niezgodne');
 		}
 	}
-	
+
 	public function loginWidgetAction() {
 		return $this->loginAction();
 	}

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Controller;
 
 class Form extends \Mmi\Controller\Action {

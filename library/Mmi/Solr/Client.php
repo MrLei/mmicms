@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klient SOLR
  * @category   Mmi
@@ -60,7 +59,6 @@ class Client {
 		} catch (Exception $ex) {
 			throw $ex;
 		}
-
 	}
 
 	/**
@@ -181,7 +179,7 @@ class Client {
 			$responseObject = json_decode($response);
 			if (!isset($responseObject->error) & $commit) {
 				$this->commit();
-			} elseif(isset($responseObject->error)) {
+			} elseif (isset($responseObject->error)) {
 				$e = new \Mmi\Solr\Exception($responseObject->error->msg, $responseObject->error->code);
 				throw $e;
 			}

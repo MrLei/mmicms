@@ -1,6 +1,7 @@
 <?php
 
 namespace Cms\Plugin;
+
 class NewsGrid extends \Mmi\Grid {
 
 	public function init() {

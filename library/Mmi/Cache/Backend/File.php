@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Plikowy backend bufora
  * @category   Mmi
@@ -33,6 +33,7 @@ class File implements BackendInterface {
 	 * @var string
 	 */
 	protected $_savePath;
+
 	/**
 	 * Kostruktor
 	 * @param array $params parametry

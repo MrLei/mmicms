@@ -14,5 +14,5 @@
 namespace Cms\Model\Cron\Query;
 
 class Field extends \Mmi\Dao\Query\Field {
-
+	
 }

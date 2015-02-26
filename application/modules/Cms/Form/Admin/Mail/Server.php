@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Form\Admin\Mail;
 
 class Server extends \Mmi\Form {

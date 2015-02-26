@@ -18,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Helper silnika szablonów
  * @category   Mmi
@@ -125,8 +124,7 @@ class Template extends HelperAbstract {
 		 */
 		$input = preg_replace(array(
 			'/\<\?php foreach[\s]+?\([\s]+?name=[\'\"]?([a-z0-9]+)[\'\"]? (\$this[\>\(\)a-z0-9_\-\[\]\'\"]+) as (\$this->[a-z0-9_\-]+)\):/i',
-			'/\<\?php foreach[\s]+?\([\s]+?name=[\'\"]?([a-z0-9]+)[\'\"]? (\$this[\>\(\)a-z0-9_\-\[\]\'\"]+) as (\$this->[a-z0-9_\-]+) => (\$this->[a-z0-9_\-]+)\):/i'),
-			array(
+			'/\<\?php foreach[\s]+?\([\s]+?name=[\'\"]?([a-z0-9]+)[\'\"]? (\$this[\>\(\)a-z0-9_\-\[\]\'\"]+) as (\$this->[a-z0-9_\-]+) => (\$this->[a-z0-9_\-]+)\):/i'), array(
 			'<?php $_${1}Source = ${2}; $_${1}Count = count((array)$_${1}Source); $this->_${1}Index = 0; foreach ( $_${1}Source as ${3}): $this->_${1}Index++; $this->_${1}First = false; $this->_${1}Last = false; if ($this->_${1}Index == 1) { $this->_${1}First = true; } else { $this->_${1}First = false; } if ($this->_${1}Index == $_${1}Count) { $this->_${1}Last = true; } else { $this->_${1}Last = false; } if($this->_${1}Index % 2 == 0) { $this->_${1}Even = true; } else { $this->_${1}Even = false; }',
 			'<?php $_${1}Source = ${2}; $_${1}Count = count((array)$_${1}Source); $this->_${1}Index = 0; foreach ( $_${1}Source as ${3} => ${4}): $this->_${1}Index++; $this->_${1}First = false; if ($this->_${1}Index == 1) { $this->_${1}First = true; } else { $this->_${1}First = false; } if ($this->_${1}Index == $_${1}Count) { $this->_${1}Last = true; } else { $this->_${1}Last = false; }'), $input);
 

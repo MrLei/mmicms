@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -17,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Helper meta w nagłówku strony
  * @category   Mmi
@@ -25,7 +25,9 @@
  * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
+
 namespace Mmi\View\Helper;
+
 class HeadMeta extends HeadAbstract {
 
 	/**
@@ -71,7 +73,7 @@ class HeadMeta extends HeadAbstract {
 			}
 			$html .= '	<meta ';
 			foreach ($meta as $key => $value) {
-				$html .= $key. '="' . $value . '" ';
+				$html .= $key . '="' . $value . '" ';
 			}
 			$html .= '/>';
 			if ($conditional) {

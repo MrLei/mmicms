@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa żądania
  * @category   Mmi
@@ -76,7 +76,7 @@ class Request {
 	public function __set($key, $value) {
 		$this->_data[$key] = $value;
 	}
-	
+
 	/**
 	 * Zwraca Content-Type żądania
 	 * @return string
@@ -84,7 +84,7 @@ class Request {
 	public function getContentType() {
 		return filter_input(INPUT_SERVER, 'CONTENT_TYPE', FILTER_SANITIZE_SPECIAL_CHARS);
 	}
-	
+
 	/**
 	 * Zwraca metodę żądania (np. GET, POST, PUT)
 	 * @return string
@@ -92,7 +92,7 @@ class Request {
 	public function getRequestMethod() {
 		return filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_SPECIAL_CHARS);
 	}
-	
+
 	/**
 	 * Pobiera nagłówek żądania
 	 * @param string $name np. Accept-Encoding
@@ -186,7 +186,7 @@ class Request {
 				continue;
 			}
 			//upload wielokrotny html5
-			for ($i = 0, $count = count($fieldFiles['name']); $i< $count; $i++) {
+			for ($i = 0, $count = count($fieldFiles['name']); $i < $count; $i++) {
 				if (!isset($files[$fieldName])) {
 					$files[$fieldName] = array();
 				}

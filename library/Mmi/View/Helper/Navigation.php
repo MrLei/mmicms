@@ -18,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Helper nawigacji, wykorzystuje obiekt nawigacyjny z rejestru '\Mmi\Registry'
  * @see \Mmi\Registry

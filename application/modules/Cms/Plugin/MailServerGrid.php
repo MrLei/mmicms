@@ -1,12 +1,13 @@
 <?php
 
 namespace Cms\Plugin;
+
 class MailServerGrid extends \Mmi\Grid {
 
 	public function init() {
-		
+
 		$this->setQuery(\Cms\Model\Mail\Server\Query::factory()
-			->orderDescId());
+				->orderDescId());
 
 		$this->addColumn('text', 'address', array(
 			'label' => 'Adres serwera',

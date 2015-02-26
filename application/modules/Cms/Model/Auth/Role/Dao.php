@@ -1,15 +1,14 @@
 <?php
 
-
 namespace Cms\Model\Auth\Role;
 
 class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'cms_auth_role';
-	
+
 	public static function byAuthIdQuery($authId) {
 		return \Cms\Model\Auth\Role\Query::factory()
-			->whereCmsAuthId()->equals($authId);
+				->whereCmsAuthId()->equals($authId);
 	}
 
 	public static function joinedRolebyAuthId($authId) {
