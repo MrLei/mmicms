@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Cron;
+
 /**
  * @method \Cms\Model\Cron\Query limit() limit($limit = null)
  * @method \Cms\Model\Cron\Query offset() offset($offset = null)
@@ -18,9 +20,6 @@
  * @method \Cms\Model\Cron\Record[] find() find()
  * @method \Cms\Model\Cron\Record findFirst() findFirst()
  */
-
-namespace Cms\Model\Cron;
-
 class Query extends \Mmi\Dao\Query {
 
 	/**

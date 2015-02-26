@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Acl;
+
 /**
  * @method \Cms\Model\Acl\Query limit() limit($limit = null)
  * @method \Cms\Model\Acl\Query offset() offset($offset = null)
@@ -18,9 +20,6 @@
  * @method \Cms\Model\Acl\Record[] find() find()
  * @method \Cms\Model\Acl\Record findFirst() findFirst()
  */
-
-namespace Cms\Model\Acl;
-
 class Query extends \Mmi\Dao\Query {
 
 	/**

@@ -225,8 +225,6 @@ class Dao extends \Mmi\Dao {
 	public static function sortBySerial(array $serial = array()) {
 		foreach ($serial as $order => $id) {
 			$record = new \Cms\Model\File\Record($id);
-			$record->setNew(false);
-			$record->id = $id;
 			$record->order = $order;
 			$record->save();
 		}

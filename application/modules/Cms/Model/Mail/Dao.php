@@ -125,12 +125,9 @@ class Dao extends \Mmi\Dao {
 			}
 			try {
 				if ($mail->send($transport[$email->getOption('mailServerId')])) {
-					$record = new \Cms\Model\Mail\Record();
-					$record->setNew(false);
-					$record->id = $email->id;
-					$record->active = 1;
-					$record->dateSent = date('Y-m-d H:i:s');
-					$record->save();
+					$email->active = 1;
+					$email->dateSent = date('Y-m-d H:i:s');
+					$email->save();
 				}
 				$result['success'] ++;
 			} catch (Exception $e) {

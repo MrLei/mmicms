@@ -112,11 +112,12 @@ class Builder {
 	protected static function _updateQueryField($tableName) {
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
-		$className = $classPrefix . '_Query\Field';
-		$queryClassName = $classPrefix . '_Query';
+		$className = $classPrefix . '\Query\Field';
+		$queryClassName = $classPrefix . '\Query';
 		$path = $pathPrefix . '/Query/Field.php';
 		self::_mkdirRecursive($path);
 		$queryCode = '<?php' . "\n\n" .
+			'namespace ' . $classPrefix . ";\n\n" .
 			'/**' . "\n" .
 			' * @method ' . $queryClassName . ' equals() equals($value)' . "\n" .
 			' * @method ' . $queryClassName . ' notEquals() notEquals($value)' . "\n" .
@@ -139,10 +140,11 @@ class Builder {
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
 		$className = $classPrefix . '_Query\Join';
-		$queryClassName = $classPrefix . '_Query';
+		$queryClassName = $classPrefix . '\Query';
 		$path = $pathPrefix . '/Query/Join.php';
 		self::_mkdirRecursive($path);
 		$queryCode = '<?php' . "\n\n" .
+			'namespace ' . $classPrefix . ";\n\n" .
 			'/**' . "\n" .
 			' * @method ' . $queryClassName . ' on() on($localKeyName, $joinedKeyName = \'id\')' . "\n" .
 			' */' . "\n" .
@@ -162,12 +164,13 @@ class Builder {
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
 		$className = $classPrefix . '_Query';
-		$fieldClassName = $classPrefix . '_Query\Field';
-		$joinClassName = $classPrefix . '_Query\Join';
-		$recordClassName = $classPrefix . '_Record';
-		$daoClassName = $classPrefix . '_Dao';
+		$fieldClassName = $classPrefix . '\Query\Field';
+		$joinClassName = $classPrefix . '\Query\Join';
+		$recordClassName = $classPrefix . '\Record';
+		$daoClassName = $classPrefix . '\Dao';
 		$path = $pathPrefix . '/Query.php';
 		$queryCode = '<?php' . "\n\n" .
+			'namespace ' . $classPrefix . ";\n\n" . 
 			'/**' . "\n" .
 			' * @method ' . $className . ' limit() limit($limit = null)' . "\n" .
 			' * @method ' . $className . ' offset() offset($offset = null)' . "\n" .

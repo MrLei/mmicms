@@ -6,8 +6,8 @@ $(document).ready(function () {
 			axis: 'x',
 			cancel: '#manageImage > li > img',
 			update: function(event, ui) {
-				$.get(
-					request.baseUrl + "/cms/admin-file/sort/order/" + $(this).sortable('serialize'),
+				$.post(
+					request.baseUrl + "/cms/admin-file/sort/order/",  $(this).sortable('serialize'),
 					function(result) {
 						if (result) {
 							alert(result);
@@ -19,8 +19,8 @@ $(document).ready(function () {
 		$('#manageOther').sortable({
 			axis: 'x',
 			update : function(event, ui) {
-				$.get(
-					request.baseUrl + "/cms/admin-file/sort/order/" + $(this).sortable('serialize'),
+				$.post(
+					request.baseUrl + "/cms/admin-file/sort/order/", $(this).sortable('serialize'),
 					function(result) {
 						if (result) {
 							alert(result);

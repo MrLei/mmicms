@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	$('#navigation-list').sortable({
 		update: function(event, ui) {
-			$.get(request.baseUrl + "/cms/admin-navigation/sort/order/" + $(this).sortable('serialize'),
+			$.post(request.baseUrl + "/cms/admin-navigation/sort/order/", $(this).sortable('serialize'),
 				function(result) {
 					if (result) {
 						alert(result);
