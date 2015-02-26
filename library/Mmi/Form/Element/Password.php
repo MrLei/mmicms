@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -17,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa elementu hasło (password)
  * @category   Mmi
@@ -29,7 +29,7 @@
 namespace Mmi\Form\Element;
 
 class Password extends ElementAbstract {
-	
+
 	/**
 	 * Buduje pole
 	 * @return string

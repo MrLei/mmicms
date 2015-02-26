@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -17,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa elementu opcji (select)
  * @category   Mmi
@@ -29,7 +29,7 @@
 namespace Mmi\Form\Element;
 
 class Radio extends ElementAbstract {
-	
+
 	/**
 	 * Ustawia klasy dla poszczególnych labelek
 	 * @param array $class - tablica $key => $class
@@ -51,7 +51,7 @@ class Radio extends ElementAbstract {
 		$value = isset($this->_options['value']) ? $this->_options['value'] : null;
 
 		unset($this->_options['value']);
-		$html = '<ul id="' . $this->id .'_list">';
+		$html = '<ul id="' . $this->id . '_list">';
 		foreach ($multiOptions as $key => $caption) {
 			unset($this->_options['checked']);
 			if ($value == $key && !is_null($value)) {
@@ -71,13 +71,13 @@ class Radio extends ElementAbstract {
 			$this->_options['id'] = $baseId . '_' . $f->filter($key);
 			$classTag = "";
 			foreach ($labelClass as $labelId => $className) {
-				if($labelId == $key) {
+				if ($labelId == $key) {
 					$classTag .= 'class="' . $className . '" ';
 				}
 			}
-			$html .= '<li id="' . $this->_options['id'] . '_item" class="'. $liClass .'">
+			$html .= '<li id="' . $this->_options['id'] . '_item" class="' . $liClass . '">
 				<input type="radio" ' . $this->_getHtmlOptions() . '/>
-				<label ' . $classTag . 'for="' . $this->_options['id'] . '">'. $caption .'</label>
+				<label ' . $classTag . 'for="' . $this->_options['id'] . '">' . $caption . '</label>
 			</li>';
 		}
 		$html .= '</ul>';

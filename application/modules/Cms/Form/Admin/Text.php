@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Form\Admin;
 
 class Text extends \Mmi\Form {

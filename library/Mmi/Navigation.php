@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa nawigacji, do renderingu używa \Mmi\View\Helper\Navigation
  * @see        \Mmi\View\Helper\Navigation
@@ -71,6 +71,7 @@ class Navigation {
 	public function seek($id) {
 		return $this->_config->findById($id);
 	}
+
 	/**
 	 * Pobiera breadcrumbs
 	 * @return array
@@ -87,12 +88,12 @@ class Navigation {
 	 */
 	private function _setupActive(&$tree, $params) {
 		$branchActive = false;
-		foreach($tree as $key => $item) {
+		foreach ($tree as $key => $item) {
 			$active = true;
 			if (!isset($item['request'])) {
 				$active = false;
 			} else {
-				foreach($item['request'] as $name => $param) {
+				foreach ($item['request'] as $name => $param) {
 					if (!isset($params[$name]) || $params[$name] != $param) {
 						$active = false;
 						break;

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Form;
 
 class Comment extends \Mmi\Form {

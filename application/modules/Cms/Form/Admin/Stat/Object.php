@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Form\Admin\Stat;
 
 class Object extends \Mmi\Form {

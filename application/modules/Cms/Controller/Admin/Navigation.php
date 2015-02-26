@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Controller\Admin;
 
 class Navigation extends \MmiCms\Controller\Admin {
@@ -44,6 +43,7 @@ class Navigation extends \MmiCms\Controller\Admin {
 	 * Usuwanie elementu
 	 */
 	public function deleteAction() {
+		/* @var $record \Cms\Model\Navigation\Record */
 		$record = \Cms\Model\Navigation\Dao::findPk($this->id);
 		if ($record !== null) {
 			$record->delete();

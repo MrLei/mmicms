@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa autoryzacji
  * @category   Mmi
@@ -99,7 +99,7 @@ class Auth {
 	 */
 	public function rememberMe($time) {
 		if ($this->hasIdentity()) {
-			new \Mmi\Http\Cookie('remember', 'id=' . $this->getId() . '&key='. md5($this->getSalt() . $this->getId()), null, time() + $time);
+			new \Mmi\Http\Cookie('remember', 'id=' . $this->getId() . '&key=' . md5($this->getSalt() . $this->getId()), null, time() + $time);
 		}
 	}
 
@@ -239,7 +239,7 @@ class Auth {
 		}
 		return $this->setAuthentication($result->id, $result->username, $result->email, $result->roles, $result->lang, \Mmi\Controller\Front::getInstance()->getEnvironment()->remoteAddress);
 	}
-	
+
 	/**
 	 * Wymuszenie ustawienia autoryzacji
 	 * @param integer $id

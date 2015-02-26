@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa filtra określającego długość zmiennej
  * @category   Mmi
@@ -37,12 +37,11 @@ class Length extends \Mmi\Filter\FilterAbstract {
 	public function filter($value) {
 
 		if (is_string($value) || is_numeric($value)) {
-			return mb_strlen((string)$value);
+			return mb_strlen((string) $value);
 		}
 		if (is_array($value) || $value instanceof \ArrayObject) {
 			return count($value);
 		}
-
 	}
 
 }

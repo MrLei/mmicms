@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Controller\Admin;
 
 class Stat extends \MmiCms\Controller\Admin {

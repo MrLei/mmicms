@@ -14,5 +14,5 @@
 namespace Cms\Model\Contact\Option\Query;
 
 class Field extends \Mmi\Dao\Query\Field {
-
+	
 }

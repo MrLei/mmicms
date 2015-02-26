@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Config\Admin\Navigation;
 
 class Cron extends \Mmi\Navigation\Config {

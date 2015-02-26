@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa formularza CMS
  * @category   MmiCms
@@ -37,7 +36,7 @@ abstract class Form extends \Mmi\Form {
 	public function addElementAntirobot($name) {
 		return $this->addElement(new \MmiCms\Form\Element\Antirobot($name));
 	}
-	
+
 	/**
 	 * Captcha
 	 * @param string $name nazwa

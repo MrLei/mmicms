@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -17,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa elementu zabezpieczenia przed robotami
  * @category   MmiCms
@@ -37,15 +37,15 @@ class Antirobot extends \Mmi\Form\Element\Hidden {
 		$this->_options['ignore'] = true;
 		$this->_options['required'] = true;
 		$this->_options['validators'] = array(
-		array(
-			'validator' => 'Antirobot',
-			'options' => array('name' => $this->_options['name'])
+			array(
+				'validator' => 'Antirobot',
+				'options' => array('name' => $this->_options['name'])
 		));
 		$view = \Mmi\Controller\Front::getInstance()->getView();
 		$view->headScript()->appendScript('$(document).ready('
 			. 'function() { $(\'div.antirobot > input\').val(\'js-\' + $(\'div.antirobot > input\').val() + \'-js\'); });');
 	}
-	
+
 	/**
 	 * Buduje pole
 	 * @return string

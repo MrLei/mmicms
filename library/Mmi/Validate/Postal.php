@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa walidacji kodów pocztowych
  * @category   Mmi
@@ -45,4 +45,5 @@ class Postal extends ValidateAbstract {
 		$this->_error(self::ERROR);
 		return false;
 	}
+
 }

@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa zapytania DAO
  * @category   Mmi
@@ -34,13 +33,13 @@ class Query {
 	 * @var \Mmi\Dao\Query\Compile
 	 */
 	protected $_compile;
-	
+
 	/**
 	 * Nazwa klasy DAO
 	 * @var string
 	 */
 	protected $_daoClassName;
-	
+
 	/**
 	 * Konstruktor tworzy nowe skompilowane zapytanie
 	 * @param string $daoClassName nazwa klasy DAO
@@ -56,7 +55,7 @@ class Query {
 		}
 		$this->_daoClassName = substr(get_called_class(), 0, -5) . 'Dao';
 	}
-	
+
 	/**
 	 * Zwraca instancję siebie
 	 * @return self
@@ -181,7 +180,7 @@ class Query {
 	public final function joinLeft($tableName, $targetTableName = null) {
 		return new \Mmi\Dao\Query\Join($this, $tableName, 'LEFT JOIN', $targetTableName);
 	}
-	
+
 	/**
 	 * Pobiera ilość rekordów
 	 * @return int
@@ -191,7 +190,7 @@ class Query {
 		$result = $dao::getAdapter()->select('COUNT(*)', $this->_prepareFrom(), $this->_compile->where, '', null, null, $this->_compile->bind);
 		return isset($result[0]) ? current($result[0]) : 0;
 	}
-	
+
 	/**
 	 * Pobiera wszystkie rekordy i zwraca ich kolekcję
 	 * @param \Mmi\Dao\Query $q Obiekt zapytania
@@ -211,7 +210,7 @@ class Query {
 		$collectionName = $dao::getCollectionName();
 		return new $collectionName($records);
 	}
-	
+
 	/**
 	 * Pobiera obiekt pierwszy ze zbioru
 	 * @param \Mmi\Dao\Query $q Obiekt zapytania
@@ -229,7 +228,7 @@ class Query {
 		$record->setFromArray($result[0])->clearModified()->setNew(false);
 		return $record;
 	}
-	
+
 	/**
 	 * Zwraca tablicę asocjacyjną (pary)
 	 * @param string $keyName
@@ -255,7 +254,7 @@ class Query {
 		}
 		return $kv;
 	}
-	
+
 	/**
 	 * Pobiera wartość maksymalną z kolumny
 	 * @param string $keyName nazwa klucza
@@ -267,7 +266,7 @@ class Query {
 		$result = $dao::getAdapter()->select('MAX(' . $dao::getAdapter()->prepareField($keyName) . ')', $this->_prepareFrom(), $this->_compile->where, $this->_compile->order, 1, null, $this->_compile->bind);
 		return isset($result[0]) ? current($result[0]) : null;
 	}
-	
+
 	/**
 	 * Pobiera wartość minimalną z kolumny
 	 * @param string $keyName nazwa klucza
@@ -279,7 +278,7 @@ class Query {
 		$result = $dao::getAdapter()->select('MIN(' . $dao::getAdapter()->prepareField($keyName) . ')', $this->_prepareFrom(), $this->_compile->where, $this->_compile->order, 1, null, $this->_compile->bind);
 		return isset($result[0]) ? current($result[0]) : null;
 	}
-	
+
 	/**
 	 * Pobiera unikalne wartości kolumny
 	 * @param string $keyName nazwa klucza
@@ -310,7 +309,7 @@ class Query {
 	public final function getQueryCompileHash() {
 		return md5(print_r($this->_compile, true));
 	}
-	
+
 	/**
 	 * Zwraca nazwę klasy DAO
 	 * @return string
@@ -318,7 +317,7 @@ class Query {
 	public final function getDaoClassName() {
 		return $this->_daoClassName;
 	}
-	
+
 	/**
 	 * Resetuje sortowanie w zapytaniu
 	 * @return \Mmi\Dao\Query
@@ -327,7 +326,7 @@ class Query {
 		$this->_compile->order = '';
 		return $this;
 	}
-	
+
 	/**
 	 * Resetuje warunki w zapytaniu
 	 * @return \Mmi\Dao\Query
@@ -337,7 +336,7 @@ class Query {
 		$this->_compile->bind = array();
 		return $this;
 	}
-	
+
 	/**
 	 * Przygotowuje nazwę pola do zapytania, konwertuje camelcase na podkreślenia
 	 * @param string $fieldName
@@ -377,7 +376,7 @@ class Query {
 		$this->_compile->order .= $this->_prepareField($fieldName, $tableName) . ' ' . ($asc ? 'ASC' : 'DESC');
 		return $this;
 	}
-	
+
 	/**
 	 * Przygotowuje pola do selecta
 	 * @return string
@@ -393,7 +392,7 @@ class Query {
 		$mainStructure = $dao::getTableStructure();
 		$table = $db->prepareTable($dao::getTableName());
 		foreach ($mainStructure as $fieldName => $info) {
-			$fields .=  $table. '.' . $db->prepareField($fieldName) . ', ';
+			$fields .= $table . '.' . $db->prepareField($fieldName) . ', ';
 		}
 		foreach ($this->_compile->joinSchema as $tableName => $schema) {
 			unset($schema);
@@ -405,7 +404,7 @@ class Query {
 		}
 		return rtrim($fields, ', ');
 	}
-	
+
 	protected final function _prepareFrom() {
 		$dao = $this->_daoClassName;
 		/* @var $db \Mmi\Db\Adapter\Pdo\Abstract */
@@ -424,7 +423,7 @@ class Query {
 		}
 		return $table;
 	}
-	
+
 	/**
 	 * Łączy query
 	 * @param boolean $type
@@ -435,7 +434,7 @@ class Query {
 		//łączenie where
 		if ($compilation->where) {
 			$connector = $this->_compile->where ? ($and ? ' AND (' : ' OR (') : 'WHERE (';
-			$this->_compile->where .=  $connector . substr($compilation->where, 6) . ')';
+			$this->_compile->where .= $connector . substr($compilation->where, 6) . ')';
 		}
 		//łączenie wartości
 		if (!empty($compilation->bind)) {

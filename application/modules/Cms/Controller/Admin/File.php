@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Controller\Admin;
 
 class File extends \MmiCms\Controller\Admin {

@@ -17,14 +17,12 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Konfiguracja sesji
  * @category   Mmi
  * @package    \Mmi\Session
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 
 namespace Mmi\Session;
 

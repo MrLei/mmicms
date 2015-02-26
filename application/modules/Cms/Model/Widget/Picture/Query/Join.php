@@ -7,5 +7,5 @@
 namespace Cms\Model\Widget\Picture\Query;
 
 class Join extends \Mmi\Dao\Query\Join {
-
+	
 }

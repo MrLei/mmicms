@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Model\Page\Widget;
 
 class Record extends \Mmi\Dao\Record {
@@ -20,13 +19,13 @@ class Record extends \Mmi\Dao\Record {
 			$this->controller = strtolower($widget[1]);
 			$this->action = $widget[2];
 		}
-			
+
 		return parent::save();
-	}	
-	
+	}
+
 	public function isExistWidgetEdit($action) {
 		$structure = \Mmi\Structure::getStructure();
 		return array_key_exists($action . 'Edit', $structure['module']['cms']['admin-widget']);
 	}
-	
+
 }

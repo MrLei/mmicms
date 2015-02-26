@@ -7,5 +7,5 @@
 namespace Cms\Model\Comment\Query;
 
 class Join extends \Mmi\Dao\Query\Join {
-
+	
 }

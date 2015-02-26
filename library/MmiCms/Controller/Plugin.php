@@ -3,7 +3,6 @@
 /**
  * MmiCMS
  */
-
 /**
  * Wtyczka FC
  */
@@ -19,6 +18,7 @@ class Plugin extends \Mmi\Controller\Plugin\PluginAbstract {
 			\Core\Registry::$cache->save($routes, 'Mmi-Route', 86400);
 		}
 		\Cms\Model\Route\Dao::updateRouterConfig(\Mmi\Controller\Front::getInstance()->getRouter()->getConfig(), $routes);
+		\Mmi\Profiler::event('Route startup done');
 	}
 
 	public function preDispatch(\Mmi\Controller\Request $request) {
@@ -95,7 +95,6 @@ class Plugin extends \Mmi\Controller\Plugin\PluginAbstract {
 
 		//ustawienie acl
 		if (null === ($acl = \Core\Registry::$cache->load('Mmi-Acl'))) {
-			\Mmi\Profiler::event('Init Acl');
 			$acl = \Cms\Model\Acl\Dao::setupAcl();
 			\Core\Registry::$cache->save($acl, 'Mmi-Acl', 86400);
 		}
@@ -107,7 +106,7 @@ class Plugin extends \Mmi\Controller\Plugin\PluginAbstract {
 
 		//zablokowane na ACL
 		if (!$acl->isAllowed($auth->getRoles(), strtolower($request->getModuleName() . ':' . $request->getControllerName() . ':' . $request->getActionName()))) {
-			if (!$auth->hasIdentity() && (substr($request->getControllerName(), 0, 5) == 'admin' || ($request->getModuleName() == 'cms' && $request->getControllerName() == 'index'))) {
+			if (!$auth->hasIdentity() && $this->_isAdminPart($request)) {
 				$request->setModuleName('cms');
 				$request->setControllerName('admin');
 				$request->setActionName('login');
@@ -122,9 +121,9 @@ class Plugin extends \Mmi\Controller\Plugin\PluginAbstract {
 				\Mmi\Controller\Front::getInstance()->getResponse()->setCodeForbidden();
 			}
 		}
-
 		//ustawienie nawigatora
 		if (null === ($navigation = \Core\Registry::$cache->load('Mmi-Navigation-' . $request->__get('lang')))) {
+			/* @var $config \Core\Config\Navigation */
 			$config = \Core\Registry::$config->navigation;
 			\Cms\Model\Navigation\Dao::decorateConfiguration($config);
 			$navigation = new \Mmi\Navigation($config);
@@ -135,6 +134,7 @@ class Plugin extends \Mmi\Controller\Plugin\PluginAbstract {
 		\Mmi\View\Helper\Navigation::setAcl($acl);
 		\Mmi\View\Helper\Navigation::setAuth($auth);
 		\Mmi\View\Helper\Navigation::setNavigation($navigation);
+		\Mmi\Profiler::event('Pre dispatch done');
 	}
 
 	public function postDispatch(\Mmi\Controller\Request $request) {
@@ -143,6 +143,10 @@ class Plugin extends \Mmi\Controller\Plugin\PluginAbstract {
 		}
 		$request->module = 'cms';
 		$request->controller = 'admin';
+	}
+
+	protected function _isAdminPart(\Mmi\Controller\Request $request) {
+		return (substr($request->getControllerName(), 0, 5) == 'admin' || ($request->getModuleName() == 'cms' && $request->getControllerName() == 'index'));
 	}
 
 }

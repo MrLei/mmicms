@@ -1,6 +1,5 @@
 <?php
 
-
 namespace MmiCms\Model\Changelog;
 
 class Record extends \Mmi\Dao\Record {

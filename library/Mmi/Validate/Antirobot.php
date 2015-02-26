@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa poprawności kodu zabezpieczenia przed robotami
  * @category   Mmi
@@ -27,10 +27,10 @@
 namespace Mmi\Validate;
 
 class Antirobot extends ValidateAbstract {
-	
+
 	/**
-     * Komunikat błędnego kodu zabezpieczającego
-     */
+	 * Komunikat błędnego kodu zabezpieczającego
+	 */
 	const INVALID = 'Kod zabezpieczenia niepoprawny';
 
 	/**
@@ -42,7 +42,7 @@ class Antirobot extends ValidateAbstract {
 		$this->_error(self::INVALID);
 		return (('js-' . self::generateCrc() . '-js') == $value);
 	}
-	
+
 	/**
 	 * Generowanie unikalnego CRC na dany dzień
 	 * @return integer
@@ -50,5 +50,5 @@ class Antirobot extends ValidateAbstract {
 	public static function generateCrc() {
 		return crc32(date('Y-m-d') . 'antirobot-crc');
 	}
-	
+
 }

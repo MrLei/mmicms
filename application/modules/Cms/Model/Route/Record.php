@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Model\Route;
 
 class Record extends \Mmi\Dao\Record {

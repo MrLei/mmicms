@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -17,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa elementu wielokrotnego checkboxa (wybór wielokrotny)
  * @category   Mmi
@@ -25,6 +25,7 @@
  * @subpackage Element
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
+
 namespace Mmi\Form\Element;
 
 class MultiCheckbox extends ElementAbstract {
@@ -66,7 +67,7 @@ class MultiCheckbox extends ElementAbstract {
 
 			$classTag = "";
 			foreach ($labelClass as $labelId => $className) {
-				if($labelId == $key) {
+				if ($labelId == $key) {
 					$classTag .= 'class="' . $className . '" ';
 				}
 			}

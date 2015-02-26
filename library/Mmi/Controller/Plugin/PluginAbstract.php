@@ -18,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Abstrakcyjna klasa pluginów do front kontrolera
  * @category   Mmi

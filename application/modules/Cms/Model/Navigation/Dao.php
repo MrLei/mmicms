@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @static-method \Cms\Model\Navigation\Record findPk() findPk($id)
+ */
 
 namespace Cms\Model\Navigation;
 
@@ -15,6 +18,7 @@ class Dao extends \Mmi\Dao {
 		if (!\Mmi\Controller\Front::getInstance()->getRequest()->lang) {
 			return \Cms\Model\Navigation\Query::factory();
 		}
+		\Cms\Model\Navigation\Query::factory();
 		return \Cms\Model\Navigation\Query::factory()
 				->andQuery(\Cms\Model\Navigation\Query::factory()
 					->whereLang()->equals(\Mmi\Controller\Front::getInstance()->getRequest()->lang)

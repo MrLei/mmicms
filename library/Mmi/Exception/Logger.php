@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa logująca wyjątki do pliku
  * @category   Mmi

@@ -7,5 +7,5 @@
 namespace Cms\Model\Article\Query;
 
 class Join extends \Mmi\Dao\Query\Join {
-
+	
 }

@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa obsługi exifów
  * @category   Mmi
@@ -28,7 +27,7 @@
 namespace Mmi\Image;
 
 class Exif {
-	
+
 	/**
 	 * Dane exif
 	 * @var array
@@ -38,7 +37,7 @@ class Exif {
 	public function __construct($fileName) {
 		$this->_exif = exif_read_data($fileName);
 	}
-	
+
 	/**
 	 * Wartość ISO
 	 * @return integer
@@ -71,7 +70,7 @@ class Exif {
 	public function getCameraMake() {
 		return isset($this->_exif['Make']) ? $this->_exif['Make'] : null;
 	}
-		
+
 	/**
 	 * Model aparatu
 	 * @return type
@@ -79,7 +78,7 @@ class Exif {
 	public function getCameraModel() {
 		return isset($this->_exif['Model']) ? $this->_exif['Model'] : null;
 	}
-	
+
 	/**
 	 * Czas ekspozycji
 	 * @return string
@@ -91,13 +90,13 @@ class Exif {
 		$arr = explode('/', $this->_exif['ExposureTime']);
 		if (count($arr) == 2 && $arr[0] > 1 && $arr[1] > $arr[0]) {
 			return '1/' . round($arr[1] / $arr[0]);
-		} 
+		}
 		if (count($arr) == 2 && $arr[0] > 1 && $arr[1] > 0) {
 			return round($arr[0] / $arr[1]);
 		}
 		return $this->_exif['ExposureTime'];
 	}
-	
+
 	/**
 	 * Przysłona
 	 * @return float
@@ -112,7 +111,7 @@ class Exif {
 		}
 		return round($this->_exif['FNumber'], 1);
 	}
-	
+
 	/**
 	 * Data utworzenia zdjęcia
 	 * @return string
@@ -128,7 +127,7 @@ class Exif {
 			return date('Y-m-d H:i:s', strtotime($this->_exif['FileDateTime']));
 		}
 	}
-	
+
 	/**
 	 * Szerokość
 	 * @return integer
@@ -139,7 +138,7 @@ class Exif {
 		}
 		return isset($this->_exif['COMPUTED']['Width']) ? round($this->_exif['COMPUTED']['Width']) : null;
 	}
-	
+
 	/**
 	 * Wysokość
 	 * @return integer
@@ -150,7 +149,7 @@ class Exif {
 		}
 		return isset($this->_exif['COMPUTED']['Height']) ? round($this->_exif['COMPUTED']['Height']) : null;
 	}
-	
+
 	/**
 	 * Orientacja
 	 * 1	top	left side
@@ -185,9 +184,9 @@ class Exif {
 		if (strtolower($this->_exif['GPSLongitudeRef']) != 'e') {
 			$sign = -1;
 		}
-		return $sign * ($hours + $minutes + $seconds);		
+		return $sign * ($hours + $minutes + $seconds);
 	}
-	
+
 	/**
 	 * Szerokość geograficzna
 	 * @return float
@@ -206,10 +205,9 @@ class Exif {
 		if (strtolower($this->_exif['GPSLatitudeRef']) != 'n') {
 			$sign = -1;
 		}
-		return $sign * ($hours + $minutes + $seconds);		
-		
+		return $sign * ($hours + $minutes + $seconds);
 	}
-	
+
 	protected function _gpsValue($value) {
 		$arr = explode('/', $value);
 		if (count($arr) == 2 && $arr[1] > 0) {
@@ -217,5 +215,5 @@ class Exif {
 		}
 		return $arr;
 	}
-	
+
 }

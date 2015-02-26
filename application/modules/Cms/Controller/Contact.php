@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Controller;
 
 class Contact extends \Mmi\Controller\Action {

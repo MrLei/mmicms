@@ -10,11 +10,11 @@ class PageWidget extends \MmiCms\Controller\Admin {
 
 	public function editAction() {
 		$widget = \Cms\Model\Page\Widget\Dao::findPk($this->id);
-		
+
 		if ($widget !== null) {
 			$this->widget = ucfirst($widget->module) . ':' . ucfirst($widget->controller) . ':' . $widget->action;
 		}
-		
+
 		$widgetForm = new \Cms\Form\Admin\Page\Widget($widget, array(
 			'widget' => $this->widget
 		));

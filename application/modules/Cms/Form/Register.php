@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Form;
 
 class Register extends \MmiCms\Form {

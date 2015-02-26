@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa profilera bazodanowego
  * @category   Mmi
@@ -51,7 +51,7 @@ class Profiler extends \Mmi\Profiler {
 	 * @var boolean
 	 */
 	protected static $_enabled = true;
-	
+
 	/**
 	 * Event query
 	 * @param PDOStatement $statement
@@ -71,5 +71,5 @@ class Profiler extends \Mmi\Profiler {
 		});
 		return parent::event(str_replace($keys, $values, $statement->queryString), $elapsed);
 	}
-	
+
 }

@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Statyczna biblioteka zawierająca użyteczne metody ogólnego zastosowania
  * @category   Mmi
@@ -48,7 +47,7 @@ class Lib {
 			}
 		}
 	}
-	
+
 	/**
 	 * Usuwa katalog rekurencyjnie
 	 * @param string $dirName nazwa katalogu
@@ -61,7 +60,7 @@ class Lib {
 			if (is_file($file)) {
 				unlink($file);
 				continue;
-			} 
+			}
 			if (is_dir($file)) {
 				self::rmdirRecursive($file);
 			}
@@ -121,7 +120,7 @@ class Lib {
 		}
 		return finfo_file(finfo_open(FILEINFO_MIME_TYPE), $fileAddress);
 	}
-	
+
 	/**
 	 * Zwraca mimetype pliku binarnego
 	 * @param string $binary plik binarny
@@ -174,11 +173,11 @@ class Lib {
 		$key = substr(base64_encode(hash('sha512', $password . ':' . sha1($password) . '@Mmi#' . $salt)), 10, 32);
 		//AES - Advanced Encryption Standard
 		if (!defined('MCRYPT_RIJNDAEL_256')) {
-		   define('MCRYPT_RIJNDAEL_256', 0);
+			define('MCRYPT_RIJNDAEL_256', 0);
 		}
 		$algorithm = MCRYPT_RIJNDAEL_256;
 		if (!defined('MCRYPT_MODE_ECB')) {
-		   define('MCRYPT_MODE_ECB', 0);
+			define('MCRYPT_MODE_ECB', 0);
 		}
 		$procedure = MCRYPT_MODE_ECB;
 		$iv = mcrypt_create_iv(mcrypt_get_iv_size($algorithm, $procedure), MCRYPT_RAND);

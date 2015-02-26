@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Model\Stat;
 
 class Dao extends \Mmi\Dao {

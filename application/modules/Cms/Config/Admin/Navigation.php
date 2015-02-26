@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Config\Admin;
 
 class Navigation extends \Mmi\Navigation\Config {

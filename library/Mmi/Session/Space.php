@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,14 +17,13 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa obsługi przestrzeni nazw w sesji użytkownika
  * @category   Mmi
  * @package    \Mmi\Session
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
- 
+
 namespace Mmi\Session;
 
 class Space {

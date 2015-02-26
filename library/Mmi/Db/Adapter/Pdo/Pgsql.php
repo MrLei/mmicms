@@ -18,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa adaptera PostgreSQL
  * @category   Mmi
@@ -131,8 +130,8 @@ class Pgsql extends PdoAbstract {
 	 */
 	public function tableInfo($tableName, $schema = null) {
 		$tableInfo = $this->fetchAll('SELECT "column_name" as "name", "data_type" AS "dataType", "character_maximum_length" AS "maxLength", "is_nullable" AS "null", "column_default" AS "default" FROM INFORMATION_SCHEMA.COLUMNS WHERE "table_name" = :name AND "table_schema" = :schema ORDER BY "ordinal_position"', array(
-					':name' => $tableName,
-					':schema' => ($schema) ? $schema : ($this->_config->schema ? $this->_config->schema : $this->_config->name)
+			':name' => $tableName,
+			':schema' => ($schema) ? $schema : ($this->_config->schema ? $this->_config->schema : $this->_config->name)
 		));
 		return $this->_associateTableMeta($tableInfo);
 	}
@@ -153,7 +152,7 @@ class Pgsql extends PdoAbstract {
 		}
 		return $tables;
 	}
-	
+
 	/**
 	 * Tworzy konstrukcję sprawdzającą ILIKE, jeśli dostępna w silniku
 	 * @param string $fieldName nazwa pola

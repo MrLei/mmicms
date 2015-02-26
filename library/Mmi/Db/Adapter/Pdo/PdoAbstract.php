@@ -18,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Abstrakcyjna klasa adapterów bazodanowych opartych o \PDO
  * @category   Mmi
@@ -368,11 +367,11 @@ abstract class PdoAbstract {
 	 */
 	public function select($fields = '*', $from = '', $where = '', $order = '', $limit = null, $offset = null, array $whereBind = array()) {
 		$sql = 'SELECT' .
-			' ' . $fields . 
-			' FROM' . 
-			' ' . $from . 
-			' ' . $where . 
-			' ' . $order . 
+			' ' . $fields .
+			' FROM' .
+			' ' . $from .
+			' ' . $where .
+			' ' . $order .
 			' ' . $this->prepareLimit($limit, $offset);
 		return $this->fetchAll($sql, $whereBind);
 	}
@@ -458,7 +457,7 @@ abstract class PdoAbstract {
 		}
 		return $associativeMeta;
 	}
-	
+
 	/**
 	 * Zwraca losowy klucz do binda
 	 * @return string

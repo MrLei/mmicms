@@ -7,5 +7,5 @@
 namespace Cms\Model\Role\Query;
 
 class Join extends \Mmi\Dao\Query\Join {
-
+	
 }

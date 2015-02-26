@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa sesji
  * @category   Mmi
@@ -86,7 +85,7 @@ class Session {
 	 */
 	public static function getNumericId() {
 		$hashId = self::getId();
-		$id = (integer)substr(preg_replace('/[a-z]+/', '', $hashId), 0, 9);
+		$id = (integer) substr(preg_replace('/[a-z]+/', '', $hashId), 0, 9);
 		$letters = preg_replace('/[0-9]+/', '', $hashId);
 		for ($i = 0, $length = strlen($letters); $i < $length; $i++) {
 			$id += ord($letters[$i]) - 97;

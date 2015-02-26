@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Config\Admin\Navigation;
 
 class Stat extends \Mmi\Navigation\Config {

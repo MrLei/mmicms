@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Model\Cron;
 
 class Record extends \Mmi\Dao\Record {

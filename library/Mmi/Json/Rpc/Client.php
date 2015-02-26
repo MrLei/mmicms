@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klient JSON-RPC
  * @category   Mmi
@@ -130,7 +129,7 @@ class Client {
 		}
 		return $response->result;
 	}
-	
+
 	/**
 	 * Zwraca dane
 	 * @return array

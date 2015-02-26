@@ -14,5 +14,5 @@
 namespace Cms\Model\Widget\Picture\Query;
 
 class Field extends \Mmi\Dao\Query\Field {
-
+	
 }

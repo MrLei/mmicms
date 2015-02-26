@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Config\Admin\Navigation;
 
 class Acl extends \Mmi\Navigation\Config {

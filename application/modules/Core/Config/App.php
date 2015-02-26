@@ -29,7 +29,7 @@ class App extends \MmiCms\Config {
 
 		//konfiguracja routera
 		$this->router = new \Core\Config\Router();
-		
+
 		//konfiguracja nawigatora
 		$this->navigation = new \Core\Config\Navigation();
 

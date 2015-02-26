@@ -14,5 +14,5 @@
 namespace Cms\Model\File\Query;
 
 class Field extends \Mmi\Dao\Query\Field {
-
+	
 }

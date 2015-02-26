@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,14 +17,12 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Podstawowa konfiguracja aplikacji
  * @category   Mmi
  * @package    \Mmi\Application
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 
 namespace Mmi\Application;
 

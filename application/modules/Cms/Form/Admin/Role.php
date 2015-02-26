@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Form\Admin;
 
 class Role extends \Mmi\Form {

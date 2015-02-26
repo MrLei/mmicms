@@ -18,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Helper akcji, wykonuje akcję z kontrolera akcji i zwraca bądź renderuje wynik
  * @category   Mmi

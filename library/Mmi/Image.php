@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa obsługi obrazów
  * @category   Mmi
@@ -28,11 +27,11 @@
 namespace Mmi;
 
 class Image {
-	
+
 	public static function inputToResource($input) {
 		return self::_resource($input);
 	}
-	
+
 	/**
 	 * Skaluje i przycina obrazek tak aby pasował do podanych wymiarów, zachowuje proporcje
 	 * @param mixed $input wejście
@@ -60,7 +59,7 @@ class Image {
 		imagecopyresized($tmp, $input, 0, 0, abs($sx - $x) / 2, abs($sy - $y) / 2, $x, $y, $x, $y);
 		return $tmp;
 	}
-	
+
 	/**
 	 * Skaluje obrazek tak aby pasował do podanych wymiarów bez zachowania proporcji
 	 * @param mixed $input wejście
@@ -78,7 +77,7 @@ class Image {
 		imagecopyresampled($tmp, $input, 0, 0, 0, 0, $x, $y, $width, $height);
 		return $tmp;
 	}
-	
+
 	/**
 	 * Skaluje obrazek o podany procent zachowując proporcje
 	 * @param mixed $input wejście
@@ -98,7 +97,7 @@ class Image {
 		imagecopyresampled($tmp, $input, 0, 0, 0, 0, $sx, $sy, $width, $height);
 		return $tmp;
 	}
-	
+
 	/**
 	 * Skaluje obrazek proporcjonalnie do podanych maxymalnych wymiarów
 	 * @param mixed $input wejście
@@ -132,7 +131,7 @@ class Image {
 		}
 		return $input;
 	}
-	
+
 	/**
 	 * Pomniejsza obrazek do danej szerokości zachowując proporcje, nie powiększa obrazka.
 	 * @param mixed $input wejście
@@ -180,7 +179,7 @@ class Image {
 		}
 		return $input;
 	}
-	
+
 	/**
 	 * Obraca obrazek o dany kąt wyrażony w stopniach
 	 * @param mixed $input wejście
@@ -217,7 +216,7 @@ class Image {
 		}
 		return $output;
 	}
-	
+
 	/**
 	 * Obraca obrazek o 180 stopni
 	 * @param mixed $input wejście
@@ -234,7 +233,7 @@ class Image {
 		imagecopyresampled($output, $input, 0, 0, $x - 1, 0, $x, $y, 0 - $x, $y);
 		return $output;
 	}
-	
+
 	/**
 	 * Wycina fragment obrazka z punktu x,y o danej długości i wysokości
 	 * @param mixed $input wejście
@@ -259,7 +258,7 @@ class Image {
 		imagecopy($destination, $input, 0, 0, $x, $y, $newWidth, $newHeight);
 		return $destination;
 	}
-		
+
 	/**
 	 * Przerabia wejście w postaci String na obiekt resource 
 	 * lub zwraca wejście jeśli nie jest stringiem, w przypadku

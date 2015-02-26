@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Form\Admin;
 
 class Tag extends \Mmi\Form {

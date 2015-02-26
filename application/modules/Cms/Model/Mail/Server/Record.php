@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Model\Mail\Server;
 
 class Record extends \Mmi\Dao\Record {

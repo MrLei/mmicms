@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Serwer JSON-RPC w standardzie 2.0
  * @category   Mmi

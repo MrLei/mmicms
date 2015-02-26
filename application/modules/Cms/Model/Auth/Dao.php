@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Model\Auth;
 
 class Dao extends \Mmi\Dao {

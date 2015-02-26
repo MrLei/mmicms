@@ -1,13 +1,14 @@
 <?php
 
 namespace Cms\Plugin;
+
 class RouteGrid extends \Mmi\Grid {
 
 	public function init() {
 
 		$this->setQuery(\Cms\Model\Route\Query::factory()
-			->orderAscOrder());
-		
+				->orderAscOrder());
+
 		$this->setOption('rows', 100);
 
 		$this->addColumn('text', 'pattern', array(

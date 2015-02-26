@@ -7,5 +7,5 @@
 namespace Cms\Model\Contact\Option\Query;
 
 class Join extends \Mmi\Dao\Query\Join {
-
+	
 }

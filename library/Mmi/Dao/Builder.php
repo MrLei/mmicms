@@ -1,4 +1,4 @@
- <?php
+<?php
 
 /**
  * Mmi
@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa buildera do DAO
  * @category   Mmi
@@ -101,7 +100,7 @@ class Builder {
 			$diffRecord = array_diff($codeVariables[1], $variables);
 			$diffDb = array_diff($variables, $codeVariables[1]);
 			if (!empty($diffRecord) || !empty($diffDb)) {
-				throw new\Exception('RECORD for: "' . $tableName . '" has invalid fields: ' . implode(', ', $diffRecord) . ', and missing: ' .  implode(',', $diffDb));
+				throw new\Exception('RECORD for: "' . $tableName . '" has invalid fields: ' . implode(', ', $diffRecord) . ', and missing: ' . implode(',', $diffDb));
 			}
 			echo 'RECORD for: ' . $tableName . ' completed.';
 			return;
@@ -222,7 +221,7 @@ class Builder {
 			"\t" . ' * @return ' . $fieldClass . "\n" .
 			"\t" . ' */' . "\n" .
 			"\t" . 'public function ' . $prefix . ucfirst($fieldName) . "() {\n"
-			. "\t\t" . 'return $this->' .  $prefix . '(\'' . $fieldName . '\');' . "\n"
+			. "\t\t" . 'return $this->' . $prefix . '(\'' . $fieldName . '\');' . "\n"
 			. "\t}\n";
 	}
 

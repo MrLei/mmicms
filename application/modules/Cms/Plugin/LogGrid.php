@@ -1,12 +1,13 @@
 <?php
 
 namespace Cms\Plugin;
+
 class LogGrid extends \Mmi\Grid {
 
 	public function init() {
-		
+
 		$this->setQuery(\Cms\Model\Log\Query::factory()
-			->orderDescDateTime());
+				->orderDescDateTime());
 
 		$this->addColumn('text', 'dateTime', array(
 			'label' => 'data i czas'

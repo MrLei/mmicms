@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Controller;
 
 class Api extends \Mmi\Controller\Action {

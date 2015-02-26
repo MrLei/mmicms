@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Form\Admin;
 
 class Password extends \Mmi\Form {

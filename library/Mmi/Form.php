@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa formularza
  * @category   Mmi
@@ -34,7 +33,7 @@ abstract class Form {
 	 * @var string
 	 */
 	protected $_formBaseName;
-	
+
 	/**
 	 * Nazwa klasy
 	 * @var string
@@ -192,13 +191,13 @@ abstract class Form {
 			$this->_recordId = $id->getPk();
 			$this->_recordName = get_class($id);
 			$id = $this->_recordId;
-		} elseif(null === $id || is_numeric($id)) {
+		} elseif (null === $id || is_numeric($id)) {
 			$this->_recordId = $id;
 		} else {
 			throw new\Exception('Invalid record object');
 		}
 
-		$this->_className =  isset($className) ? $className : get_class($this);
+		$this->_className = isset($className) ? $className : get_class($this);
 
 		//kalkulacja nazwy plików dla active record
 		if ($this->_recordName) {
@@ -302,7 +301,7 @@ abstract class Form {
 		$this->setDefaults($this->_values);
 		$this->lateInit();
 	}
-	
+
 	/**
 	 * Sprawdza poprawność całego formularza
 	 * @return boolean
@@ -373,9 +372,9 @@ abstract class Form {
 	 * Metoda użytkownika wykonywana na koniec konstruktora
 	 */
 	public function lateInit() {
-
+		
 	}
-	
+
 	/**
 	 * Metoda walidacji całego formularza
 	 * @return boolean
@@ -766,7 +765,7 @@ abstract class Form {
 		}
 		return $this->_validationResult;
 	}
-	
+
 	/**
 	 * Bramka zapisu danych
 	 * @param array $data

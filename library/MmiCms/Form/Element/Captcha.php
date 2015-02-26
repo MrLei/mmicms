@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -17,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa elementu captcha
  * @category   MmiCms
@@ -37,12 +37,12 @@ class Captcha extends \Mmi\Form\Element\ElementAbstract {
 		$this->_options['ignore'] = true;
 		$this->_options['required'] = true;
 		$this->_options['validators'] = array(
-		array(
-			'validator' => 'Captcha',
-			'options' => array('name' => $this->_options['name'])
+			array(
+				'validator' => 'Captcha',
+				'options' => array('name' => $this->_options['name'])
 		));
 	}
-	
+
 	/**
 	 * Buduje pole
 	 * @return string

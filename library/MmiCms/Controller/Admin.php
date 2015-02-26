@@ -3,7 +3,6 @@
 /**
  * MmiCMS
  */
-
 /**
  * Kontroler administracyjny, rozszerza kontroler akcji
  */

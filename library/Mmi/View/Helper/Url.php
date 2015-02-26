@@ -18,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Helper tworzenia linku
  * @category   Mmi
@@ -75,7 +74,7 @@ class Url extends HelperAbstract {
 			}
 		}
 		$url = \Mmi\Controller\Front::getInstance()->getRouter()->encodeUrl($params);
-		$url = str_replace(array('&', ' '),	array('%26', '+'), $url);
+		$url = str_replace(array('&', ' '), array('%26', '+'), $url);
 		if (!is_null($https)) {
 			$absolute = true;
 		}

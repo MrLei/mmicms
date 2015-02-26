@@ -1,20 +1,19 @@
 <?php
 
-
 namespace Cms\Model\Route;
 
 class Dao extends \Mmi\Dao {
 
 	protected static $_tableName = 'cms_route';
-	
+
 	/**
 	 * 
 	 * @return \Cms\Model\Route\Query
 	 */
 	public static function activeQuery() {
 		return \Cms\Model\Route\Query::factory()
-			->whereActive()->equals(1)
-			->orderAscOrder();
+				->whereActive()->equals(1)
+				->orderAscOrder();
 	}
 
 	/**

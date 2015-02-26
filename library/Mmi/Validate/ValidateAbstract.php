@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Abstrakcyjna klasa walidacji
  * @category   Mmi
@@ -47,7 +47,7 @@ abstract class ValidateAbstract {
 	public final function __construct(array $options = array()) {
 		$this->setOptions($options);
 	}
-	
+
 	/**
 	 * Ustawienie opcji
 	 * @param array $options 

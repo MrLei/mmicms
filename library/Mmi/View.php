@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa widoku
  * @see \Mmi\View\Helper
@@ -78,7 +78,7 @@ class View {
 	 * @var \Mmi\Cache
 	 */
 	private $_cache;
-	
+
 	/**
 	 * Włączone buforowanie
 	 * @var boolean
@@ -101,7 +101,7 @@ class View {
 	 * Zabezpieczony konstruktor
 	 */
 	public function __construct() {
-
+		
 	}
 
 	/**
@@ -358,7 +358,7 @@ class View {
 		$this->_layoutDisabled = ($disabled === true) ? true : false;
 		return $this;
 	}
-	
+
 	/**
 	 * Czy layout wyłączony
 	 * @return boolean
@@ -385,7 +385,7 @@ class View {
 		if (!$this->_locale && $this->_translate !== null) {
 			$this->_locale = $this->_translate->getLocale();
 		}
-		$compileName = $this->_locale . '_' . str_replace(array('/','\\'), '_', substr($fileName, strrpos($fileName, '/application') + 13, -4) . '.php');
+		$compileName = $this->_locale . '_' . str_replace(array('/', '\\'), '_', substr($fileName, strrpos($fileName, '/application') + 13, -4) . '.php');
 		$destFile = TMP_PATH . '/compile/' . $compileName;
 		if ($this->_alwaysCompile) {
 			$input = file_get_contents($fileName);
@@ -426,7 +426,7 @@ class View {
 		}
 		//default / moduł / kontroler
 		if (isset($structure['skin']['default'][$module][$controller]['layout'])) {
-			return APPLICATION_PATH . '/skins/default/' . $module . '/scripts/' . str_replace('-', '/', $controller) .  '/layout.tpl';
+			return APPLICATION_PATH . '/skins/default/' . $module . '/scripts/' . str_replace('-', '/', $controller) . '/layout.tpl';
 		}
 		//default / moduł
 		if (isset($structure['skin']['default'][$module]['layout'])) {

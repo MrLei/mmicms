@@ -1,4 +1,5 @@
 <?php
+
 /**
  * MmiCms
  *
@@ -17,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Generuje tekst statyczny
  * @category   MmiCms

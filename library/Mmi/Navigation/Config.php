@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Konfiguracja nawigatora
  * @category   Mmi
@@ -137,6 +136,8 @@ class Config {
 		foreach ($this->_data as $element) {
 			$this->built[0]['children'][$element->getId()] = $element->build();
 		}
+		//usuwanie konfiguracji
+		$this->_data = array();
 		return $this->built;
 	}
 

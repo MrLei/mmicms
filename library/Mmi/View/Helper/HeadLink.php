@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -17,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Helper linków w nagłówku strony (np. pliki CSS)
  * @category   Mmi
@@ -25,7 +25,9 @@
  * @subpackage Helper
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
+
 namespace Mmi\View\Helper;
+
 class HeadLink extends HeadAbstract {
 
 	/**
@@ -80,7 +82,7 @@ class HeadLink extends HeadAbstract {
 						$value .= '?crc=' . $crc;
 					}
 				}
-				$html .= $key. '="' . $value . '" ';
+				$html .= $key . '="' . $value . '" ';
 			}
 			$html .= '/>';
 			if ($conditional) {

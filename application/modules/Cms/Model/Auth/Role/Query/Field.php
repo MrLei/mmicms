@@ -14,5 +14,5 @@
 namespace Cms\Model\Auth\Role\Query;
 
 class Field extends \Mmi\Dao\Query\Field {
-
+	
 }

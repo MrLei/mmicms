@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Model\Comment;
 
 class Record extends \Mmi\Dao\Record {

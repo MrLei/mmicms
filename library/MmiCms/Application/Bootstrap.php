@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa startująca aplikację CMS
  * @category   MmiCms
@@ -158,9 +157,9 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 	 */
 	protected function _setupFrontController(\MmiCms\Config $config, \Mmi\Controller\Router $router, \Mmi\View $view) {
 		//wczytywanie struktury frontu z cache
-		if (null === ($frontStructure = \Core\Registry::$cache->load('\Mmi\Structure'))) {
+		if (null === ($frontStructure = \Core\Registry::$cache->load('Mmi-Structure'))) {
 			$frontStructure = \Mmi\Structure::getStructure();
-			\Core\Registry::$cache->save($frontStructure, '\Mmi\Structure', 86400);
+			\Core\Registry::$cache->save($frontStructure, 'Mmi-Structure', 86400);
 		}
 		//inicjalizacja frontu
 		$frontController = \Mmi\Controller\Front::getInstance();
@@ -230,7 +229,7 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 		require LIB_PATH . '/MmiCms/Controller/Plugin.php';
 		require LIB_PATH . '/MmiCms/Media/Config.php';
 		require LIB_PATH . '/MmiCms/Registry.php';
-		
+
 		require APPLICATION_PATH . '/modules/Core/Config/App.php';
 		try {
 			include APPLICATION_PATH . '/modules/Core/Config/Local.php';

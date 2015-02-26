@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Controller\Admin;
 
 class Page extends \MmiCms\Controller\Admin {
@@ -36,7 +35,7 @@ class Page extends \MmiCms\Controller\Admin {
 		$this->view->headLink()->appendStyleSheet($this->view->baseUrl . '/default/cms/css/page.css');
 		$this->view->headLink()->appendStyleSheet($this->view->baseUrl . '/default/cms/css/fonts/fontawesome/css/font-awesome.css');
 		$this->view->headStyle()->appendStyleFile('default/cms/css/page.css');
-		
+
 		$withWidgets = preg_replace('/(\{widget\(([a-zA-Z1-9\'\,\s\(\=\>]+\))\)\})/', '<div class="composer-widget" data-widget="$2">$2</div>$1', $page->text);
 
 		//ustawianie contentu
@@ -74,12 +73,12 @@ class Page extends \MmiCms\Controller\Admin {
 			->findFirst();
 		if ($page === null) {
 			return json_encode(array('sucess' => 0));
-		} 
+		}
 		//parsowanie widgetow do postaci zjadalnej przez composer
 		$parsed = preg_replace('/\{widget\(([a-zA-Z1-9\'\,\s\(\=\>]+\))\)\}/', '<div class="widget" data-widget="$1">Widget</div>', $page->text);
 		return $parsed;
 	}
-		
+
 	public function deleteAction() {
 		if (null !== ($record = \Cms\Model\Page\Dao::findPk($this->id)) && $record->delete()) {
 			$this->_helper->messenger('Strona usunięta poprawnie');

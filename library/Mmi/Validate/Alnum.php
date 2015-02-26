@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa walidacji znaków alfanumerycznych
  * @category   Mmi
@@ -32,7 +32,7 @@ class Alnum extends ValidateAbstract {
 	 * Treść wiadomości
 	 */
 	const INVALID = 'Ciąg zawiera znaki inne niż litery i cyfry';
-	
+
 	/**
 	 * Walidacja znaków alfanumerycznych
 	 * @param mixed $value wartość
@@ -53,4 +53,5 @@ class Alnum extends ValidateAbstract {
 		}
 		return true;
 	}
+
 }

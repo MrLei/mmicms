@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Model\Navigation;
 
 class Record extends \Mmi\Dao\Record {
@@ -42,7 +41,7 @@ class Record extends \Mmi\Dao\Record {
 			$article = \Cms\Model\Article\Dao::byUriQuery($params['uri'])
 				->findFirst();
 			if ($article !== null) {
-				$this->articleId = $article->id;
+				$this->setOption('articleId', $article->id);
 			}
 		}
 	}
@@ -105,9 +104,9 @@ class Record extends \Mmi\Dao\Record {
 	}
 
 	protected function _clearCache() {
-		\Core\Registry::$cache->remove('\Mmi\Navigation_');
-		\Core\Registry::$cache->remove('\Mmi\Navigation_' . \Mmi\Controller\Front::getInstance()->getRequest()->lang);
-		\Core\Registry::$cache->remove('\Mmi\Acl');
+		\Core\Registry::$cache->remove('Mmi-Navigation-');
+		\Core\Registry::$cache->remove('Mmi-Navigation-' . \Mmi\Controller\Front::getInstance()->getRequest()->lang);
+		\Core\Registry::$cache->remove('Mmi-Acl');
 	}
 
 }

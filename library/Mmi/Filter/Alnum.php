@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -16,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Filtr wycinający z ciągu nie alfanumeryczne znaki
  * @category   Mmi
@@ -27,7 +27,7 @@
 namespace Mmi\Filter;
 
 class Alnum extends \Mmi\Filter\FilterAbstract {
-	
+
 	/**
 	 * Zwraca przefiltrowaną wartość
 	 * @param mixed $value wartość

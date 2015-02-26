@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Mmi\Navigation\Config;
 
 class Element {
@@ -29,7 +28,6 @@ class Element {
 		'type' => 'cms',
 		'children' => array(),
 	);
-
 	protected $_built = array();
 
 	public function __construct($id = null) {

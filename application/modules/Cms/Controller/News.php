@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Controller;
 
 class News extends \Mmi\Controller\Action {

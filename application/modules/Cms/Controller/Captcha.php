@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Controller;
 
 class Captcha extends \Mmi\Controller\Action {

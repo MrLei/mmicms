@@ -18,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa adaptera MySQL
  * @category   Mmi
@@ -30,7 +29,7 @@
 namespace Mmi\Db\Adapter\Pdo;
 
 class Mysql extends PdoAbstract {
-	
+
 	/**
 	 * Ustawia schemat
 	 * @param string $schemaName nazwa schematu
@@ -94,11 +93,11 @@ class Mysql extends PdoAbstract {
 	 */
 	public function tableInfo($tableName, $schema = null) {
 		return $this->_associateTableMeta($this->fetchAll('SELECT `column_name` as `name`, `data_type` AS `dataType`, `character_maximum_length` AS `maxLength`, `is_nullable` AS `null`, `column_default` AS `default`, `extra` AS `extra`, `column_key` AS `column_key` FROM INFORMATION_SCHEMA.COLUMNS WHERE `table_name` = :name AND `table_schema` = :schema ORDER BY `ordinal_position`', array(
-			':name' => $tableName,
-			':schema' => $this->_config->name
+					':name' => $tableName,
+					':schema' => $this->_config->name
 		)));
 	}
-	
+
 	/**
 	 * Listuje tabele w schemacie bazy danych
 	 * @param string $schema nie istotny w MySQL

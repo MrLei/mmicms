@@ -1,4 +1,5 @@
 <?php
+
 /**
  * MmiCms
  *
@@ -16,14 +17,12 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Konfiguracja bazy danych
  * @category   MmiCms
  * @package    MmiCms\Media
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 
 namespace MmiCms\Media;
 

@@ -18,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa elementu multi-upload plików
  * @category   MmiCms
@@ -30,7 +29,7 @@
 namespace MmiCms\Form\Element;
 
 class Uploader extends \Mmi\Form\Element\File {
-	
+
 	/**
 	 * Buduje pole
 	 * @return string
@@ -47,13 +46,13 @@ class Uploader extends \Mmi\Form\Element\File {
 			$objectId = \Mmi\Session::getNumericId();
 		}
 		return '<iframe frameborder="0" src="' . \Mmi\Controller\Front::getInstance()->getView()->url(array(
-			'module' => 'cms',
-			'controller' => 'file',
-			'action' => 'uploader',
-			'class' => str_replace('\\', '', get_class($this->getForm())),
-			'object' => $object,
-			'objectId' => $objectId,
-		)) . '"
+				'module' => 'cms',
+				'controller' => 'file',
+				'action' => 'uploader',
+				'class' => str_replace('\\', '', get_class($this->getForm())),
+				'object' => $object,
+				'objectId' => $objectId,
+			)) . '"
 			style="border-style: none;
 			border: none;
 			border-width: initial;

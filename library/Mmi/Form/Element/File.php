@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mmi
  *
@@ -17,7 +18,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa elementu plik
  * @category   Mmi
@@ -35,7 +35,7 @@ class File extends ElementAbstract {
 	 * @var array
 	 */
 	private $_fileInfo = array();
-	
+
 	/**
 	 * Buduje pole
 	 * @return string
@@ -53,7 +53,7 @@ class File extends ElementAbstract {
 		}
 		return '<input type="file" ' . $this->_getHtmlOptions() . '/>';
 	}
-	
+
 	/**
 	 * Ustawia, że pole wielokrotne
 	 * @param int $count ile plików

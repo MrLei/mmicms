@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Cms\Form\Admin\Contact;
 
 class Option extends \Mmi\Form {

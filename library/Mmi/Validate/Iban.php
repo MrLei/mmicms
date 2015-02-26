@@ -17,7 +17,6 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
 /**
  * Klasa walidacji IBAN (rachunek bankowy)
  * @category   Mmi
@@ -33,12 +32,12 @@ class Iban extends ValidateAbstract {
 	 * Treść błędu
 	 */
 	const INVALID = 'Wprowadzona wartość nie jest poprawnym numerem IBAN';
-	
+
 	/**
-     * Treść błędu o złym kraju IBAN
-     */
+	 * Treść błędu o złym kraju IBAN
+	 */
 	const INVALID_COUNTRY = 'IBAN pochodzi z niedozwolonego kraju';
-	
+
 	/**
 	 * Walidacja IBAN (rachunek bankowy)
 	 * @param mixed $value wartość
@@ -78,13 +77,13 @@ class Iban extends ValidateAbstract {
 		}
 		$tmp = substr($tmp, 4) . substr($tmp, 0, 4);
 		$tmp = str_replace(array(
-			'A' ,'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
+			'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
 			'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
-		), array(
+			), array(
 			'10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22',
 			'23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35'
-		), $tmp);
-		
+			), $tmp);
+
 		if (bcmod($tmp, 97) != 1) {
 			$this->_error(self::INVALID);
 			return false;
