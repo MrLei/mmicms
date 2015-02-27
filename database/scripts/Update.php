@@ -22,7 +22,7 @@ foreach (glob(BASE_PATH . '/database/' . \Core\Registry::$config->db->driver . '
 
 		//pobranie rekordu
 		try {
-			$dc = MmiCms\Model\Changelog\Dao::byFilenameQuery(basename($file))->findFirst();
+			$dc = \MmiCms\Model\Changelog\Dao::byFilenameQuery(basename($file))->findFirst();
 		} catch (Exception $e) {
 			$dc = null;
 		}
@@ -55,7 +55,7 @@ foreach (glob(BASE_PATH . '/database/' . \Core\Registry::$config->db->driver . '
 		}
 	
 	//tworzenie wpisu
-	MmiCms\Model\Changelog\Dao::resetTableStructures();
+	\MmiCms\Model\Changelog\Dao::resetTableStructures();
 	$dc->filename = $baseFileName;
 	$dc->md5 = $md5file;
 	$dc->save();
