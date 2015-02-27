@@ -17,11 +17,10 @@ class Auth extends \MmiCms\Controller\Admin {
 	}
 
 	public function deleteAction() {
-		if ($this->id > 0) {
-			$auth = new \Cms\Model\Auth\Record($this->id);
-			$auth->delete();
+		$auth = \Cms\Model\Auth\Query::factory()->findFirst($this->id);
+		if ($auth && $auth->delete()) {
+			$this->_helper->messenger('Poprawnie skasowano użytkownika', true);
 		}
-		$this->_helper->messenger('Poprawnie skasowano użytkownika', true);
 		return $this->_helper->redirector('index');
 	}
 

@@ -41,12 +41,6 @@ class Ro {
 	protected $_joined = array();
 
 	/**
-	 * Nazwa identyfikatora
-	 * @var string
-	 */
-	protected $_pk = 'id';
-
-	/**
 	 * Stan rekordu przed modyfikacją
 	 * @var array
 	 */
@@ -60,10 +54,21 @@ class Ro {
 
 	/**
 	 * Konstruktor
+	 * @param mixed $id identyfikator do tworzenia obiektu
 	 */
-	public final function __construct() {
+	public final function __construct($id = null) {
 		if ($this->_daoClass === null) {
 			$this->_daoClass = substr(get_called_class(), 0, -6) . 'Dao';
+		}
+		if ($id === null) {
+			return;
+		}
+		$dao = $this->_daoClass;
+		$query = $dao::getQueryName();
+		$record = $query::factory()->findPk($id);
+		if ($record) {
+			$this->setFromArray($record->toArray())
+				->clearModified();
 		}
 	}
 
@@ -72,10 +77,10 @@ class Ro {
 	 * @return mixed klucz główny
 	 */
 	public final function getPk() {
-		if (!property_exists($this, $this->_pk)) {
+		if (!property_exists($this, 'id')) {
 			return;
 		}
-		return $this->{$this->_pk};
+		return $this->id;
 	}
 
 	/**
@@ -221,7 +226,7 @@ class Ro {
 	 */
 	protected function _pkWhere($bindKey) {
 		$dao = $this->_daoClass;
-		return 'WHERE ' . $dao::getAdapter()->prepareField($this->_pk) . ' = :' . $bindKey;
+		return 'WHERE ' . $dao::getAdapter()->prepareField('id') . ' = :' . $bindKey;
 	}
 
 }
