@@ -192,12 +192,12 @@ class Query {
 	}
 
 	/**
-	 * Rekord
-	 * @param type $value
+	 * Pobiera pierwszy rekord po kluczu głównym ID
+	 * @param int $id
 	 * @return \Mmi\Dao\Record
 	 */
-	public final function findPk($value) {
-		return $this->where('id')->equals($value)
+	public final function findPk($id) {
+		return $this->where('id')->equals($id)
 			->findFirst();
 	}
 
