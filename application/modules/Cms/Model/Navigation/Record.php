@@ -63,7 +63,7 @@ class Record extends \Mmi\Dao\Record {
 			}
 		}
 		//wiązanie artykułu
-		if ($this->getOption('articleId') && null !== ($article = \Cms\Model\Article\Dao::findPk($this->getOption('articleId')))) {
+		if ($this->getOption('articleId') && null !== ($article = \Cms\Model\Article\Query::factory()->findPk($this->getOption('articleId')))) {
 			$this->module = 'cms';
 			$this->controller = 'article';
 			$this->action = 'index';

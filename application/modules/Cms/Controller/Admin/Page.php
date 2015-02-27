@@ -80,7 +80,7 @@ class Page extends \MmiCms\Controller\Admin {
 	}
 
 	public function deleteAction() {
-		if (null !== ($record = \Cms\Model\Page\Dao::findPk($this->id)) && $record->delete()) {
+		if (null !== ($record = \Cms\Model\Page\Query::factory()->findPk($this->id)) && $record->delete()) {
 			$this->_helper->messenger('Strona usunięta poprawnie');
 		}
 		$this->_helper->redirector('index', 'admin-page', 'cms', array(), true);

@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Widget\Picture;
+
 /**
  * @method \Cms\Model\Widget\Picture\Query limit() limit($limit = null)
  * @method \Cms\Model\Widget\Picture\Query offset() offset($offset = null)
@@ -17,10 +19,8 @@
  * @method \Cms\Model\Widget\Picture\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method \Cms\Model\Widget\Picture\Record[] find() find()
  * @method \Cms\Model\Widget\Picture\Record findFirst() findFirst()
+ * @method \Cms\Model\Widget\Picture\Record findPk() findPk($value)
  */
-
-namespace Cms\Model\Widget\Picture;
-
 class Query extends \Mmi\Dao\Query {
 
 	/**

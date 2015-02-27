@@ -4,7 +4,7 @@ namespace Cms\Model\Mail\Definition;
 
 class Dao extends \Mmi\Dao {
 
-	protected static $_tableName = 'mail_definition';
+	protected static $_tableName = 'cms_mail_definition';
 
 	/**
 	 * 

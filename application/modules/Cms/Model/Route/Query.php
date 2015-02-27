@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Route;
+
 /**
  * @method \Cms\Model\Route\Query limit() limit($limit = null)
  * @method \Cms\Model\Route\Query offset() offset($offset = null)
@@ -17,10 +19,8 @@
  * @method \Cms\Model\Route\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method \Cms\Model\Route\Record[] find() find()
  * @method \Cms\Model\Route\Record findFirst() findFirst()
+ * @method \Cms\Model\Route\Record findPk() findPk($value)
  */
-
-namespace Cms\Model\Route;
-
 class Query extends \Mmi\Dao\Query {
 
 	/**

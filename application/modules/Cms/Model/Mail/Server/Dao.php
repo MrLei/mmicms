@@ -4,7 +4,7 @@ namespace Cms\Model\Mail\Server;
 
 class Dao extends \Mmi\Dao {
 
-	protected static $_tableName = 'mail_server';
+	protected static $_tableName = 'cms_mail_server';
 
 	/**
 	 * Pobiera aktywne serwery do listy

@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Stat\Label;
+
 /**
  * @method \Cms\Model\Stat\Label\Query limit() limit($limit = null)
  * @method \Cms\Model\Stat\Label\Query offset() offset($offset = null)
@@ -17,10 +19,8 @@
  * @method \Cms\Model\Stat\Label\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method \Cms\Model\Stat\Label\Record[] find() find()
  * @method \Cms\Model\Stat\Label\Record findFirst() findFirst()
+ * @method \Cms\Model\Stat\Label\Record findPk() findPk($value)
  */
-
-namespace Cms\Model\Stat\Label;
-
 class Query extends \Mmi\Dao\Query {
 
 	/**

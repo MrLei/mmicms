@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Auth\Query;
+
 /**
  * @method \Cms\Model\Auth\Query equals() equals($value)
  * @method \Cms\Model\Auth\Query notEquals() notEquals($value)
@@ -10,9 +12,6 @@
  * @method \Cms\Model\Auth\Query like() like($value)
  * @method \Cms\Model\Auth\Query ilike() ilike($value)
  */
-
-namespace Cms\Model\Auth\Query;
-
 class Field extends \Mmi\Dao\Query\Field {
-	
+
 }

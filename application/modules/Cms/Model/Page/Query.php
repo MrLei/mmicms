@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Page;
+
 /**
  * @method \Cms\Model\Page\Query limit() limit($limit = null)
  * @method \Cms\Model\Page\Query offset() offset($offset = null)
@@ -17,10 +19,8 @@
  * @method \Cms\Model\Page\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method \Cms\Model\Page\Record[] find() find()
  * @method \Cms\Model\Page\Record findFirst() findFirst()
+ * @method \Cms\Model\Page\Record findPk() findPk($value)
  */
-
-namespace Cms\Model\Page;
-
 class Query extends \Mmi\Dao\Query {
 
 	/**
@@ -243,41 +243,6 @@ class Query extends \Mmi\Dao\Query {
 	/**
 	 * @return \Cms\Model\Page\Query\Field
 	 */
-	public function whereCmsAuthId() {
-		return $this->where('cmsAuthId');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Query\Field
-	 */
-	public function andFieldCmsAuthId() {
-		return $this->andField('cmsAuthId');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Query\Field
-	 */
-	public function orFieldCmsAuthId() {
-		return $this->orField('cmsAuthId');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Query\Field
-	 */
-	public function orderAscCmsAuthId() {
-		return $this->orderAsc('cmsAuthId');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Query\Field
-	 */
-	public function orderDescCmsAuthId() {
-		return $this->orderDesc('cmsAuthId');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Query\Field
-	 */
 	public function whereDateAdd() {
 		return $this->where('dateAdd');
 	}
@@ -343,6 +308,41 @@ class Query extends \Mmi\Dao\Query {
 	 */
 	public function orderDescDateModify() {
 		return $this->orderDesc('dateModify');
+	}
+
+	/**
+	 * @return \Cms\Model\Page\Query\Field
+	 */
+	public function whereCmsAuthId() {
+		return $this->where('cmsAuthId');
+	}
+
+	/**
+	 * @return \Cms\Model\Page\Query\Field
+	 */
+	public function andFieldCmsAuthId() {
+		return $this->andField('cmsAuthId');
+	}
+
+	/**
+	 * @return \Cms\Model\Page\Query\Field
+	 */
+	public function orFieldCmsAuthId() {
+		return $this->orField('cmsAuthId');
+	}
+
+	/**
+	 * @return \Cms\Model\Page\Query\Field
+	 */
+	public function orderAscCmsAuthId() {
+		return $this->orderAsc('cmsAuthId');
+	}
+
+	/**
+	 * @return \Cms\Model\Page\Query\Field
+	 */
+	public function orderDescCmsAuthId() {
+		return $this->orderDesc('cmsAuthId');
 	}
 
 }

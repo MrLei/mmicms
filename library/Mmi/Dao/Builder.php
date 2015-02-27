@@ -186,6 +186,7 @@ class Builder {
 			' * @method \\' . $joinClassName . ' joinLeft() joinLeft($tableName, $targetTableName = null)' . "\n" .
 			' * @method \\' . $recordClassName . '[] find() find()' . "\n" .
 			' * @method \\' . $recordClassName . ' findFirst() findFirst()' . "\n" .
+			' * @method \\' . $recordClassName . ' findPk() findPk($value)' . "\n" .
 			' */' . "\n" .
 			'class Query extends \Mmi\Dao\Query {' .
 			"\n\n" .
@@ -193,7 +194,7 @@ class Builder {
 		$methods = '';
 		$structure = $daoClassName::getTableStructure();
 		if (empty($structure)) {
-			throw new\Exception('\Mmi\Dao\Builder: no table ' . $tableName . ' found, or table invalid in ' . $daoClassName);
+			throw new \Exception('\Mmi\Dao\Builder: no table ' . $tableName . ' found, or table invalid in ' . $daoClassName);
 		}
 		$methods .= "\n"
 			. "\t" . '/**' . "\n"

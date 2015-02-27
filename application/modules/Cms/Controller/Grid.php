@@ -79,7 +79,7 @@ class Grid extends \Mmi\Controller\Action {
 		$class = $options['className'];
 		$grid = new $class();
 		$dao = $grid->getDaoName();
-		$record = $dao::findPk($identifier);
+		$record = $Query::factory()->findPk($identifier);
 		if ($record === null) {
 			return;
 		}
