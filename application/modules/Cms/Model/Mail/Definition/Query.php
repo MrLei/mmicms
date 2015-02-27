@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Mail\Definition;
+
 /**
  * @method \Cms\Model\Mail\Definition\Query limit() limit($limit = null)
  * @method \Cms\Model\Mail\Definition\Query offset() offset($offset = null)
@@ -17,10 +19,8 @@
  * @method \Cms\Model\Mail\Definition\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method \Cms\Model\Mail\Definition\Record[] find() find()
  * @method \Cms\Model\Mail\Definition\Record findFirst() findFirst()
+ * @method \Cms\Model\Mail\Definition\Record findPk() findPk($value)
  */
-
-namespace Cms\Model\Mail\Definition;
-
 class Query extends \Mmi\Dao\Query {
 
 	/**
@@ -103,36 +103,36 @@ class Query extends \Mmi\Dao\Query {
 	/**
 	 * @return \Cms\Model\Mail\Definition\Query\Field
 	 */
-	public function whereMailServerId() {
-		return $this->where('mailServerId');
+	public function whereCmsMailServerId() {
+		return $this->where('cmsMailServerId');
 	}
 
 	/**
 	 * @return \Cms\Model\Mail\Definition\Query\Field
 	 */
-	public function andFieldMailServerId() {
-		return $this->andField('mailServerId');
+	public function andFieldCmsMailServerId() {
+		return $this->andField('cmsMailServerId');
 	}
 
 	/**
 	 * @return \Cms\Model\Mail\Definition\Query\Field
 	 */
-	public function orFieldMailServerId() {
-		return $this->orField('mailServerId');
+	public function orFieldCmsMailServerId() {
+		return $this->orField('cmsMailServerId');
 	}
 
 	/**
 	 * @return \Cms\Model\Mail\Definition\Query\Field
 	 */
-	public function orderAscMailServerId() {
-		return $this->orderAsc('mailServerId');
+	public function orderAscCmsMailServerId() {
+		return $this->orderAsc('cmsMailServerId');
 	}
 
 	/**
 	 * @return \Cms\Model\Mail\Definition\Query\Field
 	 */
-	public function orderDescMailServerId() {
-		return $this->orderDesc('mailServerId');
+	public function orderDescCmsMailServerId() {
+		return $this->orderDesc('cmsMailServerId');
 	}
 
 	/**

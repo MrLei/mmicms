@@ -6,7 +6,7 @@ class Record extends \Mmi\Dao\Record {
 
 	public $id;
 	public $lang;
-	public $mailServerId;
+	public $cmsMailServerId;
 	public $name;
 	public $replyTo;
 	public $fromName;

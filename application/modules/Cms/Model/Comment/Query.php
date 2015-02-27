@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Comment;
+
 /**
  * @method \Cms\Model\Comment\Query limit() limit($limit = null)
  * @method \Cms\Model\Comment\Query offset() offset($offset = null)
@@ -17,10 +19,8 @@
  * @method \Cms\Model\Comment\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method \Cms\Model\Comment\Record[] find() find()
  * @method \Cms\Model\Comment\Record findFirst() findFirst()
+ * @method \Cms\Model\Comment\Record findPk() findPk($value)
  */
-
-namespace Cms\Model\Comment;
-
 class Query extends \Mmi\Dao\Query {
 
 	/**

@@ -18,7 +18,7 @@ class MailDefinition extends \MmiCms\Controller\Admin {
 	}
 
 	public function deleteAction() {
-		$definition = \Cms\Model\Mail\Definition\Dao::findPk($this->id);
+		$definition = \Cms\Model\Mail\Definition\Query::factory()->findPk($this->id);
 		try {
 			if ($definition && $definition->delete()) {
 				$this->_helper->messenger('Poprawnie skasowano definicję maila');

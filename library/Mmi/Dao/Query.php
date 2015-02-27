@@ -192,6 +192,16 @@ class Query {
 	}
 
 	/**
+	 * Rekord
+	 * @param type $value
+	 * @return \Mmi\Dao\Record
+	 */
+	public final function findPk($value) {
+		return $this->where('id')->equals($value)
+			->findFirst();
+	}
+
+	/**
 	 * Pobiera wszystkie rekordy i zwraca ich kolekcję
 	 * @param \Mmi\Dao\Query $q Obiekt zapytania
 	 * @return \Mmi\Dao\Record\Collection
@@ -204,13 +214,13 @@ class Query {
 		foreach ($result as $row) {
 			$record = new $recordName();
 			/* @var $record \Mmi\Dao\Record */
-			$record->setFromArray($row)->clearModified()->setNew(false);
+			$record->setFromArray($row)->clearModified();
 			$records[] = $record;
 		}
 		$collectionName = $dao::getCollectionName();
 		return new $collectionName($records);
 	}
-
+	
 	/**
 	 * Pobiera obiekt pierwszy ze zbioru
 	 * @param \Mmi\Dao\Query $q Obiekt zapytania
@@ -225,7 +235,7 @@ class Query {
 		$recordName = $dao::getRecordName();
 		/* @var $record \Mmi\Dao\Record\Ro */
 		$record = new $recordName;
-		$record->setFromArray($result[0])->clearModified()->setNew(false);
+		$record->setFromArray($result[0])->clearModified();
 		return $record;
 	}
 

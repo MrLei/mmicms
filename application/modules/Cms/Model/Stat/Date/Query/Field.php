@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Stat\Date\Query;
+
 /**
  * @method \Cms\Model\Stat\Date\Query equals() equals($value)
  * @method \Cms\Model\Stat\Date\Query notEquals() notEquals($value)
@@ -10,9 +12,6 @@
  * @method \Cms\Model\Stat\Date\Query like() like($value)
  * @method \Cms\Model\Stat\Date\Query ilike() ilike($value)
  */
-
-namespace Cms\Model\Stat\Date\Query;
-
 class Field extends \Mmi\Dao\Query\Field {
-	
+
 }
