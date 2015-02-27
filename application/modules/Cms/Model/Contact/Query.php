@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Contact;
+
 /**
  * @method \Cms\Model\Contact\Query limit() limit($limit = null)
  * @method \Cms\Model\Contact\Query offset() offset($offset = null)
@@ -17,10 +19,8 @@
  * @method \Cms\Model\Contact\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method \Cms\Model\Contact\Record[] find() find()
  * @method \Cms\Model\Contact\Record findFirst() findFirst()
+ * @method \Cms\Model\Contact\Record findPk() findPk($value)
  */
-
-namespace Cms\Model\Contact;
-
 class Query extends \Mmi\Dao\Query {
 
 	/**

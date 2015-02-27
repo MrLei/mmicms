@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\File;
+
 /**
  * @method \Cms\Model\File\Query limit() limit($limit = null)
  * @method \Cms\Model\File\Query offset() offset($offset = null)
@@ -17,10 +19,8 @@
  * @method \Cms\Model\File\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method \Cms\Model\File\Record[] find() find()
  * @method \Cms\Model\File\Record findFirst() findFirst()
+ * @method \Cms\Model\File\Record findPk() findPk($value)
  */
-
-namespace Cms\Model\File;
-
 class Query extends \Mmi\Dao\Query {
 
 	/**

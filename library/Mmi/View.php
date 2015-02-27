@@ -98,13 +98,6 @@ class View {
 	public $baseUrl;
 
 	/**
-	 * Zabezpieczony konstruktor
-	 */
-	public function __construct() {
-		
-	}
-
-	/**
 	 * Magicznie wywołuje metodę na widoku
 	 * przekierowuje wywołanie na odpowiedni helper
 	 * @param string $name nazwa metody
@@ -322,28 +315,33 @@ class View {
 	 * @return string kod PHP
 	 */
 	public function renderDirectly($input) {
+		//przechwytywanie zawartości bufora
+		\Mmi\Profiler::event('View direct build: ' . $hash);
 		$inputBuffer = ob_get_contents();
 		ob_clean();
 		$hash = md5($input);
-		\Mmi\Profiler::event('View direct build: ' . $hash);
+		//ustawianie języka z translate'a
 		if (!$this->_locale && $this->_translate !== null) {
 			$this->_locale = $this->_translate->getLocale();
 		}
 		$destFile = TMP_PATH . '/compile/' . $this->_locale . '_direct_' . $hash . '.php';
+		//jeśli włączona kompilacja za każdym razem, nadpisanie pliku
 		if ($this->_alwaysCompile) {
 			file_put_contents($destFile, $this->template($input, $destFile));
-			include $destFile;
-		} else {
-			try {
-				include $destFile;
-			} catch (\Exception $e) {
-				file_put_contents($destFile, $this->template($input, $destFile));
-				include $destFile;
-			}
 		}
+		//próba załadowania kompilanta
+		try {
+			include $destFile;
+		} catch (\Exception $e) {
+			//zapis nowego kompilanta jeśli brak
+			file_put_contents($destFile, $this->template($input, $destFile));
+			include $destFile;
+		}
+		//przejęcie bufora
 		$data = ob_get_contents();
 		ob_clean();
 		echo $inputBuffer;
+		//zwrot z bufora
 		\Mmi\Profiler::event('View direct fetched: ' . $hash);
 		return $data;
 	}
@@ -380,7 +378,7 @@ class View {
 	 * @return string zwraca efekt renderowania
 	 */
 	public function render($fileName) {
-		\Mmi\Profiler::event('View build: ' . $fileName);
+		\Mmi\Profiler::event('View build: ' . ($baseName = basename($fileName)));
 		if (!$this->_locale && $this->_translate !== null) {
 			$this->_locale = $this->_translate->getLocale();
 		}
@@ -396,7 +394,7 @@ class View {
 		}		
 		$data = ob_get_contents();
 		ob_clean();
-		\Mmi\Profiler::event('View fetched: ' . $fileName);
+		\Mmi\Profiler::event('View fetched: ' . $baseName);
 		return $data;
 	}
 

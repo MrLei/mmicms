@@ -59,50 +59,12 @@ class Ro {
 	protected $_daoClass;
 
 	/**
-	 * Flaga oznaczająca nowy obiekt
-	 * @var bool
-	 */
-	protected $_new = true;
-
-	/**
 	 * Konstruktor
-	 * @param mixed $pk klucz główny (wartość lub tablica wartości)
 	 */
-	public final function __construct($pk = null) {
+	public final function __construct() {
 		if ($this->_daoClass === null) {
 			$this->_daoClass = substr(get_called_class(), 0, -6) . 'Dao';
 		}
-		if ($pk === null) {
-			return;
-		}
-		//wczytanie danych do rekordu jeśli jest stworzony po ID
-		$dao = $this->_daoClass;
-		$bindKey = \Mmi\Db\Adapter\Pdo\PdoAbstract::generateRandomBindKey();
-		$result = $dao::getAdapter()->select('*', $dao::getTableName(), $this->_pkWhere($bindKey), '', 1, null, array($bindKey => $pk));
-		if (!is_array($result) || !isset($result[0])) {
-			return;
-		}
-		$this->setFromArray($result[0])
-			->clearModified()
-			->setNew(false)
-			->init();
-	}
-
-	/**
-	 * Metoda programisty wykonywana na końcu konstruktora
-	 */
-	public function init() {
-		
-	}
-
-	/**
-	 * Ustawia stan obiektu nowy / nie nowy
-	 * @param bool $new nowy
-	 * @return \Mmi\Dao\Record\Ro
-	 */
-	public final function setNew($new) {
-		$this->_new = ($new === true) ? true : false;
-		return $this;
 	}
 
 	/**
@@ -205,17 +167,12 @@ class Ro {
 
 	/**
 	 * Usuwa flagę modyfikacji na polu, lub wszyskich polach
-	 * @param string $field nazwa pola, jeśli null czyści wszystkie
 	 * @return \Mmi\Dao\Record\Ro
 	 */
-	public final function clearModified($field = null) {
-		if ($field === null) {
-			foreach ($this as $name => $value) {
-				$this->_state[$name] = $value;
-			}
-			return $this;
+	public final function clearModified() {
+		foreach ($this as $name => $value) {
+			$this->_state[$name] = $value;
 		}
-		$this->_state[$field] = $this->$field;
 		return $this;
 	}
 

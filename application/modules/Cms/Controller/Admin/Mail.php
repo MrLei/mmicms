@@ -9,7 +9,7 @@ class Mail extends \MmiCms\Controller\Admin {
 	}
 
 	public function deleteAction() {
-		$mail = \Cms\Model\Mail\Dao::findPk($this->id);
+		$mail = \Cms\Model\Mail\Query::factory()->findPk($this->id);
 		if ($mail && $mail->delete()) {
 			$this->_helper->messenger('Email został usunięty z kolejki', true);
 		}

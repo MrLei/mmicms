@@ -94,7 +94,7 @@ class Stat extends \MmiCms\Controller\Admin {
 	}
 
 	public function deleteAction() {
-		$label = \Cms\Model\Stat\Label\Dao::findPk($this->id);
+		$label = \Cms\Model\Stat\Label\Query::factory()->findPk($this->id);
 		if ($label && $label->delete()) {
 			$this->_helper->messenger('Nazwa statystyki została usunięta', true);
 		}

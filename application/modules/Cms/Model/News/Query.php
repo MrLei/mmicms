@@ -19,6 +19,7 @@ namespace Cms\Model\News;
  * @method \Cms\Model\News\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method \Cms\Model\News\Record[] find() find()
  * @method \Cms\Model\News\Record findFirst() findFirst()
+ * @method \Cms\Model\News\Record findPk() findPk($value)
  */
 class Query extends \Mmi\Dao\Query {
 

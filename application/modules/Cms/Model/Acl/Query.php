@@ -19,6 +19,7 @@ namespace Cms\Model\Acl;
  * @method \Cms\Model\Acl\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method \Cms\Model\Acl\Record[] find() find()
  * @method \Cms\Model\Acl\Record findFirst() findFirst()
+ * @method \Cms\Model\Acl\Record findPk() findPk($value)
  */
 class Query extends \Mmi\Dao\Query {
 
