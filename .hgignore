@@ -1,0 +1,8 @@
+^tmp$
+^data$
+^public/data$
+^application/modules/Core/Config/Local\.php$
+^application/modules/Default/Config/Local\.php$
+^nbproject$
+application/modules/Test
+application/skins/default/test
