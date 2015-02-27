@@ -6,7 +6,7 @@
 
 namespace Core\Config;
 
-class Local extends \Core\Config\Core {
+class Local extends \Core\Config\App {
 
 	public function __construct() {
 
