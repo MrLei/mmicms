@@ -17,8 +17,8 @@ class Article extends \MmiCms\Controller\Admin {
 	}
 
 	public function deleteAction() {
-		$record = new \Cms\Model\Article\Record($this->id);
-		if ($record->delete()) {
+		$record = \Cms\Model\Article\Query::factory()->findPk($this->id);
+		if ($record && $record->delete()) {
 			$this->_helper->messenger('Poprawnie usunięto artykuł', true);
 		}
 		$this->_helper->redirector('index', 'admin-article', 'cms', array(), true);
