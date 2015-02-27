@@ -48,7 +48,7 @@ abstract class Registry extends \Mmi\Registry {
 
 	/**
 	 * Obiekt adaptera bazodanowego
-	 * @var \Mmi\Db\Adapter\Pdo\Abstract
+	 * @var \Mmi\Db\Adapter\Pdo\PdoAbstract
 	 */
 	public static $db;
 

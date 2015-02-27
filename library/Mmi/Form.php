@@ -493,8 +493,8 @@ abstract class Form {
 
 	/**
 	 * Dodawanie elementu formularza z gotowego obiektu
-	 * @param \Mmi\Form\Element\Abstract $element obiekt elementu formularza
-	 * @return \Mmi\Form\Element\Abstract
+	 * @param \Mmi\Form\Element\ElementAbstract $element obiekt elementu formularza
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public function addElement(\Mmi\Form\Element\ElementAbstract $element) {
 		$name = $element->getName();
@@ -521,7 +521,7 @@ abstract class Form {
 	/**
 	 * Pobranie elementu formularza
 	 * @param string $name nazwa elementu
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public function getElement($name) {
 		//automatyczne dodawanie prefiksów do pól subformów
@@ -650,15 +650,6 @@ abstract class Form {
 	 */
 	public function setAction($value) {
 		$this->setAttrib('action', $value);
-	}
-
-	/**
-	 * Magiczny getter elementów
-	 * @param string $key nazwa pola
-	 * @return \Mmi\Form\Element\Abstract
-	 */
-	public function __get($key) {
-		return $this->getElement($key);
 	}
 
 	/**

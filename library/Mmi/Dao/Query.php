@@ -237,7 +237,7 @@ class Query {
 	 */
 	public final function findPairs($keyName, $valueName) {
 		$dao = $this->_daoClassName;
-		/* @var $db \Mmi\Db\Adapter\Pdo\Abstract */
+		/* @var $db \Mmi\Db\Adapter\Pdo\PdoAbstract */
 		$db = $dao::getAdapter();
 		$data = $dao::getAdapter()->select($db->prepareField($keyName) . ', ' . $db->prepareField($valueName), $this->_prepareFrom(), $this->_compile->where, $this->_compile->order, $this->_compile->limit, $this->_compile->offset, $this->_compile->bind);
 		$kv = array();
@@ -346,13 +346,13 @@ class Query {
 	 */
 	protected final function _prepareField($fieldName, $tableName = null) {
 		$dao = $this->_daoClassName;
-		/* @var $db \Mmi\Db\Adapter\Pdo\Abstract */
+		/* @var $db \Mmi\Db\Adapter\Pdo\PdoAbstract */
 		$db = $dao::getAdapter();
 		$tablePrefix = $db->prepareTable(($tableName === null) ? $dao::getTableName() : $tableName);
 		if ($dao::fieldInTable($fieldName, $tableName) || $fieldName == 'RAND()') {
 			return $tablePrefix . '.' . $db->prepareField($fieldName);
 		}
-		/* @var $db \Mmi\Db\Adapter\Pdo\Abstract */
+		/* @var $db \Mmi\Db\Adapter\Pdo\PdoAbstract */
 		$convertedFieldName = \Mmi\Dao::convertCamelcaseToUnderscore($fieldName);
 		if ($dao::fieldInTable($convertedFieldName, $tableName)) {
 			return $tablePrefix . '.' . $db->prepareField($convertedFieldName);
@@ -387,7 +387,7 @@ class Query {
 		}
 		$fields = '';
 		$dao = $this->_daoClassName;
-		/* @var $db \Mmi\Db\Adapter\Pdo\Abstract */
+		/* @var $db \Mmi\Db\Adapter\Pdo\PdoAbstract */
 		$db = $dao::getAdapter();
 		$mainStructure = $dao::getTableStructure();
 		$table = $db->prepareTable($dao::getTableName());
@@ -407,7 +407,7 @@ class Query {
 
 	protected final function _prepareFrom() {
 		$dao = $this->_daoClassName;
-		/* @var $db \Mmi\Db\Adapter\Pdo\Abstract */
+		/* @var $db \Mmi\Db\Adapter\Pdo\PdoAbstract */
 		$db = $dao::getAdapter();
 		$table = $db->prepareTable($dao::getTableName());
 		if (empty($this->_compile->joinSchema)) {

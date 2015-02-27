@@ -54,7 +54,7 @@ class HelperBroker {
 	public function __construct(\Mmi\Controller\Request $request) {
 		self::$_request = $request;
 		foreach (self::$_helpers as $helper) {
-			/* @var $helper \Mmi\Controller\Action\Helper\Abstract */
+			/* @var $helper \Mmi\Controller\Action\Helper\HelperAbstract */
 			$helper->setRequest($request)
 				->init();
 		}
@@ -70,8 +70,8 @@ class HelperBroker {
 
 	/**
 	 * Dodaje helper
-	 * @param \Mmi\Controller\Action\Helper\Abstract $helper
-	 * @return \Mmi\Controller\Action\Helper\Abstract
+	 * @param \Mmi\Controller\Action\Helper\HelperAbstract $helper
+	 * @return \Mmi\Controller\Action\Helper\HelperAbstract
 	 */
 	public static function addHelper(\Mmi\Controller\Action\Helper\HelperAbstract $helper) {
 		self::$_helpers[get_class($helper)] = $helper;
@@ -85,7 +85,7 @@ class HelperBroker {
 	/**
 	 * Pobiera helper, jeśli nie jest utworzony, tworzy go i dodaje do listy
 	 * @param string $name nazwa helpera
-	 * @return \Mmi\Controller\Action\Helper\Abstract
+	 * @return \Mmi\Controller\Action\Helper\HelperAbstract
 	 */
 	public static function getHelper($name) {
 		$name = ucfirst($name);
@@ -103,7 +103,7 @@ class HelperBroker {
 	/**
 	 * Pobiera helper modułowy
 	 * @param string $name
-	 * @return \Mmi\Controller\Action\Helper\Abstract
+	 * @return \Mmi\Controller\Action\Helper\HelperAbstract
 	 */
 	protected static function _getModuleHelper($name) {
 		$moduleName = ucfirst(self::$_request->getModuleName());
@@ -124,7 +124,7 @@ class HelperBroker {
 	/**
 	 * Pobiera helper systemowy
 	 * @param string $name
-	 * @return \Mmi\Controller\Action\Helper\Abstract
+	 * @return \Mmi\Controller\Action\Helper\HelperAbstract
 	 */
 	protected static function _getSystemHelper($name) {
 		$helperName = '\\Mmi\\Controller\\Action\\Helper\\' . $name;

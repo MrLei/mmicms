@@ -45,7 +45,7 @@ abstract class FilterAbstract {
 	/**
 	 * Ustawia opcje - tabela klucz => wartość
 	 * @param array $options opcje
-	 * @return \Mmi\Filter\Abstract
+	 * @return \Mmi\Filter\FilterAbstract
 	 */
 	public function setOptions(array $options = array()) {
 		$this->_options = $options;
@@ -56,7 +56,7 @@ abstract class FilterAbstract {
 	 * Ustawia pojedynczą opcję
 	 * @param mixed $key klucz
 	 * @param mixed $value wartość
-	 * @return \Mmi\Filter\Abstract
+	 * @return \Mmi\Filter\FilterAbstract
 	 */
 	public function setOption($key, $value) {
 		$this->_options[$key] = $value;

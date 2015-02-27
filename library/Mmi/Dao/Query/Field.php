@@ -148,7 +148,7 @@ class Field {
 			$this->_query->getQueryCompile()->where .= ' ' . $this->_logic . ' ';
 		}
 		$dao = $this->_query->getDaoClassName();
-		/* @var $db \Mmi\Db\Adapter\Pdo\Abstract */
+		/* @var $db \Mmi\Db\Adapter\Pdo\PdoAbstract */
 		$db = $dao::getAdapter();
 		//sprawdzenie wartości null
 		if (null === $value) {

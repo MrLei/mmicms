@@ -227,7 +227,7 @@ class View {
 	/**
 	 * Pobiera helper na podstawie nazwy z uwzględnieniem ścieżek do helperów
 	 * @param string $name nazwa
-	 * @return \Mmi\View\Helper\Abstract
+	 * @return \Mmi\View\Helper\HelperAbstract
 	 */
 	public function getHelper($name) {
 		$name = ucfirst($name);
@@ -253,7 +253,7 @@ class View {
 	/**
 	 * Pobiera filtr na podstawie nazwy z uwzględnieniem ścieżek do filtrów
 	 * @param string $name nazwa
-	 * @return \Mmi\View\Helper\Abstract
+	 * @return \Mmi\View\Helper\HelperAbstract
 	 */
 	public function getFilter($name) {
 		$name = ucfirst($name);
