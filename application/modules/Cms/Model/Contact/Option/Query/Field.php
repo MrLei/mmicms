@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Contact\Option\Query;
+
 /**
  * @method \Cms\Model\Contact\Option\Query equals() equals($value)
  * @method \Cms\Model\Contact\Option\Query notEquals() notEquals($value)
@@ -10,9 +12,6 @@
  * @method \Cms\Model\Contact\Option\Query like() like($value)
  * @method \Cms\Model\Contact\Option\Query ilike() ilike($value)
  */
-
-namespace Cms\Model\Contact\Option\Query;
-
 class Field extends \Mmi\Dao\Query\Field {
-	
+
 }

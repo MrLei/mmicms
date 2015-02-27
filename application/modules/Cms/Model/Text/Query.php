@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Text;
+
 /**
  * @method \Cms\Model\Text\Query limit() limit($limit = null)
  * @method \Cms\Model\Text\Query offset() offset($offset = null)
@@ -17,10 +19,8 @@
  * @method \Cms\Model\Text\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method \Cms\Model\Text\Record[] find() find()
  * @method \Cms\Model\Text\Record findFirst() findFirst()
+ * @method \Cms\Model\Text\Record findPk() findPk($value)
  */
-
-namespace Cms\Model\Text;
-
 class Query extends \Mmi\Dao\Query {
 
 	/**

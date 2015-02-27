@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Stat\Date;
+
 /**
  * @method \Cms\Model\Stat\Date\Query limit() limit($limit = null)
  * @method \Cms\Model\Stat\Date\Query offset() offset($offset = null)
@@ -17,10 +19,8 @@
  * @method \Cms\Model\Stat\Date\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method \Cms\Model\Stat\Date\Record[] find() find()
  * @method \Cms\Model\Stat\Date\Record findFirst() findFirst()
+ * @method \Cms\Model\Stat\Date\Record findPk() findPk($value)
  */
-
-namespace Cms\Model\Stat\Date;
-
 class Query extends \Mmi\Dao\Query {
 
 	/**

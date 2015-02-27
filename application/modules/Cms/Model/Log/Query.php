@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Log;
+
 /**
  * @method \Cms\Model\Log\Query limit() limit($limit = null)
  * @method \Cms\Model\Log\Query offset() offset($offset = null)
@@ -17,10 +19,8 @@
  * @method \Cms\Model\Log\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method \Cms\Model\Log\Record[] find() find()
  * @method \Cms\Model\Log\Record findFirst() findFirst()
+ * @method \Cms\Model\Log\Record findPk() findPk($value)
  */
-
-namespace Cms\Model\Log;
-
 class Query extends \Mmi\Dao\Query {
 
 	/**

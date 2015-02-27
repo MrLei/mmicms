@@ -69,7 +69,7 @@ class Dao {
 	 * Zabezpieczony konstruktor
 	 */
 	private final function __construct() {
-		throw new\Exception('DAO should be called statically');
+		throw new \Exception('DAO should be called statically');
 	}
 
 	/**
@@ -95,38 +95,15 @@ class Dao {
 	}
 
 	/**
-	 * Pobiera obiekt po kluczu głównym
-	 * @param mixed $id identyfikator
-	 * @return \Mmi\Dao\Record\Ro
-	 */
-	public static final function findPk($id) {
-		$recordName = self::getRecordName();
-		$record = new $recordName($id);
-		if ($record->getPk() !== null) {
-			return $record;
-		}
-	}
-
-	/**
-	 * Pobiera obiekt po kluczu głównym, lub tworzy nowy jeśli brak
-	 * @param mixed $id identyfikator
-	 * @return \Mmi\Dao\Record\Ro
-	 */
-	public static final function findOrCreatePk($id) {
-		$recordName = self::getRecordName();
-		return new $recordName($id);
-	}
-
-	/**
 	 * Pobiera adapter bazodanowy
 	 * @return \Mmi\Db\Adapter\Pdo\PdoAbstract
 	 */
 	public static final function getAdapter() {
 		if (static::$_tableName === null) {
-			throw new\Exception('\Mmi\Dao: Table name not specified');
+			throw new \Exception('\Mmi\Dao: Table name not specified');
 		}
 		if (!(static::$_adapter instanceof \Mmi\Db\Adapter\Pdo\PdoAbstract)) {
-			throw new\Exception('\Mmi\Dao: Adapter not specified or invalid');
+			throw new \Exception('\Mmi\Dao: Adapter not specified or invalid');
 		}
 		return static::$_adapter;
 	}
@@ -179,8 +156,7 @@ class Dao {
 		if (static::$_cache !== null) {
 			static::$_cache->save($structure, $cacheKey, 28800);
 		}
-		self::$_tableStructure[$tableName] = $structure;
-		return $structure;
+		return (self::$_tableStructure[$tableName] = $structure);
 	}
 
 	/**

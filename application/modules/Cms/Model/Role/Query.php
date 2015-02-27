@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Role;
+
 /**
  * @method \Cms\Model\Role\Query limit() limit($limit = null)
  * @method \Cms\Model\Role\Query offset() offset($offset = null)
@@ -17,10 +19,8 @@
  * @method \Cms\Model\Role\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method \Cms\Model\Role\Record[] find() find()
  * @method \Cms\Model\Role\Record findFirst() findFirst()
+ * @method \Cms\Model\Role\Record findPk() findPk($value)
  */
-
-namespace Cms\Model\Role;
-
 class Query extends \Mmi\Dao\Query {
 
 	/**
