@@ -29,6 +29,15 @@ namespace Mmi\Dao;
 class Builder {
 
 	/**
+	 * Przebudowuje wszystkie Dao, Record i Query
+	 */
+	public static function rebuildAll() {
+		foreach (\Core\Registry::$db->tableList(\Core\Registry::$config->db->schema) as $tableName) {
+			self::buildFromTableName($tableName);
+		}
+	}
+	
+	/**
 	 * Renderuje DAO, Record i Query dla podanej nazwy tabeli
 	 * @param string $tableName
 	 * @throws Exception
@@ -152,24 +161,24 @@ class Builder {
 	protected static function _updateQuery($tableName) {
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
-		$className = 'Query';//$classPrefix . '\Query';
+		$className = $classPrefix . '\Query';
 		$fieldClassName = $classPrefix . '\Query\Field';
 		$joinClassName = $classPrefix . '\Query\Join';
 		$recordClassName = $classPrefix . '\Record';
-		$daoClassName = $classPrefix . '\Dao';
+		$daoClassName = '\\' . $classPrefix . '\Dao';
 		$path = $pathPrefix . '/Query.php';
 		$queryCode = '<?php' . "\n\n" .
 			'namespace ' . $classPrefix . ";\n\n" . 
 			'/**' . "\n" .
-			' * @method ' . $className . ' limit() limit($limit = null)' . "\n" .
-			' * @method ' . $className . ' offset() offset($offset = null)' . "\n" .
-			' * @method ' . $className . ' orderAsc() orderAsc($fieldName, $tableName = null)' . "\n" .
-			' * @method ' . $className . ' orderDesc() orderDesc($fieldName, $tableName = null)' . "\n" .
-			' * @method ' . $className . ' andQuery() andQuery(\Mmi\Dao\Query $query)' . "\n" .
-			' * @method ' . $className . ' whereQuery() whereQuery(\Mmi\Dao\Query $query)' . "\n" .
-			' * @method ' . $className . ' orQuery() orQuery(\Mmi\Dao\Query $query)' . "\n" .
-			' * @method ' . $className . ' resetOrder() resetOrder()' . "\n" .
-			' * @method ' . $className . ' resetWhere() resetWhere()' . "\n" .
+			' * @method \\' . $className . ' limit() limit($limit = null)' . "\n" .
+			' * @method \\' . $className . ' offset() offset($offset = null)' . "\n" .
+			' * @method \\' . $className . ' orderAsc() orderAsc($fieldName, $tableName = null)' . "\n" .
+			' * @method \\' . $className . ' orderDesc() orderDesc($fieldName, $tableName = null)' . "\n" .
+			' * @method \\' . $className . ' andQuery() andQuery(\Mmi\Dao\Query $query)' . "\n" .
+			' * @method \\' . $className . ' whereQuery() whereQuery(\Mmi\Dao\Query $query)' . "\n" .
+			' * @method \\' . $className . ' orQuery() orQuery(\Mmi\Dao\Query $query)' . "\n" .
+			' * @method \\' . $className . ' resetOrder() resetOrder()' . "\n" .
+			' * @method \\' . $className . ' resetWhere() resetWhere()' . "\n" .
 			' * @method \\' . $fieldClassName . ' andField() andField($fieldName, $tableName = null)' . "\n" .
 			' * @method \\' . $fieldClassName . ' where() where($fieldName, $tableName = null)' . "\n" .
 			' * @method \\' . $fieldClassName . ' orField() orField($fieldName, $tableName = null)' . "\n" .
@@ -188,7 +197,7 @@ class Builder {
 		}
 		$methods .= "\n"
 			. "\t" . '/**' . "\n"
-			. "\t" . ' * @return ' . $className . "\n"
+			. "\t" . ' * @return \\' . $className . "\n"
 			. "\t" . ' */' . "\n"
 			. "\t" . 'public static function factory($daoClassName = null)' . " {\n"
 			. "\t\t" . 'return new self($daoClassName);' . "\n"
@@ -206,9 +215,9 @@ class Builder {
 	}
 
 	protected static function _queryMethod($prefix, $fieldName, $tableName) {
-		$fieldClass = self::_getClassNamePrefixByTableName($tableName) . '_Query\Field';
+		$fieldClass = self::_getClassNamePrefixByTableName($tableName) . '\Query\Field';
 		return "\n\t" . '/**' . "\n" .
-			"\t" . ' * @return ' . $fieldClass . "\n" .
+			"\t" . ' * @return \\' . $fieldClass . "\n" .
 			"\t" . ' */' . "\n" .
 			"\t" . 'public function ' . $prefix . ucfirst($fieldName) . "() {\n"
 			. "\t\t" . 'return $this->' . $prefix . '(\'' . $fieldName . '\');' . "\n"
