@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Tag;
+
 /**
  * @method \Cms\Model\Tag\Query limit() limit($limit = null)
  * @method \Cms\Model\Tag\Query offset() offset($offset = null)
@@ -17,10 +19,8 @@
  * @method \Cms\Model\Tag\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method \Cms\Model\Tag\Record[] find() find()
  * @method \Cms\Model\Tag\Record findFirst() findFirst()
+ * @method \Cms\Model\Tag\Record findPk() findPk($value)
  */
-
-namespace Cms\Model\Tag;
-
 class Query extends \Mmi\Dao\Query {
 
 	/**

@@ -19,6 +19,7 @@ namespace Cms\Model\Cron;
  * @method \Cms\Model\Cron\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method \Cms\Model\Cron\Record[] find() find()
  * @method \Cms\Model\Cron\Record findFirst() findFirst()
+ * @method \Cms\Model\Cron\Record findPk() findPk($value)
  */
 class Query extends \Mmi\Dao\Query {
 

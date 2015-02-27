@@ -18,7 +18,7 @@ class Article extends \Mmi\Controller\Action {
 			if (isset($uri)) {
 				$article = \Cms\Model\Article\Dao::byUriQuery($uri)->findFirst();
 			} else {
-				$article = \Cms\Model\Article\Dao::findPk($id);
+				$article = \Cms\Model\Article\Query::factory()->findPk($id);
 			}
 			if ($article === null) {
 				$this->_helper->redirector('index', 'index', 'core', array(), true);

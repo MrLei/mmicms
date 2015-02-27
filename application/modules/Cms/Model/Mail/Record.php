@@ -5,7 +5,7 @@ namespace Cms\Model\Mail;
 class Record extends \Mmi\Dao\Record {
 
 	public $id;
-	public $mailDefinitionId;
+	public $cmsMailDefinitionId;
 	public $fromName;
 	public $to;
 	public $replyTo;

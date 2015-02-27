@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Navigation;
+
 /**
  * @method \Cms\Model\Navigation\Query limit() limit($limit = null)
  * @method \Cms\Model\Navigation\Query offset() offset($offset = null)
@@ -17,10 +19,8 @@
  * @method \Cms\Model\Navigation\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method \Cms\Model\Navigation\Record[] find() find()
  * @method \Cms\Model\Navigation\Record findFirst() findFirst()
+ * @method \Cms\Model\Navigation\Record findPk() findPk($value)
  */
-
-namespace Cms\Model\Navigation;
-
 class Query extends \Mmi\Dao\Query {
 
 	/**

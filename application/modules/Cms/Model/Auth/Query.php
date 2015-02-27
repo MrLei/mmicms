@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Auth;
+
 /**
  * @method \Cms\Model\Auth\Query limit() limit($limit = null)
  * @method \Cms\Model\Auth\Query offset() offset($offset = null)
@@ -17,10 +19,8 @@
  * @method \Cms\Model\Auth\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method \Cms\Model\Auth\Record[] find() find()
  * @method \Cms\Model\Auth\Record findFirst() findFirst()
+ * @method \Cms\Model\Auth\Record findPk() findPk($value)
  */
-
-namespace Cms\Model\Auth;
-
 class Query extends \Mmi\Dao\Query {
 
 	/**

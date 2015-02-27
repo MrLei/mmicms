@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Mail\Server\Query;
+
 /**
  * @method \Cms\Model\Mail\Server\Query equals() equals($value)
  * @method \Cms\Model\Mail\Server\Query notEquals() notEquals($value)
@@ -10,9 +12,6 @@
  * @method \Cms\Model\Mail\Server\Query like() like($value)
  * @method \Cms\Model\Mail\Server\Query ilike() ilike($value)
  */
-
-namespace Cms\Model\Mail\Server\Query;
-
 class Field extends \Mmi\Dao\Query\Field {
-	
+
 }

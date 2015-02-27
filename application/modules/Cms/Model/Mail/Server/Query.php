@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Mail\Server;
+
 /**
  * @method \Cms\Model\Mail\Server\Query limit() limit($limit = null)
  * @method \Cms\Model\Mail\Server\Query offset() offset($offset = null)
@@ -17,10 +19,8 @@
  * @method \Cms\Model\Mail\Server\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
  * @method \Cms\Model\Mail\Server\Record[] find() find()
  * @method \Cms\Model\Mail\Server\Record findFirst() findFirst()
+ * @method \Cms\Model\Mail\Server\Record findPk() findPk($value)
  */
-
-namespace Cms\Model\Mail\Server;
-
 class Query extends \Mmi\Dao\Query {
 
 	/**

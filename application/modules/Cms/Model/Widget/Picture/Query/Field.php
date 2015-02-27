@@ -1,5 +1,7 @@
 <?php
 
+namespace Cms\Model\Widget\Picture\Query;
+
 /**
  * @method \Cms\Model\Widget\Picture\Query equals() equals($value)
  * @method \Cms\Model\Widget\Picture\Query notEquals() notEquals($value)
@@ -10,9 +12,6 @@
  * @method \Cms\Model\Widget\Picture\Query like() like($value)
  * @method \Cms\Model\Widget\Picture\Query ilike() ilike($value)
  */
-
-namespace Cms\Model\Widget\Picture\Query;
-
 class Field extends \Mmi\Dao\Query\Field {
-	
+
 }

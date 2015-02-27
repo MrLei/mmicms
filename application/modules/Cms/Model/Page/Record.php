@@ -15,7 +15,7 @@ class Record extends \Mmi\Dao\Record {
 	public $cmsAuthId;
 
 	public function saveForm() {
-		$navigationRecord = $this->cmsNavigationId ? \Cms\Model\Navigation\Dao::findPk($this->cmsNavigationId) : null;
+		$navigationRecord = $this->cmsNavigationId ? \Cms\Model\Navigation\Query::factory()->findPk($this->cmsNavigationId) : null;
 		/* @var $navigationRecord \Cms\Model\Navigation\Record */
 		$navigationRecord = ($navigationRecord === null) ? new \Cms\Model\Navigation\Record() : $navigationRecord;
 
@@ -34,7 +34,7 @@ class Record extends \Mmi\Dao\Record {
 		$navigationRecord->visible = 0;
 		$navigationRecord->save();
 
-		$routeRecord = $this->cmsRouteId ? \Cms\Model\Route\Dao::findPk($this->cmsRouteId) : null;
+		$routeRecord = $this->cmsRouteId ? \Cms\Model\Route\Query::factory()->findPk($this->cmsRouteId) : null;
 		/* @var $routeRecord \Cms\Model\Route\Record */
 		$routeRecord = ($routeRecord === null) ? new \Cms\Model\Route\Record() : $routeRecord;
 		$routeRecord->active = $this->active;
@@ -60,11 +60,11 @@ class Record extends \Mmi\Dao\Record {
 		if (!parent::delete()) {
 			return false;
 		}
-		$navigationRecord = \Cms\Model\Navigation\Dao::findPk($this->cmsNavigationId);
+		$navigationRecord = \Cms\Model\Navigation\Query::factory()->findPk($this->cmsNavigationId);
 		if ($navigationRecord !== null) {
 			$navigationRecord->delete();
 		}
-		$routeRecord = \Cms\Model\Route\Dao::findPk($this->cmsRouteId);
+		$routeRecord = \Cms\Model\Route\Query::factory()->findPk($this->cmsRouteId);
 		if ($routeRecord !== null) {
 			$routeRecord->delete();
 		}

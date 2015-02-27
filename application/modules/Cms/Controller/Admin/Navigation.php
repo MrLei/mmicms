@@ -29,7 +29,7 @@ class Navigation extends \MmiCms\Controller\Admin {
 			return $this->_helper->redirector('index', 'admin-navigation', 'cms', array('id' => $form->getRecord()->parentId), true);
 		}
 		/* if ($this->id > 0) {
-		  $record = \Cms\Model\Navigation\Dao::findPk($this->id);
+		  $record = \Cms\Model\Navigation\Query::factory()->findPk($this->id);
 		  if ($this->remove && $record) {
 		  $parentId = $record->parentId;
 		  $record->delete();
@@ -44,7 +44,7 @@ class Navigation extends \MmiCms\Controller\Admin {
 	 */
 	public function deleteAction() {
 		/* @var $record \Cms\Model\Navigation\Record */
-		$record = \Cms\Model\Navigation\Dao::findPk($this->id);
+		$record = \Cms\Model\Navigation\Query::factory()->findPk($this->id);
 		if ($record !== null) {
 			$record->delete();
 		}
