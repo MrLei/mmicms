@@ -438,7 +438,7 @@ CREATE INDEX cms_news_uri_idx
 
 ALTER SEQUENCE cms_news_id_seq OWNED BY cms_news.id;
 
-CREATE TABLE stat (
+CREATE TABLE cms_stat (
     id integer NOT NULL,
     object character varying(50) NOT NULL,
     "objectId" integer,
@@ -446,7 +446,7 @@ CREATE TABLE stat (
 );
 
 
-CREATE TABLE stat_date (
+CREATE TABLE cms_stat_date (
     id integer NOT NULL,
     hour smallint,
     day smallint,
@@ -458,7 +458,7 @@ CREATE TABLE stat_date (
 );
 
 
-CREATE SEQUENCE stat_date_id_seq
+CREATE SEQUENCE cms_stat_date_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -466,13 +466,13 @@ CREATE SEQUENCE stat_date_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE stat_date_id_seq OWNED BY stat_date.id;
+ALTER SEQUENCE cms_stat_date_id_seq OWNED BY cms_stat_date.id;
 
 
-SELECT pg_catalog.setval('stat_date_id_seq', 1, false);
+SELECT pg_catalog.setval('cms_stat_date_id_seq', 1, false);
 
 
-CREATE SEQUENCE stat_id_seq
+CREATE SEQUENCE cms_stat_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -480,13 +480,13 @@ CREATE SEQUENCE stat_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE stat_id_seq OWNED BY stat.id;
+ALTER SEQUENCE cms_stat_id_seq OWNED BY cms_stat.id;
 
 
-SELECT pg_catalog.setval('stat_id_seq', 2, true);
+SELECT pg_catalog.setval('cms_stat_id_seq', 2, true);
 
 
-CREATE TABLE stat_label (
+CREATE TABLE cms_stat_label (
     id integer NOT NULL,
     lang character varying(2),
     object character varying(32) NOT NULL,
@@ -495,7 +495,7 @@ CREATE TABLE stat_label (
 );
 
 
-CREATE SEQUENCE stat_label_id_seq
+CREATE SEQUENCE cms_stat_label_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -503,10 +503,10 @@ CREATE SEQUENCE stat_label_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE stat_label_id_seq OWNED BY stat_label.id;
+ALTER SEQUENCE cms_stat_label_id_seq OWNED BY cms_stat_label.id;
 
 
-SELECT pg_catalog.setval('stat_label_id_seq', 1, false);
+SELECT pg_catalog.setval('cms_stat_label_id_seq', 1, false);
 
 
 ALTER TABLE ONLY cms_acl ALTER COLUMN id SET DEFAULT nextval('cms_acl_id_seq'::regclass);
@@ -545,11 +545,11 @@ ALTER TABLE ONLY cms_mail_server ALTER COLUMN id SET DEFAULT nextval('cms_mail_s
 
 ALTER TABLE ONLY cms_news ALTER COLUMN id SET DEFAULT nextval('cms_news_id_seq'::regclass);
 
-ALTER TABLE ONLY stat ALTER COLUMN id SET DEFAULT nextval('stat_id_seq'::regclass);
+ALTER TABLE ONLY cms_stat ALTER COLUMN id SET DEFAULT nextval('cms_stat_id_seq'::regclass);
 
-ALTER TABLE ONLY stat_date ALTER COLUMN id SET DEFAULT nextval('stat_date_id_seq'::regclass);
+ALTER TABLE ONLY cms_stat_date ALTER COLUMN id SET DEFAULT nextval('cms_stat_date_id_seq'::regclass);
 
-ALTER TABLE ONLY stat_label ALTER COLUMN id SET DEFAULT nextval('stat_label_id_seq'::regclass);
+ALTER TABLE ONLY cms_stat_label ALTER COLUMN id SET DEFAULT nextval('cms_stat_label_id_seq'::regclass);
 
 INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (1, 3, NULL, NULL, NULL, 'allow');
 INSERT INTO cms_acl (id, cms_role_id, module, controller, action, access) VALUES (2, 1, 'core', NULL, NULL, 'allow');
@@ -646,16 +646,16 @@ ALTER TABLE ONLY cms_news
 
 
 
-ALTER TABLE ONLY stat_date
-    ADD CONSTRAINT stat_date_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY cms_stat_date
+    ADD CONSTRAINT cms_stat_date_pkey PRIMARY KEY (id);
 
 
-ALTER TABLE ONLY stat_label
-    ADD CONSTRAINT stat_label_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY cms_stat_label
+    ADD CONSTRAINT cms_stat_label_pkey PRIMARY KEY (id);
 
 
-ALTER TABLE ONLY stat
-    ADD CONSTRAINT stat_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY cms_stat
+    ADD CONSTRAINT cms_stat_pkey PRIMARY KEY (id);
 
 
 CREATE INDEX cms_acl_access_idx ON cms_acl USING btree (access);
@@ -782,11 +782,11 @@ CREATE INDEX cms_mail_definition_lang_name_idx ON cms_mail_definition USING btre
 
 CREATE INDEX cms_mail_type_idx ON cms_mail USING btree (type);
 
-CREATE INDEX stat_date_hour_day_month_year_idx ON stat_date USING btree (hour, day, month, year);
+CREATE INDEX cms_stat_date_hour_day_month_year_idx ON cms_stat_date USING btree (hour, day, month, year);
 
-CREATE INDEX "stat_date_object_objectId_idx" ON stat_date USING btree (object, "objectId");
+CREATE INDEX "cms_stat_date_object_objectId_idx" ON cms_stat_date USING btree (object, "objectId");
 
-CREATE UNIQUE INDEX stat_label_lang_object_idx ON stat_label USING btree (lang, object);
+CREATE UNIQUE INDEX cms_stat_label_lang_object_idx ON cms_stat_label USING btree (lang, object);
 
 ALTER TABLE ONLY cms_acl
     ADD CONSTRAINT cms_acl_cms_role_id_fkey FOREIGN KEY (cms_role_id) REFERENCES cms_role(id);
