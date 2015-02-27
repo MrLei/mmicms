@@ -156,7 +156,7 @@ abstract class ElementAbstract {
 	/**
 	 * Ustawia nazwę pola formularza
 	 * @param mixed $name wartość
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public final function setName($name) {
 		$this->_options['name'] = $name;
@@ -166,7 +166,7 @@ abstract class ElementAbstract {
 	/**
 	 * Ustawia wartość pola formularza
 	 * @param mixed $value wartość
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public final function setValue($value) {
 		$this->_options['value'] = $value;
@@ -176,7 +176,7 @@ abstract class ElementAbstract {
 	/**
 	 * Ustawia form macierzysty
 	 * @param \Mmi\Form $form
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public final function setForm(\Mmi\Form $form) {
 		$this->_form = $form;
@@ -194,7 +194,7 @@ abstract class ElementAbstract {
 	/**
 	 * Ustaw kolejność realizacji
 	 * @param array $renderingOrder
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public final function setRenderingOrder(array $renderingOrder = array()) {
 		foreach ($renderingOrder as $method) {
@@ -209,7 +209,7 @@ abstract class ElementAbstract {
 	/**
 	 * Wyłącza ajax dla formularza
 	 * @param bool $disable default: true
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public final function setAjaxDisable($disable = true) {
 		$this->_options['noAjax'] = $disable;
@@ -219,7 +219,7 @@ abstract class ElementAbstract {
 	/**
 	 * Ustawia opis
 	 * @param string $description
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public final function setDescription($description) {
 		$this->_options['description'] = $description;
@@ -229,7 +229,7 @@ abstract class ElementAbstract {
 	/**
 	 * Ustawia placeholder (HTML5)
 	 * @param string $placeholder
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public final function setPlaceholder($placeholder) {
 		$this->_options['placeholder'] = $placeholder;
@@ -239,7 +239,7 @@ abstract class ElementAbstract {
 	/**
 	 * Dodaje filtr
 	 * @param string $name nazwa
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public final function addFilter($name, array $options = array()) {
 		if (!isset($this->_options['filters']) || !is_array($this->_options['filters'])) {
@@ -252,7 +252,7 @@ abstract class ElementAbstract {
 	/**
 	 * Ustawia ignorowanie pola
 	 * @param bool $ignore
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public final function setIgnore($ignore = true) {
 		$this->_options['ignore'] = ($ignore ? true : false);
@@ -262,7 +262,7 @@ abstract class ElementAbstract {
 	/**
 	 * Ustawia wyłączenie pola
 	 * @param bool $disabled
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public final function setDisabled($disabled = true) {
 		if ($disabled) {
@@ -274,7 +274,7 @@ abstract class ElementAbstract {
 	/**
 	 * Ustawia pole do odczytu
 	 * @param readOnly $disable
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public final function setReadOnly($readOnly = true) {
 		if ($readOnly) {
@@ -286,7 +286,7 @@ abstract class ElementAbstract {
 	/**
 	 * Ustawia label pola
 	 * @param string $label
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public final function setLabel($label) {
 		$this->_options['label'] = $label;
@@ -296,7 +296,7 @@ abstract class ElementAbstract {
 	/**
 	 * Ustawia postfix labela
 	 * @param string $labelPostfix
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public final function setLabelPostfix($labelPostfix) {
 		$this->_options['labelPostfix'] = $labelPostfix;
@@ -306,7 +306,7 @@ abstract class ElementAbstract {
 	/**
 	 * Ustawia wymagalność pola
 	 * @param bool $markRequired
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public final function setMarkRequired($markRequired = true) {
 		$this->_options['markRequired'] = ($markRequired ? true : false);
@@ -316,7 +316,7 @@ abstract class ElementAbstract {
 	/**
 	 * Ustawia czy pole jest wymagane
 	 * @param bool $value
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public final function setRequired($required = true) {
 		$this->_options['required'] = $required;
@@ -326,7 +326,7 @@ abstract class ElementAbstract {
 	/**
 	 * Ustawia symbol gwiazdki pól wymaganych
 	 * @param string $symbol
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public final function setRequiredAsterisk($symbol) {
 		$this->_options['requiredAsterisk'] = $symbol;
@@ -336,7 +336,7 @@ abstract class ElementAbstract {
 	/**
 	 * Ustawia wszystkie opcje wyboru na podstawie tabeli
 	 * @param array $multiOptions opcje
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public function setMultiOptions(array $multiOptions = array()) {
 		$this->_options['multiOptions'] = $multiOptions;
@@ -347,7 +347,7 @@ abstract class ElementAbstract {
 	 * Dodaje opcję wyboru
 	 * @param string $value wartość
 	 * @param string $caption nazwa
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public function addMultiOption($value, $caption) {
 		if (!isset($this->_options['multiOptions']) || !is_array($this->_options['multiOptions'])) {
@@ -361,7 +361,7 @@ abstract class ElementAbstract {
 	 * Ustawia dowolną opcję
 	 * @param string $key klucz
 	 * @param string $value wartość
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public final function setOption($key, $value) {
 		$this->_options[$key] = $value;
@@ -373,7 +373,7 @@ abstract class ElementAbstract {
 	 * @param string $value nazwa
 	 * @param string $options opcje
 	 * @param string $message wiadomość
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public function addValidator($name, array $options = array(), $message = null) {
 		if (!isset($this->_options['validators']) || !is_array($this->_options['validators'])) {
@@ -390,7 +390,7 @@ abstract class ElementAbstract {
 	/**
 	 * Dodaje walidator alfanumeryczny
 	 * @param string $message opcjonalny komunikat błędu
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public function addValidatorAlnum($message = null) {
 		return $this->addValidator('alnum', array(), $message);
@@ -399,7 +399,7 @@ abstract class ElementAbstract {
 	/**
 	 * Dodaje walidator dat
 	 * @param string $message opcjonalny komunikat błędu
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public function addValidatorDate($message = null) {
 		return $this->addValidator('date', array(), $message);
@@ -408,7 +408,7 @@ abstract class ElementAbstract {
 	/**
 	 * Dodaje walidator e-maili
 	 * @param string $message opcjonalny komunikat błędu
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public function addValidatorEmailAddress($message = null) {
 		return $this->addValidator('emailAddress', array(), $message);
@@ -419,7 +419,7 @@ abstract class ElementAbstract {
 	 * @param mixed $value wartość porównania
 	 * @param bool $isCheckbox czy checkbox
 	 * @param string $message opcjonalny komunikat błędu
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public function addValidatorEqual($value, $isCheckbox = false, $message = null) {
 		$isCheckbox = ($isCheckbox === true) ? true : false;
@@ -431,7 +431,7 @@ abstract class ElementAbstract {
 	 * @param string $countryPrefix kod kraju np. GB, PL
 	 * @param array $allowedCountries lista dozwolonych prefixów
 	 * @param $message opcjonalny komunikat błędu
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public function addValidatorIban($countryPrefix = 'PL', array $allowedCountries = array(), $message = null) {
 		return $this->addValidator('iban', array($countryPrefix, $allowedCountries), $message);
@@ -441,7 +441,7 @@ abstract class ElementAbstract {
 	 * Walidacja całkowitych
 	 * @param bool $positive czy tylko naturalne
 	 * @param string $message opcjonalny komunikat błędu
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public function addValidatorInteger($positive = false, $message = null) {
 		return $this->addValidator('integer', array('positive' => $positive), $message);
@@ -451,7 +451,7 @@ abstract class ElementAbstract {
 	 * Walidacja udziału wielkich liter
 	 * @param int $percent maksymalny udział
 	 * @param string $message opcjonalny komunikat błędu
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public function addValidatorLargeSmall($percent = 40, $message = null) {
 		return $this->addValidator('largeSmall', array($percent), $message);
@@ -460,7 +460,7 @@ abstract class ElementAbstract {
 	/**
 	 * Walidacja wypełnienia pola
 	 * @param string $message opcjonalny komunikat błędu
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public function addValidatorNotEmpty($message = null) {
 		return $this->addValidator('notEmpty', array(), $message);
@@ -471,7 +471,7 @@ abstract class ElementAbstract {
 	 * @param mixed $from większa od
 	 * @param mixed $to mniejsza od
 	 * @param string $message opcjonalny komunikat błędu
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public function addValidatorValueBetween($from = null, $to = null, $message = null) {
 		return $this->addValidator('numberBetween', array($from, $to), $message);
@@ -480,7 +480,7 @@ abstract class ElementAbstract {
 	/**
 	 * Walidacja numeryczna
 	 * @param string $message opcjonalny komunikat błędu
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public function addValidatorNumeric($message = null) {
 		return $this->addValidator('numeric', array(), $message);
@@ -489,7 +489,7 @@ abstract class ElementAbstract {
 	/**
 	 * Walidacja numeryczna
 	 * @param string $message opcjonalny komunikat błędu
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public function addValidatorPostal($message = null) {
 		return $this->addValidator('postal', array(), $message);
@@ -501,7 +501,7 @@ abstract class ElementAbstract {
 	 * @param string $fieldName nazwa pola
 	 * @param int $id identyfikator istniejącego pola (domyślnie null)
 	 * @param string $message opcjonalny komunikat błędu
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public function addValidatorRecordUnique($dao, $fieldName, $id = null, $message = null) {
 		return $this->addValidator('recordUnique', array($dao, $fieldName, $id), $message);
@@ -511,7 +511,7 @@ abstract class ElementAbstract {
 	 * Walidacja regex
 	 * @param string $pattern wzorzec
 	 * @param string $message opcjonalny komunikat błędu
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public function addValidatorRegex($pattern, $message = null) {
 		return $this->addValidator('regex', array($pattern), $message);
@@ -522,7 +522,7 @@ abstract class ElementAbstract {
 	 * @param int $from długość od
 	 * @param int $to długość do
 	 * @param string $message opcjonalny komunikat błędu
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public function addValidatorStringLength($from, $to, $message = null) {
 		return $this->addValidator('stringLength', array(intval($from), intval($to)), $message);
@@ -531,7 +531,7 @@ abstract class ElementAbstract {
 	/**
 	 * Ustawia html użytkownika
 	 * @param string $html
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public final function setCustomHtml($html) {
 		$this->_options['customHtml'] = $html;
@@ -541,7 +541,7 @@ abstract class ElementAbstract {
 	/**
 	 * Wyłącza translator
 	 * @param boolean $disable
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public final function setDisableTranslator($disable = true) {
 		$this->_translatorEnabled = !$disable;
@@ -688,7 +688,7 @@ abstract class ElementAbstract {
 	/**
 	 * Dodaje błąd
 	 * @param string $error
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public final function addError($error) {
 		$this->_errors[] = $error;
@@ -698,7 +698,7 @@ abstract class ElementAbstract {
 	/**
 	 * Dodaje klasę do elementu
 	 * @param string $className nazwa klasy
-	 * @return \Mmi\Form\Element\Abstract
+	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public final function addClass($className) {
 		if (!isset($this->_options['class'])) {
@@ -852,7 +852,7 @@ abstract class ElementAbstract {
 	/**
 	 * Pobiera nazwę walidatora
 	 * @param string $name nazwa walidatora
-	 * @return \Mmi\Validate\Abstract
+	 * @return \Mmi\Validate\ValidateAbstract
 	 */
 	protected final function _getValidator($name) {
 		$name = ucfirst($name);

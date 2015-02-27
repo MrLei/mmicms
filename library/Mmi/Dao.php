@@ -42,7 +42,7 @@ class Dao {
 
 	/**
 	 * Adapter DB
-	 * @var \Mmi\Db\Adapter\Pdo\Abstract
+	 * @var \Mmi\Db\Adapter\Pdo\PdoAbstract
 	 */
 	protected static $_adapter;
 
@@ -119,7 +119,7 @@ class Dao {
 
 	/**
 	 * Pobiera adapter bazodanowy
-	 * @return \Mmi\Db\Adapter\Pdo\Abstract
+	 * @return \Mmi\Db\Adapter\Pdo\PdoAbstract
 	 */
 	public static final function getAdapter() {
 		if (static::$_tableName === null) {
@@ -133,8 +133,8 @@ class Dao {
 
 	/**
 	 * Ustawia adapter bazodanowy
-	 * @param \Mmi\Db\Adapter\Pdo\Abstract $adapter
-	 * @return \Mmi\Db\Adapter\Pdo\Abstract
+	 * @param \Mmi\Db\Adapter\Pdo\PdoAbstract $adapter
+	 * @return \Mmi\Db\Adapter\Pdo\PdoAbstract
 	 */
 	public static final function setAdapter(\Mmi\Db\Adapter\Pdo\PdoAbstract $adapter) {
 		static::$_adapter = $adapter;

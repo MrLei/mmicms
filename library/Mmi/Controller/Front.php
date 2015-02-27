@@ -108,7 +108,7 @@ class Front {
 
 	/**
 	 * Dodanie pluginu
-	 * @param \Mmi\Controller\Plugin\Abstract $plugin
+	 * @param \Mmi\Controller\Plugin\PluginAbstract $plugin
 	 * @return \Mmi\Controller\Front
 	 */
 	public function registerPlugin(\Mmi\Controller\Plugin\PluginAbstract $plugin) {

@@ -103,13 +103,13 @@ abstract class PdoAbstract {
 	/**
 	 * Ustawia schemat
 	 * @param string $schemaName nazwa schematu
-	 * @return \Mmi\Db\Adapter\Pdo\Abstract
+	 * @return \Mmi\Db\Adapter\Pdo\PdoAbstract
 	 */
 	abstract public function selectSchema($schemaName);
 
 	/**
 	 * Ustawia domyślne parametry dla importu (długie zapytania)
-	 * @return \Mmi\Db\Adapter\Pdo\Abstract
+	 * @return \Mmi\Db\Adapter\Pdo\PdoAbstract
 	 */
 	abstract public function setDefaultImportParams();
 
@@ -151,7 +151,7 @@ abstract class PdoAbstract {
 
 	/**
 	 * Tworzy połączenie z bazą danych
-	 * @return \Mmi\Db\Adapter\Pdo\Abstract
+	 * @return \Mmi\Db\Adapter\Pdo\PdoAbstract
 	 */
 	public function connect() {
 		if ($this->_config->profiler) {

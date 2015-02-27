@@ -31,7 +31,7 @@ class Db {
 	/**
 	 * Tworzy obiekty adaptera na podstawie opcji
 	 * @param \Mmi\Db\Config $config
-	 * @return \Mmi\Db\Adapter\Pdo\Abstract
+	 * @return \Mmi\Db\Adapter\Pdo\PdoAbstract
 	 */
 	public static function factory(\Mmi\Db\Config $config) {
 		if ($config->driver != 'mysql' && $config->driver != 'pgsql' && $config->driver != 'sqlite' && $config->driver != 'oci') {
