@@ -79,8 +79,8 @@ class Record extends \Mmi\Dao\Record\Ro {
 		$table = $dao::getTableName();
 		$result = $dao::getAdapter()->insert($table, $this->_truncateToStructure());
 		//odczyt id z sekwencji
-		if ($result && property_exists($this, $this->_pk) && $this->{$this->_pk} === null) {
-			$this->{$this->_pk} = $dao::getAdapter()->lastInsertId($dao::getAdapter()->prepareSequenceName($table));
+		if ($result && property_exists($this, 'id') && $this->id === null) {
+			$this->id = $dao::getAdapter()->lastInsertId($dao::getAdapter()->prepareSequenceName($table));
 		}
 		$this->_setSaveStatus(1);
 		return true;

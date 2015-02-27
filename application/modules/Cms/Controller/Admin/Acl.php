@@ -27,9 +27,10 @@ class Acl extends \MmiCms\Controller\Admin {
 		if (!($this->id > 0)) {
 			return 0;
 		}
-		$rule = new \Cms\Model\Acl\Record($this->id);
-		$rule->delete();
-		return 1;
+		$rule = \Cms\Model\Acl\Query::factory()->findPk($this->id);
+		if ($rule && $rule->delete()) {
+			return 1;
+		}
 	}
 
 	public function updateAction() {
@@ -45,8 +46,10 @@ class Acl extends \MmiCms\Controller\Admin {
 		if (count($params) != 3) {
 			return $msg;
 		}
-		$model = new \Cms\Model\Acl\Record($params[2]);
-
+		$model = \Cms\Model\Acl\Query::factory()->findPk($params[2]);
+		if (!$model) {
+			return;
+		}
 		if ($params[1] == 'resource') {
 			$resource = $this->value;
 			$resource = explode(':', $resource);

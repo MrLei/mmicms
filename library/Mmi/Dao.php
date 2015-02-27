@@ -60,10 +60,17 @@ class Dao {
 
 	/**
 	 * Nazwa klasy active recordu (jeśli nie podana ustalana jest automatycznie według konwencji)
-	 * Przykład konwencji: News\Model\Dao -> News\Model\Record (tabela w DB news)
+	 * Przykład konwencji: \News\Model\Dao -> News\Model\Record (tabela w DB news)
 	 * @var string
 	 */
 	protected static $_recordName;
+
+	/**
+	 * Nazwa klasy query (jeśli nie podana ustalana jest automatycznie według konwencji)
+	 * Przykład konwencji: \News\Model\Dao -> \News\Model\Query (tabela w DB news)
+	 * @var string
+	 */
+	protected static $_queryName;
 
 	/**
 	 * Zabezpieczony konstruktor
@@ -200,6 +207,17 @@ class Dao {
 			return static::$_recordName;
 		}
 		return substr(get_called_class(), 0, -3) . 'Record';
+	}
+	
+	/**
+	 * Zwraca nazwę klasy zapytania
+	 * @return string
+	 */
+	public static final function getQueryName() {
+		if (static::$_queryName !== null) {
+			return static::$_queryName;
+		}
+		return substr(get_called_class(), 0, -3) . 'Query';
 	}
 
 	/**

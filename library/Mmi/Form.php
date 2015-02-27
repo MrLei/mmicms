@@ -194,7 +194,7 @@ abstract class Form {
 		} elseif (null === $id || is_numeric($id)) {
 			$this->_recordId = $id;
 		} else {
-			throw new\Exception('Invalid record object');
+			throw new \Exception('Invalid record object');
 		}
 
 		$this->_className = isset($className) ? $className : get_class($this);
