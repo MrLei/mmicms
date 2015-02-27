@@ -199,7 +199,7 @@ class Debugger {
 			$viewVars = array();
 			$vars = $view->getAllVariables();
 			if (is_array($vars)) {
-				foreach ($view->getAllVariables() as $varName => $varValue) {
+				foreach ($vars as $varName => $varValue) {
 					if (is_object($varValue)) {
 						$viewVars[$varName] = 'Object { ' . get_class($varValue) . ' }';
 					} elseif (is_array($varValue)) {

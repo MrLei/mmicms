@@ -13,5 +13,5 @@ namespace Cms\Model\Acl\Query;
  * @method \Cms\Model\Acl\Query ilike() ilike($value)
  */
 class Field extends \Mmi\Dao\Query\Field {
-	
+
 }

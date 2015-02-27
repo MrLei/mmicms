@@ -5,7 +5,7 @@ namespace Cms\Controller;
 class Widget extends \Mmi\Controller\Action {
 
 	public function textWidgetAction() {
-		$widgetData = \Cms\Model\Widget\Text\Dao::findPk($this->id);
+		$widgetData = \Cms\Model\Widget\Text\Query::factory()->findPk($this->id);
 		/* @var $widgetData \Cms\Model\Widget\Text\Record */
 
 		if ($widgetData != null) {
@@ -14,7 +14,7 @@ class Widget extends \Mmi\Controller\Action {
 	}
 
 	public function pictureWidgetAction() {
-		$picture = \Cms\Model\Widget\Picture\Dao::findPk($this->id);
+		$picture = \Cms\Model\Widget\Picture\Query::factory()->findPk($this->id);
 		/* @var $picture \Cms\Model\Widget\Picture\Record */
 
 		if ($picture != null) {

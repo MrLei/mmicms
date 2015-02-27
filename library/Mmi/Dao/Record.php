@@ -42,7 +42,7 @@ class Record extends \Mmi\Dao\Record\Ro {
 	 * @return bool
 	 */
 	public function save() {
-		if ($this->getPk() !== null && $this->_new === false) {
+		if ($this->getPk() !== null) {
 			return $this->_update();
 		}
 		return $this->_insert();
@@ -82,7 +82,6 @@ class Record extends \Mmi\Dao\Record\Ro {
 		if ($result && property_exists($this, $this->_pk) && $this->{$this->_pk} === null) {
 			$this->{$this->_pk} = $dao::getAdapter()->lastInsertId($dao::getAdapter()->prepareSequenceName($table));
 		}
-		$this->setNew(false);
 		$this->_setSaveStatus(1);
 		return true;
 	}

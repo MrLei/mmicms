@@ -1,11 +1,10 @@
 <?php
 
+namespace Cms\Model\Text\Query;
+
 /**
  * @method \Cms\Model\Text\Query on() on($localKeyName, $joinedKeyName = 'id')
  */
-
-namespace Cms\Model\Text\Query;
-
 class Join extends \Mmi\Dao\Query\Join {
-	
+
 }
