@@ -47,19 +47,16 @@ class Builder {
 	protected static function _updateDao($tableName) {
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
-		$className = $classPrefix . '_Dao';
-		$queryClassName = $classPrefix . '_Query';
 		$path = $pathPrefix . '/Dao.php';
 		self::_mkdirRecursive($path);
 		$daoCode = '<?php' . "\n\n" .
-			'class ' .
-			$className .
-			' extends \Mmi\Dao {' .
+			'namespace ' . $classPrefix . ";\n\n" .
+			'class Dao extends \Mmi\Dao {' .
 			"\n\n\t" .
 			'protected static $_tableName = \'' .
 			$tableName . '\';' .
 			"\n\n" .
-			'}';
+			'}' . "\n";
 		if (file_exists($path)) {
 			echo 'DAO completed.';
 			return;
@@ -74,16 +71,14 @@ class Builder {
 	protected static function _updateRecord($tableName) {
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
-		$className = $classPrefix . '_Record';
-		$daoClassName = $classPrefix . '_Dao';
+		$daoClassName = '\\' . $classPrefix . '\Dao';
 		$path = $pathPrefix . '/Record.php';
 		self::_mkdirRecursive($path);
 		$recordCode = '<?php' . "\n\n" .
-			'class ' .
-			$className .
-			' extends \Mmi\Dao\Record {' .
+			'namespace ' . $classPrefix . ";\n\n" .
+			'class Record extends \Mmi\Dao\Record {' .
 			"\n\n" .
-			'}';
+			'}' . "\n";
 		if (file_exists($path)) {
 			$recordCode = file_get_contents($path);
 		}
@@ -100,59 +95,53 @@ class Builder {
 			$diffRecord = array_diff($codeVariables[1], $variables);
 			$diffDb = array_diff($variables, $codeVariables[1]);
 			if (!empty($diffRecord) || !empty($diffDb)) {
-				throw new\Exception('RECORD for: "' . $tableName . '" has invalid fields: ' . implode(', ', $diffRecord) . ', and missing: ' . implode(',', $diffDb));
+				throw new \Exception('RECORD for: "' . $tableName . '" has invalid fields: ' . implode(', ', $diffRecord) . ', and missing: ' . implode(',', $diffDb));
 			}
 			echo 'RECORD for: ' . $tableName . ' completed.';
 			return;
 		}
-		$recordCode = preg_replace('/(class [a-zA-Z0-9_]+ extends [a-zA-Z0-9_]+\s\{?\r?\n?)/', '$1' . $variableString, $recordCode);
+		$recordCode = preg_replace('/(class Record extends [\\a-zA-Z0-9]+\s\{?\r?\n?)/', '$1' . $variableString, $recordCode);
 		file_put_contents($path, $recordCode);
 	}
 
 	protected static function _updateQueryField($tableName) {
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
-		$className = $classPrefix . '\Query\Field';
 		$queryClassName = $classPrefix . '\Query';
 		$path = $pathPrefix . '/Query/Field.php';
 		self::_mkdirRecursive($path);
 		$queryCode = '<?php' . "\n\n" .
-			'namespace ' . $classPrefix . ";\n\n" .
+			'namespace ' . $classPrefix . '\Query' . ";\n\n" .
 			'/**' . "\n" .
-			' * @method ' . $queryClassName . ' equals() equals($value)' . "\n" .
-			' * @method ' . $queryClassName . ' notEquals() notEquals($value)' . "\n" .
-			' * @method ' . $queryClassName . ' greater() greater($value)' . "\n" .
-			' * @method ' . $queryClassName . ' less() less($value)' . "\n" .
-			' * @method ' . $queryClassName . ' greaterOrEquals() greaterOrEquals($value)' . "\n" .
-			' * @method ' . $queryClassName . ' lessOrEquals() lessOrEquals($value)' . "\n" .
-			' * @method ' . $queryClassName . ' like() like($value)' . "\n" .
-			' * @method ' . $queryClassName . ' ilike() ilike($value)' . "\n" .
+			' * @method \\' . $queryClassName . ' equals() equals($value)' . "\n" .
+			' * @method \\' . $queryClassName . ' notEquals() notEquals($value)' . "\n" .
+			' * @method \\' . $queryClassName . ' greater() greater($value)' . "\n" .
+			' * @method \\' . $queryClassName . ' less() less($value)' . "\n" .
+			' * @method \\' . $queryClassName . ' greaterOrEquals() greaterOrEquals($value)' . "\n" .
+			' * @method \\' . $queryClassName . ' lessOrEquals() lessOrEquals($value)' . "\n" .
+			' * @method \\' . $queryClassName . ' like() like($value)' . "\n" .
+			' * @method \\' . $queryClassName . ' ilike() ilike($value)' . "\n" .
 			' */' . "\n" .
-			'class ' .
-			$className .
-			' extends \Mmi\Dao\Query\Field {' .
+			'class Field extends \Mmi\Dao\Query\Field {' .
 			"\n\n" .
-			'}';
+			'}' . "\n";
 		file_put_contents($path, $queryCode);
 	}
 
 	protected static function _updateQueryJoin($tableName) {
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
-		$className = $classPrefix . '_Query\Join';
 		$queryClassName = $classPrefix . '\Query';
 		$path = $pathPrefix . '/Query/Join.php';
 		self::_mkdirRecursive($path);
 		$queryCode = '<?php' . "\n\n" .
-			'namespace ' . $classPrefix . ";\n\n" .
+			'namespace ' . $classPrefix . '\Query' . ";\n\n" .
 			'/**' . "\n" .
-			' * @method ' . $queryClassName . ' on() on($localKeyName, $joinedKeyName = \'id\')' . "\n" .
+			' * @method \\' . $queryClassName . ' on() on($localKeyName, $joinedKeyName = \'id\')' . "\n" .
 			' */' . "\n" .
-			'class ' .
-			$className .
-			' extends \Mmi\Dao\Query\Join {' .
+			'class Join extends \Mmi\Dao\Query\Join {' .
 			"\n\n" .
-			'}';
+			'}' . "\n";
 		file_put_contents($path, $queryCode);
 	}
 
@@ -163,7 +152,7 @@ class Builder {
 	protected static function _updateQuery($tableName) {
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
-		$className = $classPrefix . '_Query';
+		$className = 'Query';//$classPrefix . '\Query';
 		$fieldClassName = $classPrefix . '\Query\Field';
 		$joinClassName = $classPrefix . '\Query\Join';
 		$recordClassName = $classPrefix . '\Record';
@@ -181,19 +170,17 @@ class Builder {
 			' * @method ' . $className . ' orQuery() orQuery(\Mmi\Dao\Query $query)' . "\n" .
 			' * @method ' . $className . ' resetOrder() resetOrder()' . "\n" .
 			' * @method ' . $className . ' resetWhere() resetWhere()' . "\n" .
-			' * @method ' . $fieldClassName . ' andField() andField($fieldName, $tableName = null)' . "\n" .
-			' * @method ' . $fieldClassName . ' where() where($fieldName, $tableName = null)' . "\n" .
-			' * @method ' . $fieldClassName . ' orField() orField($fieldName, $tableName = null)' . "\n" .
-			' * @method ' . $joinClassName . ' join() join($tableName, $targetTableName = null)' . "\n" .
-			' * @method ' . $joinClassName . ' joinLeft() joinLeft($tableName, $targetTableName = null)' . "\n" .
-			' * @method ' . $recordClassName . '[] find() find()' . "\n" .
-			' * @method ' . $recordClassName . ' findFirst() findFirst()' . "\n" .
+			' * @method \\' . $fieldClassName . ' andField() andField($fieldName, $tableName = null)' . "\n" .
+			' * @method \\' . $fieldClassName . ' where() where($fieldName, $tableName = null)' . "\n" .
+			' * @method \\' . $fieldClassName . ' orField() orField($fieldName, $tableName = null)' . "\n" .
+			' * @method \\' . $joinClassName . ' join() join($tableName, $targetTableName = null)' . "\n" .
+			' * @method \\' . $joinClassName . ' joinLeft() joinLeft($tableName, $targetTableName = null)' . "\n" .
+			' * @method \\' . $recordClassName . '[] find() find()' . "\n" .
+			' * @method \\' . $recordClassName . ' findFirst() findFirst()' . "\n" .
 			' */' . "\n" .
-			'class ' .
-			$className .
-			' extends \Mmi\Dao\Query {' .
+			'class Query extends \Mmi\Dao\Query {' .
 			"\n\n" .
-			'}';
+			'}' . "\n";
 		$methods = '';
 		$structure = $daoClassName::getTableStructure();
 		if (empty($structure)) {
@@ -214,7 +201,7 @@ class Builder {
 			$methods .= self::_queryMethod('orderAsc', $fieldName, $tableName);
 			$methods .= self::_queryMethod('orderDesc', $fieldName, $tableName);
 		}
-		$queryCode = preg_replace('/(class [a-zA-Z0-9_]+ extends [a-zA-Z0-9_]+\s\{?\n?)/', '$1' . $methods, $queryCode);
+		$queryCode = preg_replace('/(class Query extends [\\a-zA-Z0-9]+\s\{?\n?)/', '$1' . $methods, $queryCode);
 		file_put_contents($path, $queryCode);
 	}
 
