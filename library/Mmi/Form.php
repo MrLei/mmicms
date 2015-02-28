@@ -648,18 +648,7 @@ abstract class Form {
 	 * @return boolean
 	 */
 	public function hasRecord() {
-		if (!$this->_recordName) {
-			return false;
-		}
-		if ($this->_record instanceof \Mmi\Dao\Record) {
-			return true;
-		}
-		if ($this->_record !== null) {
-			throw new\Exception('Invalid record supplied');
-		}
-		$recordName = $this->_recordName;
-		$this->_record = new $recordName($this->_recordId);
-		return true;
+		return (null !== $this->_record);
 	}
 
 	/**
