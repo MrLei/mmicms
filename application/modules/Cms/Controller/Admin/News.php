@@ -17,11 +17,9 @@ class News extends \MmiCms\Controller\Admin {
 	}
 
 	public function deleteAction() {
-		if ($this->id) {
-			$article = new \Cms\Model\News\Record($this->id);
-			if ($article->delete()) {
-				$this->_helper->messenger('News usunięty poprawnie', true);
-			}
+		$article = \Cms\Model\News\Query::factory()->findPk($this->id);
+		if ($article && $article->delete()) {
+			$this->_helper->messenger('News usunięty poprawnie', true);
 		}
 		$this->_helper->redirector('index', 'admin-news', 'cms', array(), true);
 	}

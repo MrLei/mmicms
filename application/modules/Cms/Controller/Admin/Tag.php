@@ -17,8 +17,8 @@ class Tag extends \MmiCms\Controller\Admin {
 	}
 
 	public function deleteAction() {
-		$tag = new \Cms\Model\Tag\Record($this->id);
-		if ($tag->delete()) {
+		$tag = \Cms\Model\Tag\Query::factory()->findPk($this->id);
+		if ($tag && $tag->delete()) {
 			$this->_helper->messenger('Tag usunięty', true);
 		}
 		return $this->_helper->redirector('index', 'admin-tag', 'cms', array(), true);

@@ -29,10 +29,11 @@ class Record extends \Mmi\Dao\Record {
 		$namespace = new \Mmi\Session\Space('contact');
 		$this->uri = $namespace->referer;
 		//wysyłka do maila zdefiniowanego w opcjach
-		$option = new \Cms\Model\Contact\Option\Record($this->cmsContactOptionId);
-		if ($option->sendTo) {
-			Mail\Model\Dao::pushEmail('admin_cms_contact', $option->sendTo, array('contact' => $this), null, $this->email);
+		$option = \Cms\Model\Contact\Option\Query::factory()->findPk($this->cmsContactOptionId);
+		if (!$option) {
+			return false;
 		}
+		Mail\Model\Dao::pushEmail('admin_cms_contact', $option->sendTo, array('contact' => $this), null, $this->email);
 		return parent::_insert();
 	}
 
