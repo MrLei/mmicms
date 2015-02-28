@@ -18,17 +18,13 @@ class MailServer extends \MmiCms\Controller\Admin {
 	}
 
 	public function deleteAction() {
-		$server = new \Cms\Model\Mail\Server\Record($this->id);
+		$server = \Cms\Model\Mail\Server\Query::factory()->findPk($this->id);
 		try {
 			if ($server && $server->delete()) {
 				$this->_helper->messenger('Usunięto serwer');
 			}
-		} catch (\Exception $e) {
-			if (stripos($e->getMessage(), 'DB exception') !== false) {
-				$this->_helper->messenger('Nie można usunąć serwera, istnieją powiązane szablony', false);
-			} else {
-				throw $e;
-			}
+		} catch (\Mmi\Db\Exception $e) {
+			$this->_helper->messenger('Nie można usunąć serwera, istnieją powiązane szablony', false);
 		}
 		$this->_helper->redirector('index', 'admin-mailServer', 'cms', array(), true);
 	}

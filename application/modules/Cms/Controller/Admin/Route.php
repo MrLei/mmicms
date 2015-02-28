@@ -17,8 +17,8 @@ class Route extends \MmiCms\Controller\Admin {
 	}
 
 	public function deleteAction() {
-		$text = new \Cms\Model\Route\Record($this->id);
-		if ($text->delete()) {
+		$text = \Cms\Model\Route\Query::factory()->findPk($this->id);
+		if ($text && $text->delete()) {
 			$this->_helper->messenger('Poprawnie skasowano trasę');
 		}
 		$this->_helper->redirector('index', 'admin-route', 'cms', array(), true);

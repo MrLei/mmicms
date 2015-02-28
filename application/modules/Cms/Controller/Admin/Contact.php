@@ -21,16 +21,16 @@ class Contact extends \MmiCms\Controller\Admin {
 	}
 
 	public function deleteSubjectAction() {
-		$option = new \Cms\Model\Contact\Option\Record($this->id);
-		if ($option->delete()) {
+		$option = \Cms\Model\Contact\Option\Query::factory()->findPk($this->id);
+		if ($option && $option->delete()) {
 			$this->_helper->messenger('Poprawnie usunięto temat', true);
 		}
 		$this->_helper->redirector('subject');
 	}
 
 	public function deleteAction() {
-		$contact = new \Cms\Model\Contact\Record($this->id);
-		if ($contact->delete()) {
+		$contact = \Cms\Model\Contact\Query::factory()->findPk($this->id);
+		if ($contact && $contact->delete()) {
 			$this->_helper->messenger('Poprawnie usunięto wiadomość', true);
 		}
 		$this->_helper->redirector('index');
