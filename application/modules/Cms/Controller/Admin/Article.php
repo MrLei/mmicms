@@ -9,7 +9,7 @@ class Article extends \MmiCms\Controller\Admin {
 	}
 
 	public function editAction() {
-		$form = new \Cms\Form\Admin\Article($this->id);
+		$form = new \Cms\Form\Admin\Article(new \Cms\Model\Article\Record($this->id));
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Artykuł zapisany poprawnie', true);
 			$this->_helper->redirector('index', 'admin-article', 'cms', array(), true);

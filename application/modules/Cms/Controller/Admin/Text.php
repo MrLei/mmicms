@@ -9,7 +9,7 @@ class Text extends \MmiCms\Controller\Admin {
 	}
 
 	public function editAction() {
-		$form = new \Cms\Form\Admin\Text($this->id);
+		$form = new \Cms\Form\Admin\Text(new \Cms\Model\Text\Record($this->id));
 		if (!$form->isMine()) {
 			return;
 		}

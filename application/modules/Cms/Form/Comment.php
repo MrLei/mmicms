@@ -7,8 +7,8 @@ class Comment extends \Mmi\Form {
 	protected $_recordName = '\Cms\Model\Comment\Record';
 
 	public function init() {
-		$this->getRecord()->object = $this->getAttrib('object');
-		$this->getRecord()->objectId = $this->getAttrib('objectId');
+		$this->_record->object = $this->getAttrib('object');
+		$this->_record->objectId = $this->getAttrib('objectId');
 
 		$this->addElementText('title')
 			->setLabel('tytuł');
