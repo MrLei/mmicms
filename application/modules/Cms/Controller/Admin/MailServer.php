@@ -10,7 +10,7 @@ class MailServer extends \MmiCms\Controller\Admin {
 	}
 
 	public function editAction() {
-		$form = new \Cms\Form\Admin\Mail\Server($this->id);
+		$form = new \Cms\Form\Admin\Mail\Server(new \Cms\Model\Mail\Server\Record($this->id));
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Zapisano ustawienia serwera', true);
 			$this->_helper->redirector('index', 'admin-mailServer', 'cms', array(), true);

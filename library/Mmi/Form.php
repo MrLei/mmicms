@@ -59,12 +59,6 @@ abstract class Form {
 	protected $_fileObjectName;
 
 	/**
-	 * Nazwa rekordu
-	 * @var string
-	 */
-	protected $_recordName;
-
-	/**
 	 * Obiekt rekordu
 	 * @var \Mmi\Dao\Record
 	 */
@@ -178,30 +172,18 @@ abstract class Form {
 
 	/**
 	 * Konstruktor
-	 * @param mixed $id identyfikator modelu lub obiekt recordu
+	 * @param \Mmi\Dao\Record\Ro $record obiekt recordu
 	 * @param array $options opcje
 	 * @param string $className nazwa klasy
 	 */
-	public function __construct($id = null, array $options = array(), $className = null) {
+	public function __construct(\Mmi\Dao\Record\Ro $record = null, array $options = array(), $className = null) {
 		$this->_options = $options;
-
-		//@TODO: bardzo brzydki hak, przerobimy to - jeśli przekazano obiekt rekordu zamiast id
-		if (is_object($id) && ($id instanceof \Mmi\Dao\Record)) {
-			$this->_record = $id;
-			$this->_recordId = $id->getPk();
-			$this->_recordName = get_class($id);
-			$id = $this->_recordId;
-		} elseif (null === $id || is_numeric($id)) {
-			$this->_recordId = $id;
-		} else {
-			throw new \Exception('Invalid record object');
-		}
-
+		$this->_record = $record;
 		$this->_className = isset($className) ? $className : get_class($this);
 
 		//kalkulacja nazwy plików dla active record
-		if ($this->_recordName) {
-			$this->_fileObjectName = $this->_classToFileObject($this->_recordName);
+		if ($record) {
+			$this->_fileObjectName = $this->_classToFileObject(get_class($record));
 		}
 
 		$this->_request = \Mmi\Controller\Front::getInstance()->getRequest();
@@ -352,14 +334,6 @@ abstract class Form {
 			$this->_recordId = $this->_record->getPk();
 		}
 		return $this->isSaved();
-	}
-
-	/**
-	 * Zwraca id zapisanego rekordu w bazie.
-	 * @return null|int
-	 */
-	public function getRecordId() {
-		return $this->_recordId;
 	}
 
 	/**
@@ -985,8 +959,8 @@ abstract class Form {
 			//zapis podformów
 			if (!empty($this->_subForms)) {
 				foreach ($this->_subForms as $subForm) {
-					if ($this->getRecordId() && $subForm->getParentFormColumnName()) {
-						$subForm->setRecordValue($subForm->getParentFormColumnName(), $this->getRecordId());
+					if ($this->_recordId && $subForm->getParentFormColumnName()) {
+						$subForm->setRecordValue($subForm->getParentFormColumnName(), $this->_recordId);
 					}
 					$saved = $subForm->save();
 					if ($saved === false) {

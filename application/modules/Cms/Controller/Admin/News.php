@@ -9,7 +9,7 @@ class News extends \MmiCms\Controller\Admin {
 	}
 
 	public function editAction() {
-		$form = new \Cms\Form\Admin\News($this->id);
+		$form = new \Cms\Form\Admin\News(new \Cms\Model\News\Record($this->id));
 		if ($form->isSaved()) {
 			$this->_helper->messenger('News zapisany poprawnie', true);
 			$this->_helper->redirector('index', 'admin-news', 'cms', array(), true);

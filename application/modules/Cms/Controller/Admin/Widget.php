@@ -9,14 +9,14 @@ class Widget extends \MmiCms\Controller\Admin {
 	}
 
 	public function textWidgetEditAction() {
-		$widgetData = \Cms\Model\Widget\Text\Query::factory()->findPk($this->id);
-		if ($widgetData != null) {
-			$this->view->textId = $widgetData->id;
+		$widget = \Cms\Model\Widget\Text\Query::factory()->findPk($this->id);
+		if ($widget !== null) {
+			$this->view->textId = $widget->id;
 		}
 
 		$this->view->grid = new \Cms\Plugin\TextWidgetGrid();
 
-		$form = new \Cms\Form\Admin\Widget\Text($widgetData);
+		$form = new \Cms\Form\Admin\Widget\Text($widget);
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Tekst został dodany');
 			$this->_helper->redirector('textWidgetEdit', 'admin-widget', 'cms', array(), true);

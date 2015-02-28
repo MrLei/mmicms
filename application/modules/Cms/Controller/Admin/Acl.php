@@ -10,12 +10,12 @@ class Acl extends \MmiCms\Controller\Admin {
 			$this->view->rules = \Cms\Model\Acl\Dao::getMultioptionsByRoleId($this->roleId);
 			$this->view->options = array(null => '---') + \Cms\Model\Reflection::getOptionsWildcard();
 		}
-		$roleForm = new \Cms\Form\Admin\Role();
+		$roleForm = new \Cms\Form\Admin\Role($roleRecord = new \Cms\Model\Role\Record());
 		if ($roleForm->isMine() && $roleForm->isSaved()) {
 			$this->_helper->messenger('Poprawnie zapisano rolę', true);
-			return $this->_helper->redirector('index', 'admin-acl', 'cms', array('roleId' => $roleForm->getRecord()->id));
+			return $this->_helper->redirector('index', 'admin-acl', 'cms', array('roleId' => $roleRecord->id));
 		}
-		$aclForm = new \Cms\Form\Admin\Acl();
+		$aclForm = new \Cms\Form\Admin\Acl(new \Cms\Model\Acl\Record());
 		if ($aclForm->isMine() && $aclForm->isSaved()) {
 			$this->_helper->messenger('Poprawnie zapisano regułę', true);
 			return $this->_helper->redirector('index', 'admin-acl', 'cms', array('roleId' => $this->roleId));

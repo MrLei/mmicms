@@ -13,7 +13,7 @@ class Contact extends \MmiCms\Controller\Admin {
 	}
 
 	public function editSubjectAction() {
-		$form = new \Cms\Form\Admin\Contact\Option($this->id);
+		$form = new \Cms\Form\Admin\Contact\Option(new \Cms\Model\Contact\Option\Record($this->id));
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Poprawnie zapisano temat kontaktu', true);
 			$this->_helper->redirector('subject');

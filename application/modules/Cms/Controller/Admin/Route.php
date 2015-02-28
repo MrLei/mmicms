@@ -9,7 +9,7 @@ class Route extends \MmiCms\Controller\Admin {
 	}
 
 	public function editAction() {
-		$form = new \Cms\Form\Admin\Route($this->id);
+		$form = new \Cms\Form\Admin\Route(new \Cms\Model\Route\Record($this->id));
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Poprawnie zapisano trasę', true);
 			$this->_helper->redirector('index', 'admin-route', 'cms', array(), true);

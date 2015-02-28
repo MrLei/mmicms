@@ -9,33 +9,25 @@ class Navigation extends \MmiCms\Controller\Admin {
 		\Cms\Model\Navigation\Dao::decorateConfiguration($config);
 		$this->view->navigation = $config->findById($this->id, true);
 	}
-
 	public function editAction() {
+		$navRecord = new \Cms\Model\Navigation\Record($this->id);
 		switch ($this->type) {
 			case 'link':
-				$form = new \Cms\Form\Admin\Page\Link($this->id);
+				$form = new \Cms\Form\Admin\Page\Link($navRecord);
 				break;
 			case 'folder':
-				$form = new \Cms\Form\Admin\Page\Folder($this->id);
+				$form = new \Cms\Form\Admin\Page\Folder($navRecord);
 				break;
 			case 'simple':
-				$form = new \Cms\Form\Admin\Page\Article($this->id);
+				$form = new \Cms\Form\Admin\Page\Article($navRecord);
 				break;
 			default:
-				$form = new \Cms\Form\Admin\Page\Cms($this->id);
+				$form = new \Cms\Form\Admin\Page\Cms($navRecord);
 				break;
 		}
 		if ($form->isSaved()) {
-			return $this->_helper->redirector('index', 'admin-navigation', 'cms', array('id' => $form->getRecord()->parentId), true);
+			return $this->_helper->redirector('index', 'admin-navigation', 'cms', array('id' => $navRecord->parentId), true);
 		}
-		/* if ($this->id > 0) {
-		  $record = \Cms\Model\Navigation\Query::factory()->findPk($this->id);
-		  if ($this->remove && $record) {
-		  $parentId = $record->parentId;
-		  $record->delete();
-		  return $this->_helper->redirector('index', 'admin-navigation', 'cms', array('id' => $parentId), true);
-		  }
-		  } */
 		$this->view->pageForm = $form;
 	}
 

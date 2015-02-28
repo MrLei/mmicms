@@ -9,7 +9,7 @@ class Tag extends \MmiCms\Controller\Admin {
 	}
 
 	public function editAction() {
-		$form = new \Cms\Form\Admin\Tag($this->id);
+		$form = new \Cms\Form\Admin\Tag(new \Cms\Model\Tag\Record($this->id));
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Tag zapisany poprawnie', true);
 			return $this->_helper->redirector('index', 'admin-tag', 'cms', array(), true);
