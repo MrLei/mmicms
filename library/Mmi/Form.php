@@ -227,7 +227,7 @@ abstract class Form {
 		if ($this->isMine()) {
 			$data = $this->_request->getPost();
 		}
-		if ($this->hasRecord() && $id !== null && !isset($data)) {
+		if ($this->hasRecord() && !isset($data)) {
 			$data = $this->_record->toArray();
 			$this->_values = $this->_mapLoadData($this->prepareLoadData($data));
 		} elseif (isset($data)) {

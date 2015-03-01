@@ -196,49 +196,11 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 	 * Ładowanie komponentów statycznie, bez potrzeby użycia autoloadera
 	 */
 	protected function _setupComponents() {
-		require LIB_PATH . '/Mmi/Cache/Config.php';
-		require LIB_PATH . '/Mmi/Cache/Backend/BackendInterface.php';
-		require LIB_PATH . '/Mmi/Cache.php';
-		require LIB_PATH . '/Mmi/Controller/Action/Helper/Messenger.php';
-		require LIB_PATH . '/Mmi/Dao.php';
-		require LIB_PATH . '/Mmi/Db.php';
-		require LIB_PATH . '/Mmi/Db/Adapter/Pdo/PdoAbstract.php';
-		require LIB_PATH . '/Mmi/Db/Adapter/Pdo/Mysql.php';
-		require LIB_PATH . '/Mmi/Db/Config.php';
-		require LIB_PATH . '/Mmi/Acl.php';
-		require LIB_PATH . '/Mmi/Auth.php';
-		require LIB_PATH . '/Mmi/Filter/Abstract.php';
-		require LIB_PATH . '/Mmi/Filter/Alnum.php';
-		require LIB_PATH . '/Mmi/Filter/Urlencode.php';
-		require LIB_PATH . '/Mmi/Http/Cookie.php';
-		require LIB_PATH . '/Mmi/Navigation.php';
-		require LIB_PATH . '/Mmi/Navigation/Config.php';
-		require LIB_PATH . '/Mmi/Navigation/Config/Element.php';
-		require LIB_PATH . '/Mmi/Session/Config.php';
-		require LIB_PATH . '/Mmi/Translate.php';
-		require LIB_PATH . '/Mmi/View/Helper/HelperAbstract.php';
-		require LIB_PATH . '/Mmi/View/Helper/HeadAbstract.php';
-		require LIB_PATH . '/Mmi/View/Helper/HeadLink.php';
-		require LIB_PATH . '/Mmi/View/Helper/HeadScript.php';
-		require LIB_PATH . '/Mmi/View/Helper/Navigation.php';
-		require LIB_PATH . '/Mmi/View/Helper/Messenger.php';
-		require LIB_PATH . '/Mmi/View/Helper/Translate.php';
-		require LIB_PATH . '/Mmi/View/Helper/Url.php';
-
-		require LIB_PATH . '/MmiCms/Config.php';
-		require LIB_PATH . '/MmiCms/Controller/Plugin.php';
-		require LIB_PATH . '/MmiCms/Media/Config.php';
-		require LIB_PATH . '/MmiCms/Registry.php';
-
-		require APPLICATION_PATH . '/modules/Core/Config/App.php';
 		try {
 			include APPLICATION_PATH . '/modules/Core/Config/Local.php';
 		} catch (Exception $e) {
 			throw new\Exception('MmiCms\Application\Bootstrap requires application/modules/Core/Config/Local.php instance of MmiCms\Config');
 		}
-		require APPLICATION_PATH . '/modules/Core/Config/Navigation.php';
-		require APPLICATION_PATH . '/modules/Core/Config/Router.php';
-		require APPLICATION_PATH . '/modules/Core/Registry.php';
 		\Mmi\Profiler::event('Bootstrap: component setup');
 	}
 
