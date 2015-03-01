@@ -13,7 +13,7 @@ class Cron extends \MmiCms\Controller\Admin {
 		$form = new \Cms\Form\Admin\Cron(new \Cms\Model\Cron\Record($this->id));
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Zadanie zapisane poprawnie', true);
-			return $this->_helper->redirector('index', 'admin', 'cron', array(), true);
+			return $this->_helper->redirector('index', 'admin-cron', 'cms', array(), true);
 		}
 	}
 
@@ -22,7 +22,7 @@ class Cron extends \MmiCms\Controller\Admin {
 		if ($record && $record->delete()) {
 			$this->_helper->messenger('Zadanie CRON poprawnie usunięte', true);
 		}
-		return $this->_helper->redirector('index', 'admin', 'cron', array(), true);
+		return $this->_helper->redirector('index', 'admin-cron', 'cms', array(), true);
 	}
 
 }

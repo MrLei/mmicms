@@ -316,10 +316,10 @@ class View {
 	 */
 	public function renderDirectly($input) {
 		//przechwytywanie zawartości bufora
+		$hash = md5($input);
 		\Mmi\Profiler::event('View direct build: ' . $hash);
 		$inputBuffer = ob_get_contents();
 		ob_clean();
-		$hash = md5($input);
 		//ustawianie języka z translate'a
 		if (!$this->_locale && $this->_translate !== null) {
 			$this->_locale = $this->_translate->getLocale();
