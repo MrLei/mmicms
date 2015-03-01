@@ -4,13 +4,12 @@ namespace Cms\Form\Admin;
 
 class Password extends \Mmi\Form {
 
-	protected $_recordName = '\Cms\Model\Auth\Record';
 	protected $_recordSaveMethod = 'changePasswordByUser';
 
 	public function init() {
 
 		//ustawienie użytkownika w rekordzie
-		$this->getRecord()->setOption('identity', \Core\Registry::$auth->getUsername());
+		$this->_record->setOption('identity', \Core\Registry::$auth->getUsername());
 
 		$this->addElementPassword('password')
 			->setLabel('obecne hasło')
@@ -33,10 +32,10 @@ class Password extends \Mmi\Form {
 	}
 
 	public function lateInit() {
-		if ($this->getRecord()->getSaveStatus() == -1) {
+		if ($this->_record->getSaveStatus() == -1) {
 			$this->getElement('password')->addError('Obecne hasło jest nieprawidłowe');
 		}
-		if ($this->getRecord()->getSaveStatus() == -2) {
+		if ($this->_record->getSaveStatus() == -2) {
 			$this->getElement('confirmPassword')->addError('Hasła niezgodne');
 		}
 	}

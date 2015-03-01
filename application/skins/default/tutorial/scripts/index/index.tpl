@@ -137,7 +137,7 @@ application/skins/default/Admin/ scripts  /errorLog     /trace.tpl</pre>
 	odpowiada<br>
 	<pre>http://www.test.pl/admin/password</pre>
 	lub
-	<pre>&#123;@module=default@&#125;   ==   http://www.test.pl/default/</pre>
+	<pre>&#123;@module=core@&#125;   ==   http://www.test.pl/core/</pre>
 
 	<p style="margin-top:20px;"><b>''</b> - wstawianie template:
 	<pre>&#123;'default/scripts/error.tpl'&#125;</pre>

@@ -4,8 +4,6 @@ namespace Cms\Form\Admin;
 
 class News extends \MmiCms\Form {
 
-	protected $_recordName = '\Cms\Model\News\Record';
-
 	public function init() {
 
 		//ustawia zabezpieczenie CSRF
@@ -29,7 +27,7 @@ class News extends \MmiCms\Form {
 
 		$this->addElementTinyMce('text')
 			->setLabel('Treść')
-			->setOption('img', 'news:' . $this->getRecord()->id)
+			->setOption('img', 'news:' . $this->_record->id)
 			->setRequired()
 			->setModeAdvanced();
 

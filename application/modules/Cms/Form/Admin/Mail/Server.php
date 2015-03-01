@@ -4,8 +4,6 @@ namespace Cms\Form\Admin\Mail;
 
 class Server extends \Mmi\Form {
 
-	protected $_recordName = '\Cms\Model\Mail\Server\Record';
-
 	public function init() {
 
 		$this->addElementText('address')

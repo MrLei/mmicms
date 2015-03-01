@@ -86,7 +86,7 @@ class Stat extends \MmiCms\Controller\Admin {
 	}
 
 	public function editAction() {
-		$form = new \Cms\Form\Admin\Stat\Label($this->id);
+		$form = new \Cms\Form\Admin\Stat\Label(new \Cms\Model\Stat\Label\Record($this->id));
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Nazwa statystyki została zapisana', true);
 			$this->_helper->redirector('label', 'admin-stat', 'cms', array(), true);

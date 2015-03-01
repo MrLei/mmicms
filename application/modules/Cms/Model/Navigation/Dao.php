@@ -98,7 +98,10 @@ class Dao extends \Mmi\Dao {
 	 */
 	public static function sortBySerial(array $serial = array()) {
 		foreach ($serial as $order => $id) {
-			$record = new \Cms\Model\Navigation\Record($id);
+			$record = \Cms\Model\Navigation\Query::factory()->findPk($id);
+			if (!$record) {
+				continue;	
+			}
 			$record->order = $order;
 			$record->save();
 		}

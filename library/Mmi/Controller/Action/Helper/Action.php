@@ -72,8 +72,8 @@ class Action extends \Mmi\Controller\Action\Helper\HelperAbstract {
 	 * @return mixed
 	 */
 	public function action($moduleName = 'core', $controllerName = 'index', $actionName = 'index', array $params = array()) {
-		\Mmi\Profiler::event('Action execute: ' . $moduleName . ':' . $controllerName . ':' . $actionName);
 		if (!$this->_checkAcl($moduleName, $controllerName, $actionName)) {
+			\Mmi\Profiler::event('Action blocked: ' . $moduleName . ':' . $controllerName . ':' . $actionName);
 			return;
 		}
 		$frontRequest = \Mmi\Controller\Front::getInstance()->getRequest();
@@ -95,6 +95,7 @@ class Action extends \Mmi\Controller\Action\Helper\HelperAbstract {
 		$controller = new $controllerClassName($controllerRequest);
 		//wywołanie akcji
 		$directContent = $controller->$actionMethodName();
+		\Mmi\Profiler::event('Action executed: ' . $moduleName . ':' . $controllerName . ':' . $actionName);
 		//jeśli akcja zwraca cokolwiek, automatycznie jest to content
 		if ($directContent !== null) {
 			\Mmi\Controller\Front::getInstance()->getView()

@@ -9,7 +9,7 @@ class Text extends \MmiCms\Controller\Admin {
 	}
 
 	public function editAction() {
-		$form = new \Cms\Form\Admin\Text($this->id);
+		$form = new \Cms\Form\Admin\Text(new \Cms\Model\Text\Record($this->id));
 		if (!$form->isMine()) {
 			return;
 		}
@@ -33,8 +33,8 @@ class Text extends \MmiCms\Controller\Admin {
 	}
 
 	public function deleteAction() {
-		$text = new \Cms\Model\Text\Record($this->id);
-		if ($text->delete()) {
+		$text = \Cms\Model\Text\Query::factory()->findPk($this->id);
+		if ($text && $text->delete()) {
 			$this->_helper->messenger('Poprawnie skasowano tekst', true);
 		}
 		$this->_helper->redirector('index', 'admin-text', 'cms', array(), true);

@@ -40,15 +40,14 @@ class Application {
 	 */
 	public function __construct($path, $bootstrapName = '\Mmi\Application\Bootstrap') {
 		$this->_initPaths($path)
-			->_initDefaultComponents()
 			->_initEncoding()
 			->_initPhpConfiguration()
 			->_initAutoloader()
 			->_initErrorHandler();
-		\Mmi\Profiler::event('Init bootstrap');
 		$this->_bootstrap = new $bootstrapName($path);
+		\Mmi\Profiler::event('Application: bootstrap executed');
 		if (!($this->_bootstrap instanceof \Mmi\Application\BootstrapInterface)) {
-			throw new\Exception('\Mmi\Application bootstrap should be implementing \Mmi\Application\Bootstrap\Interface');
+			throw new \Exception('\Mmi\Application bootstrap should be implementing \Mmi\Application\Bootstrap\Interface');
 		}
 	}
 
@@ -57,7 +56,6 @@ class Application {
 	 * @param \Mmi\Bootstrap $bootstrap
 	 */
 	public function run() {
-		\Mmi\Profiler::event('Bootstrap run');
 		$this->_bootstrap->run();
 	}
 
@@ -75,46 +73,28 @@ class Application {
 
 	/**
 	 * Definicja ścieżek
+	 * @param string $systemPath
 	 * @return \Mmi\Application
 	 */
-	protected function _initPaths($path) {
-		$path = str_replace('\\', '/', $path);
+	protected function _initPaths($systemPath) {
+		$path = str_replace('\\', '/', $systemPath);
+		//ścieżka projektu
 		define('BASE_PATH', $path);
+		//aplikacja
 		define('APPLICATION_PATH', BASE_PATH . '/application');
+		//biblioteki
 		define('LIB_PATH', BASE_PATH . '/library');
-		define('TMP_PATH', BASE_PATH . '/tmp');
-		define('PUBLIC_PATH', BASE_PATH . '/public');
-		define('DATA_PATH', BASE_PATH . '/data');
-		set_include_path(LIB_PATH);
-		return $this;
-	}
-
-	/**
-	 * Ładowanie domyślnych komponentów
-	 * @return \Mmi\Application
-	 */
-	protected function _initDefaultComponents() {
+		//ładowanie profilera
 		require LIB_PATH . '/Mmi/Profiler.php';
-		Profiler::event('Application init');
-		require LIB_PATH . '/Mmi/Application/BootstrapInterface.php';
-		require LIB_PATH . '/Mmi/Application/Config.php';
-		require LIB_PATH . '/Mmi/Application/Error.php';
-		require LIB_PATH . '/Mmi/Config.php';
-		require LIB_PATH . '/Mmi/Controller/Action/Helper/HelperAbstract.php';
-		require LIB_PATH . '/Mmi/Controller/Action/Helper/Action.php';
-		require LIB_PATH . '/Mmi/Controller/Action/HelperBroker.php';
-		require LIB_PATH . '/Mmi/Controller/Plugin/PluginAbstract.php';
-		require LIB_PATH . '/Mmi/Controller/Action.php';
-		require LIB_PATH . '/Mmi/Controller/Environment.php';
-		require LIB_PATH . '/Mmi/Controller/Front.php';
-		require LIB_PATH . '/Mmi/Controller/Request.php';
-		require LIB_PATH . '/Mmi/Controller/Response.php';
-		require LIB_PATH . '/Mmi/Controller/Router/Config.php';
-		require LIB_PATH . '/Mmi/Controller/Router/Config/Route.php';
-		require LIB_PATH . '/Mmi/Controller/Router.php';
-		require LIB_PATH . '/Mmi/Exception/Logger.php';
-		require LIB_PATH . '/Mmi/Registry.php';
-		require LIB_PATH . '/Mmi/View.php';
+		\Mmi\Profiler::event('Application: startup');
+		//ścieżka do TMP
+		define('TMP_PATH', BASE_PATH . '/tmp');
+		//zasoby publiczne
+		define('PUBLIC_PATH', BASE_PATH . '/public');
+		//dane
+		define('DATA_PATH', BASE_PATH . '/data');
+		//domyślna ścieżka ładowania
+		set_include_path(LIB_PATH);
 		return $this;
 	}
 
@@ -127,11 +107,10 @@ class Application {
 		if (!ini_get('magic_quotes_gpc')) {
 			return $this;
 		}
-
+		//wykonywane tylko przy włączonym magic_quotes_gpc
 		function _stripslashesGpc(&$value) {
 			$value = stripslashes($value);
 		}
-
 		array_walk_recursive($_GET, array('_stripslashesGpc'));
 		array_walk_recursive($_POST, array('_stripslashesGpc'));
 		array_walk_recursive($_COOKIE, array('_stripslashesGpc'));
@@ -145,24 +124,16 @@ class Application {
 	 */
 	protected function _initAutoloader() {
 		spl_autoload_register(function ($class) {
-			if (strpos($class, 'PHPUnit') !== false) {
-				return;
-			}
 			$name = explode('\\', $class);
-			if (!isset($name[0])) {
-				return;
-			}
 			$namespace = $name[0];
 			switch ($namespace) {
 				case ((substr($namespace, 0, 3) == 'Mmi') ? $namespace : !$namespace):
-				case 'Zend':
 					$path = LIB_PATH . '/' . $namespace;
 					array_shift($name);
 					break;
 				default:
 					$path = APPLICATION_PATH . '/modules';
 			}
-			\Mmi\Profiler::event('Autoloaded: ' . $class);
 			include $path . '/' . implode('/', $name) . '.php';
 		});
 		return $this;

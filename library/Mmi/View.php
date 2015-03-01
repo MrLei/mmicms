@@ -316,10 +316,9 @@ class View {
 	 */
 	public function renderDirectly($input) {
 		//przechwytywanie zawartości bufora
-		\Mmi\Profiler::event('View direct build: ' . $hash);
+		$hash = md5($input);
 		$inputBuffer = ob_get_contents();
 		ob_clean();
-		$hash = md5($input);
 		//ustawianie języka z translate'a
 		if (!$this->_locale && $this->_translate !== null) {
 			$this->_locale = $this->_translate->getLocale();
@@ -342,7 +341,7 @@ class View {
 		ob_clean();
 		echo $inputBuffer;
 		//zwrot z bufora
-		\Mmi\Profiler::event('View direct fetched: ' . $hash);
+		\Mmi\Profiler::event('View: ' . $hash . ' rendered');
 		return $data;
 	}
 
@@ -378,7 +377,6 @@ class View {
 	 * @return string zwraca efekt renderowania
 	 */
 	public function render($fileName) {
-		\Mmi\Profiler::event('View build: ' . ($baseName = basename($fileName)));
 		if (!$this->_locale && $this->_translate !== null) {
 			$this->_locale = $this->_translate->getLocale();
 		}
@@ -394,7 +392,7 @@ class View {
 		}		
 		$data = ob_get_contents();
 		ob_clean();
-		\Mmi\Profiler::event('View fetched: ' . $baseName);
+		\Mmi\Profiler::event('View: ' . basename($fileName) . ' rendered');
 		return $data;
 	}
 

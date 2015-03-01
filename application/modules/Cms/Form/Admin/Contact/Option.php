@@ -4,8 +4,6 @@ namespace Cms\Form\Admin\Contact;
 
 class Option extends \Mmi\Form {
 
-	protected $_recordName = '\Cms\Model\Contact\Option\Record';
-
 	public function init() {
 
 		$this->addElementText('name')

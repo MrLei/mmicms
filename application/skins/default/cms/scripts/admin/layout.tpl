@@ -19,7 +19,7 @@
 					<a href="{@module=cms&controller=index&action=index@}"><span>{$domain|replace:'www.':''}</span></a>
 				</li>
 				<li>
-					<a href="{@module=default@}" target="_blank">{#Podgląd frontu#}</a>
+					<a href="{@module=core@}" target="_blank">{#Podgląd frontu#}</a>
 				</li>
 				{if $auth && $acl->isAllowed($auth->getRoles(), 'cms:admin:password')}
 				<li>

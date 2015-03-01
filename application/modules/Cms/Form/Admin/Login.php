@@ -4,7 +4,6 @@ namespace Cms\Form\Admin;
 
 class Login extends \Mmi\Form {
 
-	protected $_recordName = '\Cms\Model\Auth\Record';
 	protected $_recordSaveMethod = 'login';
 
 	public function init() {
