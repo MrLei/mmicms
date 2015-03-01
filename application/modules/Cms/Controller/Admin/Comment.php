@@ -9,8 +9,8 @@ class Comment extends \MmiCms\Controller\Admin {
 	}
 
 	public function deleteAction() {
-		$comment = new \Cms\Model\Comment\Record($this->id);
-		if ($comment->delete()) {
+		$comment = \Cms\Model\Comment\Query::factory()->findPk($this->id);
+		if ($comment && $comment->delete()) {
 			$this->_helper->messenger('Poprawnie usunięto artykuł', true);
 		}
 		$this->_helper->redirector('index', 'admin-comment', 'cms', array(), true);

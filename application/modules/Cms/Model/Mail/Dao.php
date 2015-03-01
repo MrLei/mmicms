@@ -99,10 +99,12 @@ class Dao extends \Mmi\Dao {
 			}
 			if (!isset($transport[$email->getOption('mailServerId')])) {
 				//@TODO: przepisać do ZF2
-				$transport[$email->getOption('mailServerId')] = new Zend_Mail\Transport\Smtp($email->getJoined('cms_mail_server')->address, $config);
+				require_once 'Zend/Mail/Transport/Smtp.php';
+				$transport[$email->getOption('mailServerId')] = new \Zend_Mail_Transport_Smtp($email->getJoined('cms_mail_server')->address, $config);
 			}
 			//@TODO: przepisać do ZF2
-			$mail = new Zend_Mail('utf-8');
+			require_once 'Zend/Mail.php';
+			$mail = new \Zend_Mail('utf-8');
 			$mail->setBodyText(strip_tags($email->message));
 			if ($email->getJoined('cms_mail_definition')->html) {
 				$mail->setBodyHtml($email->message);
@@ -114,13 +116,14 @@ class Dao extends \Mmi\Dao {
 			}
 			$mail->setSubject($email->subject);
 			$attachments = unserialize($email->getOption('attachments'));
+			require_once 'Zend/Mime.php';
 			if (!empty($attachments)) {
 				foreach ($attachments as $fileName => $file) {
 					if (!isset($file['content']) || !isset($file['type'])) {
 						continue;
 					}
 					//@TODO: przepisać do ZF2
-					$mail->createAttachment(base64_decode($file['content']), $file['type'], Zend_Mime::DISPOSITION_ATTACHMENT, Zend_Mime::ENCODING_BASE64, $fileName);
+					$mail->createAttachment(base64_decode($file['content']), $file['type'], \Zend_Mime::DISPOSITION_ATTACHMENT, \Zend_Mime::ENCODING_BASE64, $fileName);
 				}
 			}
 			try {

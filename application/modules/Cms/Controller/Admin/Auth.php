@@ -9,7 +9,7 @@ class Auth extends \MmiCms\Controller\Admin {
 	}
 
 	public function editAction() {
-		$form = new \Cms\Form\Admin\Auth($this->id);
+		$form = new \Cms\Form\Admin\Auth(new \Cms\Model\Auth\Record($this->id));
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Poprawnie zapisano użytkownika', true);
 			return $this->_helper->redirector('index');

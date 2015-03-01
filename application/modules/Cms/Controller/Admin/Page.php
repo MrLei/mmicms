@@ -9,9 +9,9 @@ class Page extends \MmiCms\Controller\Admin {
 	}
 
 	public function editAction() {
-		$form = new \Cms\Form\Admin\Page($this->id);
+		$form = new \Cms\Form\Admin\Page($pageRecord = new \Cms\Model\Page\Record($this->id));
 		if ($form->isSaved()) {
-			$this->_helper->redirector('compose', 'admin-page', 'cms', array('id' => $form->getRecord()->id), true);
+			$this->_helper->redirector('compose', 'admin-page', 'cms', array('id' => $pageRecord->id), true);
 		}
 	}
 

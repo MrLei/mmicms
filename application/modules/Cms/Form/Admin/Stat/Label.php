@@ -4,8 +4,6 @@ namespace Cms\Form\Admin\Stat;
 
 class Label extends \Mmi\Form {
 
-	protected $_recordName = '\Cms\Model\Stat\Label\Record';
-
 	public function init() {
 
 		$this->addElementSelect('object')

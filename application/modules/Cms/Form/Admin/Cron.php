@@ -4,8 +4,6 @@ namespace Cms\Form\Admin;
 
 class Cron extends \Mmi\Form {
 
-	protected $_recordName = '\Cms\Model\Cron\Record';
-
 	public function init() {
 		$this->addElementText('name')
 			->setLabel('Nazwa zadania')
@@ -42,8 +40,8 @@ class Cron extends \Mmi\Form {
 			->setRequired();
 
 		$value = null;
-		if ($this->getRecord()) {
-			$value = $this->getRecord()->module . '_' . $this->getRecord()->controller . '_' . $this->getRecord()->action;
+		if ($this->_record) {
+			$value = $this->_record->module . '_' . $this->_record->controller . '_' . $this->_record->action;
 		}
 
 		//system object

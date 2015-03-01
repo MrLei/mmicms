@@ -4,7 +4,6 @@ namespace Cms\Form\Admin;
 
 class Page extends \MmiCms\Form {
 
-	protected $_recordName = '\Cms\Model\Page\Record';
 	protected $_recordSaveMethod = 'saveForm';
 
 	public function init() {
@@ -41,11 +40,11 @@ class Page extends \MmiCms\Form {
 			->setLabel('Treść szablonu (do testów)');
 
 		//ustawianie pól nawigatora i routera
-		if ($this->getRecord()->cmsNavigationId && (null !== ($nr = \Cms\Model\Navigation\Query::factory()->findPk($this->getRecord()->cmsNavigationId)))) {
+		if ($this->_record->cmsNavigationId && (null !== ($nr = \Cms\Model\Navigation\Query::factory()->findPk($this->_record->cmsNavigationId)))) {
 			$this->getElement('title')->setValue($nr->title);
 			$this->getElement('description')->setValue($nr->description);
 		}
-		if ($this->getRecord()->cmsRouteId && (null !== ($rr = \Cms\Model\Route\Query::factory()->findPk($this->getRecord()->cmsRouteId)))) {
+		if ($this->_record->cmsRouteId && (null !== ($rr = \Cms\Model\Route\Query::factory()->findPk($this->_record->cmsRouteId)))) {
 			$this->getElement('address')->setValue($rr->pattern);
 		}
 

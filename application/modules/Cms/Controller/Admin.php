@@ -9,13 +9,13 @@ class Admin extends \MmiCms\Controller\Admin {
 	}
 
 	public function loginAction() {
-		$form = new \Cms\Form\Admin\Login();
+		$form = new \Cms\Form\Admin\Login($authRecord = new \Cms\Model\Auth\Record());
 		if (!$form->isMine()) {
 			return;
 		}
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Zalogowano poprawnie', true);
-			\Cms\Model\Stat\Dao::hit('admin-login', $form->getRecord()->id);
+			\Cms\Model\Stat\Dao::hit('admin-login', $authRecord->id);
 		} else {
 			$this->_helper->messenger('Logowanie niepoprawne', false);
 		}
@@ -51,12 +51,12 @@ class Admin extends \MmiCms\Controller\Admin {
 		if (!\Core\Registry::$auth->hasIdentity()) {
 			$this->_helper->redirector('index', 'index', 'core', array(), true);
 		}
-		$form = new \Cms\Form\Admin\Password();
+		$form = new \Cms\Form\Admin\Password($authRecord = new \Cms\Model\Auth\Record());
 		if (!$form->isMine()) {
 			return;
 		}
 		if ($form->isSaved()) {
-			\Cms\Model\Stat\Dao::hit('admin_password', $form->getRecord()->id);
+			\Cms\Model\Stat\Dao::hit('admin_password', $authRecord->id);
 			$this->_helper->messenger('Hasło zmienione poprawnie, zaloguj się ponownie');
 			//wylogowanie
 			\Core\Registry::$auth->clearIdentity();

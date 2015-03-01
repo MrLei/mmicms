@@ -9,7 +9,7 @@ class Tag extends \MmiCms\Controller\Admin {
 	}
 
 	public function editAction() {
-		$form = new \Cms\Form\Admin\Tag($this->id);
+		$form = new \Cms\Form\Admin\Tag(new \Cms\Model\Tag\Record($this->id));
 		if ($form->isSaved()) {
 			$this->_helper->messenger('Tag zapisany poprawnie', true);
 			return $this->_helper->redirector('index', 'admin-tag', 'cms', array(), true);
@@ -17,8 +17,8 @@ class Tag extends \MmiCms\Controller\Admin {
 	}
 
 	public function deleteAction() {
-		$tag = new \Cms\Model\Tag\Record($this->id);
-		if ($tag->delete()) {
+		$tag = \Cms\Model\Tag\Query::factory()->findPk($this->id);
+		if ($tag && $tag->delete()) {
 			$this->_helper->messenger('Tag usunięty', true);
 		}
 		return $this->_helper->redirector('index', 'admin-tag', 'cms', array(), true);

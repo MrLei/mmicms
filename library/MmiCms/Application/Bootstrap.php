@@ -32,10 +32,6 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 	 * Konstruktor, ustawia ścieżki, ładuje domyślne klasy, ustawia autoloadera
 	 */
 	public function __construct() {
-
-		//ładowanie komponentów
-		$this->_setupComponents();
-
 		//inicjalizacja konfiguracji aplikacji
 		$config = $this->_initConfiguration();
 
@@ -72,11 +68,7 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 	 */
 	protected function _initConfiguration() {
 		//lokalna konfiguracja
-		try {
-			$config = new \Core\Config\Local();
-		} catch (Exception $e) {
-			throw new\Exception('\Core\Config\Local invalid ' . $e->getMessage());
-		}
+		$config = new \Core\Config\Local();
 
 		//konfiguracja profilera aplikacji
 		\Mmi\Profiler::setEnabled($config->application->debug);
@@ -84,7 +76,6 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 		//ustawienie lokalizacji
 		date_default_timezone_set($config->application->timeZone);
 		ini_set('default_charset', $config->application->charset);
-		\Mmi\Profiler::event('Bootstrap: configuration setup');
 		return $config;
 	}
 
@@ -129,7 +120,6 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 			return $translate;
 		}
 		$translate->setLocale($envLang);
-		\Mmi\Profiler::event('Bootstrap: translate setup');
 		return $translate;
 	}
 
@@ -146,7 +136,6 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 		\Core\Registry::$db = \Mmi\Db::factory(\Core\Registry::$config->db);
 		\Mmi\Dao::setAdapter(\Core\Registry::$db);
 		\Mmi\Dao::setCache(\Core\Registry::$cache);
-		\Mmi\Profiler::event('Bootstrap: database setup');
 	}
 
 	/**
@@ -171,7 +160,6 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 		foreach ($config->application->plugins as $plugin) {
 			$frontController->registerPlugin(new $plugin());
 		}
-		\Mmi\Profiler::event('Bootstrap: front controller setup');
 	}
 
 	/**
@@ -188,58 +176,7 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 			->setAlwaysCompile($config->application->compile)
 			->setTranslate($translate)
 			->setBaseUrl($router->getBaseUrl());
-		\Mmi\Profiler::event('Bootstrap: view setup');
 		return $view;
-	}
-
-	/**
-	 * Ładowanie komponentów statycznie, bez potrzeby użycia autoloadera
-	 */
-	protected function _setupComponents() {
-		require LIB_PATH . '/Mmi/Cache/Config.php';
-		require LIB_PATH . '/Mmi/Cache/Backend/BackendInterface.php';
-		require LIB_PATH . '/Mmi/Cache.php';
-		require LIB_PATH . '/Mmi/Controller/Action/Helper/Messenger.php';
-		require LIB_PATH . '/Mmi/Dao.php';
-		require LIB_PATH . '/Mmi/Db.php';
-		require LIB_PATH . '/Mmi/Db/Adapter/Pdo/PdoAbstract.php';
-		require LIB_PATH . '/Mmi/Db/Adapter/Pdo/Mysql.php';
-		require LIB_PATH . '/Mmi/Db/Config.php';
-		require LIB_PATH . '/Mmi/Acl.php';
-		require LIB_PATH . '/Mmi/Auth.php';
-		require LIB_PATH . '/Mmi/Filter/Abstract.php';
-		require LIB_PATH . '/Mmi/Filter/Alnum.php';
-		require LIB_PATH . '/Mmi/Filter/Urlencode.php';
-		require LIB_PATH . '/Mmi/Http/Cookie.php';
-		require LIB_PATH . '/Mmi/Navigation.php';
-		require LIB_PATH . '/Mmi/Navigation/Config.php';
-		require LIB_PATH . '/Mmi/Navigation/Config/Element.php';
-		require LIB_PATH . '/Mmi/Session/Config.php';
-		require LIB_PATH . '/Mmi/Translate.php';
-		require LIB_PATH . '/Mmi/View/Helper/HelperAbstract.php';
-		require LIB_PATH . '/Mmi/View/Helper/HeadAbstract.php';
-		require LIB_PATH . '/Mmi/View/Helper/HeadLink.php';
-		require LIB_PATH . '/Mmi/View/Helper/HeadScript.php';
-		require LIB_PATH . '/Mmi/View/Helper/Navigation.php';
-		require LIB_PATH . '/Mmi/View/Helper/Messenger.php';
-		require LIB_PATH . '/Mmi/View/Helper/Translate.php';
-		require LIB_PATH . '/Mmi/View/Helper/Url.php';
-
-		require LIB_PATH . '/MmiCms/Config.php';
-		require LIB_PATH . '/MmiCms/Controller/Plugin.php';
-		require LIB_PATH . '/MmiCms/Media/Config.php';
-		require LIB_PATH . '/MmiCms/Registry.php';
-
-		require APPLICATION_PATH . '/modules/Core/Config/App.php';
-		try {
-			include APPLICATION_PATH . '/modules/Core/Config/Local.php';
-		} catch (Exception $e) {
-			throw new\Exception('MmiCms\Application\Bootstrap requires application/modules/Core/Config/Local.php instance of MmiCms\Config');
-		}
-		require APPLICATION_PATH . '/modules/Core/Config/Navigation.php';
-		require APPLICATION_PATH . '/modules/Core/Config/Router.php';
-		require APPLICATION_PATH . '/modules/Core/Registry.php';
-		\Mmi\Profiler::event('Bootstrap: component setup');
 	}
 
 }
