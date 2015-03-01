@@ -256,6 +256,7 @@ class Front {
 		if (!$this->_request->getModuleName()) {
 			$this->getRouter()->processRequest($this->_request);
 		}
+		\Mmi\Profiler::event('Front Controller: routing applied');
 
 		//wpięcie dla pluginów przed dispatchem
 		$this->preDispatch();

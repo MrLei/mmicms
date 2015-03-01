@@ -14,7 +14,7 @@
 	<body>
 		<div class="line"></div>
 		<header id="masterhead" class="top-level">
-			<a href="{@module=default@}"><h2><strong>Demo</strong>CMS</h2></a>
+			<a href="{@module=core@}"><h2><strong>Demo</strong>CMS</h2></a>
 			<div class="cl"></div>
 			<nav class="breadcrumbs">
 				{navigation()->breadcrumbs()}

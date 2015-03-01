@@ -44,9 +44,8 @@ class Application {
 			->_initPhpConfiguration()
 			->_initAutoloader()
 			->_initErrorHandler();
-		\Mmi\Profiler::event('Application: init bootstrap');
 		$this->_bootstrap = new $bootstrapName($path);
-		\Mmi\Profiler::event('Application: bootstrap configured');
+		\Mmi\Profiler::event('Application: bootstrap executed');
 		if (!($this->_bootstrap instanceof \Mmi\Application\BootstrapInterface)) {
 			throw new \Exception('\Mmi\Application bootstrap should be implementing \Mmi\Application\Bootstrap\Interface');
 		}
@@ -57,7 +56,6 @@ class Application {
 	 * @param \Mmi\Bootstrap $bootstrap
 	 */
 	public function run() {
-		\Mmi\Profiler::event('Application: run bootstrap');
 		$this->_bootstrap->run();
 	}
 
