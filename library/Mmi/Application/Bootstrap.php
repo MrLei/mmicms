@@ -48,7 +48,7 @@ final class Bootstrap implements BootstrapInterface {
 			->setView($view)
 			->getResponse()->setDebug();
 
-		\Mmi\Profiler::event('Front structure loaded');
+		\Mmi\Profiler::event('Bootstrap: front structure loaded');
 	}
 
 	/**

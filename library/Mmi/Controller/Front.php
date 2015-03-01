@@ -178,7 +178,7 @@ class Front {
 	 */
 	public function getRouter() {
 		if ($this->_router === null) {
-			throw new\Exception('\Mmi\Controller\Front: no router specified');
+			throw new \Exception('\Mmi\Controller\Front: no router specified');
 		}
 		return $this->_router;
 	}
@@ -197,7 +197,7 @@ class Front {
 	 */
 	public function getView() {
 		if ($this->_view === null) {
-			throw new\Exception('\Mmi\Controller\Front: no view specified');
+			throw new \Exception('\Mmi\Controller\Front: no view specified');
 		}
 		return $this->_view;
 	}
@@ -209,10 +209,10 @@ class Front {
 	 */
 	public function getStructure($part = null) {
 		if ($this->_structure === null) {
-			throw new\Exception('\Mmi\Contoller\Front structure not found');
+			throw new \Exception('\Mmi\Contoller\Front structure not found');
 		}
 		if ($part !== null && !isset($this->_structure[$part])) {
-			throw new\Exception('\Mmi\Controller\Front structure invalid');
+			throw new \Exception('\Mmi\Controller\Front structure invalid');
 		}
 		return (null === $part) ? $this->_structure : $this->_structure[$part];
 	}
@@ -250,17 +250,16 @@ class Front {
 	public function dispatch() {
 		//wpięcie dla pluginów przed routingiem
 		$this->routeStartup();
-		\Mmi\Profiler::event('Plugins route startup');
+		\Mmi\Profiler::event('Front Controller: plugins route startup');
 
 		//stosowanie routingu jeśli request jest pusty
 		if (!$this->_request->getModuleName()) {
 			$this->getRouter()->processRequest($this->_request);
-			\Mmi\Profiler::event('Routes applied');
 		}
 
 		//wpięcie dla pluginów przed dispatchem
 		$this->preDispatch();
-		\Mmi\Profiler::event('Plugins pre-dispatch');
+		\Mmi\Profiler::event('Front Controller: plugins pre-dispatch');
 
 		//wybór i uruchomienie kontrolera akcji
 		$actionHelper = new \Mmi\Controller\Action\Helper\Action();
@@ -268,7 +267,7 @@ class Front {
 
 		//wpięcie dla pluginów po dispatchu
 		$this->postDispatch();
-		\Mmi\Profiler::event('Plugins post-dispatch');
+		\Mmi\Profiler::event('Front Controller: plugins post-dispatch');
 
 		//przekazanie wykonanych widoków do response
 		if (!$this->getView()->isLayoutDisabled()) {

@@ -18,7 +18,6 @@ class Plugin extends \Mmi\Controller\Plugin\PluginAbstract {
 			\Core\Registry::$cache->save($routes, 'Mmi-Route', 86400);
 		}
 		\Cms\Model\Route\Dao::updateRouterConfig(\Mmi\Controller\Front::getInstance()->getRouter()->getConfig(), $routes);
-		\Mmi\Profiler::event('Route startup done');
 	}
 
 	public function preDispatch(\Mmi\Controller\Request $request) {
@@ -78,7 +77,9 @@ class Plugin extends \Mmi\Controller\Plugin\PluginAbstract {
 		$auth->setSalt(\Core\Registry::$config->application->salt);
 		$auth->setModelName(\Core\Registry::$config->session->authModel ? \Core\Registry::$config->session->authModel : '\Cms\Model\Auth');
 		\Core\Registry::$auth = $auth;
+		\Mmi\Controller\Action\Helper\Action::setAuth($auth);
 
+		//funkcja pamiętaj mnie realizowana poprzez cookie
 		$cookie = new \Mmi\Http\Cookie();
 		$remember = \Core\Registry::$config->session->authRemember ? \Core\Registry::$config->session->authRemember : 0;
 		if ($remember > 0 && !$auth->hasIdentity() && $cookie->match('remember')) {
@@ -98,10 +99,8 @@ class Plugin extends \Mmi\Controller\Plugin\PluginAbstract {
 			$acl = \Cms\Model\Acl\Dao::setupAcl();
 			\Core\Registry::$cache->save($acl, 'Mmi-Acl', 86400);
 		}
-
-		\Mmi\Controller\Action\Helper\Action::setAcl($acl);
-		\Mmi\Controller\Action\Helper\Action::setAuth($auth);
 		\Core\Registry::$acl = $acl;
+		\Mmi\Controller\Action\Helper\Action::setAcl($acl);
 		$view->acl = $acl;
 
 		//zablokowane na ACL
@@ -134,7 +133,6 @@ class Plugin extends \Mmi\Controller\Plugin\PluginAbstract {
 		\Mmi\View\Helper\Navigation::setAcl($acl);
 		\Mmi\View\Helper\Navigation::setAuth($auth);
 		\Mmi\View\Helper\Navigation::setNavigation($navigation);
-		\Mmi\Profiler::event('Pre dispatch done');
 	}
 
 	public function postDispatch(\Mmi\Controller\Request $request) {
