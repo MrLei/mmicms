@@ -67,6 +67,7 @@ class Api extends \Mmi\Controller\Action {
 			$url = $this->view->url($serverParams, true, true, $this->_isSsl());
 			//@TODO: przepisać do ZF2
 			$this->getResponse()->setTypeXml();
+			require_once 'Zend/Soap/AutoDiscover.php';
 			$autodiscover = new \Zend_Soap_AutoDiscover();
 			$autodiscover->setClass($apiModel);
 			$autodiscover->setUri($url);

@@ -44,10 +44,11 @@ class Application {
 			->_initPhpConfiguration()
 			->_initAutoloader()
 			->_initErrorHandler();
-		\Mmi\Profiler::event('Init bootstrap');
+		\Mmi\Profiler::event('Application: init bootstrap');
 		$this->_bootstrap = new $bootstrapName($path);
+		\Mmi\Profiler::event('Application: bootstrap configured');
 		if (!($this->_bootstrap instanceof \Mmi\Application\BootstrapInterface)) {
-			throw new\Exception('\Mmi\Application bootstrap should be implementing \Mmi\Application\Bootstrap\Interface');
+			throw new \Exception('\Mmi\Application bootstrap should be implementing \Mmi\Application\Bootstrap\Interface');
 		}
 	}
 
@@ -56,7 +57,7 @@ class Application {
 	 * @param \Mmi\Bootstrap $bootstrap
 	 */
 	public function run() {
-		\Mmi\Profiler::event('Bootstrap run');
+		\Mmi\Profiler::event('Application: run bootstrap');
 		$this->_bootstrap->run();
 	}
 
@@ -79,15 +80,23 @@ class Application {
 	 */
 	protected function _initPaths($systemPath) {
 		$path = str_replace('\\', '/', $systemPath);
+		//ścieżka projektu
 		define('BASE_PATH', $path);
+		//aplikacja
 		define('APPLICATION_PATH', BASE_PATH . '/application');
+		//biblioteki
 		define('LIB_PATH', BASE_PATH . '/library');
-		define('TMP_PATH', BASE_PATH . '/tmp');
-		define('PUBLIC_PATH', BASE_PATH . '/public');
-		define('DATA_PATH', BASE_PATH . '/data');
-		set_include_path(LIB_PATH);
+		//ładowanie profilera
 		require LIB_PATH . '/Mmi/Profiler.php';
-		\Mmi\Profiler::event('Application init');
+		\Mmi\Profiler::event('Application: startup');
+		//ścieżka do TMP
+		define('TMP_PATH', BASE_PATH . '/tmp');
+		//zasoby publiczne
+		define('PUBLIC_PATH', BASE_PATH . '/public');
+		//dane
+		define('DATA_PATH', BASE_PATH . '/data');
+		//domyślna ścieżka ładowania
+		set_include_path(LIB_PATH);
 		return $this;
 	}
 
@@ -121,7 +130,6 @@ class Application {
 			$namespace = $name[0];
 			switch ($namespace) {
 				case ((substr($namespace, 0, 3) == 'Mmi') ? $namespace : !$namespace):
-				case 'Zend':
 					$path = LIB_PATH . '/' . $namespace;
 					array_shift($name);
 					break;

@@ -32,10 +32,6 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 	 * Konstruktor, ustawia ścieżki, ładuje domyślne klasy, ustawia autoloadera
 	 */
 	public function __construct() {
-
-		//ładowanie komponentów
-		$this->_setupComponents();
-
 		//inicjalizacja konfiguracji aplikacji
 		$config = $this->_initConfiguration();
 
@@ -72,11 +68,7 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 	 */
 	protected function _initConfiguration() {
 		//lokalna konfiguracja
-		try {
-			$config = new \Core\Config\Local();
-		} catch (Exception $e) {
-			throw new\Exception('\Core\Config\Local invalid ' . $e->getMessage());
-		}
+		$config = new \Core\Config\Local();
 
 		//konfiguracja profilera aplikacji
 		\Mmi\Profiler::setEnabled($config->application->debug);
@@ -84,7 +76,6 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 		//ustawienie lokalizacji
 		date_default_timezone_set($config->application->timeZone);
 		ini_set('default_charset', $config->application->charset);
-		\Mmi\Profiler::event('Bootstrap: configuration setup');
 		return $config;
 	}
 
@@ -129,7 +120,6 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 			return $translate;
 		}
 		$translate->setLocale($envLang);
-		\Mmi\Profiler::event('Bootstrap: translate setup');
 		return $translate;
 	}
 
@@ -146,7 +136,6 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 		\Core\Registry::$db = \Mmi\Db::factory(\Core\Registry::$config->db);
 		\Mmi\Dao::setAdapter(\Core\Registry::$db);
 		\Mmi\Dao::setCache(\Core\Registry::$cache);
-		\Mmi\Profiler::event('Bootstrap: database setup');
 	}
 
 	/**
@@ -171,7 +160,6 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 		foreach ($config->application->plugins as $plugin) {
 			$frontController->registerPlugin(new $plugin());
 		}
-		\Mmi\Profiler::event('Bootstrap: front controller setup');
 	}
 
 	/**
@@ -188,20 +176,7 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 			->setAlwaysCompile($config->application->compile)
 			->setTranslate($translate)
 			->setBaseUrl($router->getBaseUrl());
-		\Mmi\Profiler::event('Bootstrap: view setup');
 		return $view;
-	}
-
-	/**
-	 * Ładowanie komponentów statycznie, bez potrzeby użycia autoloadera
-	 */
-	protected function _setupComponents() {
-		try {
-			include APPLICATION_PATH . '/modules/Core/Config/Local.php';
-		} catch (Exception $e) {
-			throw new\Exception('MmiCms\Application\Bootstrap requires application/modules/Core/Config/Local.php instance of MmiCms\Config');
-		}
-		\Mmi\Profiler::event('Bootstrap: component setup');
 	}
 
 }
