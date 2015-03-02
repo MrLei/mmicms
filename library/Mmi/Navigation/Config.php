@@ -134,6 +134,7 @@ class Mmi_Navigation_Config {
 		foreach ($this->_data as $element) {
 			$this->built[0]['children'][$element->getId()] = $element->build();
 		}
+		$this->_data = array();
 		return $this->built;
 	}
 
