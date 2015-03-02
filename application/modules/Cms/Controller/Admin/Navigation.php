@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Mmi Framework (https://code.google.com/p/mmicms/)
+ * 
+ * @link       https://code.google.com/p/mmicms/
+ * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
+ * @license    http://milejko.com/new-bsd.txt New BSD License
+ */
+
 namespace Cms\Controller\Admin;
 
 class Navigation extends \MmiCms\Controller\Admin {
@@ -9,6 +17,7 @@ class Navigation extends \MmiCms\Controller\Admin {
 		\Cms\Model\Navigation\Dao::decorateConfiguration($config);
 		$this->view->navigation = $config->findById($this->id, true);
 	}
+
 	public function editAction() {
 		$navRecord = new \Cms\Model\Navigation\Record($this->id);
 		switch ($this->type) {
