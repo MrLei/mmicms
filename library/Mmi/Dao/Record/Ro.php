@@ -65,11 +65,11 @@ class Ro {
 		}
 		$dao = $this->_daoClass;
 		$query = $dao::getQueryName();
-		$record = $query::factory()->findPk($id);
-		if ($record) {
-			$this->setFromArray($record->toArray())
-				->clearModified();
+		if (null === ($record = $query::factory()->findPk($id))) {
+			throw new ExceptionNotFound('Record not found: ' . $id);
 		}
+		$this->setFromArray($record->toArray())
+			->clearModified();
 	}
 
 	/**
@@ -97,7 +97,7 @@ class Ro {
 	 * @return mixed
 	 */
 	public final function __get($name) {
-		throw new \Mmi\Dao\Record\Exception('Unable to get field: ' . $name);
+		throw new ExceptionField('Field not found: ' . $name);
 	}
 
 	/**
@@ -106,7 +106,7 @@ class Ro {
 	 * @param mixed $value wartość
 	 */
 	public final function __set($name, $value) {
-		throw new \Mmi\Dao\Record\Exception('Unable to set field: ' . $name);
+		throw new ExceptionField('Field not found: ' . $name);
 	}
 
 	/**

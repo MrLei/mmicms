@@ -5,7 +5,7 @@ namespace Cms\Controller;
 class User extends \Mmi\Controller\Action {
 
 	public function loginAction() {
-		$form = new \Cms\Form\Login();
+		$form = new \Cms\Form\Login(new \Cms\Model\Auth\Record());
 		if (!$form->isMine()) {
 			return;
 		}

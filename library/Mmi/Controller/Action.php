@@ -89,7 +89,7 @@ class Action {
 	 * @param array $params parametry metody
 	 */
 	public final function __call($name, array $params = array()) {
-		throw new \Exception('\Mmi\Controller: action ' . $name . ' not found in class: ' . get_class($this));
+		throw new Action\ExceptionNotFound('Action: ' . $name . ' not found in class: ' . get_class($this));
 	}
 
 	/**
