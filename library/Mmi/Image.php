@@ -1,5 +1,7 @@
 <?php
 
+namespace Mmi;
+
 /**
  * Mmi
  *
@@ -17,19 +19,33 @@
  * @version    1.0.0
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
+
 /**
  * Klasa obsługi obrazów
  * @category   Mmi
  * @package    \Mmi\Image
  * @license    http://milejko.com/new-bsd.txt     New BSD License
  */
-
-namespace Mmi;
-
 class Image {
 
+	/**
+	 * Konwertuje string, lub binaria do zasobu GD
+	 * @param mixed $input
+	 * @return resource
+	 */
 	public static function inputToResource($input) {
-		return self::_resource($input);
+		//jeśli resource zwrot
+		if (gettype($input) == 'resource') {
+			return $input;
+		}
+		try {
+			//jeśli krótki content zakłada że to ścieżka pliku
+			return imagecreatefromstring((strlen($input) < 1024) ? file_get_contents($input) : $input);
+		} catch (\Exception $e) {
+			//logujemy potencjalne błędy
+			\Mmi\Exception\Logger::log($e);
+			return;
+		}
 	}
 
 	/**
@@ -40,8 +56,8 @@ class Image {
 	 * @return resource obrazek
 	 */
 	public static function scaleCrop($input, $x, $y) {
-		$input = self::_resource($input);
-		if (!$input) {
+		//brak zasobu
+		if (!($input = self::inputToResource($input))) {
 			return;
 		}
 		$width = imagesx($input);
@@ -61,32 +77,14 @@ class Image {
 	}
 
 	/**
-	 * Skaluje obrazek tak aby pasował do podanych wymiarów bez zachowania proporcji
-	 * @param mixed $input wejście
-	 * @param int $x wysokość do której chcemy przeskalować obrazek
-	 * @param int $y szerokość do której chcemy przeskalować obrazek
-	 * @return resource obrazek
-	 */
-	public static function scaleNoAspect($input, $x, $y) {
-		$input = self::_resource($input);
-		if (!$input) {
-			return;
-		}
-		$width = imagesx($input);
-		$height = imagesy($input);
-		imagecopyresampled($tmp, $input, 0, 0, 0, 0, $x, $y, $width, $height);
-		return $tmp;
-	}
-
-	/**
 	 * Skaluje obrazek o podany procent zachowując proporcje
 	 * @param mixed $input wejście
 	 * @param int $percent procent o jaki ma być zmieniony rozmiar obrazka
 	 * @return resource obrazek
 	 */
 	public static function scaleProportional($input, $percent) {
-		$input = self::_resource($input);
-		if (!$input) {
+		//brak zasobu
+		if (!($input = self::inputToResource($input))) {
 			return;
 		}
 		$width = imagesx($input);
@@ -99,15 +97,15 @@ class Image {
 	}
 
 	/**
-	 * Skaluje obrazek proporcjonalnie do podanych maxymalnych wymiarów
+	 * Skaluje obrazek proporcjonalnie do podanych maksymalnych wymiarów
 	 * @param mixed $input wejście
 	 * @param int $maxDimX wysokość do której chcemy przeskalować obrazek
 	 * @param int $maxDimY szerokość do której chcemy przeskalować obrazek
 	 * @return resource obrazek
 	 */
 	public static function scale($input, $maxDimX, $maxDimY = NULL) {
-		$input = self::_resource($input);
-		if (!$input) {
+		//brak zasobu
+		if (!($input = self::inputToResource($input))) {
 			return;
 		}
 		$width = imagesx($input);
@@ -119,7 +117,7 @@ class Image {
 			}
 			return self::scaley($input, $maxDimX);
 		}
-
+		//obliczanie współczynników
 		$ratioX = $maxDimX / $width;
 		$ratioY = $maxDimY / $height;
 
@@ -139,21 +137,7 @@ class Image {
 	 * @return resource obrazek
 	 */
 	public static function scalex($input, $maxDim) {
-		$input = self::_resource($input);
-		if (!$input) {
-			return;
-		}
-		$width = imagesx($input);
-		$height = imagesy($input);
-		if ($width > $maxDim) {
-			$scale = $maxDim / $width;
-			$sx = round($width * $scale);
-			$sy = round($height * $scale);
-			$tmp = imagecreatetruecolor($sx, $sy);
-			imagecopyresampled($tmp, $input, 0, 0, 0, 0, $sx, $sy, $width, $height);
-			$input = $tmp;
-		}
-		return $input;
+		return self::scaleMax($input, $maxDim);
 	}
 
 	/**
@@ -163,14 +147,26 @@ class Image {
 	 * @return resource obrazek
 	 */
 	public static function scaley($input, $maxDim) {
-		$input = self::_resource($input);
-		if (!$input) {
+		return self::scaleMax($input, $maxDim, false);
+	}
+
+	/**
+	 * Pomniejsza obrazek do maksymalnej długości lub szerokości (proporcjonalnie)
+	 * @param mixed $input wejście
+	 * @param int $maxDim wysokość do której chcemy pomniejszyć obrazek
+	 * @param boolean $horizontal
+	 * @return resource obrazek
+	 */
+	public static function scaleMax($input, $maxDim, $horizontal = true) {
+		//brak zasobu
+		if (!($input = self::inputToResource($input))) {
 			return;
 		}
 		$width = imagesx($input);
 		$height = imagesy($input);
-		if ($height > $maxDim) {
-			$scale = $maxDim / $height;
+		//skalowanie do maksymalnego y
+		if (($horizontal ? $width : $height) > $maxDim) {
+			$scale = $maxDim / ($horizontal ? $width : $height);
 			$sx = round($width * $scale);
 			$sy = round($height * $scale);
 			$tmp = imagecreatetruecolor($sx, $sy);
@@ -187,14 +183,13 @@ class Image {
 	 * @return resource obrazek
 	 */
 	public static function rotate($input, $pivot) {
-		$input = self::_resource($input);
-		if (!$input) {
+		//brak zasobu
+		if (!($input = self::inputToResource($input))) {
 			return;
 		}
 		$x = imagesx($input);
 		$y = imagesy($input);
-		$pivot = round(intval($pivot)) % 4;
-		switch ($pivot) {
+		switch (round(intval($pivot)) % 4) {
 			case '0': return $input;
 				break;
 			case '1':
@@ -218,23 +213,6 @@ class Image {
 	}
 
 	/**
-	 * Obraca obrazek o 180 stopni
-	 * @param mixed $input wejście
-	 * @return resource obrazek
-	 */
-	public static function flip($input) {
-		$input = self::_resource($input);
-		if (!$input) {
-			return;
-		}
-		$x = imagesx($input);
-		$y = imagesy($input);
-		$output = imagecreatetruecolor($x, $y);
-		imagecopyresampled($output, $input, 0, 0, $x - 1, 0, $x, $y, 0 - $x, $y);
-		return $output;
-	}
-
-	/**
 	 * Wycina fragment obrazka z punktu x,y o danej długości i wysokości
 	 * @param mixed $input wejście
 	 * @param int $x współrzędna x
@@ -244,41 +222,21 @@ class Image {
 	 * @return resource obrazek
 	 */
 	public static function crop($input, $x, $y, $newWidth, $newHeight) {
-		$input = self::_resource($input);
-		if (!$input) {
+		//brak zasobu
+		if (!($input = self::inputToResource($input))) {
 			return;
 		}
+		//obliczanie nowych wartości x i y
 		if (imagesx($input) < $newWidth + $x) {
 			$newWidth = imagesx($input) - $x;
 		}
 		if (imagesy($input) < $newHeight + $y) {
 			$newHeight = imagesy($input) - $y;
 		}
+		//wycinanie obrazka
 		$destination = imagecreatetruecolor($newWidth, $newHeight);
 		imagecopy($destination, $input, 0, 0, $x, $y, $newWidth, $newHeight);
 		return $destination;
-	}
-
-	/**
-	 * Przerabia wejście w postaci String na obiekt resource 
-	 * lub zwraca wejście jeśli nie jest stringiem, w przypadku
-	 * błędnego wejścia zwraca false
-	 * @param mixed $input wejście
-	 * @return resource obrazek
-	 */
-	protected static function _resource($input) {
-		if (gettype($input) == 'resource') {
-			return $input;
-		}
-		try {
-			if (strlen($input) < 1024) {
-				$input = file_get_contents($input);
-			}
-			return imagecreatefromstring($input);
-		} catch (\Exception $e) {
-			\Mmi\Exception\Logger::log($e);
-			return;
-		}
 	}
 
 }

@@ -1,29 +1,11 @@
 <?php
 
 /**
- * Mmi
- *
- * LICENSE
- *
- * Ten plik źródłowy objęty jest licencją BSD bez klauzuli ogłoszeniowej.
- * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
- * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
- *
- * Mmi/Translate.php
- * @category   Mmi
- * @package    \Mmi\Translate
+ * Mmi Framework (https://code.google.com/p/mmicms/)
+ * 
+ * @link       https://code.google.com/p/mmicms/
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
- * @author     Mariusz Miłejko <mariusz@milejko.pl>
- * @version    1.0.0
- * @license    http://milejko.com/new-bsd.txt     New BSD License
- */
-/**
- * Klasa tłumaczeń (obsługa wersji językowych)
- * posiada skojarzoną klasę helpera widoku: \Mmi\View\Helper\Translate
- * @see \Mmi\View\Helper\Translate
- * @category   Mmi
- * @package    \Mmi\Translate
- * @license    http://milejko.com/new-bsd.txt     New BSD License
+ * @license    http://milejko.com/new-bsd.txt New BSD License
  */
 
 namespace Mmi;

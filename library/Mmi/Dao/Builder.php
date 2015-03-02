@@ -1,27 +1,11 @@
 <?php
 
 /**
- * Mmi
- *
- * LICENSE
- *
- * Ten plik źródłowy objęty jest licencją BSD bez klauzuli ogłoszeniowej.
- * Licencja jest dostępna pod adresem: http://milejko.com/new-bsd.txt
- * W przypadku problemów, prosimy o kontakt na adres mariusz@milejko.pl
- *
- * Mmi/Model/Dao.php
- * @category   Mmi
- * @package    \Mmi\Dao
+ * Mmi Framework (https://code.google.com/p/mmicms/)
+ * 
+ * @link       https://code.google.com/p/mmicms/
  * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
- * @author     Mariusz Miłejko <mariusz@milejko.pl>
- * @version    1.0.0
- * @license    http://milejko.com/new-bsd.txt     New BSD License
- */
-/**
- * Klasa buildera do DAO
- * @category   Mmi
- * @package    \Mmi\Dao
- * @license    http://milejko.com/new-bsd.txt     New BSD License
+ * @license    http://milejko.com/new-bsd.txt New BSD License
  */
 
 namespace Mmi\Dao;
@@ -36,7 +20,7 @@ class Builder {
 			self::buildFromTableName($tableName);
 		}
 	}
-	
+
 	/**
 	 * Renderuje DAO, Record i Query dla podanej nazwy tabeli
 	 * @param string $tableName
@@ -168,7 +152,7 @@ class Builder {
 		$daoClassName = '\\' . $classPrefix . '\Dao';
 		$path = $pathPrefix . '/Query.php';
 		$queryCode = '<?php' . "\n\n" .
-			'namespace ' . $classPrefix . ";\n\n" . 
+			'namespace ' . $classPrefix . ";\n\n" .
 			'/**' . "\n" .
 			' * @method \\' . $className . ' limit() limit($limit = null)' . "\n" .
 			' * @method \\' . $className . ' offset() offset($offset = null)' . "\n" .
