@@ -10,7 +10,7 @@
 
 namespace Mmi\Controller\Action\Helper;
 
-class Messenger extends \Mmi\Controller\Action\Helper\HelperAbstract {
+class Messenger {
 
 	/**
 	 * Przestrzeń w sesji zarezerwowana dla wiadomości
@@ -25,62 +25,31 @@ class Messenger extends \Mmi\Controller\Action\Helper\HelperAbstract {
 	private $_namespace;
 
 	/**
-	 * Obiekt tłumaczeń
-	 * @var \Mmi\Translate
-	 */
-	private $_translate;
-
-	/**
 	 * Konstruktor pozwala zdefiniować w opcjach 'namespace' czyli nazwę przestrzeni
 	 */
 	public function __construct() {
-		$this->_namespace = 'messenger';
+		$this->_namespace = '\Mmi\Action\Helper\Messenger';
 		self::$_session = new \Mmi\Session\Space($this->_namespace);
-	}
-
-	/**
-	 * Ustawia translator
-	 * @param \Mmi\Translate $translate
-	 * @return \Mmi\Controller\Action\Helper\Messenger
-	 */
-	public function setTranslate(\Mmi\Translate $translate) {
-		$this->_translate = $translate;
-		return $this;
-	}
-
-	/**
-	 * Metoda główna, dodaje wiadomość
-	 * @param string $message wiadomość w formacie sprintf
-	 * @param bool $type true - pozytywna, null - neutralna, false - negatywna
-	 * @param array $variables zawiera zmienne do sprintf
-	 * @return \Mmi\Controller\Action\Helper\Messenger
-	 */
-	public function messenger($message, $type = null, array $variables = array()) {
-		if ($this->_translate !== null) {
-			$message = $this->_translate->_($message);
-		}
-		array_unshift($variables, $message);
-		return $this->addMessage(call_user_func_array('sprintf', $variables), $type);
 	}
 
 	/**
 	 * Dodaje wiadomość
 	 * @param string $message wiadomość
 	 * @param bool $type true - pozytywna, false - negatywna, brak - neutralna
+	 * @param array $vars zmienne
 	 * @return \Mmi\Controller\Action\Helper\Messenger
 	 */
-	public function addMessage($message, $type = null) {
+	public function addMessage($message, $type = null, array $vars = array()) {
 		if ($type) {
 			$type = 'success';
 		} elseif (false === $type) {
 			$type = 'error';
 		}
-		$message = array('message' => $message, 'type' => $type);
 		if (!is_array(self::$_session->messages)) {
 			self::$_session->messages = array();
 		}
 		$messages = self::$_session->messages;
-		$messages[] = $message;
+		$messages[] = ['message' => $message, 'type' => $type, 'vars' => $vars];
 		self::$_session->messages = $messages;
 		return $this;
 	}

@@ -27,7 +27,7 @@ class Page extends \MmiCms\Controller\Admin {
 		if (!$this->id || null === ($page = \Cms\Model\Page\Query::factory()
 			->where('id')->equals($this->id)
 			->findFirst())) {
-			$this->_helper->redirector('index', 'admin-page', 'cms', array(), true);
+			$this->getResponse()->redirect('cms', 'admin-page', 'index');
 		}
 		/* @var $page \Cms\Model\Page\Record */
 
@@ -89,9 +89,9 @@ class Page extends \MmiCms\Controller\Admin {
 
 	public function deleteAction() {
 		if (null !== ($record = \Cms\Model\Page\Query::factory()->findPk($this->id)) && $record->delete()) {
-			$this->_helper->messenger('Strona usunięta poprawnie');
+			$this->getMessenger()->addMessage('Strona usunięta poprawnie');
 		}
-		$this->_helper->redirector('index', 'admin-page', 'cms', array(), true);
+		$this->getResponse()->redirect('cms', 'admin-page', 'index');
 	}
 
 }

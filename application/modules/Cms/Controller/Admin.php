@@ -22,10 +22,10 @@ class Admin extends \MmiCms\Controller\Admin {
 			return;
 		}
 		if ($form->isSaved()) {
-			$this->_helper->messenger('Zalogowano poprawnie', true);
+			$this->getMessenger()->addMessage('Zalogowano poprawnie', true);
 			\Cms\Model\Stat\Dao::hit('admin-login', $authRecord->id);
 		} else {
-			$this->_helper->messenger('Logowanie niepoprawne', false);
+			$this->getMessenger()->addMessage('Logowanie niepoprawne', false);
 		}
 		$baseUri = $this->view->url(array('module' => 'cms', 'controller' => 'admin', 'action' => 'login'));
 		$requestUri = \Mmi\Controller\Front::getInstance()->getEnvironment()->requestUri;
@@ -35,9 +35,9 @@ class Admin extends \MmiCms\Controller\Admin {
 
 	public function logoutAction() {
 		\Core\Registry::$auth->clearIdentity();
-		$this->_helper->messenger('Dziękujemy za skorzystanie z serwisu, wylogowanio poprawnie', true);
+		$this->getMessenger()->addMessage('Dziękujemy za skorzystanie z serwisu, wylogowanio poprawnie', true);
 		\Cms\Model\Stat\Dao::hit('admin-logout');
-		$this->_helper->redirector('index', 'admin', 'cms', array(), true);
+		$this->getResponse()->redirect('cms', 'admin', 'index');
 	}
 
 	public function languageAction() {
@@ -48,7 +48,7 @@ class Admin extends \MmiCms\Controller\Admin {
 		if ($referer) {
 			$this->_helper->redirector()->gotoUrl($referer);
 		}
-		$this->_helper->redirector('index', 'admin', 'cms', array(), true);
+		$this->getResponse()->redirect('cms', 'admin', 'index');
 	}
 
 	public function languageWidgetAction() {
@@ -57,7 +57,7 @@ class Admin extends \MmiCms\Controller\Admin {
 
 	public function passwordAction() {
 		if (!\Core\Registry::$auth->hasIdentity()) {
-			$this->_helper->redirector('index', 'index', 'core', array(), true);
+			$this->getResponse()->redirect('core', 'index', 'index');
 		}
 		$form = new \Cms\Form\Admin\Password($authRecord = new \Cms\Model\Auth\Record());
 		if (!$form->isMine()) {
@@ -65,11 +65,11 @@ class Admin extends \MmiCms\Controller\Admin {
 		}
 		if ($form->isSaved()) {
 			\Cms\Model\Stat\Dao::hit('admin_password', $authRecord->id);
-			$this->_helper->messenger('Hasło zmienione poprawnie, zaloguj się ponownie');
+			$this->getMessenger()->addMessage('Hasło zmienione poprawnie, zaloguj się ponownie');
 			//wylogowanie
 			\Core\Registry::$auth->clearIdentity();
 			\Cms\Model\Stat\Dao::hit('admin_logout');
-			$this->_helper->redirector('index', 'admin', 'cms', array(), true);
+			$this->getResponse()->redirect('cms', 'admin', 'index');
 		}
 	}
 

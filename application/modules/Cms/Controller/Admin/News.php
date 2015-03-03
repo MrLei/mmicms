@@ -19,17 +19,17 @@ class News extends \MmiCms\Controller\Admin {
 	public function editAction() {
 		$form = new \Cms\Form\Admin\News(new \Cms\Model\News\Record($this->id));
 		if ($form->isSaved()) {
-			$this->_helper->messenger('News zapisany poprawnie', true);
-			$this->_helper->redirector('index', 'admin-news', 'cms', array(), true);
+			$this->getMessenger()->addMessage('News zapisany poprawnie', true);
+			$this->getResponse()->redirect('cms', 'admin-news');
 		}
 	}
 
 	public function deleteAction() {
 		$article = \Cms\Model\News\Query::factory()->findPk($this->id);
 		if ($article && $article->delete()) {
-			$this->_helper->messenger('News usunięty poprawnie', true);
+			$this->getMessenger()->addMessage('News usunięty poprawnie', true);
 		}
-		$this->_helper->redirector('index', 'admin-news', 'cms', array(), true);
+		$this->getResponse()->redirect('cms', 'admin-news');
 	}
 
 }

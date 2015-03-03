@@ -32,7 +32,7 @@ class Comment extends \Mmi\Controller\Action {
 			'withRatings' => ($this->withRatings) ? $this->withRatings : false,
 		));
 		if ($form->isSaved()) {
-			$this->_helper->messenger('Dodano komentarz', true);
+			$this->getMessenger()->addMessage('Dodano komentarz', true);
 			$this->_helper->redirector()->gotoUrl($this->getRequest()->getReferer());
 		}
 	}

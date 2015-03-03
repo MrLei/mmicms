@@ -18,7 +18,7 @@ class Contact extends \Mmi\Controller\Action {
 			'subjectId' => $this->subjectId
 		));
 		if ($form->isSaved()) {
-			$this->_helper->messenger('Wiadomość wysłano poprawnie.', true);
+			$this->getMessenger()->addMessage('Wiadomość wysłano poprawnie.', true);
 			if ($namespace->referer) {
 				$link = $namespace->referer;
 			} else {

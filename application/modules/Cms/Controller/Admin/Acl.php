@@ -20,13 +20,13 @@ class Acl extends \MmiCms\Controller\Admin {
 		}
 		$roleForm = new \Cms\Form\Admin\Role($roleRecord = new \Cms\Model\Role\Record());
 		if ($roleForm->isMine() && $roleForm->isSaved()) {
-			$this->_helper->messenger('Poprawnie zapisano rolę', true);
-			return $this->_helper->redirector('index', 'admin-acl', 'cms', array('roleId' => $roleRecord->id));
+			$this->getMessenger()->addMessage('Poprawnie zapisano rolę', true);
+			return $this->getResponse()->redirect('cms', 'admin-acl', 'index', array('roleId' => $roleRecord->id));
 		}
 		$aclForm = new \Cms\Form\Admin\Acl(new \Cms\Model\Acl\Record());
 		if ($aclForm->isMine() && $aclForm->isSaved()) {
-			$this->_helper->messenger('Poprawnie zapisano regułę', true);
-			return $this->_helper->redirector('index', 'admin-acl', 'cms', array('roleId' => $this->roleId));
+			$this->getMessenger()->addMessage('Poprawnie zapisano regułę', true);
+			return $this->getResponse()->redirect('cms', 'admin-acl', 'index', array('roleId' => $this->roleId));
 		}
 	}
 

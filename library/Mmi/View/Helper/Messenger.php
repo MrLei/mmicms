@@ -17,7 +17,7 @@ class Messenger extends HelperAbstract {
 	 * @return string
 	 */
 	public function messenger() {
-		$messenger = \Mmi\Controller\Action\HelperBroker::getHelper('messenger');
+		$messenger = new \Mmi\Controller\Action\Helper\Messenger();
 		$messages = $messenger->getMessages();
 		if ($messenger->hasMessages()) {
 			$html = '<ul id="messenger">';
@@ -26,17 +26,20 @@ class Messenger extends HelperAbstract {
 				$icon = '<i class="icon-warning-sign icon-large"></i>';
 				if ($message['type']) {
 					$class = ' class="notice ' . $message['type'] . '"';
-					$icon = '<i class="icon-ok icon-large"></i>';
-					if ($message['type'] == 'error') {
-						$icon = '<i class="icon-remove-sign icon-large"></i>';
-					}
+					$icon = ($message['type'] == 'error') ? '<i class="icon-remove-sign icon-large"></i>' : '<i class="icon-ok icon-large"></i>';
 				}
-				$html .= '<li' . $class . '>' . $icon . $message['message'] . '</li>';
+				$html .= '<li' . $class . '>' . $icon . $this->_prepareTranslatedMessage($message) . '</li>';
 			}
 			$html .= '</ul>';
 			$messenger->clearMessages();
 			return $html;
 		}
+	}
+	
+	protected function _prepareTranslatedMessage(array $message = array()) {
+		$translatedMessage = ($this->view->getTranslate() !== null) ? $this->view->getTranslate()->_($message['message']) : $message['message'];
+		array_unshift($message['vars'], $translatedMessage);
+		return call_user_func_array('sprintf', $message['vars']);
 	}
 
 }

@@ -29,7 +29,7 @@ class Article extends \Mmi\Controller\Action {
 				$article = \Cms\Model\Article\Query::factory()->findPk($id);
 			}
 			if ($article === null) {
-				$this->_helper->redirector('index', 'index', 'core', array(), true);
+				$this->getResponse()->redirect('core', 'index', 'index');
 			}
 			\Core\Registry::$cache->save($article, $cacheKey, 28800);
 		}

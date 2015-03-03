@@ -10,7 +10,7 @@
 
 namespace Mmi\Controller\Action\Helper;
 
-class Action extends \Mmi\Controller\Action\Helper\HelperAbstract {
+class Action {
 
 	/**
 	 * Obiekt ACL

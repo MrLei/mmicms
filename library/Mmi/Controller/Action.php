@@ -25,12 +25,6 @@ class Action {
 	protected $_response;
 
 	/**
-	 * Referencja do brokera helperów controlera akcji
-	 * @var \Mmi\Controller\Action\HelperBroker
-	 */
-	protected $_helper;
-
-	/**
 	 * Widok
 	 * @var \Mmi\View
 	 */
@@ -100,13 +94,13 @@ class Action {
 	}
 
 	/**
-	 * Pobiera helper brokera
-	 * @return \Mmi\Controller\Action\HelperBroker
+	 * Pobiera helper messengera
+	 * @return \Mmi\Controller\Action\Helper\Messenger
 	 */
-	public final function getHelperBroker() {
-		return $this->_helper;
+	public final function getMessenger() {
+		return new Action\Helper\Messenger();
 	}
-
+	
 	/**
 	 * Konfiguruje kontroler akcji
 	 */
@@ -116,9 +110,6 @@ class Action {
 
 		//inicjalizacja tłumaczeń
 		$this->_initTranslaction($this->_request->__get('module'), $this->_request->__get('skin'), $this->_request->__get('lang'));
-
-		//tworzenie brokera helperów kontrolera
-		$this->_helper = new \Mmi\Controller\Action\HelperBroker($this->_request);
 	}
 
 	/**

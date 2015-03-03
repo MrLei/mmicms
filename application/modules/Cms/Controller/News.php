@@ -22,7 +22,7 @@ class News extends \Mmi\Controller\Action {
 		//ustawianie ilości stron na liście
 		if ($this->pages) {
 			if ($this->pages % 10 != 0) {
-				$this->_helper->redirector('index', 'news', 'cms', array(), true);
+				$this->getResponse()->redirect('cms', 'news', 'index');
 			}
 			$pages = (int) $this->pages;
 		}
@@ -46,7 +46,7 @@ class News extends \Mmi\Controller\Action {
 		$this->view->item = \Cms\Model\News\Dao::activeByUriQuery($this->uri)
 			->findFirst();
 		if ($this->view->item === null) {
-			$this->_helper->redirector('index', 'news', 'cms', array(), true);
+			$this->getResponse()->redirect('cms', 'news', 'index');
 		}
 		$this->view->navigation()->modifyLastBreadcrumb($this->view->item->title, $this->view->url());
 	}

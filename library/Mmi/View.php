@@ -207,12 +207,10 @@ class View {
 		$name = ucfirst($name);
 		$structure = \Mmi\Controller\Front::getInstance()->getStructure();
 		foreach ($structure['library'] as $libName => $lib) {
-			if (isset($lib['View']['Helper'][$name])) {
-				$className = $libName . '\\View\\Helper\\' . $name;
+			if (!isset($lib['View']['Helper'][$name])) {
+				continue;
 			}
-		}
-		if (isset($this->request) && isset($structure['module'][$this->request->module]['View']['Helper'][$name])) {
-			$className = ucfirst($this->request->module) . '\\View\\Helper\\' . $name;
+			$className = '\\' . $libName . '\\View\\Helper\\' . $name;
 		}
 		if (!isset($className)) {
 			return false;
@@ -233,15 +231,13 @@ class View {
 		$name = ucfirst($name);
 		$structure = \Mmi\Controller\Front::getInstance()->getStructure();
 		foreach ($structure['library'] as $libName => $lib) {
-			if (isset($lib['Filter'][$name])) {
-				$className = $libName . '\\Filter\\' . $name;
+			if (!isset($lib['Filter'][$name])) {
+				continue;
 			}
-		}
-		if (isset($this->request) && isset($structure['module'][$this->request->module]['Filter'][$name])) {
-			$className = ucfirst($this->request->module) . '\\Filter\\' . $name;
+			$className = '\\' . $libName . '\\Filter\\' . $name;
 		}
 		if (!isset($className)) {
-			throw new\Exception('Filter not found: ' . $name);
+			throw new \Exception('Filter not found: ' . $name);
 		}
 		if (isset($this->_filters[$className])) {
 			return $this->_filters[$className];
