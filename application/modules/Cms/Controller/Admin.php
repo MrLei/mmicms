@@ -30,7 +30,7 @@ class Admin extends \MmiCms\Controller\Admin {
 		$baseUri = $this->view->url(array('module' => 'cms', 'controller' => 'admin', 'action' => 'login'));
 		$requestUri = \Mmi\Controller\Front::getInstance()->getEnvironment()->requestUri;
 		$uri = ($requestUri != $baseUri) ? $requestUri : $this->view->url(array('module' => 'cms', 'controller' => 'admin', 'action' => 'index'));
-		$this->_helper->redirector()->gotoUrl($uri);
+		$this->getResponse()->redirectToUrl($uri);
 	}
 
 	public function logoutAction() {
@@ -46,7 +46,7 @@ class Admin extends \MmiCms\Controller\Admin {
 		$session->lang = $lang;
 		$referer = \Mmi\Controller\Front::getInstance()->getRequest()->getReferer();
 		if ($referer) {
-			$this->_helper->redirector()->gotoUrl($referer);
+			$this->getResponse()->redirectToUrl($referer);
 		}
 		$this->getResponse()->redirect('cms', 'admin', 'index');
 	}

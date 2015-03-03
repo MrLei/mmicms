@@ -209,7 +209,7 @@ abstract class Form {
 
 		//dane z post
 		if ($this->isMine()) {
-			$data = $this->_request->getPost();
+			$data = $this->_request->getPost()->toArray();
 		}
 		if ($this->hasRecord() && !isset($data)) {
 			$data = $this->_record->toArray();
@@ -291,7 +291,7 @@ abstract class Form {
 			$validatorData[$key] = $value;
 		}
 		$this->_values = $values;
-		if ($this->_request->isPost() && $this->isValid($validatorData) && $this->validator()) {
+		if (!empty($this->_request->getPost()) && $this->isValid($validatorData) && $this->validator()) {
 			return true;
 		}
 		return false;
@@ -657,11 +657,10 @@ abstract class Form {
 	 * @return boolean
 	 */
 	public function isMine() {
-		if (!$this->_request->isPost()) {
+		if (empty($this->_request->getPost())) {
 			return false;
 		}
-		$data = $this->_request->getPost();
-		if (!isset($data[$this->_formBaseName . '__ctrl'])) {
+		if (!$this->_request->getPost()->__get($this->_formBaseName . '__ctrl')) {
 			return false;
 		}
 		return true;

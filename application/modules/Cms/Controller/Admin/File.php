@@ -38,11 +38,11 @@ class File extends \MmiCms\Controller\Admin {
 		if (!$file) {
 			return '';
 		}
-		if (!empty($_POST)) {
+		if (!empty($this->getPost())) {
 			if ($this->hash != $file->getHashName()) {
 				return $this->view->getTranslate()->_('Edycja nie powiodła się');
 			}
-			$file->setFromArray($_POST);
+			$file->setFromArray($this->getPost()->toArray());
 			$file->save();
 			return '';
 		}
@@ -53,15 +53,12 @@ class File extends \MmiCms\Controller\Admin {
 	}
 
 	public function removeAction() {
-		if (!$this->id) {
-			$this->_helper->redirector('index');
-		}
 		$file = \Cms\Model\File\Query::factory()->findPk($this->id);
 		if ($file && $file->delete()) {
 			$file->delete();
 			$this->getMessenger()->addMessage('Poprawnie usunięto plik', true);
 		}
-		$this->_helper->redirector('index');
+		$this->getResponse()->redirect('cms', 'admin-file', 'index');
 	}
 
 	public function deleteAction() {
@@ -79,11 +76,10 @@ class File extends \MmiCms\Controller\Admin {
 
 	public function sortAction() {
 		$this->getResponse()->setTypePlain();
-		$post = $this->getRequest()->getPost();
-		if (!isset($post['item-file'])) {
+		if (!$this->getPost()->__get('item-file')) {
 			return $this->view->getTranslate()->_('Przenoszenie nie powiodło się');
 		}
-		\Cms\Model\File\Dao::sortBySerial($post['item-file']);
+		\Cms\Model\File\Dao::sortBySerial($this->getPost()->__get('item-file'));
 		return '';
 	}
 

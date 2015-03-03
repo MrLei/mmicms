@@ -55,7 +55,7 @@ class File extends ElementAbstract {
 	 */
 	public function init() {
 		$fieldName = trim($this->_options['name'], '[]');
-		$files = \Mmi\Controller\Front::getInstance()->getRequest()->getFiles();
+		$files = \Mmi\Controller\Front::getInstance()->getRequest()->getFiles()->toArray();
 		if (!isset($files[$fieldName]) || empty($files[$fieldName])) {
 			return;
 		}

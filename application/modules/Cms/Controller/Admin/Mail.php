@@ -35,7 +35,7 @@ class Mail extends \MmiCms\Controller\Admin {
 		if ($result['success'] + $result['error'] == 0) {
 			$this->getMessenger()->addMessage('Brak maili do wysyłki');
 		}
-		return $this->_helper->redirector('index');
+		$this->getResponse()->redirect('cms', 'admin-mail', 'index');
 	}
 
 }

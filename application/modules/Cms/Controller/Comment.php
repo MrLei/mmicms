@@ -33,7 +33,7 @@ class Comment extends \Mmi\Controller\Action {
 		));
 		if ($form->isSaved()) {
 			$this->getMessenger()->addMessage('Dodano komentarz', true);
-			$this->_helper->redirector()->gotoUrl($this->getRequest()->getReferer());
+			$this->getResponse()->redirectToUrl($this->getRequest()->getReferer());
 		}
 	}
 

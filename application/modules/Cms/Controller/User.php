@@ -23,14 +23,14 @@ class User extends \Mmi\Controller\Action {
 		}
 		$this->getMessenger()->addMessage('Zalogowano poprawnie', true);
 		\Cms\Model\Stat\Dao::hit('user-login');
-		$this->_helper->redirector()->gotoUrl($this->getRequest()->getReferer());
+		$this->getResponse()->redirectToUrl($this->getRequest()->getReferer());
 	}
 
 	public function logoutAction() {
 		\Core\Registry::$auth->clearIdentity();
 		$this->getMessenger()->addMessage('Wylogowano poprawnie', true);
 		\Cms\Model\Stat\Dao::hit('user-logout');
-		$this->_helper->redirector()->gotoUrl($this->getRequest()->getReferer());
+		$this->getResponse()->redirectToUrl($this->getRequest()->getReferer());
 	}
 
 	public function registerAction() {

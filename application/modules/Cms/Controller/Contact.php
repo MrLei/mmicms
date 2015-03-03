@@ -25,7 +25,7 @@ class Contact extends \Mmi\Controller\Action {
 				$link = $this->view->url();
 			}
 			$namespace->unsetAll();
-			$this->_helper->redirector()->gotoUrl($link);
+			$this->getResponse()->redirectToUrl($link);
 		} elseif (\Mmi\Controller\Front::getInstance()->getEnvironment()->httpReferer) {
 			$namespace->referer = \Mmi\Controller\Front::getInstance()->getEnvironment()->httpReferer;
 		}

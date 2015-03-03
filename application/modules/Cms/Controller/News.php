@@ -14,8 +14,8 @@ class News extends \Mmi\Controller\Action {
 
 	public function indexAction() {
 		//przekierowanie z posta z ilością podstron
-		if ($this->getRequest()->getPost()) {
-			$this->_helper->redirector('index', 'news', 'cms', array('pages' => intval($_POST['pages'])), true);
+		if ($this->getPost()->pages) {
+			$this->getResponse()->redirect('cms', 'news', 'index', array('pages' => intval($this->getPost()->pages)));
 		}
 		$paginator = new \Mmi\Paginator();
 		$pages = 10;

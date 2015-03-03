@@ -24,7 +24,7 @@ class Contact extends \MmiCms\Controller\Admin {
 		$form = new \Cms\Form\Admin\Contact\Option(new \Cms\Model\Contact\Option\Record($this->id));
 		if ($form->isSaved()) {
 			$this->getMessenger()->addMessage('Poprawnie zapisano temat kontaktu', true);
-			$this->_helper->redirector('subject');
+			$this->getResponse()->redirect('cms', 'admin-contact', 'subject');
 		}
 	}
 
@@ -33,7 +33,7 @@ class Contact extends \MmiCms\Controller\Admin {
 		if ($option && $option->delete()) {
 			$this->getMessenger()->addMessage('Poprawnie usunięto temat', true);
 		}
-		$this->_helper->redirector('subject');
+		$this->getResponse()->redirect('cms', 'admin-contact', 'subject');
 	}
 
 	public function deleteAction() {
@@ -41,14 +41,14 @@ class Contact extends \MmiCms\Controller\Admin {
 		if ($contact && $contact->delete()) {
 			$this->getMessenger()->addMessage('Poprawnie usunięto wiadomość', true);
 		}
-		$this->_helper->redirector('index');
+		$this->getResponse()->redirect('cms', 'admin-contact', 'index');
 	}
 
 	public function editAction() {
 		$form = new \Cms\Form\Admin\Contact($this->id);
 		if ($form->isSaved()) {
 			$this->getMessenger()->addMessage('Wysłano odpowiedź na wiadomość', true);
-			$this->_helper->redirector('index');
+			$this->getResponse()->redirect('cms', 'admin-contact', 'index');
 		}
 	}
 
