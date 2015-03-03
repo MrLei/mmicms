@@ -32,7 +32,7 @@ class Request {
 	 * @return string
 	 */
 	public function __get($key) {
-		return $this->getParam($key);
+		return isset($this->_data[$key]) ? $this->_data[$key] : null;
 	}
 
 	/**
@@ -96,25 +96,6 @@ class Request {
 	}
 
 	/**
-	 * Pobiera zmienną żądania
-	 * @param string $key klucz
-	 * @return string
-	 */
-	public function getParam($key) {
-		return isset($this->_data[$key]) ? $this->_data[$key] : null;
-	}
-
-	/**
-	 * Ustawia zmienną żądania
-	 * @param string $key klucz
-	 * @param string $value wartość
-	 */
-	public function setParam($key, $value = null) {
-		$this->_data[$key] = $value;
-		return $this;
-	}
-
-	/**
 	 * Ustawia wszystkie zmienne żądania
 	 * @param array $data parametry
 	 * @param bool $reset usuwa wcześniej istniejące parametry
@@ -130,27 +111,11 @@ class Request {
 	}
 
 	/**
-	 * Pobiera wszystkie zmienne w postaci tabeli
-	 * @return array
-	 */
-	public function getParams() {
-		return $this->_data;
-	}
-
-	/**
-	 * Określa czy w żądaniu zawarty był POST
-	 * @return boolean
-	 */
-	public function isPost() {
-		return isset($_POST) && !empty($_POST);
-	}
-
-	/**
 	 * Zwraca zmienne POST w postaci tabeli
 	 * @return array
 	 */
 	public function getPost() {
-		return $_POST;
+		return new Request\Post($_POST);
 	}
 
 	/**
@@ -158,35 +123,7 @@ class Request {
 	 * @return array
 	 */
 	public function getFiles() {
-		$files = array();
-		foreach ($_FILES as $fieldName => $fieldFiles) {
-			//pojedynczy upload w danym polu
-			if (!is_array($fieldFiles['name'])) {
-				if (!isset($fieldFiles['tmp_name']) || $fieldFiles['tmp_name'] == '') {
-					continue;
-				}
-				$fieldFiles['type'] = \Mmi\Lib::mimeType($fieldFiles['tmp_name']);
-				$files[$fieldName] = $fieldFiles;
-				continue;
-			}
-			//upload wielokrotny html5
-			for ($i = 0, $count = count($fieldFiles['name']); $i < $count; $i++) {
-				if (!isset($files[$fieldName])) {
-					$files[$fieldName] = array();
-				}
-				if (!isset($fieldFiles['tmp_name'][$i]) || !$fieldFiles['tmp_name'][$i]) {
-					continue;
-				}
-				$files[$fieldName][$i] = array(
-					'name' => $fieldFiles['name'][$i],
-					'type' => \Mmi\Lib::mimeType($fieldFiles['tmp_name'][$i]),
-					'tmp_name' => $fieldFiles['tmp_name'][$i],
-					'error' => $fieldFiles['error'][$i],
-					'size' => $fieldFiles['size'][$i]
-				);
-			}
-		}
-		return $files;
+		return new Request\File($_FILES);
 	}
 
 	/**
@@ -198,38 +135,11 @@ class Request {
 	}
 
 	/**
-	 * Zwraca parametry w postaci tabeli, poza modułem, kontrolerem i akcją
-	 * @return array
-	 */
-	public function getUserParams() {
-		$data = $this->_data;
-		unset($data['module']);
-		unset($data['controller']);
-		unset($data['action']);
-		unset($data['lang']);
-		unset($data['skin']);
-		return $data;
-	}
-
-	/**
-	 * Zwraca parametry w postaci tabeli, poza modułem, kontrolerem i akcją
-	 * połączone z parametrami z POST.
-	 * @return array
-	 */
-	public function getUserAndPostParams() {
-		$data = $this->getUserParams();
-		if ($this->isPost()) {
-			$data = array_merge($data, $this->getPost());
-		}
-		return $data;
-	}
-
-	/**
 	 * Zwraca moduł
 	 * @return string
 	 */
 	public function getModuleName() {
-		return $this->getParam('module');
+		return $this->__get('module');
 	}
 
 	/**
@@ -237,7 +147,7 @@ class Request {
 	 * @return string
 	 */
 	public function getControllerName() {
-		return $this->getParam('controller');
+		return $this->__get('controller');
 	}
 
 	/**
@@ -245,7 +155,7 @@ class Request {
 	 * @return string
 	 */
 	public function getActionName() {
-		return $this->getParam('action');
+		return $this->__get('action');
 	}
 
 	/**
@@ -254,7 +164,7 @@ class Request {
 	 * @return \Mmi\Controller\Request
 	 */
 	public function setModuleName($value) {
-		$this->setParam('module', $value);
+		$this->__set('module', $value);
 		return $this;
 	}
 
@@ -264,7 +174,7 @@ class Request {
 	 * @return \Mmi\Controller\Request
 	 */
 	public function setControllerName($value) {
-		$this->setParam('controller', $value);
+		$this->__set('controller', $value);
 		return $this;
 	}
 
@@ -274,7 +184,7 @@ class Request {
 	 * @return \Mmi\Controller\Request
 	 */
 	public function setActionName($value) {
-		$this->setParam('action', $value);
+		$this->__set('action', $value);
 		return $this;
 	}
 
@@ -284,7 +194,7 @@ class Request {
 	 * @return \Mmi\Controller\Request
 	 */
 	public function setSkinName($value) {
-		$this->setParam('skin', $value);
+		$this->__set('skin', $value);
 		return $this;
 	}
 

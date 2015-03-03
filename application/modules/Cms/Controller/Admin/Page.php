@@ -19,7 +19,7 @@ class Page extends \MmiCms\Controller\Admin {
 	public function editAction() {
 		$form = new \Cms\Form\Admin\Page($pageRecord = new \Cms\Model\Page\Record($this->id));
 		if ($form->isSaved()) {
-			$this->_helper->redirector('compose', 'admin-page', 'cms', array('id' => $pageRecord->id), true);
+			$this->getResponse()->redirect('cms', 'admin-page', 'compose', array('id' => $pageRecord->id));
 		}
 	}
 
@@ -55,29 +55,27 @@ class Page extends \MmiCms\Controller\Admin {
 	}
 
 	public function updateAction() {
-		$post = $this->getRequest()->getPost();
-		if (!isset($post['id']) || !isset($post['data'])) {
+		if (!$this->getPost()->id || !$this->getPost()->data) {
 			return json_encode(array('success' => 0));
 		}
 		$page = \Cms\Model\Page\Query::factory()
-			->where('id')->equals($post['id'])
+			->where('id')->equals($this->getPost()->id)
 			->findFirst();
 		if ($page === null) {
 			return json_encode(array('success' => 0));
 		}
-		$page->text = htmlspecialchars_decode($post['data']);
+		$page->text = htmlspecialchars_decode($this->getPost()->data);
 		$page->save();
 		return json_encode(array('success' => 1));
 	}
 
 	public function loadAction() {
 		$this->getResponse()->setDebug(false);
-		$post = $this->getRequest()->getPost();
-		if (!isset($post['id'])) {
+		if (!$this->getPost()->id) {
 			return json_encode(array('success' => 0));
 		}
 		$page = \Cms\Model\Page\Query::factory()
-			->whereId()->equals($post['id'])
+			->whereId()->equals($this->getPost()->id)
 			->findFirst();
 		if ($page === null) {
 			return json_encode(array('sucess' => 0));

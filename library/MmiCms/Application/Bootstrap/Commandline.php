@@ -25,7 +25,7 @@ class Commandline extends \MmiCms\Application\Bootstrap {
 		$request = new \Mmi\Controller\Request();
 		//ustawianie domyślnego języka jeśli istnieje
 		if (isset(\Core\Registry::$config->application->languages[0])) {
-			$request->setParam('lang', \Core\Registry::$config->application->languages[0]);
+			$request->lang = \Core\Registry::$config->application->languages[0];
 		}
 		$request->setModuleName('default')
 			->setControllerName('index')

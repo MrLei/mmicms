@@ -46,18 +46,36 @@ class Action {
 
 	/**
 	 * Magiczne pobranie zmiennej z requestu
-	 * @param mixed $name wartość zmiennej
+	 * @param string $name nazwa zmiennej
 	 */
 	public final function __get($name) {
-		return $this->_request->getParam($name);
+		return $this->_request->__get($name);
+	}
+	
+	/**
+	 * Magiczne sprawczenie istnienia pola w request
+	 * @param string $key klucz
+	 * @return bool
+	 */
+	public function __isset($key) {
+		return $this->_request->__isset($key);
 	}
 
 	/**
 	 * Magiczne pobranie zmiennej z requestu
-	 * @param mixed $name wartość zmiennej
+	 * @param string $name nazwa zmiennej
+	 * @param mixed $value wartość
 	 */
 	public final function __set($name, $value) {
-		return $this->_request->setParam($name, $value);
+		return $this->_request->__set($name, $value);
+	}
+	
+	/**
+	 * Magiczne usunięcie zmiennej z requestu
+	 * @param string $name nazwa zmiennej
+	 */
+	public final function __unset($name) {
+		return $this->_request->__unset($name);
 	}
 
 	/**
@@ -83,6 +101,21 @@ class Action {
 	 */
 	public final function getRequest() {
 		return $this->_request;
+	}
+	
+	/**
+	 * Zwraca dane post z requesta
+	 * @return \Mmi\Controller\Request\Post
+	 */
+	public final function getPost() {
+		return $this->_request->getPost();
+	}
+	
+	/**
+	 * Zwraca pliki z requesta
+	 */
+	public final function getFiles() {
+		return $this->_request->getFiles();
 	}
 
 	/**

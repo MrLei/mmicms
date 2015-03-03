@@ -15,13 +15,11 @@ class Form extends \Mmi\Controller\Action {
 	public function validateAction() {
 		$this->view->setLayoutDisabled();
 		$this->getResponse()->setTypePlain();
-		if (!isset($_POST['ctrl']) || !isset($_POST['field'])) {
+		if (!$this->getPost()->ctrl || !$this->getPost()->field) {
 			return '';
 		}
-		$options = \Mmi\Lib::unhashTable($_POST['ctrl']);
-		$field = $_POST['field'];
-		$value = isset($_POST['value']) ? $_POST['value'] : '';
-		$_POST = array();
+		$options = \Mmi\Lib::unhashTable($this->getPost()->ctrl);
+		$field = $this->getPost()->field;
 		if (!isset($options['class'])) {
 			return '';
 		}
@@ -31,8 +29,7 @@ class Form extends \Mmi\Controller\Action {
 		$class = $options['class'];
 		$formOptions = $options['options'];
 		$formOptions['ajax'] = true;
-		$id = isset($this->getRequest()->id) ? intval($this->getRequest()->id) : null;
-		$form = new $class($id, $formOptions);
+		$form = new $class(null, $formOptions);
 		$element = $form->getElement($field);
 		if (!$element instanceof \Mmi\Form\Element\ElementAbstract) {
 			return '';
@@ -40,7 +37,7 @@ class Form extends \Mmi\Controller\Action {
 		if ($element->noAjax) {
 			return '';
 		}
-		$element->value = $element->applyFilters($value);
+		$element->value = $element->applyFilters($this->getPost()->value);
 		if (!$element->isValid() && $element->hasErrors()) {
 			$this->view->errors = $element->getErrors();
 		} else {

@@ -248,7 +248,7 @@ class Front {
 
 		//wybór i uruchomienie kontrolera akcji
 		$actionHelper = new \Mmi\Controller\Action\Helper\Action();
-		$content = $actionHelper->action($this->getRequest()->__get('module'), $this->getRequest()->__get('controller'), $this->getRequest()->__get('action'), $this->getRequest()->getUserParams());
+		$content = $actionHelper->action($this->getRequest()->__get('module'), $this->getRequest()->__get('controller'), $this->getRequest()->__get('action'), $this->getRequest()->toArray());
 
 		//wpięcie dla pluginów po dispatchu
 		$this->postDispatch();

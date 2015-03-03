@@ -21,14 +21,14 @@ class Stat extends \MmiCms\Controller\Admin {
 		));
 		if ($form->isMine()) {
 			if ($form->getValue('object') && $form->getValue('month') >= 1 && $form->getValue('month') <= 12 && $form->getValue('year') <= date('Y')) {
-				$this->_helper->redirector('index', 'admin-stat', 'cms', array('object' => $form->getValue('object'),
+				$this->getResponse()->redirect('cms', 'admin-stat', 'index', array('object' => $form->getValue('object'),
 					'year' => $form->getValue('year'),
 					'month' => $form->getValue('month'),
-					), true);
+					));
 			}
-			$this->_helper->redirector('index', 'admin-stat', 'cms', array('year' => $form->getValue('year'),
+			$this->getResponse()->redirect('cms', 'admin-stat', 'index', array('year' => $form->getValue('year'),
 				'month' => $form->getValue('month'),
-				), true);
+				));
 		}
 		if (!$this->object || !$this->year || !$this->month) {
 			return;
