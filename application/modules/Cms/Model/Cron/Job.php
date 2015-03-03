@@ -1,14 +1,11 @@
 <?php
 
 /**
- * Obsługa crona
- *
- * Zadania mogą być zapoisane w formacie crontab
- * Przykładowe zapisy
- *
- * [* /5 * * * *] - wykonaj co pięć minut
- * [30 20 1 * *] - wykonaj o 20:30 każdego pierwszego dnia miesiąca
- * [* /30 * 2,5,7 * *] - wykonaj zawsze 2,5,i 7 każdego miesiąca co 30 minut
+ * Mmi Framework (https://code.google.com/p/mmicms/)
+ * 
+ * @link       https://code.google.com/p/mmicms/
+ * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
+ * @license    http://milejko.com/new-bsd.txt New BSD License
  */
 
 namespace Cms\Model\Cron;

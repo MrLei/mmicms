@@ -1,7 +1,11 @@
 <?php
 
 /**
- * @static-method \Cms\Model\Navigation\Record findPk() findPk($id)
+ * Mmi Framework (https://code.google.com/p/mmicms/)
+ * 
+ * @link       https://code.google.com/p/mmicms/
+ * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
+ * @license    http://milejko.com/new-bsd.txt New BSD License
  */
 
 namespace Cms\Model\Navigation;
@@ -100,7 +104,7 @@ class Dao extends \Mmi\Dao {
 		foreach ($serial as $order => $id) {
 			$record = \Cms\Model\Navigation\Query::factory()->findPk($id);
 			if (!$record) {
-				continue;	
+				continue;
 			}
 			$record->order = $order;
 			$record->save();
