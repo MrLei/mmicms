@@ -26,7 +26,7 @@ class Comment extends \Mmi\Controller\Action {
 		if (!($this->allowGuests || \Core\Registry::$auth->hasIdentity())) {
 			return;
 		}
-		$form = new \Cms\Form\Comment(null, array(
+		$form = new \Cms\Form\Comment(new \Cms\Model\Comment\Record(), array(
 			'object' => $this->object,
 			'objectId' => $this->objectId,
 			'withRatings' => ($this->withRatings) ? $this->withRatings : false,

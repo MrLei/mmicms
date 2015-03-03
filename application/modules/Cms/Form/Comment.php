@@ -12,8 +12,6 @@ namespace Cms\Form;
 
 class Comment extends \Mmi\Form {
 
-	protected $_recordName = '\Cms\Model\Comment\Record';
-
 	public function init() {
 		$this->_record->object = $this->getAttrib('object');
 		$this->_record->objectId = $this->getAttrib('objectId');
