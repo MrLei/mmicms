@@ -20,17 +20,17 @@ class Cron extends \MmiCms\Controller\Admin {
 	public function editAction() {
 		$form = new \Cms\Form\Admin\Cron(new \Cms\Model\Cron\Record($this->id));
 		if ($form->isSaved()) {
-			$this->_helper->messenger('Zadanie zapisane poprawnie', true);
-			return $this->_helper->redirector('index', 'admin-cron', 'cms', array(), true);
+			$this->getMessenger()->addMessage('Zadanie zapisane poprawnie', true);
+			return $this->getResponse()->redirect('cms', 'admin-cron', 'index');
 		}
 	}
 
 	public function deleteAction() {
 		$record = \Cms\Model\Cron\Query::factory()->findPk($this->id);
 		if ($record && $record->delete()) {
-			$this->_helper->messenger('Zadanie CRON poprawnie usunięte', true);
+			$this->getMessenger()->addMessage('Zadanie CRON poprawnie usunięte', true);
 		}
-		return $this->_helper->redirector('index', 'admin-cron', 'cms', array(), true);
+		return $this->getResponse()->redirect('cms', 'admin-cron', 'index');
 	}
 
 }

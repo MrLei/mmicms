@@ -59,7 +59,7 @@ class File extends \MmiCms\Controller\Admin {
 		$file = \Cms\Model\File\Query::factory()->findPk($this->id);
 		if ($file && $file->delete()) {
 			$file->delete();
-			$this->_helper->messenger('Poprawnie usunięto plik', true);
+			$this->getMessenger()->addMessage('Poprawnie usunięto plik', true);
 		}
 		$this->_helper->redirector('index');
 	}

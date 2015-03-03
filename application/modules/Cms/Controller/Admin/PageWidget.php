@@ -28,17 +28,17 @@ class PageWidget extends \MmiCms\Controller\Admin {
 		));
 
 		if ($widgetForm->isSaved()) {
-			$this->_helper->messenger('Widget zapisany poprawnie');
-			$this->_helper->redirector('index', 'admin-pageWidget', 'cms', array(), true);
+			$this->getMessenger()->addMessage('Widget zapisany poprawnie');
+			$this->getResponse()->redirect('cms', 'admin-pageWidget', 'index');
 		}
 	}
 
 	public function deleteAction() {
 		$record = \Cms\Model\Page\Widget\Query::factory()->findPk($this->id);
 		if ($record !== null && $record->delete()) {
-			$this->_helper->messenger('Widget zostal usuniety');
+			$this->getMessenger()->addMessage('Widget zostal usuniety');
 		}
-		$this->_helper->redirector('index', 'admin-pageWidget', 'cms', array(), true);
+		$this->getResponse()->redirect('cms', 'admin-pageWidget', 'index');
 	}
 
 }

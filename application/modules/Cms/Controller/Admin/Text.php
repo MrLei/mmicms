@@ -22,10 +22,10 @@ class Text extends \MmiCms\Controller\Admin {
 			return;
 		}
 		if ($form->isSaved()) {
-			$this->_helper->messenger('Poprawnie zapisano tekst', true);
-			$this->_helper->redirector('index', 'admin-text', 'cms', array(), true);
+			$this->getMessenger()->addMessage('Poprawnie zapisano tekst', true);
+			$this->getResponse()->redirect('cms', 'admin-text', 'index');
 		}
-		$this->_helper->messenger('Błąd zapisu tekstu, tekst o tym kluczu już istnieje', false);
+		$this->getMessenger()->addMessage('Błąd zapisu tekstu, tekst o tym kluczu już istnieje', false);
 	}
 
 	public function cloneAction() {
@@ -34,18 +34,18 @@ class Text extends \MmiCms\Controller\Admin {
 			return;
 		}
 		if ($form->isSaved()) {
-			$this->_helper->messenger('Poprawnie sklonowano teksty', true);
-			$this->_helper->redirector('index', 'admin-text', 'cms', array(), true);
+			$this->getMessenger()->addMessage('Poprawnie sklonowano teksty', true);
+			$this->getResponse()->redirect('cms', 'admin-text', 'index');
 		}
-		$this->_helper->messenger('Błąd klonowania tekstów', false);
+		$this->getMessenger()->addMessage('Błąd klonowania tekstów', false);
 	}
 
 	public function deleteAction() {
 		$text = \Cms\Model\Text\Query::factory()->findPk($this->id);
 		if ($text && $text->delete()) {
-			$this->_helper->messenger('Poprawnie skasowano tekst', true);
+			$this->getMessenger()->addMessage('Poprawnie skasowano tekst', true);
 		}
-		$this->_helper->redirector('index', 'admin-text', 'cms', array(), true);
+		$this->getResponse()->redirect('cms', 'admin-text', 'index');
 	}
 
 }
