@@ -31,7 +31,7 @@ class ColorPicker extends \Mmi\Form\Element\Text {
 			$this->value = '#ffffff';
 		}
 		$html = '<input class="colorField" ';
-		$html .= 'type="text" ' . $this->_getHtmlOptions() . '/><div id="' . $this->id . 'Picker"></div>';
+		$html .= 'type="text" ' . $this->_getHtmlOptions() . '/><div id="' . $this->getOption('id') . 'Picker"></div>';
 		return $html;
 	}
 

@@ -25,20 +25,26 @@ abstract class Form extends Form\Base\Form {
 		$this->_request = \Mmi\Controller\Front::getInstance()->getRequest();
 		$this->_saved = false;
 
+		//domyślne opcje
 		$this->setOption('class', 'form_' . $this->_formBaseName)
 			->setOption('accept-charset', 'utf-8')
 			->setOption('method', 'post')
 			->setOption('enctype', 'multipart/form-data');
 
+		//puste dane
 		$data = array();
+		
 		//dane z rekordu
 		if ($this->hasRecord()) {
 			$data = $this->_record->toArray();
 		}
+		
 		//dane z POST
 		if ($this->isMine()) {
 			$data = $this->_request->getPost()->toArray();
 		}
+		
+		//inicjalizacja formularza
 		$this->init();
 
 		//jeśli zabezpieczony formularz, odczytujemy hash z sesji
@@ -48,7 +54,8 @@ abstract class Form extends Form\Base\Form {
 			$this->_hash = $this->_sessionNamespace->{$this->_formBaseName};
 		}
 
-		$this->_configureFields();
+		//konfiguracja elementów
+		$this->_configureElements();
 
 		//automatyczne wywołanie save()
 		$this->setDefaults($this->prepareLoadData($data));
@@ -62,30 +69,11 @@ abstract class Form extends Form\Base\Form {
 			$this->_sessionNamespace = new \Mmi\Session\Space('\Mmi\Form');
 			$this->_sessionNamespace->{$this->_formBaseName} = ($this->_hash = md5($this->_className . microtime(true)));
 		}
+		//tworzenie pola ctrl
 		$this->addElementHidden($this->_formBaseName . '__ctrl')
 			->setIgnore()
 			->setOption('id', $this->_formBaseName . '__ctrl')
 			->setValue(\Mmi\Lib::hashTable(array('hash' => $this->_hash, 'class' => $this->_className, 'options' => $this->getOptions())));
-	}
-
-	/**
-	 * Inicjalizacja formularza
-	 */
-	abstract public function init();
-
-	/**
-	 * Metoda użytkownika wykonywana na koniec konstruktora
-	 */
-	public function lateInit() {
-		
-	}
-
-	/**
-	 * Metoda walidacji całego formularza
-	 * @return boolean
-	 */
-	public function validator() {
-		return true;
 	}
 
 	/**
@@ -111,21 +99,6 @@ abstract class Form extends Form\Base\Form {
 	 */
 	public function setSecured($secured = true) {
 		$this->_secured = $secured;
-	}
-
-	/**
-	 * Konfigurator pól (ustawia id pola na podstawie id macierzystego formularza)
-	 */
-	protected function _configureFields() {
-		foreach ($this->getElements() AS $element) {
-			if ($element instanceof \Mmi\Form\Element\Checkbox) {
-				$element->setValue(0);
-			} elseif ($element instanceof \Mmi\Form\Element\Select && $element->getOption('multiple')) {
-				$element->setValue(array());
-			}
-			$element->setOption('id', $this->_formBaseName . '_' . $element->getOption('name'));
-			$element->setOption('class', trim('field ' . $element->getOption('class')));
-		}
 	}
 
 }
