@@ -57,10 +57,11 @@ abstract class DataObject {
 	 * Ustawia wszystkie zmienne
 	 * @param array $data parametry
 	 * @param bool $reset usuwa wcześniej istniejące parametry
+	 * @return \Mmi\DataObject
 	 */
 	public function setParams(array $data = array(), $reset = false) {
 		if ($reset) {
-			$this->_data = array();
+			$this->_data = $data;
 		}
 		foreach ($data as $key => $value) {
 			$this->_data[$key] = $value;

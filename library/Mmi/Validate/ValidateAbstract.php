@@ -10,7 +10,7 @@
 
 namespace Mmi\Validate;
 
-abstract class ValidateAbstract {
+abstract class ValidateAbstract extends \Mmi\OptionObject {
 
 	/**
 	 * Wiadomość
@@ -19,25 +19,11 @@ abstract class ValidateAbstract {
 	protected $_error;
 
 	/**
-	 * Opcje
-	 * @var array
-	 */
-	protected $_options = array();
-
-	/**
 	 * Konstruktor, ustawia opcje
 	 * @param array $options opcje
 	 */
 	public final function __construct(array $options = array()) {
 		$this->setOptions($options);
-	}
-
-	/**
-	 * Ustawienie opcji
-	 * @param array $options 
-	 */
-	public final function setOptions(array $options = array()) {
-		$this->_options = $options;
 	}
 
 	/**

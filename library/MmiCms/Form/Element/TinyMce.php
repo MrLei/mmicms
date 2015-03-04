@@ -129,10 +129,10 @@ class TinyMce extends \Mmi\Form\Element\Textarea {
 				height: '" . (isset($this->_options['height']) ? $this->_options['height'] : 320) . "',
 				";
 		}
-		unset($this->_options['mode']);
-		$class = $this->__get('id');
+		$this->unsetOption('mode');
+		$class = $this->getOption('id');
 		$skin = \Mmi\Controller\Front::getInstance()->getView()->skin;
-		$this->__set('class', trim($this->__get('class') . ' ' . $class));
+		$this->setOption('class', trim($this->getOption('class') . ' ' . $class));
 		$object = '';
 		$objectId = '';
 		/** opcjonalna funkcja wywoływana po załadowaniu edytorów */
