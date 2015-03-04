@@ -17,6 +17,7 @@ class Contact extends \Mmi\Controller\Action {
 		$form = new \Cms\Form\Contact(null, array(
 			'subjectId' => $this->subjectId
 		));
+		$this->view->contactForm = $form;
 		if ($form->isSaved()) {
 			$this->getMessenger()->addMessage('Wiadomość wysłano poprawnie.', true);
 			if ($namespace->referer) {

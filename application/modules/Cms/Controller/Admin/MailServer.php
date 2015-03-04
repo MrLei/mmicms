@@ -21,8 +21,9 @@ class MailServer extends \MmiCms\Controller\Admin {
 		$form = new \Cms\Form\Admin\Mail\Server(new \Cms\Model\Mail\Server\Record($this->id));
 		if ($form->isSaved()) {
 			$this->getMessenger()->addMessage('Zapisano ustawienia serwera', true);
-			$this->getResponse()->redirect('cms', 'admin-mailServer', 'index');
+			$this->getResponse()->redirect('cms', 'admin-mailServer');
 		}
+		$this->view->serverForm = $form;
 	}
 
 	public function deleteAction() {
@@ -34,7 +35,7 @@ class MailServer extends \MmiCms\Controller\Admin {
 		} catch (\Mmi\Db\Exception $e) {
 			$this->getMessenger()->addMessage('Nie można usunąć serwera, istnieją powiązane szablony', false);
 		}
-		$this->getResponse()->redirect('cms', 'admin-mailServer', 'index');
+		$this->getResponse()->redirect('cms', 'admin-mailServer');
 	}
 
 }

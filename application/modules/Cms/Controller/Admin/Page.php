@@ -21,16 +21,15 @@ class Page extends \MmiCms\Controller\Admin {
 		if ($form->isSaved()) {
 			$this->getResponse()->redirect('cms', 'admin-page', 'compose', array('id' => $pageRecord->id));
 		}
+		$this->view->pageForm = $form;
 	}
 
 	public function composeAction() {
 		if (!$this->id || null === ($page = \Cms\Model\Page\Query::factory()
 			->where('id')->equals($this->id)
 			->findFirst())) {
-			$this->getResponse()->redirect('cms', 'admin-page', 'index');
+			$this->getResponse()->redirect('cms', 'admin-page');
 		}
-		/* @var $page \Cms\Model\Page\Record */
-
 		//lista aktywnych widgetow
 		$this->view->widgets = \Cms\Model\Page\Widget\Dao::activeQuery()->find();
 
@@ -89,7 +88,7 @@ class Page extends \MmiCms\Controller\Admin {
 		if (null !== ($record = \Cms\Model\Page\Query::factory()->findPk($this->id)) && $record->delete()) {
 			$this->getMessenger()->addMessage('Strona usunięta poprawnie');
 		}
-		$this->getResponse()->redirect('cms', 'admin-page', 'index');
+		$this->getResponse()->redirect('cms', 'admin-page');
 	}
 
 }

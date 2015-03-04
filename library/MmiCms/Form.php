@@ -13,6 +13,37 @@ namespace MmiCms;
 abstract class Form extends \Mmi\Form {
 
 	/**
+	 * Nazwa obiektu do przypięcia plików
+	 * @var string
+	 */
+	protected $_fileObjectName;
+
+	/**
+	 * Konstruktor
+	 * @param \Mmi\Dao\Record\Ro $record obiekt recordu
+	 * @param array $options opcje
+	 * @param string $className nazwa klasy
+	 */
+	public function __construct(\Mmi\Dao\Record\Ro $record = null, array $options = array(), $className = null) {
+		//kalkulacja nazwy plików dla active record
+		if ($record) {
+			$this->_fileObjectName = $this->_classToFileObject(get_class($record));
+		}
+		parent::__construct($record, $options, $className);
+	}
+
+	/**
+	 * Wywołuje walidację i zapis rekordu powiązanego z formularzem.
+	 * @return bool
+	 */
+	public function save() {
+		if ($this->hasRecord() && parent::save()) {
+			$this->_appendFiles($this->_record->getPk(), $this->getFiles());
+		}
+		return $this->isSaved();
+	}
+
+	/**
 	 * Zabezpieczenie spamowe
 	 * @param string $name nazwa
 	 * @return \Mmi\Form\Element\Antirobot
@@ -73,6 +104,78 @@ abstract class Form extends \Mmi\Form {
 	 */
 	public function addElementUploader($name) {
 		return $this->addElement(new \MmiCms\Form\Element\Uploader($name));
+	}
+
+	/**
+	 * Zwraca nazwę obiektu do przypięcia plików
+	 * @return string
+	 */
+	public function getFileObjectName() {
+		return $this->_fileObjectName;
+	}
+
+	/**
+	 * Ustawia nazwę obiektu do przypięcia plików
+	 * @param string $name nazwa
+	 */
+	public function setFileObjectName($name) {
+		$this->_fileObjectName = $name;
+	}
+
+	/**
+	 * Dołaczenie plików do obiektu
+	 * @param mixed $id
+	 * @param array $files tabela plików
+	 */
+	protected function _appendFiles($id, $files) {
+		try {
+			foreach ($files as $fileSet) {
+				\Cms\Model\File\Dao::appendFiles($this->_fileObjectName, $id, $fileSet);
+			}
+			//przenoszenie z uploadera
+			\Cms\Model\File\Dao::move('tmp-' . $this->_fileObjectName, \Mmi\Session::getNumericId(), $this->_fileObjectName, $id);
+		} catch (\Exception $e) {
+			\Mmi\Exception\Logger::log($e);
+		}
+	}
+
+	/**
+	 * Import plików z pól formularza i sesji
+	 * Zwraca tabelę danych plików
+	 * @return array
+	 */
+	public function getFiles() {
+		$files = array();
+		//import z elementów File
+		foreach ($this->getElements() as $element) {
+			if ($element->getType() != '\Mmi\Form\Element\File') {
+				continue;
+			}
+			if (!$element->isUploaded()) {
+				continue;
+			}
+			$files[$element->getName()] = $element->getFileInfo();
+		}
+		return $files;
+	}
+
+	/**
+	 * Zwraca nazwę plików powiązanych z danym formularzem (na podstawie klasy rekordu / modelu)
+	 * @param string $name
+	 * @return string
+	 */
+	protected function _classToFileObject($name) {
+		$name = explode('\\', $name);
+		$fileObject = '';
+		foreach ($name as $part) {
+			$part = strtolower($part);
+			if (isset($first) && $part == $first || $part == 'model' || $part == 'record') {
+				continue;
+			}
+			$first = $part;
+			$fileObject .= $part;
+		}
+		return $fileObject;
 	}
 
 }

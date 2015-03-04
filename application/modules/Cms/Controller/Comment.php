@@ -35,6 +35,7 @@ class Comment extends \Mmi\Controller\Action {
 			$this->getMessenger()->addMessage('Dodano komentarz', true);
 			$this->getResponse()->redirectToUrl($this->getRequest()->getReferer());
 		}
+		$this->view->commentForm = $form;
 	}
 
 }

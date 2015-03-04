@@ -23,14 +23,15 @@ class PageWidget extends \MmiCms\Controller\Admin {
 			$this->widget = ucfirst($widget->module) . ':' . ucfirst($widget->controller) . ':' . $widget->action;
 		}
 
-		$widgetForm = new \Cms\Form\Admin\Page\Widget($widget, array(
+		$form = new \Cms\Form\Admin\Page\Widget($widget, array(
 			'widget' => $this->widget
 		));
 
-		if ($widgetForm->isSaved()) {
+		if ($form->isSaved()) {
 			$this->getMessenger()->addMessage('Widget zapisany poprawnie');
-			$this->getResponse()->redirect('cms', 'admin-pageWidget', 'index');
+			$this->getResponse()->redirect('cms', 'admin-pageWidget');
 		}
+		$this->view->widgetForm = $form;		
 	}
 
 	public function deleteAction() {
@@ -38,7 +39,7 @@ class PageWidget extends \MmiCms\Controller\Admin {
 		if ($record !== null && $record->delete()) {
 			$this->getMessenger()->addMessage('Widget zostal usuniety');
 		}
-		$this->getResponse()->redirect('cms', 'admin-pageWidget', 'index');
+		$this->getResponse()->redirect('cms', 'admin-pageWidget');
 	}
 
 }

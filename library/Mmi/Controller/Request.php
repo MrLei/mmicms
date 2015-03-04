@@ -10,13 +10,7 @@
 
 namespace Mmi\Controller;
 
-class Request {
-
-	/**
-	 * Zmienne żądania
-	 * @var array
-	 */
-	private $_data = array();
+class Request extends \Mmi\DataObject {
 
 	/**
 	 * Konstruktor, pozwala podać zmienne requestu
@@ -24,41 +18,6 @@ class Request {
 	 */
 	public function __construct(array $data = array()) {
 		$this->setParams($data);
-	}
-
-	/**
-	 * Magiczne pobranie zmiennej żądania
-	 * @param string $key klucz
-	 * @return string
-	 */
-	public function __get($key) {
-		return isset($this->_data[$key]) ? $this->_data[$key] : null;
-	}
-
-	/**
-	 * Magiczne sprawczenie istnienia pola
-	 * @param string $key klucz
-	 * @return bool
-	 */
-	public function __isset($key) {
-		return isset($this->_data[$key]);
-	}
-
-	/**
-	 * Magicznie usuwa pole
-	 * @param string $key klucz
-	 */
-	public function __unset($key) {
-		unset($this->_data[$key]);
-	}
-
-	/**
-	 * Magiczne ustawienie zmiennej żądania
-	 * @param string $key klucz
-	 * @param string $value wartość
-	 */
-	public function __set($key, $value) {
-		$this->_data[$key] = $value;
 	}
 
 	/**
@@ -85,29 +44,6 @@ class Request {
 	public function getHeader($name) {
 		$headerName = strtoupper(preg_replace("/[^a-zA-Z0-9_]/", '_', $name));
 		return filter_input(INPUT_SERVER, 'HTTP_' . $headerName, FILTER_SANITIZE_SPECIAL_CHARS);
-	}
-
-	/**
-	 * Zwraca zmienne żądania w formie tabeli
-	 * @return array
-	 */
-	public function toArray() {
-		return $this->_data;
-	}
-
-	/**
-	 * Ustawia wszystkie zmienne żądania
-	 * @param array $data parametry
-	 * @param bool $reset usuwa wcześniej istniejące parametry
-	 */
-	public function setParams(array $data = array(), $reset = false) {
-		if ($reset) {
-			$this->_data = array();
-		}
-		foreach ($data as $key => $value) {
-			$this->_data[$key] = $value;
-		}
-		return $this;
 	}
 
 	/**

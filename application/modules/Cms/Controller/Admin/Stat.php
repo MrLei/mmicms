@@ -19,6 +19,7 @@ class Stat extends \MmiCms\Controller\Admin {
 			'year' => $year,
 			'month' => $month,
 		));
+		$this->view->objectForm = $form;
 		if ($form->isMine()) {
 			if ($form->getValue('object') && $form->getValue('month') >= 1 && $form->getValue('month') <= 12 && $form->getValue('year') <= date('Y')) {
 				$this->getResponse()->redirect('cms', 'admin-stat', 'index', array('object' => $form->getValue('object'),
@@ -99,6 +100,7 @@ class Stat extends \MmiCms\Controller\Admin {
 			$this->getMessenger()->addMessage('Nazwa statystyki została zapisana', true);
 			$this->getResponse()->redirect('cms', 'admin-stat', 'label');
 		}
+		$this->view->labelForm = $form;
 	}
 
 	public function deleteAction() {

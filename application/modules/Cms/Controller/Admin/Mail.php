@@ -21,7 +21,7 @@ class Mail extends \MmiCms\Controller\Admin {
 		if ($mail && $mail->delete()) {
 			$this->getMessenger()->addMessage('Email został usunięty z kolejki', true);
 		}
-		return $this->getResponse()->redirect('mail', 'admin', 'index');
+		$this->getResponse()->redirect('mail', 'admin', 'index');
 	}
 
 	public function sendAction() {

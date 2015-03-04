@@ -10,7 +10,7 @@
 
 namespace Cms\Form\Admin\Widget;
 
-class Picture extends \Mmi\Form {
+class Picture extends \MmiCms\Form {
 
 	protected $_recordName = '\Cms\Model\Widget\Picture\Record';
 

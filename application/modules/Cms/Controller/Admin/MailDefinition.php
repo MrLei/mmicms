@@ -21,8 +21,9 @@ class MailDefinition extends \MmiCms\Controller\Admin {
 		$form = new \Cms\Form\Admin\Mail\Definition(new \Cms\Model\Mail\Definition\Record($this->id));
 		if ($form->isSaved()) {
 			$this->getMessenger()->addMessage('Poprawnie zapisano definicję maila', true);
-			$this->getResponse()->redirect('cms', 'admin-mailDefinition', 'index');
+			$this->getResponse()->redirect('cms', 'admin-mailDefinition');
 		}
+		$this->view->definitionForm = $form;
 	}
 
 	public function deleteAction() {
@@ -34,7 +35,7 @@ class MailDefinition extends \MmiCms\Controller\Admin {
 		} catch (\Mmi\Db\Exception $e) {
 			$this->getMessenger()->addMessage('Nie można usunąć definicji maila, istnieją powiazane wiadomosci w kolejce', false);
 		}
-		$this->getResponse()->redirect('cms', 'admin-mailDefinition', 'index');
+		$this->getResponse()->redirect('cms', 'admin-mailDefinition');
 	}
 
 }

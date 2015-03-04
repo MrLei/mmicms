@@ -18,6 +18,7 @@ class Admin extends \MmiCms\Controller\Admin {
 
 	public function loginAction() {
 		$form = new \Cms\Form\Admin\Login($authRecord = new \Cms\Model\Auth\Record());
+		$this->view->loginForm = $form;
 		if (!$form->isMine()) {
 			return;
 		}
@@ -60,6 +61,7 @@ class Admin extends \MmiCms\Controller\Admin {
 			$this->getResponse()->redirect('core', 'index', 'index');
 		}
 		$form = new \Cms\Form\Admin\Password($authRecord = new \Cms\Model\Auth\Record());
+		$this->view->passwordForm = $form;
 		if (!$form->isMine()) {
 			return;
 		}
