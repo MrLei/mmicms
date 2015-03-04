@@ -10,21 +10,7 @@
 
 namespace Mmi\Form\Element\Base;
 
-abstract class Base extends Renderer {
-
-	/**
-	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora
-	 */
-	public function init() {
-		
-	}
-
-	/**
-	 * Funkcja użytkownika, jest wykonywana przed renderingiem
-	 */
-	public function preRender() {
-		
-	}
+abstract class Element extends ElementRenderer {
 
 	/**
 	 * Buduje opcje HTML

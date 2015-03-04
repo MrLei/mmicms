@@ -10,7 +10,7 @@
 
 namespace Mmi\Form\Element\Base;
 
-abstract class Renderer extends Operation {
+abstract class ElementRenderer extends ElementCore {
 
 	/**
 	 * Kolejność renderowania pola

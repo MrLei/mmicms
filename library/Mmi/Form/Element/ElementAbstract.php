@@ -10,7 +10,7 @@
 
 namespace Mmi\Form\Element;
 
-abstract class ElementAbstract extends Base\Base {
+abstract class ElementAbstract extends Base\Element {
 
 	/**
 	 * Automatyczne tłumaczenie opisów i etykiet pól
@@ -92,41 +92,13 @@ abstract class ElementAbstract extends Base\Base {
 	}
 
 	/**
-	 * Filtruje daną wartość za pomocą filtrów pola
-	 * @param mixed $value wartość
-	 * @return mixed wynik filtracji
-	 */
-	public final function applyFilters($value) {
-		if (!isset($this->_options['filters'])) {
-			return $value;
-		}
-		if (!is_array($this->_options['filters'])) {
-			return $value;
-		}
-		foreach ($this->_options['filters'] as $filter) {
-			$options = array();
-			if (is_array($filter)) {
-				$options = isset($filter['options']) ? $filter['options'] : array();
-				$filter = $filter['filter'];
-			}
-			$f = $this->_getFilter($filter);
-			$f->setOptions($options);
-			$value = $f->filter($value);
-		}
-		return $value;
-	}
-
-	/**
-	 * Waliduje pole i zwraca czy wpis w polu jest poprawny
+	 * Waliduje pole
 	 * @return boolean
 	 */
 	public final function isValid() {
 		$result = true;
 		//waliduje poprawnie jeśli niewymagane, ale tylko gdy niepuste
-		if (!($this->_options['required'] || $this->getValue() != '')) {
-			return true;
-		}
-		if (!is_array($this->getValidators())) {
+		if (!($this->isRequired() || $this->getValue() != '')) {
 			return true;
 		}
 		foreach ($this->getValidators() as $validator) {
