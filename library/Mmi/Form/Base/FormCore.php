@@ -35,7 +35,7 @@ abstract class FormCore extends \Mmi\OptionObject {
 	 * @var string
 	 */
 	protected $_hash;
-	
+
 	/**
 	 * CTRL pochodzący z POST
 	 * @var string
@@ -53,12 +53,32 @@ abstract class FormCore extends \Mmi\OptionObject {
 	 * @var boolean
 	 */
 	protected $_secured = false;
-	
+
 	/**
 	 * Rezultat walidacji
 	 * @var boolean
 	 */
 	protected $_validationResult;
+
+	/**
+	 * Inicjalizacja formularza
+	 */
+	abstract public function init();
+
+	/**
+	 * Metoda użytkownika wykonywana na koniec konstruktora
+	 */
+	public function lateInit() {
+		
+	}
+
+	/**
+	 * Metoda walidacji całego formularza
+	 * @return boolean
+	 */
+	public function validator() {
+		return true;
+	}
 
 	/**
 	 * Ustawia akcję formularza
@@ -131,6 +151,21 @@ abstract class FormCore extends \Mmi\OptionObject {
 			}
 		}
 		return $this->_validationResult;
+	}
+
+	/**
+	 * Konfigurator elementów ustawia id pola na podstawie id macierzystego formularza
+	 */
+	protected function _configureElements() {
+		foreach ($this->getElements() AS $element) {
+			if ($element instanceof \Mmi\Form\Element\Checkbox) {
+				$element->setValue(0);
+			} elseif ($element instanceof \Mmi\Form\Element\Select && $element->getOption('multiple')) {
+				$element->setValue(array());
+			}
+			$element->setOption('id', $this->_formBaseName . '_' . $element->getOption('name'));
+			$element->setOption('class', trim('field ' . $element->getOption('class')));
+		}
 	}
 
 }
