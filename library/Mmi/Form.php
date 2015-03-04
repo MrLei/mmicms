@@ -134,10 +134,10 @@ abstract class Form {
 		//obsługa checkboxów i selectów
 		if (!empty($this->_values)) {
 			foreach ($this->getElements() as $element) {
-				if ($element->getType() == '\Mmi\Form\Element\Checkbox' && !isset($this->_values[$element->name]) && $this->isMine()) {
+				if ($element->getType() == 'Mmi\Form\Element\Checkbox' && !isset($this->_values[$element->name]) && $this->isMine()) {
 					$this->_values[$element->name] = 0;
 				}
-				if ($element->getType() == '\Mmi\Form\Element\Select' && $this->isMine()) {
+				if ($element->getType() == 'Mmi\Form\Element\Select' && $this->isMine()) {
 					if (isset($this->_values[$element->name])) {
 						$this->_values[$element->name] = ($this->_values[$element->name] === '') ? null : $this->_values[$element->name];
 					} else {
