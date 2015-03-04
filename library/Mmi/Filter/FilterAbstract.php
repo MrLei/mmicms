@@ -10,13 +10,7 @@
 
 namespace Mmi\Filter;
 
-abstract class FilterAbstract {
-
-	/**
-	 * Opcje
-	 * @var array
-	 */
-	protected $_options = array();
+abstract class FilterAbstract extends \Mmi\OptionObject {
 
 	/**
 	 * Zwraca przefiltrowaną wartość
@@ -25,26 +19,5 @@ abstract class FilterAbstract {
 	 * @return mixed
 	 */
 	abstract public function filter($value);
-
-	/**
-	 * Ustawia opcje - tabela klucz => wartość
-	 * @param array $options opcje
-	 * @return \Mmi\Filter\FilterAbstract
-	 */
-	public function setOptions(array $options = array()) {
-		$this->_options = $options;
-		return $this;
-	}
-
-	/**
-	 * Ustawia pojedynczą opcję
-	 * @param mixed $key klucz
-	 * @param mixed $value wartość
-	 * @return \Mmi\Filter\FilterAbstract
-	 */
-	public function setOption($key, $value) {
-		$this->_options[$key] = $value;
-		return $this;
-	}
 
 }

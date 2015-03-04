@@ -1,20 +1,21 @@
 $(document).ready(function () {
 
 	function toggleInternal() {
-		if ($('#edit_internal').attr('checked') != 'checked') {
-			$('#edit_uri_container').removeClass('hidden');
-			$('#edit_uri_container').addClass('text');
-			$('#edit_text_container').hide();
+		if (!$('#news_internal').is(':checked')) {
+			$('#news_uri_container').show();
+			$('#news_text_container').hide();
+			$('#news_lead_container').hide();
 		} else {
-			$('#edit_uri_container').removeClass('text');
-			$('#edit_uri_container').addClass('hidden');
-			$('#edit_text_container').show();
+			$('#news_uri_container').hide();
+			$('#news_text_container').show();
+			$('#news_lead_container').show();
 		}
 	}
 	
 	toggleInternal();
 
-	$('#edit_internal').change(function () {
+	$('#news_internal').change(function () {
+		console.log($('#news_internal').attr('checked'));
 		toggleInternal();
 	});
 	
