@@ -22,7 +22,7 @@ class ColorPicker extends \Mmi\Form\Element\Text {
 		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/farbtastic.js');
 		$view->headScript()->appendScript('
 			$(document).ready(function() {
-				$(\'#' . $this->id . 'Picker\').farbtastic(\'#' . $this->id . '\');
+				$(\'#' . $this->getOption('id') . 'Picker\').farbtastic(\'#' . $this->getOption('id') . '\');
 			});
 		');
 		$this->readonly = 'readonly';

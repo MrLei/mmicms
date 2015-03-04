@@ -48,7 +48,7 @@ class Request extends \Mmi\DataObject {
 
 	/**
 	 * Zwraca zmienne POST w postaci tabeli
-	 * @return array
+	 * @return Request\Post
 	 */
 	public function getPost() {
 		return new Request\Post($_POST);
@@ -56,10 +56,10 @@ class Request extends \Mmi\DataObject {
 
 	/**
 	 * Pobiera informacje o zuploadowanych plikach FILES
-	 * @return array
+	 * @return Request\Files
 	 */
 	public function getFiles() {
-		return new Request\File($_FILES);
+		return new Request\Files($_FILES);
 	}
 
 	/**
