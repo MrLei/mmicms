@@ -32,7 +32,7 @@ class File extends \Mmi\Controller\Action {
 	}
 
 	public function uploadAction() {
-		$files = \Mmi\Controller\Front::getInstance()->getRequest()->getFiles();
+		$files = $this->getFiles()->toArray();
 		if (empty($files)) {
 			return 'Error: no files.';
 		}

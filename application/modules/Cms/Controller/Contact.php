@@ -17,15 +17,16 @@ class Contact extends \Mmi\Controller\Action {
 		$form = new \Cms\Form\Contact(null, array(
 			'subjectId' => $this->subjectId
 		));
+		$this->view->contactForm = $form;
 		if ($form->isSaved()) {
-			$this->_helper->messenger('Wiadomość wysłano poprawnie.', true);
+			$this->getMessenger()->addMessage('Wiadomość wysłano poprawnie.', true);
 			if ($namespace->referer) {
 				$link = $namespace->referer;
 			} else {
 				$link = $this->view->url();
 			}
 			$namespace->unsetAll();
-			$this->_helper->redirector()->gotoUrl($link);
+			$this->getResponse()->redirectToUrl($link);
 		} elseif (\Mmi\Controller\Front::getInstance()->getEnvironment()->httpReferer) {
 			$namespace->referer = \Mmi\Controller\Front::getInstance()->getEnvironment()->httpReferer;
 		}

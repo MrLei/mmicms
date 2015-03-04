@@ -18,13 +18,12 @@ class Grid extends \Mmi\Controller\Action {
 	}
 
 	public function filterAction() {
-		if (!isset($_POST['ctrl']) || !isset($_POST['field'])) {
+		if (!$this->getPost()->ctrl || !$this->getPost()->field) {
 			return;
 		}
-		$options = \Mmi\Lib::unhashTable($_POST['ctrl']);
-		$field = isset($_POST['field']) ? $_POST['field'] : null;
-		$value = isset($_POST['value']) ? $_POST['value'] : '';
-		$_POST = array();
+		$options = \Mmi\Lib::unhashTable($this->getPost()->ctrl);
+		$field = $this->getPost()->field;
+		$value = $this->getPost()->value;
 		if (!$options) {
 			return;
 		}
@@ -47,13 +46,12 @@ class Grid extends \Mmi\Controller\Action {
 	}
 
 	public function orderAction() {
-		if (!isset($_POST['ctrl']) || !isset($_POST['field'])) {
+		if (!$this->getPost()->ctrl || !$this->getPost()->field) {
 			return;
 		}
-		$options = \Mmi\Lib::unhashTable($_POST['ctrl']);
-		$field = $_POST['field'];
-		$value = isset($_POST['value']) ? $_POST['value'] : '';
-		$_POST = array();
+		$options = \Mmi\Lib::unhashTable($this->getPost()->ctrl);
+		$field = $this->getPost()->field;
+		$value = $this->getPost()->value ? $this->getPost()->value : '';
 		if (!$options) {
 			return;
 		}
@@ -73,21 +71,19 @@ class Grid extends \Mmi\Controller\Action {
 	}
 
 	public function fieldAction() {
-		if (!isset($_POST['ctrl']) || !isset($_POST['field']) || !isset($_POST['identifier'])) {
+		if (!$this->getPost()->ctrl || !$this->getPost()->field || !$this->getPost()->identifier) {
 			return;
 		}
-		$options = \Mmi\Lib::unhashTable($_POST['ctrl']);
-		$field = $_POST['field'];
-		$identifier = $_POST['identifier'];
-		$value = isset($_POST['value']) ? $_POST['value'] : '';
-		$_POST = array();
+		$options = \Mmi\Lib::unhashTable($this->getPost()->ctrl);
+		$field = $this->getPost()->field;
+		$identifier = $this->getPost()->field;
+		$value = isset($this->getPost()->value) ? $this->getPost()->value : '';
 		if (!$options) {
 			return;
 		}
 		$class = $options['className'];
 		$grid = new $class();
-		$dao = $grid->getDaoName();
-		$record = $Query::factory()->findPk($identifier);
+		$record = $grid->getQuery()->findPk($identifier);
 		if ($record === null) {
 			return;
 		}

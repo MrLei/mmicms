@@ -19,18 +19,17 @@ class Page extends \MmiCms\Controller\Admin {
 	public function editAction() {
 		$form = new \Cms\Form\Admin\Page($pageRecord = new \Cms\Model\Page\Record($this->id));
 		if ($form->isSaved()) {
-			$this->_helper->redirector('compose', 'admin-page', 'cms', array('id' => $pageRecord->id), true);
+			$this->getResponse()->redirect('cms', 'admin-page', 'compose', array('id' => $pageRecord->id));
 		}
+		$this->view->pageForm = $form;
 	}
 
 	public function composeAction() {
 		if (!$this->id || null === ($page = \Cms\Model\Page\Query::factory()
 			->where('id')->equals($this->id)
 			->findFirst())) {
-			$this->_helper->redirector('index', 'admin-page', 'cms', array(), true);
+			$this->getResponse()->redirect('cms', 'admin-page');
 		}
-		/* @var $page \Cms\Model\Page\Record */
-
 		//lista aktywnych widgetow
 		$this->view->widgets = \Cms\Model\Page\Widget\Dao::activeQuery()->find();
 
@@ -55,29 +54,27 @@ class Page extends \MmiCms\Controller\Admin {
 	}
 
 	public function updateAction() {
-		$post = $this->getRequest()->getPost();
-		if (!isset($post['id']) || !isset($post['data'])) {
+		if (!$this->getPost()->id || !$this->getPost()->data) {
 			return json_encode(array('success' => 0));
 		}
 		$page = \Cms\Model\Page\Query::factory()
-			->where('id')->equals($post['id'])
+			->where('id')->equals($this->getPost()->id)
 			->findFirst();
 		if ($page === null) {
 			return json_encode(array('success' => 0));
 		}
-		$page->text = htmlspecialchars_decode($post['data']);
+		$page->text = htmlspecialchars_decode($this->getPost()->data);
 		$page->save();
 		return json_encode(array('success' => 1));
 	}
 
 	public function loadAction() {
 		$this->getResponse()->setDebug(false);
-		$post = $this->getRequest()->getPost();
-		if (!isset($post['id'])) {
+		if (!$this->getPost()->id) {
 			return json_encode(array('success' => 0));
 		}
 		$page = \Cms\Model\Page\Query::factory()
-			->whereId()->equals($post['id'])
+			->whereId()->equals($this->getPost()->id)
 			->findFirst();
 		if ($page === null) {
 			return json_encode(array('sucess' => 0));
@@ -89,9 +86,9 @@ class Page extends \MmiCms\Controller\Admin {
 
 	public function deleteAction() {
 		if (null !== ($record = \Cms\Model\Page\Query::factory()->findPk($this->id)) && $record->delete()) {
-			$this->_helper->messenger('Strona usunięta poprawnie');
+			$this->getMessenger()->addMessage('Strona usunięta poprawnie');
 		}
-		$this->_helper->redirector('index', 'admin-page', 'cms', array(), true);
+		$this->getResponse()->redirect('cms', 'admin-page');
 	}
 
 }

@@ -19,16 +19,17 @@ class Stat extends \MmiCms\Controller\Admin {
 			'year' => $year,
 			'month' => $month,
 		));
+		$this->view->objectForm = $form;
 		if ($form->isMine()) {
 			if ($form->getValue('object') && $form->getValue('month') >= 1 && $form->getValue('month') <= 12 && $form->getValue('year') <= date('Y')) {
-				$this->_helper->redirector('index', 'admin-stat', 'cms', array('object' => $form->getValue('object'),
+				$this->getResponse()->redirect('cms', 'admin-stat', 'index', array('object' => $form->getValue('object'),
 					'year' => $form->getValue('year'),
 					'month' => $form->getValue('month'),
-					), true);
+					));
 			}
-			$this->_helper->redirector('index', 'admin-stat', 'cms', array('year' => $form->getValue('year'),
+			$this->getResponse()->redirect('cms', 'admin-stat', 'index', array('year' => $form->getValue('year'),
 				'month' => $form->getValue('month'),
-				), true);
+				));
 		}
 		if (!$this->object || !$this->year || !$this->month) {
 			return;
@@ -96,17 +97,18 @@ class Stat extends \MmiCms\Controller\Admin {
 	public function editAction() {
 		$form = new \Cms\Form\Admin\Stat\Label(new \Cms\Model\Stat\Label\Record($this->id));
 		if ($form->isSaved()) {
-			$this->_helper->messenger('Nazwa statystyki została zapisana', true);
-			$this->_helper->redirector('label', 'admin-stat', 'cms', array(), true);
+			$this->getMessenger()->addMessage('Nazwa statystyki została zapisana', true);
+			$this->getResponse()->redirect('cms', 'admin-stat', 'label');
 		}
+		$this->view->labelForm = $form;
 	}
 
 	public function deleteAction() {
 		$label = \Cms\Model\Stat\Label\Query::factory()->findPk($this->id);
 		if ($label && $label->delete()) {
-			$this->_helper->messenger('Nazwa statystyki została usunięta', true);
+			$this->getMessenger()->addMessage('Nazwa statystyki została usunięta', true);
 		}
-		$this->_helper->redirector('label', 'admin-stat', 'cms', array(), true);
+		$this->getResponse()->redirect('cms', 'admin-stat', 'label');
 	}
 
 }

@@ -32,22 +32,6 @@ class Structure {
 		$components = array();
 		foreach (glob(APPLICATION_PATH . '/modules/*') as $module) {
 			$moduleName = lcfirst(substr($module, strrpos($module, '/') + 1));
-			foreach (($glob = glob($module . '/Controller/Helper/*.php')) ? $glob : [] as $helper) {
-				$helperName = substr($helper, strrpos($helper, '/') + 1, -4);
-				$components[$moduleName]['Controller']['Helper'][$helperName] = 1;
-			}
-			foreach (($glob = glob($module . '/View/Helper/*.php')) ? $glob : [] as $helper) {
-				$helperName = substr($helper, strrpos($helper, '/') + 1, -4);
-				$components[$moduleName]['View']['Helper'][$helperName] = 1;
-			}
-			foreach (($glob = glob($module . '/Filter/*.php')) ? $glob : [] as $filter) {
-				$filterName = substr($filter, strrpos($filter, '/') + 1, -4);
-				$components[$moduleName]['Filter'][$filterName] = 1;
-			}
-			foreach (($glob = glob($module . '/Validate/*.php')) ? $glob : [] as $validator) {
-				$validatorName = substr($validator, strrpos($validator, '/') + 1, -4);
-				$components[$moduleName]['Validate'][$validatorName] = 1;
-			}
 			foreach (($glob = glob($module . '/Controller/*')) ? $glob : [] as $controller) {
 				if (is_dir($controller)) {
 					foreach (($glb = glob($controller . '/*.php')) ? $glb : [] as $cnt) {
@@ -128,7 +112,7 @@ class Structure {
 		$components = array();
 		foreach (($glob = glob(LIB_PATH . '/*')) ? $glob : [] as $lib) {
 			$libName = substr($lib, strrpos($lib, '/') + 1);
-			if ($libName == 'Zend') {
+			if (substr($libName, 0, 3) !== 'Mmi') {
 				continue;
 			}
 			foreach (($glob = glob($lib . '/View/Helper/*.php')) ? $glob : [] as $helper) {

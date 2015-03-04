@@ -377,5 +377,47 @@ class Response {
 		echo $this->_content;
 		ob_end_flush();
 	}
+	
+	/**
+	 * Przekierowuje na moduł, kontroler, akcję z parametrami
+	 * @param string $module
+	 * @param string $controller
+	 * @param string $action
+	 * @param array $params parametry
+	 * @param boolean $reset reset parametrów z URL - domyślnie włączony
+	 */
+	public function redirect($module = null, $controller = null, $action = null, array $params = array(), $reset = true) {
+		if (!$reset) {
+			$requestParams = \Mmi\Controller\Front::getInstance()->getRequest()->toArray();
+			$params = array_merge($requestParams, $params);
+		}
+		if ($action !== null) {
+			$params['action'] = $action;
+		}
+		if ($controller !== null) {
+			$params['controller'] = $controller;
+		}
+		if ($module !== null) {
+			$params['module'] = $module;
+		}
+		$this->redirectToRoute($params);
+	}
+	
+	/**
+	 * Przekierowuje na url wygenerowany z parametrów, przez router
+	 * @param array $params
+	 */
+	public function redirectToRoute(array $params = array()) {
+		$this->redirectToUrl(\Mmi\Controller\Front::getInstance()->getRouter()->encodeUrl($params));
+	}
+	
+	/**
+	 * Przekierowanie na dowolny URL
+	 * @param string $url adres url
+	 */
+	public function redirectToUrl($url) {
+		$this->setHeader('Location', $url);
+		exit;
+	}
 
 }

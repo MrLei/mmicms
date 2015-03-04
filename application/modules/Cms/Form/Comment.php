@@ -13,8 +13,8 @@ namespace Cms\Form;
 class Comment extends \Mmi\Form {
 
 	public function init() {
-		$this->_record->object = $this->getAttrib('object');
-		$this->_record->objectId = $this->getAttrib('objectId');
+		$this->_record->object = $this->getOption('object');
+		$this->_record->objectId = $this->getOption('objectId');
 
 		$this->addElementText('title')
 			->setLabel('tytuł');
@@ -25,7 +25,7 @@ class Comment extends \Mmi\Form {
 			->addValidatorNotEmpty();
 
 
-		if ($this->getAttrib('withRatings') === true) {
+		if ($this->getOption('withRatings') === true) {
 			$this->addElementText('stars')
 				->setLabel('Oceń artykuł');
 		}

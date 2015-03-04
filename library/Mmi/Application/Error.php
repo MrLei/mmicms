@@ -62,7 +62,7 @@ class Error {
 	 * @return boolean
 	 */
 	public static function exceptionHandler(\Exception $exception) {
-//		ob_clean();
+		ob_clean();
 		\Mmi\Exception\Logger::log($exception);
 		$response = \Mmi\Controller\Front::getInstance()->getResponse();
 		try {

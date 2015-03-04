@@ -26,16 +26,17 @@ class Widget extends \MmiCms\Controller\Admin {
 
 		$form = new \Cms\Form\Admin\Widget\Text($widget);
 		if ($form->isSaved()) {
-			$this->_helper->messenger('Tekst został dodany');
-			$this->_helper->redirector('textWidgetEdit', 'admin-widget', 'cms', array(), true);
+			$this->getMessenger()->addMessage('Tekst został dodany');
+			$this->getResponse()->redirect('cms', 'admin-widget', 'textWidgetEdit');
 		}
+		$this->view->textForm = $form;
 	}
 
 	public function textWidgetDeleteAction() {
 		if (null !== ($record = \Cms\Model\Widget\Text\Query::factory()->findPk($this->id)) && $record->delete()) {
-			$this->_helper->messenger('Tekst usunięty poprawnie');
+			$this->getMessenger()->addMessage('Tekst usunięty poprawnie');
 		}
-		$this->_helper->redirector('textWidgetEdit', 'admin-widget', 'cms', array(), true);
+		$this->getResponse()->redirect('cms', 'admin-widget', 'textWidgetEdit');
 	}
 
 	public function pictureWidgetEditAction() {
@@ -47,16 +48,17 @@ class Widget extends \MmiCms\Controller\Admin {
 
 		$form = new \Cms\Form\Admin\Widget\Picture($pictureRec);
 		if ($form->isSaved()) {
-			$this->_helper->messenger('Zdjęcie zostało zapisane');
-			$this->_helper->redirector('pictureWidgetEdit', 'admin-widget', 'cms', array(), true);
+			$this->getMessenger()->addMessage('Zdjęcie zostało zapisane');
+			$this->getResponse()->redirect('cms', 'admin-widget', 'pictureWidgetEdit');
 		}
+		$this->view->pictureForm = $form;
 	}
 
 	public function pictureWidgetDeleteAction() {
 		if (null !== ($record = \Cms\Model\Widget\Picture\Query::factory()->findPk($this->id)) && $record->delete()) {
-			$this->_helper->messenger('Zdjęcie usunięte poprawnie');
+			$this->getMessenger()->addMessage('Zdjęcie usunięte poprawnie');
 		}
-		$this->_helper->redirector('pictureWidgetEdit', 'admin-widget', 'cms', array(), true);
+		$this->getResponse()->redirect('cms', 'admin-widget', 'pictureWidgetEdit');
 	}
 
 }

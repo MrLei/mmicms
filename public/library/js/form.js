@@ -27,7 +27,7 @@ function fieldValidationOnBlur(element) {
 	if ('undefined' !== typeof id) {
 		param = '/id/' + id;
 	}
-	if ('checkbox' === $(element).attr('type') && !$(element).prop('checked')) {
+	if ('checkbox' === $(element).attr('type') && !$(element).is(':checked')) {
 		fieldValue = '0';
 	}
 	$.post(request.baseUrl + '/cms/form/validate' + param,

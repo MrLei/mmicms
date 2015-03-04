@@ -59,7 +59,7 @@ class Plugin extends \Mmi\Controller\Plugin\PluginAbstract {
 		$jsReqestArray = array();
 		$jsReqestArray[] = "'baseUrl' : '" . $base . "'";
 		$filter = new \Mmi\Filter\Urlencode();
-		foreach ($request->getParams() as $param => $value) {
+		foreach ($request->toArray() as $param => $value) {
 			if ($param == 'controller' || $param == 'action') {
 				continue;
 			}

@@ -8,16 +8,16 @@
  * @license    http://milejko.com/new-bsd.txt New BSD License
  */
 
-namespace Mmi\Filter;
+namespace Mmi\Controller\Request;
 
-abstract class FilterAbstract extends \Mmi\OptionObject {
-
+class Post extends \Mmi\DataObject {
+	
 	/**
-	 * Zwraca przefiltrowaną wartość
-	 * @param mixed $value
-	 * @throws Exception jeśli filtrowanie $value nie jest możliwe
-	 * @return mixed
+	 * Konstruktor
+	 * @param array $post dane z POST
 	 */
-	abstract public function filter($value);
-
+	public function __construct(array $post = array()) {
+		$this->_data = $post;
+	}
+	
 }
