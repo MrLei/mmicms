@@ -14,8 +14,8 @@ class Admin Extends \Mmi\Controller\Action {
 
 	public function init() {
 		//tylko rola admin
-		if (!\Core\Registry::$auth->hasRole('admin') && $this->getRequest()->action != 'login') {
-			$this->_helper->redirector('login', 'admin', 'cms', array(), true);
+		if (!\Core\Registry::$auth->hasRole('admin') && $this->action != 'login') {
+			$this->getResponse()->redirect('cms', 'admin', 'login');
 		}
 
 		//ustawienie języka edycji

@@ -19,17 +19,18 @@ class Route extends \MmiCms\Controller\Admin {
 	public function editAction() {
 		$form = new \Cms\Form\Admin\Route(new \Cms\Model\Route\Record($this->id));
 		if ($form->isSaved()) {
-			$this->_helper->messenger('Poprawnie zapisano trasę', true);
-			$this->_helper->redirector('index', 'admin-route', 'cms', array(), true);
+			$this->getMessenger()->addMessage('Poprawnie zapisano trasę', true);
+			$this->getResponse()->redirect('cms', 'admin-route');
 		}
+		$this->view->routeForm = $form;
 	}
 
 	public function deleteAction() {
 		$text = \Cms\Model\Route\Query::factory()->findPk($this->id);
 		if ($text && $text->delete()) {
-			$this->_helper->messenger('Poprawnie skasowano trasę');
+			$this->getMessenger()->addMessage('Poprawnie skasowano trasę');
 		}
-		$this->_helper->redirector('index', 'admin-route', 'cms', array(), true);
+		$this->getResponse()->redirect('cms', 'admin-route', 'index');
 	}
 
 }

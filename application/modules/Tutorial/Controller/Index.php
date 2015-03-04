@@ -9,7 +9,7 @@ class Index extends \Mmi\Controller\Action {
 
 		$form = new Tutorial\Form\Transfer();
 		if ($form->isMine()) {
-			return $this->_helper->redirector('simpleForm', 'index', 'tutorial', array(), true);
+			$this->getResponse()->redirect('tutorial', 'index', 'simpleForm');
 		}
 	}
 
@@ -17,7 +17,7 @@ class Index extends \Mmi\Controller\Action {
 		$form = new Tutorial\Form\Test();
 		$this->view->items = Tutorial\Model\Query::factory()->find()->toArray();
 		if ($form->isSaved()) {
-			return $this->_helper->redirector('thankYou', 'index', 'tutorial', array(), true);
+			$this->getResponse()->redirect('tutorial', 'index', 'thankYou');
 		}
 	}
 

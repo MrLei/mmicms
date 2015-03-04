@@ -35,7 +35,7 @@ class Navigation extends \MmiCms\Controller\Admin {
 				break;
 		}
 		if ($form->isSaved()) {
-			return $this->_helper->redirector('index', 'admin-navigation', 'cms', array('id' => $navRecord->parentId), true);
+			$this->getResponse()->redirect('cms', 'admin-navigation', 'index', array('id' => $navRecord->parentId));
 		}
 		$this->view->pageForm = $form;
 	}
@@ -46,19 +46,18 @@ class Navigation extends \MmiCms\Controller\Admin {
 	public function deleteAction() {
 		/* @var $record \Cms\Model\Navigation\Record */
 		$record = \Cms\Model\Navigation\Query::factory()->findPk($this->id);
-		if ($record !== null) {
-			$record->delete();
+		if ($record !== null && $record->delete()) {
+			$this->getMessenger()->addMessage('Poprawnie usunięto element nawigacyjny', true);
 		}
-		return $this->_helper->redirector('index', 'admin-navigation', 'cms', array('id' => $record->parentId), true);
+		$this->getResponse()->redirect('cms', 'admin-navigation', 'index', array('id' => $record->parentId));
 	}
 
 	public function sortAction() {
 		$this->getResponse()->setTypePlain();
-		$post = $this->getRequest()->getPost();
-		if (!isset($post['navigation-item'])) {
+		if (!$this->getPost()->__get('navigation-item')) {
 			return $this->view->getTranslate()->_('Przenoszenie nie powiodło się');
 		}
-		\Cms\Model\Navigation\Dao::sortBySerial($post['navigation-item']);
+		\Cms\Model\Navigation\Dao::sortBySerial($this->getPost()->__get('navigation-item'));
 		return '';
 	}
 

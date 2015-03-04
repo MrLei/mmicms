@@ -19,23 +19,23 @@ class Mail extends \MmiCms\Controller\Admin {
 	public function deleteAction() {
 		$mail = \Cms\Model\Mail\Query::factory()->findPk($this->id);
 		if ($mail && $mail->delete()) {
-			$this->_helper->messenger('Email został usunięty z kolejki', true);
+			$this->getMessenger()->addMessage('Email został usunięty z kolejki', true);
 		}
-		return $this->_helper->redirector('index', 'admin', 'mail', array(), true);
+		$this->getResponse()->redirect('mail', 'admin', 'index');
 	}
 
 	public function sendAction() {
 		$result = \Cms\Model\Mail\Dao::send();
 		if ($result['success'] > 0) {
-			$this->_helper->messenger('Maile z kolejki zostały wysłane', true);
+			$this->getMessenger()->addMessage('Maile z kolejki zostały wysłane', true);
 		}
 		if ($result['error'] > 0) {
-			$this->_helper->messenger('Przy wysyłaniu wystąpiły błędy', false);
+			$this->getMessenger()->addMessage('Przy wysyłaniu wystąpiły błędy', false);
 		}
 		if ($result['success'] + $result['error'] == 0) {
-			$this->_helper->messenger('Brak maili do wysyłki');
+			$this->getMessenger()->addMessage('Brak maili do wysyłki');
 		}
-		return $this->_helper->redirector('index');
+		$this->getResponse()->redirect('cms', 'admin-mail', 'index');
 	}
 
 }

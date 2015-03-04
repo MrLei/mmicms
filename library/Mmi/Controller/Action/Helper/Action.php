@@ -10,7 +10,7 @@
 
 namespace Mmi\Controller\Action\Helper;
 
-class Action extends \Mmi\Controller\Action\Helper\HelperAbstract {
+class Action {
 
 	/**
 	 * Obiekt ACL
@@ -63,8 +63,7 @@ class Action extends \Mmi\Controller\Action\Helper\HelperAbstract {
 		$params['module'] = $moduleName;
 		$params['controller'] = $controllerName;
 		$params['action'] = $actionName;
-		$params = array_merge($frontRequest->toArray(), $params);
-		$controllerRequest = new \Mmi\Controller\Request($params);
+		$controllerRequest = new \Mmi\Controller\Request(array_merge($frontRequest->toArray(), $params));
 		//ustawienie requestu w widoku
 		\Mmi\Controller\Front::getInstance()->getView()->setRequest($controllerRequest);
 		//powołanie kontrolera
@@ -86,7 +85,7 @@ class Action extends \Mmi\Controller\Action\Helper\HelperAbstract {
 			return $directContent;
 		}
 		//rendering szablonu jeśli akcja zwraca null
-		$skin = $controllerRequest->getParam('skin') ? $controllerRequest->getParam('skin') : 'default';
+		$skin = $controllerRequest->skin ? $controllerRequest->skin : 'default';
 		$content = \Mmi\Controller\Front::getInstance()->getView()->renderTemplate($skin, $moduleName, $controllerName, $actionName);
 		//przywrócenie do widoku request'a z front controllera
 		\Mmi\Controller\Front::getInstance()->getView()->setRequest($frontRequest);

@@ -19,17 +19,18 @@ class Article extends \MmiCms\Controller\Admin {
 	public function editAction() {
 		$form = new \Cms\Form\Admin\Article(new \Cms\Model\Article\Record($this->id));
 		if ($form->isSaved()) {
-			$this->_helper->messenger('Artykuł zapisany poprawnie', true);
-			$this->_helper->redirector('index', 'admin-article', 'cms', array(), true);
+			$this->getMessenger()->addMessage('Artykuł zapisany poprawnie', true);
+			$this->getResponse()->redirect('cms', 'admin-article');
 		}
+		$this->view->articleForm = $form;
 	}
 
 	public function deleteAction() {
 		$record = \Cms\Model\Article\Query::factory()->findPk($this->id);
 		if ($record && $record->delete()) {
-			$this->_helper->messenger('Poprawnie usunięto artykuł', true);
+			$this->getMessenger()->addMessage('Poprawnie usunięto artykuł', true);
 		}
-		$this->_helper->redirector('index', 'admin-article', 'cms', array(), true);
+		$this->getResponse()->redirect('cms', 'admin-article');
 	}
 
 }

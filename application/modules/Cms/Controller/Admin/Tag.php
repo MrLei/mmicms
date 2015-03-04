@@ -19,17 +19,18 @@ class Tag extends \MmiCms\Controller\Admin {
 	public function editAction() {
 		$form = new \Cms\Form\Admin\Tag(new \Cms\Model\Tag\Record($this->id));
 		if ($form->isSaved()) {
-			$this->_helper->messenger('Tag zapisany poprawnie', true);
-			return $this->_helper->redirector('index', 'admin-tag', 'cms', array(), true);
+			$this->getMessenger()->addMessage('Tag zapisany poprawnie', true);
+			$this->getResponse()->redirect('cms', 'admin-tag', 'index');
 		}
+		$this->view->tagForm = $form;
 	}
 
 	public function deleteAction() {
 		$tag = \Cms\Model\Tag\Query::factory()->findPk($this->id);
 		if ($tag && $tag->delete()) {
-			$this->_helper->messenger('Tag usunięty', true);
+			$this->getMessenger()->addMessage('Tag usunięty', true);
 		}
-		return $this->_helper->redirector('index', 'admin-tag', 'cms', array(), true);
+		$this->getResponse()->redirect('cms', 'admin-tag', 'index');
 	}
 
 }
