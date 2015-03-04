@@ -53,7 +53,15 @@ class Ro {
 			throw new ExceptionNotFound('Record not found: ' . $id);
 		}
 		$this->setFromArray($record->toArray())
-			->clearModified();
+			->clearModified()
+			->init();
+	}
+	
+	/**
+	 * Metoda inicjująca (dla programisty końcowego)
+	 */
+	public function init() {
+		
 	}
 
 	/**
