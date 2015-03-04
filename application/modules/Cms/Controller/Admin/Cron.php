@@ -21,8 +21,9 @@ class Cron extends \MmiCms\Controller\Admin {
 		$form = new \Cms\Form\Admin\Cron(new \Cms\Model\Cron\Record($this->id));
 		if ($form->isSaved()) {
 			$this->getMessenger()->addMessage('Zadanie zapisane poprawnie', true);
-			return $this->getResponse()->redirect('cms', 'admin-cron', 'index');
+			$this->getResponse()->redirect('cms', 'admin-cron');
 		}
+		$this->view->cronForm = $form;
 	}
 
 	public function deleteAction() {
@@ -30,7 +31,7 @@ class Cron extends \MmiCms\Controller\Admin {
 		if ($record && $record->delete()) {
 			$this->getMessenger()->addMessage('Zadanie CRON poprawnie usunięte', true);
 		}
-		return $this->getResponse()->redirect('cms', 'admin-cron', 'index');
+		$this->getResponse()->redirect('cms', 'admin-cron');
 	}
 
 }

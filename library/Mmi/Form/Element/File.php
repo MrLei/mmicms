@@ -23,30 +23,7 @@ class File extends ElementAbstract {
 	 * @return string
 	 */
 	public function fetchField() {
-		if (substr($this->getName(), -2) == '[]') {
-			$this->_options['multiple'] = 'multiple';
-			if (isset($this->_options['count']) && $this->_options['count'] > 1) {
-				$html = '';
-				for ($i = 0; $i < $this->_options['count']; $i++) {
-					$html .= '<input type="file" ' . $this->_getHtmlOptions() . '/><br />';
-				}
-				return $html;
-			}
-		}
 		return '<input type="file" ' . $this->_getHtmlOptions() . '/>';
-	}
-
-	/**
-	 * Ustawia, że pole wielokrotne
-	 * @param int $count ile plików
-	 * @return \Mmi\Form\Element\File
-	 */
-	public function setMultiple($count = 2) {
-		if (substr($this->getName(), -2) == '[]') {
-			$this->_options['multiple'] = 'multiple';
-			$this->_options['count'] = intval($count);
-		}
-		return $this;
 	}
 
 	/**
@@ -54,7 +31,7 @@ class File extends ElementAbstract {
 	 * @return \Mmi\Form\Element\File
 	 */
 	public function init() {
-		$fieldName = trim($this->_options['name'], '[]');
+		$fieldName = $this->_options['name'];
 		$files = \Mmi\Controller\Front::getInstance()->getRequest()->getFiles()->toArray();
 		if (!isset($files[$fieldName]) || empty($files[$fieldName])) {
 			return;

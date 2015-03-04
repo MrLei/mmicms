@@ -10,19 +10,13 @@
 
 namespace Mmi;
 
-class View {
+class View extends \Mmi\DataObject {
 
 	/**
 	 * Bieżąca wersja językowa
 	 * @var string
 	 */
 	private $_locale;
-
-	/**
-	 * Dane widoku
-	 * @var array
-	 */
-	private $_data = array();
 
 	/**
 	 * Tabela z załadowanymi helperami
@@ -92,41 +86,6 @@ class View {
 			return call_user_func_array(array($helper, $name), $params);
 		}
 		return $this->getPlaceholder($name);
-	}
-
-	/**
-	 * Magicznie pobiera zmienną
-	 * @param string $key klucz
-	 * @return mixed
-	 */
-	public function __get($key) {
-		return isset($this->_data[$key]) ? $this->_data[$key] : null;
-	}
-
-	/**
-	 * Magicznie ustawia zmienną
-	 * @param string $key klucz
-	 * @param mixed $value wartość
-	 */
-	public function __set($key, $value) {
-		$this->_data[$key] = $value;
-	}
-
-	/**
-	 * Magicznie sprawdza istnienie zmiennej
-	 * @param string $key klucz
-	 * @return boolean
-	 */
-	public function __isset($key) {
-		return isset($this->_data[$key]);
-	}
-
-	/**
-	 * Magicznie usuwa zmienną
-	 * @param string $key klucz
-	 */
-	public function __unset($key) {
-		unset($this->_data[$key]);
 	}
 
 	/**
@@ -206,20 +165,23 @@ class View {
 	public function getHelper($name) {
 		$name = ucfirst($name);
 		$structure = \Mmi\Controller\Front::getInstance()->getStructure();
+		//położenie helpera w strukturze
 		foreach ($structure['library'] as $libName => $lib) {
 			if (!isset($lib['View']['Helper'][$name])) {
 				continue;
 			}
 			$className = '\\' . $libName . '\\View\\Helper\\' . $name;
 		}
+		//brak helpera
 		if (!isset($className)) {
 			return false;
 		}
+		//helper już zarejestrowany
 		if (isset($this->_helpers[$className])) {
 			return $this->_helpers[$className];
 		}
-		$this->_helpers[$className] = new $className();
-		return $this->_helpers[$className];
+		//zwrot nowej klasy
+		return $this->_helpers[$className] = new $className();
 	}
 
 	/**
@@ -242,8 +204,7 @@ class View {
 		if (isset($this->_filters[$className])) {
 			return $this->_filters[$className];
 		}
-		$this->_filters[$className] = new $className();
-		return $this->_filters[$className];
+		return $this->_filters[$className] = new $className();
 	}
 
 	/**
@@ -357,16 +318,20 @@ class View {
 		if (!$this->_locale && $this->_translate !== null) {
 			$this->_locale = $this->_translate->getLocale();
 		}
+		//ustalenie adresu kompilanta
 		$destFile = TMP_PATH . '/compile/' . $this->_locale . '_' . str_replace(array('/', '\\'), '_', substr($fileName, strrpos($fileName, '/application') + 13, -4) . '.php');
 		if ($this->_alwaysCompile) {
 			file_put_contents($destFile, $this->template(file_get_contents($fileName), $destFile));
 		}
 		try {
+			//włączenie kompilanta do kodu
 			include $destFile;
 		} catch (\Exception $e) {
+			//zapis i włączenie
 			file_put_contents($destFile, $this->template(file_get_contents($fileName), $destFile));
 			include $destFile;
 		}
+		//przechwycenie danych
 		$data = ob_get_contents();
 		ob_clean();
 		\Mmi\Profiler::event('View: ' . basename($fileName) . ' rendered');

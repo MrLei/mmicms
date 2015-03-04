@@ -10,13 +10,7 @@
 
 namespace Mmi\Controller\Request;
 
-class File {
-	
-	/**
-	 * Dane FILE
-	 * @var array
-	 */
-	protected $_data = array();
+class File extends \Mmi\DataObject {
 	
 	/**
 	 * Konstruktor
@@ -52,41 +46,6 @@ class File {
 			}
 		}
 		$this->_data = $files;
-	}
-	
-	/**
-	 * Magiczne pobranie zmiennej żądania
-	 * @param string $key klucz
-	 * @return string
-	 */
-	public function __get($key) {
-		return isset($this->_data[$key]) ? $this->_data[$key] : null;
-	}
-
-	/**
-	 * Magiczne sprawczenie istnienia pola
-	 * @param string $key klucz
-	 * @return bool
-	 */
-	public function __isset($key) {
-		return isset($this->_data[$key]);
-	}
-
-	/**
-	 * Magicznie usuwa pole
-	 * @param string $key klucz
-	 */
-	public function __unset($key) {
-		unset($this->_data[$key]);
-	}
-
-	/**
-	 * Magiczne ustawienie zmiennej żądania
-	 * @param string $key klucz
-	 * @param string $value wartość
-	 */
-	public function __set($key, $value) {
-		$this->_data[$key] = $value;
 	}
 	
 	/**

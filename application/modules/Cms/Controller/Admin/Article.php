@@ -22,6 +22,7 @@ class Article extends \MmiCms\Controller\Admin {
 			$this->getMessenger()->addMessage('Artykuł zapisany poprawnie', true);
 			$this->getResponse()->redirect('cms', 'admin-article');
 		}
+		$this->view->articleForm = $form;
 	}
 
 	public function deleteAction() {

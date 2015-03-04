@@ -37,12 +37,6 @@ abstract class Form {
 	protected $_hash;
 
 	/**
-	 * Nazwa obiektu do przypięcia plików
-	 * @var string
-	 */
-	protected $_fileObjectName;
-
-	/**
 	 * Obiekt rekordu
 	 * @var \Mmi\Dao\Record
 	 */
@@ -59,12 +53,6 @@ abstract class Form {
 	 * @var string
 	 */
 	protected $_recordSaveMethod = 'save';
-
-	/**
-	 * Automatyczne wywołanie save w konstruktorze.
-	 * @var bool
-	 */
-	protected $_autoSave = true;
 
 	/**
 	 * Czy zapisany
@@ -103,46 +91,6 @@ abstract class Form {
 	protected $_values = array();
 
 	/**
-	 * Dane do ustawienia w zapisywanym rekordzie.
-	 * Array, którego kluczami powinny być nazwy pól rekordu (kolumn w bazie).
-	 * Tutaj np. przekazujemy wartości dla kolumn, które są kluczami obcymi.
-	 * @var array
-	 */
-	protected $_recordValues = array();
-
-	/**
-	 * Podformularze
-	 * @var array
-	 */
-	protected $_subForms = array();
-
-	/**
-	 * Czy udało się zapisać podformularze
-	 * @var bool
-	 */
-	protected $_subFormsSaved = false;
-
-	/**
-	 * Czy jestem podformularzem
-	 * @var bool
-	 */
-	protected $_isSubForm = false;
-
-	/**
-	 * Prefiks dla nazw pól formularza. Używany dla podformularzy.
-	 * @var string
-	 */
-	protected $_subFormPrefix = '';
-
-	/**
-	 * Nazwa kolumny do zapisu powiązania z formularzem rodzicem.
-	 * Jeśli podana, zapis podformularza ustawi wartość dla tej kolumny
-	 * na id głównego formularza.
-	 * @var null|string
-	 */
-	protected $_parentFormColumnName;
-
-	/**
 	 * Rezultat walidacji
 	 * @var bool
 	 */
@@ -158,53 +106,18 @@ abstract class Form {
 	 * Konstruktor
 	 * @param \Mmi\Dao\Record\Ro $record obiekt recordu
 	 * @param array $options opcje
-	 * @param string $className nazwa klasy
 	 */
-	public function __construct(\Mmi\Dao\Record\Ro $record = null, array $options = array(), $className = null) {
+	public function __construct(\Mmi\Dao\Record\Ro $record = null, array $options = array()) {
 		$this->_options = $options;
 		$this->_record = $record;
-		$this->_className = isset($className) ? $className : get_class($this);
-
-		//kalkulacja nazwy plików dla active record
-		if ($record) {
-			$this->_fileObjectName = $this->_classToFileObject(get_class($record));
-		}
-
+		$this->_className = get_class($this);
+		$this->_formBaseName = strtolower(substr($this->_className, strrpos($this->_className, '\\') + 1));
 		$this->_request = \Mmi\Controller\Front::getInstance()->getRequest();
 
-		if (!$this->getAttrib('name')) {
-			$this->_formBaseName = strtolower(substr($this->_className, strrpos($this->_className, '\\') + 1));
-		} else {
-			$this->_formBaseName = $this->getAttrib('name');
-		}
-
-		//nadpisana obsługa autoSave
-		if ($this->getOption('autoSave') !== null) {
-			$this->_autoSave = (bool) $this->getOption('autoSave');
-		}
-		//czy jest to subform
-		if ($this->getOption('subForm') !== null) {
-			$this->_isSubForm = (bool) $this->getOption('subForm');
-		}
-		//prefiks dla pól formularza, jeśli to podformularz
-		if ($this->_isSubForm && empty($this->_subFormPrefix)) {
-			$this->_subFormPrefix = $this->_formBaseName . '_';
-		}
-
-		$view = \Mmi\Controller\Front::getInstance()->getView();
-
-		if ($this->_isSubForm) {
-			//dla podformularzy nie wolno edytować ustawionej nazwy, bo jest ona
-			//używana do automatycznego generowania prefiksów pól
-			$this->setAttrib('name', $this->_formBaseName);
-		} else {
-			//brzydka zmiana nazwy, ale zostawiam, aby było kompatybilne wstecz
-			$this->setAttrib('name', 'form_' . $this->_formBaseName);
-		}
-		$this->setAttrib('class', 'form_' . $this->_formBaseName);
-		$this->setAttrib('accept-charset', 'utf-8');
-		$this->setAttrib('method', 'post');
-		$this->setAttrib('enctype', 'multipart/form-data');
+		$this->setOption('class', 'form_' . $this->_formBaseName);
+		$this->setOption('accept-charset', 'utf-8');
+		$this->setOption('method', 'post');
+		$this->setOption('enctype', 'multipart/form-data');
 		$this->_saved = false;
 
 		//dane z post
@@ -213,7 +126,7 @@ abstract class Form {
 		}
 		if ($this->hasRecord() && !isset($data)) {
 			$data = $this->_record->toArray();
-			$this->_values = $this->_mapLoadData($this->prepareLoadData($data));
+			$this->_values = $this->prepareLoadData($data);
 		} elseif (isset($data)) {
 			$this->_values = $data;
 		}
@@ -238,9 +151,7 @@ abstract class Form {
 			}
 		}
 
-		$this->configureFields();
-		$formName = $this->_formBaseName . 'Form';
-		$view->$formName = $this;
+		$this->_configureFields();
 		if ($this->_secured) {
 			$this->_hash = sha1($this->_className . microtime(true));
 		} else {
@@ -260,10 +171,7 @@ abstract class Form {
 		}
 
 		//automatyczne wywołanie save()
-		if ($this->_autoSave) {
-			$this->save();
-		}
-
+		$this->save();
 		$this->setDefaults($this->_values);
 		$this->lateInit();
 	}
@@ -310,19 +218,18 @@ abstract class Form {
 		}
 		$this->_saved = $this->_saveRecord($this->_values);
 		$this->_saveResult = $this->_record->getSaveStatus();
-		if ($this->_saved === true) {
-			if (null != $this->_sessionNamespace) {
-				$this->_sessionNamespace->unsetAll();
-			}
-			$this->_appendFiles($this->_record->getPk(), $this->getFiles());
-			$this->_recordId = $this->_record->getPk();
+		if ($this->_saved === false) {
+			return false;
 		}
-		return $this->isSaved();
+		if (null != $this->_sessionNamespace) {
+			$this->_sessionNamespace->unsetAll();
+		}
+		$this->_recordId = $this->_record->getPk();
+		return true;
 	}
 
 	/**
 	 * Inicjalizacja formularza
-	 * @see \Mmi\Form::lateInit();
 	 */
 	abstract public function init();
 
@@ -456,13 +363,6 @@ abstract class Form {
 	 */
 	public function addElement(\Mmi\Form\Element\ElementAbstract $element) {
 		$name = $element->getName();
-		//automatyczne dodawanie prefiksów do pól subformów
-		if ($this->_isSubForm) {
-			if (strpos($name, $this->_subFormPrefix) === false) {
-				$name = $this->_subFormPrefix . $name;
-				$element->setName($name);
-			}
-		}
 		$this->_elements[$name] = $element;
 		$this->_elements[$name]->setForm($this);
 		return $element;
@@ -482,22 +382,7 @@ abstract class Form {
 	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public function getElement($name) {
-		//automatyczne dodawanie prefiksów do pól subformów
-		if ($this->_isSubForm) {
-			if (strpos($name, $this->_subFormPrefix) === false) {
-				$name = $this->_subFormPrefix . $name;
-			}
-		}
 		return isset($this->_elements[$name]) ? $this->_elements[$name] : null;
-	}
-
-	/**
-	 * Pobranie wartości z opcji
-	 * @param mixed $key identyfikator opcji
-	 * @return mixed
-	 */
-	public function getAttrib($key) {
-		return isset($this->_options[$key]) ? $this->_options[$key] : null;
 	}
 
 	/**
@@ -506,18 +391,18 @@ abstract class Form {
 	 * @param mixed $value wartość
 	 * @return \Mmi\Form
 	 */
-	public function setAttrib($key, $value) {
+	public function setOption($key, $value) {
 		$this->_options[$key] = $value;
 		return $this;
 	}
 
 	/**
-	 * Alias getAttrib()
+	 * Pobieranie wartości opcji
 	 * @param mixed $key identyfikator opcji
 	 * @return mixed
 	 */
 	public function getOption($key) {
-		return $this->getAttrib($key);
+		return isset($this->_options[$key]) ? $this->_options[$key] : null;
 	}
 
 	/**
@@ -526,53 +411,6 @@ abstract class Form {
 	 */
 	public function getOptions() {
 		return $this->_options;
-	}
-
-	/**
-	 * Pobranie wartości zdefiniowanej dla pola rekordu do zapisu.
-	 * @param string $key identyfikator
-	 * @return mixed
-	 */
-	public function getRecordValue($key) {
-		return isset($this->_recordValues[$key]) ? $this->_recordValues[$key] : null;
-	}
-
-	/**
-	 * Pobranie wartości zdefiniowanych dla pól rekordu do zapisu.
-	 * @return array
-	 */
-	public function getRecordValues() {
-		return $this->_recordValues;
-	}
-
-	/**
-	 * Ustawienie wartości dla pola rekordu do zapisu.
-	 * @param string $key identyfikator
-	 * @param mixed $value wartość
-	 * @return \Mmi\Form
-	 */
-	public function setRecordValue($key, $value) {
-		$this->_recordValues[$key] = $value;
-		return $this;
-	}
-
-	/**
-	 * Ustawienie wartości dla pól rekordu do zapisu.
-	 * @param array wartości dla pól rekordu
-	 * @return \Mmi\Form
-	 */
-	public function setRecordValues(array $values = array()) {
-		$this->_recordValues = $values;
-		return $this;
-	}
-
-	/**
-	 * Czyszczenie wartości dla pól rekordu do zapisu.
-	 * @return \Mmi\Form
-	 */
-	public function clearRecordValues() {
-		$this->_recordValues = array();
-		return $this;
 	}
 
 	/**
@@ -607,7 +445,7 @@ abstract class Form {
 	 * @param string $value akcja
 	 */
 	public function setAction($value) {
-		$this->setAttrib('action', $value);
+		$this->setOption('action', $value);
 	}
 
 	/**
@@ -695,11 +533,6 @@ abstract class Form {
 				$this->_validationResult = false;
 			}
 		}
-		foreach ($this->getSubForms() as $subForm) {
-			if (!$subForm->isValid($this->_request->getPost())) {
-				$this->_validationResult = false;
-			}
-		}
 		return $this->_validationResult;
 	}
 
@@ -722,58 +555,11 @@ abstract class Form {
 	}
 
 	/**
-	 * Maper do zapisu danych.
-	 * Dla podformularzy domyślnie wycina prefix z nazwy pola forma, aby
-	 * pasował do nazwy kolumny w bazie.
-	 * @param array $data
-	 * @return array
-	 */
-	protected function _mapSaveData(array $data = array()) {
-		if (!$this->_isSubForm) {
-			return $data;
-		}
-		$data2 = array();
-		foreach ($data as $key => $val) {
-			$key = str_replace($this->_subFormPrefix, '', $key);
-			$data2[$key] = $val;
-		}
-		return $data2;
-	}
-
-	/**
-	 * Maper do odczytu danych.
-	 * Dla podformularzy domyślnie dodaje prefix do nazwy pola, aby pasował do forma.
-	 * @param array $data
-	 * @return array
-	 */
-	protected function _mapLoadData(array $data = array()) {
-		if (!$this->_isSubForm) {
-			return $data;
-		}
-		$data2 = array();
-		foreach ($data as $key => $val) {
-			if (strpos($key, $this->_subFormPrefix) === false) {
-				$key = $this->_subFormPrefix . $key;
-			}
-			$data2[$key] = $val;
-		}
-		return $data2;
-	}
-
-	/**
 	 * Czy w modelu wystąpił zapis
 	 * @return boolean
 	 */
 	public function isSaved() {
 		return $this->_saved;
-	}
-
-	/**
-	 * Czy udało się zapisać podformularze
-	 * @return boolean
-	 */
-	public function areSubFormsSaved() {
-		return $this->_subFormsSaved;
 	}
 
 	/**
@@ -787,7 +573,7 @@ abstract class Form {
 	/**
 	 * Konfigurator pól (ustawia id pola na podstawie id macierzystego formularza)
 	 */
-	public function configureFields() {
+	protected function _configureFields() {
 		foreach ($this->_elements AS $element) {
 			$element->__set('id', $this->_formBaseName . '_' . $element->__get('name'));
 			$element->__set('class', trim('field ' . $element->__get('class')));
@@ -795,168 +581,16 @@ abstract class Form {
 	}
 
 	/**
-	 * Ustawia, czy form jest subformem.
-	 * @param bool $yes
-	 * @return \Mmi\Form
-	 */
-	public function setIsSubForm($yes = true) {
-		$this->_isSubForm = (bool) $yes;
-		return $this;
-	}
-
-	/**
-	 * Zwraca, czy form jest subformem.
-	 * @return bool
-	 */
-	public function getIsSubForm() {
-		return $this->_isSubForm;
-	}
-
-	/**
-	 * Dodaje podformularz
-	 * @param \Mmi\Form $form
-	 * @param string $name nazwa
-	 * @return \Mmi\Form
-	 */
-	public function addSubForm(\Mmi\Form $form, $name) {
-		$form->setIsSubForm(true);
-		$this->_subForms[$name] = $form;
-		return $this;
-	}
-
-	/**
-	 * Ustawia podformularze
-	 * @param array $subForms tabela nazwa formularza => obiekt formularza
-	 * @return \Mmi\Form
-	 */
-	public function setSubForms(array $subForms) {
-		$this->clearSubForms();
-		return $this->addSubForms($subForms);
-	}
-
-	/**
-	 * Dodaje podformularze
-	 * @param array $subForms tabela nazwa formularza => obiekt formularza
-	 * @return \Mmi\Form
-	 */
-	public function addSubForms(array $subForms) {
-		foreach ($subForms as $formName => $form) {
-			$form->setIsSubForm(true);
-			$this->_subForms[$formName] = $form;
-		}
-		return $this;
-	}
-
-	/**
-	 * Pobiera podformularz
-	 * @param string $name nazwa
-	 * @return mixed formularz jeśli istnieje lub null jeśli brak
-	 */
-	public function getSubForm($name) {
-		return isset($this->_subForms[$name]) ? $this->_subForms[$name] : null;
-	}
-
-	/**
-	 * Tabela podformularzy
-	 * @return array
-	 */
-	public function getSubForms() {
-		return $this->_subForms;
-	}
-
-	/**
-	 * Usuwa podformularz
-	 * @param string $name
-	 * @return \Mmi\Form
-	 */
-	public function removeSubForm($name) {
-		unset($this->_subForms[$name]);
-		return $this;
-	}
-
-	/**
-	 * Czyści podformularze
-	 * @return \Mmi\Form
-	 */
-	public function clearSubForms() {
-		$this->_subForms = array();
-		return $this;
-	}
-
-	/**
-	 * Ustawia nazwę kolumny do zapisu powiązania z formularzem rodzicem.
-	 * @param string $name
-	 * @return \Mmi\Form
-	 */
-	public function setParentFormColumnName($name) {
-		$this->_parentFormColumnName = $name;
-		return $this;
-	}
-
-	/**
-	 * Zwraca nazwę kolumny do zapisu powiązania z formularzem rodzicem.
-	 * @return null|string
-	 */
-	public function getParentFormColumnName() {
-		return $this->_parentFormColumnName;
-	}
-
-	/**
-	 * Zapisuje po kolei wszystkie podformularze.
-	 * @return bool
-	 */
-	public function saveSubForms() {
-		$results = true;
-		if (!empty($this->_subForms)) {
-			foreach ($this->_subForms as $subForm) {
-				$saved = $subForm->save();
-				if ($saved === false) {
-					$results = false;
-				}
-			}
-		}
-		$this->_subFormsSaved = $results;
-		return $this->_subFormsSaved;
-	}
-
-	/**
-	 * Zapisuje formularz i następnie po kolei wszystkie podformularze.
-	 * @return bool
-	 */
-	public function saveWithSubForms() {
-		//zapis głównego forma
-		$this->save();
-		if ($this->isSaved()) {
-			$results = true;
-			//zapis podformów
-			if (!empty($this->_subForms)) {
-				foreach ($this->_subForms as $subForm) {
-					if ($this->_recordId && $subForm->getParentFormColumnName()) {
-						$subForm->setRecordValue($subForm->getParentFormColumnName(), $this->_recordId);
-					}
-					$saved = $subForm->save();
-					if ($saved === false) {
-						$results = false;
-					}
-				}
-			}
-			$this->_subFormsSaved = $results;
-			return $this->_subFormsSaved;
-		}
-		return $this->isSaved();
-	}
-
-	/**
 	 * Renderer nagłówka formularza
 	 * @return string
 	 */
 	public function start() {
-		return '<form id="' . $this->getAttrib('name') .
-			'" action="' . ($this->getAttrib('action') ? $this->getAttrib('action') : '#') .
-			'" method="' . $this->getAttrib('method') .
-			'" enctype="' . $this->getAttrib('enctype') .
-			'" class="vertical ' . $this->getAttrib('class') .
-			'" accept-charset="' . $this->getAttrib('accept-charset') .
+		return '<form id="' . $this->_formBaseName .
+			'" action="' . ($this->getOption('action') ? $this->getOption('action') : '#') .
+			'" method="' . $this->getOption('method') .
+			'" enctype="' . $this->getOption('enctype') .
+			'" class="vertical ' . $this->getOption('class') .
+			'" accept-charset="' . $this->getOption('accept-charset') .
 			'">';
 	}
 
@@ -970,58 +604,14 @@ abstract class Form {
 
 	/**
 	 * Automatyczny renderer formularza
-	 * @param bool $borders renderowanie początku i zamknięcia formularza
-	 * @param bool $renderSub renderowanie submita
 	 * @return string
 	 */
-	public function render($borders = true, $renderSub = true) {
-		$html = '';
-		if ($borders) {
-			$html = $this->start();
-		}
+	public function render() {
+		$html = $this->start();
 		foreach ($this->_elements AS $element) {
-			if ($renderSub && ($element->getType() == '\Mmi\Form\Element\Submit' || $element->getType() == '\Mmi\Form\Element\Button')) {
-				$html .= $this->renderSubForms();
-				$renderSub = false;
-			}
 			$html .= $element->__toString();
 		}
-
-		if ($renderSub) {
-			$html .= $this->renderSubForms();
-		}
-		if ($borders) {
-			$html .= $this->end();
-		}
-		return $html;
-	}
-
-	/**
-	 * Rendering podformularza
-	 * @return string
-	 */
-	public function renderSubForms() {
-		$html = '';
-		foreach ($this->getSubForms() as $subForm) {
-			$html .= $subForm->render(false);
-		}
-		return $html;
-	}
-
-	/**
-	 * Zwraca nazwę obiektu do przypięcia plików
-	 * @return string
-	 */
-	public function getFileObjectName() {
-		return $this->_fileObjectName;
-	}
-
-	/**
-	 * Ustawia nazwę obiektu do przypięcia plików
-	 * @param string $name nazwa
-	 */
-	public function setFileObjectName($name) {
-		$this->_fileObjectName = $name;
+		return $html . $this->end();
 	}
 
 	/**
@@ -1031,72 +621,11 @@ abstract class Form {
 	 */
 	protected function _saveRecord($data) {
 		unset($data[$this->_formBaseName . '__ctrl']);
-		//mapowanie pól z forma na kolumny w bazie
-		$data = $this->prepareSaveData($this->_mapSaveData($data));
-		//dodatkowe wartości przekazane dla rekordu, np. klucze obce
-		if (!empty($this->_recordValues)) {
-			$data = array_merge($data, $this->_recordValues);
-		}
 		$this->_record->setFromArray($data);
 		if (method_exists(($this->_record), $this->_recordSaveMethod)) {
 			return $this->_record->{$this->_recordSaveMethod}();
 		}
 		throw new\Exception('Save method unsupported: ' . $this->_recordSaveMethod);
-	}
-
-	/**
-	 * Dołaczenie plików do obiektu
-	 * @param mixed $id
-	 * @param array $files tabela plików
-	 */
-	protected function _appendFiles($id, $files) {
-		try {
-			foreach ($files as $fileSet) {
-				\Cms\Model\File\Dao::appendFiles($this->_fileObjectName, $id, $fileSet);
-			}
-			\Cms\Model\File\Dao::move('tmp-' . $this->_fileObjectName, \Mmi\Session::getNumericId(), $this->_fileObjectName, $id);
-		} catch (\Exception $e) {
-			\Mmi\Exception\Logger::log($e);
-		}
-	}
-
-	/**
-	 * Import plików z pól formularza i sesji
-	 * Zwraca tabelę danych plików
-	 * @return array
-	 */
-	public function getFiles() {
-		$files = array();
-		//import z elementów File
-		foreach ($this->getElements() as $element) {
-			if ($element->getType() != '\Mmi\Form\Element\File') {
-				continue;
-			}
-			if (!$element->isUploaded()) {
-				continue;
-			}
-			$files[$element->getName()] = $element->getFileInfo();
-		}
-		return $files;
-	}
-
-	/**
-	 * Zwraca nazwę plików powiązanych z danym formularzem (na podstawie klasy rekordu / modelu)
-	 * @param string $name
-	 * @return string
-	 */
-	protected function _classToFileObject($name) {
-		$name = explode('\\', $name);
-		$fileObject = '';
-		foreach ($name as $part) {
-			$part = strtolower($part);
-			if (isset($first) && $part == $first || $part == 'model' || $part == 'record') {
-				continue;
-			}
-			$first = $part;
-			$fileObject .= $part;
-		}
-		return $fileObject;
 	}
 
 }

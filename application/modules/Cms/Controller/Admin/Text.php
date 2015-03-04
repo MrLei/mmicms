@@ -18,24 +18,26 @@ class Text extends \MmiCms\Controller\Admin {
 
 	public function editAction() {
 		$form = new \Cms\Form\Admin\Text(new \Cms\Model\Text\Record($this->id));
+		$this->view->textForm = $form;
 		if (!$form->isMine()) {
 			return;
 		}
 		if ($form->isSaved()) {
 			$this->getMessenger()->addMessage('Poprawnie zapisano tekst', true);
-			$this->getResponse()->redirect('cms', 'admin-text', 'index');
+			$this->getResponse()->redirect('cms', 'admin-text');
 		}
 		$this->getMessenger()->addMessage('Błąd zapisu tekstu, tekst o tym kluczu już istnieje', false);
 	}
 
 	public function cloneAction() {
 		$form = new \Cms\Form\Admin\Text\Copy();
+		$this->view->copyForm = $form;
 		if (!$form->isMine()) {
 			return;
 		}
 		if ($form->isSaved()) {
 			$this->getMessenger()->addMessage('Poprawnie sklonowano teksty', true);
-			$this->getResponse()->redirect('cms', 'admin-text', 'index');
+			$this->getResponse()->redirect('cms', 'admin-text');
 		}
 		$this->getMessenger()->addMessage('Błąd klonowania tekstów', false);
 	}
@@ -45,7 +47,7 @@ class Text extends \MmiCms\Controller\Admin {
 		if ($text && $text->delete()) {
 			$this->getMessenger()->addMessage('Poprawnie skasowano tekst', true);
 		}
-		$this->getResponse()->redirect('cms', 'admin-text', 'index');
+		$this->getResponse()->redirect('cms', 'admin-text');
 	}
 
 }

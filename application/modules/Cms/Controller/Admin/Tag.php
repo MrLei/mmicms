@@ -20,8 +20,9 @@ class Tag extends \MmiCms\Controller\Admin {
 		$form = new \Cms\Form\Admin\Tag(new \Cms\Model\Tag\Record($this->id));
 		if ($form->isSaved()) {
 			$this->getMessenger()->addMessage('Tag zapisany poprawnie', true);
-			return $this->getResponse()->redirect('cms', 'admin-tag', 'index');
+			$this->getResponse()->redirect('cms', 'admin-tag', 'index');
 		}
+		$this->view->tagForm = $form;
 	}
 
 	public function deleteAction() {
@@ -29,7 +30,7 @@ class Tag extends \MmiCms\Controller\Admin {
 		if ($tag && $tag->delete()) {
 			$this->getMessenger()->addMessage('Tag usunięty', true);
 		}
-		return $this->getResponse()->redirect('cms', 'admin-tag', 'index');
+		$this->getResponse()->redirect('cms', 'admin-tag', 'index');
 	}
 
 }

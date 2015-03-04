@@ -20,8 +20,9 @@ class Auth extends \MmiCms\Controller\Admin {
 		$form = new \Cms\Form\Admin\Auth(new \Cms\Model\Auth\Record($this->id));
 		if ($form->isSaved()) {
 			$this->getMessenger()->addMessage('Poprawnie zapisano użytkownika', true);
-			$this->getResponse()->redirect('cms', 'admin-auth', 'index');
+			$this->getResponse()->redirect('cms', 'admin-auth');
 		}
+		$this->view->authForm = $form;
 	}
 
 	public function deleteAction() {
@@ -29,7 +30,7 @@ class Auth extends \MmiCms\Controller\Admin {
 		if ($auth && $auth->delete()) {
 			$this->getMessenger()->addMessage('Poprawnie skasowano użytkownika', true);
 		}
-		$this->getResponse()->redirect('cms', 'admin-auth', 'index');
+		$this->getResponse()->redirect('cms', 'admin-auth');
 	}
 
 }

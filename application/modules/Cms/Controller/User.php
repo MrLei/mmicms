@@ -14,6 +14,7 @@ class User extends \Mmi\Controller\Action {
 
 	public function loginAction() {
 		$form = new \Cms\Form\Login(new \Cms\Model\Auth\Record());
+		$this->view->loginForm = $form;
 		if (!$form->isMine()) {
 			return;
 		}
@@ -35,13 +36,14 @@ class User extends \Mmi\Controller\Action {
 
 	public function registerAction() {
 		$form = new \Cms\Form\Register();
+		$this->view->registerForm = $form;
 		if (!$form->isMine()) {
 			return;
 		}
 		if ($form->isSaved()) {
 			$this->getMessenger()->addMessage('Zarejestrowano poprawnie. Sprawdź e-mail i kliknij potwierdzenie konta.', true);
 			\Cms\Model\Stat\Dao::hit('user-register');
-			return $this->getResponse()->redirect('default', 'index', 'index');
+			$this->getResponse()->redirect('default', 'index', 'index');
 		}
 		$this->getMessenger()->addMessage('Formularz zawiera błędy', false);
 		if ($form->getSaveResult() == -1) {

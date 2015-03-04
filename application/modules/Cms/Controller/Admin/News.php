@@ -22,6 +22,7 @@ class News extends \MmiCms\Controller\Admin {
 			$this->getMessenger()->addMessage('News zapisany poprawnie', true);
 			$this->getResponse()->redirect('cms', 'admin-news');
 		}
+		$this->view->newsForm = $form;
 	}
 
 	public function deleteAction() {

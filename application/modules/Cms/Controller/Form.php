@@ -13,7 +13,6 @@ namespace Cms\Controller;
 class Form extends \Mmi\Controller\Action {
 
 	public function validateAction() {
-		$this->view->setLayoutDisabled();
 		$this->getResponse()->setTypePlain();
 		if (!$this->getPost()->ctrl || !$this->getPost()->field) {
 			return '';

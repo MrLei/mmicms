@@ -29,6 +29,7 @@ class Widget extends \MmiCms\Controller\Admin {
 			$this->getMessenger()->addMessage('Tekst został dodany');
 			$this->getResponse()->redirect('cms', 'admin-widget', 'textWidgetEdit');
 		}
+		$this->view->textForm = $form;
 	}
 
 	public function textWidgetDeleteAction() {
@@ -50,6 +51,7 @@ class Widget extends \MmiCms\Controller\Admin {
 			$this->getMessenger()->addMessage('Zdjęcie zostało zapisane');
 			$this->getResponse()->redirect('cms', 'admin-widget', 'pictureWidgetEdit');
 		}
+		$this->view->pictureForm = $form;
 	}
 
 	public function pictureWidgetDeleteAction() {
