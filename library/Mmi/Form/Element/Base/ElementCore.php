@@ -10,8 +10,22 @@
 
 namespace Mmi\Form\Element\Base;
 
-abstract class Operation extends \Mmi\OptionObject {
-	
+abstract class ElementCore extends \Mmi\OptionObject {
+
+	/**
+	 * Funkcja użytkownika, jest wykonywana na końcu konstruktora
+	 */
+	public function init() {
+		
+	}
+
+	/**
+	 * Funkcja użytkownika, jest wykonywana przed renderingiem
+	 */
+	public function preRender() {
+		
+	}
+
 	/**
 	 * Dodaje klasę do elementu
 	 * @param string $className nazwa klasy
@@ -44,7 +58,7 @@ abstract class Operation extends \Mmi\OptionObject {
 	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public final function setValue($value) {
-		return $this->setOption('value', $value);
+		return $this->setOption('value', $this->_applyFilters($value));
 	}
 
 	/**
@@ -248,7 +262,7 @@ abstract class Operation extends \Mmi\OptionObject {
 	public final function getFilters() {
 		return is_array($this->getOption('filters')) ? $this->getOption('filters') : array();
 	}
-	
+
 	/**
 	 * Ustawia html użytkownika
 	 * @param string $html
@@ -256,6 +270,25 @@ abstract class Operation extends \Mmi\OptionObject {
 	 */
 	public final function setCustomHtml($html) {
 		return $this->setOption('customHtml', $html);
+	}
+
+	/**
+	 * Filtruje daną wartość za pomocą filtrów pola
+	 * @param mixed $value wartość
+	 * @return mixed wynik filtracji
+	 */
+	protected function _applyFilters($value) {
+		foreach ($this->getFilters() as $filter) {
+			$options = array();
+			if (is_array($filter)) {
+				$options = isset($filter['options']) ? $filter['options'] : array();
+				$filter = $filter['filter'];
+			}
+			$f = $this->_getFilter($filter);
+			$f->setOptions($options);
+			$value = $f->filter($value);
+		}
+		return $value;
 	}
 
 }

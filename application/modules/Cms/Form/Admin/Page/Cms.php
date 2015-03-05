@@ -12,7 +12,6 @@ namespace Cms\Form\Admin\Page;
 
 class Cms extends \MmiCms\Form {
 
-	protected $_recordName = '\Cms\Model\Navigation\Record';
 	protected $_recordSaveMethod = 'saveForm';
 
 	public function init() {
@@ -43,13 +42,12 @@ class Cms extends \MmiCms\Form {
 
 		//system object
 		$this->addElementSelect('object')
-			->setLabel(\Mmi\Controller\Front::getInstance()->getView()->getTranslate()->_('Obiekt CMS'))
-			->setDescription(\Mmi\Controller\Front::getInstance()->getView()->getTranslate()->_('Istniejące obiekty CMS'))
+			->setLabel('Obiekt CMS')
+			->setDescription('Istniejące obiekty CMS')
 			->setRequired()
 			->setOption('id', 'objectId');
 
 		$object = $this->getElement('object');
-		$object->setDisableTranslator(true);
 		$object->addMultiOption(null, null);
 		foreach (\Cms\Model\Reflection::getActions() as $action) {
 			$object->addMultiOption($action['path'], $action['module'] . ': ' . $action['controller'] . ' - ' . $action['action']);

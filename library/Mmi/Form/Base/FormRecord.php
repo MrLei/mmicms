@@ -8,15 +8,9 @@
  * @license    http://milejko.com/new-bsd.txt New BSD License
  */
 
-namespace Mmi\Form;
+namespace Mmi\Form\Base;
 
-abstract class RecordOperation extends \Mmi\OptionObject {
-
-	/**
-	 * Nazwa formularza
-	 * @var string
-	 */
-	protected $_formBaseName;
+abstract class FormRecord extends FormCore {
 
 	/**
 	 * Obiekt rekordu
@@ -103,6 +97,22 @@ abstract class RecordOperation extends \Mmi\OptionObject {
 	public function hasRecord() {
 		return (null !== $this->_record);
 	}
+	
+	/**
+	 * Sprawdza czy rekord zawiera dane
+	 * @return boolean
+	 */
+	public function hasNotEmptyRecord() {
+		if (!$this->hasRecord()) {
+			return false;
+		}
+		foreach ($this->_record->toArray() as $k => $v) {
+			if ($v !== null) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Wywołuje walidację i zapis rekordu powiązanego z formularzem.
@@ -110,12 +120,12 @@ abstract class RecordOperation extends \Mmi\OptionObject {
 	 */
 	public function save() {
 		if (!$this->hasRecord()) {
-			return $this->isSaved();
+			return $this->_saved = false;
 		}
-		if (!$this->isProper()) {
-			return $this->isSaved();
+		if (!$this->isValid()) {
+			return $this->_saved = false;
 		}
-		$this->_saved = $this->_saveRecord($this->_values);
+		$this->_saved = $this->_saveRecord();
 		$this->_saveResult = $this->_record->getSaveStatus();
 		if ($this->_saved === false) {
 			return false;
@@ -129,16 +139,18 @@ abstract class RecordOperation extends \Mmi\OptionObject {
 
 	/**
 	 * Zapis danych do obiektu rekordu
-	 * @param array $data
 	 * @return boolean
 	 */
-	protected function _saveRecord($data) {
-		unset($data[$this->_formBaseName . '__ctrl']);
-		$this->_record->setFromArray($data);
-		if (method_exists(($this->_record), $this->_recordSaveMethod)) {
-			return $this->_record->{$this->_recordSaveMethod}();
+	protected function _saveRecord() {
+		if (!method_exists(($this->_record), $this->_recordSaveMethod)) {
+			throw new \Exception('Save method unsupported: ' . $this->_recordSaveMethod);
 		}
-		throw new\Exception('Save method unsupported: ' . $this->_recordSaveMethod);
+		$data = array();
+		foreach ($this->getElements() as $element) {
+			$data[$element->getName()] = $element->getValue();
+		}
+		$this->_record->setFromArray($this->prepareSaveData($data));
+		return $this->_record->{$this->_recordSaveMethod}();
 	}
 
 }

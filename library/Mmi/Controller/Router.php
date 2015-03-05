@@ -52,8 +52,8 @@ class Router {
 		$this->_config = $config;
 		$this->_defaultLanguage = $defaultLanguage;
 		$this->_defaultSkin = $defaultSkin;
-		$requestUri = \Mmi\Controller\Front::getInstance()->getEnvironment()->requestUri;
-		$this->_url = urldecode(trim($requestUri, '/ '));
+		$this->_url = urldecode(trim(\Mmi\Controller\Front::getInstance()->getEnvironment()->requestUri, '/ '));
+		;
 		if (!(false === strpos($this->_url, '?'))) {
 			$this->_url = substr($this->_url, 0, strpos($this->_url, '?'));
 		}
@@ -89,9 +89,7 @@ class Router {
 	 * @return \Mmi\Controller\Request
 	 */
 	public function processRequest(\Mmi\Controller\Request $request) {
-		$request->setParams($this->decodeUrl($this->_url));
-		$request->setParams($this->_decodeGet());
-		return $request;
+		return $request->setParams($this->decodeUrl($this->_url));
 	}
 
 	/**
@@ -100,63 +98,35 @@ class Router {
 	 * @return array
 	 */
 	public function decodeUrl($url) {
-		$params = array();
-		$url = html_entity_decode($url, ENT_HTML401 | ENT_HTML5 | ENT_QUOTES, 'UTF-8');
+		//startowo parametry z GET
+		$params = $this->_decodeGet();
+
+		$filteredUrl = html_entity_decode($url, ENT_HTML401 | ENT_HTML5 | ENT_QUOTES, 'UTF-8');
+
+		//próba aplikacji rout
 		foreach ($this->getRoutes() as $route) {
 			/* @var $route \Mmi\Controller\Router\Config\Route */
-			$result = $this->_inputRouteApply($route, $url);
+			$result = $this->_inputRouteApply($route, $filteredUrl);
+			//dopasowano routę
 			if ($result['matched']) {
-				$params = $route->default;
 				$params = array_merge($params, $result['params']);
-				$url = $result['url'];
 				break;
 			}
 		}
-		$vars = explode('/', $url);
-		if (isset($vars[0]) && $vars[0]) {
-			if (!isset($params['module'])) {
-				$params['module'] = $vars[0];
-				array_shift($vars);
-			}
-			if (isset($vars[0])) {
-				if (!isset($params['controller'])) {
-					$params['controller'] = $vars[0];
-					array_shift($vars);
-				}
-				if (isset($vars[0])) {
-					if (!isset($params['action'])) {
-						$params['action'] = $vars[0];
-						array_shift($vars);
-					}
-				}
-			}
+
+		//jeśli puste parametry
+		if (!isset($params['module']) && $filteredUrl == '') {
+			$params['module'] = 'core';
 		}
 
-		$params['module'] = isset($params['module']) ? $params['module'] : 'core';
+		//domyślne parametry
 		$params['controller'] = isset($params['controller']) ? $params['controller'] : 'index';
 		$params['action'] = isset($params['action']) ? $params['action'] : 'index';
+		$params['skin'] = isset($params['skin']) ? $params['skin'] : $this->_defaultSkin;
 
-		for ($i = 0; $i < count($vars); $i++) {
-			if (!isset($vars[$i]) || !$vars[$i]) {
-				break;
-			}
-			$value = isset($vars[$i + 1]) ? $this->filter($vars[$i + 1]) : '';
-			//obsługa tablic
-			$valueLength = strlen($value);
-			if ($valueLength > 0 && $value[0] == '(' && $value[$valueLength - 1] == ')') {
-				$value = explode(';', rtrim(ltrim($value, '('), ')'));
-				if (!is_array($value)) {
-					$value = array($value);
-				}
-			}
-			$params[$this->filter($vars[$i])] = $value;
-			$i++;
-		}
-		if (!isset($params['skin'])) {
-			$params['skin'] = $this->_defaultSkin;
-		}
-		if (!isset($params['lang']) && $this->_defaultLanguage !== null) {
-			$params['lang'] = $this->_defaultLanguage;
+		//jeśli aplikacja jest językowa
+		if ($this->_defaultLanguage) {
+			$params['lang'] = isset($params['lang']) ? $params['lang'] : $this->_defaultLanguage;
 		}
 		return $params;
 	}
@@ -167,9 +137,12 @@ class Router {
 	 * @return string
 	 */
 	public function encodeUrl(array $params = array()) {
+
+		//startowo bazowy url aplikacji
 		$url = $this->_baseUrl;
-		$urlParams = '';
 		$matched = array();
+
+		//aplikacja rout
 		foreach ($this->getRoutes() as $route) {
 			/* @var $route \Mmi\Controller\Router\Config\Route */
 			$currentParams = array_merge($route->default, $params);
@@ -180,63 +153,18 @@ class Router {
 				break;
 			}
 		}
-		//dopasowanie bez lang i skin
-		if ((isset($params['skin']) || isset($params['lang'])) && empty($matched)) {
-			unset($params['skin']);
-			unset($params['lang']);
-			foreach ($this->getRoutes() as $route) {
-				/* @var $route \Mmi\Controller\Router\Config\Route */
-				$currentParams = array_merge($route->default, $params);
-				$result = $this->_outputRouteApply($route, $currentParams);
-				if ($result['applied']) {
-					$url .= '/' . $result['url'];
-					$matched = $result['matched'];
-					break;
-				}
-			}
-		}
-		$params['module'] = isset($params['module']) ? $params['module'] : 'core';
-		$params['controller'] = isset($params['controller']) ? $params['controller'] : 'index';
-		$params['action'] = isset($params['action']) ? $params['action'] : 'index';
-
+		//czyszczenie dopasowanych z routy
 		foreach ($matched as $match => $value) {
 			unset($params[$match]);
 		}
-
-		if (isset($params['module']) && isset($params['controller']) && isset($params['action'])) {
-			$module = $params['module'];
-			$controller = $params['controller'];
-			$action = $params['action'];
-		}
-		unset($params['module']);
-		unset($params['controller']);
-		unset($params['action']);
-		unset($params['skin']);
-		unset($params['lang']);
-
-		if (isset($module)) {
-			if (empty($params)) {
-				if ($action == 'index') {
-					$action = '';
-					if ($controller == 'index') {
-						$controller = '';
-						if ($module == 'core') {
-							$module = '';
-						}
-					}
-				}
-			}
-			$url .= rtrim('/' . $module . '/' . $controller . '/' . $action, ' /');
-		}
-		foreach ($params as $key => $value) {
-			if (is_array($value)) {
-				$value = '(' . implode(';', $value) . ')';
-			}
-			$urlParams .= $key . '/' . $value . '/';
-		}
-		$url .= rtrim('/' . $urlParams, '/ ');
-		if ($url == '') {
-			$url = '/';
+		//czyszczenie modułu jeśli core, kontrolera i akcji jeśli index
+		$this->_unsetArrayIndexes($params, 'module', 'core')
+			->_unsetArrayIndexes($params, 'controller')
+			->_unsetArrayIndexes($params, 'action');
+		
+		//budowanie zapytania
+		if ('' != ($query = http_build_query($params))) {
+			$url .= '/?' . $query;
 		}
 		return $url;
 	}
@@ -409,6 +337,23 @@ class Router {
 			return $this->_tmpDefault[$this->_tmpKey];
 		}
 		throw new\Exception('Router failed due to invalid route definition - no default param for key: ' . $this->_tmpKey);
+	}
+
+	/**
+	 * Usuwa indeksy z tabeli źródłowej
+	 * @param array $params tabela źródłowa
+	 * @param string $key klucz w tabeli
+	 * @param string $value wartość klucza do usunięcia
+	 * @return Router
+	 */
+	protected function _unsetArrayIndexes(array &$params, $key, $value = 'index') {
+		if (!isset($params[$key])) {
+			return $this;
+		}
+		if ($params[$key] == $value) {
+			unset($params[$key]);
+		}
+		return $this;
 	}
 
 }

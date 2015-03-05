@@ -12,8 +12,6 @@ namespace Cms\Form\Admin\Page;
 
 class Widget extends \Mmi\Form {
 
-	protected $_recordName = '\Cms\Model\Page\Widget\Record';
-
 	public function init() {
 
 		$this->addElementText('name')

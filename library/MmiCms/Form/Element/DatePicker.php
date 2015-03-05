@@ -61,14 +61,15 @@ class DatePicker extends \Mmi\Form\Element\ElementAbstract {
 		$view->headLink()->appendStylesheet($view->baseUrl . '/library/css/datetimepicker.css');
 		$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
 		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/datetimepicker.js');
+		$id = $this->getOption('id');
 		$view->headScript()->appendScript("$(document).ready(function () {
-				$('#$this->id').datetimepicker({'lang':'pl', timepicker: false, dateStart: '$dateStart', dateEnd: '$dateEnd', format:'$format', validateOnBlur: true, closeOnDateSelect: true});
+				$('#$id').datetimepicker({'lang':'pl', timepicker: false, dateStart: '$dateStart', dateEnd: '$dateEnd', format:'$format', validateOnBlur: true, closeOnDateSelect: true});
 			});
 		");
 		unset($this->_options['startDate']);
 		unset($this->_options['endDate']);
 		unset($this->_options['format']);
-		$html = '<div class="field"><input id="' . $this->id . '" class="datePickerField dp-applied" ';
+		$html = '<div class="field"><input id="' . $id . '" class="datePickerField dp-applied" ';
 		$html .= 'type="text" ' . $this->_getHtmlOptions() . '/></div>';
 
 		return $html;

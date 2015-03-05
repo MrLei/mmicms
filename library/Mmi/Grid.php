@@ -531,7 +531,7 @@ abstract class Grid {
 				}
 				foreach ($rowData->toArray() as $fieldName => $fieldValue) {
 					if (is_string($fieldValue) || is_int($fieldValue)) {
-						$value = str_replace('%' . $fieldName . '%', $fieldValue, $value);
+						$value = str_replace('%25' . $fieldName . '%25', $fieldValue, $value);
 					}
 				}
 				$html .= $value;

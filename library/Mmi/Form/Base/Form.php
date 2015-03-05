@@ -8,52 +8,9 @@
  * @license    http://milejko.com/new-bsd.txt New BSD License
  */
 
-namespace Mmi\Form;
+namespace Mmi\Form\Base;
 
-abstract class Base extends Renderer {
-
-	/**
-	 * Elementy formularza
-	 * @var array
-	 */
-	protected $_elements = array();
-
-	/**
-	 * Ustawia akcję formularza
-	 * @param string $value akcja
-	 */
-	public function setAction($value) {
-		$this->setOption('action', $value);
-	}
-
-	/**
-	 * Dodawanie elementu formularza z gotowego obiektu
-	 * @param \Mmi\Form\Element\ElementAbstract $element obiekt elementu formularza
-	 * @return \Mmi\Form\Element\ElementAbstract
-	 */
-	public function addElement(\Mmi\Form\Element\ElementAbstract $element) {
-		$name = $element->getName();
-		$this->_elements[$name] = $element;
-		$this->_elements[$name]->setForm($this);
-		return $element;
-	}
-
-	/**
-	 * Pobranie elementów formularza
-	 * @return array
-	 */
-	public function getElements() {
-		return $this->_elements;
-	}
-
-	/**
-	 * Pobranie elementu formularza
-	 * @param string $name nazwa elementu
-	 * @return \Mmi\Form\Element\ElementAbstract
-	 */
-	public function getElement($name) {
-		return isset($this->_elements[$name]) ? $this->_elements[$name] : null;
-	}
+abstract class Form extends FormRenderer {
 
 	/**
 	 * Button

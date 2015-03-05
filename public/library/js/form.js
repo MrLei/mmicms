@@ -25,12 +25,12 @@ function fieldValidationOnBlur(element) {
 		name		= fid.substr(fid.indexOf('_', 0) + 1),
 		errorsId	= formId + '_' + name + '_errors';
 	if ('undefined' !== typeof id) {
-		param = '/id/' + id;
+		param = '&id=' + id;
 	}
 	if ('checkbox' === $(element).attr('type') && !$(element).is(':checked')) {
 		fieldValue = '0';
 	}
-	$.post(request.baseUrl + '/cms/form/validate' + param,
+	$.post(request.baseUrl + '/?module=cms&controller=form&action=validate' + param,
 		{ctrl: $('#' + formId + '__ctrl').val(), field: name, value: urlencode(fieldValue)},
 		function (result) {
 			if (result) {
