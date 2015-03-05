@@ -52,8 +52,7 @@ class Router {
 		$this->_config = $config;
 		$this->_defaultLanguage = $defaultLanguage;
 		$this->_defaultSkin = $defaultSkin;
-		$requestUri = \Mmi\Controller\Front::getInstance()->getEnvironment()->requestUri;
-		$this->_url = urldecode(trim($requestUri, '/ '));
+		$this->_url = urldecode(trim(\Mmi\Controller\Front::getInstance()->getEnvironment()->requestUri, '/ '));;
 		if (!(false === strpos($this->_url, '?'))) {
 			$this->_url = substr($this->_url, 0, strpos($this->_url, '?'));
 		}
@@ -89,9 +88,7 @@ class Router {
 	 * @return \Mmi\Controller\Request
 	 */
 	public function processRequest(\Mmi\Controller\Request $request) {
-		$request->setParams($this->decodeUrl($this->_url));
-		$request->setParams($this->_decodeGet());
-		return $request;
+		return $request->setParams($this->decodeUrl($this->_url));
 	}
 
 	/**
@@ -100,8 +97,13 @@ class Router {
 	 * @return array
 	 */
 	public function decodeUrl($url) {
-		$params = array();
+		//startowo parametry z GET
+		$params = $this->_decodeGet();
+		
+		//filtracja url'a (bez GET)
 		$url = html_entity_decode($url, ENT_HTML401 | ENT_HTML5 | ENT_QUOTES, 'UTF-8');
+		
+		//próba aplikacji rout
 		foreach ($this->getRoutes() as $route) {
 			/* @var $route \Mmi\Controller\Router\Config\Route */
 			$result = $this->_inputRouteApply($route, $url);
@@ -112,51 +114,14 @@ class Router {
 				break;
 			}
 		}
-		$vars = explode('/', $url);
-		if (isset($vars[0]) && $vars[0]) {
-			if (!isset($params['module'])) {
-				$params['module'] = $vars[0];
-				array_shift($vars);
-			}
-			if (isset($vars[0])) {
-				if (!isset($params['controller'])) {
-					$params['controller'] = $vars[0];
-					array_shift($vars);
-				}
-				if (isset($vars[0])) {
-					if (!isset($params['action'])) {
-						$params['action'] = $vars[0];
-						array_shift($vars);
-					}
-				}
-			}
-		}
-
+		
+		//domyślne parametry
 		$params['module'] = isset($params['module']) ? $params['module'] : 'core';
 		$params['controller'] = isset($params['controller']) ? $params['controller'] : 'index';
 		$params['action'] = isset($params['action']) ? $params['action'] : 'index';
-
-		for ($i = 0; $i < count($vars); $i++) {
-			if (!isset($vars[$i]) || !$vars[$i]) {
-				break;
-			}
-			$value = isset($vars[$i + 1]) ? $this->filter($vars[$i + 1]) : '';
-			//obsługa tablic
-			$valueLength = strlen($value);
-			if ($valueLength > 0 && $value[0] == '(' && $value[$valueLength - 1] == ')') {
-				$value = explode(';', rtrim(ltrim($value, '('), ')'));
-				if (!is_array($value)) {
-					$value = array($value);
-				}
-			}
-			$params[$this->filter($vars[$i])] = $value;
-			$i++;
-		}
-		if (!isset($params['skin'])) {
-			$params['skin'] = $this->_defaultSkin;
-		}
-		if (!isset($params['lang']) && $this->_defaultLanguage !== null) {
-			$params['lang'] = $this->_defaultLanguage;
+		$params['skin'] = isset($params['skin']) ? $params['skin'] : $this->_defaultSkin;
+		if ($this->_defaultLanguage) {
+			$params['lang'] = isset($params['lang']) ? $params['lang'] : $this->_defaultLanguage;
 		}
 		return $params;
 	}
@@ -168,8 +133,9 @@ class Router {
 	 */
 	public function encodeUrl(array $params = array()) {
 		$url = $this->_baseUrl;
-		$urlParams = '';
 		$matched = array();
+		
+		//aplikacja rout
 		foreach ($this->getRoutes() as $route) {
 			/* @var $route \Mmi\Controller\Router\Config\Route */
 			$currentParams = array_merge($route->default, $params);
@@ -180,63 +146,25 @@ class Router {
 				break;
 			}
 		}
-		//dopasowanie bez lang i skin
-		if ((isset($params['skin']) || isset($params['lang'])) && empty($matched)) {
-			unset($params['skin']);
-			unset($params['lang']);
-			foreach ($this->getRoutes() as $route) {
-				/* @var $route \Mmi\Controller\Router\Config\Route */
-				$currentParams = array_merge($route->default, $params);
-				$result = $this->_outputRouteApply($route, $currentParams);
-				if ($result['applied']) {
-					$url .= '/' . $result['url'];
-					$matched = $result['matched'];
-					break;
-				}
-			}
-		}
-		$params['module'] = isset($params['module']) ? $params['module'] : 'core';
-		$params['controller'] = isset($params['controller']) ? $params['controller'] : 'index';
-		$params['action'] = isset($params['action']) ? $params['action'] : 'index';
-
+		//czyszczenie dopasowanych z routy
 		foreach ($matched as $match => $value) {
 			unset($params[$match]);
 		}
-
-		if (isset($params['module']) && isset($params['controller']) && isset($params['action'])) {
-			$module = $params['module'];
-			$controller = $params['controller'];
-			$action = $params['action'];
+		//czyszczenie modułu jeśli core
+		if (isset($params['module']) && $params['module'] == 'core') {
+			unset($params['module']);
 		}
-		unset($params['module']);
-		unset($params['controller']);
-		unset($params['action']);
-		unset($params['skin']);
-		unset($params['lang']);
-
-		if (isset($module)) {
-			if (empty($params)) {
-				if ($action == 'index') {
-					$action = '';
-					if ($controller == 'index') {
-						$controller = '';
-						if ($module == 'core') {
-							$module = '';
-						}
-					}
-				}
-			}
-			$url .= rtrim('/' . $module . '/' . $controller . '/' . $action, ' /');
+		//czyszczenie kontrolera jeśli index
+		if (isset($params['controller']) && $params['controller'] == 'index') {
+			unset($params['controller']);
 		}
-		foreach ($params as $key => $value) {
-			if (is_array($value)) {
-				$value = '(' . implode(';', $value) . ')';
-			}
-			$urlParams .= $key . '/' . $value . '/';
+		//czyszczenie akcji jeśli index
+		if (isset($params['action']) && $params['action'] == 'index') {
+			unset($params['action']);
 		}
-		$url .= rtrim('/' . $urlParams, '/ ');
-		if ($url == '') {
-			$url = '/';
+		//budowanie zapytania
+		if (!empty($params)) {
+			$url .= '/?' . http_build_query($params);
 		}
 		return $url;
 	}

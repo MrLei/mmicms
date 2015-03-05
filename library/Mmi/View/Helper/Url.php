@@ -56,7 +56,6 @@ class Url extends HelperAbstract {
 			}
 		}
 		$url = \Mmi\Controller\Front::getInstance()->getRouter()->encodeUrl($params);
-		$url = str_replace(array('&', ' '), array('%26', '+'), $url);
 		if (!is_null($https)) {
 			$absolute = true;
 		}
