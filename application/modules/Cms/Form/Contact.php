@@ -12,8 +12,6 @@ namespace Cms\Form;
 
 class Contact extends \MmiCms\Form {
 
-	protected $_recordName = '\Cms\Model\Contact\Record';
-
 	public function init() {
 
 		$this->setSecured();
