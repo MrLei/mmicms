@@ -52,7 +52,8 @@ class Router {
 		$this->_config = $config;
 		$this->_defaultLanguage = $defaultLanguage;
 		$this->_defaultSkin = $defaultSkin;
-		$this->_url = urldecode(trim(\Mmi\Controller\Front::getInstance()->getEnvironment()->requestUri, '/ '));;
+		$this->_url = urldecode(trim(\Mmi\Controller\Front::getInstance()->getEnvironment()->requestUri, '/ '));
+		;
 		if (!(false === strpos($this->_url, '?'))) {
 			$this->_url = substr($this->_url, 0, strpos($this->_url, '?'));
 		}
@@ -99,27 +100,31 @@ class Router {
 	public function decodeUrl($url) {
 		//startowo parametry z GET
 		$params = $this->_decodeGet();
-		
-		//filtracja url'a (bez GET)
-		$url = html_entity_decode($url, ENT_HTML401 | ENT_HTML5 | ENT_QUOTES, 'UTF-8');
-		
+
+		$filteredUrl = html_entity_decode($url, ENT_HTML401 | ENT_HTML5 | ENT_QUOTES, 'UTF-8');
+
 		//próba aplikacji rout
 		foreach ($this->getRoutes() as $route) {
 			/* @var $route \Mmi\Controller\Router\Config\Route */
-			$result = $this->_inputRouteApply($route, $url);
+			$result = $this->_inputRouteApply($route, $filteredUrl);
+			//dopasowano routę
 			if ($result['matched']) {
-				$params = $route->default;
 				$params = array_merge($params, $result['params']);
-				$url = $result['url'];
 				break;
 			}
 		}
-		
+
+		//jeśli puste parametry
+		if (!isset($params['module']) && $filteredUrl == '') {
+			$params['module'] = 'core';
+		}
+
 		//domyślne parametry
-		$params['module'] = isset($params['module']) ? $params['module'] : 'core';
 		$params['controller'] = isset($params['controller']) ? $params['controller'] : 'index';
 		$params['action'] = isset($params['action']) ? $params['action'] : 'index';
 		$params['skin'] = isset($params['skin']) ? $params['skin'] : $this->_defaultSkin;
+
+		//jeśli aplikacja jest językowa
 		if ($this->_defaultLanguage) {
 			$params['lang'] = isset($params['lang']) ? $params['lang'] : $this->_defaultLanguage;
 		}
@@ -132,9 +137,11 @@ class Router {
 	 * @return string
 	 */
 	public function encodeUrl(array $params = array()) {
+
+		//startowo bazowy url aplikacji
 		$url = $this->_baseUrl;
 		$matched = array();
-		
+
 		//aplikacja rout
 		foreach ($this->getRoutes() as $route) {
 			/* @var $route \Mmi\Controller\Router\Config\Route */
@@ -150,21 +157,14 @@ class Router {
 		foreach ($matched as $match => $value) {
 			unset($params[$match]);
 		}
-		//czyszczenie modułu jeśli core
-		if (isset($params['module']) && $params['module'] == 'core') {
-			unset($params['module']);
-		}
-		//czyszczenie kontrolera jeśli index
-		if (isset($params['controller']) && $params['controller'] == 'index') {
-			unset($params['controller']);
-		}
-		//czyszczenie akcji jeśli index
-		if (isset($params['action']) && $params['action'] == 'index') {
-			unset($params['action']);
-		}
+		//czyszczenie modułu jeśli core, kontrolera i akcji jeśli index
+		$this->_unsetArrayIndexes($params, 'module', 'core')
+			->_unsetArrayIndexes($params, 'controller')
+			->_unsetArrayIndexes($params, 'action');
+		
 		//budowanie zapytania
-		if (!empty($params)) {
-			$url .= '/?' . http_build_query($params);
+		if ('' != ($query = http_build_query($params))) {
+			$url .= '/?' . $query;
 		}
 		return $url;
 	}
@@ -337,6 +337,23 @@ class Router {
 			return $this->_tmpDefault[$this->_tmpKey];
 		}
 		throw new\Exception('Router failed due to invalid route definition - no default param for key: ' . $this->_tmpKey);
+	}
+
+	/**
+	 * Usuwa indeksy z tabeli źródłowej
+	 * @param array $params tabela źródłowa
+	 * @param string $key klucz w tabeli
+	 * @param string $value wartość klucza do usunięcia
+	 * @return Router
+	 */
+	protected function _unsetArrayIndexes(array &$params, $key, $value = 'index') {
+		if (!isset($params[$key])) {
+			return $this;
+		}
+		if ($params[$key] == $value) {
+			unset($params[$key]);
+		}
+		return $this;
 	}
 
 }
