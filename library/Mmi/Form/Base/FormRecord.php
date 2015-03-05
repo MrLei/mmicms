@@ -97,6 +97,22 @@ abstract class FormRecord extends FormCore {
 	public function hasRecord() {
 		return (null !== $this->_record);
 	}
+	
+	/**
+	 * Sprawdza czy rekord zawiera dane
+	 * @return boolean
+	 */
+	public function hasNotEmptyRecord() {
+		if (!$this->hasRecord()) {
+			return false;
+		}
+		foreach ($this->_record->toArray() as $k => $v) {
+			if ($v !== null) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Wywołuje walidację i zapis rekordu powiązanego z formularzem.

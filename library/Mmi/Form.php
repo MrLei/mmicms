@@ -31,11 +31,8 @@ abstract class Form extends Form\Base\Form {
 			->setOption('method', 'post')
 			->setOption('enctype', 'multipart/form-data');
 
-		//puste dane
-		$data = array();
-		
 		//dane z rekordu
-		if ($this->hasRecord()) {
+		if ($this->hasNotEmptyRecord()) {
 			$data = $this->_record->toArray();
 		}
 		
@@ -57,8 +54,11 @@ abstract class Form extends Form\Base\Form {
 		//konfiguracja elementów
 		$this->_configureElements();
 
-		//automatyczne wywołanie save()
-		$this->setDefaults($this->prepareLoadData($data));
+		//jeśli przyszły dane - ustawienie w pola
+		if (isset($data)) {
+			//ustawienie wartości domyślnych
+			$this->setDefaults($this->prepareLoadData($data));
+		}
 		
 		//zapis do rekordu jeśli istnieje
 		$this->save();
@@ -74,31 +74,6 @@ abstract class Form extends Form\Base\Form {
 			->setIgnore()
 			->setOption('id', $this->_formBaseName . '__ctrl')
 			->setValue(\Mmi\Lib::hashTable(array('hash' => $this->_hash, 'class' => $this->_className, 'options' => $this->getOptions())));
-	}
-
-	/**
-	 * Ustawienie wartości pól
-	 * @param mixed $data
-	 */
-	public function setDefaults(array $data = array()) {
-		foreach ($data as $key => $value) {
-			if ($key === $this->_formBaseName . '__ctrl') {
-				$this->_ctrl = $value;
-				continue;
-			}
-			if (null === ($element = $this->getElement($key))) {
-				continue;
-			}
-			$element->setValue($value);
-		}
-	}
-
-	/**
-	 * Ustawia zabezpieczenie CSRF
-	 * @param boolean $secured
-	 */
-	public function setSecured($secured = true) {
-		$this->_secured = $secured;
 	}
 
 }

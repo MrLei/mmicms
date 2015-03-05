@@ -89,6 +89,14 @@ abstract class FormCore extends \Mmi\OptionObject {
 	}
 
 	/**
+	 * Ustawia zabezpieczenie CSRF
+	 * @param boolean $secured
+	 */
+	public function setSecured($secured = true) {
+		$this->_secured = $secured;
+	}
+
+	/**
 	 * Dodawanie elementu formularza z gotowego obiektu
 	 * @param \Mmi\Form\Element\ElementAbstract $element obiekt elementu formularza
 	 * @return \Mmi\Form\Element\ElementAbstract
@@ -154,17 +162,39 @@ abstract class FormCore extends \Mmi\OptionObject {
 	}
 
 	/**
+	 * Ustawienie wartości pól
+	 * @param mixed $data
+	 */
+	public function setDefaults(array $data = array()) {
+		foreach ($data as $key => $value) {
+			if ($key === $this->_formBaseName . '__ctrl') {
+				$this->_ctrl = $value;
+				continue;
+			}
+			if (null === ($element = $this->getElement($key))) {
+				continue;
+			}
+			$element->setValue($value);
+		}
+	}
+
+	/**
 	 * Konfigurator elementów ustawia id pola na podstawie id macierzystego formularza
 	 */
 	protected function _configureElements() {
 		foreach ($this->getElements() AS $element) {
-			if ($element instanceof \Mmi\Form\Element\Checkbox) {
-				$element->setValue(0);
-			} elseif ($element instanceof \Mmi\Form\Element\Select && $element->getOption('multiple')) {
-				$element->setValue(array());
-			}
 			$element->setOption('id', $this->_formBaseName . '_' . $element->getOption('name'));
 			$element->setOption('class', trim('field ' . $element->getOption('class')));
+			//checkboxy dostają zero jeśli brak wartości
+			if ($element instanceof \Mmi\Form\Element\Checkbox) {
+				$element->setValue($element->getValue() ? $element->getValue() : 0);
+				continue;
+			}
+			//selecty multiple dostają pusty array jeśli brak wartości
+			if ($element instanceof \Mmi\Form\Element\Select && $element->getOption('multiple')) {
+				$element->setValue($element->getValue() ? $element->getValue() : array());
+				continue;
+			}
 		}
 	}
 
