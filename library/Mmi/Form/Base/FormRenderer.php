@@ -8,9 +8,9 @@
  * @license    http://milejko.com/new-bsd.txt New BSD License
  */
 
-namespace Mmi\Form;
+namespace Mmi\Form\Base;
 
-abstract class Renderer extends RecordOperation {
+abstract class FormRenderer extends FormRecord {
 
 	/**
 	 * Renderer nagłówka formularza

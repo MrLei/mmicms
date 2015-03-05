@@ -12,7 +12,6 @@ namespace Cms\Form\Admin\Page;
 
 class Article extends \MmiCms\Form {
 
-	protected $_recordName = '\Cms\Model\Navigation\Record';
 	protected $_recordSaveMethod = 'saveForm';
 
 	public function init() {

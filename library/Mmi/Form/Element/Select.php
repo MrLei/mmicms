@@ -35,7 +35,7 @@ class Select extends ElementAbstract {
 	 */
 	public function fetchField() {
 		$multiOptions = (isset($this->_options['multiOptions']) && is_array($this->_options['multiOptions'])) ? $this->_options['multiOptions'] : array();
-		$value = isset($this->_options['value']) ? $this->_options['value'] : null;
+		$value = $this->getValue();
 		if (isset($this->_options['multiple'])) {
 			$this->_options['name'] = $this->_options['name'] . '[]';
 		}
@@ -72,13 +72,16 @@ class Select extends ElementAbstract {
 	 * @return string
 	 */
 	protected function _calculateSelected($key, $value) {
-		$selected = '';
+		$selected = ' selected="selected"';
+		//typ tablicowy
 		if (is_array($value) && in_array($key, $value)) {
-			$selected = ' selected="selected"';
-		} elseif ($value == $key && !is_null($value)) {
-			$selected = ' selected="selected"';
+			return $selected;
 		}
-		return $selected;
+		//typ skalarny
+		if ((string)$value == (string)$key && !is_null($value)) {
+			return $selected;
+		}
+		return '';
 	}
 
 }

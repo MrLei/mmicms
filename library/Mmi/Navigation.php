@@ -39,7 +39,7 @@ class Navigation {
 	 * @return \Mmi\Translate
 	 */
 	public function setup(\Mmi\Controller\Request $request) {
-		$activatedTree = $this->_setupActive($this->_config->built, $request->toArray());
+		$activatedTree = $this->_setupActive($this->_config->build, $request->toArray());
 		if (isset($activatedTree['tree'][0]['children'])) {
 			$this->_setupBreadcrumbs($activatedTree['tree'][0]['children']);
 		}

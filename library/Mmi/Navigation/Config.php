@@ -25,10 +25,10 @@ class Config {
 	protected static $_index = 1000000;
 
 	/**
-	 * Czy zbudowany
+	 * Zbudowany obiekt
 	 * @var array
 	 */
-	public $built = array();
+	public $build = array();
 
 	/**
 	 * Dodaje element nawigatora
@@ -105,10 +105,10 @@ class Config {
 	 * @return array
 	 */
 	public function build() {
-		if (!empty($this->built)) {
-			return $this->built;
+		if (!empty($this->build)) {
+			return $this->build;
 		}
-		$this->built = array(array(
+		$this->build = array(array(
 				'active' => true,
 				'name' => '',
 				'label' => '',
@@ -118,11 +118,11 @@ class Config {
 				'children' => array()
 		));
 		foreach ($this->_data as $element) {
-			$this->built[0]['children'][$element->getId()] = $element->build();
+			$this->build[0]['children'][$element->getId()] = $element->build();
 		}
-		//usuwanie konfiguracji
+		//usuwanie konfiguracji po zbudowaniu
 		$this->_data = array();
-		return $this->built;
+		return $this->build;
 	}
 
 }
