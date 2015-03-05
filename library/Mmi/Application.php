@@ -23,13 +23,16 @@ class Application {
 	 * @param string $path
 	 */
 	public function __construct($path, $bootstrapName = '\Mmi\Application\Bootstrap') {
+		//inicjalizacja aplikacji
 		$this->_initPaths($path)
 			->_initEncoding()
 			->_initPhpConfiguration()
 			->_initAutoloader()
 			->_initErrorHandler();
+		//tworzenie instancji bootstrapa
 		$this->_bootstrap = new $bootstrapName($path);
 		\Mmi\Profiler::event('Application: bootstrap executed');
+		//bootstrap nie implementuje właściwego interfeace'u
 		if (!($this->_bootstrap instanceof \Mmi\Application\BootstrapInterface)) {
 			throw new \Exception('\Mmi\Application bootstrap should be implementing \Mmi\Application\Bootstrap\Interface');
 		}
@@ -48,8 +51,11 @@ class Application {
 	 * @return \Mmi\Application
 	 */
 	protected function _initEncoding() {
+		//wewnętrzne kodowanie znaków
 		mb_internal_encoding('utf-8');
+		//domyślne kodowanie znaków PHP
 		ini_set('default_charset', 'utf-8');
+		//locale
 		setlocale(LC_ALL, 'pl_PL.utf-8');
 		setlocale(LC_NUMERIC, 'en_US.UTF-8');
 		return $this;
@@ -88,19 +94,9 @@ class Application {
 	 */
 	protected function _initPhpConfiguration() {
 		//obsługa włączonych magic quotes
-		if (!ini_get('magic_quotes_gpc')) {
-			return $this;
+		if (ini_get('magic_quotes_gpc')) {
+			throw new \Exception('\Mmi\Application: magic quotes enabled');
 		}
-
-		//wykonywane tylko przy włączonym magic_quotes_gpc
-		function _stripslashesGpc(&$value) {
-			$value = stripslashes($value);
-		}
-
-		array_walk_recursive($_GET, array('_stripslashesGpc'));
-		array_walk_recursive($_POST, array('_stripslashesGpc'));
-		array_walk_recursive($_COOKIE, array('_stripslashesGpc'));
-		array_walk_recursive($_REQUEST, array('_stripslashesGpc'));
 		return $this;
 	}
 
@@ -109,17 +105,22 @@ class Application {
 	 * @return \Mmi\Application
 	 */
 	protected function _initAutoloader() {
+		//rejestrowanie autoloadera
 		spl_autoload_register(function ($class) {
+			//rozbicie po \
 			$name = explode('\\', $class);
 			$namespace = $name[0];
 			switch ($namespace) {
+				//dla mmi ładujemy z LIB_PATH
 				case ((substr($namespace, 0, 3) == 'Mmi') ? $namespace : !$namespace):
 					$path = LIB_PATH . '/' . $namespace;
 					array_shift($name);
 					break;
+				//pozostałe z modułów
 				default:
 					$path = APPLICATION_PATH . '/modules';
 			}
+			//dołączenie pliku
 			include $path . '/' . implode('/', $name) . '.php';
 		});
 		return $this;
@@ -130,7 +131,9 @@ class Application {
 	 * @return \Mmi\Application
 	 */
 	protected function _initErrorHandler() {
+		//domyślne przechwycenie wyjątków
 		set_exception_handler(array('\Mmi\Application\Error', 'exceptionHandler'));
+		//domyślne przechwycenie błędów
 		set_error_handler(array('\Mmi\Application\Error', 'errorHandler'));
 		return $this;
 	}

@@ -26,7 +26,7 @@ class Page extends \MmiCms\Controller\Admin {
 
 	public function composeAction() {
 		if (!$this->id || null === ($page = \Cms\Model\Page\Query::factory()
-			->where('id')->equals($this->id)
+			->whereId()->equals($this->id)
 			->findFirst())) {
 			$this->getResponse()->redirect('cms', 'admin-page');
 		}

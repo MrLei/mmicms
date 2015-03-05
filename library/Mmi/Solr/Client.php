@@ -12,12 +12,41 @@ namespace Mmi\Solr;
 
 class Client {
 
+	/**
+	 * Url do serwera
+	 * @var string
+	 */
 	public $solrServerUrl = null;
+
+	/**
+	 * Nazwa core'a
+	 * @var string
+	 */
 	protected $_core = null;
+
+	/**
+	 * Metoda dostępu
+	 * @var string
+	 */
 	protected $_method = 'POST';
+
+	/**
+	 * Nagłówek
+	 * @var string 
+	 */
 	protected $_header = 'Content-type: text/json';
+
+	/**
+	 * Metoda solr
+	 * @var string
+	 */
 	protected $_solrMethod = null;
 
+	/**
+	 * Konstruktor
+	 * @param string $solrUrl
+	 * @param string $core
+	 */
 	public function __construct($solrUrl, $core) {
 		$this->solrServerUrl = $solrUrl;
 		$this->_core = $core;
@@ -38,11 +67,8 @@ class Client {
 
 		$context = stream_context_create($opts);
 
-		try {
-			return file_get_contents($this->solrServerUrl . '/admin/' . $this->_solrMethod . '?wt=json&action=reload&core=' . $this->_core, false, $context);
-		} catch (\Exception $ex) {
-			throw $ex;
-		}
+		//zapytanie
+		return file_get_contents($this->solrServerUrl . '/admin/' . $this->_solrMethod . '?wt=json&action=reload&core=' . $this->_core, false, $context);
 	}
 
 	/**
@@ -60,11 +86,8 @@ class Client {
 
 		$context = stream_context_create($opts);
 
-		try {
-			return file_get_contents($this->solrServerUrl . '/' . $this->_core . '/' . $this->_solrMethod . '?' . $queryObject->searchUrl(), false, $context);
-		} catch (\Exception $ex) {
-			throw $ex;
-		}
+		//zapytanie
+		return file_get_contents($this->solrServerUrl . '/' . $this->_core . '/' . $this->_solrMethod . '?' . $queryObject->searchUrl(), false, $context);
 	}
 
 	/**
@@ -84,6 +107,7 @@ class Client {
 
 		$jsonObject = json_encode($addObj);
 
+		//budowanie opcji
 		$opts = array('http' =>
 			array(
 				'method' => 'POST',
@@ -93,20 +117,17 @@ class Client {
 			)
 		);
 
+		//budowanie kontekstu
 		$context = stream_context_create($opts);
 
-		try {
-			$response = file_get_contents($this->solrServerUrl . '/' . $this->_core . '/' . $this->_solrMethod, false, $context);
-			$responseObject = json_decode($response);
-			if (!isset($responseObject->error) && $commit) {
-				$this->commit();
-			} elseif (isset($responseObject->error)) {
-				$e = new \Mmi\Solr\Exception($responseObject->error->msg, $responseObject->error->code);
-				throw $e;
-			}
-		} catch (\Exception $ex) {
-			\Mmi\Lib::dump($ex);
-			die();
+		//zapytanie
+		$response = file_get_contents($this->solrServerUrl . '/' . $this->_core . '/' . $this->_solrMethod, false, $context);
+		$responseObject = json_decode($response);
+		if (!isset($responseObject->error) && $commit) {
+			return $this->commit();
+		} 
+		if ($commit) {
+			throw new \Mmi\Solr\Exception($responseObject->error->msg, $responseObject->error->code);
 		}
 	}
 
@@ -147,6 +168,7 @@ class Client {
 
 		$jsonObject = json_encode($addObj);
 
+		//budowanie opcji
 		$opts = array('http' =>
 			array(
 				'method' => 'POST',
@@ -156,20 +178,16 @@ class Client {
 			)
 		);
 
+		//budowanie kontekstu
 		$context = stream_context_create($opts);
 
-		try {
-			$response = file_get_contents($this->solrServerUrl . '/' . $this->_core . '/' . $this->_solrMethod, false, $context);
-			$responseObject = json_decode($response);
-			if (!isset($responseObject->error) & $commit) {
-				$this->commit();
-			} elseif (isset($responseObject->error)) {
-				$e = new \Mmi\Solr\Exception($responseObject->error->msg, $responseObject->error->code);
-				throw $e;
-			}
-		} catch (\Exception $ex) {
-			\Mmi\Lib::dump($ex);
-			die();
+		$response = file_get_contents($this->solrServerUrl . '/' . $this->_core . '/' . $this->_solrMethod, false, $context);
+		$responseObject = json_decode($response);
+		if (!isset($responseObject->error) & $commit) {
+			return $this->commit();
+		}
+		if ($commit) {
+			throw new \Mmi\Solr\Exception($responseObject->error->msg, $responseObject->error->code);
 		}
 	}
 
@@ -181,6 +199,7 @@ class Client {
 	public function commit() {
 		$this->_solrMethod = 'update';
 
+		//budowanie opcji
 		$opts = array('http' =>
 			array(
 				'method' => 'POST',
@@ -189,21 +208,16 @@ class Client {
 			)
 		);
 
+		//budowanie kontekstu
 		$context = stream_context_create($opts);
 
-		try {
-			$response = file_get_contents($this->solrServerUrl . '/' . $this->_core . '/' . $this->_solrMethod . '?commit=true', false, $context);
-			$responseObject = json_decode($response);
-			if (!isset($responseObject->error)) {
-				return $response;
-			} else {
-				$e = new \Mmi\Solr\Exception($responseObject->error->msg, $responseObject->error->code);
-				throw $e;
-			}
-		} catch (\Exception $ex) {
-			\Mmi\Lib::dump($ex);
-			die();
+		//zapytanie
+		$response = file_get_contents($this->solrServerUrl . '/' . $this->_core . '/' . $this->_solrMethod . '?commit=true', false, $context);
+		$responseObject = json_decode($response);
+		if (!isset($responseObject->error)) {
+			return $response;
 		}
+		throw new \Mmi\Solr\Exception($responseObject->error->msg, $responseObject->error->code);
 	}
 
 }
