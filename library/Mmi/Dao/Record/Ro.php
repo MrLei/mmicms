@@ -187,17 +187,21 @@ class Ro {
 	 * @return array
 	 */
 	public function toArray() {
-		$array = array();
-		foreach ($this->_options as $name => $value) {
-			$array[$name] = $value;
-		}
+		//tworzy array z opcji
+		$array = $this->_options;
+		//dołącza joinowane tabele
 		foreach ($this->_joined as $name => $value) {
 			if ($value instanceof \Mmi\Dao\Record\Ro) {
 				$value = $value->toArray();
 			}
 			$array[$name] = $value;
 		}
+		//dołącza pola obiektu
 		foreach ($this as $name => $value) {
+			//tylko publiczne zmienne
+			if (substr($name, 0, 1) == '_') {
+				continue;
+			}
 			$array[$name] = $value;
 		}
 		return $array;

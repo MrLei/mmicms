@@ -33,7 +33,7 @@ class MultiCheckbox extends ElementAbstract {
 		$values = isset($this->_options['value']) ? $this->_options['value'] : null;
 
 		unset($this->_options['value']);
-		$html = '<ul id="' . $this->id . '_list">';
+		$html = '<ul id="' . $this->getOption('id') . '_list">';
 		$this->_options['name'] = $this->_options['name'] . '[]';
 		foreach ($multiOptions as $key => $caption) {
 			unset($this->_options['checked']);
