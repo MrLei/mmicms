@@ -12,7 +12,6 @@ namespace Cms\Form\Admin;
 
 class Contact extends \Mmi\Form {
 
-	protected $_recordName = '\Cms\Model\Contact\Record';
 	protected $_recordSaveMethod = 'reply';
 
 	public function init() {

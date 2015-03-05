@@ -77,6 +77,12 @@ class Environment {
 	 * @var string
 	 */
 	public $httpUserAgent;
+	
+	/**
+	 * Fragmenty pliku do pobrania
+	 * @var string
+	 */
+	public $httpRange;
 
 	/**
 	 * IP klienta
@@ -135,6 +141,7 @@ class Environment {
 		$this->httpReferer = filter_input(INPUT_SERVER, 'HTTP_REFERER', FILTER_SANITIZE_SPECIAL_CHARS);
 		$this->httpSecure = (filter_input(INPUT_SERVER, 'HTTPS') == 'on') ? true : false;
 		$this->httpUserAgent = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_SPECIAL_CHARS);
+		$this->httpRange = filter_input(INPUT_SERVER, 'HTTP_RANGE', FILTER_SANITIZE_SPECIAL_CHARS);
 
 		$this->remoteAddress = filter_input(INPUT_SERVER, 'HTTP_X_FORWARDED_FOR', FILTER_SANITIZE_SPECIAL_CHARS);
 		if ($this->remoteAddress === null) {

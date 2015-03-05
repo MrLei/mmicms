@@ -12,8 +12,6 @@ namespace Cms\Form\Admin\Widget;
 
 class Picture extends \MmiCms\Form {
 
-	protected $_recordName = '\Cms\Model\Widget\Picture\Record';
-
 	public function init() {
 
 		$this->addElementFile('cmswidgetpicture')

@@ -12,7 +12,6 @@ namespace Cms\Form;
 
 class Register extends \MmiCms\Form {
 
-	protected $_recordName = '\Cms\Model\Auth\Record';
 	protected $_recordSaveMethod = 'register';
 
 	public function init() {
