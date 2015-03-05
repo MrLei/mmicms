@@ -6,7 +6,7 @@ function initAcl() {
 	$('.rule-select').change(
 		function() {
 			$.get(
-				request.baseUrl + "/cms/admin-acl/update/id/" + $(this).attr('id') + "/value/" + $(this).val(),
+				request.baseUrl + "/?module=cms&controller=admin-acl&action=update&id=" + $(this).attr('id') + "&value=" + $(this).val(),
 				function(result) {
 					if (result != '1') {
 						alert(result);
@@ -23,7 +23,7 @@ function initAcl() {
 			id = id.split('-');
 			if (window.confirm($(this).attr('title') + '?')) {
 				$.get(
-					request.baseUrl + "/cms/admin-acl/delete/id/" + id[2],
+					request.baseUrl + "/?module=cms&controller=admin-acl&action=delete&id=" + id[2],
 					function(result) {
 						if (result != '1') {
 							alert(result);

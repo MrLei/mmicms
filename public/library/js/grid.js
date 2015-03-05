@@ -46,7 +46,7 @@ CMS.grid = function () {
 				}
 			}
 			ctrl = $('#' + formId + '__ctrl').val();
-			url = request.baseUrl + "/cms/grid/" + type;
+			url = request.baseUrl + "/?module=cms&controller=grid&action=" + type;
 			$.post(url, {ctrl: ctrl, identifier: identifier, field: field, value: value});
 			if (fieldType === 'text') {
 				$(this).replaceWith('<a href="#" id="' + $(this).attr('id') +
@@ -102,7 +102,7 @@ CMS.grid = function () {
 				}
 			}
 			ctrl = $('#' + formId + '__ctrl').val();
-			url = request.baseUrl + "/cms/grid/" + type;
+			url = request.baseUrl + "/?module=cms&controller=grid&action=" + type;
 			$.post(url, {ctrl: ctrl, field: field, value: value}, function (result) {
 				var rowsCount,
 					selected;
