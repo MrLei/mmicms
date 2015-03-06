@@ -221,9 +221,11 @@ class Dao {
 	 * @return string
 	 */
 	public static final function getCollectionName() {
+		//zwrot nazwy kolekcji
 		if (static::$_collectionName !== null) {
 			return static::$_collectionName;
 		}
+		//konwencja nazwy na kolekcję
 		return self::_classPrefix() . 'Record\Collection';
 	}
 
@@ -233,16 +235,18 @@ class Dao {
 	 * @return string
 	 */
 	public static final function getRecordNameByTable($tableName) {
+		//rozdzielenie po podkreślniku
 		$tableArray = explode('_', $tableName);
 		$firstElement = $tableArray[0];
 		array_shift($tableArray);
 		array_unshift($tableArray, $firstElement, 'Model');
 		$tableArray[] = 'Record';
-		$targetTable = array();
+		//dołączenie pozostałych parametrów
 		foreach ($tableArray as $key => $element) {
-			$targetTable[$key] = ucfirst($element);
+			$tableArray[$key] = ucfirst($element);
 		}
-		return implode('\\', $targetTable);
+		//łączenie z \
+		return implode('\\', $tableArray);
 	}
 	
 	/**

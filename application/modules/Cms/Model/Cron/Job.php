@@ -28,8 +28,7 @@ class Job {
 			$output = '';
 			try {
 				$start = microtime(true);
-				$actionHelper = new \Mmi\Controller\Action\Helper\Action();
-				$output = $actionHelper->action($cron->module, $cron->controller, $cron->action, array(), true);
+				$output = \Mmi\Controller\Action\Helper\Action::getInstance()->action(['module' => $cron->module, 'controller' => $cron->controller, 'action' => $cron->action]);
 				$logData['time'] = round(microtime(true) - $start, 4) . 's';
 				if ($output) {
 					$logData['message'] = $cron->name . ': ' . $output;

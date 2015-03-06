@@ -77,10 +77,9 @@ class Error {
 				return true;
 			}
 			//błąd z prezentacją HTML
-			$actionHelper = new \Mmi\Controller\Action\Helper\Action();
 			$response
 				->setCodeError()
-				->setContent($view->setPlaceholder('content', $actionHelper->action('core', 'error', 'index', array()))
+				->setContent($view->setPlaceholder('content', \Mmi\Controller\Action\Helper\Action::getInstance()->action(['module' => 'core', 'controller' => 'error', 'action' => 'index']))
 					->renderLayout($view->skin, 'core', 'error'))
 				->send();
 			return true;

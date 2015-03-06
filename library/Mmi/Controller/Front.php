@@ -64,8 +64,11 @@ class Front {
 	 * Zabezpieczony konstruktor
 	 */
 	protected function __construct() {
+		//nowe zapytanie
 		$this->_request = new \Mmi\Controller\Request();
+		//nowy odpowiedź
 		$this->_response = new \Mmi\Controller\Response();
+		//nowe środowisko
 		$this->_environment = new \Mmi\Controller\Environment();
 	}
 
@@ -74,6 +77,7 @@ class Front {
 	 * @return \Mmi\Controller\Front
 	 */
 	public static function getInstance() {
+		//jeśli nie istnieje instancja tworzenie nowej
 		if (null === self::$_instance) {
 			self::$_instance = new self();
 		}
@@ -161,6 +165,7 @@ class Front {
 	 * @return \Mmi\Controller\Router
 	 */
 	public function getRouter() {
+		//brak routera
 		if ($this->_router === null) {
 			throw new \Exception('\Mmi\Controller\Front: no router specified');
 		}
@@ -180,6 +185,7 @@ class Front {
 	 * @return \Mmi\View
 	 */
 	public function getView() {
+		//brak widoku
 		if ($this->_view === null) {
 			throw new \Exception('\Mmi\Controller\Front: no view specified');
 		}
@@ -192,9 +198,11 @@ class Front {
 	 * @return array
 	 */
 	public function getStructure($part = null) {
+		//brak struktury
 		if ($this->_structure === null) {
 			throw new \Exception('\Mmi\Contoller\Front structure not found');
 		}
+		//struktura nieprawidłowa (brak części)
 		if ($part !== null && !isset($this->_structure[$part])) {
 			throw new \Exception('\Mmi\Controller\Front structure invalid');
 		}
@@ -206,6 +214,7 @@ class Front {
 	 */
 	public function routeStartup() {
 		foreach ($this->_plugins as $plugin) {
+			//wykonywanie routeStartup() na kolejnych pluginach
 			$plugin->routeStartup($this->_request);
 		}
 	}
@@ -215,6 +224,7 @@ class Front {
 	 */
 	public function preDispatch() {
 		foreach ($this->_plugins as $plugin) {
+			//wykonywanie preDispatch() na kolejnych pluginach
 			$plugin->preDispatch($this->_request);
 		}
 	}
@@ -224,6 +234,7 @@ class Front {
 	 */
 	public function postDispatch() {
 		foreach ($this->_plugins as $plugin) {
+			//wykonywanie postDispatch() na kolejnych pluginach
 			$plugin->postDispatch($this->_request);
 		}
 	}
@@ -247,15 +258,15 @@ class Front {
 		\Mmi\Profiler::event('Front Controller: plugins pre-dispatch');
 
 		//wybór i uruchomienie kontrolera akcji
-		$actionHelper = new \Mmi\Controller\Action\Helper\Action();
-		$content = $actionHelper->action($this->getRequest()->__get('module'), $this->getRequest()->__get('controller'), $this->getRequest()->__get('action'), $this->getRequest()->toArray());
+		$content = \Mmi\Controller\Action\Helper\Action::getInstance()->action($this->getRequest()->toArray());
 
 		//wpięcie dla pluginów po dispatchu
 		$this->postDispatch();
 		\Mmi\Profiler::event('Front Controller: plugins post-dispatch');
 
-		//przekazanie wykonanych widoków do response
+		//jeśli layout nie jest wyłączony
 		if (!$this->getView()->isLayoutDisabled()) {
+			//renderowanie layoutu
 			$content = $this->getView()
 				->setRequest($this->_request)
 				->setPlaceholder('content', $content)

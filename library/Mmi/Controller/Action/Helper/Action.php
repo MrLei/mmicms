@@ -16,22 +16,40 @@ class Action {
 	 * Obiekt ACL
 	 * @var \Mmi\Acl
 	 */
-	protected static $_acl;
+	protected $_acl;
 
 	/**
 	 * Obiekt Auth
 	 * @var \Mmi\Auth
 	 */
-	protected static $_auth;
+	protected $_auth;
+	
+	/**
+	 * Instancja helpera akcji
+	 * @var \Mmi\Controller\Action\Helper\Action 
+	 */
+	protected static $_instance;
+
+	/**
+	 * Pobranie instancji
+	 * @return \Mmi\Controller\Action\Helper\Action
+	 */
+	public static function getInstance() {
+		//jeśli nie istnieje instancja tworzenie nowej
+		if (null === self::$_instance) {
+			self::$_instance = new self();
+		}
+		return self::$_instance;
+	}
 
 	/**
 	 * Ustawia obiekt ACL
 	 * @param \Mmi\Acl $acl
 	 * @return \Mmi\Acl
 	 */
-	public static function setAcl(\Mmi\Acl $acl) {
-		self::$_acl = $acl;
-		return $acl;
+	public function setAcl(\Mmi\Acl $acl) {
+		$this->_acl = $acl;
+		return $this;
 	}
 
 	/**
@@ -39,31 +57,24 @@ class Action {
 	 * @param \Mmi\Auth $auth
 	 * @return \Mmi\Auth
 	 */
-	public static function setAuth(\Mmi\Auth $auth) {
-		self::$_auth = $auth;
-		return $auth;
+	public function setAuth(\Mmi\Auth $auth) {
+		$this->_auth = $auth;
+		return $this;
 	}
 
 	/**
-	 * Metoda główna
-	 * @param string $moduleName moduł
-	 * @param string $controllerName kontroler
-	 * @param string $actionName akcja
+	 * Uruchamia akcję z kontrolera
 	 * @param array $params parametry
-	 * @param boolean $fetch true zwróci wynik renderowania, w innym przypadku wyrenderuje do bufora
 	 * @return mixed
 	 */
-	public function action($moduleName = 'core', $controllerName = 'index', $actionName = 'index', array $params = array()) {
-		if (!$this->_checkAcl($moduleName, $controllerName, $actionName)) {
-			\Mmi\Profiler::event('Action blocked: ' . $moduleName . ':' . $controllerName . ':' . $actionName);
+	public function action(array $params = array()) {
+		$frontRequest = \Mmi\Controller\Front::getInstance()->getRequest();
+		$controllerRequest = new \Mmi\Controller\Request(array_merge($frontRequest->toArray(), $params));
+		$actionLabel = $controllerRequest->getModuleName() . ':' . $controllerRequest->getControllerName() . ':' . $controllerRequest->getActionName();
+		if (!$this->_checkAcl($controllerRequest->getModuleName(), $controllerRequest->getControllerName(), $controllerRequest->getActionName())) {
+			\Mmi\Profiler::event('Action blocked: ' . $actionLabel);
 			return;
 		}
-		$frontRequest = \Mmi\Controller\Front::getInstance()->getRequest();
-		//budowanie parametrów kontrollera
-		$params['module'] = $moduleName;
-		$params['controller'] = $controllerName;
-		$params['action'] = $actionName;
-		$controllerRequest = new \Mmi\Controller\Request(array_merge($frontRequest->toArray(), $params));
 		//ustawienie requestu w widoku
 		\Mmi\Controller\Front::getInstance()->getView()->setRequest($controllerRequest);
 		//powołanie kontrolera
@@ -76,7 +87,7 @@ class Action {
 		$controller = new $controllerClassName($controllerRequest);
 		//wywołanie akcji
 		$directContent = $controller->$actionMethodName();
-		\Mmi\Profiler::event('Action executed: ' . $moduleName . ':' . $controllerName . ':' . $actionName);
+		\Mmi\Profiler::event('Action executed: ' . $actionLabel);
 		//jeśli akcja zwraca cokolwiek, automatycznie jest to content
 		if ($directContent !== null) {
 			\Mmi\Controller\Front::getInstance()->getView()
@@ -86,7 +97,7 @@ class Action {
 		}
 		//rendering szablonu jeśli akcja zwraca null
 		$skin = $controllerRequest->skin ? $controllerRequest->skin : 'default';
-		$content = \Mmi\Controller\Front::getInstance()->getView()->renderTemplate($skin, $moduleName, $controllerName, $actionName);
+		$content = \Mmi\Controller\Front::getInstance()->getView()->renderTemplate($skin, $controllerRequest->getModuleName(), $controllerRequest->getControllerName(), $controllerRequest->getActionName());
 		//przywrócenie do widoku request'a z front controllera
 		\Mmi\Controller\Front::getInstance()->getView()->setRequest($frontRequest);
 		return $content;
@@ -100,11 +111,11 @@ class Action {
 	 * @return boolean
 	 */
 	protected function _checkAcl($module, $controller, $action) {
-		if (self::$_acl === null || self::$_auth === null) {
+		//jeśli brak - dozwolone
+		if ($this->_acl === null || $this->_auth === null) {
 			return true;
 		}
-		$roles = self::$_auth->getRoles();
-		return self::$_acl->isAllowed($roles, strtolower($module . ':' . $controller . ':' . $action));
+		return $this->_acl->isAllowed($this->_auth->getRoles(), strtolower($module . ':' . $controller . ':' . $action));
 	}
 
 }
