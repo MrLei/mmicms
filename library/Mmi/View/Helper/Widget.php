@@ -20,10 +20,12 @@ class Widget extends HelperAbstract {
 	 * @param array $params parametry
 	 * @return string
 	 */
-	public function widget($module, $controller, $action = 'index', array $params = array()) {
-		$actionHelper = new \Mmi\Controller\Action\Helper\Action();
+	public function widget($module, $controller = 'index', $action = 'index', array $params = array()) {
 		$isLayoutDisabled = $this->view->isLayoutDisabled();
-		$actionResult = $actionHelper->action($module, $controller, $action, $params, true);
+		$params['module'] = $module;
+		$params['controller'] = $controller;
+		$params['action'] = $action;
+		$actionResult = \Mmi\Controller\Action\Helper\Action::getInstance()->action($params);
 		$this->view->setLayoutDisabled($isLayoutDisabled);
 		return $actionResult;
 	}

@@ -78,7 +78,7 @@ class Plugin extends \Mmi\Controller\Plugin\PluginAbstract {
 		$auth->setSalt(\Core\Registry::$config->application->salt);
 		$auth->setModelName(\Core\Registry::$config->session->authModel ? \Core\Registry::$config->session->authModel : '\Cms\Model\Auth');
 		\Core\Registry::$auth = $auth;
-		\Mmi\Controller\Action\Helper\Action::setAuth($auth);
+		\Mmi\Controller\Action\Helper\Action::getInstance()->setAuth($auth);
 
 		//funkcja pamiętaj mnie realizowana poprzez cookie
 		$cookie = new \Mmi\Http\Cookie();
@@ -101,7 +101,7 @@ class Plugin extends \Mmi\Controller\Plugin\PluginAbstract {
 			\Core\Registry::$cache->save($acl, 'Mmi-Acl', 86400);
 		}
 		\Core\Registry::$acl = $acl;
-		\Mmi\Controller\Action\Helper\Action::setAcl($acl);
+		\Mmi\Controller\Action\Helper\Action::getInstance()->setAcl($acl);
 		$view->acl = $acl;
 
 		//zablokowane na ACL

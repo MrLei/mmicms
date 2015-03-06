@@ -10,6 +10,9 @@
 
 namespace Mmi;
 
+/**
+ * Obiekt tłumaczeń
+ */
 class Translate {
 
 	/**
@@ -56,11 +59,14 @@ class Translate {
 	 * @return \Mmi\Translate
 	 */
 	public function addTranslation($sourceFile, $locale) {
+		//jeśli brak locale - zwrot
 		if ($locale === null) {
 			return $this;
 		}
+		//parser pliku tłumaczeń
 		$data = $this->_parseTranslationFile($sourceFile, $locale == $this->_defaultLocale);
 		$this->_languages[$locale] = $sourceFile;
+		//łączenie tłumaczeń
 		if (isset($this->_data[$locale])) {
 			$data = array_merge($this->_data[$locale], $data);
 		}
@@ -119,13 +125,17 @@ class Translate {
 	 * @return string
 	 */
 	public function _($key) {
+		//jeśli brak locale, lub zgodne z domyślnym - zwrot klucza
 		if ($this->_locale === null || $this->_locale == $this->_defaultLocale) {
 			return $key;
 		}
+		//zwrot znalezionego tłumaczenia
 		if (isset($this->_data[$this->_locale][$key])) {
 			return $this->_data[$this->_locale][$key];
 		}
+		//logowanie nieprzetłumaczonego
 		$this->_logUntranslated($key);
+		//zwrot klucza
 		return $key;
 	}
 
@@ -136,13 +146,10 @@ class Translate {
 	 * @return array
 	 */
 	private function _parseTranslationFile($sourceFile, $isDefaultLocale) {
-		if (!file_exists($sourceFile)) {
-			return;
-		}
-		$data = file_get_contents($sourceFile);
-		$data = str_replace("\r\n", '\n', $data);
-		$data = explode("\n", $data);
+		//wczytanie pliku
+		$data = explode("\n", str_replace("\r\n", '\n', file_get_contents($sourceFile)));
 		$output = array();
+		//parsowanie linii
 		foreach ($data as $line) {
 			if (strlen($line) > 0) {
 				$line = explode(" = ", $line);
@@ -164,8 +171,10 @@ class Translate {
 	 * @param string $key klucz
 	 */
 	private function _logUntranslated($key) {
+		//otwieranie loga
 		$log = fopen(TMP_PATH . '/log/error.translation.log', 'a');
 		$requestUri = \Mmi\Controller\Front::getInstance()->getEnvironment()->requestUri;
+		//zapis zdarzenia
 		fwrite($log, date('Y-m-d H:i:s') . ' ' . $requestUri . ' [' . $this->_locale . '] {#' . $key . "#}\n");
 		fclose($log);
 	}
