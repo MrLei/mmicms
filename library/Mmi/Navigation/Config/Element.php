@@ -17,27 +17,46 @@ class Element {
 	 * @var array
 	 */
 	protected $_data = array(
+		//id
 		'id' => null,
+		//język
 		'lang' => null,
+		//wyłączony
 		'disabled' => false,
+		//widoczny
 		'visible' => true,
+		//labelka
 		'label' => null,
+		//moduł + kontroler + akcja + parametry
 		'module' => null,
 		'controller' => 'index',
 		'action' => 'index',
 		'params' => array(),
+		//tytuł
 		'title' => null,
+		//keywords
 		'keywords' => null,
+		//opis
 		'description' => null,
+		//uri
 		'uri' => null,
+		//czy https
 		'https' => null,
+		//czy absolutny
 		'absolute' => false,
+		//czy niezależne meta
 		'independent' => false,
+		//czy nofollow
 		'nofollow' => false,
+		//czy blank
 		'blank' => false,
+		//data rozpoczęcia publikacji
 		'dateStart' => null,
+		//data wyłączenia publikacji
 		'dateEnd' => null,
+		//typ
 		'type' => 'cms',
+		//tabela z elementami potomnymi
 		'children' => array(),
 	);
 
@@ -54,13 +73,42 @@ class Element {
 	public function __construct($id = null) {
 		$this->_data['id'] = ($id === null) ? \Mmi\Navigation\Config::getAutoIndex() : $id;
 	}
+	
+	/**
+	 * Pobiera wartość
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function get($name) {
+		return isset($this->_data[$name]) ? $this->_data[$name] : null;
+	}
+
+	/**
+	 * Ustawia wartość
+	 * @param string $name
+	 * @param string $value
+	 * @return \Mmi\Navigation\Config\Element
+	 */
+	public function set($name, $value) {
+		$this->_data[$name] = $value;
+		return $this;
+	}
 
 	/**
 	 * Pobieranie ID
 	 * @return integer
 	 */
 	public function getId() {
-		return $this->_data['id'];
+		return $this->get('id');
+	}
+	
+	/**
+	 * Ustawia ID
+	 * @param integer $id
+	 * @return \Mmi\Navigation\Config\Element
+	 */
+	public function setId($id) {
+		return $this->set('id', $id);
 	}
 
 	/**
@@ -68,17 +116,16 @@ class Element {
 	 * @return array
 	 */
 	public function getChildren() {
-		return $this->_data['children'];
+		return $this->get('children');
 	}
-
+	
 	/**
 	 * Ustawia język
 	 * @param string $lang
 	 * @return \Mmi\Navigation\Config\Element
 	 */
 	public function setLang($lang) {
-		$this->_data['lang'] = $lang;
-		return $this;
+		return $this->set('lang', $lang);
 	}
 
 	/**
@@ -87,8 +134,7 @@ class Element {
 	 * @return \Mmi\Navigation\Config\Element
 	 */
 	public function setDisabled($disabled = true) {
-		$this->_data['disabled'] = (bool) $disabled;
-		return $this;
+		return $this->set('disabled', (bool) $disabled);
 	}
 
 	/**
@@ -97,8 +143,7 @@ class Element {
 	 * @return \Mmi\Navigation\Config\Element
 	 */
 	public function setVisible($visible = true) {
-		$this->_data['visible'] = (bool) $visible;
-		return $this;
+		return $this->set('visible', (bool) $visible);
 	}
 
 	/**
@@ -107,8 +152,7 @@ class Element {
 	 * @return \Mmi\Navigation\Config\Element
 	 */
 	public function setLabel($label) {
-		$this->_data['label'] = $label;
-		return $this;
+		return $this->set('label', $label);
 	}
 
 	/**
@@ -117,8 +161,7 @@ class Element {
 	 * @return \Mmi\Navigation\Config\Element
 	 */
 	public function setModule($module) {
-		$this->_data['module'] = $module;
-		return $this;
+		return $this->set('module', $module);
 	}
 
 	/**
@@ -127,8 +170,7 @@ class Element {
 	 * @return \Mmi\Navigation\Config\Element
 	 */
 	public function setController($controller) {
-		$this->_data['controller'] = $controller;
-		return $this;
+		return $this->set('controller', $controller);
 	}
 
 	/**
@@ -137,8 +179,7 @@ class Element {
 	 * @return \Mmi\Navigation\Config\Element
 	 */
 	public function setAction($action) {
-		$this->_data['action'] = $action;
-		return $this;
+		return $this->set('action', $action);
 	}
 
 	/**
@@ -147,8 +188,7 @@ class Element {
 	 * @return \Mmi\Navigation\Config\Element
 	 */
 	public function setParams(array $params) {
-		$this->_data['params'] = $params;
-		return $this;
+		return $this->set('params', $params);
 	}
 
 	/**
@@ -157,8 +197,7 @@ class Element {
 	 * @return \Mmi\Navigation\Config\Element
 	 */
 	public function setTitle($title) {
-		$this->_data['title'] = $title;
-		return $this;
+		return $this->set('title', $title);
 	}
 
 	/**
@@ -167,8 +206,7 @@ class Element {
 	 * @return \Mmi\Navigation\Config\Element
 	 */
 	public function setKeywords($keywords) {
-		$this->_data['keywords'] = $keywords;
-		return $this;
+		return $this->set('keywords', $keywords);
 	}
 
 	/**
@@ -177,8 +215,7 @@ class Element {
 	 * @return \Mmi\Navigation\Config\Element
 	 */
 	public function setDescription($description) {
-		$this->_data['description'] = $description;
-		return $this;
+		return $this->set('description', $description);
 	}
 
 	/**
@@ -187,8 +224,7 @@ class Element {
 	 * @return \Mmi\Navigation\Config\Element
 	 */
 	public function setUri($uri) {
-		$this->_data['uri'] = $uri;
-		return $this;
+		return $this->set('uri', $uri);
 	}
 
 	/**
@@ -197,12 +233,12 @@ class Element {
 	 * @return \Mmi\Navigation\Config\Element
 	 */
 	public function setHttps($https = null) {
+		//jeśli https null (bez zmiany)
 		if ($https === null) {
-			$this->_data['https'] = null;
-			return $this;
+			return $this->set('https', null);
 		}
-		$this->_data['https'] = (bool) $https;
-		return $this;
+		//w pozostałych sytuacjach wymuszamy bool
+		return $this->set('https', (bool) $https);
 	}
 
 	/**
@@ -211,8 +247,7 @@ class Element {
 	 * @return \Mmi\Navigation\Config\Element
 	 */
 	public function setAbsolute($absolute = true) {
-		$this->_data['absolute'] = (bool) $absolute;
-		return $this;
+		return $this->set('absolute', (bool) $absolute);
 	}
 
 	/**
@@ -221,8 +256,7 @@ class Element {
 	 * @return \Mmi\Navigation\Config\Element
 	 */
 	public function setIndependent($independent = true) {
-		$this->_data['independent'] = $independent;
-		return $this;
+		return $this->set('independent', (bool) $independent);
 	}
 
 	/**
@@ -231,8 +265,7 @@ class Element {
 	 * @return \Mmi\Navigation\Config\Element
 	 */
 	public function setNofollow($nofollow = true) {
-		$this->_data['nofollow'] = $nofollow;
-		return $this;
+		return $this->set('nofollow', (bool) $nofollow);
 	}
 
 	/**
@@ -241,8 +274,7 @@ class Element {
 	 * @return \Mmi\Navigation\Config\Element
 	 */
 	public function setBlank($blank = true) {
-		$this->_data['blank'] = $blank;
-		return $this;
+		return $this->set('blank', (bool) $blank);
 	}
 
 	/**
@@ -251,8 +283,7 @@ class Element {
 	 * @return \Mmi\Navigation\Config\Element
 	 */
 	public function setDateStart($dateStart) {
-		$this->_data['dateStart'] = $dateStart;
-		return $this;
+		return $this->set('dateStart', $dateStart);
 	}
 
 	/**
@@ -261,8 +292,7 @@ class Element {
 	 * @return \Mmi\Navigation\Config\Element
 	 */
 	public function setDateEnd($dateEnd) {
-		$this->_data['dateEnd'] = $dateEnd;
-		return $this;
+		return $this->set('dateEnd', $dateEnd);
 	}
 
 	/**
@@ -280,6 +310,7 @@ class Element {
 	 * @return array
 	 */
 	public function build() {
+		//korzysta z klasy buildera
 		return ($this->_build = Builder::build($this->_data));
 	}
 

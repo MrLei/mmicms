@@ -164,18 +164,34 @@ abstract class FormCore extends \Mmi\OptionObject {
 	/**
 	 * Ustawienie wartości pól
 	 * @param mixed $data
+	 * @return \Mmi\Form
 	 */
 	public function setDefaults(array $data = array()) {
-		foreach ($data as $key => $value) {
-			if ($key === $this->_formBaseName . '__ctrl') {
+		foreach ($this->getElements() as $element) {
+			$value = isset($data[$element->getName()]) ? $data[$element->getName()] : null;
+			//selecty multiple dostają pusty array jeśli brak wartości
+			if ($element instanceof \Mmi\Form\Element\Select && $element->getOption('multiple') && null == $value) {
+				$element->setValue($element->getValue() ? $element->getValue() : array());
+				continue;
+			}
+			//checkboxy na 0 jeśli nie ustawione
+			if ($element instanceof \Mmi\Form\Element\Checkbox && null == $value) {
+				$element->setValue(0);
+				continue;
+			}
+			//jeśli brak wartości
+			if (null == $value) {
+				continue;
+			}
+			//ustawianie CTRL
+			if ($element->getName() == $this->_formBaseName . '__ctrl') {
 				$this->_ctrl = $value;
 				continue;
 			}
-			if (null === ($element = $this->getElement($key))) {
-				continue;
-			}
-			$element->setValue($value);
+			//ustawianie wartości
+			$element->setValue($data[$element->getName()]);
 		}
+		return $this;
 	}
 
 	/**
@@ -185,16 +201,6 @@ abstract class FormCore extends \Mmi\OptionObject {
 		foreach ($this->getElements() AS $element) {
 			$element->setOption('id', $this->_formBaseName . '_' . $element->getOption('name'));
 			$element->setOption('class', trim('field ' . $element->getOption('class')));
-			//checkboxy dostają zero jeśli brak wartości
-			if ($element instanceof \Mmi\Form\Element\Checkbox) {
-				$element->setValue($element->getValue() ? $element->getValue() : 0);
-				continue;
-			}
-			//selecty multiple dostają pusty array jeśli brak wartości
-			if ($element instanceof \Mmi\Form\Element\Select && $element->getOption('multiple')) {
-				$element->setValue($element->getValue() ? $element->getValue() : array());
-				continue;
-			}
 		}
 	}
 
