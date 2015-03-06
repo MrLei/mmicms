@@ -10,7 +10,7 @@
 
 namespace Mmi\Form\Base;
 
-abstract class FormRenderer extends FormRecord {
+abstract class FormRenderer extends FormCore {
 
 	/**
 	 * Renderer nagłówka formularza

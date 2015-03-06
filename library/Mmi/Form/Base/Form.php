@@ -13,111 +13,151 @@ namespace Mmi\Form\Base;
 abstract class Form extends FormRenderer {
 
 	/**
-	 * Button
-	 * @param string $name nazwa
-	 * @return \Mmi\Form\Element\Button
+	 * Obiekt rekordu
+	 * @var \Mmi\Dao\Record
 	 */
-	public function addElementButton($name) {
-		return $this->addElement(new \Mmi\Form\Element\Button($name));
+	protected $_record;
+
+	/**
+	 * Identyfikator rekordu
+	 * @var mixed
+	 */
+	protected $_recordId;
+
+	/**
+	 * Metoda zapisu w rekordzie
+	 * @var string
+	 */
+	protected $_recordSaveMethod = 'save';
+
+	/**
+	 * Czy zapisany
+	 * @var boolean
+	 */
+	protected $_saved = false;
+
+	/**
+	 * Zwrot zapisu z modelu
+	 * @var mixed
+	 */
+	protected $_saveResult;
+
+	/**
+	 * Namespace powiązany z tym formularzem
+	 * @var \Mmi\Session\Space
+	 */
+	protected $_sessionNamespace = null;
+
+	/**
+	 * Bramka zapisu danych
+	 * @param array $data
+	 * @return array
+	 */
+	public function prepareSaveData(array $data = array()) {
+		return $data;
 	}
 
 	/**
-	 * Checkbox
-	 * @param string $name nazwa
-	 * @return \Mmi\Form\Element\Checkbox
+	 * Bramka odczytu danych
+	 * @param array $data
+	 * @return array
 	 */
-	public function addElementCheckbox($name) {
-		return $this->addElement(new \Mmi\Form\Element\Checkbox($name));
+	public function prepareLoadData(array $data = array()) {
+		return $data;
 	}
 
 	/**
-	 * File
-	 * @param string $name nazwa
-	 * @return \Mmi\Form\Element\File
+	 * Czy w modelu wystąpił zapis
+	 * @return boolean
 	 */
-	public function addElementFile($name) {
-		return $this->addElement(new \Mmi\Form\Element\File($name));
+	public function isSaved() {
+		return $this->_saved;
 	}
 
 	/**
-	 * Hidden
-	 * @param string $name nazwa
-	 * @return \Mmi\Form\Element\Hidden
+	 * Zwraca status z zapisu rekordu.
+	 * @return mixed
 	 */
-	public function addElementHidden($name) {
-		return $this->addElement(new \Mmi\Form\Element\Hidden($name));
+	public function getSaveResult() {
+		return $this->_saveResult;
 	}
 
 	/**
-	 * Label
-	 * @param string $name nazwa
-	 * @return \Mmi\Form\Element\Label
+	 * Zwraca obiekt aktywnego rekordu
+	 * @return \Mmi\Dao\Record
 	 */
-	public function addElementLabel($name) {
-		return $this->addElement(new \Mmi\Form\Element\Label($name));
+	public function getRecord() {
+		return $this->_record;
 	}
 
 	/**
-	 * Multi-checkbox
-	 * @param string $name nazwa
-	 * @return \Mmi\Form\Element\MultiCheckbox
+	 * Czy do formularza przypisany jest active record, jeśli nie, a podana jest nazwa, stworzy obiekt rekordu
+	 * @return boolean
 	 */
-	public function addElementMultiCheckbox($name) {
-		return $this->addElement(new \Mmi\Form\Element\MultiCheckbox($name));
+	public function hasRecord() {
+		return (null !== $this->_record);
 	}
 
 	/**
-	 * Password
-	 * @param string $name nazwa
-	 * @return \Mmi\Form\Element\Password
+	 * Sprawdza czy rekord zawiera dane
+	 * @return boolean
 	 */
-	public function addElementPassword($name) {
-		return $this->addElement(new \Mmi\Form\Element\Password($name));
+	public function hasNotEmptyRecord() {
+		if (!$this->hasRecord()) {
+			return false;
+		}
+		foreach ($this->_record->toArray() as $k => $v) {
+			if ($v !== null) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
-	 * Radio
-	 * @param string $name nazwa
-	 * @return \Mmi\Form\Element\Radio
+	 * Wywołuje walidację i zapis rekordu powiązanego z formularzem.
+	 * @return bool
 	 */
-	public function addElementRadio($name) {
-		return $this->addElement(new \Mmi\Form\Element\Radio($name));
+	public function save() {
+		if (!$this->hasRecord()) {
+			return $this->_saved = false;
+		}
+		if (!$this->isValid()) {
+			return $this->_saved = false;
+		}
+		$this->_saved = $this->_saveRecord();
+		$this->_saveResult = $this->_record->getSaveStatus();
+		if ($this->_saved === false) {
+			return false;
+		}
+		if (null != $this->_sessionNamespace) {
+			$this->_sessionNamespace->unsetAll();
+		}
+		$this->_recordId = $this->_record->getPk();
+		return true;
 	}
 
 	/**
-	 * Select
-	 * @param string $name nazwa
-	 * @return \Mmi\Form\Element\Select
+	 * Zapis danych do obiektu rekordu
+	 * @return boolean
 	 */
-	public function addElementSelect($name) {
-		return $this->addElement(new \Mmi\Form\Element\Select($name));
-	}
-
-	/**
-	 * Submit
-	 * @param string $name nazwa
-	 * @return \Mmi\Form\Element\Submit
-	 */
-	public function addElementSubmit($name) {
-		return $this->addElement(new \Mmi\Form\Element\Submit($name));
-	}
-
-	/**
-	 * Text
-	 * @param string $name nazwa
-	 * @return \Mmi\Form\Element\Text
-	 */
-	public function addElementText($name) {
-		return $this->addElement(new \Mmi\Form\Element\Text($name));
-	}
-
-	/**
-	 * Textarea
-	 * @param string $name nazwa
-	 * @return \Mmi\Form\Element\Textarea
-	 */
-	public function addElementTextarea($name) {
-		return $this->addElement(new \Mmi\Form\Element\Textarea($name));
+	protected function _saveRecord() {
+		if (!method_exists(($this->_record), $this->_recordSaveMethod)) {
+			throw new \Exception('Save method unsupported: ' . $this->_recordSaveMethod);
+		}
+		$data = array();
+		//pobieranie danych z elementów
+		foreach ($this->getElements() as $element) {
+			//ignorowanie CTRL
+			if ($element->getName() == $this->_formBaseName . '__ctrl') {
+				continue;
+			}
+			//dodawanie wartości do tabeli
+			$data[$element->getName()] = $element->getValue();
+		}
+		//ustawianie rekordu na podstawie danych
+		$this->_record->setFromArray($this->prepareSaveData($data));
+		return $this->_record->{$this->_recordSaveMethod}();
 	}
 
 }

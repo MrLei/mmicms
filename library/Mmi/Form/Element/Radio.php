@@ -27,14 +27,13 @@ class Radio extends ElementAbstract {
 	 * @return string
 	 */
 	public function fetchField() {
-		$baseId = $this->_options['id'];
-		$multiOptions = isset($this->_options['multiOptions']) ? $this->_options['multiOptions'] : array();
+		$baseId = $this->getOption('id');
 		$labelClass = isset($this->_options['labelClass']) ? $this->_options['labelClass'] : array();
-		$value = isset($this->_options['value']) ? $this->_options['value'] : null;
-
-		unset($this->_options['value']);
+		$value = $this->getValue();
+		$this->unsetOption('value');
 		$html = '<ul id="' . $this->id . '_list">';
-		foreach ($multiOptions as $key => $caption) {
+		
+		foreach ($this->getMultiOptions() as $key => $caption) {
 			unset($this->_options['checked']);
 			if ($value == $key && !is_null($value)) {
 				$this->_options['checked'] = 'checked';
@@ -64,18 +63,20 @@ class Radio extends ElementAbstract {
 		}
 		$html .= '</ul>';
 		$this->_options['id'] = $baseId;
-		$this->_options['value'] = $value;
+		$this->setValue($value);
 		return $html;
 	}
-
+	
 	/**
 	 * Buduje etykietę pola
 	 * @return string
 	 */
 	public function fetchLabel() {
+		//brak labelki
 		if (!isset($this->_options['label'])) {
 			return;
 		}
+		//html znaku wymagania
 		if (isset($this->_options['required']) && $this->_options['required'] && isset($this->_options['markRequired']) && $this->_options['markRequired']) {
 			$requiredClass = ' class="required"';
 			$required = '<span class="required">' . $this->_requiredAsterisk . '</span>';
@@ -83,11 +84,12 @@ class Radio extends ElementAbstract {
 			$requiredClass = '';
 			$required = '';
 		}
+		//tłumaczenie labelki
+		$label = $this->_options['label'];
 		if ($this->_translatorEnabled) {
-			$label = $this->getTranslate()->_($this->_options['label']);
-		} else {
-			$label = $this->_options['label'];
+			$label = $this->getTranslate()->_($label);
 		}
+		//rendering
 		return '<label' . $requiredClass . '>' . $label . $this->_options['labelPostfix'] . $required . '</label>';
 	}
 
