@@ -36,11 +36,15 @@ class Cache {
 	public function __construct(\Mmi\Cache\Config $config) {
 		$this->_config = $config;
 		$saveHandler = $config->handler;
+		//określanie klasy backendu
 		$backendClassName = '\\Mmi\\Cache\\Backend\\' . ucfirst($saveHandler);
+		//powoływanie obiektu backendu
 		$this->_backend = new $backendClassName($config);
+		//namespace w rejestrze
 		$this->_registryNamespace = 'Cache-' . crc32($config->path . $config->handler) . '-';
+		//niepoprawny backend
 		if (!($this->_backend instanceof \Mmi\Cache\Backend\BackendInterface)) {
-			throw new\Exception('Cache backend invalid');
+			throw new \Exception('Cache backend invalid');
 		}
 	}
 
@@ -53,9 +57,11 @@ class Cache {
 		if (!$this->_config->active) {
 			return;
 		}
+		//pobranie z rejestru aplikacji jeśli istnieje
 		if (\Mmi\Registry::issetVar($this->_registryNamespace . $key)) {
 			return \Mmi\Registry::getVar($this->_registryNamespace . $key);
 		}
+		//pobranie z backendu i zapis do rejestru
 		return \Mmi\Registry::setVar($this->_registryNamespace . $key, $this->_getValidCacheData($this->_backend->load($key)));
 	}
 
@@ -77,7 +83,9 @@ class Cache {
 			$lifetime = $this->_config->lifetime;
 		}
 		$expire = time() + $lifetime;
+		//zapis w rejestrze
 		\Mmi\Registry::setVar($this->_registryNamespace . $key, $data);
+		//zapis w backendzie
 		return $this->_backend->save($key, $this->_setCacheData($data, $expire), $lifetime);
 	}
 
@@ -89,12 +97,15 @@ class Cache {
 		if (!$this->_config->active) {
 			return;
 		}
+		//usunięcie z rejestru
 		\Mmi\Registry::unsetVar($key);
+		//usunięcie z backendu
 		return $this->_backend->delete($key);
 	}
 
 	/**
 	 * Usuwa wszystkie dane z bufora
+	 * UWAGA: nie usuwa danych z rejestru
 	 */
 	public function flush() {
 		if (!$this->_config->active) {

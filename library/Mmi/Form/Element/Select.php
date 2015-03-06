@@ -34,23 +34,28 @@ class Select extends ElementAbstract {
 	 * @return string
 	 */
 	public function fetchField() {
-		$multiOptions = (isset($this->_options['multiOptions']) && is_array($this->_options['multiOptions'])) ? $this->_options['multiOptions'] : array();
+		$multiOptions = is_array($this->getOption('multiOptions')) ? $this->getOption('multiOptions') : array();
 		$value = $this->getValue();
-		if (isset($this->_options['multiple'])) {
-			$this->_options['name'] = $this->_options['name'] . '[]';
+		if ($this->getOption('multiple')) {
+			$this->setOption('name', $this->getOption('name') . '[]');
 		}
 		unset($this->_options['value']);
+		//nagłówek selecta
 		$html = '<select ' . $this->_getHtmlOptions() . '>';
+		//generowanie opcji
 		foreach ($multiOptions as $key => $caption) {
 			$disabled = '';
+			//disabled
 			if (strpos($key, ':disabled') !== false && !is_array($caption)) {
 				$key = '';
 				$disabled = ' disabled="disabled"';
 			}
+			//divide
 			if (strpos($key, ':divide') !== false && !is_array($caption)) {
 				$html .= '<option disabled="disabled" class="divide">' . $caption . '</option>';
 				continue;
 			}
+			//jeśli wystąpi zagnieżdżenie - generowanie grupy opcji
 			if (is_array($caption)) {
 				$html .= '<optgroup label="' . $key . '">';
 				foreach ($caption as $k => $c) {
@@ -59,6 +64,7 @@ class Select extends ElementAbstract {
 				$html .= '</optgroup>';
 				continue;
 			}
+			//dodawanie pojedynczej opcji
 			$html .= '<option value="' . $key . '"' . $this->_calculateSelected($key, $value) . $disabled . '>' . $caption . '</option>';
 		}
 		$html .= '</select>';

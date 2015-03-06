@@ -10,105 +10,10 @@
 
 namespace Mmi\Controller;
 
+/**
+ * Klasa odpowiedzi aplikacji
+ */
 class Response {
-
-	/**
-	 * Przechowuje kody HTTP
-	 * @var array
-	 */
-	private $_httpCodes = array(
-		100 => 'Continue',
-		101 => 'Switching Protocols',
-		110 => 'Connection Timed Out',
-		111 => 'Connection refused',
-		200 => 'OK',
-		201 => 'Created',
-		202 => 'Accepted',
-		203 => 'Non-Authoritative Information',
-		204 => 'No content',
-		205 => 'Reset Content',
-		206 => 'Partial Content',
-		300 => 'Multiple Choices',
-		301 => 'Moved Permanently',
-		302 => 'Found',
-		303 => 'See Other',
-		304 => 'Not Modifie',
-		305 => 'Use Proxy',
-		306 => 'Switch Proxy',
-		307 => 'Temporary Redirect',
-		310 => 'Too many redirects',
-		400 => 'Bad Request',
-		401 => 'Unauthorized',
-		402 => 'Payment Required',
-		403 => 'Forbidden',
-		404 => 'Not Found',
-		405 => 'Method Not Allowed',
-		406 => 'Not Acceptable',
-		407 => 'Proxy Authentication Required',
-		408 => 'Request Timeout',
-		409 => 'Conflict',
-		410 => 'Gone',
-		411 => 'Length required',
-		412 => 'Precondition Failed',
-		413 => 'Request Entity Too Large',
-		414 => 'Request-URI Too Long',
-		415 => 'Unsupported Media Type',
-		416 => 'Requested Range Not Satisfiable',
-		417 => 'Expectation Failed',
-		500 => 'Internal Server Error',
-		501 => 'Not Implemented',
-		502 => 'Bad Gateway',
-		503 => 'Service Unavailable',
-		504 => 'Gateway Timeout',
-		505 => 'HTTP Version Not Supported',
-	);
-
-	/**
-	 * Przechowuje content-type
-	 * @var array
-	 */
-	private $_contentTypes = array(
-		'htm' => 'text/html',
-		'html' => 'text/html',
-		'shtml' => 'text/html',
-		'txt' => 'text/plain',
-		'css' => 'text/css',
-		'xml' => 'text/xml',
-		'mml' => 'text/mathml',
-		'htc' => 'text/x-component',
-		'gif' => 'image/gif',
-		'png' => 'image/png',
-		'jpg' => 'image/jpeg',
-		'jpeg' => 'image/jpeg',
-		'tif' => 'image/tiff',
-		'tiff' => 'image/tif',
-		'ico' => 'image/x-icon',
-		'jng' => 'image/x-jng',
-		'bmp' => 'image/x-ms-bmp',
-		'svg' => 'image/svg+xml',
-		'svgz' => 'image/svg+xml',
-		'js' => 'application/x-javascript',
-		'atom' => 'application/atom+xml',
-		'json' => 'application/json',
-		'ps' => 'application/postscript',
-		'rtf' => 'application/rtf',
-		'doc' => 'application/msword',
-		'xls' => 'application/vnd.ms-excel',
-		'ppt' => 'application/vnd.ms-powerpoint',
-		'xhtml' => 'application/xhtml+xml',
-		'zip' => 'application/zip',
-		'gz' => 'application/gzip',
-		'bin' => 'application/octet-stream',
-		'midi' => 'audio/midi',
-		'mp3' => 'audio/mpeg',
-		'oga' => 'audio/ogg',
-		'mp4' => 'video/mp4',
-		'mpg' => 'video/mpeg',
-		'ogv' => 'video/ogg',
-		'avi' => 'video/x-msvideo',
-		'flv' => 'video/x-flv',
-		'mov' => 'video/quicktime',
-	);
 
 	/**
 	 * Przechowuje content
@@ -118,7 +23,7 @@ class Response {
 
 	/**
 	 * Włączony debugger
-	 * @var type 
+	 * @var boolean
 	 */
 	private $_debug = false;
 
@@ -132,6 +37,7 @@ class Response {
 	 * Konstruktor
 	 */
 	public function __construct() {
+		//włączenie buforowania odpowiedzi
 		ob_start();
 	}
 
@@ -140,7 +46,7 @@ class Response {
 	 * @param type $debug
 	 */
 	public function setDebug($debug = true) {
-		$this->_debug = $debug ? true : false;
+		$this->_debug = (bool) $debug;
 	}
 
 	/**
@@ -151,11 +57,8 @@ class Response {
 	 * @return \Mmi\Controller\Response
 	 */
 	public function setHeader($name, $value = null, $replace = false) {
-		if ($value) {
-			header($name . ': ' . $value, $replace);
-		} else {
-			header($name, $replace);
-		}
+		//wysłanie nagłówka
+		header($name . ($value ? ': ' . $value : ''), $replace);
 		return $this;
 	}
 
@@ -166,8 +69,10 @@ class Response {
 	 * @return \Mmi\Controller\Response
 	 */
 	public function setCode($code, $replace = false) {
-		if (array_key_exists($code, $this->_httpCodes)) {
-			return $this->setHeader('HTTP/1.1 ' . $code . ' ' . $this->_httpCodes[$code], null, $replace);
+		//jeśli znaleziono kod
+		if (null !== ($message = Response\Types::getMessageByCode($code))) {
+			//wysłanie nagłówka z kodem
+			return $this->setHeader('HTTP/1.1 ' . $code . ' ' . $message, null, $replace);
 		}
 		return $this;
 	}
@@ -182,30 +87,12 @@ class Response {
 	}
 
 	/**
-	 * Ustawia kod na 410
-	 * @param boolean $replace zastąpienie
-	 * @return \Mmi\Controller\Response
-	 */
-	public function setCodeGone($replace = false) {
-		return $this->setCode(410, $replace);
-	}
-
-	/**
 	 * Ustawia kod na 200
 	 * @param boolean $replace zastąpienie
 	 * @return \Mmi\Controller\Response
 	 */
 	public function setCodeOk($replace = false) {
 		return $this->setCode(200, $replace);
-	}
-
-	/**
-	 * Ustawia kod na 202
-	 * @param boolean $replace zastąpienie
-	 * @return \Mmi\Controller\Response
-	 */
-	public function setCodeAccepted($replace = false) {
-		return $this->setCode(202, $replace);
 	}
 
 	/**
@@ -227,12 +114,12 @@ class Response {
 	}
 
 	/**
-	 * Ustawia kod na 401
+	 * Ustawia kod na 403
 	 * @param boolean $replace zastąpienie
 	 * @return \Mmi\Controller\Response
 	 */
 	public function setCodeForbidden($replace = false) {
-		return $this->setCode(401, $replace);
+		return $this->setCode(403, $replace);
 	}
 
 	/**
@@ -242,20 +129,24 @@ class Response {
 	 * @return \Mmi\Controller\Response
 	 */
 	public function setType($type, $replace = false) {
-		$type = strtolower($type);
+		//nazwa małymi literami
+		$normalizedType = strtolower($type);
 		//skrócona forma
-		if (array_key_exists($type, $this->_contentTypes)) {
-			$this->_type = $type;
-			return $this->setHeader('Content-type', $this->_contentTypes[$type], $replace);
+		if (null !== ($mimeType = Response\Types::getTypeByExtension($normalizedType))) {
+			//ustawienie wewnętrznego typu
+			$this->_type = $normalizedType;
+			//wysłanie nagłówka
+			return $this->setHeader('Content-type', $mimeType, $replace);
 		}
 		//forma pełna
-		if (false !== ($arrayType = array_search($type, $this->_contentTypes))) {
-			$this->_type = $arrayType;
-			return $this->setHeader('Content-type', $this->_contentTypes[$arrayType], $replace);
+		if (null !== ($extension = Response\Types::getExtensionByType($normalizedType))) {
+			//ustawienie wewnętrznego typu
+			$this->_type = $extension;
+			//wysłanie nagłówka
+			return $this->setHeader('Content-type', Response\Types::getTypeByExtension($extension), $replace);
 		}
-		//nie znaleziony
-		$this->_type = $type;
-		return $this->setHeader('Content-type', $type, $replace);
+		//typ nieodnaleziony
+		throw new \Exception('\Mmi\Controller\Request: type not found');
 	}
 
 	/**
@@ -340,7 +231,7 @@ class Response {
 
 	/**
 	 * Ustawia content do wysyłki
-	 * @param string $content
+	 * @param string $content zawartość
 	 * @return \Mmi\Controller\Response
 	 */
 	public function setContent($content) {
@@ -358,10 +249,11 @@ class Response {
 
 	/**
 	 * Dodaje content do istniejącego
-	 * @param string $content
+	 * @param string $content zawartość
 	 * @return \Mmi\Controller\Response
 	 */
 	public function appendContent($content) {
+		//doklejenie contentu
 		$this->_content .= $content;
 		return $this;
 	}
@@ -370,42 +262,47 @@ class Response {
 	 * Wysyła dane do klienta
 	 */
 	public function send() {
+		//opcjonalne uruchomienie panelu deweloperskiego
 		if ($this->_debug) {
-			//opcjonalne uruchomienie panelu deweloperskiego
+			//debugger wykonuje appendContent()
 			new \Mmi\Controller\Response\Debugger();
 		}
 		echo $this->_content;
+		//opróżnienie bufora aplikacji
 		ob_end_flush();
 	}
 	
 	/**
 	 * Przekierowuje na moduł, kontroler, akcję z parametrami
-	 * @param string $module
-	 * @param string $controller
-	 * @param string $action
+	 * @param string $module moduł
+	 * @param string $controller kontroler
+	 * @param string $action akcja
 	 * @param array $params parametry
 	 * @param boolean $reset reset parametrów z URL - domyślnie włączony
 	 */
-	public function redirect($module = null, $controller = null, $action = null, array $params = array(), $reset = true) {
+	public function redirect($module, $controller = null, $action = null, array $params = array(), $reset = true) {
+		//jeśli włączone resetowanie parametrów
 		if (!$reset) {
+			//parametry z requestu front controllera
 			$requestParams = \Mmi\Controller\Front::getInstance()->getRequest()->toArray();
+			//łączenie z parametrami z metody
 			$params = array_merge($requestParams, $params);
 		}
+		//jeśli istnieje akcja
 		if ($action !== null) {
 			$params['action'] = $action;
 		}
+		//jeśli istnieje kontroler
 		if ($controller !== null) {
 			$params['controller'] = $controller;
 		}
-		if ($module !== null) {
-			$params['module'] = $module;
-		}
+		$params['module'] = $module;
 		$this->redirectToRoute($params);
 	}
 	
 	/**
 	 * Przekierowuje na url wygenerowany z parametrów, przez router
-	 * @param array $params
+	 * @param array $params parametry
 	 */
 	public function redirectToRoute(array $params = array()) {
 		$this->redirectToUrl(\Mmi\Controller\Front::getInstance()->getRouter()->encodeUrl($params));
@@ -416,6 +313,7 @@ class Response {
 	 * @param string $url adres url
 	 */
 	public function redirectToUrl($url) {
+		//przekierowanie - header location
 		$this->setHeader('Location', $url);
 		exit;
 	}

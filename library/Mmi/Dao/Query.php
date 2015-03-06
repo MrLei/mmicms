@@ -13,18 +13,236 @@ namespace Mmi\Dao;
 /**
  * Klasa zapytania powoływana przez Query::factory()
  * umożliwia odpytywanie DAO o Rekordy
- * rozszerza bazowe query o możliwość wykonywania zapytań wyszukujących
  */
-class Query extends Query\Base {
+class Query {
+
+	/**
+	 * Kompilant zapytania
+	 * @var \Mmi\Dao\Query\Compile
+	 */
+	protected $_compile;
+
+	/**
+	 * Nazwa klasy DAO
+	 * @var string
+	 */
+	protected $_daoClassName;
+
+	/**
+	 * Konstruktor tworzy nowe skompilowane zapytanie
+	 * @param string $daoClassName nazwa klasy DAO
+	 */
+	protected final function __construct($daoClassName = null) {
+		//nowa kompilacja
+		$this->_compile = new \Mmi\Dao\Query\Compile();
+		//klasa DAO na podstawie parametru konstruktora
+		if ($daoClassName !== null) {
+			$this->_daoClassName = $daoClassName;
+			return;
+		}
+		//jeśli ustalona klasa - wyjście
+		if ($this->_daoClassName !== null) {
+			return;
+		}
+		//jeśli brakuje klasy, stosowana jest konwencja nazw
+		$this->_daoClassName = substr(get_called_class(), 0, -5) . 'Dao';
+	}
+
+	/**
+	 * Magiczne wywołanie metod where, order itd.
+	 * @param type $name
+	 * @param type $params
+	 * @return \Mmi\Dao\Query
+	 */
+	public final function __call($name, $params) {
+		//znajdowanie 2 podciągów: 1 - nazwa metody, 2 - wartość pola
+		if (!preg_match('/(where|andField|orField|orderAsc|orderDesc)([a-zA-Z0-9]+)/', $name, $matches) || !empty($params)) {
+			//brak metody pasującej do wzorca
+			throw new \Exception('\Mmi\Dao\Query: method not found ' . $name);
+		}
+		//wywołanie metody
+		return $this->{$matches[1]}(lcfirst($matches[2]));
+	}
+
+	/**
+	 * Zwraca instancję siebie
+	 * @return self
+	 */
+	public static function factory($daoClassName = null) {
+		//nowy obiekt swojej klasy
+		return new self($daoClassName);
+	}
+
+	/**
+	 * Ustawia limit
+	 * @param int $limit
+	 * @return \Mmi\Dao\Query
+	 */
+	public final function limit($limit = null) {
+		$this->_compile->limit = $limit;
+		return $this;
+	}
+
+	/**
+	 * Ustawia ofset
+	 * @param int $offset
+	 * @return \Mmi\Dao\Query
+	 */
+	public final function offset($offset = null) {
+		$this->_compile->offset = $offset;
+		return $this;
+	}
+
+	/**
+	 * Sortowanie rosnące
+	 * @param string $fieldName nazwa pola
+	 * @param string $tableName opcjonalna nazwa tabeli źródłowej
+	 * @return \Mmi\Dao\Query
+	 */
+	public final function orderAsc($fieldName, $tableName = null) {
+		return $this->_prepareOrder($fieldName, $tableName);
+	}
+
+	/**
+	 * Sortowanie malejące
+	 * @param string $fieldName nazwa pola
+	 * @param string $tableName opcjonalna nazwa tabeli źródłowej
+	 * @return \Mmi\Dao\Query
+	 */
+	public final function orderDesc($fieldName, $tableName = null) {
+		return $this->_prepareOrder($fieldName, $tableName, false);
+	}
+
+	/**
+	 * Dodaje podsekcję AND
+	 * @param \Mmi\Dao\Query $query
+	 * @return \Mmi\Dao\Query
+	 */
+	public final function andQuery(\Mmi\Dao\Query $query) {
+		return $this->_mergeQueries($query, true);
+	}
+
+	/**
+	 * Dodaje podsekcję WHERE (jak AND)
+	 * @param \Mmi\Dao\Query $query
+	 * @return \Mmi\Dao\Query
+	 */
+	public final function whereQuery(\Mmi\Dao\Query $query) {
+		//jest aliasem na metodę andQuery()
+		return $this->andQuery($query);
+	}
+
+	/**
+	 * Dodaje podsekcję OR
+	 * @param \Mmi\Dao\Query $query
+	 * @return \Mmi\Dao\Query
+	 */
+	public final function orQuery(\Mmi\Dao\Query $query) {
+		return $this->_mergeQueries($query, false);
+	}
+
+	/**
+	 * Dodaje warunek na pole AND
+	 * @param string $fieldName nazwa pola
+	 * @param string $tableName opcjonalna nazwa tabeli źródłowej
+	 * @return \Mmi\Dao\Query\Field
+	 */
+	public final function andField($fieldName, $tableName = null) {
+		return new \Mmi\Dao\Query\Field($this, $this->_prepareField($fieldName, $tableName), 'AND');
+	}
+
+	/**
+	 * Pierwszy warunek w zapytaniu (domyślnie AND)
+	 * @param string $fieldName nazwa pola
+	 * @param string $tableName opcjonalna nazwa tabeli źródłowej
+	 * @return \Mmi\Dao\Query\Field
+	 */
+	public final function where($fieldName, $tableName = null) {
+		return $this->andField($fieldName, $tableName);
+	}
+
+	/**
+	 * Dodaje warunek na pole OR
+	 * @param string $fieldName nazwa pola
+	 * @param string $tableName opcjonalna nazwa tabeli źródłowej
+	 * @return \Mmi\Dao\Query\Field
+	 */
+	public final function orField($fieldName, $tableName = null) {
+		return new \Mmi\Dao\Query\Field($this, $this->_prepareField($fieldName, $tableName), 'OR');
+	}
+
+	/**
+	 * Dołącza tabelę tabelę
+	 * @param string $tableName nazwa tabeli
+	 * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć
+	 * @return \Mmi\Dao\Query\Join
+	 */
+	public final function join($tableName, $targetTableName = null) {
+		return new \Mmi\Dao\Query\Join($this, $tableName, 'JOIN', $targetTableName);
+	}
+
+	/**
+	 * Dołącza tabelę złączeniem lewym
+	 * @param string $tableName nazwa tabeli
+	 * @param string $targetTableName opcjonalnie nazwa tabeli do której łączyć
+	 * @return \Mmi\Dao\Query\Join
+	 */
+	public final function joinLeft($tableName, $targetTableName = null) {
+		return new \Mmi\Dao\Query\Join($this, $tableName, 'LEFT JOIN', $targetTableName);
+	}
+
+	/**
+	 * Zwraca skompilowane zapytanie
+	 * @return \Mmi\Dao\Query\Compile
+	 */
+	public final function getQueryCompile() {
+		return $this->_compile;
+	}
+
+	/**
+	 * Zwraca skrót MD5 zapytania
+	 * @return string
+	 */
+	public final function getQueryCompileHash() {
+		return md5(print_r($this->_compile, true));
+	}
+
+	/**
+	 * Zwraca nazwę klasy DAO
+	 * @return string
+	 */
+	public final function getDaoClassName() {
+		return $this->_daoClassName;
+	}
+
+	/**
+	 * Resetuje sortowanie w zapytaniu
+	 * @return \Mmi\Dao\Query
+	 */
+	public final function resetOrder() {
+		$this->_compile->order = '';
+		return $this;
+	}
+
+	/**
+	 * Resetuje warunki w zapytaniu
+	 * @return \Mmi\Dao\Query
+	 */
+	public final function resetWhere() {
+		//czyszczenie zapytania
+		$this->_compile->where = '';
+		//usuwanie powiązane zmienne
+		$this->_compile->bind = array();
+		return $this;
+	}
 
 	/**
 	 * Pobiera ilość rekordów
 	 * @return int
 	 */
 	public final function count() {
-		$dao = $this->_daoClassName;
-		$result = $dao::getAdapter()->select('COUNT(*)', $this->_prepareFrom(), $this->_compile->where, '', null, null, $this->_compile->bind);
-		return isset($result[0]) ? current($result[0]) : 0;
+		return Query\Data::factory($this)
+				->count();
 	}
 
 	/**
@@ -41,27 +259,11 @@ class Query extends Query\Base {
 
 	/**
 	 * Pobiera wszystkie rekordy i zwraca ich kolekcję
-	 * @param \Mmi\Dao\Query $q Obiekt zapytania
 	 * @return \Mmi\Dao\Record\Collection
 	 */
 	public final function find() {
-		$dao = $this->_daoClassName;
-		//odpytanie DAO
-		$result = $dao::getAdapter()->select($this->_prepareFields(), $this->_prepareFrom(), $this->_compile->where, $this->_compile->order, $this->_compile->limit, $this->_compile->offset, $this->_compile->bind);
-		//ustalenie klasy rekordu
-		$recordName = $dao::getRecordName();
-		$records = array();
-		//tworzenie rekordów
-		foreach ($result as $row) {
-			$record = new $recordName();
-			/* @var $record \Mmi\Dao\Record */
-			$record->setFromArray($row)->clearModified();
-			$records[] = $record;
-		}
-		//ustalenie klasy kolekcji rekordów
-		$collectionName = $dao::getCollectionName();
-		//zwrot kolekcji
-		return new $collectionName($records);
+		return Query\Data::factory($this)
+				->find();
 	}
 
 	/**
@@ -71,18 +273,8 @@ class Query extends Query\Base {
 	 * @return \Mmi\Dao\Record\Ro
 	 */
 	public final function findFirst() {
-		$dao = $this->_daoClassName;
-		//zapytanie do DAO
-		$result = $dao::getAdapter()->select($this->_prepareFields(), $this->_prepareFrom(), $this->_compile->where, $this->_compile->order, 1, $this->_compile->offset, $this->_compile->bind);
-		//null jeśli brak danych
-		if (!is_array($result) || !isset($result[0])) {
-			return null;
-		}
-		//ustalenie klasy rekordu
-		$recordName = $dao::getRecordName();
-		/* @var $record \Mmi\Dao\Record\Ro */
-		$record = new $recordName;
-		return $record->setFromArray($result[0])->clearModified();
+		return Query\Data::factory($this)
+				->findFirst();
 	}
 
 	/**
@@ -92,50 +284,28 @@ class Query extends Query\Base {
 	 * @return array
 	 */
 	public final function findPairs($keyName, $valueName) {
-		$dao = $this->_daoClassName;
-		/* @var $db \Mmi\Db\Adapter\Pdo\PdoAbstract */
-		$db = $dao::getAdapter();
-		//zapytanie do DAO
-		$data = $dao::getAdapter()->select($db->prepareField($keyName) . ', ' . $db->prepareField($valueName), $this->_prepareFrom(), $this->_compile->where, $this->_compile->order, $this->_compile->limit, $this->_compile->offset, $this->_compile->bind);
-		$kv = array();
-		foreach ($data as $line) {
-			if (count($line) == 1) {
-				$value = current($line);
-				if (is_array($value) && count($value) == 2) {
-					$kv[$value[0]] = $value[1];
-					continue;
-				}
-				continue;
-			}
-			$kv[current($line)] = next($line);
-		}
-		return $kv;
+		return Query\Data::factory($this)
+				->findPairs($keyName, $valueName);
 	}
 
 	/**
 	 * Pobiera wartość maksymalną z kolumny
 	 * @param string $keyName nazwa klucza
-	 * @param \Mmi\Dao\Query $q Obiekt zapytania
 	 * @return string wartość maksymalna
 	 */
 	public final function findMax($keyName) {
-		$dao = $this->_daoClassName;
-		//zapytanie do DAO
-		$result = $dao::getAdapter()->select('MAX(' . $dao::getAdapter()->prepareField($keyName) . ')', $this->_prepareFrom(), $this->_compile->where, $this->_compile->order, 1, null, $this->_compile->bind);
-		return isset($result[0]) ? current($result[0]) : null;
+		return Query\Data::factory($this)
+				->findMax($keyName);
 	}
 
 	/**
 	 * Pobiera wartość minimalną z kolumny
 	 * @param string $keyName nazwa klucza
-	 * @param \Mmi\Dao\Query $q Obiekt zapytania
 	 * @return string wartość minimalna
 	 */
 	public final function findMin($keyName) {
-		$dao = $this->_daoClassName;
-		//zapytanie do DAO
-		$result = $dao::getAdapter()->select('MIN(' . $dao::getAdapter()->prepareField($keyName) . ')', $this->_prepareFrom(), $this->_compile->where, $this->_compile->order, 1, null, $this->_compile->bind);
-		return isset($result[0]) ? current($result[0]) : null;
+		return Query\Data::factory($this)
+				->findMin($keyName);
 	}
 
 	/**
@@ -144,68 +314,85 @@ class Query extends Query\Base {
 	 * @return array mixed wartości unikalne
 	 */
 	public final function findUnique($keyName) {
-		$dao = $this->_daoClassName;
-		//zapytanie do DAO
-		$data = $dao::getAdapter()->select('DISTINCT(' . $dao::getAdapter()->prepareField($keyName) . ')', $this->_prepareFrom(), $this->_compile->where, $this->_compile->order, null, null, $this->_compile->bind);
-		$result = array();
-		foreach ($data as $line) {
-			$result[] = current($line);
-		}
-		return $result;
+		return Query\Data::factory($this)
+				->findUnique($keyName);
 	}
 
 	/**
-	 * Przygotowuje pola do selecta
-	 * @return string
+	 * Łączy query
+	 * @param boolean $type
+	 * @return \Mmi\Dao\Query
 	 */
-	protected final function _prepareFields() {
-		//jeśli pusty schemat połączeń
-		if (empty($this->_compile->joinSchema)) {
-			return '*';
+	protected final function _mergeQueries(\Mmi\Dao\Query $query, $and = true) {
+		$compilation = $query->getQueryCompile();
+		//łączenie where
+		if ($compilation->where) {
+			$connector = $this->_compile->where ? ($and ? ' AND (' : ' OR (') : 'WHERE (';
+			$this->_compile->where .= $connector . substr($compilation->where, 6) . ')';
 		}
-		$fields = '';
-		$dao = $this->_daoClassName;
-		/* @var $db \Mmi\Db\Adapter\Pdo\PdoAbstract */
-		$db = $dao::getAdapter();
-		//pobranie struktury tabeli
-		$mainStructure = $dao::getTableStructure();
-		$table = $db->prepareTable($dao::getTableName());
-		//pola z tabeli głównej
-		foreach ($mainStructure as $fieldName => $info) {
-			$fields .= $table . '.' . $db->prepareField($fieldName) . ', ';
+		//łączenie wartości
+		if (!empty($compilation->bind)) {
+			$this->_compile->bind = array_merge($compilation->bind, $this->_compile->bind);
 		}
-		//pola z tabel dołączonych
-		foreach ($this->_compile->joinSchema as $tableName => $schema) {
-			//pobranie struktury tabeli dołączonej
-			$structure = $dao::getTableStructure($tableName);
-			$joinedTable = $db->prepareTable($tableName);
-			//pola tabeli dołączonej
-			foreach ($structure as $fieldName => $info) {
-				$fields .= $joinedTable . '.' . $db->prepareField($fieldName) . ' AS ' . $db->prepareField($tableName . '__' . $fieldName) . ', ';
+		//suma joinów query nadrzędnej i podrzędnej
+		if (!empty($compilation->joinSchema)) {
+			$this->_compile->joinSchema = array_merge($this->_compile->joinSchema, $compilation->joinSchema);
+		}
+		//łączenie order
+		if ($compilation->order) {
+			if (substr($this->_compile->order, 0, 8) == 'ORDER BY' && substr($compilation->order, 0, 8) == 'ORDER BY') {
+				$this->_compile->order .= ', ' . substr($compilation->order, 9);
+			} else {
+				$this->_compile->order .= $compilation->order;
 			}
 		}
-		return rtrim($fields, ', ');
+		return $this;
 	}
 
-	protected final function _prepareFrom() {
+	/**
+	 * Przygotowuje nazwę pola do zapytania, konwertuje camelcase na podkreślenia
+	 * @param string $fieldName
+	 * @param string $tableName
+	 * @return string
+	 * @throws Exception
+	 */
+	protected final function _prepareField($fieldName, $tableName = null) {
 		$dao = $this->_daoClassName;
 		/* @var $db \Mmi\Db\Adapter\Pdo\PdoAbstract */
 		$db = $dao::getAdapter();
-		$table = $db->prepareTable($dao::getTableName());
-		//jeśli brak joinów sama tabela
-		if (empty($this->_compile->joinSchema)) {
-			return $table;
+		//tabela
+		$tablePrefix = $db->prepareTable(($tableName === null) ? $dao::getTableName() : $tableName);
+		//jeśli pole występuje w tabeli, bądź jest funkcją RAND()
+		if ($dao::fieldInTable($fieldName, $tableName) || $fieldName == 'RAND()') {
+			return $tablePrefix . '.' . $db->prepareField($fieldName);
 		}
-		$baseTable = $table;
-		//przygotowanie joinów
-		foreach ($this->_compile->joinSchema as $joinTable => $condition) {
-			$targetTable = isset($condition[2]) ? $condition[2] : $baseTable;
-			$joinType = isset($condition[3]) ? $condition[3] : 'JOIN';
-			$table .= ' ' . $joinType . ' ' . $db->prepareTable($joinTable) . ' ON ' .
-				$db->prepareTable($joinTable) . '.' . $db->prepareField($condition[0]) .
-				' = ' . $db->prepareTable($targetTable) . '.' . $db->prepareField($condition[1]);
+		/* @var $db \Mmi\Db\Adapter\Pdo\PdoAbstract */
+		//konwersja camelcase do podkreślników (przechowywanych w bazie)
+		$convertedFieldName = \Mmi\Dao::convertCamelcaseToUnderscore($fieldName);
+		//jeśli pole podkreślnikowe występuje w bazie
+		if ($dao::fieldInTable($convertedFieldName, $tableName)) {
+			return $tablePrefix . '.' . $db->prepareField($convertedFieldName);
 		}
-		return $table;
+		//w pozostałych wypadkach wyjątek o braku pola
+		throw new \Exception(get_called_class() . ': "' . $fieldName . '" not found in ' . ($tableName !== null ? '"' . $tableName . '" table' : '"' . $dao::getTableName() . '"' . ' table'));
+	}
+
+	/**
+	 * Przygotowuje order
+	 * @param string $fieldName
+	 * @param string $tableName
+	 * @param boolean $asc
+	 * @return \Mmi\Dao\Query
+	 */
+	protected final function _prepareOrder($fieldName, $tableName = null, $asc = true) {
+		//jeśli pusty order - dodawanie ORDER BY na początku
+		if (!$this->_compile->order) {
+			$this->_compile->order = 'ORDER BY ';
+		} else {
+			$this->_compile->order .= ', ';
+		}
+		$this->_compile->order .= $this->_prepareField($fieldName, $tableName) . ' ' . ($asc ? 'ASC' : 'DESC');
+		return $this;
 	}
 
 }
