@@ -28,7 +28,10 @@ class Router extends \Mmi\Controller\Router\Config {
 		$this->setRoute(13, '/^aktualnosci\/([0-9]+)/', array('module' => 'cms', 'controller' => 'news', 'action' => 'index', 'p' => '$1'));
 		$this->setRoute(14, '/^aktualnosci,(.[^\/]+)/', array('module' => 'cms', 'controller' => 'news', 'action' => 'display', 'uri' => '$1'));
 		
-		$this->setRoute(15, 'cms', array('module' => 'cms'), array('controller' => 'index', 'action' => 'index'));
+		//domyślne routy CMSowe
+		$this->setRoute(1000, '/^([a-z]+)\/([a-z\-]+)\/([a-z]+)/', array('module' => '$1', 'controller' => '$2', 'action' => '$3'));
+		$this->setRoute(1001, '/^([a-z]+)\/([a-z\-]+)/', array('module' => '$1', 'controller' => '$2'), array('action' => 'index'));
+		$this->setRoute(1002, '/^([a-z]+)/', array('module' => '$1'), array('controller' => 'index', 'action' => 'index'));
 	}
 
 }

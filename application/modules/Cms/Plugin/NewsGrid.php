@@ -16,12 +16,6 @@ class NewsGrid extends \Mmi\Grid {
 
 		$this->setQuery(\Cms\Model\News\Query::factory());
 
-		$this->setOption('locked', true);
-
-		$this->addColumn('text', 'lang', array(
-			'label' => 'język'
-		));
-
 		$this->addColumn('text', 'dateAdd', array(
 			'label' => 'data dodania'
 		));
