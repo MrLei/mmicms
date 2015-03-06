@@ -43,6 +43,12 @@ class Template extends HelperAbstract {
 
 		//buforowanie linkowanie aplikacji
 		$input = preg_replace_callback('/\{@([\*]+)?(.[^@\^]+)?[\^]?(.[^@\^]+)?@\}/', array(&$this, '_url'), $input);
+		
+		//zmiana zmiennych obiektowych w linkach np. $request->test
+		$input = preg_replace('/%7B%24([a-z0-9A-Z\.\-\_\[\]\'\"\(\)]+)%3E([a-z0-9A-Z\.\-\_\[\]\'\"\(\)]+)%7D/', '{$$1>$2}', $input);
+		
+		//zmiana zmiennych skalarnych lub tablicowych w linkach np. $requestTest
+		$input = preg_replace('/%7B%24([a-z0-9A-Z\.\-\_\[\]\'\"\(\)]+)%7D/', '{$$1}', $input);
 
 		//buforowanie tłumaczeń
 		$input = preg_replace_callback('/\{\#(.[^#]+)#\}/', array(&$this, '_translate'), $input);
