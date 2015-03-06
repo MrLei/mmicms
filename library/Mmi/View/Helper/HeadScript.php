@@ -26,19 +26,22 @@ class HeadScript extends HeadAbstract {
 	 * @return \Mmi\View\Helper\HeadScript
 	 */
 	public function headScript(array $params = array(), $prepend = false, $conditional = '') {
-		if (!empty($params)) {
-			$params['conditional'] = $conditional;
-			if (array_search($params, $this->_data) !== false) {
-				return '';
-			}
-			if ($prepend) {
-				array_unshift($this->_data, $params);
-			} else {
-				array_push($this->_data, $params);
-			}
+		//jeśli brak parametrów - wyjście
+		if (empty($params)) {
+			return $this;
+		}
+		//warunek
+		$params['conditional'] = $conditional;
+		if (array_search($params, $this->_data) !== false) {
 			return '';
 		}
-		return $this;
+		//wstawienie przed lub po
+		if ($prepend) {
+			array_unshift($this->_data, $params);
+		} else {
+			array_push($this->_data, $params);
+		}
+		return '';
 	}
 
 	/**
@@ -47,11 +50,13 @@ class HeadScript extends HeadAbstract {
 	 */
 	public function __toString() {
 		$html = '';
+		//renderowanie kolejnych skryptów
 		foreach ($this->_data as $script) {
 			if (isset($script['script'])) {
 				$scriptContent = $script['script'];
 				unset($script['script']);
 			}
+			//dodawanie klauzuli warunku
 			$conditional = $script['conditional'];
 			unset($script['conditional']);
 			if ($conditional) {
@@ -118,8 +123,7 @@ class HeadScript extends HeadAbstract {
 	 * @return \Mmi\View\Helper\HeadScript
 	 */
 	public function setFile($src, $type = 'text/javascript', array $params = array(), $prepend = false, $conditional = '') {
-		$params = array_merge($params, array('type' => $type, 'src' => $src, 'crc' => $this->_getCrc($src)));
-		return $this->headScript($params, $prepend, $conditional);
+		return $this->headScript(array_merge($params, array('type' => $type, 'src' => $src, 'crc' => $this->_getCrc($src))), $prepend, $conditional);
 	}
 
 	/**
@@ -156,8 +160,7 @@ class HeadScript extends HeadAbstract {
 	 * @return \Mmi\View\Helper\HeadScript
 	 */
 	public function setScript($script, $type = 'text/javascript', array $params = array(), $prepend = false, $conditional = '') {
-		$params = array_merge($params, array('type' => $type, 'script' => $script, 'crc' => 0));
-		return $this->headScript($params, $prepend, $conditional);
+		return $this->headScript(array_merge($params, array('type' => $type, 'script' => $script, 'crc' => 0)), $prepend, $conditional);
 	}
 
 }

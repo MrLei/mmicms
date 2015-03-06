@@ -10,6 +10,9 @@
 
 namespace Mmi;
 
+/**
+ * Klasa dostępu do tabel w bazie danych
+ */
 class Dao {
 
 	/**
@@ -90,9 +93,11 @@ class Dao {
 	 * @return \Mmi\Db\Adapter\Pdo\PdoAbstract
 	 */
 	public static final function getAdapter() {
+		//brak tabeli
 		if (static::$_tableName === null) {
 			throw new \Exception('\Mmi\Dao: Table name not specified');
 		}
+		//brak lub nieprawidłowy adapter
 		if (!(static::$_adapter instanceof \Mmi\Db\Adapter\Pdo\PdoAbstract)) {
 			throw new \Exception('\Mmi\Dao: Adapter not specified or invalid');
 		}
@@ -105,8 +110,7 @@ class Dao {
 	 * @return \Mmi\Db\Adapter\Pdo\PdoAbstract
 	 */
 	public static final function setAdapter(\Mmi\Db\Adapter\Pdo\PdoAbstract $adapter) {
-		static::$_adapter = $adapter;
-		return $adapter;
+		return static::$_adapter = $adapter;
 	}
 
 	/**
@@ -123,8 +127,7 @@ class Dao {
 	 * @return \Mmi\Cache
 	 */
 	public static final function setCache(\Mmi\Cache $cache) {
-		static::$_cache = $cache;
-		return $cache;
+		return static::$_cache = $cache;
 	}
 
 	/**
@@ -133,21 +136,25 @@ class Dao {
 	 * @return array
 	 */
 	public static final function getTableStructure($tableName = null) {
+		//jeśli niewybrana tabela
 		if ($tableName === null) {
 			$tableName = static::$_tableName;
 		}
+		//pobranie struktury z obiektu (wcześniej zapisane)
 		if (isset(self::$_tableStructure[$tableName])) {
 			return self::$_tableStructure[$tableName];
 		}
+		//pobranie z cache
 		$cacheKey = 'Dao-structure-' . self::getAdapter()->getConfig()->name . '-' . $tableName;
 		if (static::$_cache !== null && (null !== ($structure = static::$_cache->load($cacheKey)))) {
 			return $structure;
 		}
+		//pobranie z adaptera
 		$structure = static::getAdapter()->tableInfo($tableName);
 		if (static::$_cache !== null) {
 			static::$_cache->save($structure, $cacheKey, 28800);
 		}
-		return (self::$_tableStructure[$tableName] = $structure);
+		return self::$_tableStructure[$tableName] = $structure;
 	}
 
 	/**
@@ -155,10 +162,12 @@ class Dao {
 	 * @return boolean
 	 */
 	public static final function resetTableStructures() {
+		//usunięcie struktrur z cache
 		foreach (self::getAdapter()->tableList() as $tableName) {
 			$cacheKey = 'Dao_structure_' . self::getAdapter()->getConfig()->name . '_' . $tableName;
 			static::$_cache->remove($cacheKey);
 		}
+		//usunięcie lokalnie zapisanych struktur
 		self::$_tableStructure = array();
 		return true;
 	}
@@ -170,8 +179,7 @@ class Dao {
 	 * @return boolean
 	 */
 	public static final function fieldInTable($fieldName, $tableName = null) {
-		$structure = self::getTableStructure($tableName);
-		return isset($structure[$fieldName]);
+		return isset(self::getTableStructure($tableName)[$fieldName]);
 	}
 
 	/**
@@ -187,10 +195,12 @@ class Dao {
 	 * @return string
 	 */
 	public static final function getRecordName() {
+		//zwrot rekordu
 		if (static::$_recordName !== null) {
 			return static::$_recordName;
 		}
-		return substr(get_called_class(), 0, -3) . 'Record';
+		//konwencja nazwy na rekord
+		return self::_classPrefix() . 'Record';
 	}
 
 	/**
@@ -198,10 +208,12 @@ class Dao {
 	 * @return string
 	 */
 	public static final function getQueryName() {
+		//zwrot nazwy query
 		if (static::$_queryName !== null) {
 			return static::$_queryName;
 		}
-		return substr(get_called_class(), 0, -3) . 'Query';
+		//konwencja nazwy na query
+		return self::_classPrefix() . 'Query';
 	}
 
 	/**
@@ -212,7 +224,7 @@ class Dao {
 		if (static::$_collectionName !== null) {
 			return static::$_collectionName;
 		}
-		return substr(get_called_class(), 0, -3) . 'Record\Collection';
+		return self::_classPrefix() . 'Record\Collection';
 	}
 
 	/**
@@ -231,6 +243,14 @@ class Dao {
 			$targetTable[$key] = ucfirst($element);
 		}
 		return implode('\\', $targetTable);
+	}
+	
+	/**
+	 * Prefix klasy dla rekordów kolekcji i quer
+	 * @return string
+	 */
+	protected static function _classPrefix() {
+		return substr(get_called_class(), 0, -3);
 	}
 
 }
