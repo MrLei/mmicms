@@ -3,23 +3,58 @@
 namespace Cms\Model\Page\Widget;
 
 /**
- * @method \Cms\Model\Page\Widget\Query limit() limit($limit = null)
- * @method \Cms\Model\Page\Widget\Query offset() offset($offset = null)
- * @method \Cms\Model\Page\Widget\Query orderAsc() orderAsc($fieldName, $tableName = null)
- * @method \Cms\Model\Page\Widget\Query orderDesc() orderDesc($fieldName, $tableName = null)
- * @method \Cms\Model\Page\Widget\Query andQuery() andQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Page\Widget\Query whereQuery() whereQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Page\Widget\Query orQuery() orQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Page\Widget\Query resetOrder() resetOrder()
- * @method \Cms\Model\Page\Widget\Query resetWhere() resetWhere()
- * @method \Cms\Model\Page\Widget\Query\Field andField() andField($fieldName, $tableName = null)
- * @method \Cms\Model\Page\Widget\Query\Field where() where($fieldName, $tableName = null)
- * @method \Cms\Model\Page\Widget\Query\Field orField() orField($fieldName, $tableName = null)
- * @method \Cms\Model\Page\Widget\Query\Join join() join($tableName, $targetTableName = null)
- * @method \Cms\Model\Page\Widget\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
- * @method \Cms\Model\Page\Widget\Record[] find() find()
- * @method \Cms\Model\Page\Widget\Record findFirst() findFirst()
- * @method \Cms\Model\Page\Widget\Record findPk() findPk($value)
+ * @method \Cms\Model\Page\Widget\Query limit($limit = null)
+ * @method \Cms\Model\Page\Widget\Query offset($offset = null)
+ * @method \Cms\Model\Page\Widget\Query orderAsc($fieldName, $tableName = null)
+ * @method \Cms\Model\Page\Widget\Query orderDesc($fieldName, $tableName = null)
+ * @method \Cms\Model\Page\Widget\Query andQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Page\Widget\Query whereQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Page\Widget\Query orQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Page\Widget\Query resetOrder()
+ * @method \Cms\Model\Page\Widget\Query resetWhere()
+ * @method \Cms\Model\Page\Widget\Query\Field whereId()
+ * @method \Cms\Model\Page\Widget\Query\Field andFieldId()
+ * @method \Cms\Model\Page\Widget\Query\Field orFieldId()
+ * @method \Cms\Model\Page\Widget\Query\Field orderAscId()
+ * @method \Cms\Model\Page\Widget\Query\Field orderDescId()
+ * @method \Cms\Model\Page\Widget\Query\Field whereName()
+ * @method \Cms\Model\Page\Widget\Query\Field andFieldName()
+ * @method \Cms\Model\Page\Widget\Query\Field orFieldName()
+ * @method \Cms\Model\Page\Widget\Query\Field orderAscName()
+ * @method \Cms\Model\Page\Widget\Query\Field orderDescName()
+ * @method \Cms\Model\Page\Widget\Query\Field whereModule()
+ * @method \Cms\Model\Page\Widget\Query\Field andFieldModule()
+ * @method \Cms\Model\Page\Widget\Query\Field orFieldModule()
+ * @method \Cms\Model\Page\Widget\Query\Field orderAscModule()
+ * @method \Cms\Model\Page\Widget\Query\Field orderDescModule()
+ * @method \Cms\Model\Page\Widget\Query\Field whereController()
+ * @method \Cms\Model\Page\Widget\Query\Field andFieldController()
+ * @method \Cms\Model\Page\Widget\Query\Field orFieldController()
+ * @method \Cms\Model\Page\Widget\Query\Field orderAscController()
+ * @method \Cms\Model\Page\Widget\Query\Field orderDescController()
+ * @method \Cms\Model\Page\Widget\Query\Field whereAction()
+ * @method \Cms\Model\Page\Widget\Query\Field andFieldAction()
+ * @method \Cms\Model\Page\Widget\Query\Field orFieldAction()
+ * @method \Cms\Model\Page\Widget\Query\Field orderAscAction()
+ * @method \Cms\Model\Page\Widget\Query\Field orderDescAction()
+ * @method \Cms\Model\Page\Widget\Query\Field whereParams()
+ * @method \Cms\Model\Page\Widget\Query\Field andFieldParams()
+ * @method \Cms\Model\Page\Widget\Query\Field orFieldParams()
+ * @method \Cms\Model\Page\Widget\Query\Field orderAscParams()
+ * @method \Cms\Model\Page\Widget\Query\Field orderDescParams()
+ * @method \Cms\Model\Page\Widget\Query\Field whereActive()
+ * @method \Cms\Model\Page\Widget\Query\Field andFieldActive()
+ * @method \Cms\Model\Page\Widget\Query\Field orFieldActive()
+ * @method \Cms\Model\Page\Widget\Query\Field orderAscActive()
+ * @method \Cms\Model\Page\Widget\Query\Field orderDescActive()
+ * @method \Cms\Model\Page\Widget\Query\Field andField($fieldName, $tableName = null)
+ * @method \Cms\Model\Page\Widget\Query\Field where($fieldName, $tableName = null)
+ * @method \Cms\Model\Page\Widget\Query\Field orField($fieldName, $tableName = null)
+ * @method \Cms\Model\Page\Widget\Query\Join join($tableName, $targetTableName = null)
+ * @method \Cms\Model\Page\Widget\Query\Join joinLeft($tableName, $targetTableName = null)
+ * @method \Cms\Model\Page\Widget\Record[] find()
+ * @method \Cms\Model\Page\Widget\Record findFirst()
+ * @method \Cms\Model\Page\Widget\Record findPk($value)
  */
 class Query extends \Mmi\Dao\Query {
 
@@ -28,251 +63,6 @@ class Query extends \Mmi\Dao\Query {
 	 */
 	public static function factory($daoClassName = null) {
 		return new self($daoClassName);
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function whereId() {
-		return $this->where('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function andFieldId() {
-		return $this->andField('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function orFieldId() {
-		return $this->orField('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function orderAscId() {
-		return $this->orderAsc('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function orderDescId() {
-		return $this->orderDesc('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function whereName() {
-		return $this->where('name');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function andFieldName() {
-		return $this->andField('name');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function orFieldName() {
-		return $this->orField('name');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function orderAscName() {
-		return $this->orderAsc('name');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function orderDescName() {
-		return $this->orderDesc('name');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function whereModule() {
-		return $this->where('module');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function andFieldModule() {
-		return $this->andField('module');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function orFieldModule() {
-		return $this->orField('module');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function orderAscModule() {
-		return $this->orderAsc('module');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function orderDescModule() {
-		return $this->orderDesc('module');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function whereController() {
-		return $this->where('controller');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function andFieldController() {
-		return $this->andField('controller');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function orFieldController() {
-		return $this->orField('controller');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function orderAscController() {
-		return $this->orderAsc('controller');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function orderDescController() {
-		return $this->orderDesc('controller');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function whereAction() {
-		return $this->where('action');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function andFieldAction() {
-		return $this->andField('action');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function orFieldAction() {
-		return $this->orField('action');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function orderAscAction() {
-		return $this->orderAsc('action');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function orderDescAction() {
-		return $this->orderDesc('action');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function whereParams() {
-		return $this->where('params');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function andFieldParams() {
-		return $this->andField('params');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function orFieldParams() {
-		return $this->orField('params');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function orderAscParams() {
-		return $this->orderAsc('params');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function orderDescParams() {
-		return $this->orderDesc('params');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function whereActive() {
-		return $this->where('active');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function andFieldActive() {
-		return $this->andField('active');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function orFieldActive() {
-		return $this->orField('active');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function orderAscActive() {
-		return $this->orderAsc('active');
-	}
-
-	/**
-	 * @return \Cms\Model\Page\Widget\Query\Field
-	 */
-	public function orderDescActive() {
-		return $this->orderDesc('active');
 	}
 
 }

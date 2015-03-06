@@ -3,23 +3,88 @@
 namespace Cms\Model\Mail;
 
 /**
- * @method \Cms\Model\Mail\Query limit() limit($limit = null)
- * @method \Cms\Model\Mail\Query offset() offset($offset = null)
- * @method \Cms\Model\Mail\Query orderAsc() orderAsc($fieldName, $tableName = null)
- * @method \Cms\Model\Mail\Query orderDesc() orderDesc($fieldName, $tableName = null)
- * @method \Cms\Model\Mail\Query andQuery() andQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Mail\Query whereQuery() whereQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Mail\Query orQuery() orQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Mail\Query resetOrder() resetOrder()
- * @method \Cms\Model\Mail\Query resetWhere() resetWhere()
- * @method \Cms\Model\Mail\Query\Field andField() andField($fieldName, $tableName = null)
- * @method \Cms\Model\Mail\Query\Field where() where($fieldName, $tableName = null)
- * @method \Cms\Model\Mail\Query\Field orField() orField($fieldName, $tableName = null)
- * @method \Cms\Model\Mail\Query\Join join() join($tableName, $targetTableName = null)
- * @method \Cms\Model\Mail\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
- * @method \Cms\Model\Mail\Record[] find() find()
- * @method \Cms\Model\Mail\Record findFirst() findFirst()
- * @method \Cms\Model\Mail\Record findPk() findPk($value)
+ * @method \Cms\Model\Mail\Query limit($limit = null)
+ * @method \Cms\Model\Mail\Query offset($offset = null)
+ * @method \Cms\Model\Mail\Query orderAsc($fieldName, $tableName = null)
+ * @method \Cms\Model\Mail\Query orderDesc($fieldName, $tableName = null)
+ * @method \Cms\Model\Mail\Query andQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Mail\Query whereQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Mail\Query orQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Mail\Query resetOrder()
+ * @method \Cms\Model\Mail\Query resetWhere()
+ * @method \Cms\Model\Mail\Query\Field whereId()
+ * @method \Cms\Model\Mail\Query\Field andFieldId()
+ * @method \Cms\Model\Mail\Query\Field orFieldId()
+ * @method \Cms\Model\Mail\Query\Field orderAscId()
+ * @method \Cms\Model\Mail\Query\Field orderDescId()
+ * @method \Cms\Model\Mail\Query\Field whereCmsMailDefinitionId()
+ * @method \Cms\Model\Mail\Query\Field andFieldCmsMailDefinitionId()
+ * @method \Cms\Model\Mail\Query\Field orFieldCmsMailDefinitionId()
+ * @method \Cms\Model\Mail\Query\Field orderAscCmsMailDefinitionId()
+ * @method \Cms\Model\Mail\Query\Field orderDescCmsMailDefinitionId()
+ * @method \Cms\Model\Mail\Query\Field whereFromName()
+ * @method \Cms\Model\Mail\Query\Field andFieldFromName()
+ * @method \Cms\Model\Mail\Query\Field orFieldFromName()
+ * @method \Cms\Model\Mail\Query\Field orderAscFromName()
+ * @method \Cms\Model\Mail\Query\Field orderDescFromName()
+ * @method \Cms\Model\Mail\Query\Field whereTo()
+ * @method \Cms\Model\Mail\Query\Field andFieldTo()
+ * @method \Cms\Model\Mail\Query\Field orFieldTo()
+ * @method \Cms\Model\Mail\Query\Field orderAscTo()
+ * @method \Cms\Model\Mail\Query\Field orderDescTo()
+ * @method \Cms\Model\Mail\Query\Field whereReplyTo()
+ * @method \Cms\Model\Mail\Query\Field andFieldReplyTo()
+ * @method \Cms\Model\Mail\Query\Field orFieldReplyTo()
+ * @method \Cms\Model\Mail\Query\Field orderAscReplyTo()
+ * @method \Cms\Model\Mail\Query\Field orderDescReplyTo()
+ * @method \Cms\Model\Mail\Query\Field whereSubject()
+ * @method \Cms\Model\Mail\Query\Field andFieldSubject()
+ * @method \Cms\Model\Mail\Query\Field orFieldSubject()
+ * @method \Cms\Model\Mail\Query\Field orderAscSubject()
+ * @method \Cms\Model\Mail\Query\Field orderDescSubject()
+ * @method \Cms\Model\Mail\Query\Field whereMessage()
+ * @method \Cms\Model\Mail\Query\Field andFieldMessage()
+ * @method \Cms\Model\Mail\Query\Field orFieldMessage()
+ * @method \Cms\Model\Mail\Query\Field orderAscMessage()
+ * @method \Cms\Model\Mail\Query\Field orderDescMessage()
+ * @method \Cms\Model\Mail\Query\Field whereAttachements()
+ * @method \Cms\Model\Mail\Query\Field andFieldAttachements()
+ * @method \Cms\Model\Mail\Query\Field orFieldAttachements()
+ * @method \Cms\Model\Mail\Query\Field orderAscAttachements()
+ * @method \Cms\Model\Mail\Query\Field orderDescAttachements()
+ * @method \Cms\Model\Mail\Query\Field whereType()
+ * @method \Cms\Model\Mail\Query\Field andFieldType()
+ * @method \Cms\Model\Mail\Query\Field orFieldType()
+ * @method \Cms\Model\Mail\Query\Field orderAscType()
+ * @method \Cms\Model\Mail\Query\Field orderDescType()
+ * @method \Cms\Model\Mail\Query\Field whereDateAdd()
+ * @method \Cms\Model\Mail\Query\Field andFieldDateAdd()
+ * @method \Cms\Model\Mail\Query\Field orFieldDateAdd()
+ * @method \Cms\Model\Mail\Query\Field orderAscDateAdd()
+ * @method \Cms\Model\Mail\Query\Field orderDescDateAdd()
+ * @method \Cms\Model\Mail\Query\Field whereDateSent()
+ * @method \Cms\Model\Mail\Query\Field andFieldDateSent()
+ * @method \Cms\Model\Mail\Query\Field orFieldDateSent()
+ * @method \Cms\Model\Mail\Query\Field orderAscDateSent()
+ * @method \Cms\Model\Mail\Query\Field orderDescDateSent()
+ * @method \Cms\Model\Mail\Query\Field whereDateSendAfter()
+ * @method \Cms\Model\Mail\Query\Field andFieldDateSendAfter()
+ * @method \Cms\Model\Mail\Query\Field orFieldDateSendAfter()
+ * @method \Cms\Model\Mail\Query\Field orderAscDateSendAfter()
+ * @method \Cms\Model\Mail\Query\Field orderDescDateSendAfter()
+ * @method \Cms\Model\Mail\Query\Field whereActive()
+ * @method \Cms\Model\Mail\Query\Field andFieldActive()
+ * @method \Cms\Model\Mail\Query\Field orFieldActive()
+ * @method \Cms\Model\Mail\Query\Field orderAscActive()
+ * @method \Cms\Model\Mail\Query\Field orderDescActive()
+ * @method \Cms\Model\Mail\Query\Field andField($fieldName, $tableName = null)
+ * @method \Cms\Model\Mail\Query\Field where($fieldName, $tableName = null)
+ * @method \Cms\Model\Mail\Query\Field orField($fieldName, $tableName = null)
+ * @method \Cms\Model\Mail\Query\Join join($tableName, $targetTableName = null)
+ * @method \Cms\Model\Mail\Query\Join joinLeft($tableName, $targetTableName = null)
+ * @method \Cms\Model\Mail\Record[] find()
+ * @method \Cms\Model\Mail\Record findFirst()
+ * @method \Cms\Model\Mail\Record findPk($value)
  */
 class Query extends \Mmi\Dao\Query {
 
@@ -28,461 +93,6 @@ class Query extends \Mmi\Dao\Query {
 	 */
 	public static function factory($daoClassName = null) {
 		return new self($daoClassName);
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function whereId() {
-		return $this->where('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function andFieldId() {
-		return $this->andField('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orFieldId() {
-		return $this->orField('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderAscId() {
-		return $this->orderAsc('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderDescId() {
-		return $this->orderDesc('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function whereCmsMailDefinitionId() {
-		return $this->where('cmsMailDefinitionId');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function andFieldCmsMailDefinitionId() {
-		return $this->andField('cmsMailDefinitionId');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orFieldCmsMailDefinitionId() {
-		return $this->orField('cmsMailDefinitionId');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderAscCmsMailDefinitionId() {
-		return $this->orderAsc('cmsMailDefinitionId');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderDescCmsMailDefinitionId() {
-		return $this->orderDesc('cmsMailDefinitionId');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function whereFromName() {
-		return $this->where('fromName');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function andFieldFromName() {
-		return $this->andField('fromName');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orFieldFromName() {
-		return $this->orField('fromName');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderAscFromName() {
-		return $this->orderAsc('fromName');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderDescFromName() {
-		return $this->orderDesc('fromName');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function whereTo() {
-		return $this->where('to');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function andFieldTo() {
-		return $this->andField('to');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orFieldTo() {
-		return $this->orField('to');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderAscTo() {
-		return $this->orderAsc('to');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderDescTo() {
-		return $this->orderDesc('to');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function whereReplyTo() {
-		return $this->where('replyTo');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function andFieldReplyTo() {
-		return $this->andField('replyTo');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orFieldReplyTo() {
-		return $this->orField('replyTo');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderAscReplyTo() {
-		return $this->orderAsc('replyTo');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderDescReplyTo() {
-		return $this->orderDesc('replyTo');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function whereSubject() {
-		return $this->where('subject');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function andFieldSubject() {
-		return $this->andField('subject');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orFieldSubject() {
-		return $this->orField('subject');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderAscSubject() {
-		return $this->orderAsc('subject');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderDescSubject() {
-		return $this->orderDesc('subject');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function whereMessage() {
-		return $this->where('message');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function andFieldMessage() {
-		return $this->andField('message');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orFieldMessage() {
-		return $this->orField('message');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderAscMessage() {
-		return $this->orderAsc('message');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderDescMessage() {
-		return $this->orderDesc('message');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function whereAttachements() {
-		return $this->where('attachements');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function andFieldAttachements() {
-		return $this->andField('attachements');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orFieldAttachements() {
-		return $this->orField('attachements');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderAscAttachements() {
-		return $this->orderAsc('attachements');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderDescAttachements() {
-		return $this->orderDesc('attachements');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function whereType() {
-		return $this->where('type');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function andFieldType() {
-		return $this->andField('type');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orFieldType() {
-		return $this->orField('type');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderAscType() {
-		return $this->orderAsc('type');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderDescType() {
-		return $this->orderDesc('type');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function whereDateAdd() {
-		return $this->where('dateAdd');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function andFieldDateAdd() {
-		return $this->andField('dateAdd');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orFieldDateAdd() {
-		return $this->orField('dateAdd');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderAscDateAdd() {
-		return $this->orderAsc('dateAdd');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderDescDateAdd() {
-		return $this->orderDesc('dateAdd');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function whereDateSent() {
-		return $this->where('dateSent');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function andFieldDateSent() {
-		return $this->andField('dateSent');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orFieldDateSent() {
-		return $this->orField('dateSent');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderAscDateSent() {
-		return $this->orderAsc('dateSent');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderDescDateSent() {
-		return $this->orderDesc('dateSent');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function whereDateSendAfter() {
-		return $this->where('dateSendAfter');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function andFieldDateSendAfter() {
-		return $this->andField('dateSendAfter');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orFieldDateSendAfter() {
-		return $this->orField('dateSendAfter');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderAscDateSendAfter() {
-		return $this->orderAsc('dateSendAfter');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderDescDateSendAfter() {
-		return $this->orderDesc('dateSendAfter');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function whereActive() {
-		return $this->where('active');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function andFieldActive() {
-		return $this->andField('active');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orFieldActive() {
-		return $this->orField('active');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderAscActive() {
-		return $this->orderAsc('active');
-	}
-
-	/**
-	 * @return \Cms\Model\Mail\Query\Field
-	 */
-	public function orderDescActive() {
-		return $this->orderDesc('active');
 	}
 
 }

@@ -139,9 +139,11 @@ abstract class PdoAbstract {
 		if ($this->_config->profiler) {
 			\Mmi\Db\Profiler::event('CONNECT WITH: ' . get_called_class(), 0);
 		}
+		//nowy obiekt PDO
 		$this->_pdo = new \PDO(
 			$this->_config->driver . ':host=' . $this->_config->host . ';port=' . $this->_config->port . ';dbname=' . $this->_config->name, $this->_config->user, $this->_config->password, array(\PDO::ATTR_PERSISTENT => $this->_config->persistent)
 		);
+		//zmiana stanu na połączony
 		$this->_connected = true;
 		return $this;
 	}
@@ -156,9 +158,11 @@ abstract class PdoAbstract {
 	 * @return string
 	 */
 	public final function quote($value, $paramType = \PDO::PARAM_STR) {
+		//łączy jeśli niepołączony
 		if (!$this->_connected) {
 			$this->connect();
 		}
+		//dla szczególnych typów: null int i bool nie opakowuje
 		switch (gettype($value)) {
 			case 'NULL':
 				return 'NULL';
@@ -167,6 +171,7 @@ abstract class PdoAbstract {
 			case 'boolean':
 				return $value ? 'true' : 'false';
 		}
+		//quote z PDO
 		return $this->_pdo->quote($value, $paramType);
 	}
 
@@ -181,32 +186,45 @@ abstract class PdoAbstract {
 	 * @return \PDO_Statement
 	 */
 	public function query($sql, array $bind = array()) {
+		//łączy jeśli niepołączony
 		if (!$this->_connected) {
 			$this->connect();
 		}
+		//czas startu na potrzeby profilera
 		$start = microtime(true);
+		//przygotowywanie zapytania
 		$statement = $this->_pdo->prepare($sql);
+		//błędne zapytanie
 		if (!$statement) {
 			$error = $this->_pdo->errorInfo();
 			throw new \Mmi\Db\Exception(get_called_class() . ': ' . (isset($error[2]) ? $error[2] : $error[0]) . ' --- ' . $sql);
 		}
+		//wiązanie parametrów do zapytania
 		foreach ($bind as $key => $param) {
+			//domyślnie typ jako string
 			$type = \PDO::PARAM_STR;
+			//jeśli bool to bool
 			if (is_bool($param)) {
 				$type = \PDO::PARAM_BOOL;
 			}
+			//jeśli kluczem jest liczba (przy insertach), zwiększamy licznik o 1
 			if (is_int($key)) {
 				$key = $key + 1;
 			}
+			//wiązanie wartości
 			$statement->bindValue($key, $param, $type);
 		}
+		//wykonywanie zapytania
 		$result = $statement->execute();
+		//przypisanie rezultatu do zmiennej w statement
 		$statement->result = $result;
+		//jeśli rezultat to nie 1, wyrzucony zostaje wyjątek bazodanowy
 		if ($result != 1) {
 			$error = $statement->errorInfo();
 			$error = isset($error[2]) ? $error[2] : $error[0];
 			throw new \Mmi\Db\Exception(get_called_class() . ': ' . $error . ' --- ' . $sql);
 		}
+		//jeśli profiler włączony, dodanie eventu
 		if ($this->_config->profiler) {
 			\Mmi\Db\Profiler::eventQuery($statement, $bind, microtime(true) - $start);
 		}
@@ -219,6 +237,7 @@ abstract class PdoAbstract {
 	 * @return mixed
 	 */
 	public function lastInsertId($name = null) {
+		//łączy jeśli niepołączony
 		if (!$this->_connected) {
 			$this->connect();
 		}
@@ -264,11 +283,13 @@ abstract class PdoAbstract {
 		$fields = '';
 		$values = '';
 		$bind = array();
+		//wiązanie placeholderów "?" w zapytaniu z parametrami do wstawienia
 		foreach ($data as $key => $value) {
 			$fields .= $this->prepareField($key) . ', ';
 			$values .= '?, ';
 			$bind[] = $value;
 		}
+		//budowanie wstawiającego SQL
 		$sql = 'INSERT INTO ' . $this->prepareTable($table) . ' (' . rtrim($fields, ', ') . ') VALUES(' . rtrim($values, ', ') . ')';
 		return $this->query($sql, $bind)->rowCount();
 	}
@@ -284,11 +305,13 @@ abstract class PdoAbstract {
 		$fieldsCompleted = false;
 		$values = '';
 		$bind = array();
+		//dla każdego rekordu te same operacje
 		foreach ($data as $row) {
 			if (empty($row)) {
 				continue;
 			}
 			$cur = '';
+			//wiązanie placeholderów "?" w zapytaniu z parametrami do wstawienia
 			foreach ($row as $key => $value) {
 				if (!$fieldsCompleted) {
 					$fields .= $this->prepareField($key) . ', ';
@@ -313,14 +336,17 @@ abstract class PdoAbstract {
 	public function update($table, array $data = array(), $where = '', array $whereBind = array()) {
 		$fields = '';
 		$bind = array();
+		//jeśli brak danych wyjście z metody
 		if (empty($data)) {
 			return 1;
 		}
+		//wiązanie parametrów
 		foreach ($data as $key => $value) {
 			$bindKey = self::generateRandomBindKey();
 			$fields .= $this->prepareField($key) . ' = :' . $bindKey . ', ';
 			$bind[$bindKey] = $value;
 		}
+		//budowanie zapytania aktualizującego
 		$sql = 'UPDATE ' . $this->prepareTable($table) . ' SET ' . rtrim($fields, ', ') . ' ' . $where;
 		return $this->query($sql, array_merge($bind, $whereBind))->rowCount();
 	}
@@ -362,6 +388,7 @@ abstract class PdoAbstract {
 	 * Rozpoczyna transakcję
 	 */
 	public final function beginTransaction() {
+		//łączenie jeśli niepołączony
 		if (!$this->_connected) {
 			$this->connect();
 		}
@@ -372,6 +399,7 @@ abstract class PdoAbstract {
 	 * Zatwierdza transakcję
 	 */
 	public final function commit() {
+		//łączenie jeśli niepołączony
 		if (!$this->_connected) {
 			$this->connect();
 		}
@@ -382,6 +410,7 @@ abstract class PdoAbstract {
 	 * Odrzuca transakcję
 	 */
 	public final function rollBack() {
+		//łączenie jeśli niepołączony
 		if (!$this->_connected) {
 			$this->connect();
 		}
@@ -400,6 +429,7 @@ abstract class PdoAbstract {
 	 * @return \PDO
 	 */
 	public final function getPdo() {
+		//łączenie jeśli niepołączony
 		if (!$this->_connected) {
 			$this->connect();
 		}
@@ -413,12 +443,15 @@ abstract class PdoAbstract {
 	 * @return string
 	 */
 	public function prepareLimit($limit = null, $offset = null) {
+		//wyjście jeśli brak limitu
 		if (!($limit > 0)) {
 			return;
 		}
+		//limit z offsetem
 		if ($offset > 0) {
 			return 'LIMIT ' . intval($offset) . ', ' . intval($limit);
 		}
+		//sam limit
 		return 'LIMIT ' . intval($limit);
 	}
 
@@ -430,6 +463,7 @@ abstract class PdoAbstract {
 	protected function _associateTableMeta(array $meta) {
 		$associativeMeta = array();
 		foreach ($meta as $column) {
+			//przekształcanie odpowiedzi do standardowej postaci
 			$associativeMeta[$column['name']] = array(
 				'dataType' => $column['dataType'],
 				'maxLength' => $column['maxLength'],

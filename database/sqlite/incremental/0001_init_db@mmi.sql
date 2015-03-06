@@ -415,12 +415,6 @@ CREATE TABLE cms_stat_label
 
 CREATE UNIQUE INDEX cms_stat_label_lang_object_idx ON cms_stat_label (lang, "object");
 
-CREATE TABLE tutorial
-(
-  id INTEGER PRIMARY KEY,
-  data character varying(128)
-);
-
 CREATE TABLE cms_widget_text
 (
   id INTEGER PRIMARY KEY,

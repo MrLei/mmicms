@@ -138,7 +138,7 @@ class Debugger {
 			$color = ($color > 255) ? 255 : $color;
 			$color = dechex($color);
 			$color = $color . '2222';
-			$html .= '<div style="color: #' . $color . '"><div style="float: left; min-width: 400px;">' . $event['name'] . '</div><div style="float: left; width: 60px;"><b>' . round($event['elapsed'], 4) . 's</b></div><div style="float: left; width: 60px;"><b>' . round($event['percent'], 2) . '%</b></div><div style="float: left;"><b>' . round($percentSum, 2) . '%</b></div></div><div style="clear: both"></div>';
+			$html .= '<div style="color: #' . $color . '"><div style="float: left; min-width: 320px;">' . $event['name'] . '</div><div style="float: left; width: 60px;"><b>' . round($event['elapsed'], 4) . 's</b></div><div style="float: left; width: 60px;"><b>' . round($event['percent'], 2) . '%</b></div><div style="float: left;"><b>' . round($percentSum, 2) . '%</b></div></div><div style="clear: both"></div>';
 		}
 		$html .= '</pre>';
 		$html .= '<p style="margin: 0px;">PHP precompiler</p>';

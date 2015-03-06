@@ -106,14 +106,14 @@ class Builder {
 		$queryCode = '<?php' . "\n\n" .
 			'namespace ' . $classPrefix . '\Query' . ";\n\n" .
 			'/**' . "\n" .
-			' * @method \\' . $queryClassName . ' equals() equals($value)' . "\n" .
-			' * @method \\' . $queryClassName . ' notEquals() notEquals($value)' . "\n" .
-			' * @method \\' . $queryClassName . ' greater() greater($value)' . "\n" .
-			' * @method \\' . $queryClassName . ' less() less($value)' . "\n" .
-			' * @method \\' . $queryClassName . ' greaterOrEquals() greaterOrEquals($value)' . "\n" .
-			' * @method \\' . $queryClassName . ' lessOrEquals() lessOrEquals($value)' . "\n" .
-			' * @method \\' . $queryClassName . ' like() like($value)' . "\n" .
-			' * @method \\' . $queryClassName . ' ilike() ilike($value)' . "\n" .
+			' * @method \\' . $queryClassName . ' equals($value)' . "\n" .
+			' * @method \\' . $queryClassName . ' notEquals($value)' . "\n" .
+			' * @method \\' . $queryClassName . ' greater($value)' . "\n" .
+			' * @method \\' . $queryClassName . ' less($value)' . "\n" .
+			' * @method \\' . $queryClassName . ' greaterOrEquals($value)' . "\n" .
+			' * @method \\' . $queryClassName . ' lessOrEquals($value)' . "\n" .
+			' * @method \\' . $queryClassName . ' like($value)' . "\n" .
+			' * @method \\' . $queryClassName . ' ilike($value)' . "\n" .
 			' */' . "\n" .
 			'class Field extends \Mmi\Dao\Query\Field {' .
 			"\n\n" .
@@ -130,7 +130,7 @@ class Builder {
 		$queryCode = '<?php' . "\n\n" .
 			'namespace ' . $classPrefix . '\Query' . ";\n\n" .
 			'/**' . "\n" .
-			' * @method \\' . $queryClassName . ' on() on($localKeyName, $joinedKeyName = \'id\')' . "\n" .
+			' * @method \\' . $queryClassName . ' on($localKeyName, $joinedKeyName = \'id\')' . "\n" .
 			' */' . "\n" .
 			'class Join extends \Mmi\Dao\Query\Join {' .
 			"\n\n" .
@@ -151,62 +151,54 @@ class Builder {
 		$recordClassName = $classPrefix . '\Record';
 		$daoClassName = '\\' . $classPrefix . '\Dao';
 		$path = $pathPrefix . '/Query.php';
-		$queryCode = '<?php' . "\n\n" .
-			'namespace ' . $classPrefix . ";\n\n" .
-			'/**' . "\n" .
-			' * @method \\' . $className . ' limit() limit($limit = null)' . "\n" .
-			' * @method \\' . $className . ' offset() offset($offset = null)' . "\n" .
-			' * @method \\' . $className . ' orderAsc() orderAsc($fieldName, $tableName = null)' . "\n" .
-			' * @method \\' . $className . ' orderDesc() orderDesc($fieldName, $tableName = null)' . "\n" .
-			' * @method \\' . $className . ' andQuery() andQuery(\Mmi\Dao\Query $query)' . "\n" .
-			' * @method \\' . $className . ' whereQuery() whereQuery(\Mmi\Dao\Query $query)' . "\n" .
-			' * @method \\' . $className . ' orQuery() orQuery(\Mmi\Dao\Query $query)' . "\n" .
-			' * @method \\' . $className . ' resetOrder() resetOrder()' . "\n" .
-			' * @method \\' . $className . ' resetWhere() resetWhere()' . "\n" .
-			' * @method \\' . $fieldClassName . ' andField() andField($fieldName, $tableName = null)' . "\n" .
-			' * @method \\' . $fieldClassName . ' where() where($fieldName, $tableName = null)' . "\n" .
-			' * @method \\' . $fieldClassName . ' orField() orField($fieldName, $tableName = null)' . "\n" .
-			' * @method \\' . $joinClassName . ' join() join($tableName, $targetTableName = null)' . "\n" .
-			' * @method \\' . $joinClassName . ' joinLeft() joinLeft($tableName, $targetTableName = null)' . "\n" .
-			' * @method \\' . $recordClassName . '[] find() find()' . "\n" .
-			' * @method \\' . $recordClassName . ' findFirst() findFirst()' . "\n" .
-			' * @method \\' . $recordClassName . ' findPk() findPk($value)' . "\n" .
-			' */' . "\n" .
-			'class Query extends \Mmi\Dao\Query {' .
-			"\n\n" .
-			'}' . "\n";
-		$methods = '';
+		//odczyt struktury
 		$structure = $daoClassName::getTableStructure();
 		if (empty($structure)) {
 			throw new \Exception('\Mmi\Dao\Builder: no table ' . $tableName . ' found, or table invalid in ' . $daoClassName);
 		}
-		$methods .= "\n"
+		
+		$methods = '';
+		//budowanie komentarzy do metod
+		foreach ($structure as $fieldName => $fieldDetails) {
+			$fieldName = ucfirst(\Mmi\Dao::convertUnderscoreToCamelcase($fieldName));
+			$methods .= ' * @method \\' . $fieldClassName . ' where' . $fieldName . '()' . "\n";
+			$methods .= ' * @method \\' . $fieldClassName . ' andField' . $fieldName . '()' . "\n";
+			$methods .= ' * @method \\' . $fieldClassName . ' orField' . $fieldName . '()' . "\n";
+			$methods .= ' * @method \\' . $fieldClassName . ' orderAsc' . $fieldName . '()' . "\n";
+			$methods .= ' * @method \\' . $fieldClassName . ' orderDesc' . $fieldName . '()' . "\n";
+		}
+
+		$queryCode = '<?php' . "\n\n" .
+			'namespace ' . $classPrefix . ";\n\n" .
+			'/**' . "\n" .
+			' * @method \\' . $className . ' limit($limit = null)' . "\n" .
+			' * @method \\' . $className . ' offset($offset = null)' . "\n" .
+			' * @method \\' . $className . ' orderAsc($fieldName, $tableName = null)' . "\n" .
+			' * @method \\' . $className . ' orderDesc($fieldName, $tableName = null)' . "\n" .
+			' * @method \\' . $className . ' andQuery(\Mmi\Dao\Query $query)' . "\n" .
+			' * @method \\' . $className . ' whereQuery(\Mmi\Dao\Query $query)' . "\n" .
+			' * @method \\' . $className . ' orQuery(\Mmi\Dao\Query $query)' . "\n" .
+			' * @method \\' . $className . ' resetOrder()' . "\n" .
+			' * @method \\' . $className . ' resetWhere()' . "\n" .
+			$methods .
+			' * @method \\' . $fieldClassName . ' andField($fieldName, $tableName = null)' . "\n" .
+			' * @method \\' . $fieldClassName . ' where($fieldName, $tableName = null)' . "\n" .
+			' * @method \\' . $fieldClassName . ' orField($fieldName, $tableName = null)' . "\n" .
+			' * @method \\' . $joinClassName . ' join($tableName, $targetTableName = null)' . "\n" .
+			' * @method \\' . $joinClassName . ' joinLeft($tableName, $targetTableName = null)' . "\n" .
+			' * @method \\' . $recordClassName . '[] find()' . "\n" .
+			' * @method \\' . $recordClassName . ' findFirst()' . "\n" .
+			' * @method \\' . $recordClassName . ' findPk($value)' . "\n" .
+			' */' . "\n" .
+			'class Query extends \Mmi\Dao\Query {' .
+			"\n\n"
 			. "\t" . '/**' . "\n"
 			. "\t" . ' * @return \\' . $className . "\n"
 			. "\t" . ' */' . "\n"
 			. "\t" . 'public static function factory($daoClassName = null)' . " {\n"
 			. "\t\t" . 'return new self($daoClassName);' . "\n"
-			. "\t}\n";
-		foreach ($structure as $fieldName => $fieldDetails) {
-			$fieldName = \Mmi\Dao::convertUnderscoreToCamelcase($fieldName);
-			$methods .= self::_queryMethod('where', $fieldName, $tableName);
-			$methods .= self::_queryMethod('andField', $fieldName, $tableName);
-			$methods .= self::_queryMethod('orField', $fieldName, $tableName);
-			$methods .= self::_queryMethod('orderAsc', $fieldName, $tableName);
-			$methods .= self::_queryMethod('orderDesc', $fieldName, $tableName);
-		}
-		$queryCode = preg_replace('/(class Query extends [\\a-zA-Z0-9]+\s\{?\n?)/', '$1' . $methods, $queryCode);
+			. "\t}\n\n}\n";
 		file_put_contents($path, $queryCode);
-	}
-
-	protected static function _queryMethod($prefix, $fieldName, $tableName) {
-		$fieldClass = self::_getClassNamePrefixByTableName($tableName) . '\Query\Field';
-		return "\n\t" . '/**' . "\n" .
-			"\t" . ' * @return \\' . $fieldClass . "\n" .
-			"\t" . ' */' . "\n" .
-			"\t" . 'public function ' . $prefix . ucfirst($fieldName) . "() {\n"
-			. "\t\t" . 'return $this->' . $prefix . '(\'' . $fieldName . '\');' . "\n"
-			. "\t}\n";
 	}
 
 	/**

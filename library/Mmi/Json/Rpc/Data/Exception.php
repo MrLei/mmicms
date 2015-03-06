@@ -10,6 +10,9 @@
 
 namespace Mmi\Json\Rpc\Data;
 
+/**
+ * Klasa wyjątków danych serwera JSON-RPC
+ */
 class Exception extends \Exception {
 
 	protected $code = -10;

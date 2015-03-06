@@ -3,14 +3,14 @@
 namespace Cms\Model\Cron\Query;
 
 /**
- * @method \Cms\Model\Cron\Query equals() equals($value)
- * @method \Cms\Model\Cron\Query notEquals() notEquals($value)
- * @method \Cms\Model\Cron\Query greater() greater($value)
- * @method \Cms\Model\Cron\Query less() less($value)
- * @method \Cms\Model\Cron\Query greaterOrEquals() greaterOrEquals($value)
- * @method \Cms\Model\Cron\Query lessOrEquals() lessOrEquals($value)
- * @method \Cms\Model\Cron\Query like() like($value)
- * @method \Cms\Model\Cron\Query ilike() ilike($value)
+ * @method \Cms\Model\Cron\Query equals($value)
+ * @method \Cms\Model\Cron\Query notEquals($value)
+ * @method \Cms\Model\Cron\Query greater($value)
+ * @method \Cms\Model\Cron\Query less($value)
+ * @method \Cms\Model\Cron\Query greaterOrEquals($value)
+ * @method \Cms\Model\Cron\Query lessOrEquals($value)
+ * @method \Cms\Model\Cron\Query like($value)
+ * @method \Cms\Model\Cron\Query ilike($value)
  */
 class Field extends \Mmi\Dao\Query\Field {
 

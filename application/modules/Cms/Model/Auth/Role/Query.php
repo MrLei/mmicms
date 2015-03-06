@@ -3,23 +3,38 @@
 namespace Cms\Model\Auth\Role;
 
 /**
- * @method \Cms\Model\Auth\Role\Query limit() limit($limit = null)
- * @method \Cms\Model\Auth\Role\Query offset() offset($offset = null)
- * @method \Cms\Model\Auth\Role\Query orderAsc() orderAsc($fieldName, $tableName = null)
- * @method \Cms\Model\Auth\Role\Query orderDesc() orderDesc($fieldName, $tableName = null)
- * @method \Cms\Model\Auth\Role\Query andQuery() andQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Auth\Role\Query whereQuery() whereQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Auth\Role\Query orQuery() orQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Auth\Role\Query resetOrder() resetOrder()
- * @method \Cms\Model\Auth\Role\Query resetWhere() resetWhere()
- * @method \Cms\Model\Auth\Role\Query\Field andField() andField($fieldName, $tableName = null)
- * @method \Cms\Model\Auth\Role\Query\Field where() where($fieldName, $tableName = null)
- * @method \Cms\Model\Auth\Role\Query\Field orField() orField($fieldName, $tableName = null)
- * @method \Cms\Model\Auth\Role\Query\Join join() join($tableName, $targetTableName = null)
- * @method \Cms\Model\Auth\Role\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
- * @method \Cms\Model\Auth\Role\Record[] find() find()
- * @method \Cms\Model\Auth\Role\Record findFirst() findFirst()
- * @method \Cms\Model\Auth\Role\Record findPk() findPk($value)
+ * @method \Cms\Model\Auth\Role\Query limit($limit = null)
+ * @method \Cms\Model\Auth\Role\Query offset($offset = null)
+ * @method \Cms\Model\Auth\Role\Query orderAsc($fieldName, $tableName = null)
+ * @method \Cms\Model\Auth\Role\Query orderDesc($fieldName, $tableName = null)
+ * @method \Cms\Model\Auth\Role\Query andQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Auth\Role\Query whereQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Auth\Role\Query orQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Auth\Role\Query resetOrder()
+ * @method \Cms\Model\Auth\Role\Query resetWhere()
+ * @method \Cms\Model\Auth\Role\Query\Field whereId()
+ * @method \Cms\Model\Auth\Role\Query\Field andFieldId()
+ * @method \Cms\Model\Auth\Role\Query\Field orFieldId()
+ * @method \Cms\Model\Auth\Role\Query\Field orderAscId()
+ * @method \Cms\Model\Auth\Role\Query\Field orderDescId()
+ * @method \Cms\Model\Auth\Role\Query\Field whereCmsAuthId()
+ * @method \Cms\Model\Auth\Role\Query\Field andFieldCmsAuthId()
+ * @method \Cms\Model\Auth\Role\Query\Field orFieldCmsAuthId()
+ * @method \Cms\Model\Auth\Role\Query\Field orderAscCmsAuthId()
+ * @method \Cms\Model\Auth\Role\Query\Field orderDescCmsAuthId()
+ * @method \Cms\Model\Auth\Role\Query\Field whereCmsRoleId()
+ * @method \Cms\Model\Auth\Role\Query\Field andFieldCmsRoleId()
+ * @method \Cms\Model\Auth\Role\Query\Field orFieldCmsRoleId()
+ * @method \Cms\Model\Auth\Role\Query\Field orderAscCmsRoleId()
+ * @method \Cms\Model\Auth\Role\Query\Field orderDescCmsRoleId()
+ * @method \Cms\Model\Auth\Role\Query\Field andField($fieldName, $tableName = null)
+ * @method \Cms\Model\Auth\Role\Query\Field where($fieldName, $tableName = null)
+ * @method \Cms\Model\Auth\Role\Query\Field orField($fieldName, $tableName = null)
+ * @method \Cms\Model\Auth\Role\Query\Join join($tableName, $targetTableName = null)
+ * @method \Cms\Model\Auth\Role\Query\Join joinLeft($tableName, $targetTableName = null)
+ * @method \Cms\Model\Auth\Role\Record[] find()
+ * @method \Cms\Model\Auth\Role\Record findFirst()
+ * @method \Cms\Model\Auth\Role\Record findPk($value)
  */
 class Query extends \Mmi\Dao\Query {
 
@@ -28,111 +43,6 @@ class Query extends \Mmi\Dao\Query {
 	 */
 	public static function factory($daoClassName = null) {
 		return new self($daoClassName);
-	}
-
-	/**
-	 * @return \Cms\Model\Auth\Role\Query\Field
-	 */
-	public function whereId() {
-		return $this->where('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Auth\Role\Query\Field
-	 */
-	public function andFieldId() {
-		return $this->andField('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Auth\Role\Query\Field
-	 */
-	public function orFieldId() {
-		return $this->orField('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Auth\Role\Query\Field
-	 */
-	public function orderAscId() {
-		return $this->orderAsc('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Auth\Role\Query\Field
-	 */
-	public function orderDescId() {
-		return $this->orderDesc('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Auth\Role\Query\Field
-	 */
-	public function whereCmsAuthId() {
-		return $this->where('cmsAuthId');
-	}
-
-	/**
-	 * @return \Cms\Model\Auth\Role\Query\Field
-	 */
-	public function andFieldCmsAuthId() {
-		return $this->andField('cmsAuthId');
-	}
-
-	/**
-	 * @return \Cms\Model\Auth\Role\Query\Field
-	 */
-	public function orFieldCmsAuthId() {
-		return $this->orField('cmsAuthId');
-	}
-
-	/**
-	 * @return \Cms\Model\Auth\Role\Query\Field
-	 */
-	public function orderAscCmsAuthId() {
-		return $this->orderAsc('cmsAuthId');
-	}
-
-	/**
-	 * @return \Cms\Model\Auth\Role\Query\Field
-	 */
-	public function orderDescCmsAuthId() {
-		return $this->orderDesc('cmsAuthId');
-	}
-
-	/**
-	 * @return \Cms\Model\Auth\Role\Query\Field
-	 */
-	public function whereCmsRoleId() {
-		return $this->where('cmsRoleId');
-	}
-
-	/**
-	 * @return \Cms\Model\Auth\Role\Query\Field
-	 */
-	public function andFieldCmsRoleId() {
-		return $this->andField('cmsRoleId');
-	}
-
-	/**
-	 * @return \Cms\Model\Auth\Role\Query\Field
-	 */
-	public function orFieldCmsRoleId() {
-		return $this->orField('cmsRoleId');
-	}
-
-	/**
-	 * @return \Cms\Model\Auth\Role\Query\Field
-	 */
-	public function orderAscCmsRoleId() {
-		return $this->orderAsc('cmsRoleId');
-	}
-
-	/**
-	 * @return \Cms\Model\Auth\Role\Query\Field
-	 */
-	public function orderDescCmsRoleId() {
-		return $this->orderDesc('cmsRoleId');
 	}
 
 }

@@ -46,7 +46,7 @@ class User extends \Mmi\Controller\Action {
 			$this->getResponse()->redirect('default', 'index', 'index');
 		}
 		$this->getMessenger()->addMessage('Formularz zawiera błędy', false);
-		if ($form->getSaveResult() == -1) {
+		if ($form->getRecord()->getSaveResult() == -1) {
 			$form->getElement('confirmPassword')->addError('Hasła niezgodne');
 		}
 	}

@@ -74,8 +74,8 @@ class Select extends ElementAbstract {
 	protected function _calculateSelected($key, $value) {
 		$selected = ' selected="selected"';
 		//typ tablicowy
-		if (is_array($value) && in_array($key, $value)) {
-			return $selected;
+		if (is_array($value)) {
+			return in_array($key, $value) ? $selected : '';
 		}
 		//typ skalarny
 		if ((string)$value == (string)$key && !is_null($value)) {

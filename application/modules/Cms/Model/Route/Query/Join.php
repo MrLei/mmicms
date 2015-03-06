@@ -3,7 +3,7 @@
 namespace Cms\Model\Route\Query;
 
 /**
- * @method \Cms\Model\Route\Query on() on($localKeyName, $joinedKeyName = 'id')
+ * @method \Cms\Model\Route\Query on($localKeyName, $joinedKeyName = 'id')
  */
 class Join extends \Mmi\Dao\Query\Join {
 

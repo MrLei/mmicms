@@ -3,7 +3,7 @@
 namespace Cms\Model\Auth\Query;
 
 /**
- * @method \Cms\Model\Auth\Query on() on($localKeyName, $joinedKeyName = 'id')
+ * @method \Cms\Model\Auth\Query on($localKeyName, $joinedKeyName = 'id')
  */
 class Join extends \Mmi\Dao\Query\Join {
 

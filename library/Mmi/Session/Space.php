@@ -25,6 +25,15 @@ class Space {
 	public function __construct($namespace) {
 		$this->_namespace = $namespace;
 	}
+	
+	/**
+	 * Statyczna fabryka
+	 * @param string $namespace
+	 * @return \Mmi\Session\Space
+	 */
+	public static function factory($namespace) {
+		return new self($namespace);
+	}
 
 	/**
 	 * Magicznie ustawia zmienną w przestrzeni
