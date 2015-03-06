@@ -164,7 +164,8 @@ class Router {
 		
 		//budowanie zapytania
 		if ('' != ($query = http_build_query($params))) {
-			$url .= '/?' . $query;
+			//zamiana zmiennych tpl
+			$url .= '/?' . preg_replace('/%7B%24([a-zA-Z\.\-\_\[\]\'\"\(\)]+)%7D/', '{$$1}', $query);
 		}
 		return $url;
 	}
