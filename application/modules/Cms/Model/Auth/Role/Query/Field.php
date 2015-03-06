@@ -3,14 +3,14 @@
 namespace Cms\Model\Auth\Role\Query;
 
 /**
- * @method \Cms\Model\Auth\Role\Query equals() equals($value)
- * @method \Cms\Model\Auth\Role\Query notEquals() notEquals($value)
- * @method \Cms\Model\Auth\Role\Query greater() greater($value)
- * @method \Cms\Model\Auth\Role\Query less() less($value)
- * @method \Cms\Model\Auth\Role\Query greaterOrEquals() greaterOrEquals($value)
- * @method \Cms\Model\Auth\Role\Query lessOrEquals() lessOrEquals($value)
- * @method \Cms\Model\Auth\Role\Query like() like($value)
- * @method \Cms\Model\Auth\Role\Query ilike() ilike($value)
+ * @method \Cms\Model\Auth\Role\Query equals($value)
+ * @method \Cms\Model\Auth\Role\Query notEquals($value)
+ * @method \Cms\Model\Auth\Role\Query greater($value)
+ * @method \Cms\Model\Auth\Role\Query less($value)
+ * @method \Cms\Model\Auth\Role\Query greaterOrEquals($value)
+ * @method \Cms\Model\Auth\Role\Query lessOrEquals($value)
+ * @method \Cms\Model\Auth\Role\Query like($value)
+ * @method \Cms\Model\Auth\Role\Query ilike($value)
  */
 class Field extends \Mmi\Dao\Query\Field {
 

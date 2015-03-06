@@ -360,13 +360,6 @@ CREATE TABLE `cms_stat_label` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-CREATE TABLE tutorial
-(
-  `id` integer NOT NULL AUTO_INCREMENT,
-  `data` varchar(128),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
-
 CREATE TABLE cms_page_widget
 (
   `id` integer NOT NULL AUTO_INCREMENT,

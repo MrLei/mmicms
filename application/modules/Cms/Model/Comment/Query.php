@@ -3,23 +3,78 @@
 namespace Cms\Model\Comment;
 
 /**
- * @method \Cms\Model\Comment\Query limit() limit($limit = null)
- * @method \Cms\Model\Comment\Query offset() offset($offset = null)
- * @method \Cms\Model\Comment\Query orderAsc() orderAsc($fieldName, $tableName = null)
- * @method \Cms\Model\Comment\Query orderDesc() orderDesc($fieldName, $tableName = null)
- * @method \Cms\Model\Comment\Query andQuery() andQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Comment\Query whereQuery() whereQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Comment\Query orQuery() orQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Comment\Query resetOrder() resetOrder()
- * @method \Cms\Model\Comment\Query resetWhere() resetWhere()
- * @method \Cms\Model\Comment\Query\Field andField() andField($fieldName, $tableName = null)
- * @method \Cms\Model\Comment\Query\Field where() where($fieldName, $tableName = null)
- * @method \Cms\Model\Comment\Query\Field orField() orField($fieldName, $tableName = null)
- * @method \Cms\Model\Comment\Query\Join join() join($tableName, $targetTableName = null)
- * @method \Cms\Model\Comment\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
- * @method \Cms\Model\Comment\Record[] find() find()
- * @method \Cms\Model\Comment\Record findFirst() findFirst()
- * @method \Cms\Model\Comment\Record findPk() findPk($value)
+ * @method \Cms\Model\Comment\Query limit($limit = null)
+ * @method \Cms\Model\Comment\Query offset($offset = null)
+ * @method \Cms\Model\Comment\Query orderAsc($fieldName, $tableName = null)
+ * @method \Cms\Model\Comment\Query orderDesc($fieldName, $tableName = null)
+ * @method \Cms\Model\Comment\Query andQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Comment\Query whereQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Comment\Query orQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Comment\Query resetOrder()
+ * @method \Cms\Model\Comment\Query resetWhere()
+ * @method \Cms\Model\Comment\Query\Field whereId()
+ * @method \Cms\Model\Comment\Query\Field andFieldId()
+ * @method \Cms\Model\Comment\Query\Field orFieldId()
+ * @method \Cms\Model\Comment\Query\Field orderAscId()
+ * @method \Cms\Model\Comment\Query\Field orderDescId()
+ * @method \Cms\Model\Comment\Query\Field whereCmsAuthId()
+ * @method \Cms\Model\Comment\Query\Field andFieldCmsAuthId()
+ * @method \Cms\Model\Comment\Query\Field orFieldCmsAuthId()
+ * @method \Cms\Model\Comment\Query\Field orderAscCmsAuthId()
+ * @method \Cms\Model\Comment\Query\Field orderDescCmsAuthId()
+ * @method \Cms\Model\Comment\Query\Field whereParentId()
+ * @method \Cms\Model\Comment\Query\Field andFieldParentId()
+ * @method \Cms\Model\Comment\Query\Field orFieldParentId()
+ * @method \Cms\Model\Comment\Query\Field orderAscParentId()
+ * @method \Cms\Model\Comment\Query\Field orderDescParentId()
+ * @method \Cms\Model\Comment\Query\Field whereDateAdd()
+ * @method \Cms\Model\Comment\Query\Field andFieldDateAdd()
+ * @method \Cms\Model\Comment\Query\Field orFieldDateAdd()
+ * @method \Cms\Model\Comment\Query\Field orderAscDateAdd()
+ * @method \Cms\Model\Comment\Query\Field orderDescDateAdd()
+ * @method \Cms\Model\Comment\Query\Field whereTitle()
+ * @method \Cms\Model\Comment\Query\Field andFieldTitle()
+ * @method \Cms\Model\Comment\Query\Field orFieldTitle()
+ * @method \Cms\Model\Comment\Query\Field orderAscTitle()
+ * @method \Cms\Model\Comment\Query\Field orderDescTitle()
+ * @method \Cms\Model\Comment\Query\Field whereText()
+ * @method \Cms\Model\Comment\Query\Field andFieldText()
+ * @method \Cms\Model\Comment\Query\Field orFieldText()
+ * @method \Cms\Model\Comment\Query\Field orderAscText()
+ * @method \Cms\Model\Comment\Query\Field orderDescText()
+ * @method \Cms\Model\Comment\Query\Field whereSignature()
+ * @method \Cms\Model\Comment\Query\Field andFieldSignature()
+ * @method \Cms\Model\Comment\Query\Field orFieldSignature()
+ * @method \Cms\Model\Comment\Query\Field orderAscSignature()
+ * @method \Cms\Model\Comment\Query\Field orderDescSignature()
+ * @method \Cms\Model\Comment\Query\Field whereIp()
+ * @method \Cms\Model\Comment\Query\Field andFieldIp()
+ * @method \Cms\Model\Comment\Query\Field orFieldIp()
+ * @method \Cms\Model\Comment\Query\Field orderAscIp()
+ * @method \Cms\Model\Comment\Query\Field orderDescIp()
+ * @method \Cms\Model\Comment\Query\Field whereStars()
+ * @method \Cms\Model\Comment\Query\Field andFieldStars()
+ * @method \Cms\Model\Comment\Query\Field orFieldStars()
+ * @method \Cms\Model\Comment\Query\Field orderAscStars()
+ * @method \Cms\Model\Comment\Query\Field orderDescStars()
+ * @method \Cms\Model\Comment\Query\Field whereObject()
+ * @method \Cms\Model\Comment\Query\Field andFieldObject()
+ * @method \Cms\Model\Comment\Query\Field orFieldObject()
+ * @method \Cms\Model\Comment\Query\Field orderAscObject()
+ * @method \Cms\Model\Comment\Query\Field orderDescObject()
+ * @method \Cms\Model\Comment\Query\Field whereObjectId()
+ * @method \Cms\Model\Comment\Query\Field andFieldObjectId()
+ * @method \Cms\Model\Comment\Query\Field orFieldObjectId()
+ * @method \Cms\Model\Comment\Query\Field orderAscObjectId()
+ * @method \Cms\Model\Comment\Query\Field orderDescObjectId()
+ * @method \Cms\Model\Comment\Query\Field andField($fieldName, $tableName = null)
+ * @method \Cms\Model\Comment\Query\Field where($fieldName, $tableName = null)
+ * @method \Cms\Model\Comment\Query\Field orField($fieldName, $tableName = null)
+ * @method \Cms\Model\Comment\Query\Join join($tableName, $targetTableName = null)
+ * @method \Cms\Model\Comment\Query\Join joinLeft($tableName, $targetTableName = null)
+ * @method \Cms\Model\Comment\Record[] find()
+ * @method \Cms\Model\Comment\Record findFirst()
+ * @method \Cms\Model\Comment\Record findPk($value)
  */
 class Query extends \Mmi\Dao\Query {
 
@@ -28,391 +83,6 @@ class Query extends \Mmi\Dao\Query {
 	 */
 	public static function factory($daoClassName = null) {
 		return new self($daoClassName);
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function whereId() {
-		return $this->where('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function andFieldId() {
-		return $this->andField('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orFieldId() {
-		return $this->orField('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orderAscId() {
-		return $this->orderAsc('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orderDescId() {
-		return $this->orderDesc('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function whereCmsAuthId() {
-		return $this->where('cmsAuthId');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function andFieldCmsAuthId() {
-		return $this->andField('cmsAuthId');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orFieldCmsAuthId() {
-		return $this->orField('cmsAuthId');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orderAscCmsAuthId() {
-		return $this->orderAsc('cmsAuthId');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orderDescCmsAuthId() {
-		return $this->orderDesc('cmsAuthId');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function whereParentId() {
-		return $this->where('parentId');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function andFieldParentId() {
-		return $this->andField('parentId');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orFieldParentId() {
-		return $this->orField('parentId');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orderAscParentId() {
-		return $this->orderAsc('parentId');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orderDescParentId() {
-		return $this->orderDesc('parentId');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function whereDateAdd() {
-		return $this->where('dateAdd');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function andFieldDateAdd() {
-		return $this->andField('dateAdd');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orFieldDateAdd() {
-		return $this->orField('dateAdd');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orderAscDateAdd() {
-		return $this->orderAsc('dateAdd');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orderDescDateAdd() {
-		return $this->orderDesc('dateAdd');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function whereTitle() {
-		return $this->where('title');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function andFieldTitle() {
-		return $this->andField('title');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orFieldTitle() {
-		return $this->orField('title');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orderAscTitle() {
-		return $this->orderAsc('title');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orderDescTitle() {
-		return $this->orderDesc('title');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function whereText() {
-		return $this->where('text');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function andFieldText() {
-		return $this->andField('text');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orFieldText() {
-		return $this->orField('text');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orderAscText() {
-		return $this->orderAsc('text');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orderDescText() {
-		return $this->orderDesc('text');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function whereSignature() {
-		return $this->where('signature');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function andFieldSignature() {
-		return $this->andField('signature');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orFieldSignature() {
-		return $this->orField('signature');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orderAscSignature() {
-		return $this->orderAsc('signature');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orderDescSignature() {
-		return $this->orderDesc('signature');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function whereIp() {
-		return $this->where('ip');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function andFieldIp() {
-		return $this->andField('ip');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orFieldIp() {
-		return $this->orField('ip');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orderAscIp() {
-		return $this->orderAsc('ip');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orderDescIp() {
-		return $this->orderDesc('ip');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function whereStars() {
-		return $this->where('stars');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function andFieldStars() {
-		return $this->andField('stars');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orFieldStars() {
-		return $this->orField('stars');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orderAscStars() {
-		return $this->orderAsc('stars');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orderDescStars() {
-		return $this->orderDesc('stars');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function whereObject() {
-		return $this->where('object');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function andFieldObject() {
-		return $this->andField('object');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orFieldObject() {
-		return $this->orField('object');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orderAscObject() {
-		return $this->orderAsc('object');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orderDescObject() {
-		return $this->orderDesc('object');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function whereObjectId() {
-		return $this->where('objectId');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function andFieldObjectId() {
-		return $this->andField('objectId');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orFieldObjectId() {
-		return $this->orField('objectId');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orderAscObjectId() {
-		return $this->orderAsc('objectId');
-	}
-
-	/**
-	 * @return \Cms\Model\Comment\Query\Field
-	 */
-	public function orderDescObjectId() {
-		return $this->orderDesc('objectId');
 	}
 
 }

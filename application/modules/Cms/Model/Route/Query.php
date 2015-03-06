@@ -3,23 +3,53 @@
 namespace Cms\Model\Route;
 
 /**
- * @method \Cms\Model\Route\Query limit() limit($limit = null)
- * @method \Cms\Model\Route\Query offset() offset($offset = null)
- * @method \Cms\Model\Route\Query orderAsc() orderAsc($fieldName, $tableName = null)
- * @method \Cms\Model\Route\Query orderDesc() orderDesc($fieldName, $tableName = null)
- * @method \Cms\Model\Route\Query andQuery() andQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Route\Query whereQuery() whereQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Route\Query orQuery() orQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Route\Query resetOrder() resetOrder()
- * @method \Cms\Model\Route\Query resetWhere() resetWhere()
- * @method \Cms\Model\Route\Query\Field andField() andField($fieldName, $tableName = null)
- * @method \Cms\Model\Route\Query\Field where() where($fieldName, $tableName = null)
- * @method \Cms\Model\Route\Query\Field orField() orField($fieldName, $tableName = null)
- * @method \Cms\Model\Route\Query\Join join() join($tableName, $targetTableName = null)
- * @method \Cms\Model\Route\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
- * @method \Cms\Model\Route\Record[] find() find()
- * @method \Cms\Model\Route\Record findFirst() findFirst()
- * @method \Cms\Model\Route\Record findPk() findPk($value)
+ * @method \Cms\Model\Route\Query limit($limit = null)
+ * @method \Cms\Model\Route\Query offset($offset = null)
+ * @method \Cms\Model\Route\Query orderAsc($fieldName, $tableName = null)
+ * @method \Cms\Model\Route\Query orderDesc($fieldName, $tableName = null)
+ * @method \Cms\Model\Route\Query andQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Route\Query whereQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Route\Query orQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Route\Query resetOrder()
+ * @method \Cms\Model\Route\Query resetWhere()
+ * @method \Cms\Model\Route\Query\Field whereId()
+ * @method \Cms\Model\Route\Query\Field andFieldId()
+ * @method \Cms\Model\Route\Query\Field orFieldId()
+ * @method \Cms\Model\Route\Query\Field orderAscId()
+ * @method \Cms\Model\Route\Query\Field orderDescId()
+ * @method \Cms\Model\Route\Query\Field wherePattern()
+ * @method \Cms\Model\Route\Query\Field andFieldPattern()
+ * @method \Cms\Model\Route\Query\Field orFieldPattern()
+ * @method \Cms\Model\Route\Query\Field orderAscPattern()
+ * @method \Cms\Model\Route\Query\Field orderDescPattern()
+ * @method \Cms\Model\Route\Query\Field whereReplace()
+ * @method \Cms\Model\Route\Query\Field andFieldReplace()
+ * @method \Cms\Model\Route\Query\Field orFieldReplace()
+ * @method \Cms\Model\Route\Query\Field orderAscReplace()
+ * @method \Cms\Model\Route\Query\Field orderDescReplace()
+ * @method \Cms\Model\Route\Query\Field whereDefault()
+ * @method \Cms\Model\Route\Query\Field andFieldDefault()
+ * @method \Cms\Model\Route\Query\Field orFieldDefault()
+ * @method \Cms\Model\Route\Query\Field orderAscDefault()
+ * @method \Cms\Model\Route\Query\Field orderDescDefault()
+ * @method \Cms\Model\Route\Query\Field whereOrder()
+ * @method \Cms\Model\Route\Query\Field andFieldOrder()
+ * @method \Cms\Model\Route\Query\Field orFieldOrder()
+ * @method \Cms\Model\Route\Query\Field orderAscOrder()
+ * @method \Cms\Model\Route\Query\Field orderDescOrder()
+ * @method \Cms\Model\Route\Query\Field whereActive()
+ * @method \Cms\Model\Route\Query\Field andFieldActive()
+ * @method \Cms\Model\Route\Query\Field orFieldActive()
+ * @method \Cms\Model\Route\Query\Field orderAscActive()
+ * @method \Cms\Model\Route\Query\Field orderDescActive()
+ * @method \Cms\Model\Route\Query\Field andField($fieldName, $tableName = null)
+ * @method \Cms\Model\Route\Query\Field where($fieldName, $tableName = null)
+ * @method \Cms\Model\Route\Query\Field orField($fieldName, $tableName = null)
+ * @method \Cms\Model\Route\Query\Join join($tableName, $targetTableName = null)
+ * @method \Cms\Model\Route\Query\Join joinLeft($tableName, $targetTableName = null)
+ * @method \Cms\Model\Route\Record[] find()
+ * @method \Cms\Model\Route\Record findFirst()
+ * @method \Cms\Model\Route\Record findPk($value)
  */
 class Query extends \Mmi\Dao\Query {
 
@@ -28,216 +58,6 @@ class Query extends \Mmi\Dao\Query {
 	 */
 	public static function factory($daoClassName = null) {
 		return new self($daoClassName);
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function whereId() {
-		return $this->where('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function andFieldId() {
-		return $this->andField('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function orFieldId() {
-		return $this->orField('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function orderAscId() {
-		return $this->orderAsc('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function orderDescId() {
-		return $this->orderDesc('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function wherePattern() {
-		return $this->where('pattern');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function andFieldPattern() {
-		return $this->andField('pattern');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function orFieldPattern() {
-		return $this->orField('pattern');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function orderAscPattern() {
-		return $this->orderAsc('pattern');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function orderDescPattern() {
-		return $this->orderDesc('pattern');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function whereReplace() {
-		return $this->where('replace');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function andFieldReplace() {
-		return $this->andField('replace');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function orFieldReplace() {
-		return $this->orField('replace');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function orderAscReplace() {
-		return $this->orderAsc('replace');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function orderDescReplace() {
-		return $this->orderDesc('replace');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function whereDefault() {
-		return $this->where('default');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function andFieldDefault() {
-		return $this->andField('default');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function orFieldDefault() {
-		return $this->orField('default');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function orderAscDefault() {
-		return $this->orderAsc('default');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function orderDescDefault() {
-		return $this->orderDesc('default');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function whereOrder() {
-		return $this->where('order');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function andFieldOrder() {
-		return $this->andField('order');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function orFieldOrder() {
-		return $this->orField('order');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function orderAscOrder() {
-		return $this->orderAsc('order');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function orderDescOrder() {
-		return $this->orderDesc('order');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function whereActive() {
-		return $this->where('active');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function andFieldActive() {
-		return $this->andField('active');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function orFieldActive() {
-		return $this->orField('active');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function orderAscActive() {
-		return $this->orderAsc('active');
-	}
-
-	/**
-	 * @return \Cms\Model\Route\Query\Field
-	 */
-	public function orderDescActive() {
-		return $this->orderDesc('active');
 	}
 
 }

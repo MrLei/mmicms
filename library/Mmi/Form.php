@@ -10,7 +10,54 @@
 
 namespace Mmi;
 
-abstract class Form extends Form\Base\Form {
+/**
+ * Abstrakcyjna klasa formularza
+ * wymaga zdefiniowania metody init()
+ * w metodzie init należy skonfigurować pola formularza
+ */
+abstract class Form extends \Mmi\OptionObject {
+
+	/**
+	 * Elementy formularza
+	 * @var array
+	 */
+	protected $_elements = array();
+
+	/**
+	 * Nazwa formularza
+	 * @var string
+	 */
+	protected $_formBaseName;
+
+	/**
+	 * CTRL pochodzący z POST
+	 * @var string
+	 */
+	protected $_ctrl;
+
+	/**
+	 * Czy włączone zabezpieczenie csrf
+	 * @var boolean
+	 */
+	protected $_secured = false;
+
+	/**
+	 * Obiekt rekordu
+	 * @var \Mmi\Dao\Record
+	 */
+	protected $_record;
+
+	/**
+	 * Metoda zapisu w rekordzie
+	 * @var string
+	 */
+	protected $_recordSaveMethod = 'save';
+
+	/**
+	 * Czy zapisany
+	 * @var boolean
+	 */
+	protected $_saved = false;
 
 	/**
 	 * Konstruktor
@@ -20,9 +67,8 @@ abstract class Form extends Form\Base\Form {
 	public function __construct(\Mmi\Dao\Record $record = null, array $options = array()) {
 		$this->setOptions($options);
 		$this->_record = $record;
-		$this->_className = get_class($this);
-		$this->_formBaseName = strtolower(substr($this->_className, strrpos($this->_className, '\\') + 1));
-		$this->_request = \Mmi\Controller\Front::getInstance()->getRequest();
+		$class = get_class($this);
+		$this->_formBaseName = strtolower(substr($class, strrpos($class, '\\') + 1));
 		$this->_saved = false;
 
 		//domyślne opcje
@@ -35,51 +81,343 @@ abstract class Form extends Form\Base\Form {
 		if ($this->hasNotEmptyRecord()) {
 			$data = $this->_record->toArray();
 		}
-		
+
 		//dane z POST
 		if ($this->isMine()) {
-			$data = $this->_request->getPost()->toArray();
+			$data = \Mmi\Controller\Front::getInstance()
+				->getRequest()
+				->getPost()
+				->toArray();
 		}
-		
+
 		//inicjalizacja formularza
 		$this->init();
-		
+
 		//dodawanie CTRL
 		$this->addElementHidden($this->_formBaseName . '__ctrl')
 			->setIgnore()
 			->setOption('id', $this->_formBaseName . '__ctrl');
-		
-		//jeśli zabezpieczony formularz, odczytujemy hash z sesji
-		$this->_hash = md5($this->_className);
-		if (!isset($options['ajax']) && $this->_secured) {
-			$this->_sessionNamespace = new \Mmi\Session\Space('\Mmi\Form');
-			$this->_hash = $this->_sessionNamespace->{$this->_formBaseName};
-		}
-
-		//konfiguracja elementów
-		$this->_configureElements();
 
 		//jeśli przyszły dane - ustawienie w pola
 		if (isset($data)) {
 			//ustawienie wartości domyślnych
 			$this->setDefaults($this->prepareLoadData($data));
 		}
-		
+
 		//zapis do rekordu jeśli istnieje
 		$this->save();
+		
+		//wywoływanie metody użytkownika (po zapisie)
 		$this->lateInit();
 
 		//nowy hash
-		if (!isset($options['ajax']) && $this->_secured) {
-			$this->_sessionNamespace = new \Mmi\Session\Space('\Mmi\Form');
-			$this->_sessionNamespace->{$this->_formBaseName} = ($this->_hash = md5($this->_className . microtime(true)));
+		$hash = '';
+		if ($this->_secured) {
+			\Mmi\Session\Space::factory('\Mmi\Form')->{$this->_formBaseName} = ($hash = md5($class . microtime(true)));
+		}
+
+		//ustawianie nowego ctrl
+		$this->getElement($this->_formBaseName . '__ctrl')
+			->setValue(\Mmi\Lib::hashTable(array('hash' => $hash, 'class' => $class, 'options' => $this->getOptions())));
+	}
+
+	/**
+	 * Inicjalizacja formularza przez programistę końcowego
+	 */
+	abstract public function init();
+
+	/**
+	 * Metoda użytkownika wykonywana na koniec konstruktora
+	 */
+	public function lateInit() {
+		
+	}
+
+	/**
+	 * Metoda walidacji całego formularza (domyślnie zawsze przechodzi)
+	 * @return boolean
+	 */
+	public function validator() {
+		return true;
+	}
+
+	/**
+	 * Ustawia akcję formularza
+	 * @param string $value akcja
+	 * @return \Mmi\Form
+	 */
+	public function setAction($value) {
+		return $this->setOption('action', $value);
+	}
+
+	/**
+	 * Ustawia zabezpieczenie CSRF
+	 * @param boolean $secured
+	 */
+	public function setSecured($secured = true) {
+		$this->_secured = $secured;
+	}
+
+	/**
+	 * Dodawanie elementu formularza z gotowego obiektu
+	 * @param \Mmi\Form\Element\ElementAbstract $element obiekt elementu formularza
+	 * @return \Mmi\Form\Element\ElementAbstract
+	 */
+	public function addElement(\Mmi\Form\Element\ElementAbstract $element) {
+		$this->_elements[$element->getName()] = $element;
+		return $element->setForm($this)
+				->setOption('id', $this->_formBaseName . '_' . $element->getName())
+				->setOption('class', 'field ' . $element->getOption('class'));
+	}
+
+	/**
+	 * Pobranie elementów formularza
+	 * @return \Mmi\Form\Element\ElementAbstract[]
+	 */
+	public function getElements() {
+		return $this->_elements;
+	}
+
+	/**
+	 * Pobranie elementu formularza
+	 * @param string $name nazwa elementu
+	 * @return \Mmi\Form\Element\ElementAbstract
+	 */
+	public function getElement($name) {
+		return isset($this->_elements[$name]) ? $this->_elements[$name] : null;
+	}
+
+	/**
+	 * Zwraca czy dane POST są przeznaczone dla tego formularza
+	 * @return boolean
+	 */
+	public function isMine() {
+		return \Mmi\Controller\Front::getInstance()
+				->getRequest()
+				->getPost()
+				->__isset($this->_formBaseName . '__ctrl');
+	}
+
+	/**
+	 * Walidacja formularza
+	 * @return boolean
+	 */
+	public function isValid() {
+		//dane nie od danego formularza
+		if (!$this->isMine()) {
+			return false;
 		}
 		
-		//tworzenie pola ctrl
-		$this->getElement($this->_formBaseName . '__ctrl')
-			->setValue(\Mmi\Lib::hashTable(array('hash' => $this->_hash, 'class' => $this->_className, 'options' => $this->getOptions())));
+		//odczytywanie danych CTRL
+		$options = \Mmi\Lib::unhashTable($this->_ctrl);
+		
+		//sprawdzenie zgodności klas z CTRL z bieżącą klasą
+		if ($options['class'] != get_class($this)) {
+			return false;
+		}
+		//jeśli form zabezpieczony przed CSRF, sprawdzenie hash
+		if ($this->_secured) {
+			return $options['hash'] == \Mmi\Session\Space::factory('\Mmi\Form')->{$this->_formBaseName};
+		}
+		$validationResult = true;
+		foreach ($this->getElements() as $element) {
+			if (!$element->isValid()) {
+				$validationResult = false;
+			}
+		}
+		return $validationResult;
 	}
-	
+
+	/**
+	 * Ustawienie wartości pól
+	 * @param mixed $data
+	 * @return \Mmi\Form
+	 */
+	public function setDefaults(array $data = array()) {
+		//sprawdzenie wartości dla wszystkich elementów
+		foreach ($this->getElements() as $element) {
+			$value = isset($data[$element->getName()]) ? $data[$element->getName()] : null;
+			//selecty multiple dostają pusty array jeśli brak wartości
+			if ($element instanceof \Mmi\Form\Element\Select && $element->getOption('multiple') && null == $value) {
+				$element->setValue($element->getValue() ? $element->getValue() : array());
+				continue;
+			}
+			//checkboxy na 0 jeśli nie ustawione
+			if ($element instanceof \Mmi\Form\Element\Checkbox && null == $value) {
+				$element->setValue(0);
+				continue;
+			}
+			//jeśli brak wartości
+			if (null == $value) {
+				continue;
+			}
+			//ustawianie CTRL
+			if ($element->getName() == $this->_formBaseName . '__ctrl') {
+				$this->_ctrl = $value;
+				continue;
+			}
+			//ustawianie wartości
+			$element->setValue($data[$element->getName()]);
+		}
+		return $this;
+	}
+
+	/**
+	 * Bramka zapisu danych
+	 * @param array $data
+	 * @return array
+	 */
+	public function prepareSaveData(array $data = array()) {
+		return $data;
+	}
+
+	/**
+	 * Bramka odczytu danych
+	 * @param array $data
+	 * @return array
+	 */
+	public function prepareLoadData(array $data = array()) {
+		return $data;
+	}
+
+	/**
+	 * Czy w modelu wystąpił zapis
+	 * @return boolean
+	 */
+	public function isSaved() {
+		return $this->_saved;
+	}
+
+	/**
+	 * Zwraca obiekt aktywnego rekordu
+	 * @return \Mmi\Dao\Record
+	 */
+	public function getRecord() {
+		return $this->_record;
+	}
+
+	/**
+	 * Czy do formularza przypisany jest active record, jeśli nie, a podana jest nazwa, stworzy obiekt rekordu
+	 * @return boolean
+	 */
+	public function hasRecord() {
+		return $this->_record instanceof \Mmi\Dao\Record;
+	}
+
+	/**
+	 * Sprawdza czy rekord zawiera dane
+	 * @return boolean
+	 */
+	public function hasNotEmptyRecord() {
+		//jeśli brak rekordu to brak także niepustego rekordu
+		if (!$this->hasRecord()) {
+			return false;
+		}
+		//jeśli w rekordzie istnieje choć jedno pole nie będące nullem, zwraca prawdę
+		foreach ($this->_record->toArray() as $k => $v) {
+			if ($v !== null) {
+				return true;
+			}
+		}
+		//wszystkie pola null
+		return false;
+	}
+
+	/**
+	 * Wywołuje walidację i zapis rekordu powiązanego z formularzem.
+	 * @return bool
+	 */
+	public function save() {
+		//jeśli brak rekordu save nie jest wykonywany
+		if (!$this->hasRecord()) {
+			return $this->_saved = false;
+		}
+		//jeśli formularz nieprawidłowy
+		if (!$this->isValid()) {
+			return $this->_saved = false;
+		}
+		//wywołanie zapisu rekordu
+		$this->_saved = $this->_saveRecord();
+		if ($this->_saved === false) {
+			return false;
+		}
+		return $this->_saved;
+	}
+
+	/**
+	 * Zapis danych do obiektu rekordu
+	 * @return boolean
+	 */
+	protected function _saveRecord() {
+		//metoda nie istnieje
+		if (!method_exists(($this->_record), $this->_recordSaveMethod)) {
+			throw new \Exception('\Mmi\Form: save method not found: ' . $this->_recordSaveMethod);
+		}
+		$data = array();
+		//pobieranie danych z elementów
+		foreach ($this->getElements() as $element) {
+			//ignorowanie CTRL
+			if ($element->getName() == $this->_formBaseName . '__ctrl') {
+				continue;
+			}
+			//dodawanie wartości do tabeli
+			$data[$element->getName()] = $element->getValue();
+		}
+		//ustawianie rekordu na podstawie danych
+		$this->_record->setFromArray($this->prepareSaveData($data));
+		//wywołanie metody zapisu na rekordzie
+		return $this->_record->{$this->_recordSaveMethod}();
+	}
+
+	/**
+	 * Renderer nagłówka formularza
+	 * @return string
+	 */
+	public function start() {
+		return '<form id="' . $this->_formBaseName .
+			'" action="' . ($this->getOption('action') ? $this->getOption('action') : '#') .
+			'" method="' . $this->getOption('method') .
+			'" enctype="' . $this->getOption('enctype') .
+			'" class="vertical ' . $this->getOption('class') .
+			'" accept-charset="' . $this->getOption('accept-charset') .
+			'">';
+	}
+
+	/**
+	 * Renderer stopki formularza
+	 * @return string
+	 */
+	public function end() {
+		return '</form>';
+	}
+
+	/**
+	 * Automatyczny renderer formularza
+	 * @return string
+	 */
+	public function render() {
+		$html = $this->start();
+		foreach ($this->_elements AS $element) {
+			$html .= $element->__toString();
+		}
+		return $html . $this->end();
+	}
+
+	/**
+	 * Renderer formularza
+	 * Renderuje bezpośrednio, lub z szablonu
+	 * @return string
+	 */
+	public function __toString() {
+		try {
+			return $this->render();
+		} catch (\Exception $e) {
+			return $e->getMessage();
+		}
+	}
+
+	//skróty w interfejsie
+
 	/**
 	 * Button
 	 * @param string $name nazwa
@@ -187,6 +525,5 @@ abstract class Form extends Form\Base\Form {
 	public function addElementTextarea($name) {
 		return $this->addElement(new \Mmi\Form\Element\Textarea($name));
 	}
-
 
 }

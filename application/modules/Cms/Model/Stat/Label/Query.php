@@ -3,23 +3,48 @@
 namespace Cms\Model\Stat\Label;
 
 /**
- * @method \Cms\Model\Stat\Label\Query limit() limit($limit = null)
- * @method \Cms\Model\Stat\Label\Query offset() offset($offset = null)
- * @method \Cms\Model\Stat\Label\Query orderAsc() orderAsc($fieldName, $tableName = null)
- * @method \Cms\Model\Stat\Label\Query orderDesc() orderDesc($fieldName, $tableName = null)
- * @method \Cms\Model\Stat\Label\Query andQuery() andQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Stat\Label\Query whereQuery() whereQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Stat\Label\Query orQuery() orQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Stat\Label\Query resetOrder() resetOrder()
- * @method \Cms\Model\Stat\Label\Query resetWhere() resetWhere()
- * @method \Cms\Model\Stat\Label\Query\Field andField() andField($fieldName, $tableName = null)
- * @method \Cms\Model\Stat\Label\Query\Field where() where($fieldName, $tableName = null)
- * @method \Cms\Model\Stat\Label\Query\Field orField() orField($fieldName, $tableName = null)
- * @method \Cms\Model\Stat\Label\Query\Join join() join($tableName, $targetTableName = null)
- * @method \Cms\Model\Stat\Label\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
- * @method \Cms\Model\Stat\Label\Record[] find() find()
- * @method \Cms\Model\Stat\Label\Record findFirst() findFirst()
- * @method \Cms\Model\Stat\Label\Record findPk() findPk($value)
+ * @method \Cms\Model\Stat\Label\Query limit($limit = null)
+ * @method \Cms\Model\Stat\Label\Query offset($offset = null)
+ * @method \Cms\Model\Stat\Label\Query orderAsc($fieldName, $tableName = null)
+ * @method \Cms\Model\Stat\Label\Query orderDesc($fieldName, $tableName = null)
+ * @method \Cms\Model\Stat\Label\Query andQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Stat\Label\Query whereQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Stat\Label\Query orQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Stat\Label\Query resetOrder()
+ * @method \Cms\Model\Stat\Label\Query resetWhere()
+ * @method \Cms\Model\Stat\Label\Query\Field whereId()
+ * @method \Cms\Model\Stat\Label\Query\Field andFieldId()
+ * @method \Cms\Model\Stat\Label\Query\Field orFieldId()
+ * @method \Cms\Model\Stat\Label\Query\Field orderAscId()
+ * @method \Cms\Model\Stat\Label\Query\Field orderDescId()
+ * @method \Cms\Model\Stat\Label\Query\Field whereLang()
+ * @method \Cms\Model\Stat\Label\Query\Field andFieldLang()
+ * @method \Cms\Model\Stat\Label\Query\Field orFieldLang()
+ * @method \Cms\Model\Stat\Label\Query\Field orderAscLang()
+ * @method \Cms\Model\Stat\Label\Query\Field orderDescLang()
+ * @method \Cms\Model\Stat\Label\Query\Field whereObject()
+ * @method \Cms\Model\Stat\Label\Query\Field andFieldObject()
+ * @method \Cms\Model\Stat\Label\Query\Field orFieldObject()
+ * @method \Cms\Model\Stat\Label\Query\Field orderAscObject()
+ * @method \Cms\Model\Stat\Label\Query\Field orderDescObject()
+ * @method \Cms\Model\Stat\Label\Query\Field whereLabel()
+ * @method \Cms\Model\Stat\Label\Query\Field andFieldLabel()
+ * @method \Cms\Model\Stat\Label\Query\Field orFieldLabel()
+ * @method \Cms\Model\Stat\Label\Query\Field orderAscLabel()
+ * @method \Cms\Model\Stat\Label\Query\Field orderDescLabel()
+ * @method \Cms\Model\Stat\Label\Query\Field whereDescription()
+ * @method \Cms\Model\Stat\Label\Query\Field andFieldDescription()
+ * @method \Cms\Model\Stat\Label\Query\Field orFieldDescription()
+ * @method \Cms\Model\Stat\Label\Query\Field orderAscDescription()
+ * @method \Cms\Model\Stat\Label\Query\Field orderDescDescription()
+ * @method \Cms\Model\Stat\Label\Query\Field andField($fieldName, $tableName = null)
+ * @method \Cms\Model\Stat\Label\Query\Field where($fieldName, $tableName = null)
+ * @method \Cms\Model\Stat\Label\Query\Field orField($fieldName, $tableName = null)
+ * @method \Cms\Model\Stat\Label\Query\Join join($tableName, $targetTableName = null)
+ * @method \Cms\Model\Stat\Label\Query\Join joinLeft($tableName, $targetTableName = null)
+ * @method \Cms\Model\Stat\Label\Record[] find()
+ * @method \Cms\Model\Stat\Label\Record findFirst()
+ * @method \Cms\Model\Stat\Label\Record findPk($value)
  */
 class Query extends \Mmi\Dao\Query {
 
@@ -28,181 +53,6 @@ class Query extends \Mmi\Dao\Query {
 	 */
 	public static function factory($daoClassName = null) {
 		return new self($daoClassName);
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function whereId() {
-		return $this->where('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function andFieldId() {
-		return $this->andField('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function orFieldId() {
-		return $this->orField('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function orderAscId() {
-		return $this->orderAsc('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function orderDescId() {
-		return $this->orderDesc('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function whereLang() {
-		return $this->where('lang');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function andFieldLang() {
-		return $this->andField('lang');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function orFieldLang() {
-		return $this->orField('lang');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function orderAscLang() {
-		return $this->orderAsc('lang');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function orderDescLang() {
-		return $this->orderDesc('lang');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function whereObject() {
-		return $this->where('object');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function andFieldObject() {
-		return $this->andField('object');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function orFieldObject() {
-		return $this->orField('object');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function orderAscObject() {
-		return $this->orderAsc('object');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function orderDescObject() {
-		return $this->orderDesc('object');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function whereLabel() {
-		return $this->where('label');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function andFieldLabel() {
-		return $this->andField('label');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function orFieldLabel() {
-		return $this->orField('label');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function orderAscLabel() {
-		return $this->orderAsc('label');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function orderDescLabel() {
-		return $this->orderDesc('label');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function whereDescription() {
-		return $this->where('description');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function andFieldDescription() {
-		return $this->andField('description');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function orFieldDescription() {
-		return $this->orField('description');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function orderAscDescription() {
-		return $this->orderAsc('description');
-	}
-
-	/**
-	 * @return \Cms\Model\Stat\Label\Query\Field
-	 */
-	public function orderDescDescription() {
-		return $this->orderDesc('description');
 	}
 
 }

@@ -22,16 +22,12 @@ class Admin extends \MmiCms\Controller\Admin {
 		if (!$form->isMine()) {
 			return;
 		}
-		if ($form->isSaved()) {
-			$this->getMessenger()->addMessage('Zalogowano poprawnie', true);
-			\Cms\Model\Stat\Dao::hit('admin-login', $authRecord->id);
-		} else {
+		if (!$form->isSaved()) {
 			$this->getMessenger()->addMessage('Logowanie niepoprawne', false);
 		}
-		$baseUri = $this->view->url(array('module' => 'cms', 'controller' => 'admin', 'action' => 'login'));
-		$requestUri = \Mmi\Controller\Front::getInstance()->getEnvironment()->requestUri;
-		$uri = ($requestUri != $baseUri) ? $requestUri : $this->view->url(array('module' => 'cms', 'controller' => 'admin', 'action' => 'index'));
-		$this->getResponse()->redirectToUrl($uri);
+		$this->getMessenger()->addMessage('Zalogowano poprawnie', true);
+		\Cms\Model\Stat\Dao::hit('admin-login', $authRecord->id);
+		$this->getResponse()->redirectToUrl($this->getRequest()->getReferer());
 	}
 
 	public function logoutAction() {

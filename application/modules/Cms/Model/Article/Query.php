@@ -3,23 +3,63 @@
 namespace Cms\Model\Article;
 
 /**
- * @method \Cms\Model\Article\Query limit() limit($limit = null)
- * @method \Cms\Model\Article\Query offset() offset($offset = null)
- * @method \Cms\Model\Article\Query orderAsc() orderAsc($fieldName, $tableName = null)
- * @method \Cms\Model\Article\Query orderDesc() orderDesc($fieldName, $tableName = null)
- * @method \Cms\Model\Article\Query andQuery() andQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Article\Query whereQuery() whereQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Article\Query orQuery() orQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Article\Query resetOrder() resetOrder()
- * @method \Cms\Model\Article\Query resetWhere() resetWhere()
- * @method \Cms\Model\Article\Query\Field andField() andField($fieldName, $tableName = null)
- * @method \Cms\Model\Article\Query\Field where() where($fieldName, $tableName = null)
- * @method \Cms\Model\Article\Query\Field orField() orField($fieldName, $tableName = null)
- * @method \Cms\Model\Article\Query\Join join() join($tableName, $targetTableName = null)
- * @method \Cms\Model\Article\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
- * @method \Cms\Model\Article\Record[] find() find()
- * @method \Cms\Model\Article\Record findFirst() findFirst()
- * @method \Cms\Model\Article\Record findPk() findPk($value)
+ * @method \Cms\Model\Article\Query limit($limit = null)
+ * @method \Cms\Model\Article\Query offset($offset = null)
+ * @method \Cms\Model\Article\Query orderAsc($fieldName, $tableName = null)
+ * @method \Cms\Model\Article\Query orderDesc($fieldName, $tableName = null)
+ * @method \Cms\Model\Article\Query andQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Article\Query whereQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Article\Query orQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Article\Query resetOrder()
+ * @method \Cms\Model\Article\Query resetWhere()
+ * @method \Cms\Model\Article\Query\Field whereId()
+ * @method \Cms\Model\Article\Query\Field andFieldId()
+ * @method \Cms\Model\Article\Query\Field orFieldId()
+ * @method \Cms\Model\Article\Query\Field orderAscId()
+ * @method \Cms\Model\Article\Query\Field orderDescId()
+ * @method \Cms\Model\Article\Query\Field whereLang()
+ * @method \Cms\Model\Article\Query\Field andFieldLang()
+ * @method \Cms\Model\Article\Query\Field orFieldLang()
+ * @method \Cms\Model\Article\Query\Field orderAscLang()
+ * @method \Cms\Model\Article\Query\Field orderDescLang()
+ * @method \Cms\Model\Article\Query\Field whereTitle()
+ * @method \Cms\Model\Article\Query\Field andFieldTitle()
+ * @method \Cms\Model\Article\Query\Field orFieldTitle()
+ * @method \Cms\Model\Article\Query\Field orderAscTitle()
+ * @method \Cms\Model\Article\Query\Field orderDescTitle()
+ * @method \Cms\Model\Article\Query\Field whereUri()
+ * @method \Cms\Model\Article\Query\Field andFieldUri()
+ * @method \Cms\Model\Article\Query\Field orFieldUri()
+ * @method \Cms\Model\Article\Query\Field orderAscUri()
+ * @method \Cms\Model\Article\Query\Field orderDescUri()
+ * @method \Cms\Model\Article\Query\Field whereDateAdd()
+ * @method \Cms\Model\Article\Query\Field andFieldDateAdd()
+ * @method \Cms\Model\Article\Query\Field orFieldDateAdd()
+ * @method \Cms\Model\Article\Query\Field orderAscDateAdd()
+ * @method \Cms\Model\Article\Query\Field orderDescDateAdd()
+ * @method \Cms\Model\Article\Query\Field whereDateModify()
+ * @method \Cms\Model\Article\Query\Field andFieldDateModify()
+ * @method \Cms\Model\Article\Query\Field orFieldDateModify()
+ * @method \Cms\Model\Article\Query\Field orderAscDateModify()
+ * @method \Cms\Model\Article\Query\Field orderDescDateModify()
+ * @method \Cms\Model\Article\Query\Field whereText()
+ * @method \Cms\Model\Article\Query\Field andFieldText()
+ * @method \Cms\Model\Article\Query\Field orFieldText()
+ * @method \Cms\Model\Article\Query\Field orderAscText()
+ * @method \Cms\Model\Article\Query\Field orderDescText()
+ * @method \Cms\Model\Article\Query\Field whereNoindex()
+ * @method \Cms\Model\Article\Query\Field andFieldNoindex()
+ * @method \Cms\Model\Article\Query\Field orFieldNoindex()
+ * @method \Cms\Model\Article\Query\Field orderAscNoindex()
+ * @method \Cms\Model\Article\Query\Field orderDescNoindex()
+ * @method \Cms\Model\Article\Query\Field andField($fieldName, $tableName = null)
+ * @method \Cms\Model\Article\Query\Field where($fieldName, $tableName = null)
+ * @method \Cms\Model\Article\Query\Field orField($fieldName, $tableName = null)
+ * @method \Cms\Model\Article\Query\Join join($tableName, $targetTableName = null)
+ * @method \Cms\Model\Article\Query\Join joinLeft($tableName, $targetTableName = null)
+ * @method \Cms\Model\Article\Record[] find()
+ * @method \Cms\Model\Article\Record findFirst()
+ * @method \Cms\Model\Article\Record findPk($value)
  */
 class Query extends \Mmi\Dao\Query {
 
@@ -28,286 +68,6 @@ class Query extends \Mmi\Dao\Query {
 	 */
 	public static function factory($daoClassName = null) {
 		return new self($daoClassName);
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function whereId() {
-		return $this->where('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function andFieldId() {
-		return $this->andField('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orFieldId() {
-		return $this->orField('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orderAscId() {
-		return $this->orderAsc('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orderDescId() {
-		return $this->orderDesc('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function whereLang() {
-		return $this->where('lang');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function andFieldLang() {
-		return $this->andField('lang');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orFieldLang() {
-		return $this->orField('lang');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orderAscLang() {
-		return $this->orderAsc('lang');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orderDescLang() {
-		return $this->orderDesc('lang');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function whereTitle() {
-		return $this->where('title');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function andFieldTitle() {
-		return $this->andField('title');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orFieldTitle() {
-		return $this->orField('title');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orderAscTitle() {
-		return $this->orderAsc('title');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orderDescTitle() {
-		return $this->orderDesc('title');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function whereUri() {
-		return $this->where('uri');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function andFieldUri() {
-		return $this->andField('uri');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orFieldUri() {
-		return $this->orField('uri');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orderAscUri() {
-		return $this->orderAsc('uri');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orderDescUri() {
-		return $this->orderDesc('uri');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function whereDateAdd() {
-		return $this->where('dateAdd');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function andFieldDateAdd() {
-		return $this->andField('dateAdd');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orFieldDateAdd() {
-		return $this->orField('dateAdd');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orderAscDateAdd() {
-		return $this->orderAsc('dateAdd');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orderDescDateAdd() {
-		return $this->orderDesc('dateAdd');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function whereDateModify() {
-		return $this->where('dateModify');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function andFieldDateModify() {
-		return $this->andField('dateModify');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orFieldDateModify() {
-		return $this->orField('dateModify');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orderAscDateModify() {
-		return $this->orderAsc('dateModify');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orderDescDateModify() {
-		return $this->orderDesc('dateModify');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function whereText() {
-		return $this->where('text');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function andFieldText() {
-		return $this->andField('text');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orFieldText() {
-		return $this->orField('text');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orderAscText() {
-		return $this->orderAsc('text');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orderDescText() {
-		return $this->orderDesc('text');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function whereNoindex() {
-		return $this->where('noindex');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function andFieldNoindex() {
-		return $this->andField('noindex');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orFieldNoindex() {
-		return $this->orField('noindex');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orderAscNoindex() {
-		return $this->orderAsc('noindex');
-	}
-
-	/**
-	 * @return \Cms\Model\Article\Query\Field
-	 */
-	public function orderDescNoindex() {
-		return $this->orderDesc('noindex');
 	}
 
 }

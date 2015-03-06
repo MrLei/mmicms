@@ -3,23 +3,98 @@
 namespace Cms\Model\Cron;
 
 /**
- * @method \Cms\Model\Cron\Query limit() limit($limit = null)
- * @method \Cms\Model\Cron\Query offset() offset($offset = null)
- * @method \Cms\Model\Cron\Query orderAsc() orderAsc($fieldName, $tableName = null)
- * @method \Cms\Model\Cron\Query orderDesc() orderDesc($fieldName, $tableName = null)
- * @method \Cms\Model\Cron\Query andQuery() andQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Cron\Query whereQuery() whereQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Cron\Query orQuery() orQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Cron\Query resetOrder() resetOrder()
- * @method \Cms\Model\Cron\Query resetWhere() resetWhere()
- * @method \Cms\Model\Cron\Query\Field andField() andField($fieldName, $tableName = null)
- * @method \Cms\Model\Cron\Query\Field where() where($fieldName, $tableName = null)
- * @method \Cms\Model\Cron\Query\Field orField() orField($fieldName, $tableName = null)
- * @method \Cms\Model\Cron\Query\Join join() join($tableName, $targetTableName = null)
- * @method \Cms\Model\Cron\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
- * @method \Cms\Model\Cron\Record[] find() find()
- * @method \Cms\Model\Cron\Record findFirst() findFirst()
- * @method \Cms\Model\Cron\Record findPk() findPk($value)
+ * @method \Cms\Model\Cron\Query limit($limit = null)
+ * @method \Cms\Model\Cron\Query offset($offset = null)
+ * @method \Cms\Model\Cron\Query orderAsc($fieldName, $tableName = null)
+ * @method \Cms\Model\Cron\Query orderDesc($fieldName, $tableName = null)
+ * @method \Cms\Model\Cron\Query andQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Cron\Query whereQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Cron\Query orQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Cron\Query resetOrder()
+ * @method \Cms\Model\Cron\Query resetWhere()
+ * @method \Cms\Model\Cron\Query\Field whereId()
+ * @method \Cms\Model\Cron\Query\Field andFieldId()
+ * @method \Cms\Model\Cron\Query\Field orFieldId()
+ * @method \Cms\Model\Cron\Query\Field orderAscId()
+ * @method \Cms\Model\Cron\Query\Field orderDescId()
+ * @method \Cms\Model\Cron\Query\Field whereActive()
+ * @method \Cms\Model\Cron\Query\Field andFieldActive()
+ * @method \Cms\Model\Cron\Query\Field orFieldActive()
+ * @method \Cms\Model\Cron\Query\Field orderAscActive()
+ * @method \Cms\Model\Cron\Query\Field orderDescActive()
+ * @method \Cms\Model\Cron\Query\Field whereMinute()
+ * @method \Cms\Model\Cron\Query\Field andFieldMinute()
+ * @method \Cms\Model\Cron\Query\Field orFieldMinute()
+ * @method \Cms\Model\Cron\Query\Field orderAscMinute()
+ * @method \Cms\Model\Cron\Query\Field orderDescMinute()
+ * @method \Cms\Model\Cron\Query\Field whereHour()
+ * @method \Cms\Model\Cron\Query\Field andFieldHour()
+ * @method \Cms\Model\Cron\Query\Field orFieldHour()
+ * @method \Cms\Model\Cron\Query\Field orderAscHour()
+ * @method \Cms\Model\Cron\Query\Field orderDescHour()
+ * @method \Cms\Model\Cron\Query\Field whereDayOfMonth()
+ * @method \Cms\Model\Cron\Query\Field andFieldDayOfMonth()
+ * @method \Cms\Model\Cron\Query\Field orFieldDayOfMonth()
+ * @method \Cms\Model\Cron\Query\Field orderAscDayOfMonth()
+ * @method \Cms\Model\Cron\Query\Field orderDescDayOfMonth()
+ * @method \Cms\Model\Cron\Query\Field whereMonth()
+ * @method \Cms\Model\Cron\Query\Field andFieldMonth()
+ * @method \Cms\Model\Cron\Query\Field orFieldMonth()
+ * @method \Cms\Model\Cron\Query\Field orderAscMonth()
+ * @method \Cms\Model\Cron\Query\Field orderDescMonth()
+ * @method \Cms\Model\Cron\Query\Field whereDayOfWeek()
+ * @method \Cms\Model\Cron\Query\Field andFieldDayOfWeek()
+ * @method \Cms\Model\Cron\Query\Field orFieldDayOfWeek()
+ * @method \Cms\Model\Cron\Query\Field orderAscDayOfWeek()
+ * @method \Cms\Model\Cron\Query\Field orderDescDayOfWeek()
+ * @method \Cms\Model\Cron\Query\Field whereName()
+ * @method \Cms\Model\Cron\Query\Field andFieldName()
+ * @method \Cms\Model\Cron\Query\Field orFieldName()
+ * @method \Cms\Model\Cron\Query\Field orderAscName()
+ * @method \Cms\Model\Cron\Query\Field orderDescName()
+ * @method \Cms\Model\Cron\Query\Field whereDescription()
+ * @method \Cms\Model\Cron\Query\Field andFieldDescription()
+ * @method \Cms\Model\Cron\Query\Field orFieldDescription()
+ * @method \Cms\Model\Cron\Query\Field orderAscDescription()
+ * @method \Cms\Model\Cron\Query\Field orderDescDescription()
+ * @method \Cms\Model\Cron\Query\Field whereModule()
+ * @method \Cms\Model\Cron\Query\Field andFieldModule()
+ * @method \Cms\Model\Cron\Query\Field orFieldModule()
+ * @method \Cms\Model\Cron\Query\Field orderAscModule()
+ * @method \Cms\Model\Cron\Query\Field orderDescModule()
+ * @method \Cms\Model\Cron\Query\Field whereController()
+ * @method \Cms\Model\Cron\Query\Field andFieldController()
+ * @method \Cms\Model\Cron\Query\Field orFieldController()
+ * @method \Cms\Model\Cron\Query\Field orderAscController()
+ * @method \Cms\Model\Cron\Query\Field orderDescController()
+ * @method \Cms\Model\Cron\Query\Field whereAction()
+ * @method \Cms\Model\Cron\Query\Field andFieldAction()
+ * @method \Cms\Model\Cron\Query\Field orFieldAction()
+ * @method \Cms\Model\Cron\Query\Field orderAscAction()
+ * @method \Cms\Model\Cron\Query\Field orderDescAction()
+ * @method \Cms\Model\Cron\Query\Field whereDateAdd()
+ * @method \Cms\Model\Cron\Query\Field andFieldDateAdd()
+ * @method \Cms\Model\Cron\Query\Field orFieldDateAdd()
+ * @method \Cms\Model\Cron\Query\Field orderAscDateAdd()
+ * @method \Cms\Model\Cron\Query\Field orderDescDateAdd()
+ * @method \Cms\Model\Cron\Query\Field whereDateModified()
+ * @method \Cms\Model\Cron\Query\Field andFieldDateModified()
+ * @method \Cms\Model\Cron\Query\Field orFieldDateModified()
+ * @method \Cms\Model\Cron\Query\Field orderAscDateModified()
+ * @method \Cms\Model\Cron\Query\Field orderDescDateModified()
+ * @method \Cms\Model\Cron\Query\Field whereDateLastExecute()
+ * @method \Cms\Model\Cron\Query\Field andFieldDateLastExecute()
+ * @method \Cms\Model\Cron\Query\Field orFieldDateLastExecute()
+ * @method \Cms\Model\Cron\Query\Field orderAscDateLastExecute()
+ * @method \Cms\Model\Cron\Query\Field orderDescDateLastExecute()
+ * @method \Cms\Model\Cron\Query\Field andField($fieldName, $tableName = null)
+ * @method \Cms\Model\Cron\Query\Field where($fieldName, $tableName = null)
+ * @method \Cms\Model\Cron\Query\Field orField($fieldName, $tableName = null)
+ * @method \Cms\Model\Cron\Query\Join join($tableName, $targetTableName = null)
+ * @method \Cms\Model\Cron\Query\Join joinLeft($tableName, $targetTableName = null)
+ * @method \Cms\Model\Cron\Record[] find()
+ * @method \Cms\Model\Cron\Record findFirst()
+ * @method \Cms\Model\Cron\Record findPk($value)
  */
 class Query extends \Mmi\Dao\Query {
 
@@ -28,531 +103,6 @@ class Query extends \Mmi\Dao\Query {
 	 */
 	public static function factory($daoClassName = null) {
 		return new self($daoClassName);
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function whereId() {
-		return $this->where('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function andFieldId() {
-		return $this->andField('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orFieldId() {
-		return $this->orField('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderAscId() {
-		return $this->orderAsc('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderDescId() {
-		return $this->orderDesc('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function whereActive() {
-		return $this->where('active');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function andFieldActive() {
-		return $this->andField('active');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orFieldActive() {
-		return $this->orField('active');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderAscActive() {
-		return $this->orderAsc('active');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderDescActive() {
-		return $this->orderDesc('active');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function whereMinute() {
-		return $this->where('minute');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function andFieldMinute() {
-		return $this->andField('minute');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orFieldMinute() {
-		return $this->orField('minute');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderAscMinute() {
-		return $this->orderAsc('minute');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderDescMinute() {
-		return $this->orderDesc('minute');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function whereHour() {
-		return $this->where('hour');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function andFieldHour() {
-		return $this->andField('hour');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orFieldHour() {
-		return $this->orField('hour');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderAscHour() {
-		return $this->orderAsc('hour');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderDescHour() {
-		return $this->orderDesc('hour');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function whereDayOfMonth() {
-		return $this->where('dayOfMonth');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function andFieldDayOfMonth() {
-		return $this->andField('dayOfMonth');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orFieldDayOfMonth() {
-		return $this->orField('dayOfMonth');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderAscDayOfMonth() {
-		return $this->orderAsc('dayOfMonth');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderDescDayOfMonth() {
-		return $this->orderDesc('dayOfMonth');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function whereMonth() {
-		return $this->where('month');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function andFieldMonth() {
-		return $this->andField('month');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orFieldMonth() {
-		return $this->orField('month');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderAscMonth() {
-		return $this->orderAsc('month');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderDescMonth() {
-		return $this->orderDesc('month');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function whereDayOfWeek() {
-		return $this->where('dayOfWeek');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function andFieldDayOfWeek() {
-		return $this->andField('dayOfWeek');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orFieldDayOfWeek() {
-		return $this->orField('dayOfWeek');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderAscDayOfWeek() {
-		return $this->orderAsc('dayOfWeek');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderDescDayOfWeek() {
-		return $this->orderDesc('dayOfWeek');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function whereName() {
-		return $this->where('name');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function andFieldName() {
-		return $this->andField('name');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orFieldName() {
-		return $this->orField('name');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderAscName() {
-		return $this->orderAsc('name');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderDescName() {
-		return $this->orderDesc('name');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function whereDescription() {
-		return $this->where('description');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function andFieldDescription() {
-		return $this->andField('description');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orFieldDescription() {
-		return $this->orField('description');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderAscDescription() {
-		return $this->orderAsc('description');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderDescDescription() {
-		return $this->orderDesc('description');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function whereModule() {
-		return $this->where('module');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function andFieldModule() {
-		return $this->andField('module');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orFieldModule() {
-		return $this->orField('module');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderAscModule() {
-		return $this->orderAsc('module');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderDescModule() {
-		return $this->orderDesc('module');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function whereController() {
-		return $this->where('controller');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function andFieldController() {
-		return $this->andField('controller');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orFieldController() {
-		return $this->orField('controller');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderAscController() {
-		return $this->orderAsc('controller');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderDescController() {
-		return $this->orderDesc('controller');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function whereAction() {
-		return $this->where('action');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function andFieldAction() {
-		return $this->andField('action');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orFieldAction() {
-		return $this->orField('action');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderAscAction() {
-		return $this->orderAsc('action');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderDescAction() {
-		return $this->orderDesc('action');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function whereDateAdd() {
-		return $this->where('dateAdd');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function andFieldDateAdd() {
-		return $this->andField('dateAdd');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orFieldDateAdd() {
-		return $this->orField('dateAdd');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderAscDateAdd() {
-		return $this->orderAsc('dateAdd');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderDescDateAdd() {
-		return $this->orderDesc('dateAdd');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function whereDateModified() {
-		return $this->where('dateModified');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function andFieldDateModified() {
-		return $this->andField('dateModified');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orFieldDateModified() {
-		return $this->orField('dateModified');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderAscDateModified() {
-		return $this->orderAsc('dateModified');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderDescDateModified() {
-		return $this->orderDesc('dateModified');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function whereDateLastExecute() {
-		return $this->where('dateLastExecute');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function andFieldDateLastExecute() {
-		return $this->andField('dateLastExecute');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orFieldDateLastExecute() {
-		return $this->orField('dateLastExecute');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderAscDateLastExecute() {
-		return $this->orderAsc('dateLastExecute');
-	}
-
-	/**
-	 * @return \Cms\Model\Cron\Query\Field
-	 */
-	public function orderDescDateLastExecute() {
-		return $this->orderDesc('dateLastExecute');
 	}
 
 }

@@ -3,14 +3,14 @@
 namespace Cms\Model\Stat\Query;
 
 /**
- * @method \Cms\Model\Stat\Query equals() equals($value)
- * @method \Cms\Model\Stat\Query notEquals() notEquals($value)
- * @method \Cms\Model\Stat\Query greater() greater($value)
- * @method \Cms\Model\Stat\Query less() less($value)
- * @method \Cms\Model\Stat\Query greaterOrEquals() greaterOrEquals($value)
- * @method \Cms\Model\Stat\Query lessOrEquals() lessOrEquals($value)
- * @method \Cms\Model\Stat\Query like() like($value)
- * @method \Cms\Model\Stat\Query ilike() ilike($value)
+ * @method \Cms\Model\Stat\Query equals($value)
+ * @method \Cms\Model\Stat\Query notEquals($value)
+ * @method \Cms\Model\Stat\Query greater($value)
+ * @method \Cms\Model\Stat\Query less($value)
+ * @method \Cms\Model\Stat\Query greaterOrEquals($value)
+ * @method \Cms\Model\Stat\Query lessOrEquals($value)
+ * @method \Cms\Model\Stat\Query like($value)
+ * @method \Cms\Model\Stat\Query ilike($value)
  */
 class Field extends \Mmi\Dao\Query\Field {
 

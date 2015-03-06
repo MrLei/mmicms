@@ -10,6 +10,9 @@
 
 namespace Mmi\Json\Rpc\General;
 
+/**
+ * Klasa wyjątków ogólnych serwera JSON-RPC
+ */
 class Exception extends \Exception {
 
 	protected $code = -500;

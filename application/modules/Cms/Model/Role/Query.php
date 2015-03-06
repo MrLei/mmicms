@@ -3,23 +3,33 @@
 namespace Cms\Model\Role;
 
 /**
- * @method \Cms\Model\Role\Query limit() limit($limit = null)
- * @method \Cms\Model\Role\Query offset() offset($offset = null)
- * @method \Cms\Model\Role\Query orderAsc() orderAsc($fieldName, $tableName = null)
- * @method \Cms\Model\Role\Query orderDesc() orderDesc($fieldName, $tableName = null)
- * @method \Cms\Model\Role\Query andQuery() andQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Role\Query whereQuery() whereQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Role\Query orQuery() orQuery(\Mmi\Dao\Query $query)
- * @method \Cms\Model\Role\Query resetOrder() resetOrder()
- * @method \Cms\Model\Role\Query resetWhere() resetWhere()
- * @method \Cms\Model\Role\Query\Field andField() andField($fieldName, $tableName = null)
- * @method \Cms\Model\Role\Query\Field where() where($fieldName, $tableName = null)
- * @method \Cms\Model\Role\Query\Field orField() orField($fieldName, $tableName = null)
- * @method \Cms\Model\Role\Query\Join join() join($tableName, $targetTableName = null)
- * @method \Cms\Model\Role\Query\Join joinLeft() joinLeft($tableName, $targetTableName = null)
- * @method \Cms\Model\Role\Record[] find() find()
- * @method \Cms\Model\Role\Record findFirst() findFirst()
- * @method \Cms\Model\Role\Record findPk() findPk($value)
+ * @method \Cms\Model\Role\Query limit($limit = null)
+ * @method \Cms\Model\Role\Query offset($offset = null)
+ * @method \Cms\Model\Role\Query orderAsc($fieldName, $tableName = null)
+ * @method \Cms\Model\Role\Query orderDesc($fieldName, $tableName = null)
+ * @method \Cms\Model\Role\Query andQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Role\Query whereQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Role\Query orQuery(\Mmi\Dao\Query $query)
+ * @method \Cms\Model\Role\Query resetOrder()
+ * @method \Cms\Model\Role\Query resetWhere()
+ * @method \Cms\Model\Role\Query\Field whereId()
+ * @method \Cms\Model\Role\Query\Field andFieldId()
+ * @method \Cms\Model\Role\Query\Field orFieldId()
+ * @method \Cms\Model\Role\Query\Field orderAscId()
+ * @method \Cms\Model\Role\Query\Field orderDescId()
+ * @method \Cms\Model\Role\Query\Field whereName()
+ * @method \Cms\Model\Role\Query\Field andFieldName()
+ * @method \Cms\Model\Role\Query\Field orFieldName()
+ * @method \Cms\Model\Role\Query\Field orderAscName()
+ * @method \Cms\Model\Role\Query\Field orderDescName()
+ * @method \Cms\Model\Role\Query\Field andField($fieldName, $tableName = null)
+ * @method \Cms\Model\Role\Query\Field where($fieldName, $tableName = null)
+ * @method \Cms\Model\Role\Query\Field orField($fieldName, $tableName = null)
+ * @method \Cms\Model\Role\Query\Join join($tableName, $targetTableName = null)
+ * @method \Cms\Model\Role\Query\Join joinLeft($tableName, $targetTableName = null)
+ * @method \Cms\Model\Role\Record[] find()
+ * @method \Cms\Model\Role\Record findFirst()
+ * @method \Cms\Model\Role\Record findPk($value)
  */
 class Query extends \Mmi\Dao\Query {
 
@@ -28,76 +38,6 @@ class Query extends \Mmi\Dao\Query {
 	 */
 	public static function factory($daoClassName = null) {
 		return new self($daoClassName);
-	}
-
-	/**
-	 * @return \Cms\Model\Role\Query\Field
-	 */
-	public function whereId() {
-		return $this->where('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Role\Query\Field
-	 */
-	public function andFieldId() {
-		return $this->andField('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Role\Query\Field
-	 */
-	public function orFieldId() {
-		return $this->orField('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Role\Query\Field
-	 */
-	public function orderAscId() {
-		return $this->orderAsc('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Role\Query\Field
-	 */
-	public function orderDescId() {
-		return $this->orderDesc('id');
-	}
-
-	/**
-	 * @return \Cms\Model\Role\Query\Field
-	 */
-	public function whereName() {
-		return $this->where('name');
-	}
-
-	/**
-	 * @return \Cms\Model\Role\Query\Field
-	 */
-	public function andFieldName() {
-		return $this->andField('name');
-	}
-
-	/**
-	 * @return \Cms\Model\Role\Query\Field
-	 */
-	public function orFieldName() {
-		return $this->orField('name');
-	}
-
-	/**
-	 * @return \Cms\Model\Role\Query\Field
-	 */
-	public function orderAscName() {
-		return $this->orderAsc('name');
-	}
-
-	/**
-	 * @return \Cms\Model\Role\Query\Field
-	 */
-	public function orderDescName() {
-		return $this->orderDesc('name');
 	}
 
 }

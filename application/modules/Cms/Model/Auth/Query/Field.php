@@ -3,14 +3,14 @@
 namespace Cms\Model\Auth\Query;
 
 /**
- * @method \Cms\Model\Auth\Query equals() equals($value)
- * @method \Cms\Model\Auth\Query notEquals() notEquals($value)
- * @method \Cms\Model\Auth\Query greater() greater($value)
- * @method \Cms\Model\Auth\Query less() less($value)
- * @method \Cms\Model\Auth\Query greaterOrEquals() greaterOrEquals($value)
- * @method \Cms\Model\Auth\Query lessOrEquals() lessOrEquals($value)
- * @method \Cms\Model\Auth\Query like() like($value)
- * @method \Cms\Model\Auth\Query ilike() ilike($value)
+ * @method \Cms\Model\Auth\Query equals($value)
+ * @method \Cms\Model\Auth\Query notEquals($value)
+ * @method \Cms\Model\Auth\Query greater($value)
+ * @method \Cms\Model\Auth\Query less($value)
+ * @method \Cms\Model\Auth\Query greaterOrEquals($value)
+ * @method \Cms\Model\Auth\Query lessOrEquals($value)
+ * @method \Cms\Model\Auth\Query like($value)
+ * @method \Cms\Model\Auth\Query ilike($value)
  */
 class Field extends \Mmi\Dao\Query\Field {
 
