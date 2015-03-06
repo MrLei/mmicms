@@ -16,7 +16,7 @@ class File extends ElementAbstract {
 	 * Informacje o zuploadowanym pliku
 	 * @var array
 	 */
-	private $_fileInfo = array();
+	private $_files = array();
 
 	/**
 	 * Buduje pole
@@ -32,21 +32,13 @@ class File extends ElementAbstract {
 	 */
 	public function init() {
 		$fieldName = $this->_options['name'];
-		$files = \Mmi\Controller\Front::getInstance()->getRequest()->getFiles()->toArray();
-		if (!isset($files[$fieldName]) || empty($files[$fieldName])) {
+		//tablica obiektów file
+		$files = \Mmi\Controller\Front::getInstance()->getRequest()->getFiles();
+		//brak pliku dla tego elementu formularza
+		if (!$files->{$fieldName}) {
 			return;
 		}
-		//pojedynczy upload
-		if (!array_key_exists(0, $files[$fieldName])) {
-			$files[$fieldName] = array($files[$fieldName]);
-		}
-		$this->_fileInfo = $files[$fieldName];
-		foreach ($this->_fileInfo as $key => $file) {
-			//TODO: add validators here
-			if ($file['type'] == 'image/x-ms-bmp') {
-				unset($this->_fileInfo[$key]);
-			}
-		}
+		$this->_files = $files->{$fieldName};
 		return $this;
 	}
 

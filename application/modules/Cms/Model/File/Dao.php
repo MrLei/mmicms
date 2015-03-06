@@ -95,35 +95,37 @@ class Dao extends \Mmi\Dao {
 	public static function appendFiles($object, $id = null, array $files = array()) {
 		foreach ($files as $fileSet) {
 			foreach ($fileSet as $file) {
+				/* @var $file \Mmi\Controller\Request\File */
+				//pomijanie plików typu bmp (bitmapy windows)
+				if ($file->type == 'image/x-ms-bmp') {
+					continue;
+				}
 				$record = new \Cms\Model\File\Record();
-				$name = md5(microtime(true) . $file['tmp_name']) . substr($file['name'], strrpos($file['name'], '.'));
+				//nowa nazwa pliku (md5)
+				$name = md5(microtime(true) . $file->tmpName) . substr($file->name, strrpos($file->name, '.'));
+				//określanie ścieżki
 				$dir = DATA_PATH . '/' . $name[0] . $name[1] . $name[2];
+				//tworzenie ścieżki
 				if (!file_exists($dir)) {
 					mkdir($dir, 0777, true);
 				}
-				chmod($file['tmp_name'], 0664);
-				copy($file['tmp_name'], $dir . '/' . $name);
-				$class = explode('/', $file['type']);
-				if (isset($file['title'])) {
-					$record->title = $file['title'];
-				}
-				if (isset($file['author'])) {
-					$record->author = $file['author'];
-				}
-				if (isset($file['source'])) {
-					$record->source = $file['source'];
-				}
+				//zmiana uprawnień i kopiowanie pliku
+				chmod($file->tmpName, 0664);
+				copy($file->tmpName, $dir . '/' . $name);
+				$class = explode('/', $file->type);
+				//przypisywanie pól w rekordzie
 				$record->class = $class[0];
-				$record->mimeType = $file['type'];
+				$record->mimeType = $file->type;
 				$record->name = $name;
-				$record->original = $file['name'];
-				$record->size = $file['size'];
+				$record->original = $file->name;
+				$record->size = $file->size;
 				$record->dateAdd = date('Y-m-d');
 				$record->dateModify = date('Y-m-d');
 				$record->object = $object;
 				$record->objectId = $id;
 				$record->cmsAuthId = \Core\Registry::$auth->getId();
 				$record->active = 1;
+				//zapis rekordu
 				$record->save();
 			}
 		}

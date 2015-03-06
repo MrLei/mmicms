@@ -20,4 +20,27 @@ class File {
 	
 	public $type;
 	
+	/**
+	 * 
+	 * @param array $data
+	 */
+	public function __construct(array $data) {
+		//brak nazwy
+		if (!isset($data['name'])) {
+			throw new \Exception('\Mmi\Controller\Request\File: name not specified');
+		}
+		//brak tmp_name
+		if (!isset($data['tmp_name'])) {
+			throw new \Exception('\Mmi\Controller\Request\File: tmp_name not specified');
+		}
+		//brak rozmiaru
+		if (!isset($data['size'])) {
+			throw new \Exception('\Mmi\Controller\Request\File: size not specified');
+		}
+		$this->name = $data['name'];
+		$this->type = \Mmi\Lib::mimeType($data['tmp_name']);
+		$this->tmpName = $data['tmp_name'];
+		$this->size = $data['size'];
+	}
+	
 }
