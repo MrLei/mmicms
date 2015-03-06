@@ -146,9 +146,16 @@ abstract class FormRecord extends FormCore {
 			throw new \Exception('Save method unsupported: ' . $this->_recordSaveMethod);
 		}
 		$data = array();
+		//pobieranie danych z elementów
 		foreach ($this->getElements() as $element) {
+			//ignorowanie CTRL
+			if ($element->getName() == $this->_formBaseName . '__ctrl') {
+				continue;
+			}
+			//dodawanie wartości do tabeli
 			$data[$element->getName()] = $element->getValue();
 		}
+		//ustawianie rekordu na podstawie danych
 		$this->_record->setFromArray($this->prepareSaveData($data));
 		return $this->_record->{$this->_recordSaveMethod}();
 	}

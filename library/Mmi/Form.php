@@ -43,7 +43,12 @@ abstract class Form extends Form\Base\Form {
 		
 		//inicjalizacja formularza
 		$this->init();
-
+		
+		//dodawanie CTRL
+		$this->addElementHidden($this->_formBaseName . '__ctrl')
+			->setIgnore()
+			->setOption('id', $this->_formBaseName . '__ctrl');
+		
 		//jeśli zabezpieczony formularz, odczytujemy hash z sesji
 		$this->_hash = md5($this->_className);
 		if (!isset($options['ajax']) && $this->_secured) {
@@ -69,10 +74,9 @@ abstract class Form extends Form\Base\Form {
 			$this->_sessionNamespace = new \Mmi\Session\Space('\Mmi\Form');
 			$this->_sessionNamespace->{$this->_formBaseName} = ($this->_hash = md5($this->_className . microtime(true)));
 		}
+		
 		//tworzenie pola ctrl
-		$this->addElementHidden($this->_formBaseName . '__ctrl')
-			->setIgnore()
-			->setOption('id', $this->_formBaseName . '__ctrl')
+		$this->getElement($this->_formBaseName . '__ctrl')
 			->setValue(\Mmi\Lib::hashTable(array('hash' => $this->_hash, 'class' => $this->_className, 'options' => $this->getOptions())));
 	}
 
