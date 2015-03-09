@@ -24,6 +24,7 @@ class Admin extends \MmiCms\Controller\Admin {
 		}
 		if (!$form->isSaved()) {
 			$this->getMessenger()->addMessage('Logowanie niepoprawne', false);
+			return;
 		}
 		$this->getMessenger()->addMessage('Zalogowano poprawnie', true);
 		\Cms\Model\Stat\Dao::hit('admin-login', $authRecord->id);
