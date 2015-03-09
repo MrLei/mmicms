@@ -100,6 +100,21 @@ class Router {
 	public function decodeUrl($url) {
 		//startowo parametry z GET
 		$params = $this->_decodeGet();
+		
+		//domyślne parametry
+		$params['controller'] = isset($params['controller']) ? $params['controller'] : 'index';
+		$params['action'] = isset($params['action']) ? $params['action'] : 'index';
+		$params['skin'] = isset($params['skin']) ? $params['skin'] : $this->_defaultSkin;
+
+		//jeśli aplikacja jest językowa
+		if ($this->_defaultLanguage) {
+			$params['lang'] = isset($params['lang']) ? $params['lang'] : $this->_defaultLanguage;
+		}
+
+		//jeśli ustawiony moduł, url nie jest analizowany
+		if (isset($params['module'])) {
+			return $params;
+		}
 
 		$filteredUrl = html_entity_decode($url, ENT_HTML401 | ENT_HTML5 | ENT_QUOTES, 'UTF-8');
 
@@ -119,15 +134,6 @@ class Router {
 			$params['module'] = 'core';
 		}
 
-		//domyślne parametry
-		$params['controller'] = isset($params['controller']) ? $params['controller'] : 'index';
-		$params['action'] = isset($params['action']) ? $params['action'] : 'index';
-		$params['skin'] = isset($params['skin']) ? $params['skin'] : $this->_defaultSkin;
-
-		//jeśli aplikacja jest językowa
-		if ($this->_defaultLanguage) {
-			$params['lang'] = isset($params['lang']) ? $params['lang'] : $this->_defaultLanguage;
-		}
 		return $params;
 	}
 
