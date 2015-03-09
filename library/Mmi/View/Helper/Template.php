@@ -45,7 +45,7 @@ class Template extends HelperAbstract {
 		$input = preg_replace_callback('/\{@([\*]+)?(.[^@\^]+)?[\^]?(.[^@\^]+)?@\}/', array(&$this, '_url'), $input);
 		
 		//zmiana zmiennych obiektowych w linkach np. $request->test
-		$input = preg_replace('/%7B%24([a-z0-9A-Z\.\-\_\[\]\'\"\(\)]+)%3E([a-z0-9A-Z\.\-\_\[\]\'\"\(\)]+)%7D/', '{$$1>$2}', $input);
+		$input = preg_replace_callback('/%7B((%3E|%28|%29|%24)?([a-zA-Z\.\-\_\[\]\'\"\(\)]+)?)+%7D/', array(&$this, '_routerLinks'), $input);
 		
 		//zmiana zmiennych skalarnych lub tablicowych w linkach np. $requestTest
 		$input = preg_replace('/%7B%24([a-z0-9A-Z\.\-\_\[\]\'\"\(\)]+)%7D/', '{$$1}', $input);
@@ -182,6 +182,15 @@ class Template extends HelperAbstract {
 				break;
 		}
 		return \Mmi\Controller\Front::getInstance()->getView()->getHelper('url')->url($params, true, $absolute, $https);
+	}
+	
+	/**
+	 * Dekoduje linki z routera
+	 * @param array $matches dopasowania
+	 * @return String
+	 */
+	private function _routerLinks(array $matches) {
+		return str_replace(array('%7B', '%3E', '%28', '%29', '%24', '%7D'), array('{', '>', '(', ')', '$', '}'), $matches[0]);
 	}
 
 	/**
