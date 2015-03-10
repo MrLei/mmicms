@@ -10,6 +10,9 @@
 
 namespace Mmi\Controller\Router;
 
+/**
+ * Obiekt konfiguracji routera
+ */
 class Config {
 
 	/**
@@ -32,7 +35,34 @@ class Config {
 		$route->pattern = $pattern;
 		$route->replace = $replace;
 		$route->default = $default;
-		$this->_data[$name] = $route;
+		return $this->addRoute($route);
+	}
+
+	/**
+	 * Dodaje routę do stosu rout
+	 * @param \Mmi\Controller\Router\Config\Route $route
+	 * @return \Mmi\Controller\Router\Config
+	 */
+	public function addRoute(\Mmi\Controller\Router\Config\Route $route) {
+		$this->_data[$route->name] = $route;
+		return $this;
+	}
+	
+	/**
+	 * Ustawia routy
+	 * @param array $routes tablica z obiektami rout
+	 * @param boolean $replace czy zastąpić obecną tablicę
+	 * @return \Mmi\Controller\Router\Config
+	 */
+	public function setRoutes(array $routes, $replace = false) {
+		if ($replace) {
+			$this->_data = array();
+		}
+		//dodaje routy z tablicy
+		foreach ($routes as $route) {
+			/* @var $route \Mmi\Controller\Router\Config\Route */
+			$this->addRoute($route);
+		}
 		return $this;
 	}
 

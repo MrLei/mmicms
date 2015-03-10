@@ -27,11 +27,10 @@ class Router extends \Mmi\Controller\Router\Config {
 		$this->setRoute(12, '/^aktualnosci-([0-9]+)/', array('module' => 'cms', 'controller' => 'news', 'action' => 'index', 'pages' => '$1'));
 		$this->setRoute(13, '/^aktualnosci\/([0-9]+)/', array('module' => 'cms', 'controller' => 'news', 'action' => 'index', 'p' => '$1'));
 		$this->setRoute(14, '/^aktualnosci,(.[^\/]+)/', array('module' => 'cms', 'controller' => 'news', 'action' => 'display', 'uri' => '$1'));
-		
-		$this->setRoute(10000, '/^$/', array('module' => 'core'), array('controller' => 'index', 'action' => 'index'));
-		$this->setRoute(10001, '/^([a-z]+)$/', array('module' => '$1'), array('controller' => 'index', 'action' => 'index'));
-		$this->setRoute(10002, '/^([a-z]+)\/([a-z\-]+)$/', array('module' => '$1', 'controller' => '$2'), array('action' => 'index'));
-		$this->setRoute(10003, '/^([a-z]+)\/([a-z\-]+)\/([a-z]+)$/', array('module' => '$1', 'controller' => '$2', 'action' => '$3'));
+
+		//dodanie rout CMS
+		$cmsConfig = new \Cms\Config\Router();
+		$this->setRoutes($cmsConfig->getRoutes());
 	}
 
 }
