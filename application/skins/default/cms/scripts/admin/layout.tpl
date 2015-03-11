@@ -8,7 +8,7 @@
 		{headLink()->appendStyleSheet($baseUrl . '/default/cms/css/kickstart.css')}
 		{headLink()->appendStyleSheet($baseUrl . '/default/cms/css/style.css')}
 		{headLink()}
-		{headScript()->prependFile($baseUrl . '/library/js/jquery/jquery.js')}
+		{headScript()->prependFile($baseUrl . '/default/cms/js/jquery/jquery.js')}
 		{headScript()->appendFile($baseUrl . '/default/cms/js/kickstart.js')}
 		{headScript()->appendFile($baseUrl . '/default/cms/js/form.js')}
 		{headScript()}
