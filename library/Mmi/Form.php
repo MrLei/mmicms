@@ -118,7 +118,7 @@ abstract class Form extends \Mmi\OptionObject {
 
 		//ustawianie nowego ctrl
 		$this->getElement($this->_formBaseName . '__ctrl')
-			->setValue(\Mmi\Lib::hashTable(array('hash' => $hash, 'class' => $class, 'options' => $this->getOptions())));
+			->setValue(\Mmi\Lib::hashTable(array('hash' => $hash, 'class' => $class, 'recordClass' => $this->getRecordClass(), 'id' => $this->getRecordClass() ? $this->getRecord()->id : null, 'options' => $this->getOptions())));
 	}
 
 	/**
@@ -295,6 +295,17 @@ abstract class Form extends \Mmi\OptionObject {
 	public function getRecord() {
 		return $this->_record;
 	}
+	
+	/**
+	 * Pobiera nazwę klasy rekordu
+	 * @return string
+	 */
+	public function getRecordClass() {
+		if (!$this->hasRecord()) {
+			return;
+		}
+		return get_class($this->_record);
+	}
 
 	/**
 	 * Czy do formularza przypisany jest active record, jeśli nie, a podana jest nazwa, stworzy obiekt rekordu
@@ -303,7 +314,7 @@ abstract class Form extends \Mmi\OptionObject {
 	public function hasRecord() {
 		return $this->_record instanceof \Mmi\Dao\Record;
 	}
-
+	
 	/**
 	 * Sprawdza czy rekord zawiera dane
 	 * @return boolean
