@@ -20,7 +20,7 @@ class Router extends \Mmi\Controller\Router\Config {
 		$this->setRoute(110002, '/^([a-zA-Z]+)\/([a-zA-Z\-]+)$/', array('module' => '$1', 'controller' => '$2'), array('action' => 'index'));
 		
 		//moduł + kontroler + akcja: /news/article/display
-		$this->setRoute(110003, '/^([a-zA-Z]+)\/([a-zA-Z\-]+)\/([a-z]+)$/', array('module' => '$1', 'controller' => '$2', 'action' => '$3'));
+		$this->setRoute(110003, '/^([a-zA-Z]+)\/([a-zA-Z\-]+)\/([a-zA-Z]+)$/', array('module' => '$1', 'controller' => '$2', 'action' => '$3'));
 		
 	}
 
