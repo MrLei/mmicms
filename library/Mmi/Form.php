@@ -106,7 +106,7 @@ abstract class Form extends \Mmi\OptionObject {
 
 		//zapis do rekordu jeśli istnieje
 		$this->save();
-		
+
 		//wywoływanie metody użytkownika (po zapisie)
 		$this->lateInit();
 
@@ -164,10 +164,11 @@ abstract class Form extends \Mmi\OptionObject {
 	 * @return \Mmi\Form\Element\ElementAbstract
 	 */
 	public function addElement(\Mmi\Form\Element\ElementAbstract $element) {
-		$this->_elements[$element->getName()] = $element;
-		return $element->setForm($this)
-				->setOption('id', $this->_formBaseName . '_' . $element->getName())
-				->setOption('class', 'field ' . $element->getOption('class'));
+		return $this->_elements[$element->getName()] = $element
+			//ustawianie opcji na elemencie
+			->setForm($this)
+			->setOption('id', $this->_formBaseName . '_' . $element->getName())
+			->setOption('class', 'field ' . $element->getOption('class'));
 	}
 
 	/**
@@ -207,10 +208,10 @@ abstract class Form extends \Mmi\OptionObject {
 		if (!$this->isMine()) {
 			return false;
 		}
-		
+
 		//odczytywanie danych CTRL
 		$options = \Mmi\Lib::unhashTable($this->_ctrl);
-		
+
 		//sprawdzenie zgodności klas z CTRL z bieżącą klasą
 		if ($options['class'] != get_class($this)) {
 			return false;
@@ -220,7 +221,9 @@ abstract class Form extends \Mmi\OptionObject {
 			return $options['hash'] == \Mmi\Session\Space::factory('\Mmi\Form')->{$this->_formBaseName};
 		}
 		$validationResult = true;
+		//walidacja poszczególnych elementów formularza
 		foreach ($this->getElements() as $element) {
+			//jeśli nieprawidłowy walidacja trwa dalej, ale wynik jest już negatywny
 			if (!$element->isValid()) {
 				$validationResult = false;
 			}
@@ -295,7 +298,7 @@ abstract class Form extends \Mmi\OptionObject {
 	public function getRecord() {
 		return $this->_record;
 	}
-	
+
 	/**
 	 * Pobiera nazwę klasy rekordu
 	 * @return string
@@ -314,7 +317,7 @@ abstract class Form extends \Mmi\OptionObject {
 	public function hasRecord() {
 		return $this->_record instanceof \Mmi\Dao\Record;
 	}
-	
+
 	/**
 	 * Sprawdza czy rekord zawiera dane
 	 * @return boolean
@@ -408,7 +411,9 @@ abstract class Form extends \Mmi\OptionObject {
 	 */
 	public function render() {
 		$html = $this->start();
+		//rendering poszczególnych elementów
 		foreach ($this->_elements AS $element) {
+			/* @var $element \Mmi\Form\Element\ElementAbstract */
 			$html .= $element->__toString();
 		}
 		return $html . $this->end();
@@ -420,11 +425,8 @@ abstract class Form extends \Mmi\OptionObject {
 	 * @return string
 	 */
 	public function __toString() {
-		try {
-			return $this->render();
-		} catch (\Exception $e) {
-			return $e->getMessage();
-		}
+		//nie rzuci wyjątkiem, gdyż wyjątki są wyłapane w elementach
+		return $this->render();
 	}
 
 	//skróty w interfejsie
