@@ -28,8 +28,7 @@ class Comment extends \Mmi\Controller\Action {
 		}
 		$form = new \Cms\Form\Comment(new \Cms\Model\Comment\Record(), array(
 			'object' => $this->object,
-			'objectId' => $this->objectId,
-			'withRatings' => ($this->withRatings) ? $this->withRatings : false,
+			'objectId' => $this->objectId
 		));
 		if ($form->isSaved()) {
 			$this->getMessenger()->addMessage('Dodano komentarz', true);

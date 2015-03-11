@@ -25,11 +25,6 @@ class Comment extends \Mmi\Form {
 			->addValidatorNotEmpty();
 
 
-		if ($this->getOption('withRatings') === true) {
-			$this->addElementText('stars')
-				->setLabel('Oceń artykuł');
-		}
-
 		if (!\Core\Registry::$auth->hasIdentity()) {
 			$this->addElementText('signature')
 				->setLabel('podpis');

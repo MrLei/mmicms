@@ -1,4 +1,4 @@
-{if !php_empty($errors)}
+{if !$errors|isEmpty}
 	<div>
 		<span class="marker"></span>
 		<ul>

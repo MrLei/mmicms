@@ -20,7 +20,7 @@ class Definition extends \Mmi\Form {
 			->addValidatorStringLength(6, 25)
 			->addValidatorRecordUnique('\Cms\Model\Mail\Definition\Dao', 'name', $this->_record->id);
 
-		$this->addElementSelect('mailServerId')
+		$this->addElementSelect('cmsMailServerId')
 			->setLabel('Połącznie')
 			->setRequired()
 			->setMultiOptions(\Cms\Model\Mail\Server\Dao::getMultioptions());
