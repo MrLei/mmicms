@@ -13,35 +13,44 @@ namespace Cms\Controller;
 class Form extends \Mmi\Controller\Action {
 
 	public function validateAction() {
+		//typ odpowiedzi: plain
 		$this->getResponse()->setTypePlain();
+		//wyłączenie layoutu
+		$this->view->setLayoutDisabled();
+		
+		//sprawdzenie obecności obowiązkowych pól w poscie
 		if (!$this->getPost()->ctrl || !$this->getPost()->field) {
 			return '';
 		}
+		//ekstrakcja opcji z CTRL
 		$options = \Mmi\Lib::unhashTable($this->getPost()->ctrl);
-		$field = $this->getPost()->field;
-		if (!isset($options['class'])) {
+		//brak obowiązkowych opcji w CTRL
+		if (!isset($options['class']) || !isset($options['options']) || !isset($options['recordClass'])) {
 			return '';
 		}
-		if (!isset($options['options'])) {
-			return '';
-		}
+		//nazwa klasy forma
 		$class = $options['class'];
-		$formOptions = $options['options'];
-		$formOptions['ajax'] = true;
-		$form = new $class(null, $formOptions);
-		$element = $form->getElement($field);
+		//nazwa klasy rekordu
+		$recordClass = $options['recordClass'];
+		//powoływanie forma
+		$form = new $class($recordClass ? new $recordClass(isset($options['id']) ? $options['id'] : null) : null, $options['options']);
+		$form->setSecured(false);
+		/* @var $form \Mmi\Form */
+		//pobieranie elementu do walidacji
+		$element = $form->getElement($this->getPost()->field);
+		//jeśli brak elementu - wyjście
 		if (!$element instanceof \Mmi\Form\Element\ElementAbstract) {
 			return '';
 		}
-		if ($element->noAjax) {
-			return '';
-		}
-		$element->value = $element->applyFilters($this->getPost()->value);
+		//ustawienie wartości elementu
+		$element->setValue($this->getPost()->value);
+		//walidacja i zwrot wyniku
 		if (!$element->isValid() && $element->hasErrors()) {
 			$this->view->errors = $element->getErrors();
-		} else {
-			return '';
+			return;
 		}
+		//poprawna walidacja
+		return '';
 	}
 
 }
