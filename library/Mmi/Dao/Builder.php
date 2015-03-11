@@ -10,13 +10,18 @@
 
 namespace Mmi\Dao;
 
+/**
+ * Klasa budowniczego struktur DAO/Record/Query
+ */
 class Builder {
 
 	/**
 	 * Przebudowuje wszystkie Dao, Record i Query
 	 */
 	public static function rebuildAll() {
+		//pobiera wszystkie tabele z bazy
 		foreach (\Core\Registry::$db->tableList(\Core\Registry::$config->db->schema) as $tableName) {
+			//buduje struktruę dla tabeli
 			self::buildFromTableName($tableName);
 		}
 	}
@@ -44,14 +49,14 @@ class Builder {
 	}
 
 	/**
-	 * Tworzy lub aktualizuje klasę DAO
+	 * Tworzy klasę DAO, jeśli istnieje nic nie robi
 	 * @param string $tableName
 	 */
 	protected static function _updateDao($tableName) {
+		//prefixy nazw
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
-		$path = $pathPrefix . '/Dao.php';
-		self::_mkdirRecursive($path);
+		//dao tylko z nazwą tabeli
 		$daoCode = '<?php' . "\n\n" .
 			'namespace ' . $classPrefix . ";\n\n" .
 			'class Dao extends \Mmi\Dao {' .
@@ -60,11 +65,13 @@ class Builder {
 			$tableName . '\';' .
 			"\n\n" .
 			'}' . "\n";
+		//nic nie robi jeśli dao już istnieje
 		if (file_exists($path)) {
 			echo 'DAO completed.';
 			return;
 		}
-		file_put_contents($path, $daoCode);
+		//zapis pliku
+		file_put_contents(self::_mkdirRecursive($pathPrefix . '/Dao.php'), $daoCode);
 	}
 
 	/**
@@ -72,31 +79,40 @@ class Builder {
 	 * @param string $tableName
 	 */
 	protected static function _updateRecord($tableName) {
+		//prefixy nazw
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
 		$daoClassName = '\\' . $classPrefix . '\Dao';
-		$path = $pathPrefix . '/Record.php';
-		self::_mkdirRecursive($path);
 		$recordCode = '<?php' . "\n\n" .
 			'namespace ' . $classPrefix . ";\n\n" .
 			'class Record extends \Mmi\Dao\Record {' .
 			"\n\n" .
 			'}' . "\n";
+		//ścieżka do pliku
+		$path = self::_mkdirRecursive($pathPrefix . '/Record.php');
+		//wczytanie istniejącego rekordu
 		if (file_exists($path)) {
 			$recordCode = file_get_contents($path);
 		}
+		//odczyt struktury tabeli
 		$structure = $daoClassName::getTableStructure();
+		//błędna struktrura lub brak
 		if (empty($structure)) {
 			throw new\Exception('\Mmi\Dao\Builder: no table found, or table invalid in ' . $daoClassName);
 		}
 		$variableString = "\n";
+		//generowanie pól rekordu
 		foreach ($structure as $fieldName => $fieldDetails) {
 			$variables[] = \Mmi\Dao::convertUnderscoreToCamelcase($fieldName);
 			$variableString .= "\t" . 'public $' . \Mmi\Dao::convertUnderscoreToCamelcase($fieldName) . ";\n";
 		}
+		//sprawdzanie istnienia pól rekordu
 		if (preg_match_all('/\tpublic \$([a-zA-Z0-9\_]+)[\;|\s\=]/', $recordCode, $codeVariables) && isset($codeVariables[1])) {
+			//za dużo względem bazy
 			$diffRecord = array_diff($codeVariables[1], $variables);
+			//brakujące względem DB
 			$diffDb = array_diff($variables, $codeVariables[1]);
+			//pola się nie zgadzają
 			if (!empty($diffRecord) || !empty($diffDb)) {
 				throw new \Exception('RECORD for: "' . $tableName . '" has invalid fields: ' . implode(', ', $diffRecord) . ', and missing: ' . implode(',', $diffDb));
 			}
@@ -104,6 +120,7 @@ class Builder {
 			return;
 		}
 		$recordCode = preg_replace('/(class Record extends [\\a-zA-Z0-9]+\s\{?\r?\n?)/', '$1' . $variableString, $recordCode);
+		//zapis pliku
 		file_put_contents($path, $recordCode);
 	}
 
@@ -112,11 +129,11 @@ class Builder {
 	 * @param string $tableName
 	 */
 	protected static function _updateQueryField($tableName) {
+		//prefixy nazw
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
 		$queryClassName = $classPrefix . '\Query';
-		$path = $pathPrefix . '/Query/Field.php';
-		self::_mkdirRecursive($path);
+		//anotacje dla metod porównujących (equals itp.)
 		$queryCode = '<?php' . "\n\n" .
 			'namespace ' . $classPrefix . '\Query' . ";\n\n" .
 			'/**' . "\n" .
@@ -132,7 +149,8 @@ class Builder {
 			'class Field extends \Mmi\Dao\Query\Field {' .
 			"\n\n" .
 			'}' . "\n";
-		file_put_contents($path, $queryCode);
+		//zapis pliku
+		file_put_contents(self::_mkdirRecursive($pathPrefix . '/Query/Field.php'), $queryCode);
 	}
 
 	/**
@@ -140,11 +158,11 @@ class Builder {
 	 * @param string $tableName
 	 */
 	protected static function _updateQueryJoin($tableName) {
+		//prefixy nazw
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
 		$queryClassName = $classPrefix . '\Query';
-		$path = $pathPrefix . '/Query/Join.php';
-		self::_mkdirRecursive($path);
+		//anotacja dla metody on()
 		$queryCode = '<?php' . "\n\n" .
 			'namespace ' . $classPrefix . '\Query' . ";\n\n" .
 			'/**' . "\n" .
@@ -153,7 +171,8 @@ class Builder {
 			'class Join extends \Mmi\Dao\Query\Join {' .
 			"\n\n" .
 			'}' . "\n";
-		file_put_contents($path, $queryCode);
+		//zapis pliku
+		file_put_contents(self::_mkdirRecursive($pathPrefix . '/Query/Join.php'), $queryCode);
 	}
 
 	/**
@@ -161,16 +180,27 @@ class Builder {
 	 * @param string $tableName
 	 */
 	protected static function _updateQuery($tableName) {
+		//prefixy nazw
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
+		//nazwa klasy
 		$className = $classPrefix . '\Query';
+		//nazwa klasy pola
 		$fieldClassName = $classPrefix . '\Query\Field';
+		//nazwa klasy złączenia
 		$joinClassName = $classPrefix . '\Query\Join';
+		//nazwa rekordu
 		$recordClassName = $classPrefix . '\Record';
+		//nazwa DAO
 		$daoClassName = '\\' . $classPrefix . '\Dao';
+		
+		//ścieżka
 		$path = $pathPrefix . '/Query.php';
+		self::_mkdirRecursive($path);
+		
 		//odczyt struktury
 		$structure = $daoClassName::getTableStructure();
+		//pusta, lub błędna struktura
 		if (empty($structure)) {
 			throw new \Exception('\Mmi\Dao\Builder: no table ' . $tableName . ' found, or table invalid in ' . $daoClassName);
 		}
@@ -179,13 +209,18 @@ class Builder {
 		//budowanie komentarzy do metod
 		foreach ($structure as $fieldName => $fieldDetails) {
 			$fieldName = ucfirst(\Mmi\Dao::convertUnderscoreToCamelcase($fieldName));
+			//metody where... np. whereActive()
 			$methods .= ' * @method \\' . $fieldClassName . ' where' . $fieldName . '()' . "\n";
+			//metody andField... np. andFieldActive()
 			$methods .= ' * @method \\' . $fieldClassName . ' andField' . $fieldName . '()' . "\n";
+			//orField
 			$methods .= ' * @method \\' . $fieldClassName . ' orField' . $fieldName . '()' . "\n";
+			//orderAsc
 			$methods .= ' * @method \\' . $fieldClassName . ' orderAsc' . $fieldName . '()' . "\n";
+			//orderDesc
 			$methods .= ' * @method \\' . $fieldClassName . ' orderDesc' . $fieldName . '()' . "\n";
 		}
-
+		//łączenie anotacji stałych dla klasy z anotacjami __call dla pól
 		$queryCode = '<?php' . "\n\n" .
 			'namespace ' . $classPrefix . ";\n\n" .
 			'/**' . "\n" .
@@ -227,11 +262,10 @@ class Builder {
 	 */
 	protected static function _getPathPrefixByTableName($tableName) {
 		$table = explode('_', $tableName);
-		if (!isset($table[0])) {
-			throw new\Exception('\Mmi\Dao\Builder: invalid table name');
-		}
+		//klasy leżą w plikach w /Model/
 		$baseDir = APPLICATION_PATH . '/modules/' . ucfirst($table[0]) . '/Model/';
 		unset($table[0]);
+		//dodawanie kolejnych zagłębień
 		foreach ($table as $subFolder) {
 			$baseDir .= ucfirst($subFolder) . '/';
 		}
@@ -246,11 +280,10 @@ class Builder {
 	 */
 	protected static function _getClassNamePrefixByTableName($tableName) {
 		$table = explode('_', $tableName);
-		if (!isset($table[0])) {
-			throw new\Exception('\Mmi\Dao\Builder: invalid table name');
-		}
+		//klasy leżą w namespace'ach Model w modułach
 		$className = ucfirst($table[0]) . '\\Model\\';
 		unset($table[0]);
+		//dodawanie kolejnych zagłębień
 		foreach ($table as $subFolder) {
 			$className .= ucfirst($subFolder) . '\\';
 		}
@@ -260,11 +293,14 @@ class Builder {
 	/**
 	 * Tworzy rekurencyjnie strukturę
 	 * @param string $path
+	 * @return string ścieżka wejściowa
 	 */
 	protected static function _mkdirRecursive($path) {
+		//ekstrakcja nazwy katalogu
 		$dirPath = dirname($path);
 		$dirs = explode('/', $dirPath);
 		$currentDir = '';
+		//tworzenie katalogów po kolei
 		foreach ($dirs as $dir) {
 			$currentDir .= $dir . '/';
 			if (file_exists($currentDir)) {
@@ -272,6 +308,7 @@ class Builder {
 			}
 			mkdir($currentDir);
 		}
+		return $path;
 	}
 
 }
