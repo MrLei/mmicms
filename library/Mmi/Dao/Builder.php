@@ -27,16 +27,26 @@ class Builder {
 	 * @throws Exception
 	 */
 	public static function buildFromTableName($tableName) {
+		//jeśli DB_CHANGELOG nie tworzy obiektów
 		if ($tableName == 'DB_CHANGELOG') {
 			return;
 		}
+		//aktualizacja DAO
 		self::_updateDao($tableName);
+		//aktualizacja QUERY-FIELD
 		self::_updateQueryField($tableName);
+		//aktualizacja QUERY-JOIN
 		self::_updateQueryJoin($tableName);
+		//aktualizacja QUERY
 		self::_updateQuery($tableName);
+		//aktualizacja RECORD
 		self::_updateRecord($tableName);
 	}
 
+	/**
+	 * Tworzy lub aktualizuje klasę DAO
+	 * @param string $tableName
+	 */
 	protected static function _updateDao($tableName) {
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
@@ -97,6 +107,10 @@ class Builder {
 		file_put_contents($path, $recordCode);
 	}
 
+	/**
+	 * Tworzy lub aktualizuje pole query
+	 * @param string $tableName
+	 */
 	protected static function _updateQueryField($tableName) {
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
@@ -121,6 +135,10 @@ class Builder {
 		file_put_contents($path, $queryCode);
 	}
 
+	/**
+	 * Tworzy lub aktualizuje obiekt złączenia (JOIN)
+	 * @param string $tableName
+	 */
 	protected static function _updateQueryJoin($tableName) {
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
@@ -240,32 +258,9 @@ class Builder {
 	}
 
 	/**
-	 * Konwertuje bazodanowe nazwy zmiennych na nazwy php
-	 * @param string $dbDataType typ danych
-	 * @return string
+	 * Tworzy rekurencyjnie strukturę
+	 * @param string $path
 	 */
-	protected static function _convertDataType($dbDataType) {
-		switch (strtolower($dbDataType)) {
-			case 'bool':
-			case 'boolean':
-				return 'boolean';
-			case 'integer':
-			case 'int':
-			case 'int64':
-			case 'tinyint':
-			case 'smallint':
-			case 'bigint':
-			case 'bigserial':
-				return 'integer';
-			case 'real':
-			case 'double precision':
-			case 'double':
-			case 'float':
-				return 'float';
-		}
-		return 'string';
-	}
-
 	protected static function _mkdirRecursive($path) {
 		$dirPath = dirname($path);
 		$dirs = explode('/', $dirPath);
