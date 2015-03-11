@@ -25,6 +25,7 @@ class Server extends \Mmi\Form {
 		$this->addElementText('port')
 			->setLabel('Port')
 			->setRequired()
+			->addValidatorInteger(true)
 			->setValue(25)
 			->setDescription('Plain: 25, SSL: 465');
 
