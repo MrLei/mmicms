@@ -1,7 +1,7 @@
 {if $files && !php_empty($files)}
 	<div class="attachments">
 		{if php_isset($files.image)}
-			{headScript()->prependFile($baseUrl . '/library/js/jquery/jquery.js')}
+			{headScript()->prependFile($baseUrl . '/default/cms/js/jquery/jquery.js')}
 			{headScript()->appendFile($baseUrl . '/default/file/js/jquery/lightbox.js')}
 			{headScript()->appendFile($baseUrl . '/default/file/js/gallery.js')}
 			<ul class="imageFiles">

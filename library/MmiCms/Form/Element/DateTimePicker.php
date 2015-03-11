@@ -22,9 +22,9 @@ class DateTimePicker extends \MmiCms\Form\Element\DatePicker {
 		$dateStart = isset($this->_options['dateStart']) ? $this->_options['dateStart'] : 'false';
 		$dateEnd = isset($this->_options['dateEnd']) ? $this->_options['dateEnd'] : 'false';
 		$datepicker = isset($this->_options['datepicker']) ? $this->_options['datepicker'] : 'true';
-		$view->headLink()->appendStylesheet($view->baseUrl . '/library/css/datetimepicker.css');
-		$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
-		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/datetimepicker.js');
+		$view->headLink()->appendStylesheet($view->baseUrl . '/default/cms/css/datetimepicker.css');
+		$view->headScript()->prependFile($view->baseUrl . '/default/cms/js/jquery/jquery.js');
+		$view->headScript()->appendFile($view->baseUrl . '/default/cms/js/jquery/datetimepicker.js');
 		$id = $this->getOption('id');
 		$view->headScript()->appendScript("$(document).ready(function () {
 				$('#$id').datetimepicker({'lang':'pl', step: 15, dateStart: '$dateStart', dateEnd: '$dateEnd', datepicker: '$datepicker', format:'$format', validateOnBlur: true, closeOnDateSelect: false});

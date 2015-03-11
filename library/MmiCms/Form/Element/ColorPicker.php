@@ -18,15 +18,15 @@ class ColorPicker extends \Mmi\Form\Element\Text {
 	 */
 	public function fetchField() {
 		$view = \Mmi\Controller\Front::getInstance()->getView();
-		$view->headScript()->prependFile($view->baseUrl . '/library/js/jquery/jquery.js');
-		$view->headScript()->appendFile($view->baseUrl . '/library/js/jquery/farbtastic.js');
+		$view->headScript()->prependFile($view->baseUrl . '/default/cms/js/jquery/jquery.js');
+		$view->headScript()->appendFile($view->baseUrl . '/default/cms/js/jquery/farbtastic.js');
 		$view->headScript()->appendScript('
 			$(document).ready(function() {
 				$(\'#' . $this->getOption('id') . 'Picker\').farbtastic(\'#' . $this->getOption('id') . '\');
 			});
 		');
 		$this->readonly = 'readonly';
-		$view->headLink()->appendStylesheet($view->baseUrl . '/library/css/farbtastic.css');
+		$view->headLink()->appendStylesheet($view->baseUrl . '/default/cms/css/farbtastic.css');
 		if (!$this->value) {
 			$this->value = '#ffffff';
 		}

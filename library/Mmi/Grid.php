@@ -84,8 +84,8 @@ abstract class Grid {
 		$this->_view = \Mmi\Controller\Front::getInstance()->getView();
 		$this->_request = $this->_view->request;
 		$this->_setDefaultOptions();
-		$this->_view->headScript()->prependFile($this->_view->baseUrl . '/library/js/jquery/jquery.js');
-		$this->_view->headScript()->appendFile($this->_view->baseUrl . '/library/js/grid.js');
+		$this->_view->headScript()->prependFile($this->_view->baseUrl . '/default/cms/js/jquery/jquery.js');
+		$this->_view->headScript()->appendFile($this->_view->baseUrl . '/default/cms/js/grid.js');
 		$class = get_class($this);
 		$this->_id = strtolower(substr($class, strrpos($class, '\\') + 1));
 		$this->setOptions($options);
