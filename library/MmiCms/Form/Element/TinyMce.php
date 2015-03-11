@@ -83,7 +83,7 @@ class TinyMce extends \Mmi\Form\Element\Textarea {
 	 */
 	public function fetchField() {
 		$view = \Mmi\Controller\Front::getInstance()->getView();
-		$view->headScript()->appendFile($view->baseUrl . '/library/js/tiny/tinymce.min.js');
+		$view->headScript()->appendFile($view->baseUrl . '/default/cms/js/tiny/tinymce.min.js');
 
 		switch (isset($this->_options['mode']) ? $this->_options['mode'] : null) {
 			case 'simple':

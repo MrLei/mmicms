@@ -1,4 +1,3 @@
-{headScript()->appendFile($baseUrl . '/library/js/jquery/jquery.js')}
 {headScript()->appendFile($baseUrl . '/default/cms/js/acl.js')}
 <div class="content-box column-left">
 	<div class="content-box-header">

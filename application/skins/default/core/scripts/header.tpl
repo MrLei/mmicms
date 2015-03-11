@@ -9,7 +9,6 @@
 		{headScript()}
 		<meta name="description" content="{navigation()->description()}" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-		<!--[if lte IE 8]><script type="text/javascript" src="{$baseUrl}/library/js/html5.js"></script><![endif]-->
 	</head>
 	<body>
 		<div class="line"></div>

@@ -34,8 +34,8 @@ class Page extends \MmiCms\Controller\Admin {
 		$this->view->widgets = \Cms\Model\Page\Widget\Dao::activeQuery()->find();
 
 		//skrypty js
-		$this->view->headScript()->prependFile($this->view->baseUrl . '/library/js/jquery/jquery.js');
-		$this->view->headScript()->appendFile($this->view->baseUrl . '/library/js/jquery/ui.js');
+		$this->view->headScript()->prependFile($this->view->baseUrl . '/default/cms/js/jquery/jquery.js');
+		$this->view->headScript()->appendFile($this->view->baseUrl . '/default/cms/js/jquery/ui.js');
 		$this->view->headScript()->appendFile($this->view->baseUrl . '/default/cms/js/page.js');
 
 		//css'y
