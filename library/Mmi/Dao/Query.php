@@ -68,7 +68,7 @@ class Query {
 	 * Zwraca instancję siebie
 	 * @return self
 	 */
-	public static function factory($daoClassName = null) {
+	public final static function factory($daoClassName = null) {
 		//nowy obiekt swojej klasy
 		return new self($daoClassName);
 	}
