@@ -164,10 +164,10 @@ class View extends \Mmi\DataObject {
 	 */
 	public function getHelper($name) {
 		$name = ucfirst($name);
-		$structure = \Mmi\Controller\Front::getInstance()->getStructure();
+		$structure = \Mmi\Controller\Front::getInstance()->getStructure('library');
 		//położenie helpera w strukturze
-		foreach ($structure['library'] as $libName => $lib) {
-			if (!isset($lib['View']['Helper'][$name])) {
+		foreach ($structure as $libName => $lib) {
+			if (!isset($lib['ViewHelper'][$name])) {
 				continue;
 			}
 			$className = '\\' . $libName . '\\View\\Helper\\' . $name;
@@ -191,8 +191,8 @@ class View extends \Mmi\DataObject {
 	 */
 	public function getFilter($name) {
 		$name = ucfirst($name);
-		$structure = \Mmi\Controller\Front::getInstance()->getStructure();
-		foreach ($structure['library'] as $libName => $lib) {
+		$structure = \Mmi\Controller\Front::getInstance()->getStructure('library');
+		foreach ($structure as $libName => $lib) {
 			if (!isset($lib['Filter'][$name])) {
 				continue;
 			}
