@@ -16,17 +16,6 @@ namespace Mmi\Dao;
 class Builder {
 
 	/**
-	 * Przebudowuje wszystkie Dao, Record i Query
-	 */
-	public static function rebuildAll() {
-		//pobiera wszystkie tabele z bazy
-		foreach (\Core\Registry::$db->tableList(\Core\Registry::$config->db->schema) as $tableName) {
-			//buduje struktruę dla tabeli
-			self::buildFromTableName($tableName);
-		}
-	}
-
-	/**
 	 * Renderuje DAO, Record i Query dla podanej nazwy tabeli
 	 * @param string $tableName
 	 * @throws Exception
@@ -56,6 +45,8 @@ class Builder {
 		//prefixy nazw
 		$pathPrefix = self::_getPathPrefixByTableName($tableName);
 		$classPrefix = self::_getClassNamePrefixByTableName($tableName);
+		//ścieżka
+		$path = self::_mkdirRecursive($pathPrefix . '/Dao.php');
 		//dao tylko z nazwą tabeli
 		$daoCode = '<?php' . "\n\n" .
 			'namespace ' . $classPrefix . ";\n\n" .
@@ -67,11 +58,10 @@ class Builder {
 			'}' . "\n";
 		//nic nie robi jeśli dao już istnieje
 		if (file_exists($path)) {
-			echo 'DAO completed.';
 			return;
 		}
 		//zapis pliku
-		file_put_contents(self::_mkdirRecursive($pathPrefix . '/Dao.php'), $daoCode);
+		file_put_contents($path, $daoCode);
 	}
 
 	/**
@@ -116,7 +106,6 @@ class Builder {
 			if (!empty($diffRecord) || !empty($diffDb)) {
 				throw new \Exception('RECORD for: "' . $tableName . '" has invalid fields: ' . implode(', ', $diffRecord) . ', and missing: ' . implode(',', $diffDb));
 			}
-			echo 'RECORD for: ' . $tableName . ' completed.';
 			return;
 		}
 		$recordCode = preg_replace('/(class Record extends [\\a-zA-Z0-9]+\s\{?\r?\n?)/', '$1' . $variableString, $recordCode);
