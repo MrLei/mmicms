@@ -21,10 +21,6 @@ class Builder {
 	 * @throws Exception
 	 */
 	public static function buildFromTableName($tableName) {
-		//jeśli DB_CHANGELOG nie tworzy obiektów
-		if ($tableName == 'DB_CHANGELOG') {
-			return;
-		}
 		//aktualizacja DAO
 		self::_updateDao($tableName);
 		//aktualizacja QUERY-FIELD
