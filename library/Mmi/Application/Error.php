@@ -62,7 +62,9 @@ class Error {
 	 * @return boolean
 	 */
 	public static function exceptionHandler(\Exception $exception) {
+		//czyszczenie bufora
 		ob_clean();
+		//logowanie błędu
 		\Mmi\Exception\Logger::log($exception);
 		$response = \Mmi\Controller\Front::getInstance()->getResponse();
 		try {
@@ -84,6 +86,7 @@ class Error {
 				->send();
 			return true;
 		} catch (\Exception $e) {
+			//domyślna prezentacja błędów
 			$response
 				->setCodeError()
 				->setContent(self::rawErrorResponse($response, $exception))
@@ -92,23 +95,30 @@ class Error {
 		return true;
 	}
 
+	/**
+	 * Zwraca sformatowany błąd dla danego typu odpowiedzi
+	 * @param \Mmi\Controller\Response $response obiekt odpowiedzi
+	 * @param \Exception $e wyjątek
+	 * @return mixed
+	 */
 	public static function rawErrorResponse(\Mmi\Controller\Response $response, \Exception $e) {
-		$content = '';
 		switch ($response->getType()) {
+			//typy HTML
 			case 'htm':
 			case 'html':
 			case 'shtml':
-				$content = '<html><body><h1>' . $e->getMessage() . '</h1>' . nl2br($e->getTraceAsString()) . '</body></html>';
-				break;
+				return '<html><body><h1>' . $e->getMessage() . '</h1>' . nl2br($e->getTraceAsString()) . '</body></html>';
+			//plaintext
+			case 'txt':
+				return $e->getMessage() . "\n" . $e->getTraceAsString() . "\n";
+			//json
 			case 'json':
-				$content = json_encode(array(
+				return json_encode(array(
 					'status' => 500,
 					'error' => $e->getMessage(),
 					'exception' => $e->getTraceAsString(),
 				));
-				break;
 		}
-		return $content;
 	}
 
 }
