@@ -14,9 +14,10 @@ class Structure {
 
 	/**
 	 * Zwraca dostępne komponenty aplikacji
-	 * @return type 
+	 * @return array 
 	 */
 	public static function getStructure() {
+		//pobranie struktury
 		return array(
 			'module' => self::_applicationStructure(),
 			'skin' => self::_skinStructure(),
@@ -31,33 +32,41 @@ class Structure {
 	private static function _applicationStructure() {
 		$components = array();
 		foreach (glob(APPLICATION_PATH . '/modules/*') as $module) {
+			//nazwa modułu
 			$moduleName = lcfirst(substr($module, strrpos($module, '/') + 1));
 			foreach (($glob = glob($module . '/Controller/*')) ? $glob : [] as $controller) {
 				if (is_dir($controller)) {
+					//iteracja po kontrolerach wewnątrz katalogu
 					foreach (($glb = glob($controller . '/*.php')) ? $glb : [] as $cnt) {
 						$controllerName = lcfirst(substr($cnt, strrpos($cnt, '/') + 1, -4));
 						$controllerName = lcfirst(substr($controller, strrpos($controller, '/') + 1)) . '-' . $controllerName;
-						$controllerContent = file_get_contents($cnt);
-						if (preg_match_all('/function ([a-zA-Z0-9]+Action)\(/', $controllerContent, $actions) && isset($actions[1])) {
-							foreach ($actions[1] as $action) {
-								$action = substr($action, 0, -6);
-								$components[$moduleName][$controllerName][$action] = 1;
-							}
-						}
+						//parsuje akcje z kontrolera
+						self::_parseActions($components, $cnt, $moduleName, $controllerName);
 					}
 					continue;
 				}
 				$controllerName = lcfirst(substr($controller, strrpos($controller, '/') + 1, -4));
-				$controllerContent = file_get_contents($controller);
-				if (preg_match_all('/function ([a-zA-Z0-9]+Action)\(/', $controllerContent, $actions) && isset($actions[1])) {
-					foreach ($actions[1] as $action) {
-						$action = substr($action, 0, -6);
-						$components[$moduleName][$controllerName][$action] = 1;
-					}
-				}
+				//parsuje akcje z kontrolera
+				self::_parseActions($components, $controller, $moduleName, $controllerName);
 			}
 		}
 		return $components;
+	}
+
+	/**
+	 * Parsowanie akcji w kontrolerze
+	 * @param array $components
+	 * @param string $controllerPath
+	 * @param string $moduleName
+	 * @param string $controllerName
+	 */
+	private static function _parseActions(array &$components, $controllerPath, $moduleName, $controllerName) {
+		//łapanie nazw akcji w kodzie
+		if (preg_match_all('/function ([a-zA-Z0-9]+Action)\(/', file_get_contents($controllerPath), $actions)) {
+			foreach ($actions[1] as $action) {
+				$components[$moduleName][$controllerName][substr($action, 0, -6)] = 1;
+			}
+		}
 	}
 
 	/**
@@ -67,36 +76,30 @@ class Structure {
 	private static function _skinStructure() {
 		$components = array();
 		foreach (($glob = glob(APPLICATION_PATH . '/skins/*')) ? $glob : [] as $skin) {
+			//nazwa skóry
 			$skinName = substr($skin, strrpos($skin, '/') + 1);
+			//iteracja po modułach
 			foreach (($glob = glob($skin . '/*')) ? $glob : [] as $module) {
 				$moduleName = substr($module, strrpos($module, '/') + 1);
+				//layouty w modułach
 				if (file_exists($module . '/scripts/layout.tpl')) {
 					$components[$skinName][$moduleName]['layout'] = 1;
 				}
 				foreach (($glob = glob($module . '/scripts/*')) ? $glob : [] as $script) {
 					$scriptName = substr($script, strrpos($script, '/') + 1);
-					if (file_exists($script . '/layout.tpl')) {
-						$components[$skinName][$moduleName][$scriptName]['layout'] = 1;
-					}
+					//layouty w kontrolerach
 					foreach (($glob = glob($script . '/*')) ? $glob : [] as $action) {
 						if (is_dir($action)) {
-
 							foreach (($glb = glob($action . '/*')) ? $glb : [] as $act) {
-								if ($act == 'layout.tpl') {
-									$components[$skinName][$moduleName][$scriptName . '-' . substr($action, strrpos($action, '/') + 1)]['layout'] = 1;
-								} else {
-									$actionName = substr($act, strrpos($act, '/') + 1, -4);
-									$components[$skinName][$moduleName][$scriptName . '-' . substr($action, strrpos($action, '/') + 1)][$actionName] = 1;
-								}
+								//layouty i akcje w podkatalogach
+								$actionName = substr($act, strrpos($act, '/') + 1, -4);
+								$components[$skinName][$moduleName][$scriptName . '-' . substr($action, strrpos($action, '/') + 1)][$actionName] = 1;
 							}
 							continue;
 						}
-						if ($action == 'layout.tpl') {
-							$components[$skinName][$moduleName][$scriptName]['layout'] = 1;
-						} else {
-							$actionName = substr($action, strrpos($action, '/') + 1, -4);
-							$components[$skinName][$moduleName][$scriptName][$actionName] = 1;
-						}
+						//layouty i akcje
+						$actionName = substr($action, strrpos($action, '/') + 1, -4);
+						$components[$skinName][$moduleName][$scriptName][$actionName] = 1;
 					}
 				}
 			}
@@ -112,32 +115,32 @@ class Structure {
 		$components = array();
 		foreach (($glob = glob(LIB_PATH . '/*')) ? $glob : [] as $lib) {
 			$libName = substr($lib, strrpos($lib, '/') + 1);
+			//tylko biblioteki rozpoczynające się od Mmi
 			if (substr($libName, 0, 3) !== 'Mmi') {
 				continue;
 			}
-			foreach (($glob = glob($lib . '/View/Helper/*.php')) ? $glob : [] as $helper) {
-				$helperName = substr($helper, strrpos($helper, '/') + 1, -4);
-				if ($helperName == 'Abstract') {
-					continue;
-				}
-				$components[$libName]['View']['Helper'][$helperName] = 1;
-			}
-			foreach (($glob = glob($lib . '/Filter/*.php')) ? $glob : [] as $filter) {
-				$filterName = substr($filter, strrpos($filter, '/') + 1, -4);
-				if ($filterName == 'Abstract') {
-					continue;
-				}
-				$components[$libName]['Filter'][$filterName] = 1;
-			}
-			foreach (($glob = glob($lib . '/Validate/*.php')) ? $glob : [] as $validator) {
-				$validatorName = substr($validator, strrpos($validator, '/') + 1, -4);
-				if ($validatorName == 'Abstract') {
-					continue;
-				}
-				$components[$libName]['Validate'][$validatorName] = 1;
-			}
+			//parsowanie helperów widoku
+			self::_parseLib($components, $lib, 'View/Helper');
+			//parsowanie filtrów
+			self::_parseLib($components, $lib, 'Filter');
+			//parsowanie walidatorów
+			self::_parseLib($components, $lib, 'Validate');
 		}
 		return $components;
+	}
+
+	/**
+	 * Parser biblioteki
+	 * @param array $components referencja do komponentów
+	 * @param string $libPath ścieżka do biblioteki
+	 * @param string $path ścieżka do zasobu
+	 */
+	private static function _parseLib(array &$components, $libPath, $path) {
+		$libName = substr($libPath, strrpos($libPath, '/') + 1);
+		foreach (($glob = glob($libPath . '/' . $path . '/*.php')) ? $glob : [] as $helper) {
+			$helperName = substr($helper, strrpos($helper, '/') + 1, -4);
+			$components[$libName][str_replace('/', '', $path)][$helperName] = 1;
+		}
 	}
 
 }
