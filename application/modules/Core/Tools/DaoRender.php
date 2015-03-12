@@ -1,7 +1,7 @@
 <?php
 
 //powołanie i uruchomienie aplikacji
-$path = realpath(dirname(__FILE__) . '/../../../');
+$path = realpath(dirname(__FILE__) . '/../../../../');
 require $path . '/library/Mmi/Application.php';
 
 $application = new \Mmi\Application($path, 'MmiCms\Application\Bootstrap\Commandline');
