@@ -119,6 +119,8 @@ CREATE TABLE `cms_contact` (
   `reply` text COLLATE utf8_polish_ci,
   `cms_auth_id_reply` integer DEFAULT NULL,
   `uri` varchar(255) COLLATE utf8_polish_ci DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_polish_ci DEFAULT NULL,
+  `phone` varchar(64) COLLATE utf8_polish_ci DEFAULT NULL,
   `email` varchar(128) COLLATE utf8_polish_ci NOT NULL,
   `ip` varchar(16) COLLATE utf8_polish_ci DEFAULT NULL,
   `cms_auth_id` integer DEFAULT NULL,
@@ -135,6 +137,7 @@ CREATE TABLE `cms_contact` (
 
 CREATE TABLE `cms_contact_option` (
   `id` integer NOT NULL AUTO_INCREMENT,
+  `sendTo` varchar(255) COLLATE utf8_polish_ci NOT NULL,
   `name` varchar(64) COLLATE utf8_polish_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `name` (`name`)
