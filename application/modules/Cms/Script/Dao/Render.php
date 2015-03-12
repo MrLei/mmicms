@@ -12,6 +12,9 @@ $application->run();
 
 //odbudowanie wszystkich DAO/Record/Query/Field/Join
 foreach (\Core\Registry::$db->tableList(\Core\Registry::$config->db->schema) as $tableName) {
+	if ($tableName == 'DB_CHANGELOG') {
+		continue;
+	}
 	echo 'Rendering for: ' . $tableName . "\n";
 	//buduje struktruę dla tabeli
 	\Mmi\Dao\Builder::buildFromTableName($tableName);
