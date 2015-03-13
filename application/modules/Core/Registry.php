@@ -10,7 +10,7 @@
 
 namespace Core;
 
-class Registry extends \MmiCms\Registry {
+class Registry extends \Cms\Registry {
 
 	/**
 	 * Konfiguracja

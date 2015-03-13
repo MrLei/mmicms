@@ -8,7 +8,7 @@
  * @license    http://milejko.com/new-bsd.txt New BSD License
  */
 
-namespace MmiCms\Application;
+namespace Cms\Application;
 
 class Bootstrap implements \Mmi\Application\BootstrapInterface {
 
@@ -47,7 +47,7 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 
 	/**
 	 * Ładowanie konfiguracji
-	 * @return MmiCms\Config
+	 * @return Cms\Config
 	 * @throws Exception
 	 */
 	protected function _initConfiguration() {
@@ -67,32 +67,32 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 	 * Ustawianie bufora
 	 * @throws Exception
 	 */
-	protected function _setupCache(\MmiCms\Config $config) {
+	protected function _setupCache(\Cms\Config $config) {
 		//dodawanie buforów do rejestru
 		try {
 			\Core\Registry::$config = $config;
 			\Core\Registry::$cache = new \Mmi\Cache($config->cache);
 		} catch (Exception $e) {
-			throw new\Exception('MmiCms\Application\Bootstrap: Unable to invoke Cache');
+			throw new\Exception('Cms\Application\Bootstrap: Unable to invoke Cache');
 		}
 	}
 
 	/**
 	 * Inicjalizacja routera
-	 * @param \MmiCms\Config $config
+	 * @param \Cms\Config $config
 	 * @param string $language
 	 * @return \Mmi\Controller\Router
 	 */
-	protected function _initRouter(\MmiCms\Config $config, $language) {
+	protected function _initRouter(\Cms\Config $config, $language) {
 		return new \Mmi\Controller\Router($config->router, $language, $config->application->skin);
 	}
 
 	/**
 	 * Inicjalizacja tłumaczeń
-	 * @param \MmiCms\Config $config
+	 * @param \Cms\Config $config
 	 * @return \Mmi\Translate
 	 */
-	protected function _initTranslate(\MmiCms\Config $config) {
+	protected function _initTranslate(\Cms\Config $config) {
 		$defaultLanguage = isset($config->application->languages[0]) ? $config->application->languages[0] : null;
 		$translate = new \Mmi\Translate();
 		$translate->setDefaultLocale($defaultLanguage);
@@ -109,9 +109,9 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 
 	/**
 	 * Ustawianie bazy danych
-	 * @param \MmiCms\Config $config
+	 * @param \Cms\Config $config
 	 */
-	protected function _setupDatabase(\MmiCms\Config $config) {
+	protected function _setupDatabase(\Cms\Config $config) {
 		//połączenie do bazy danych i konfiguracja DAO
 		if (\Core\Registry::$config->db->driver === null) {
 			return;
@@ -124,11 +124,11 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 
 	/**
 	 * Ustawianie front controllera
-	 * @param \MmiCms\Config $config
+	 * @param \Cms\Config $config
 	 * @param \Mmi\Controller\Router $router
 	 * @param \Mmi\View $view
 	 */
-	protected function _setupFrontController(\MmiCms\Config $config, \Mmi\Controller\Router $router, \Mmi\View $view) {
+	protected function _setupFrontController(\Cms\Config $config, \Mmi\Controller\Router $router, \Mmi\View $view) {
 		//wczytywanie struktury frontu z cache
 		if (null === ($frontStructure = \Core\Registry::$cache->load('Mmi-Structure'))) {
 			$frontStructure = \Mmi\Structure::getStructure();
@@ -148,12 +148,12 @@ class Bootstrap implements \Mmi\Application\BootstrapInterface {
 
 	/**
 	 * Inicjalizacja widoku
-	 * @param \MmiCms\Config $config
+	 * @param \Cms\Config $config
 	 * @param \Mmi\Translate $translate
 	 * @param \Mmi\Controller\Router $router
 	 * @return \Mmi\View
 	 */
-	protected function _initView(\MmiCms\Config $config, \Mmi\Translate $translate, \Mmi\Controller\Router $router) {
+	protected function _initView(\Cms\Config $config, \Mmi\Translate $translate, \Mmi\Controller\Router $router) {
 		//konfiguracja widoku
 		$view = new \Mmi\View();
 		$view->setCache(\Core\Registry::$cache)

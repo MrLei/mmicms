@@ -10,7 +10,7 @@
 
 namespace Cms\Controller\Admin;
 
-class MailDefinition extends \MmiCms\Controller\Admin {
+class MailDefinition extends \Cms\Controller\AdminAbstract {
 
 	public function indexAction() {
 		$grid = new \Cms\Plugin\MailDefinitionGrid();

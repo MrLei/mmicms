@@ -113,12 +113,7 @@ class Structure {
 	 */
 	private static function _libraryStructure() {
 		$components = array();
-		foreach (($glob = glob(LIB_PATH . '/*')) ? $glob : [] as $lib) {
-			$libName = substr($lib, strrpos($lib, '/') + 1);
-			//tylko biblioteki rozpoczynające się od Mmi
-			if (substr($libName, 0, 3) !== 'Mmi') {
-				continue;
-			}
+		foreach (($glob = glob(APPLICATION_PATH . '/modules/*')) ? $glob : [] as $lib) {
 			//parsowanie helperów widoku
 			self::_parseLib($components, $lib, 'View/Helper');
 			//parsowanie filtrów

@@ -10,7 +10,7 @@
 
 namespace Cms\Controller\Admin;
 
-class Navigation extends \MmiCms\Controller\Admin {
+class Navigation extends \Cms\Controller\AdminAbstract {
 
 	public function indexAction() {
 		$config = new \Mmi\Navigation\Config();

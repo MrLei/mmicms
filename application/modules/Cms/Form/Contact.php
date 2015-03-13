@@ -10,7 +10,7 @@
 
 namespace Cms\Form;
 
-class Contact extends \MmiCms\Form {
+class Contact extends \Cms\Form {
 
 	public function init() {
 

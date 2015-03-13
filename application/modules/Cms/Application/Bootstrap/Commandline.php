@@ -8,9 +8,9 @@
  * @license    http://milejko.com/new-bsd.txt New BSD License
  */
 
-namespace MmiCms\Application\Bootstrap;
+namespace Cms\Application\Bootstrap;
 
-class Commandline extends \MmiCms\Application\Bootstrap {
+class Commandline extends \Cms\Application\Bootstrap {
 
 	public function __construct() {
 

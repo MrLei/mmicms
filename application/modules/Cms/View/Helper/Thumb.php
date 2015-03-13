@@ -8,7 +8,7 @@
  * @license    http://milejko.com/new-bsd.txt New BSD License
  */
 
-namespace MmiCms\View\Helper;
+namespace Cms\View\Helper;
 
 class Thumb extends \Mmi\View\Helper\HelperAbstract {
 
@@ -21,10 +21,7 @@ class Thumb extends \Mmi\View\Helper\HelperAbstract {
 	 */
 	public function thumb(\Cms\Model\File\Record $file, $type = null, $value = null) {
 		$url = $file->getUrl($type, $value);
-		if ($url) {
-			return $this->view->mediaServer . $url;
-		}
-		return null;
+		return $url;
 	}
 
 }

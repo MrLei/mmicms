@@ -10,7 +10,7 @@
 
 namespace Cms\Form\Admin;
 
-class Article extends \MmiCms\Form {
+class Article extends \Cms\Form {
 
 	public function init() {
 

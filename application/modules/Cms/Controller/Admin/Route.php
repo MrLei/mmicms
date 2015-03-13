@@ -10,7 +10,7 @@
 
 namespace Cms\Controller\Admin;
 
-class Route extends \MmiCms\Controller\Admin {
+class Route extends \Cms\Controller\AdminAbstract {
 
 	public function indexAction() {
 		$this->view->grid = new \Cms\Plugin\RouteGrid();

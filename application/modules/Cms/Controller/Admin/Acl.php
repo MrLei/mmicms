@@ -10,7 +10,7 @@
 
 namespace Cms\Controller\Admin;
 
-class Acl extends \MmiCms\Controller\Admin {
+class Acl extends \Cms\Controller\AdminAbstract {
 
 	public function indexAction() {
 		$this->view->roles = \Cms\Model\Role\Query::factory()->find();

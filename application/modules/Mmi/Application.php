@@ -14,7 +14,7 @@ class Application {
 
 	/**
 	 * Obiekt bootstrap
-	 * @var \Mmi\Bootstrap
+	 * @var \Mmi\Application\BootstrapInterface
 	 */
 	private $_bootstrap;
 
@@ -72,10 +72,8 @@ class Application {
 		define('BASE_PATH', $path);
 		//aplikacja
 		define('APPLICATION_PATH', BASE_PATH . '/application');
-		//biblioteki
-		define('LIB_PATH', BASE_PATH . '/library');
 		//ładowanie profilera
-		require LIB_PATH . '/Mmi/Profiler.php';
+		require APPLICATION_PATH . '/modules/Mmi/Profiler.php';
 		\Mmi\Profiler::event('Application: startup');
 		//ścieżka do TMP
 		define('TMP_PATH', BASE_PATH . '/tmp');
@@ -83,8 +81,8 @@ class Application {
 		define('PUBLIC_PATH', BASE_PATH . '/public');
 		//dane
 		define('DATA_PATH', BASE_PATH . '/data');
-		//domyślna ścieżka ładowania
-		set_include_path(LIB_PATH);
+		//domyślna ścieżka ładowania (vendors)
+		set_include_path(BASE_PATH . '/vendors');
 		return $this;
 	}
 
@@ -109,19 +107,9 @@ class Application {
 		spl_autoload_register(function ($class) {
 			//rozbicie po \
 			$name = explode('\\', $class);
-			$namespace = $name[0];
-			switch ($namespace) {
-				//dla mmi ładujemy z LIB_PATH
-				case ((substr($namespace, 0, 3) == 'Mmi') ? $namespace : !$namespace):
-					$path = LIB_PATH . '/' . $namespace;
-					array_shift($name);
-					break;
-				//pozostałe z modułów
-				default:
-					$path = APPLICATION_PATH . '/modules';
-			}
+			//@TODO: wylistować moduły (dzięki temu autoloader będzie działał sprawniej)
 			//dołączenie pliku
-			include $path . '/' . implode('/', $name) . '.php';
+			include APPLICATION_PATH . '/modules/' . implode('/', $name) . '.php';
 		});
 		return $this;
 	}

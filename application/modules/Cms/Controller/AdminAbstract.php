@@ -8,9 +8,9 @@
  * @license    http://milejko.com/new-bsd.txt New BSD License
  */
 
-namespace MmiCms\Controller;
+namespace Cms\Controller;
 
-class Admin Extends \Mmi\Controller\Action {
+abstract class AdminAbstract Extends \Mmi\Controller\Action {
 
 	public function init() {
 		//tylko rola admin

@@ -10,7 +10,7 @@
 
 namespace Cms\Controller\Admin;
 
-class File extends \MmiCms\Controller\Admin {
+class File extends \Cms\Controller\AdminAbstract {
 
 	public function indexAction() {
 		$this->view->grid = new \Cms\Plugin\FileGrid();

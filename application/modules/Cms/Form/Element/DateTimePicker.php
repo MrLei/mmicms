@@ -8,9 +8,9 @@
  * @license    http://milejko.com/new-bsd.txt New BSD License
  */
 
-namespace MmiCms\Form\Element;
+namespace Cms\Form\Element;
 
-class DateTimePicker extends \MmiCms\Form\Element\DatePicker {
+class DateTimePicker extends \Cms\Form\Element\DatePicker {
 
 	/**
 	 * Buduje pole

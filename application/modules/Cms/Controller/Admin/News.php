@@ -10,7 +10,7 @@
 
 namespace Cms\Controller\Admin;
 
-class News extends \MmiCms\Controller\Admin {
+class News extends \Cms\Controller\AdminAbstract {
 
 	public function indexAction() {
 		$this->view->grid = new \Cms\Plugin\NewsGrid();

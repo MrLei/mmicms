@@ -10,7 +10,7 @@
 
 namespace Cms\Controller\Admin;
 
-class Cron extends \MmiCms\Controller\Admin {
+class Cron extends \Cms\Controller\AdminAbstract {
 
 	public function indexAction() {
 		$grid = new \Cms\Plugin\CronGrid();

@@ -10,7 +10,7 @@
 
 namespace Cms\Controller\Admin;
 
-class Article extends \MmiCms\Controller\Admin {
+class Article extends \Cms\Controller\AdminAbstract {
 
 	public function indexAction() {
 		$this->view->grid = new \Cms\Plugin\ArticleGrid();
