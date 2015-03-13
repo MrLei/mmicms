@@ -23,7 +23,7 @@ class Dao extends \Mmi\Dao {
 	 * @return \Mmi\Dao\Query
 	 */
 	public static function byFilenameQuery($filename) {
-		return \Mmi\Dao\Query::factory('Cms\Model\Changelog\Dao')
+		return \Mmi\Dao\Query::factory('Core\Model\Changelog\Dao')
 				->whereFilename()->equals($filename);
 	}
 

@@ -1,23 +1,42 @@
 <?php
 
-//powołanie i uruchomienie aplikacji
-$path = realpath(dirname(__FILE__) . '/../../../../');
-require $path . '/library/Mmi/Application.php';
+/**
+ * Mmi Framework (https://code.google.com/p/mmicms/)
+ * 
+ * @link       https://code.google.com/p/mmicms/
+ * @copyright  Copyright (c) 2010-2014 Mariusz Miłejko (http://milejko.com)
+ * @license    http://milejko.com/new-bsd.txt New BSD License
+ */
 
-$application = new \Mmi\Application($path, 'Cms\Application\Bootstrap\Commandline');
-$application->run();
+namespace Core\Tools;
 
-//ustawienie typu odpowiedzi na plain
-\Mmi\Controller\Front::getInstance()->getResponse()->setTypePlain();
+//nie ma tu jeszcze autoloadera ładowanie CliAbstract
+require_once 'CliAbstract.php';
 
-//odbudowanie wszystkich DAO/Record/Query/Field/Join
-foreach (\Core\Registry::$db->tableList(\Core\Registry::$config->db->schema) as $tableName) {
-	//bez generowania dla DB_CHANGELOG
-	if (strtoupper($tableName) == 'DB_CHANGELOG') {
-		continue;
+/**
+ * Renderer DAO, rekordów, zapytań itd.
+ */
+class DaoRenderer extends CliAbstract {
+
+	/**
+	 * Metoda uruchamiająca
+	 */
+	public function run() {
+
+		//odbudowanie wszystkich DAO/Record/Query/Field/Join
+		foreach (\Core\Registry::$db->tableList(\Core\Registry::$config->db->schema) as $tableName) {
+			//bez generowania dla DB_CHANGELOG
+			if (strtoupper($tableName) == 'DB_CHANGELOG') {
+				continue;
+			}
+			//buduje struktruę dla tabeli
+			\Mmi\Dao\Builder::buildFromTableName($tableName);
+			//info na ekran
+			echo 'Rendering for: ' . $tableName . "\n";
+		}
 	}
-	//buduje struktruę dla tabeli
-	\Mmi\Dao\Builder::buildFromTableName($tableName);
-	//info na ekran
-	echo 'Rendering for: ' . $tableName . "\n";
+
 }
+
+//powołanie obiektu
+new DaoRenderer();

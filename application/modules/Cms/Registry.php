@@ -47,5 +47,11 @@ abstract class Registry extends \Mmi\Registry {
 	 * @var \Mmi\Translate
 	 */
 	public static $translate;
+	
+	/**
+	 * Konfiguracja
+	 * @var \Core\Config\Local
+	 */
+	public static $config;
 
 }

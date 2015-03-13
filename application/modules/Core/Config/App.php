@@ -45,7 +45,7 @@ class App extends \Cms\Config {
 		//debugger aplikacji
 		$this->application->debug = false;
 		
-//kompilacja templatów przy każdym odpaleniu danej strony
+		//kompilacja templatów przy każdym odpaleniu danej strony
 		$this->application->compile = false;
 		$this->application->languages = array();
 		$this->application->plugins = array('Cms\Controller\Plugin');
