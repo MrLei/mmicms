@@ -10,18 +10,29 @@
 
 namespace Cms\Controller\Admin;
 
+/**
+ * Zarządzanie tekstami statycznymi
+ */
 class Text extends \Cms\Controller\AdminAbstract {
 
+	/**
+	 * Grid tekstów
+	 */
 	public function indexAction() {
 		$this->view->grid = new \Cms\Plugin\TextGrid();
 	}
 
+	/**
+	 * Akcja edycji tekstu
+	 */
 	public function editAction() {
 		$form = new \Cms\Form\Admin\Text(new \Cms\Model\Text\Record($this->id));
 		$this->view->textForm = $form;
+		//brak wysłanych danych
 		if (!$form->isMine()) {
 			return;
 		}
+		//zapisany
 		if ($form->isSaved()) {
 			$this->getMessenger()->addMessage('Poprawnie zapisano tekst', true);
 			$this->getResponse()->redirect('cms', 'admin-text');
@@ -29,12 +40,17 @@ class Text extends \Cms\Controller\AdminAbstract {
 		$this->getMessenger()->addMessage('Błąd zapisu tekstu, tekst o tym kluczu już istnieje', false);
 	}
 
+	/**
+	 * Klonowanie tekstu
+	 */
 	public function cloneAction() {
-		$form = new \Cms\Form\Admin\Text\Copy();
+		$form = new \Cms\Form\Admin\Text\Copy(new \Cms\Model\Text\Record());
 		$this->view->copyForm = $form;
+		//brak wysłanych danych
 		if (!$form->isMine()) {
 			return;
 		}
+		//zapis
 		if ($form->isSaved()) {
 			$this->getMessenger()->addMessage('Poprawnie sklonowano teksty', true);
 			$this->getResponse()->redirect('cms', 'admin-text');
@@ -42,8 +58,12 @@ class Text extends \Cms\Controller\AdminAbstract {
 		$this->getMessenger()->addMessage('Błąd klonowania tekstów', false);
 	}
 
+	/**
+	 * Usuwanie tekstu
+	 */
 	public function deleteAction() {
 		$text = \Cms\Model\Text\Query::factory()->findPk($this->id);
+		//jeśli znaleziono tekst i udało się usunąć
 		if ($text && $text->delete()) {
 			$this->getMessenger()->addMessage('Poprawnie skasowano tekst', true);
 		}
