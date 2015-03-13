@@ -121,7 +121,7 @@ class Data {
 	 * @return string wartość maksymalna
 	 */
 	public final function findMax($keyName) {
-		$dao = $this->query->getDaoClassName();
+		$dao = $this->_query->getDaoClassName();
 		//odpytanie adaptera o rekord
 		$result = $dao::getAdapter()->select('MAX(' . $dao::getAdapter()->prepareField($keyName) . ')', $this->_prepareFrom(), $this->_query->getQueryCompile()->where, $this->_query->getQueryCompile()->order, 1, null, $this->_query->getQueryCompile()->bind);
 		return isset($result[0]) ? current($result[0]) : null;
@@ -133,7 +133,7 @@ class Data {
 	 * @return string wartość minimalna
 	 */
 	public final function findMin($keyName) {
-		$dao = $this->query->getDaoClassName();
+		$dao = $this->_query->getDaoClassName();
 		//odpytanie adaptera o rekord
 		$result = $dao::getAdapter()->select('MIN(' . $dao::getAdapter()->prepareField($keyName) . ')', $this->_prepareFrom(), $this->_query->getQueryCompile()->where, $this->_query->getQueryCompile()->order, 1, null, $this->_query->getQueryCompile()->bind);
 		return isset($result[0]) ? current($result[0]) : null;
@@ -145,7 +145,7 @@ class Data {
 	 * @return array mixed wartości unikalne
 	 */
 	public final function findUnique($keyName) {
-		$dao = $this->query->getDaoClassName();
+		$dao = $this->_query->getDaoClassName();
 		//odpytanie adaptera o rekordy
 		$data = $dao::getAdapter()->select('DISTINCT(' . $dao::getAdapter()->prepareField($keyName) . ')', $this->_prepareFrom(), $this->_query->getQueryCompile()->where, $this->_query->getQueryCompile()->order, null, null, $this->_query->getQueryCompile()->bind);
 		$result = array();

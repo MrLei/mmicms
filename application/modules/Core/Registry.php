@@ -12,10 +12,4 @@ namespace Core;
 
 class Registry extends \Cms\Registry {
 
-	/**
-	 * Konfiguracja
-	 * @var \Core\Config\Local
-	 */
-	public static $config;
-
 }
