@@ -10,7 +10,7 @@
 
 namespace Cms\Controller\Admin;
 
-class Comment extends \MmiCms\Controller\Admin {
+class Comment extends \Cms\Controller\AdminAbstract {
 
 	public function indexAction() {
 		$this->view->grid = new \Cms\Plugin\CommentGrid();

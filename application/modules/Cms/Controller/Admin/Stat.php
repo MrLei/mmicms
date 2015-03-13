@@ -10,7 +10,7 @@
 
 namespace Cms\Controller\Admin;
 
-class Stat extends \MmiCms\Controller\Admin {
+class Stat extends \Cms\Controller\AdminAbstract {
 
 	public function indexAction() {
 		$year = $this->year ? $this->year : date('Y');

@@ -10,7 +10,7 @@
 
 namespace Cms\Controller\Admin;
 
-class Tag extends \MmiCms\Controller\Admin {
+class Tag extends \Cms\Controller\AdminAbstract {
 
 	public function indexAction() {
 		$this->view->grid = new \Cms\Plugin\TagGrid();

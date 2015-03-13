@@ -10,7 +10,7 @@
 
 namespace Cms\Controller\Admin;
 
-class Text extends \MmiCms\Controller\Admin {
+class Text extends \Cms\Controller\AdminAbstract {
 
 	public function indexAction() {
 		$this->view->grid = new \Cms\Plugin\TextGrid();

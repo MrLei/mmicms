@@ -10,7 +10,7 @@
 
 namespace Cms\Controller\Admin;
 
-class Contact extends \MmiCms\Controller\Admin {
+class Contact extends \Cms\Controller\AdminAbstract {
 
 	public function indexAction() {
 		$this->view->grid = new \Cms\Plugin\ContactGrid();

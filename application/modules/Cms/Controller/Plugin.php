@@ -8,7 +8,7 @@
  * @license    http://milejko.com/new-bsd.txt New BSD License
  */
 
-namespace MmiCms\Controller;
+namespace Cms\Controller;
 
 class Plugin extends \Mmi\Controller\Plugin\PluginAbstract {
 
@@ -44,8 +44,6 @@ class Plugin extends \Mmi\Controller\Plugin\PluginAbstract {
 
 		//ustawianie sesji
 		if (\Core\Registry::$config->session->name) {
-			require LIB_PATH . '/Mmi/Session.php';
-			require LIB_PATH . '/Mmi/Session/Space.php';
 			\Mmi\Session::start(\Core\Registry::$config->session);
 		}
 
@@ -53,7 +51,6 @@ class Plugin extends \Mmi\Controller\Plugin\PluginAbstract {
 		$view = \Mmi\Controller\Front::getInstance()->getView();
 		$base = $view->baseUrl;
 		$view->domain = \Core\Registry::$config->application->host;
-		$view->mediaServer = \Core\Registry::$config->media->server;
 		$view->languages = \Core\Registry::$config->application->languages;
 
 		$jsReqestArray = array();

@@ -10,7 +10,7 @@
 
 namespace Cms\Controller\Admin;
 
-class MailServer extends \MmiCms\Controller\Admin {
+class MailServer extends \Cms\Controller\AdminAbstract {
 
 	public function indexAction() {
 		$grid = new \Cms\Plugin\MailServerGrid();

@@ -8,7 +8,7 @@
  * @license    http://milejko.com/new-bsd.txt New BSD License
  */
 
-namespace MmiCms\Form\Element;
+namespace Cms\Form\Element;
 
 class ColorPicker extends \Mmi\Form\Element\Text {
 

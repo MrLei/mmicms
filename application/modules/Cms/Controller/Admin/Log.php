@@ -10,7 +10,7 @@
 
 namespace Cms\Controller\Admin;
 
-class Log extends \MmiCms\Controller\Admin {
+class Log extends \Cms\Controller\AdminAbstract {
 
 	public function indexAction() {
 		$grid = new \Cms\Plugin\LogGrid();

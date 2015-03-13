@@ -10,7 +10,7 @@
 
 namespace Cms\Controller\Admin;
 
-class PageWidget extends \MmiCms\Controller\Admin {
+class PageWidget extends \Cms\Controller\AdminAbstract {
 
 	public function indexAction() {
 		$this->view->grid = new \Cms\Plugin\PageWidgetGrid();

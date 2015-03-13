@@ -10,7 +10,7 @@
 
 namespace Cms\Form;
 
-class Register extends \MmiCms\Form {
+class Register extends \Cms\Form {
 
 	protected $_recordSaveMethod = 'register';
 

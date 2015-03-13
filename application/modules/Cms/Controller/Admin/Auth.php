@@ -10,7 +10,7 @@
 
 namespace Cms\Controller\Admin;
 
-class Auth extends \MmiCms\Controller\Admin {
+class Auth extends \Cms\Controller\AdminAbstract {
 
 	public function indexAction() {
 		$this->view->grid = new \Cms\Plugin\AuthGrid();

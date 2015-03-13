@@ -10,7 +10,7 @@
 
 namespace Cms\Form\Admin;
 
-class Page extends \MmiCms\Form {
+class Page extends \Cms\Form {
 
 	protected $_recordSaveMethod = 'saveForm';
 

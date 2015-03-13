@@ -10,7 +10,7 @@
 
 namespace Cms\Controller;
 
-class Index extends \MmiCms\Controller\Admin {
+class Index extends \Cms\Controller\AdminAbstract {
 
 	public function indexAction() {
 		

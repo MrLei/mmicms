@@ -8,7 +8,7 @@
  * @license    http://milejko.com/new-bsd.txt New BSD License
  */
 
-namespace MmiCms;
+namespace Cms;
 
 abstract class Form extends \Mmi\Form {
 
@@ -49,7 +49,7 @@ abstract class Form extends \Mmi\Form {
 	 * @return \Mmi\Form\Element\Antirobot
 	 */
 	public function addElementAntirobot($name) {
-		return $this->addElement(new \MmiCms\Form\Element\Antirobot($name));
+		return $this->addElement(new \Cms\Form\Element\Antirobot($name));
 	}
 
 	/**
@@ -58,7 +58,7 @@ abstract class Form extends \Mmi\Form {
 	 * @return \Mmi\Form\Element\Captcha
 	 */
 	public function addElementCaptcha($name) {
-		return $this->addElement(new \MmiCms\Form\Element\Captcha($name));
+		return $this->addElement(new \Cms\Form\Element\Captcha($name));
 	}
 
 	/**
@@ -67,7 +67,7 @@ abstract class Form extends \Mmi\Form {
 	 * @return \Mmi\Form\Element\ColorPicker
 	 */
 	public function addElementColorPicker($name) {
-		return $this->addElement(new \MmiCms\Form\Element\ColorPicker($name));
+		return $this->addElement(new \Cms\Form\Element\ColorPicker($name));
 	}
 
 	/**
@@ -76,7 +76,7 @@ abstract class Form extends \Mmi\Form {
 	 * @return \Mmi\Form\Element\DatePicker
 	 */
 	public function addElementDatePicker($name) {
-		return $this->addElement(new \MmiCms\Form\Element\DatePicker($name));
+		return $this->addElement(new \Cms\Form\Element\DatePicker($name));
 	}
 
 	/**
@@ -85,7 +85,7 @@ abstract class Form extends \Mmi\Form {
 	 * @return \Mmi\Form\Element\DateTimePicker
 	 */
 	public function addElementDateTimePicker($name) {
-		return $this->addElement(new \MmiCms\Form\Element\DateTimePicker($name));
+		return $this->addElement(new \Cms\Form\Element\DateTimePicker($name));
 	}
 
 	/**
@@ -94,7 +94,7 @@ abstract class Form extends \Mmi\Form {
 	 * @return \Mmi\Form\Element\TinyMce
 	 */
 	public function addElementTinyMce($name) {
-		return $this->addElement(new \MmiCms\Form\Element\TinyMce($name));
+		return $this->addElement(new \Cms\Form\Element\TinyMce($name));
 	}
 
 	/**
@@ -103,7 +103,7 @@ abstract class Form extends \Mmi\Form {
 	 * @return \Mmi\Form\Element\Uploader
 	 */
 	public function addElementUploader($name) {
-		return $this->addElement(new \MmiCms\Form\Element\Uploader($name));
+		return $this->addElement(new \Cms\Form\Element\Uploader($name));
 	}
 
 	/**

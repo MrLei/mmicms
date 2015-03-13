@@ -8,15 +8,9 @@
  * @license    http://milejko.com/new-bsd.txt New BSD License
  */
 
-namespace MmiCms;
+namespace Cms;
 
 abstract class Config extends \Mmi\Config {
-
-	/**
-	 * Podstawowa konfiguracja CMS
-	 * @var MmiCms\Media\Config
-	 */
-	public $media;
 
 	/**
 	 * Konfiguracja sesji
@@ -40,7 +34,6 @@ abstract class Config extends \Mmi\Config {
 
 		parent::__construct();
 
-		$this->media = new \MmiCms\Media\Config();
 		$this->navigation = new \Mmi\Navigation\Config();
 		$this->session = new \Mmi\Session\Config();
 		$this->db = new \Mmi\Db\Config();

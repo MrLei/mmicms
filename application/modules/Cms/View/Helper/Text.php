@@ -8,7 +8,7 @@
  * @license    http://milejko.com/new-bsd.txt New BSD License
  */
 
-namespace MmiCms\View\Helper;
+namespace Cms\View\Helper;
 
 class Text extends \Mmi\View\Helper\HelperAbstract {
 

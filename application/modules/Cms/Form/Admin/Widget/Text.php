@@ -10,7 +10,7 @@
 
 namespace Cms\Form\Admin\Widget;
 
-class Text extends \MmiCms\Form {
+class Text extends \Cms\Form {
 
 	public function init() {
 

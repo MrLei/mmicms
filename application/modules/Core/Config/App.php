@@ -10,7 +10,7 @@
 
 namespace Core\Config;
 
-class App extends \MmiCms\Config {
+class App extends \Cms\Config {
 
 	/**
 	 * Konfiguracja routera
@@ -44,13 +44,11 @@ class App extends \MmiCms\Config {
 		$this->application->timeZone = 'Europe/Warsaw';
 		//debugger aplikacji
 		$this->application->debug = false;
-		//kompilacja templatów przy każdym odpaleniu danej strony
+		
+//kompilacja templatów przy każdym odpaleniu danej strony
 		$this->application->compile = false;
 		$this->application->languages = array();
-		$this->application->plugins = array('MmiCms\Controller\Plugin');
-
-		//media serwer ma wpływ na generowanie linków do zasobów
-		$this->media->server = '';
+		$this->application->plugins = array('Cms\Controller\Plugin');
 
 		//konfiguracja sesji
 		$this->session->handler = 'files';

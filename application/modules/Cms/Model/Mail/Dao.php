@@ -107,7 +107,7 @@ class Dao extends \Mmi\Dao {
 			}
 			if (!isset($transport[$email->getOption('mailServerId')])) {
 				//@TODO: przepisać do ZF2
-				require_once 'Zend/Mail/Transport/Smtp.php';
+				require_once BASE_PATH . '/vendors/Zend/Mail/Transport/Smtp.php';
 				$transport[$email->getOption('mailServerId')] = new \Zend_Mail_Transport_Smtp($email->getJoined('cms_mail_server')->address, $config);
 			}
 			//@TODO: przepisać do ZF2
@@ -124,7 +124,7 @@ class Dao extends \Mmi\Dao {
 			}
 			$mail->setSubject($email->subject);
 			$attachments = unserialize($email->getOption('attachments'));
-			require_once 'Zend/Mime.php';
+			require_once BASE_PATH . '/vendors/Zend/Mime.php';
 			if (!empty($attachments)) {
 				foreach ($attachments as $fileName => $file) {
 					if (!isset($file['content']) || !isset($file['type'])) {

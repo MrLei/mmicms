@@ -8,13 +8,14 @@
  * @license    http://milejko.com/new-bsd.txt New BSD License
  */
 
-namespace MmiCms\Media;
+namespace Core\Model\Changelog;
 
-class Config {
+/**
+ * Rekord incrementala bazy danych
+ */
+class Record extends \Mmi\Dao\Record {
 
-	/**
-	 * Adres serwera mediów
-	 */
-	public $server = '';
+	public $filename;
+	public $md5;
 
 }

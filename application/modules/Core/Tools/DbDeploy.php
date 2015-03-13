@@ -4,7 +4,7 @@
 $path = realpath(dirname(__FILE__) . '/../../../../');
 require $path . '/library/Mmi/Application.php';
 
-$application = new \Mmi\Application($path, 'MmiCms\Application\Bootstrap\Commandline');
+$application = new \Mmi\Application($path, 'Cms\Application\Bootstrap\Commandline');
 $application->run();
 
 //ustawienie typu odpowiedzi na plain
@@ -33,7 +33,7 @@ foreach (glob(APPLICATION_PATH . '/modules/Core/Database/' . \Core\Registry::$co
 
 	//pobranie rekordu
 	try {
-		$dc = \MmiCms\Model\Changelog\Dao::byFilenameQuery(basename($file))->findFirst();
+		$dc = \Cms\Model\Changelog\Dao::byFilenameQuery(basename($file))->findFirst();
 	} catch (Exception $e) {
 		$dc = null;
 	}
@@ -50,7 +50,7 @@ foreach (glob(APPLICATION_PATH . '/modules/Core/Database/' . \Core\Registry::$co
 		break;
 	}
 	//brak restore - zakłada nowy changelog
-	$newDc = new \MmiCms\Model\Changelog\Record();
+	$newDc = new \Cms\Model\Changelog\Record();
 
 	//import danych
 	$result = \Core\Registry::$db->getPdo()->exec(file_get_contents($file));
@@ -61,7 +61,7 @@ foreach (glob(APPLICATION_PATH . '/modules/Core/Database/' . \Core\Registry::$co
 	}
 	
 	//tworzenie wpisu
-	\MmiCms\Model\Changelog\Dao::resetTableStructures();
+	\Cms\Model\Changelog\Dao::resetTableStructures();
 	
 	//zapis informacji o incrementalu
 	$newDc->filename = $baseFileName;
