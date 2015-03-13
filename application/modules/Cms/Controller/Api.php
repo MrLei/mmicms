@@ -10,13 +10,22 @@
 
 namespace Cms\Controller;
 
+/**
+ * Kontroler serwujący API JSON-RPC i SOAP
+ */
 class Api extends \Mmi\Controller\Action {
 
+	/**
+	 * Akcja serwera JSON-RPC
+	 */
 	public function jsonServerAction() {
 		try {
+			//ustawienie nagłówków
 			$this->getResponse()
+				//możliwość odczytu przez AJAX z innej domeny
 				->setHeader('Access-Control-Allow-Origin', '*')
 				->setHeader('Access-Control-Allow-Headers', 'Content-Type')
+				//typ application/json
 				->setTypeJson();
 			$apiModel = $this->_getModelName($this->obj);
 			//serwer z autoryzacją HTTP
@@ -24,17 +33,24 @@ class Api extends \Mmi\Controller\Action {
 				$apiModel .= '_Private';
 				$auth = new \Mmi\Auth();
 				$auth->setModelName($apiModel);
+				//autoryzacja basic
 				$auth->httpAuth('Private API', 'Access denied!');
 			}
+			//obsługa żądania
 			return \Mmi\Json\Rpc\Server::handle($apiModel);
 		} catch (Exception $e) {
+			//wyrzucenie internal server error
 			return $this->_internalError($e);
 		}
 	}
 
+	/**
+	 * Akcja serwera SOAP
+	 */
 	public function soapServerAction() {
 		try {
 			$apiModel = $this->_getModelName($this->obj);
+			//parametry WSDL
 			$wsdlParams = array(
 				'module' => 'cms',
 				'controller' => 'api',
@@ -49,17 +65,25 @@ class Api extends \Mmi\Controller\Action {
 				$auth->httpAuth('Private API', 'Access denied!');
 				$wsdlParams['type'] = 'private';
 			}
+			//ścieżka do WSDL
 			$url = $this->view->url($wsdlParams, true, true, $this->_isSsl());
+			//typ odpowiedzi na application/xml
 			$this->getResponse()->setTypeXml();
+			//powołanie klasy serwera SOAP
 			$soap = new SoapServer($url);
 			$soap->setClass($apiModel);
+			//obsługa żądania
 			$soap->handle();
 			return '';
 		} catch (Exception $e) {
+			//rzuca wyjątek internal
 			return $this->_internalError($e);
 		}
 	}
 
+	/**
+	 * Akcja zwracająca WSDL
+	 */
 	public function wsdlAction() {
 		try {
 			$apiModel = $this->_getModelName($this->obj);
@@ -69,23 +93,34 @@ class Api extends \Mmi\Controller\Action {
 				'action' => 'soapServer',
 				'obj' => $this->obj,
 			);
+			//serwer z autoryzacją (WSDL jest publiczny)
 			if ($this->type == 'private' || \Mmi\Controller\Front::getInstance()->getEnvironment()->authUser) {
 				$apiModel .= '_Private';
 			}
+			//link do serwera SOAP
 			$url = $this->view->url($serverParams, true, true, $this->_isSsl());
-			//@TODO: przepisać do ZF2
+			//typ odpowiedzi application/xml
 			$this->getResponse()->setTypeXml();
+			//@TODO: przepisać do ZF2
 			require_once BASE_PATH . '/vendors/Zend/Soap/AutoDiscover.php';
+			//rozpoznanie usługi (klasy)
 			$autodiscover = new \Zend_Soap_AutoDiscover();
 			$autodiscover->setClass($apiModel);
 			$autodiscover->setUri($url);
+			//obsługa żądania
 			$autodiscover->handle();
 			return '';
 		} catch (Exception $e) {
+			//internal server error
 			$this->_internalError($e);
 		}
 	}
 
+	/**
+	 * Pobiera nazwę modelu na podstawie obiektu
+	 * @param string $object
+	 * @return string
+	 */
 	protected function _getModelName($object) {
 		$obj = explode('\\', preg_replace('/[^\p{L}\p{N}-_]/u', '', $object));
 		foreach ($obj as $k => $v) {
@@ -96,12 +131,21 @@ class Api extends \Mmi\Controller\Action {
 		return rtrim($class . implode('\\', $obj), '\\') . '\\Api';
 	}
 
-	protected function _internalError($e) {
+	/**
+	 * Loguje błąd i wyrzuca 500tkę
+	 * @param \Exception $e
+	 * @return string
+	 */
+	protected function _internalError(\Exception $e) {
 		\Mmi\Exception\Logger::log($e);
 		$this->getResponse()->setCodeError();
 		return '<html><body><h1>Soap service failed</h1></body></html>';
 	}
 
+	/**
+	 * Sprawdza czy połączenie SSL
+	 * @return boolean
+	 */
 	protected function _isSsl() {
 		return \Mmi\Controller\Front::getInstance()->getEnvironment()->httpSecure;
 	}
